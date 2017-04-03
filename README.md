@@ -1,0 +1,2 @@
+# ShowMeTheMoneyProject
+KOSTA semi project
