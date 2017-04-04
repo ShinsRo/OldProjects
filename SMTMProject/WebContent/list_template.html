@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+
+<title>Schedule - Bootsnipp.com</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link
+	href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css">
+<style type="text/css">
+body {
+	background-color: #1b1b1b;
+	padding-top: 40px;
+}
+
+.form-signin {
+	max-width: 280px;
+	padding: 15px;
+	margin: 100px;
+	margin-top: 70px;
+}
+
+.input-group-addon {
+	background-color: rgb(50, 118, 177);
+	border-color: rgb(40, 94, 142);
+	color: rgb(255, 255, 255);
+}
+
+.form-signup input[type="text"], .form-signup input[type="password"] {
+	border: 1px solid rgb(50, 118, 177);
+}
+
+.fullscreen_bg {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-size: cover;
+	background-position: 50% 50%;
+	background-image:
+		url('http://www.banisite.com/sample-sirenadentist/theme/images/slider/slider-8.jpg');
+	background-repeat: repeat;
+}
+</style>
+<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	window.alert = function() {
+	};
+	var defaultCSS = document.getElementById('bootstrap-css');
+	function changeCSS(css) {
+		if (css)
+			$('head > link')
+					.filter(':first')
+					.replaceWith(
+							'<link rel="stylesheet" href="'+ css +'" type="text/css" />');
+		else
+			$('head > link').filter(':first').replaceWith(defaultCSS);
+	}
+	$(document).ready(function() {
+		var iframe_height = parseInt($('html').height());
+		window.parent.postMessage(iframe_height, 'http://bootsnipp.com');
+	});
+</script>
+</head>
+<body>
+	<!--    <div id="fullscreen_bg" class="fullscreen_bg"/> -->
+	<form class="form-signin">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					<div class="panel panel-default">
+						<div class="panel panel-primary">
+
+							<h3 class="text-center">Schedule</h3>
+
+							<div class="panel-body">
+
+
+								<table class="table table-striped table-condensed">
+									<thead>
+										<tr>
+											<th>Date</th>
+											<th>Time</th>
+											<th>From</th>
+											<th>To</th>
+											<th>buy</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+
+											<td>2015/03/06</td>
+											<td>12:00 PM</td>
+											<td>Cairo</td>
+											<td>Aswan</td>
+
+											<td><a href="http://www.jquery2dotnet.com"
+												class="btn btn-sm btn-primary btn-block" role="button">buy</a></td>
+
+										</tr>
+										<tr>
+
+											<td>2015/5/07</td>
+											<td>8:00 PM</td>
+											<td>Cairo</td>
+											<td>Suez</td>
+
+											<td><a href="http://www.jquery2dotnet.com"
+												class="btn btn-sm btn-primary btn-block" role="button">buy</a></td>
+										</tr>
+										<tr>
+
+											<td>2015/07/10</td>
+											<td>12:00 AM</td>
+											<td>Alexandria</td>
+											<td>Cairo</td>
+
+											<td><a href="http://www.jquery2dotnet.com"
+												class="btn btn-sm btn-primary btn-block" role="button">buy</a></td>
+										</tr>
+										<tr>
+
+											<td>2015/11/11</td>
+											<td>3:00 PM</td>
+											<td>Alexandria</td>
+											<td>Cairo</td>
+
+											<td><a href="http://www.jquery2dotnet.com"
+												class="btn btn-sm btn-primary btn-block" role="button">buy</a></td>
+										</tr>
+										<tr>
+
+											<td>2015/12/13</td>
+											<td>5:00 PM</td>
+											<td>Alexandria</td>
+											<td>Cairo</td>
+
+											<td><a href="http://www.jquery2dotnet.com"
+												class="btn btn-sm btn-primary btn-block" role="button">buy</a></td>
+
+										</tr>
+
+									</tbody>
+								</table>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<script type="text/javascript">
+		
+	</script>
+</body>
+</html>
