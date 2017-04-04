@@ -2,14 +2,28 @@ package controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import model.MemberVO;
 
 public class LoginController implements Controller {
 
+	@SuppressWarnings("unused")
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String command = request.getParameter("command");
-		System.out.println(command);
-		return "list.jsp";
+		String id=request.getParameter("id");
+		String password=request.getParameter("password");
+		MemberVO vo = new MemberVO();
+		
+		String path=null;
+		if(vo==null){
+			path="redirect:member/login_result.jsp";
+		}else{
+			/*HttpSession session=request.getSession();
+			session.setAttribute("mvo", vo);*/
+			path="redirect:DispatcherServlet?command=list";
+		}
+		return path;
 	}
 
 }
