@@ -8,21 +8,21 @@ public class HandlerMapping {
 	}
 	public Controller create(String command){
 		Controller c=null;
-		if(c.equals("login")){
+		if(command.equals("login")){
 			c = new LoginController();
-		}else if(c.equals("logout")){
+		}else if(command.equals("logout")){
 			c = new LogOutController();
-		}else if(c.equals("register")){
+		}else if(command.equals("register")){
 			c = new RegisterController();
-		}else if(c.equals("getAll")){
+		}else if(command.equals("getAll")){
 			c = new GetAllListController();
-		}else if(c.equals("detail")){
+		}else if(command.equals("detail")){
 			c = new DetailController();
-		}else if(c.equals("add")){
+		}else if(command.equals("add")){
 			c = new AddController();
-		}else if(c.equals("update")){
+		}else if(command.equals("update")){
 			c = new UpdateController();
-		}else if(c.equals("delete")){
+		}else if(command.equals("delete")){
 			c = new DeleteController();
 		}
 		return c;
