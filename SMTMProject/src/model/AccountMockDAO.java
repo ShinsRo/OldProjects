@@ -23,10 +23,10 @@ public class AccountMockDAO {
 	
 	ArrayList<AccountVO> getAccountList(String today){
 		ArrayList<AccountVO> list = new ArrayList<>();
-		list.add(new AccountVO(-10000, "1", "3/15", "11:00:00", "¸¸¿øÂ¥¸® ¹°°Ç"));
-		list.add(new AccountVO(30000, "2", "3/15", "15:00:00", "»ï¸¸¿øÂ¥¸® ¿ù±Ş"));
-		list.add(new AccountVO(-20000, "3", "3/16", "16:00:00", "ÀÌ¸¸¿øÂ¥¸® ¹°°Ç"));
-		list.add(new AccountVO(+10000, "4", "3/13", "09:00:00", "¸¸¿øÂ¥¸® ÀÏ´ç"));		
+		list.add(new AccountVO(-10000, "1", "3/15", "11:00:00", "ë§Œì›ì§œë¦¬ ë¬¼ê±´"));
+	    list.add(new AccountVO(30000, "2", "3/15", "15:00:00", "ì‚¼ë§Œì›ì§œë¦¬ ì›”ê¸‰"));
+	    list.add(new AccountVO(-20000, "3", "3/16", "16:00:00", "ì´ë§Œì›ì§œë¦¬ ë¬¼ê±´"));
+	    list.add(new AccountVO(+10000, "4", "3/13", "09:00:00", "ë§Œì›ì§œë¦¬ ì¼ë‹¹"));
 		return list;
 	}
 	void delete(String no){

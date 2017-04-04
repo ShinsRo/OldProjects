@@ -9,7 +9,7 @@ public class DetailController implements Controller {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String command = request.getParameter("command");
 		System.out.println(command);
-		return null;
+		return "detail.jsp";
 	}
 
 }
