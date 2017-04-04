@@ -60,6 +60,12 @@ body {
 #middleField {
    border-radius: 0px 0px 0px 0px ;
 }
+#upperRound{
+   border-radius: 7px 7px 0px 0px ;
+}
+#lowerRound{
+   border-radius: 0px 0px 7px 7px ;
+}
 .wrap input[type="text"] {
    border-radius: 7px 7px 0px 0px ;
 }
@@ -74,6 +80,8 @@ body {
    position: relative;
    left: 193px;
    top: -36px;
+   width: 0%;
+   height: 0%;
 }
 .wrap button {
    width: 100%;
@@ -90,8 +98,9 @@ body {
    border-bottom: 3px solid #505050;
    cursor: pointer;
 }
+
 p.paging{
-	    width:50%;
-		text-align: center; /* 가운데로 정렬 */	
-		font-weight: bold;		
-	}
+       width:50%;
+      text-align: center; /* 가운데로 정렬 */   
+      font-weight: bold;      
+   }

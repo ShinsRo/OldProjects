@@ -14,7 +14,7 @@ public class HandlerMapping {
 			c = new LogOutController();
 		}else if(command.equals("register")){
 			c = new RegisterController();
-		}else if(command.equals("getAll")){
+		}else if(command.equals("getAllList")){
 			c = new GetAllListController();
 		}else if(command.equals("detail")){
 			c = new DetailController();
