@@ -6,41 +6,31 @@
   <title>CodePen - Login </title>
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">
-   $(document).ready(function(){
-      $("#login").click(function(){
-         $.ajax({
-            type:"post",
-            url:"DispatcherServlet",
-            data:"command=login&id="+$("#id").val()+"&password="+$("#password").val(),
-         });// login ajax
-      });// login click
-      $("#registration").click(function(){
-         $.ajax({
-            type:"post",
-            url:"DispatcherServlet",
-            data:"command=register",
-            success:function(data){
-            }
-         });// registr ajax
-      });// registr click
-   });//ready  
+	function loginFunc() {
+		document.loginForm.submit();
+	}
+	function registerFunc() {
+		location.href = "register.jsp";
+	}
 </script>
   <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
 </head>
 <body>
 <div class="wrap">
+	<form action = "DispatcherServlet?command=login" name = "loginForm" method = "post">
 		<div class="avatar">
       <img src="img/logo.png">
 		</div>
-		<input type="text" placeholder="아이디" required>
+		<input type="text" placeholder = "아이디" name = "id" required>
 		<div class="bar">
 			<i></i>
 		</div>
-		<input type="password" placeholder="비밀번호" required>
+		<input type="password" placeholder="비밀번호" name = "password" required>
 		<a href="" class="forgot_link">forgot ?</a>
-		<button style="margin-bottom:15px;">Sign up</button>
-		<button>Login</button>
+		<button style="margin-bottom:15px;" onclick="registerFunc()">Sign up</button>
+		<button onclick="loginFunc()">Login</button>
+	</form>
 	</div>
 </body>
 </html>
