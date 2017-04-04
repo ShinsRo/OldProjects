@@ -7,7 +7,8 @@ public class UpdateController implements Controller {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
+		String command = request.getParameter("command");
+		System.out.println(command);
 		return null;
 	}
 

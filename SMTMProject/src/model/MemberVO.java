@@ -44,4 +44,3 @@ public class MemberVO {
 	      return "MemberVO [id=" + id + ", name=" + name + ", password=" + password + ", total=" + total + "]";
 	   }
 	}
-}
