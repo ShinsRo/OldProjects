@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.MemberMockDAO;
 import model.MemberVO;
 
 public class LoginController implements Controller {
@@ -13,7 +14,7 @@ public class LoginController implements Controller {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String id=request.getParameter("id");
 		String password=request.getParameter("password");
-		MemberVO vo = new MemberVO();
+		MemberVO vo = MemberMockDAO.getInstance().login(id, password);
 		
 		String path=null;
 		if(vo==null){

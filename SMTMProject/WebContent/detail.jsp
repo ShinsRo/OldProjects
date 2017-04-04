@@ -21,7 +21,7 @@
          if(confirm("정말로 삭제하시겠습니까?")){
             $.ajax({
                type:"get",
-               url:"DispatcherServlet"
+               url:"DispatcherServlet",
                data:"command=delete&no="
             });//ajax
             alert("삭제되었습니다.");
@@ -29,6 +29,13 @@
             alert("삭제가 취소되었습니다.");
          }
       });// deleteBtn.click
+      $("#insertBtn").click(function(){
+         $.ajax({
+            type:"get",
+            url:"DispatcherServlet",
+            data:"command=insert"
+         });//insertBtn.click
+      })
    })
 </script>
 </head>
@@ -49,6 +56,10 @@
    </tr>
    <tr>
    <td>3/14</td><td>KING</td><td>오남준</td><td>50,000</td><td>0</td><td><input type = "button" value = "수정" id = "updateBtn"></td><td><input type = "button" value = "삭제" id = "deleteBtn"></td>
+   </tr>
+   <tr>
+      <td><input type = "button" value = "추가" id = "insertBtn"></td>
+      <!-- "추가"버튼 수정-->
    </tr>
 </table>
 </body>

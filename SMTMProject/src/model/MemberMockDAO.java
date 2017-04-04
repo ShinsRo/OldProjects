@@ -24,12 +24,12 @@ public class MemberMockDAO {
 		return false;
 	}
 	public void insert(MemberVO vo){
-		System.out.println("眠啊 己傍");
+		System.out.println("insert靹标车");
 	}
 	public void delete(String no){
-		System.out.println("昏力 己傍");
+		System.out.println("靷牅靹标车");
 	}
 	public void upate(MemberVO vo){
-		System.out.println(vo + "诀单捞飘 己傍");
+		System.out.println(vo + "靾橃爼靹标车");
 	}
 }
