@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<!-- 경로변경 -->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <link
@@ -59,7 +60,7 @@ body {
 </head>
 <body>
    <!--    <div id="fullscreen_bg" class="fullscreen_bg"/> -->
-   <form class="form-signin" id="listForm" action="DispatcherServlet">
+   <form class="form-signin" id="listForm" action="${pageContext.request.contextPath}/DispatcherServlet">
       <div class="container">
          <div class="row">
             <div class="col-md-6 col-md-offset-3">

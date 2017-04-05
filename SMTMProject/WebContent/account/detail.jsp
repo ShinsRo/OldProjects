@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<!-- 경로변경 -->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <link
@@ -35,7 +36,7 @@
       $("#insertBtn").click(function(){
          $.ajax({
             type:"get",
-            url:"DispatcherServlet",
+            url:"${pageContext.request.contextPath}/DispatcherServlet",
             data:"command=insert"
          });//insertBtn.click
       })

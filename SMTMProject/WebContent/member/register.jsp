@@ -8,6 +8,7 @@
  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/reset.css">
  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" media="screen" type="text/css" />
 <script type="text/javascript">
+
 function openPopup(){
    var id = document.testForm.id.value;
    
@@ -23,17 +24,17 @@ function checkId() {
       return false;
       }
    }
-   function submit() {
+  /*  function submit() {
       if(document.testForm.data.value!=document.testForm.id.value){
          alert("인증 되지 않은 아이디입니다. 다시 중복확인 해주세요");
          return;
       }
          document.testForm.submit();
-   }
+   } */
 </script>
 </head>
 <body>
-<form name="testForm" method="post" action="DispatcherServlet" onsubmit="return checkId()">
+<form name="testForm" method="post" action="${pageContext.request.contextPath}/DispatcherServlet?command=register" onsubmit="return checkId()">
  <div class="wrap">
       <div class="avatar">
       <img src="img/logo.png">
@@ -44,16 +45,16 @@ function checkId() {
       </div>
       <input type="text" name="id" placeholder="아이디를 입력하세요." id = "lowerRound" required>
       <input type="hidden" name="data" value="">
-      <a href="" class="forgot_link" value="중복확인" onclick="openPopup()">중복확인</a>
+      <a class="forgot_link" value="중복확인" onclick="openPopup()">중복확인</a>
       
       <input type="password" name="password" placeholder="비밀번호를 입력하세요." id = "upperRound" required>
       <div class="bar">
          <i></i>
       </div>
       <input type="password" name="password" placeholder="다시 한번 입력하세요."required>
-      <input type="hidden" name="command" value="register">
       <br>
-      <button onclick="submit()">Sign up</button>
+      <input type="submit" value="회원가입">
+<!--       <button onclick="submit()">Sign up</button> -->
       
    </div>
 

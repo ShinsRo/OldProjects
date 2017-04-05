@@ -18,7 +18,7 @@
 </head>
 <body>
 <div class="wrap">
-	<form action = "DispatcherServlet?command=login" name = "loginForm" method = "post">
+	<form action = "${pageContext.request.contextPath}/DispatcherServlet?command=login" name = "loginForm" method = "post">
 		<div class="avatar">
       <img src="img/logo.png">
 		</div>
