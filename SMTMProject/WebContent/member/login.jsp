@@ -13,14 +13,15 @@
 		location.href = "register.jsp";
 	}
 </script>
-  <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/reset.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" media="screen" type="text/css" />
 </head>
 <body>
 <div class="wrap">
-	<form action = "${pageContext.request.contextPath}/DispatcherServlet?command=login" name = "loginForm" method = "post">
+	<form action = "${pageContext.request.contextPath}/DispatcherServlet" name = "loginForm" method = "post">
+	<input type = "hidden" value = "login" name = "command">
 		<div class="avatar">
-      <img src="img/logo.png">
+      <img src="${pageContext.request.contextPath}/img/logo.png">
 		</div>
 		<input type="text" placeholder = "아이디" name = "id" required>
 		<div class="bar">

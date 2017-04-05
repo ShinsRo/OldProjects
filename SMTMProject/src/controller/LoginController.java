@@ -15,16 +15,10 @@ public class LoginController implements Controller {
 		String id=request.getParameter("id");
 		String password=request.getParameter("password");
 		MemberVO vo = MemberMockDAO.getInstance().login(id, password);
-		
-		String path=null;
-		if(vo==null){
-			path="redirect:login_result.jsp";
-		}else{
-			/*HttpSession session=request.getSession();
-			session.setAttribute("mvo", vo);*/
-			path="redirect:DispatcherServlet?command=getAllList";
+		if(vo!=null){
+			HttpSession session=request.getSession();
+			session.setAttribute("mvo", vo);
 		}
-		return path;
+		return "redirect:member/login_result.jsp";
 	}
-
 }

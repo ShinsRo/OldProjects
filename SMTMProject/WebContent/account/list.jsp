@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
+   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -59,6 +60,7 @@ body {
 </script>
 </head>
 <body>
+<jsp:include page="/layout/header.jsp"/>
    <!--    <div id="fullscreen_bg" class="fullscreen_bg"/> -->
    <form class="form-signin" id="listForm" action="${pageContext.request.contextPath}/DispatcherServlet">
       <div class="container">
