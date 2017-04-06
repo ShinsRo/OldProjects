@@ -35,7 +35,7 @@ public class MemberDAO {
          con.close();
    }
    public MemberVO login(String id,String password) throws SQLException{
-      MemberVO vo=new MemberVO();
+      MemberVO vo=null;
       Connection con=null;
       PreparedStatement pstmt=null;
       ResultSet rs=null;    
@@ -47,6 +47,7 @@ public class MemberDAO {
          pstmt.setString(2, password);
          rs = pstmt.executeQuery();
          if(rs.next()){
+        	vo = new MemberVO();
             vo.setId(id);
             vo.setName(rs.getString("name"));
             vo.setTotal(0);//여기서 해줘야하나..?

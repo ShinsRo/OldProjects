@@ -29,9 +29,11 @@
 		</div>
 		<input type="password" placeholder="비밀번호" name = "password" required>
 		<a href="" class="forgot_link">forgot ?</a>
-		<button style="margin-bottom:15px;" onclick="registerFunc()">Sign up</button>
-		<button onclick="loginFunc()">Login</button>
+		
+		<button onclick="loginFunc()" style="margin-bottom:15px;">Login</button>
 	</form>
+	<button onclick="registerFunc()">Sign up</button>
+	<!-- form 밖으로 signup뺌 -->
 	</div>
 </body>
 </html>
