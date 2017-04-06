@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.sql.DataSource;
-
 public class AccountDAO {
 	private String url, user, password;
 	private static AccountDAO instance = new AccountDAO();
@@ -61,58 +59,58 @@ public class AccountDAO {
 	 * @throws SQLException
 	 */
 	public HashMap<String,DayVO> getAllDayList(String id) throws SQLException {
-		HashMap<String, DayVO> list = new HashMap<String, DayVO>();
-		StringBuilder sql = new StringBuilder();
-		// String tmp = "";
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			con = getConnection();
-			sql.append("select m.name,m.total,b.no, ");
-			// total가져와야하는지 잘 모르겟엉
-			sql.append("to_char(b.today,'yyyy/mm/dd') as today,b.detail,b.income,b.spend,b.id ");
-			sql.append("from ACCOUNT_MEMBER m, ACCOUNT_BOOK b ");
-			sql.append("where m.id = b.id and m.id=?");
-			pstmt = con.prepareStatement(sql.toString());
-			pstmt.setString(1, id);
-			rs = pstmt.executeQuery();
-			int incomeTotal = 0;
-			int spendTotal = 0;
-			String temp = "";
-			DayVO dvo = new DayVO();
-			while (rs.next()) {
+	      HashMap<String, DayVO> list = new HashMap<String, DayVO>();
+	      StringBuilder sql = new StringBuilder();
+	      // String tmp = "";
+	      Connection con = null;
+	      PreparedStatement pstmt = null;
+	      ResultSet rs = null;
+	      try {
+	         con = getConnection();
+	         sql.append("select m.name,m.total,b.no, ");
+	         // total가져와야하는지 잘 모르겟엉
+	         sql.append("to_char(b.today,'yyyy/mm/dd') as today,b.detail,b.income,b.spend,b.id ");
+	         sql.append("from ACCOUNT_MEMBER m, ACCOUNT_BOOK b ");
+	         sql.append("where m.id = b.id and m.id=?");
+	         pstmt = con.prepareStatement(sql.toString());
+	         pstmt.setString(1, id);
+	         rs = pstmt.executeQuery();
+	         int incomeTotal = 0;
+	         int spendTotal = 0;
+	         String temp = "";
+	         DayVO dvo = new DayVO();
+	         while (rs.next()) {
 
-				String today = rs.getString("today");// 17/04/03
+	            String today = rs.getString("today");// 17/04/03
+	            today.replace("/", "");
+	            String key = "key"+today.replace("/", "");;
+	            if (list.get(key) == null) {
+	               dvo.setToday(today);
+	               dvo.setTotalIncome(incomeTotal);
+	               dvo.setTotalSpend(spendTotal);
 
-				if (list.get(today) == null) {
-					dvo.setToday(today);
-					dvo.setTotalIncome(incomeTotal);
-					dvo.setTotalSpend(spendTotal);
+	               // list.add(dvo);
+	               list.put(key, dvo);
+	               temp = today;
 
-					// list.add(dvo);
-					list.put(today, dvo);
-					temp = today;
+	               dvo = new DayVO();
+	               list.get(key).setTotalIncome(rs.getInt("income"));
+	               list.get(key).setTotalSpend(rs.getInt("spend"));
+	               incomeTotal = 0;
+	               spendTotal = 0;
+	            } else {
+	               list.get(key).setTotalIncome(list.get(key).getTotalIncome() + rs.getInt("income"));
+	               list.get(key).setTotalSpend(list.get(key).getTotalSpend() + rs.getInt("spend"));
+	               // spendTotal += rs.getInt("spend");
+	            }
 
-					dvo = new DayVO();
-					list.get(today).setTotalIncome(rs.getInt("income"));
-					list.get(today).setTotalSpend(rs.getInt("spend"));
-					incomeTotal = 0;
-					spendTotal = 0;
-				} else {
-					list.get(today).setTotalIncome(list.get(today).getTotalIncome() + rs.getInt("income"));
-					list.get(today).setTotalSpend(list.get(today).getTotalSpend() + rs.getInt("spend"));
-					// spendTotal += rs.getInt("spend");
-				}
+	         }
 
-			}
-
-		} finally {
-			closeAll(rs, pstmt, con);
-		}
-		return list;
-	}
-	
+	      } finally {
+	         closeAll(rs, pstmt, con);
+	      }
+	      return list;
+	   }
 	/**
 	 * DetailController에서 그날에 대한 상세 수입/지출내역 불러오기
 	 * @param today
