@@ -24,6 +24,8 @@ public class HandlerMapping {
 			c = new UpdateController();
 		}else if(command.equals("delete")){
 			c = new DeleteController();
+		}else if(command.equals("idcheck")){
+			c = new IdCheckController();
 		}
 		return c;
 	}

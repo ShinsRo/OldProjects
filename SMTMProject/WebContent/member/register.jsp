@@ -15,7 +15,7 @@ function openPopup(){
       if (id == "") {
          alert("아이디를 입력하세요.");
       } else
-         open("DispatcherServlet?command=idcheck"+"&id="+id, "mypopup",
+         open("${pageContext.request.contextPath}/DispatcherServlet?command=idcheck"+"&id="+id, "mypopup",
                "width=200, height=200, top=150, left=200");
       }
 function checkId() {
@@ -37,7 +37,7 @@ function checkId() {
 <form name="testForm" method="post" action="${pageContext.request.contextPath}/DispatcherServlet?command=register" onsubmit="return checkId()">
  <div class="wrap">
       <div class="avatar">
-      <img src="img/logo.png">
+      <img src="${pageContext.request.contextPath}/img/logo.png">
       </div>
       <input type="text" name="name" placeholder="이름을 입력하세요." required>
       <div class="bar">

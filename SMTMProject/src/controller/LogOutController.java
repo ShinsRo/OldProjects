@@ -2,14 +2,15 @@ package controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class LogOutController implements Controller {
 
-	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String command = request.getParameter("command");
-		System.out.println(command);
-		return null;
-	}
-
+   @Override
+   public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+      HttpSession session=request.getSession(false);
+      if(session!=null)
+         session.invalidate();
+      return "redirect:member/login.jsp";
+   }
 }
