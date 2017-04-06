@@ -23,10 +23,10 @@ public class AccountMockDAO {
 	
 	ArrayList<AccountVO> getAccountList(String today){
 		ArrayList<AccountVO> list = new ArrayList<>();
-		list.add(new AccountVO(10000,0, "1", "3/15", "11:00:00", "만원짜리 물건"));
-	    list.add(new AccountVO(10000,0,"2", "3/15", "15:00:00", "삼만원짜리 월급"));
+		//list.add(new AccountVO(10000,0, "1", "3/15", "11:00:00", "만원짜리 물건"));
+	 /*   list.add(new AccountVO(10000,0,"2", "3/15", "15:00:00", "삼만원짜리 월급"));
 	    list.add(new AccountVO(10000,0, "3", "3/16", "16:00:00", "이만원짜리 물건"));
-	    list.add(new AccountVO(10000,30000, "4", "3/13", "09:00:00", "만원짜리 일당"));
+	    list.add(new AccountVO(10000,30000, "4", "3/13", "09:00:00", "만원짜리 일당"));*/
 		return list;
 	}
 	void delete(String no){
