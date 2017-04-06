@@ -152,7 +152,31 @@ public class AccountDAO {
 		return list;
 		
 	}
-	
+	 public void insertDetail(AccountVO vo,String id) throws SQLException{
+		   StringBuilder sql = new StringBuilder();
+		   Connection con = null;
+		   PreparedStatement pstmt = null;
+		   String type = vo.getType();
+		   try{
+			   con = getConnection();
+			   sql.append("insert into ACCOUNT_BOOK(no, today, ?, detail, id) "); // ?: type
+			   sql.append("values(account_seq.nextval, sysdate, ?, ?, ?)"); // money, detail, id
+			   pstmt = con.prepareStatement(sql.toString());
+			   
+			   pstmt.setString(1, vo.getType());
+			   if(type.equals("income"))
+				   pstmt.setInt(2, vo.getIncome());
+			   else if(type.equals("spend"))
+				   pstmt.setInt(2, vo.getSpend());
+			   
+			   pstmt.setString(3, vo.getDetail());
+			   pstmt.setString(4, id);
+			   pstmt.executeQuery();
+		   }
+		   finally{
+			   closeAll(pstmt, con);
+		   }
+	   }
 	public static void main(String[] args) {
 		try {
 			HashMap<String,DayVO> test = AccountDAO.getInstance().getAllDayList("java");
