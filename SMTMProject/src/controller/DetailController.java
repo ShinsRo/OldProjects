@@ -16,26 +16,26 @@ import model.MemberVO;
 
 public class DetailController implements Controller {
 
-	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		response.setContentType("text/html;charset=utf-8");
-		ArrayList<AccountVO> list = new ArrayList<AccountVO>();
-		//String today = request.getParameter("today");
-		String today = "2017/04/06";
-		PrintWriter pw = response.getWriter();
-		
-		//HttpSession session = request.getSession();
-		//MemberVO vo = (MemberVO)session.getAttribute("dao");
-		//String id = vo.getId();
-		String id = "java";
+   @Override
+   public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+      response.setContentType("text/html;charset=utf-8");
+      ArrayList<AccountVO> list = new ArrayList<AccountVO>();
+      String today = request.getParameter("today");
+      // String today = "2017/04/06";
+      PrintWriter pw = response.getWriter();
 
-		list = AccountDAO.getInstance().getDetailList(today, id);
-		
-		JSONArray js = new JSONArray(list);
-		pw.println(js.toString());
-		pw.close();
-		
-		return null;
-		//return "account/detail.jsp";
-	}
+      // HttpSession session = request.getSession();
+      // MemberVO vo = (MemberVO)session.getAttribute("dao");
+      // String id = vo.getId();
+      String id = "java";
+
+      list = AccountDAO.getInstance().getDetailList(today, id);
+
+      JSONArray js = new JSONArray(list);
+      System.out.println(js.toString());
+      pw.println(js.toString());
+
+         pw.close();
+         return null;
+   }
 }

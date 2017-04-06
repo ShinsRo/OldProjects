@@ -76,10 +76,13 @@ body {
         data:"command=detail",
         success:function(data){
          for(var i = 0;i<data.length;i++){
-              m += "<tr><td>"+data[i].today+"</td><td>"+data[i].time+"</td><td>"+data[i].detail+"</td><td>"+data[i].income+"</td><td>"+data[i].spend+"</td>"+
-              "<td><input type = 'button' class='btn btn-sm btn-primary btn-block' value = '수정' name = 'update' id = 'updateBtn'></td>"+
-              "<td><input type = 'button' class='btn btn-sm btn-primary btn-block' value = '삭제' name = 'delete' id = 'deleteBtn'></td>"+
-              "</tr>"
+        	  m += 
+	              "<tr>"+
+	              "<input type = 'hidden' name='no' id = 'no' value="+data[i].no+">"+
+	              "<td>"+data[i].today+"</td><td>"+data[i].time+"</td><td>"+data[i].detail+"</td><td>"+data[i].income+"</td><td>"+data[i].spend+"</td>"+
+	              "<td><input type = 'button' class='btn btn-sm btn-primary btn-block' value = '수정' name = 'update' id = 'updateBtn'></td>"+
+	              "<td><input type = 'button' class='btn btn-sm btn-primary btn-block' value = '삭제' name = 'delete' id = 'deleteBtn'></td>"+            
+	              "</tr>";
            }
            $("#info").html(m);
         }
@@ -96,10 +99,18 @@ body {
            }else{
               alert("삭제가 취소되었습니다.");
            }
- 	    });  
+ 	    }); 
+      $("#insertBtn").click(function(){
+          open("detail_insert.jsp","update","width=410,height=185,top=150,left=200");
+       });
+      $("#info").on("click","#updateBtn", function(){
+			//alert($(this).parent().siblings().eq(1).text());
+		
+			open("detail_update.jsp?no="+$(this).parent().siblings().eq(0).val()+"&today="+$(this).parent().siblings().eq(1).text(),"update","width=500,height=185,top=150,left=200");				
+		});  
    });
       
-     /*   $("input[name=update]").click(function(){
+  /*      $("input[name=update]").click(function(){
          open("detail_update.jsp","update","width=410,height=185,top=150,left=200");
       });// updateBtn.click
       
@@ -114,11 +125,9 @@ body {
          }else{
             alert("삭제가 취소되었습니다.");
          }
-      });// deleteBtn.click
-      $("#insertBtn").click(function(){
-         open("detail_insert.jsp","update","width=410,height=185,top=150,left=200");
-      }) 
- */
+      });// deleteBtn.click */
+    
+ 
 </script>
 </head>
 <body>
