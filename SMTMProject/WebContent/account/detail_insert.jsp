@@ -21,7 +21,7 @@
 			}else{
 		  		 $.ajax({
 					   type:"get",
-			  		   url:"DispatcherServlet",
+			  		   url:"${pageContext.request.contextPath}/DispatcherServlet",
 			   		  data:"command=add&detail="+$("#detail").val()+"&money="+$("#money").val()+"&inAndOut="+$("input[name=inAndOut]:checked").val()
 			  });//ajax
 			}

@@ -67,9 +67,40 @@ body {
 </script> -->
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">
-   $(document).ready(function(){
-      $("input[name=update]").click(function(){
-    	  open("detail_update.jsp","update","width=410,height=185,top=150,left=200");
+   $(document).ready(function(){      
+     var m;
+      $.ajax({
+        type:"get",
+        url:"${pageContext.request.contextPath}/DispatcherServlet",
+        dataType:"json",
+        data:"command=detail",
+        success:function(data){
+         for(var i = 0;i<data.length;i++){
+              m += "<tr><td>"+data[i].today+"</td><td>"+data[i].time+"</td><td>"+data[i].detail+"</td><td>"+data[i].income+"</td><td>"+data[i].spend+"</td>"+
+              "<td><input type = 'button' class='btn btn-sm btn-primary btn-block' value = '수정' name = 'update' id = 'updateBtn'></td>"+
+              "<td><input type = 'button' class='btn btn-sm btn-primary btn-block' value = '삭제' name = 'delete' id = 'deleteBtn'></td>"+
+              "</tr>"
+           }
+           $("#info").html(m);
+        }
+   	});
+      $("#info").on("click","#deleteBtn", function(){
+    	  if(confirm("정말로 삭제하시겠습니까?")){
+    		  $.ajax({
+                 type:"get",
+                 url:"${pageContext.request.contextPath}/DispatcherServlet",
+                 data:"command=delete"
+              });//ajax
+              alert("삭제되었습니다.");
+              location.href="detail.jsp";
+           }else{
+              alert("삭제가 취소되었습니다.");
+           }
+ 	    });  
+   });
+      
+     /*   $("input[name=update]").click(function(){
+         open("detail_update.jsp","update","width=410,height=185,top=150,left=200");
       });// updateBtn.click
       
       $("input[name=delete]").click(function(){
@@ -85,9 +116,9 @@ body {
          }
       });// deleteBtn.click
       $("#insertBtn").click(function(){
-    	  open("detail_insert.jsp","update","width=410,height=185,top=150,left=200");
-      })
-   })
+         open("detail_insert.jsp","update","width=410,height=185,top=150,left=200");
+      }) 
+ */
 </script>
 </head>
 <body>
@@ -102,20 +133,22 @@ body {
                      <h3 class="text-center">Show Me The Money</h3>
 
                      <div class="panel-body">
-						<input type = "hidden" name = "command" value = "detail">
+                  <input type = "hidden" name = "command" value = "detail">
                         <table class="table table-striped table-condensed" id="listTable">
-						
+                  
                            <thead>
                               <tr>
                                  <th>날짜</th>
                                  <th>시간</th>
                                  <th>상세정보</th>
-                                 <th>금액</th>
+                                 <th>수입</th>
+                                 <th>지출</th>
                                  <th>수정</th>
                                  <th>삭제</th>
                               </tr>
                            </thead>
-                           <tbody>
+                           <tbody id = "info"></tbody>
+                      <!--      <tbody>
                               <tr>
 
                                  <td>3/14</td>
@@ -153,7 +186,7 @@ body {
                                  <td><input type = "button" class="btn btn-sm btn-primary btn-block" value = "삭제" name = "delete" id = "deleteBtn"></td>
                               </tr>
 
-                           </tbody>
+                           </tbody> -->
                         </table>
                            <input type = "button" class="btn btn-sm btn-primary btn-block" value = "추가" id = "insertBtn">
                      </div>

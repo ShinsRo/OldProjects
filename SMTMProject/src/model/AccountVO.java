@@ -12,6 +12,15 @@ public class AccountVO {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
+	public AccountVO(int income, int spend, String detail, String type) {
+		super();
+		this.income = income;
+		this.spend = spend;
+		this.detail = detail;
+		this.type = type;
+	}
+
 	public int getIncome() {
 		return income;
 	}
