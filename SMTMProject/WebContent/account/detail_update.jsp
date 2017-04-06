@@ -38,6 +38,11 @@
 		<input type="radio" name="inAndOut" value="spend">지출</th>   	
 	</tr>	
 	<tr>
+		<select>
+		
+		</select>
+	</tr>
+	<tr>
 		<!-- 사용자가 상세내용과 금액을 확인할 수 있도록 상세내용과 금액은 기존에 있는 정보를 가져와서 출력함 -->
 		<th>상세내용<input type = "text" id = "detail" value = "222"></th><th>금액<input type = "text" id = "money" value = "4000"></th>
 	</tr>
