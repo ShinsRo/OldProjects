@@ -22,7 +22,7 @@ public class LoginController implements Controller {
 			session.setAttribute("mvo", vo);
 			path = "redirect:member/login_result.jsp";
 		}else{
-			path = "redirect:member/login_result.jsp";
+			path = "redirect:member/login_fail.jsp";
 		}
 		return path;
 	}
