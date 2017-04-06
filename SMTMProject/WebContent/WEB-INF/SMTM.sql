@@ -39,7 +39,7 @@ insert into ACCOUNT_BOOK(no,today,detail,spend,id) values(account_seq.nextval,to
 
 insert into ACCOUNT_BOOK(no,today,detail,spend,id) values(account_seq.nextval,sysdate,'빠담 아메리카노',2000,'ppadam');
 select * from ACCOUNT_BOOK;
-
+delete from ACCOUNT_BOOK where id='ppadam';
 
 --getAllList
 select m.name,m.total,b.no,

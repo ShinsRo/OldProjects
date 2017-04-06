@@ -8,4 +8,4 @@
 			location.href="${pageContext.request.contextPath}/member/login.jsp";
 	}
 </script>
-${sessionScope.mvo.name}님 가계부 | <a href="javascript:logout()">로그아웃</a>
+${sessionScope.mvo.name}님 가계부 | <a href="javascript:logout()">로그아웃</a><hr>

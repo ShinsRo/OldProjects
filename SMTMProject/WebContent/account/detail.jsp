@@ -10,7 +10,7 @@
    rel="stylesheet" id="bootstrap-css">
 <style type="text/css">
 body {
-   background-color: white;
+   background-color: #white;
    padding-top: 40px;
 }
 
@@ -122,6 +122,7 @@ body {
 </script>
 </head>
 <body>
+<jsp:include page="/layout/header.jsp"/>
    <!--    <div id="fullscreen_bg" class="fullscreen_bg"/> -->
    <form class="form-signin" id="listForm" action="DispatcherServlet">
       <div class="container">

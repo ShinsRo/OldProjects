@@ -12,7 +12,7 @@
    rel="stylesheet" id="bootstrap-css">
 <style type="text/css">
 body {
-   background-color: white;
+   background-color: #white;
    padding-top: 40px;
 }
 

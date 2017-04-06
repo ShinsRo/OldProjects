@@ -14,7 +14,7 @@ public class DeleteController implements Controller {
 		/*String no = request.getParameter("no");
 		String id = request.getParameter("id");*/
 		String id ="java";
-		String no="12";
+		String no="26";
 		AccountDAO.getInstance().deleteDetail(no, id);
 		return "account/detail.jsp";
 	}
