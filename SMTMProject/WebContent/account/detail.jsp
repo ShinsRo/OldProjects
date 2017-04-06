@@ -73,7 +73,7 @@ body {
         type:"get",
         url:"${pageContext.request.contextPath}/DispatcherServlet",
         dataType:"json",
-        data:"command=detail",
+        data:"command=detail&today=${param.today}",
         success:function(data){
          for(var i = 0;i<data.length;i++){
         	  m += 
