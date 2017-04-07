@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" media="screen" type="text/css" />
 </head>
 <body>
+<jsp:include page="../layout/header.jsp"/>
 <div class="wrap">
 	<form action = "${pageContext.request.contextPath}/DispatcherServlet" name = "loginForm" method = "post">
 	<input type = "hidden" value = "login" name = "command">
