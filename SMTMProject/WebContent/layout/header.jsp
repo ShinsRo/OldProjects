@@ -28,9 +28,8 @@
 		<nav>
 		
 			<a href="">${sessionScope.mvo.name}님 가계부</a>
-			<a href="../member/login.jsp">Home</a>
+		
 			<a href="../account/list.jsp">List</a>
-			<a href="../account/detail.jsp">Detail</a>
 			<a href="#">Graph</a>
 			<a href="../calendar.jsp">Calendar</a>
 			<a href="javascript:logout()" class="selected">Logout</a>

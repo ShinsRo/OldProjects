@@ -34,6 +34,7 @@ function checkId() {
 </script>
 </head>
 <body>
+<jsp:include page="../layout/header.jsp"/>
 <form name="testForm" method="post" action="${pageContext.request.contextPath}/DispatcherServlet?command=register" onsubmit="return checkId()">
  <div class="wrap">
       <div class="avatar">

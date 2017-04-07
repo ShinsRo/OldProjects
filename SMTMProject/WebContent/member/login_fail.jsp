@@ -10,7 +10,7 @@
 <body>
 <script type="text/javascript">
    alert("로그인 실패");
-   location.href="${pageContext.request.contextPath}/member/login.jsp";
+   location.href="login.jsp";
 </script>
 </body>
 </html>

@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" media="screen" type="text/css" />
 </head>
 <body>
+<jsp:include page="../layout/header.jsp"/>
 <div class="wrap">
 	<form action = "${pageContext.request.contextPath}/DispatcherServlet?command=login" name = "loginForm" method = "post">
 		<div class="avatar">
@@ -28,10 +29,11 @@
 		</div>
 		<input type="password" placeholder="비밀번호" name = "password" required>
 		<a href="" class="forgot_link">forgot ?</a>
-		<button style="margin-bottom:15px;" onclick="registerFunc()">Sign up</button>
+		
 		<!-- <button onclick="loginFunc()">Login</button> -->
-		 <input id = "loginBtn" type="submit" value="Login">
+		 <input id = "loginBtn" type="submit"  style="margin-bottom:15px;"  value="Login">
 	</form>
+	<button onclick="registerFunc()">Sign up</button>
 	</div>
 </body>
 </html>
