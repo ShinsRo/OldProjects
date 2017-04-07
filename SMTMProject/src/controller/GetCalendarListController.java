@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 
+import model.AccountDAO;
 import model.CalendarBean;
 import model.CalendarManager;
 
@@ -21,7 +22,7 @@ public class GetCalendarListController implements Controller {
 		CalendarManager cm = CalendarManager.getInstance();
 		cm.setCurrent(year, month);
 		CalendarBean cb = cm.getCurrent();
-		
+		AccountDAO dao = AccountDAO.getInstance();
 		JSONObject cbObj = new JSONObject(cb);
 		out.print(cbObj);
 		return null;

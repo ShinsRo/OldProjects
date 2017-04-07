@@ -11,17 +11,26 @@
 	
 	<script src="//code.jquery.com/jquery.min.js"></script>
 	<script type="text/javascript">
+	var monthArr = [0,"January","February","March", "April", "May", "June", "July", "August", "September"];
+	var monthPos = "5";
+	var yearPos = "2002";
 	$(document).ready(function() {
-		var monthArr = ["January","February","March", "April", "May", "June", "July", "August", "September"];
-		$.getJSON("DispatcherServlet","command=getCalendarList&year=2017&month=4", function(data) {
-			alert("월 : " + data.month + " 마지막 날짜 : " + data.lastDayOfMonth + " 시작 요일 : " + data.firstDayOfMonth);
+		$.getJSON("DispatcherServlet","command=getCalendarList&year="+yearPos+"&month="+monthPos, function(data) {
+			//alert("월 : " + data.month + " 마지막 날짜 : " + data.lastDayOfMonth + " 시작 요일 : " + data.firstDayOfMonth);
 			$("#month").html(monthArr[data.month]);
 			for(var j = data.firstDayOfMonth-1; j >= 0 ; j--){
 				$("#calendar-body td:eq("+j+")").html("");
 			}
 			for(var i = 1 ; i <= data.lastDayOfMonth; i ++){
-				$("#calendar-body td:eq("+(i+data.firstDayOfMonth)+")").html(i);
+				$("#calendar-body td:eq("+(i+data.firstDayOfMonth)+")").html(
+						"<br><span id = 'dayPos'>"+i+"</span>"+
+						"<br><br><br>"+
+						"<span class = 'income'>+123</sapn><br><br>"+
+						"<span class = 'spend'>-10000</span>");
 			}
+		});
+		$("#calendar-body").on("click", "td", function(){
+				alert($(this).html());
 		});
 	});//ready
 	</script>

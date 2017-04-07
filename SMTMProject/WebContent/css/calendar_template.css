@@ -76,11 +76,11 @@ table {
 
 .calendar td {
 	border: 2px solid transparent;
-	border-radius: 60%;
+	border-radius: 50%;
 	display: inline-block;
-	height: 2em;
-	line-height: 4em;
-	text-align: left;
+	height: 4em;
+	line-height: 0.5em;
+	text-align: center;
 	width: 4em;
 }
 
@@ -91,7 +91,20 @@ table {
 .calendar .prev-month:hover, .calendar .next-month:hover {
 	border: 2px solid #cbd1d2;
 }
-
+.income{
+	font-size: .50em;
+	color: #0080ff;
+}
+.income:hover{
+	font-size: 1em;
+}
+.spend{
+	font-size: .50em;
+	color: #ff8080;
+}
+.spend:hover{
+	font-size: 1em;
+}
 .current-day {
 	background: #00addf;
 	color: #f9f9f9;

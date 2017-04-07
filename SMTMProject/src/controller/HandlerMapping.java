@@ -28,6 +28,8 @@ public class HandlerMapping {
 			c = new DeleteController();
 		}else if(command.equals("idcheck")){
 			c = new IdCheckController();
+		}else if(command.equals("getCalendarList")){
+			c = new GetCalendarListController();
 		}
 		return c;
 	}
