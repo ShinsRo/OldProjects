@@ -34,6 +34,10 @@
 			<a href="../calendar.jsp">Calendar</a>
 			<a href="javascript:logout()" class="selected">Logout</a>
 		</c:if>
+		
+		
+		
+		
 		<%-- <% if(request.getAttribute("mvo")==null){ %>
 			
 			<% } 
@@ -45,6 +49,9 @@
 			<a href="#">Graph</a>
 			<a href="javascript:logout()" class="selected">Logout</a>
 			<% } %> --%>
+			
+			
+			
 		</nav>
 	</div>
 </header>

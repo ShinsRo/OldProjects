@@ -33,6 +33,7 @@ public class UpdateController implements Controller {
 		vo.setToday(today);
 		vo.setType(inAndOut);
 		vo.setDetail(detail);
+		
 		if(inAndOut.equals("income")){
 			vo.setIncome(money);
 		}else if(inAndOut.equals("spend")){
@@ -53,12 +54,8 @@ public class UpdateController implements Controller {
 			vo.setTime(hh+":"+mm+":"+"00");
 		}
 		
-		
-		
-		System.out.println("UpdateController" + vo.toString());
 		AccountDAO.getInstance().updateDetail(vo);
-	
-		
+
 		request.setAttribute("today", today);	
 		
 		return  "account/popup_result.jsp";

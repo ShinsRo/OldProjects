@@ -23,6 +23,7 @@ public class AddController implements Controller {
 		
 		String detail = request.getParameter("detail");
 		int money = Integer.parseInt(request.getParameter("money"));
+		
 		// inAndOut : 수입,지출type 
 		String inAndOut = request.getParameter("inAndOut");
 		String today = request.getParameter("today");

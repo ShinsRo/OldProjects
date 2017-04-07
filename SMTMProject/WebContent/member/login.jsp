@@ -7,6 +7,11 @@
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">
 	function loginFunc() {
+		/* var df = document.loginForm
+		if(df.id.val == ""){
+			alert("아이디를 입력해주세요");
+			return;
+		} */
 		document.loginForm.submit();
 	}
 	function registerFunc() {
@@ -17,6 +22,11 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" media="screen" type="text/css" />
 </head>
 <body>
+<!-- 
+	로그인 View
+	login.jsp -> LoginController
+			id,password
+-->
 <jsp:include page="../layout/header.jsp"/>
 <div class="wrap">
 	<form action = "${pageContext.request.contextPath}/DispatcherServlet" name = "loginForm" method = "post">
@@ -24,11 +34,11 @@
 		<div class="avatar">
       <img src="${pageContext.request.contextPath}/img/logo.png">
 		</div>
-		<input type="text" placeholder = "아이디" name = "id" required>
+		<input type="text" placeholder = "아이디" name = "id" required="required">
 		<div class="bar">
 			<i></i>
 		</div>
-		<input type="password" placeholder="비밀번호" name = "password" required>
+		<input type="password" placeholder="비밀번호" name = "password" required="required">
 		<a href="" class="forgot_link">forgot ?</a>
 		
 		<button onclick="loginFunc()" style="margin-bottom:15px;">Login</button>

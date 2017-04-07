@@ -113,11 +113,7 @@ public class MemberDAO {
       return flag;
    }
    
-   //MemberDAO엔 delete필요없는것같음!
-   /*public void delete(String id){
-      
-   }
-   */
+
    
    
 }

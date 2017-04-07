@@ -68,10 +68,10 @@ public class AccountDAO {
          try {
             con = getConnection();
             sql.append("select m.name,m.total,b.no, ");
-            // total가져와야하는지 잘 모르겟엉
+            // total가져와야하는지 잘 모르겟엉--///insert/update에서 추가,수정할때마다 누적...나중에..
             sql.append("to_char(b.today,'yyyy/mm/dd') as today,b.detail,b.income,b.spend,b.id ");
             sql.append("from ACCOUNT_MEMBER m, ACCOUNT_BOOK b ");
-            sql.append("where m.id = b.id and m.id=?");
+            sql.append("where m.id = b.id and m.id=? order by today desc ");//내림차순
             pstmt = con.prepareStatement(sql.toString());
             pstmt.setString(1, id);
             rs = pstmt.executeQuery();
@@ -89,7 +89,7 @@ public class AccountDAO {
                   dvo.setTotalIncome(incomeTotal);
                   dvo.setTotalSpend(spendTotal);
 
-                  // list.add(dvo);
+                
                   list.put(key, dvo);
                   temp = today;
 
@@ -101,7 +101,7 @@ public class AccountDAO {
                } else {
                   list.get(key).setTotalIncome(list.get(key).getTotalIncome() + rs.getInt("income"));
                   list.get(key).setTotalSpend(list.get(key).getTotalSpend() + rs.getInt("spend"));
-                  // spendTotal += rs.getInt("spend");
+                  
                }
 
             }
@@ -176,7 +176,6 @@ public class AccountDAO {
          con = getConnection();
          if (type.equals("income")) {
             sql.append("insert into ACCOUNT_BOOK(no, today, income, detail, id) ");
-            // today -> sysdate x, vo에서 today+time으로 받아와야대
             sql.append("values(account_seq.nextval, to_date(?,'yyyy/mm/dd hh24:mi:ss'), ?, ?, ?)");
             pstmt = con.prepareStatement(sql.toString());
             pstmt.setInt(2, vo.getIncome());
@@ -259,29 +258,7 @@ public class AccountDAO {
             closeAll(pstmt, con);
          }
       }
-  /* public static void main(String[] args) {
-      try {
-         HashMap<String,DayVO> test = AccountDAO.getInstance().getAllDayList("java");
-         ArrayList<AccountVO> detailTest = AccountDAO.getInstance().getDetailList("2017/04/06", "java");
-         AccountVO avo = new AccountVO();
-         avo.setType("spend");
-         avo.setSpend(50000);
-         avo.setDetail("유스페이스몰치킨정식");
-         avo.setNo("11");
-         avo.setToday("2017/04/07");
-         avo.setTime("09:00:00");
-         //AccountDAO.getInstance().insertDetail(avo, "java");
-         //AccountDAO.getInstance().updateDetail(avo, "java");
-         //System.out.println(test);
-         //System.out.println(detailTest);
-         AccountVO avo = new AccountVO();
-         avo.setNo("12");
-       //  AccountDAO.getInstance().deleteDetail(avo, "java");
-      } catch (SQLException e) {
-         e.printStackTrace();
-      }
-
-   }*/
+ 
    
    
 }

@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import model.AccountDAO;
 import model.AccountVO;
@@ -16,26 +15,27 @@ import model.MemberVO;
 
 public class DetailController implements Controller {
 
-   @Override
-   public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-      response.setContentType("text/html;charset=utf-8");
-      ArrayList<AccountVO> list = new ArrayList<AccountVO>();
-      String today = request.getParameter("today");
-      // String today = "2017/04/06";
-      PrintWriter pw = response.getWriter();
+	@Override
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		response.setContentType("text/html;charset=utf-8");
 
-      // HttpSession session = request.getSession();
-      // MemberVO vo = (MemberVO)session.getAttribute("dao");
-      // String id = vo.getId();
-      String id = "java";
+		PrintWriter pw = response.getWriter();
+		ArrayList<AccountVO> list = new ArrayList<AccountVO>();
+		HttpSession session = request.getSession();
+		MemberVO vo = (MemberVO) session.getAttribute("mvo");
+		
+		
+		String id = vo.getId();
 
-      list = AccountDAO.getInstance().getDetailList(today, id);
+		String today = request.getParameter("today");
 
-      JSONArray js = new JSONArray(list);
-      System.out.println(js.toString());
-      pw.println(js.toString());
+		list = AccountDAO.getInstance().getDetailList(today, id);
 
-         pw.close();
-         return null;
-   }
+		JSONArray js = new JSONArray(list);
+		System.out.println(js.toString());
+		pw.println(js.toString());
+
+		pw.close();
+		return null;
+	}
 }

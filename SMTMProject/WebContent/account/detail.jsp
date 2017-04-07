@@ -50,6 +50,12 @@ body {
 
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">
+/* 
+	list에서 detail로 이동시, 페이지가 로드되는 순간
+	Ajax	->	DetailController	-> AccountDAO-GetDatilList	-> detail.jsp
+		command = detail										JSON으로 getDatailList에서 받은 상세내역 JSON으로 받아옴
+		today = ${param.today}
+*/
    $(document).ready(function(){      
      var m;
       $.ajax({
@@ -66,10 +72,18 @@ body {
 	              "<td><input type = 'button' class='btn btn-sm btn-primary btn-block' value = '수정' name = 'update' id = 'updateBtn'></td>"+
 	              "<td><input type = 'button' class='btn btn-sm btn-primary btn-block' value = '삭제' name = 'delete' id = 'deleteBtn'></td>"+            
 	              "</tr>";
-           }
+           }//for
            $("#info").html(m);
-        }
-   	});
+        }//success
+   	});//ajax
+   	
+   	
+   	/* 
+   		삭제버튼 클릭시 -> DeleteController
+   					command = delete
+   					no : 클릭한 td의 sibling.eq(0)
+   					today
+   	*/
       $("#info").on("click","#deleteBtn", function(){
     	  if(confirm("정말로 삭제하시겠습니까?")){
     		  $.ajax({
@@ -82,33 +96,33 @@ body {
            }else{
               alert("삭제가 취소되었습니다.");
            }
- 	    }); 
+ 	    });//delete click 
+   	
+   	/*
+   		추가 버튼 클릭시 -> AddController
+   					command = add
+   					today
+   	*/
       $("#insertBtn").click(function(){
           open("detail_insert.jsp?today=${param.today}","insert","width=410,height=185,top=150,left=200");
-       });
+       });//insert click
+      
+      /*
+      	수정 버튼 클릭시	-> UpdateController
+      		command = update
+      		no
+      		today
+      */
       $("#info").on("click","#updateBtn", function(){
 			//alert($(this).parent().siblings().eq(1).text());
 		
 			open("detail_update.jsp?no="+$(this).parent().siblings().eq(0).val()+"&today="+$(this).parent().siblings().eq(1).text(),"update","width=500,height=185,top=150,left=200");				
-		});  
-   });
+		});//update click  
       
-  /*      $("input[name=update]").click(function(){
-         open("detail_update.jsp","update","width=410,height=185,top=150,left=200");
-      });// updateBtn.click
       
-      $("input[name=delete]").click(function(){
-         if(confirm("정말로 삭제하시겠습니까?")){
-            $.ajax({
-               type:"get",
-               url:"DispatcherServlet",
-               data:"command=delete&no=1"
-            });//ajax
-            alert("삭제되었습니다.");
-         }else{
-            alert("삭제가 취소되었습니다.");
-         }
-      });// deleteBtn.click */
+   });//ready
+      
+
     
  
 </script>
@@ -141,45 +155,7 @@ body {
                               </tr>
                            </thead>
                            <tbody id = "info"></tbody>
-                      <!--      <tbody>
-                              <tr>
-
-                                 <td>3/14</td>
-                                 <td>07:00</td>
-                                 <td>커피</td>
-                                 <td>-3,000</td>
-                                 <td><input type = "button" class="btn btn-sm btn-primary btn-block" value = "수정" name = "update" id = "updateBtn"></td>
-                                 <td><input type = "button" class="btn btn-sm btn-primary btn-block" value = "삭제" name = "delete" id = "deleteBtn"></td>
-                              </tr>
-                              <tr>
-
-                                 <td>3/14</td>
-                                 <td>12:00</td>
-                                 <td>점심</td>
-                                 <td>-8,000</td>
-                                  <td><input type = "button" class="btn btn-sm btn-primary btn-block" value = "수정" name = "update" id = "updateBtn"></td>
-                                 <td><input type = "button" class="btn btn-sm btn-primary btn-block" value = "삭제" name = "delete" id = "deleteBtn"></td>
-                              </tr>
-                              <tr>
-
-                                 <td>3/15</td>
-                                 <td>14:00</td>
-                                 <td>빌린돈 받음</td>
-                                 <td>+10,000</td>
-                                  <td><input type = "button" class="btn btn-sm btn-primary btn-block" value = "수정" name = "update" id = "updateBtn"></td>
-                                 <td><input type = "button" class="btn btn-sm btn-primary btn-block" value = "삭제" name = "delete" id = "deleteBtn"></td>
-                              </tr>
-                              <tr>
-
-                                 <td>3/15</td>
-                                 <td>19:00</td>
-                                 <td>2월 교통비</td>
-                                 <td>-50,000</td>
-                                 <td><input type = "button" class="btn btn-sm btn-primary btn-block" value = "수정" name = "update" id = "updateBtn"></td>
-                                 <td><input type = "button" class="btn btn-sm btn-primary btn-block" value = "삭제" name = "delete" id = "deleteBtn"></td>
-                              </tr>
-
-                           </tbody> -->
+                
                         </table>
                            <input type = "button" class="btn btn-sm btn-primary btn-block" value = "추가" id = "insertBtn">
                      </div>

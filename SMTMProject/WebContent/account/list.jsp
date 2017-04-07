@@ -48,6 +48,12 @@ body {
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script
    src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<!-- 
+	listView 
+	-jquery를 이용해 페이지를 띄우는 순간 -> GetAllListController -> AccountDAO -> list.jsp
+								command = getAllList			DAO에서 사용자의 일별 총지출/총수입 JSON으로 받아옴
+-->
+
 <script type="text/javascript">
    $(document).ready(function() {
       $.ajax({
@@ -56,11 +62,8 @@ body {
          data:"command=getAllList",
          dataType:"json",
          success:function(data){
-         /* $("#info").html("<th>"+data."2017/01/01".today+"</th><th>"+data.totalSpend+"</th><th>"+data.totalIncome+"</th>");
-            alert(data.key20170101.today); */
-            
             for(var i = 0; i < data.length; i ++){
-               //alert(data[i].today);
+            
                $("#info").html("<tr><td class = 'today'>"
                      +data[i].today+"</td><td>"
                      +data[i].totalSpend+"</td><td>"
@@ -70,10 +73,9 @@ body {
          }
       });//ajax
       
-          /* $("#listTable tr").click(function() {
-            alert($(this).text());
-            //$(".form-signin").submit();
-         });//click */
+       /*
+       		List에서 td 클릭시, account/detail.jsp 로 이동(today값 넘김)
+       */
       $("#info").on("click","td", function(){
         //alert($(this).parent().children(".today").css("color", "blue"));
         if(confirm("상세보기로 이동하시겠습니까?")){
@@ -81,9 +83,11 @@ body {
            var lf = document.listForm;
            location.href = "${pageContext.request.contextPath}/account/detail.jsp?&today="+$(this).parent().children(".today").text();
         }else{
-           alert("그럼 누르지 마 -_-");
-        }
-     });
+           return;
+        }//if
+        
+        
+     });//td click
    });// ready
    
 </script>
