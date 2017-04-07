@@ -8,4 +8,44 @@
 			location.href="${pageContext.request.contextPath}/member/login.jsp";
 	}
 </script>
-${sessionScope.mvo.name}님 가계부 | <a href="javascript:logout()">로그아웃</a><hr>
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Light, Basic Header</title>
+
+	<link rel="stylesheet" href="../css/header-basic-light.css">
+	<link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
+
+</head>
+
+<header class="header-basic-light">
+	<div class="header-limiter">
+		<h1><a href="#">ShowMeThe<span>Money!</span></a></h1>
+		<nav>
+		<c:if test="${!(empty mvo)}">
+			<a href="">${sessionScope.mvo.name}님 가계부</a>
+			<a href="../member/login.jsp">Home</a>
+			<a href="../account/list.jsp">List</a>
+			<a href="../account/detail.jsp">Detail</a>
+			<a href="#">Graph</a>
+			<a href="javascript:logout()" class="selected">Logout</a>
+		</c:if>
+		<%-- <% if(request.getAttribute("mvo")==null){ %>
+			
+			<% } 
+			else if(request.getAttribute("mvo")!=null){ %>
+			<a href="">${sessionScope.mvo.name}님 가계부</a>
+			<a href="../member/login.jsp">Home</a>
+			<a href="../account/list.jsp">List</a>
+			<a href="../account/detail.jsp">Detail</a> 	
+			<a href="#">Graph</a>
+			<a href="javascript:logout()" class="selected">Logout</a>
+			<% } %> --%>
+		</nav>
+	</div>
+</header>
+
+
