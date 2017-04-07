@@ -11,35 +11,19 @@
    rel="stylesheet" id="bootstrap-css">
    <script src="//code.jquery.com/jquery.min.js"></script>
    <script type="text/javascript">
-   $(document).ready(function(){
-	   $("#updateBtn").click(function(){
-		   if($("input[name=inAndOut]:checked").val()==null){
-				alert("수입,지출을 선택하세요!");
-		   }else if($("#detail").val()==""){
-				alert("상세내용을 입력하세요!");
-			}else if($("#money").val()==""){
-				alert("금액을 입력하세요!");
-			}else if($("#morningAfternoon").val()==""){
-				alert("시간대를 선택하세요!");
-			}else{
-				
-		 		  $.ajax({
-			  		  type:"get",
-			 		  url:"${pageContext.request.contextPath}/DispatcherServlet?command=update",
-			 		  data:"no=${param.no}&today=${param.today}&"+$("#updateForm").serialize()
-			 		
-			 		 
-		 		 });//ajax
-			}
-	   });//click
-  	 });//ready();
+   function updateFunc() {
+	document.upForm.submit();
+	}
+
    
 </script>
 </head>
 <body>
 <center><h3>수정</h3></center>
-<form id = "updateForm">
-
+<form id = "updateForm" name = "upForm" method = "post" action = "${pageContext.request.contextPath}/DispatcherServlet"> 
+<input type = "hidden" name = "command" value = "update">
+<input type = "hidden" name = "no" value = "${param.no}">
+<input type = "hidden" name = "today" value = "${param.today}">
 <table>
 	<tr>
 		<td>
@@ -53,9 +37,9 @@
 	
 	<tr>
 		<!-- 사용자가 상세내용과 금액을 확인할 수 있도록 상세내용과 금액은 기존에 있는 정보를 가져와서 출력함 -->
-		<td>상세내용<input type = "text" name = "detail"id = "detail" value = "222"></td>
+		<td>상세내용<input type = "text" name = "detail"id = "detail" ></td>
 		
-		<td>금액<input type = "text" name = "money" id = "money" value = "4000"></td>
+		<td>금액<input type = "text" name = "money" id = "money" ></td>
 		
 	
 	</tr>
@@ -82,6 +66,6 @@
 </form>
 <br>
 
-<input type = "button" class="btn btn-sm btn-primary btn-block" value = "수정" id = "updateBtn">
+<input type = "button" class="btn btn-sm btn-primary btn-block" value = "수정" id = "updateBtn" onclick="updateFunc()">
 </body>
 </html>
