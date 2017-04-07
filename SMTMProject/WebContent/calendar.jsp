@@ -47,7 +47,7 @@
 
 				<a class="btn-prev fontawesome-angle-left" href="#"></a>
 				<a class="btn-next fontawesome-angle-right" href="#"></a>
-
+				
 			</header>
 			
 			<table>
