@@ -47,24 +47,7 @@ body {
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script
    src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<!-- <script type="text/javascript">
-   $(document).ready(function() {
-      $("#listTable tr").click(function() {
-         //alert($(this).text());
-         $(".form-signin").submit();
-      });//click
-   });
-   var defaultCSS = document.getElementById('bootstrap-css');
-   function changeCSS(css) {
-      if (css)
-         $('head > link')
-               .filter(':first')
-               .replaceWith(
-                     '<link rel="stylesheet" href="'+ css +'" type="text/css" />');
-      else
-         $('head > link').filter(':first').replaceWith(defaultCSS);
-   }
-</script> -->
+
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">
    $(document).ready(function(){      
@@ -92,7 +75,7 @@ body {
     		  $.ajax({
                  type:"get",
                  url:"${pageContext.request.contextPath}/DispatcherServlet",
-                 data:"command=delete"
+                 data:"command=delete&no="+$(this).parent().siblings().eq(0).val()+"&today=${param.today}"
               });//ajax
               alert("삭제되었습니다.");
               location.href="detail.jsp";
@@ -101,7 +84,7 @@ body {
            }
  	    }); 
       $("#insertBtn").click(function(){
-          open("detail_insert.jsp","update","width=410,height=185,top=150,left=200");
+          open("detail_insert.jsp?today=${param.today}","insert","width=410,height=185,top=150,left=200");
        });
       $("#info").on("click","#updateBtn", function(){
 			//alert($(this).parent().siblings().eq(1).text());
