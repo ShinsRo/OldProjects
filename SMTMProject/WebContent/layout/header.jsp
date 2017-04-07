@@ -24,8 +24,9 @@
 <header class="header-basic-light">
 	<div class="header-limiter">
 		<h1><a href="#">ShowMeThe<span>Money!</span></a></h1>
-		<nav>
 		<c:if test="${!(empty mvo)}">
+		<nav>
+		
 			<a href="">${sessionScope.mvo.name}님 가계부</a>
 			<a href="../member/login.jsp">Home</a>
 			<a href="../account/list.jsp">List</a>
@@ -33,26 +34,10 @@
 			<a href="#">Graph</a>
 			<a href="../calendar.jsp">Calendar</a>
 			<a href="javascript:logout()" class="selected">Logout</a>
-		</c:if>
 		
-		
-		
-		
-		<%-- <% if(request.getAttribute("mvo")==null){ %>
-			
-			<% } 
-			else if(request.getAttribute("mvo")!=null){ %>
-			<a href="">${sessionScope.mvo.name}님 가계부</a>
-			<a href="../member/login.jsp">Home</a>
-			<a href="../account/list.jsp">List</a>
-			<a href="../account/detail.jsp">Detail</a> 	
-			<a href="#">Graph</a>
-			<a href="javascript:logout()" class="selected">Logout</a>
-			<% } %> --%>
-			
-			
-			
+
 		</nav>
+		</c:if>
 	</div>
 </header>
 

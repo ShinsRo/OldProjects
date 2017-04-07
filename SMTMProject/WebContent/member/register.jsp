@@ -24,18 +24,16 @@ function checkId() {
       return false;
       }
    }
-    function submit() {
+  /*  function submit() {
       if(document.testForm.data.value!=document.testForm.id.value){
          alert("인증 되지 않은 아이디입니다. 다시 중복확인 해주세요");
          return;
       }
          document.testForm.submit();
-        }
-   
+   } */
 </script>
 </head>
 <body>
-<jsp:include page="../layout/header.jsp"/>
 <form name="testForm" method="post" action="${pageContext.request.contextPath}/DispatcherServlet?command=register" onsubmit="return checkId()">
  <div class="wrap">
       <div class="avatar">
@@ -55,8 +53,8 @@ function checkId() {
       </div>
       <input type="password" name="password" placeholder="다시 한번 입력하세요."required>
       <br>
-      <!-- <input type="submit" value="회원가입"> -->
-      <button onclick="submit()">Sign up</button>
+      <input type="submit" id = "registerBtn" value="회원가입">
+<!--       <button onclick="submit()">Sign up</button> -->
       
    </div>
 

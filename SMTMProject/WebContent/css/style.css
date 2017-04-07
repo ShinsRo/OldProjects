@@ -98,7 +98,21 @@ body {
    border-bottom: 3px solid #505050;
    cursor: pointer;
 }
-
+#loginBtn, #registerBtn{
+	   width: 100%;
+   border-radius: 7px;
+   background: #808080;
+   text-decoration: center;
+   border: none;
+   color: #ffffff;
+  margin-top:-5px;
+   padding-top: 14px;
+   padding-bottom: 14px;
+   outline: none;
+   font-size: 13px;   
+   border-bottom: 3px solid #505050;
+   cursor: pointer;
+}
 p.paging{
        width:50%;
       text-align: center; /* 가운데로 정렬 */   
