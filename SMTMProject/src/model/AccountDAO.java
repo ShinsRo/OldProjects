@@ -156,65 +156,77 @@ public class AccountDAO {
     * @param id
     * @throws SQLException
     */
+   /**
+    * vo안에 no,today, type, detail, income or spend
+    * 
+    * @param vo
+    * @param id
+    * @throws SQLException
+    */
    public void insertDetail(AccountVO vo, String id) throws SQLException {
       StringBuilder sql = new StringBuilder();
       Connection con = null;
       PreparedStatement pstmt = null;
+      String todayAndTime = vo.getToday() + " " + vo.getTime();
+      // vo.getToday() : 2017/04/06 (년/월/일)
+      // vo.getTime() : 9:00:15 (시:분:초)
+      // todayAndTime : 2017/04/07 09:00:00 로 출력됨
       String type = vo.getType();
       try {
          con = getConnection();
-         if(type.equals("income")){
-            sql.append("insert into ACCOUNT_BOOK(no, today, income, detail, id) "); 
-            sql.append("values(account_seq.nextval, sysdate, ?, ?, ?)"); 
+         if (type.equals("income")) {
+            sql.append("insert into ACCOUNT_BOOK(no, today, income, detail, id) ");
+            // today -> sysdate x, vo에서 today+time으로 받아와야대
+            sql.append("values(account_seq.nextval, to_date(?,'yyyy/mm/dd hh24:mi:ss'), ?, ?, ?)");
             pstmt = con.prepareStatement(sql.toString());
-            pstmt.setInt(1, vo.getIncome());
-            
-         }else if(type.equals("spend")){
-            sql.append("insert into ACCOUNT_BOOK(no, today, spend, detail, id) "); 
-            sql.append("values(account_seq.nextval, sysdate, ?, ?, ?)"); 
+            pstmt.setInt(2, vo.getIncome());
+
+         } else if (type.equals("spend")) {
+            sql.append("insert into ACCOUNT_BOOK(no, today, spend, detail, id) ");
+            sql.append("values(account_seq.nextval, to_date(?, 'yyyy/mm/dd hh24:mi:ss'), ?, ?, ?)");
             pstmt = con.prepareStatement(sql.toString());
-            pstmt.setInt(1, vo.getSpend());
+            pstmt.setInt(2, vo.getSpend());
          }
-         pstmt.setString(2, vo.getDetail());
-         pstmt.setString(3, id);
-         
+         pstmt.setString(1, todayAndTime);
+         pstmt.setString(3, vo.getDetail());
+         pstmt.setString(4, id);
 
          pstmt.executeQuery();
       } finally {
          closeAll(pstmt, con);
       }
    }
+
+
    /**
     * vo안에 no, type, income or spend, detail, today(고정된값), time(사용자가 selct로 입력한 값)
     * @param vo
     * @param id
     * @throws SQLException 
     */
-   public void updateDetail(AccountVO vo, String id) throws SQLException{
+   public void updateDetail(AccountVO vo) throws SQLException{
       StringBuilder sql = new StringBuilder();
       Connection con = null;
       PreparedStatement pstmt = null;
-      String todayAndTime = vo.getToday()+vo.getTime();
-      //vo.getToday() : 2017/04/06
-      //vo.getTime() : 9:00:15
+      
+      String todayAndTime = vo.getToday()+" "+vo.getTime();
       String type = vo.getType();
+      System.out.println("수정테스트 :"+vo.toString());
       try {
          con = getConnection();
-         //update ACCOUNT_BOOK set today=to_date('2017/1/1 9:12:10', 'yyyy/mm/dd hh24:mi:ss'), 
-         //spend=5000,detail='애비로드' where no=1 and id='java'
-         //update account_book set today=to_date(todayAndTime,'yyyy/mm/dd hh24:mi:ss'),income=?,detail=? where no=? and id=?
+         
          if(type.equals("income")){
             sql.append("update account_book set today=to_date(?,'yyyy/mm/dd hh24:mi:ss'), ");
             sql.append("income=?,detail=? ");
-            sql.append("where no=? and id=?");
+            sql.append("where no=?");
             pstmt = con.prepareStatement(sql.toString());
             
             pstmt.setInt(2, vo.getIncome());
             
          }else if(type.equals("spend")){
             sql.append("update account_book set today=to_date(?,'yyyy/mm/dd hh24:mi:ss'), ");
-            sql.append("income=?,detail=? ");
-            sql.append("where no=? and id=?");
+            sql.append("spend=?,detail=? ");
+            sql.append("where no=?");
             pstmt = con.prepareStatement(sql.toString());
             
             pstmt.setInt(2, vo.getSpend());
@@ -222,7 +234,7 @@ public class AccountDAO {
          pstmt.setString(1, todayAndTime);
          pstmt.setString(3, vo.getDetail());
          pstmt.setString(4, vo.getNo());
-         pstmt.setString(5, id);
+         
 
          pstmt.executeUpdate();
       } finally {
@@ -247,17 +259,17 @@ public class AccountDAO {
             closeAll(pstmt, con);
          }
       }
-   public static void main(String[] args) {
+  /* public static void main(String[] args) {
       try {
          HashMap<String,DayVO> test = AccountDAO.getInstance().getAllDayList("java");
          ArrayList<AccountVO> detailTest = AccountDAO.getInstance().getDetailList("2017/04/06", "java");
-         /*AccountVO avo = new AccountVO();
+         AccountVO avo = new AccountVO();
          avo.setType("spend");
          avo.setSpend(50000);
          avo.setDetail("유스페이스몰치킨정식");
          avo.setNo("11");
          avo.setToday("2017/04/07");
-         avo.setTime("09:00:00");*/
+         avo.setTime("09:00:00");
          //AccountDAO.getInstance().insertDetail(avo, "java");
          //AccountDAO.getInstance().updateDetail(avo, "java");
          //System.out.println(test);
@@ -269,7 +281,7 @@ public class AccountDAO {
          e.printStackTrace();
       }
 
-   }
+   }*/
    
    
 }

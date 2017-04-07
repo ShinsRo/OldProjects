@@ -59,6 +59,11 @@ where m.id = b.id and m.id='java' and to_char(b.today,'yyyy/mm/dd')='2017/04/06'
 update ACCOUNT_BOOK set today=to_date('2017/1/1 9:12:10', 'yyyy/mm/dd hh24:mi:ss'), spend=5000,detail='애비로드' where no=1 and id='java'
 
 
+select * from account_book
 
 
+
+update account_book set today=to_date('2017/04/08','yyyy/mm/dd hh24:mi:ss'), 
+income=5000,detail='수정테스트'
+where no='1'
 
