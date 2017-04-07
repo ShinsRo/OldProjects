@@ -56,7 +56,10 @@ body {
 		command = detail										JSON으로 getDatailList에서 받은 상세내역 JSON으로 받아옴
 		today = ${param.today}
 */
-   $(document).ready(function(){      
+   $(document).ready(function(){   
+	   if(${empty sessionScope.mvo}){
+			  location.href = "${pageContext.request.contextPath}/member/login.jsp";
+		  }
      var m;
       $.ajax({
         type:"get",

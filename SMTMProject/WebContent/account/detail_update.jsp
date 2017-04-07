@@ -11,8 +11,15 @@
    rel="stylesheet" id="bootstrap-css">
    <script src="//code.jquery.com/jquery.min.js"></script>
    <script type="text/javascript">
+  
+   
    function updateFunc() {
-	document.upForm.submit();
+	   if(${empty sessionScope.mvo}){
+			myWindow.close();
+			return;
+		   	//opener.location.href = "${pageContext.request.contextPath}/member/login.jsp";
+		  }
+		document.upForm.submit();
 	}
 
    

@@ -58,7 +58,7 @@ public class AddController implements Controller {
 		}
 			
 		AccountDAO.getInstance().insertDetail(avo, id);
-		System.out.println("AddController" + avo.toString());
+		//System.out.println("AddController" + avo.toString());
 		request.setAttribute("today", today);	
 		
 		return  "account/popup_result.jsp";
