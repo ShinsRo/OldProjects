@@ -115,7 +115,7 @@
    </script>
 </head>
 <body>
-
+<jsp:include page="layout/header.jsp"/>
    <div class="container">
          <div class = "year"></div>
       <div class="calendar">

@@ -16,7 +16,7 @@
 
 	<title>Light, Basic Header</title>
 
-	<link rel="stylesheet" href="../css/header-basic-light.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/header-basic-light.css">
 	<link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
 
 </head>
