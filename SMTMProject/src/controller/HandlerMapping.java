@@ -30,7 +30,9 @@ public class HandlerMapping {
 			c = new IdCheckController();
 		}else if(command.equals("getCalendarList")){
 			c = new GetCalendarListController();
-		}
+		}if(command.equals("graph")){
+	         c = new GetGraphController();
+	      }
 		return c;
 	}
 }
