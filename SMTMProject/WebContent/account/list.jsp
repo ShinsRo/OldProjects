@@ -89,6 +89,7 @@ body {
 </script>
 </head>
 <body>
+<jsp:include page="../layout/header.jsp"/>
    <!--    <div id="fullscreen_bg" class="fullscreen_bg"/> -->
    <form class="form-signin" id="listForm" name = "listForm" action="${pageContext.request.contextPath}/DispatcherServlet">
       <div class="container">
