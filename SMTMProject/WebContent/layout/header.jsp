@@ -5,7 +5,7 @@
 	function logout(){
 		var logout=confirm("로그아웃 하시겠습니까?");
 		if(logout)
-			location.href="${pageContext.request.contextPath}/member/login.jsp";
+			location.href="${pageContext.request.contextPath}/DispatcherServlet?command=logout";
 	}
 </script>
 <head>
