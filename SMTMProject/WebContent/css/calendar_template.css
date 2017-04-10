@@ -40,12 +40,13 @@ table {
 }
 
 .container {
-   height: 538px;
+   height: 510px;
    left: 50%;
    margin: -255px 0 0 -245px;
-   position: absolute;
+   position: fixed;
    top: 50%;
-   width: 510px;
+   width: 538px;
+   padding-top: 50px;
 }
 .year{
    text-align: center;
