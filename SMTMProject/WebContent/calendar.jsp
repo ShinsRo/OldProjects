@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
@@ -16,21 +17,21 @@
    var yearPos = ${requestScope.year};
    
    function toGraph() {
-	   location.href = "${pageContext.request.contextPath}/graph.jsp?month="+monthPos;
+      location.href = "${pageContext.request.contextPath}/graph.jsp?month="+monthPos;
 }
    $(document).ready(function(){
       $.getJSON("DispatcherServlet","command=getCalendarList&year="+yearPos+"&month="+monthPos, function(data) {
          //alert("월 : " + data.month + " 마지막 날짜 : " + data.lastDayOfMonth + " 시작 요일 : " + data.firstDayOfMonth);
 
           if(data.ryb =="red"){
-         	 $(".container").css("background", "lightred");
-         	// $("#imgView").html("<img src='${pageContext.request.contextPath}/img/red.png'>");
+             $(".container").css("background", "lightred");
+            // $("#imgView").html("<img src='${pageContext.request.contextPath}/img/red.png'>");
           }else if(data.ryb == "yellow"){
-         	 $(".container").css("background", "lightyellow");
-         	// $("#imgView").html("<img src='${pageContext.request.contextPath}/img/yellow.png'>");
+             $(".container").css("background", "lightyellow");
+            // $("#imgView").html("<img src='${pageContext.request.contextPath}/img/yellow.png'>");
           }else if(data.ryb = "green"){
-         	 $(".container").css("background", "lightgreen");
-         	// $("#imgView").html("<img src='${pageContext.request.contextPath}/img/green.png'>");
+             $(".container").css("background", "lightgreen");
+            // $("#imgView").html("<img src='${pageContext.request.contextPath}/img/green.png'>");
           }
          
          $(".year").text(yearPos);
@@ -125,12 +126,12 @@
             //alert($(this).children("#dayPos").text());
             var dayPos = $(this).children("#dayPos").text();
             if(monthPos < 10){
-            	monthPos = "0"+monthPos;
+               monthPos = "0"+monthPos;
             }
             if(dayPos < 10){
-            	dayPos = "0" + dayPos;
+               dayPos = "0" + dayPos;
             }
-            	location.href = "${pageContext.request.contextPath}/account/detail.jsp?&today="+
+               location.href = "${pageContext.request.contextPath}/account/detail.jsp?&today="+
                 yearPos+"/"+
                 monthPos+"/"+                  
                 dayPos;
@@ -139,7 +140,15 @@
    </script>
 </head>
 <body>
-<jsp:include page="layout/header.jsp"/>
+<jsp:include page="layout/header.jsp">
+   <jsp:param value="calendar" name="nowPage"/>
+</jsp:include>
+<div id = "imgView">
+
+</div>
+<div id = "imgView">
+
+</div>
 <div id = "imgView">
 
 </div>
@@ -152,9 +161,8 @@
 
             <a class="btn-prev fontawesome-angle-left"></a>
             <a class="btn-next fontawesome-angle-right"></a>
-			
+         
          </header>
-         <a href="" id = "toGraphBtn" onclick = "toGraph()">Graph</a>
          <table>
          
             <thead>
