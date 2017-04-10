@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
@@ -46,17 +47,16 @@ color: #5c616a;
    $(document).ready(function(){
       $.getJSON("DispatcherServlet","command=getCalendarList&year="+yearPos+"&month="+monthPos, function(data) {
          //alert("월 : " + data.month + " 마지막 날짜 : " + data.lastDayOfMonth + " 시작 요일 : " + data.firstDayOfMonth);
-            var html = "<img class='imgColor' src='${pageContext.request.contextPath}/img/";
-            var span = "<span id = 'textView'>Your Condition</span>";
-          if(data.ryb =="red"){
-             $("#imgView").html(html+"red.png'>"+span);
-          }else if(data.ryb == "yellow"){
-             $("#imgView").html(html+"yellow.png'>"+span);
-          }else if(data.ryb = "green"){
-             $("#imgView").html(html+"green.png'>"+span);
-         
-          }
-         
+          var html = "<img class='imgColor' src='${pageContext.request.contextPath}/img/";
+          var span = "<span id = 'textView'>Your Condition</span>";
+	        if(data.ryb =="red"){
+	           $("#imgView").html(html+"red.png'>"+span);
+	        }else if(data.ryb == "yellow"){
+	           $("#imgView").html(html+"yellow.png'>"+span);
+	        }else if(data.ryb = "green"){
+	           $("#imgView").html(html+"green.png'>"+span);
+	       
+	        }
          $(".year").text(yearPos);
          $("#month").html(monthArr[data.month]);
          for(var j = data.firstDayOfMonth-1; j >= 0 ; j--){
@@ -163,7 +163,9 @@ color: #5c616a;
    </script>
 </head>
 <body>
-<jsp:include page="layout/header.jsp"/>
+<jsp:include page="layout/header.jsp">
+   <jsp:param value="calendar" name="nowPage"/>
+</jsp:include>
 <div id="front-padding">
 </div>
 <div>
@@ -186,7 +188,6 @@ color: #5c616a;
 <div id ="imgView"></div>
 
 </div>
-<!-- <span id="textView"></span> -->
 
    <div class="container">
          <div class = "year"></div>
@@ -199,7 +200,6 @@ color: #5c616a;
             <a class="btn-next fontawesome-angle-right"></a>
          
          </header>
-         <a href="" id = "toGraphBtn" onclick = "toGraph()">Graph</a>
          <table>
          
             <thead>
@@ -286,6 +286,6 @@ color: #5c616a;
       </div> <!-- end calendar -->
 
    </div> <!-- end container -->
-
+   
 </body>
 </html>

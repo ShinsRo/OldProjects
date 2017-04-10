@@ -42,7 +42,7 @@
                src="${pageContext.request.contextPath }/img/list_icon.png"></a>
             <a href="../DispatcherServlet?command=getCurrent&go=calendar"> <img
                src="${pageContext.request.contextPath }/img/calendar_icon.png"></a>
-            <c:if test="${param.nowPage == 'calendar'}">
+          <c:if test="${param.nowPage == 'calendar'}">
                <a id="toGraphBtn" onclick="toGraph()"> <img
                   src="${pageContext.request.contextPath }/img/graph_icon.png"></a>
             </c:if>
