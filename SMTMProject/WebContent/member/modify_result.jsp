@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
-alert("유 나뿌나뿌 미네랄스");
+alert("정보수정완료");
 location.href="account/list.jsp";
 </script>
 </head>

@@ -78,22 +78,7 @@ public class MemberDAO {
       }
    }
    //회원정보수정-update의 경우, 이름만 수정하게 해놈
-   public void updateMember(MemberVO vo) throws SQLException{
-      Connection con=null;
-      PreparedStatement pstmt=null;
-      try{
-         con=getConnection();
-         String sql=
-            "update account_member set name=? where id=?";
-         pstmt=con.prepareStatement(sql);         
-         pstmt.setString(2, vo.getName());
-         pstmt.setString(2, vo.getId());
-         pstmt.executeUpdate();         
-      }finally{
-         closeAll(pstmt,con);
-      }
-   }
-   
+  
    public boolean idCheck(String id) throws SQLException{
       boolean flag=false;
       Connection con=null;
@@ -132,5 +117,25 @@ public class MemberDAO {
       }
       return limit;
   }
+  
+  public void updateMember(MemberVO vo) throws SQLException{
+      System.err.println(vo);
+      Connection con=null;
+      PreparedStatement pstmt=null;
+      try{
+         con=getConnection();
+         String sql=
+            "update account_member set password=?,name=?,limit=? where id=?";
+         pstmt=con.prepareStatement(sql);         
+         pstmt.setString(1, vo.getPassword());
+         pstmt.setString(2, vo.getName());
+         pstmt.setInt(3, vo.getLimit());
+         pstmt.setString(4, vo.getId());
+/*         pstmt.setString(2, vo.getName());*/
+         pstmt.executeUpdate();         
+      }finally{
+         closeAll(pstmt,con);
+      }
+   }
    
 }

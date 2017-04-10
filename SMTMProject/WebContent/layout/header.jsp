@@ -7,6 +7,12 @@
       if (logout)
          location.href = "${pageContext.request.contextPath}/DispatcherServlet?command=logout";
    }
+   function modify(){
+	      var modify=confirm("정보수정을 하시겠습니까?");
+	      if(modify)
+	         location.href="${pageContext.request.contextPath}/member/modify.jsp";
+	   }
+
 </script>
 <head>
 
@@ -41,6 +47,7 @@
                   src="${pageContext.request.contextPath }/img/graph_icon.png"></a>
             </c:if>
             <a href="javascript:logout()" class="selected">Logout</a>
+            <a href="javascript:modify()">modify</a>
          </nav>
       </c:if>
    </div>
