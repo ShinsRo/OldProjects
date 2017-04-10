@@ -32,9 +32,11 @@ public class HandlerMapping {
 			c = new GetCalendarListController();
 		}else if(command.equals("getCurrent")){
 			c = new GetCurrentController();
-		}if(command.equals("graph")){
+		}else if(command.equals("graph")){
 	         c = new GetGraphController();
-	      }
+	    }else if(command.equals("modify")){
+	          c = new  GetModifyController();
+	    }
 		return c;
 	}
 }

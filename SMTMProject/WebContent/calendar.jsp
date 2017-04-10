@@ -1,10 +1,34 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
+<style type="text/css">
 
+.rgb{
+margin: 30px 10px 0px 0px;
+max-width: 25px; /* 넓이를 지정 */
+height: 25px;
+}
+.font{
+margin: 30px 10px 0px 0px;
+}
+.imgColor{
+   margin: 50px 0px 0px 100px; /* 여백을 적용 4가지 조건이 가능 위쪽, 오른쪽, 아래쪽, 왼쪽 순서 */
+   max-width: 25px; /* 넓이를 지정 */
+   height: 25px;
+  /*  font-size: 15px; 
+   font: Arial, Helvetica, sans-serif; */
+   }
+#textView{
+margin: 0px 0px 0px 10px;
+font-size: 13px; 
+font: Arial, Helvetica, sans-serif;
+font-weight: bold;
+color: #5c616a;
+/* color: #5c616a; */
+}
+</style>
    <meta charset="UTF-8">
    <title>Calendar</title>
    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:300,400,700">
@@ -22,16 +46,15 @@
    $(document).ready(function(){
       $.getJSON("DispatcherServlet","command=getCalendarList&year="+yearPos+"&month="+monthPos, function(data) {
          //alert("월 : " + data.month + " 마지막 날짜 : " + data.lastDayOfMonth + " 시작 요일 : " + data.firstDayOfMonth);
-
+            var html = "<img class='imgColor' src='${pageContext.request.contextPath}/img/";
+            var span = "<span id = 'textView'>Your Condition</span>";
           if(data.ryb =="red"){
-             $(".container").css("background", "lightred");
-            // $("#imgView").html("<img src='${pageContext.request.contextPath}/img/red.png'>");
+             $("#imgView").html(html+"red.png'>"+span);
           }else if(data.ryb == "yellow"){
-             $(".container").css("background", "lightyellow");
-            // $("#imgView").html("<img src='${pageContext.request.contextPath}/img/yellow.png'>");
+             $("#imgView").html(html+"yellow.png'>"+span);
           }else if(data.ryb = "green"){
-             $(".container").css("background", "lightgreen");
-            // $("#imgView").html("<img src='${pageContext.request.contextPath}/img/green.png'>");
+             $("#imgView").html(html+"green.png'>"+span);
+         
           }
          
          $(".year").text(yearPos);
@@ -140,18 +163,31 @@
    </script>
 </head>
 <body>
-<jsp:include page="layout/header.jsp">
-   <jsp:param value="calendar" name="nowPage"/>
-</jsp:include>
-<div id = "imgView">
+<jsp:include page="layout/header.jsp"/>
+<div id="front-padding">
+</div>
+<div>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+<img class='rgb' src='${pageContext.request.contextPath}/img/red.png'>
+<span style="font-weight:bold; font-size: 13px; color: #5c616a;
+   font: Arial, Helvetica, sans-serif">Danger</span><br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+<img class='rgb' src='${pageContext.request.contextPath}/img/yellow.png'>
+<span style="font-weight:bold; font-size: 13px; color: #5c616a;
+   font: Arial, Helvetica, sans-serif">Warning</span><br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+<img class='rgb' src='${pageContext.request.contextPath}/img/green.png'>
+<span style="font-weight:bold; font-size: 13px; color: #5c616a;
+   font: Arial, Helvetica, sans-serif">Stable</span>
+<br>
+<div id ="imgView"></div>
 
 </div>
-<div id = "imgView">
+<!-- <span id="textView"></span> -->
 
-</div>
-<div id = "imgView">
-
-</div>
    <div class="container">
          <div class = "year"></div>
       <div class="calendar">
@@ -163,6 +199,7 @@
             <a class="btn-next fontawesome-angle-right"></a>
          
          </header>
+         <a href="" id = "toGraphBtn" onclick = "toGraph()">Graph</a>
          <table>
          
             <thead>
@@ -249,6 +286,6 @@
       </div> <!-- end calendar -->
 
    </div> <!-- end container -->
-   
+
 </body>
 </html>

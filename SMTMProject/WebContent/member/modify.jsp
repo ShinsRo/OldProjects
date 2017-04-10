@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>register</title>
+<title>회원정보수정</title>
  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/reset.css">
  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" media="screen" type="text/css" />
 <script type="text/javascript">
@@ -35,30 +35,34 @@ function checkId() {
 </head>
 <body>
 <jsp:include page="../layout/header.jsp"/>
-<form name="testForm" method="post" action="${pageContext.request.contextPath}/DispatcherServlet?command=register" onsubmit="return checkId()">
+<form name="testForm" method="post" action="${pageContext.request.contextPath}/DispatcherServlet?command=modify">
  <div class="wrap">
       <div class="avatar">
       <img src="${pageContext.request.contextPath}/img/logo.png">
       </div>
-      <input type="text" name="name" placeholder="이름을 입력하세요." required>
+      <input type="text" name="name" value="${sessionScope.mvo.name}" required>
       <div class="bar">
          <i></i>
       </div>
-      <input type="text" name="id" placeholder="아이디를 입력하세요." id = "lowerRound" required>
-      <input type="hidden" name="data" value="">
-      <a class="forgot_link" value="중복확인" onclick="openPopup()">중복확인</a>
-      
-      <input type="password" name="password" placeholder="비밀번호를 입력하세요." id = "upperRound" required>
+      <input type="text" name="id" value="${sessionScope.mvo.id}" readonly="readonly" id = "lowerRound">
+      <!-- <input type="hidden" name="data" value="">
+      <a class="forgot_link" value="중복확인" onclick="openPopup()">중복확인</a> -->
       <div class="bar">
-         <i></i>
+          <i></i>
       </div>
-      <input type="password" name="password" placeholder="다시 한번 입력하세요."required>
-      <div class="bar">
-         <i></i>
-      </div>
-      <input type="text" name="limit" placeholder="기준치를 입력하세요." id="lowerRound" required>
       <br>
-      <input type="submit" id = "registerBtn" style ="HEIGHT: 35pt" value="회원가입">
+      <input type="password" name="password" value="${sessionScope.mvo.password}" id = "upperRound" required>
+      <div class="bar">
+         <i></i>
+      </div>
+      <input type="password" name="password" placeholder="다시 한번 입력하세요." required>
+      <br>
+      <div class="bar">
+          <i></i>
+      </div>
+      <input type="text" name="limit" placeholder="${sessionScope.mvo.limit}" required>
+      <br>
+      <input type="submit" id = "modifyBtn" value="회원 정보 수정">
 <!--       <button onclick="submit()">Sign up</button> -->
       
    </div>

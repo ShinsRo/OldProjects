@@ -37,7 +37,8 @@
 		<a href="" class="forgot_link">forgot ?</a>
 		
 		<!-- <button onclick="loginFunc()">Login</button> -->
-		 <input id = "loginBtn" type="submit"  style="margin-bottom:15px;"  value="Login">
+		 <input id = "loginBtn" type="submit"  style="margin-bottom:15px; HEIGHT: 35pt"  value="Login">
+
 	</form>
 	<button onclick="registerFunc()">Sign up</button>
 	</div>
