@@ -9,6 +9,12 @@
 <link
    href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
    rel="stylesheet" id="bootstrap-css">
+
+<style type="text/css">
+.wrap input[type="text"] {
+   border-radius: 7px 7px 0px 0px ;
+}
+</style>  
    <script src="//code.jquery.com/jquery.min.js"></script>
    <script type="text/javascript">
   
@@ -27,18 +33,21 @@
 </head>
 <body>
 <center><h3>수정</h3></center>
+<div class="container">
+<div class = "form-group">
 <form id = "updateForm" name = "upForm" method = "post" action = "${pageContext.request.contextPath}/DispatcherServlet"> 
 <input type = "hidden" name = "command" value = "update">
 <input type = "hidden" name = "no" value = "${param.no}">
 <input type = "hidden" name = "today" value = "${param.today}">
 <table>
-	<tr>
-		<td>
-		<input type="radio" name="inAndOut" value="income">수입		
-		<input type="radio" name="inAndOut" value="spend">지출
-		
-		</td>   	
-	</tr>	
+<div class = "wrap">
+   	
+	 <tr>
+     	 <td><input type="radio" name="inAndOut" value="income">수입 </td>
+     </tr>
+     <tr>
+      <td><input type="radio" name="inAndOut" value="spend">지출</td>         
+     </tr>
 	
 	
 	
@@ -51,18 +60,18 @@
 	
 	</tr>
 	<tr>
-		<select id="morningAfternoon" name = "morningAfternoon">
+		<select class = "form-control" id="morningAfternoon" name = "morningAfternoon">
 			<option value="">-시간대선택-</option>
 			<option value = "am">am</option>
 			<option value = "pm">pm</option>
 		</select>
-		<select name = "hh" id="hh">
+		<select class = "form-control" name = "hh" id="hh">
 			<option value="">-시간-</option>
 			<c:forEach begin="1" end="12" var = "hh">
 				<option value="${hh}">${hh}</option>
 			</c:forEach> 
 		</select>
-		<select name = "mm" id="mm">
+		<select class = "form-control" name = "mm" id="mm">
 			<option value="">-분-</option>
 			<c:forEach begin="00" end="59" var = "mm">
 				<option value="${mm}">${mm}</option>
@@ -70,7 +79,10 @@
 		</select>
 		</tr>
 </table>
+</div>
 </form>
+</div>
+</div>
 <br>
 
 <input type = "button" class="btn btn-sm btn-primary btn-block" value = "수정" id = "updateBtn" onclick="updateFunc()">

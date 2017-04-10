@@ -107,7 +107,7 @@ body {
    					today
    	*/
       $("#insertBtn").click(function(){
-          open("detail_insert.jsp?today=${param.today}","insert","width=410,height=185,top=150,left=200");
+          open("detail_insert.jsp?today=${param.today}","insert","width=500,height=300,top=150,left=200");
        });//insert click
       
       /*
@@ -119,7 +119,7 @@ body {
       $("#info").on("click","#updateBtn", function(){
 			//alert($(this).parent().siblings().eq(1).text());
 		
-			open("detail_update.jsp?no="+$(this).parent().siblings().eq(0).val()+"&today="+$(this).parent().siblings().eq(1).text(),"update","width=500,height=185,top=150,left=200");				
+			open("detail_update.jsp?no="+$(this).parent().siblings().eq(0).val()+"&today="+$(this).parent().siblings().eq(1).text(),"update","width=500,height=300,top=150,left=200");				
 		});//update click  
       
       

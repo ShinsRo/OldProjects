@@ -9,10 +9,20 @@
 <link
    href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
    rel="stylesheet" id="bootstrap-css">
+<style type="text/css">
+.wrap input[type="text"] {
+   border-radius: 7px 7px 0px 0px ;
+}
+</style>   
 <script src="//code.jquery.com/jquery.min.js"></script>
   <script type="text/javascript">
    function insertFunc() {
-	document.insertForm.submit();
+	   if(${empty sessionScope.mvo}){
+			myWindow.close();
+			return;
+		   	//opener.location.href = "${pageContext.request.contextPath}/member/login.jsp";
+		  }
+		document.insertForm.submit();
 	}
 
    
@@ -21,35 +31,41 @@
 </head>
 <body>
 <center><h3>추가</h3></center>
+<div class="container">
+<div class = "form-group">
 <form id = "insertForm" name = "insertForm" method = "post" action = "${pageContext.request.contextPath}/DispatcherServlet"> 
 <input type = "hidden" name = "command" value = "add">
 
 <input type = "hidden" name = "today" value = "${param.today}">
-<table>
 
-   <tr>
-      <td><input type="radio" name="inAndOut" value="income">수입 
-      <input type="radio" name="inAndOut" value="spend">지출</td>         
+<table>
+<div class = "wrap">
+   	
+   	 <tr>
+     	 <td><input type="radio" name="inAndOut" value="income">수입 </td>
+     </tr>
+     <tr>
+      <td><input type="radio" name="inAndOut" value="spend">지출</td>         
      </tr>
      
      <tr>
-      <td>상세내용<input type = "text" name = "detail" id = "detail"></td>
-      <td>금액<input type = "text" name = "money" id = "money"></td>
-   </tr>
+	      <td>상세내용<input type = "text" name = "detail" id = "detail"></td>
+	      <td>금액<input type = "text" name = "money" id = "money"></td>
+   	</tr>
    
    <tr>
-		<select id="morningAfternoon" name = "morningAfternoon">
+		<select class = "form-control" id="morningAfternoon" name = "morningAfternoon">
 			<option value="">-시간대선택-</option>
 			<option value = "am">am</option>
 			<option value = "pm">pm</option>
 		</select>
-		<select name = "hh" id="hh">
+		<select class = "form-control" name = "hh" id="hh">
 			<option value="">-시간-</option>
 			<c:forEach begin="1" end="12" var = "hh">
 				<option value="${hh}">${hh}</option>
 			</c:forEach> 
 		</select>
-		<select name = "mm" id="mm">
+		<select class = "form-control" name = "mm" id="mm">
 			<option value="">-분-</option>
 			<c:forEach begin="00" end="59" var = "mm">
 				<option value="${mm}">${mm}</option>
@@ -58,7 +74,10 @@
 		</tr>
 		
 </table>
+</div>
 </form>
+</div>
+</div>
 <br>
 <input type = "button" class="btn btn-sm btn-primary btn-block" value = "추가" id = "insertBtn" onclick="insertFunc()">
 </body>
