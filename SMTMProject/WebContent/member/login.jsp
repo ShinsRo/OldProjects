@@ -10,6 +10,13 @@
 	/* function loginFunc() {
 		document.loginForm.submit();
 	} */
+	 $(document).ready(function(){   
+		   if(${empty sessionScope.mvo}){
+				  location.href = "${pageContext.request.contextPath}/index.jsp";
+			}else{
+				location.href = "${pageContext.request.contextPath}/account/list.jsp";
+			}
+	 });
 	function registerFunc() {
 		location.href = "${pageContext.request.contextPath}/member/register.jsp";
 	}
