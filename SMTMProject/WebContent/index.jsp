@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-Commit test
+<jsp:forward page="member/login.jsp"></jsp:forward>
 </body>
 </html>
