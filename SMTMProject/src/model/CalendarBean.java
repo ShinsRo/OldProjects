@@ -7,9 +7,20 @@ public class CalendarBean {
    private int lastDayOfMonth;
    private int firstDayOfMonth;
    private ArrayList<DayVO> listOnMonth;
-   
-
-   public CalendarBean() {
+   @Override
+public String toString() {
+	return "CalendarBean [month=" + month + ", lastDayOfMonth=" + lastDayOfMonth + ", firstDayOfMonth="
+			+ firstDayOfMonth + ", listOnMonth=" + listOnMonth + ", ryb=" + ryb + "]";
+}
+public String getRyb() {
+	return ryb;
+}
+public void setRyb(String ryb) {
+	this.ryb = ryb;
+}
+private String ryb;
+  
+	public CalendarBean() {
       super();
    }
    public CalendarBean(int month, int lastDayOfMonth, int firstDayOfMonth) {
@@ -42,11 +53,8 @@ public class CalendarBean {
    public void setFirstDayOfMonth(int firstDayOfMonth) {
       this.firstDayOfMonth = firstDayOfMonth;
    }
-   @Override
-   public String toString() {
-      return "CalendarBean [month=" + month + ", lastDayOfMonth=" + lastDayOfMonth + ", firstDayOfMonth="
-            + firstDayOfMonth + ", listOnMonth=" + listOnMonth + "]";
-   }
+
+  
    
    
 }

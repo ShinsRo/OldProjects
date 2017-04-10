@@ -47,7 +47,7 @@ public class MemberDAO {
          pstmt.setString(2, password);
          rs = pstmt.executeQuery();
          if(rs.next()){
-        	vo = new MemberVO();
+           vo = new MemberVO();
             vo.setId(id);
             vo.setName(rs.getString("name"));
             vo.setTotal(0);//여기서 해줘야하나..?
@@ -113,7 +113,24 @@ public class MemberDAO {
       return flag;
    }
    
-
-   
+  public int getInfo(String id) throws SQLException{ // salDate, limit
+      int limit = 0;
+      Connection con=null;
+      PreparedStatement pstmt=null;
+      ResultSet rs=null;    
+      try{
+         con = getConnection();
+         String sql ="select limit from account_member where id=?";
+         pstmt = con.prepareStatement(sql);
+         pstmt.setString(1, id);
+         rs=pstmt.executeQuery();
+         if(rs.next())
+            limit =rs.getInt("limit");
+      }
+      finally{
+         closeAll(rs, pstmt, con);
+      }
+      return limit;
+  }
    
 }

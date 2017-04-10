@@ -2,6 +2,8 @@ package controller;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +15,7 @@ import model.AccountDAO;
 import model.CalendarBean;
 import model.CalendarManager;
 import model.DayVO;
+import model.MemberDAO;
 
 public class GetCalendarListController implements Controller {
 
@@ -23,6 +26,13 @@ public class GetCalendarListController implements Controller {
       int year = Integer.parseInt(request.getParameter("year"));
       int month = Integer.parseInt(request.getParameter("month"));
       String monthStr = "";
+      int currDay = GregorianCalendar.getInstance().get(Calendar.DAY_OF_MONTH);
+      //--------------------------------------------
+      int limit = MemberDAO.getInstance().getInfo("java");//100000
+      int total = 0;
+      String ryb = null;
+      //total이랑 limit비교
+      //rvb = r/y/b
       monthStr = (month < 10)? "0" + month: ""+month;
  
       String key = "key"+year+monthStr;
@@ -30,6 +40,7 @@ public class GetCalendarListController implements Controller {
       CalendarManager cm = CalendarManager.getInstance();
       cm.setCurrent(year, month);
       CalendarBean cb = cm.getCurrent();
+      cb.setRyb(ryb);
       
       HashMap<String, DayVO> map = new HashMap<String, DayVO>();
       map = AccountDAO.getInstance().getAllDayList("java");
@@ -39,8 +50,23 @@ public class GetCalendarListController implements Controller {
             if(i>=10) list.add(map.get(key+i));
             else list.add(map.get(key+"0"+i));
       }
+     
+      for(int i=1;i<=currDay;i++){
+    	  if(list.get(i)!=null)
+    		total += list.get(i).getTotalSpend();
+      }
+      //System.out.println(total);
+      
+      if(total >= (limit*0.7)){
+    	  ryb = "red";
+      }else if(total >= limit*0.5 && total < limit * 0.7){
+    	  ryb = "yellow";
+      }else if(total<limit*0.5){
+    	  ryb = "green";
+      }
+      //System.out.println(ryb);
       cb.setListOnMonth(list);
-
+      cb.setRyb(ryb);
       JSONObject cbObj = new JSONObject(cb);
       System.out.println(cbObj.toString());
       out.print(cbObj.toString());

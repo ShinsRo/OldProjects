@@ -95,7 +95,7 @@ body {
                  data:"command=delete&no="+$(this).parent().siblings().eq(0).val()+"&today=${param.today}"
               });//ajax
               alert("삭제되었습니다.");
-              location.href="detail.jsp";
+              location.href="${pageContext.request.contextPath}/account/detail.jsp?today=${param.today}";
            }else{
               alert("삭제가 취소되었습니다.");
            }

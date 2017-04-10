@@ -21,6 +21,18 @@
    $(document).ready(function(){
       $.getJSON("DispatcherServlet","command=getCalendarList&year="+yearPos+"&month="+monthPos, function(data) {
          //alert("월 : " + data.month + " 마지막 날짜 : " + data.lastDayOfMonth + " 시작 요일 : " + data.firstDayOfMonth);
+
+          if(data.ryb =="red"){
+         	 $(".container").css("background", "lightred");
+         	// $("#imgView").html("<img src='${pageContext.request.contextPath}/img/red.png'>");
+          }else if(data.ryb == "yellow"){
+         	 $(".container").css("background", "lightyellow");
+         	// $("#imgView").html("<img src='${pageContext.request.contextPath}/img/yellow.png'>");
+          }else if(data.ryb = "green"){
+         	 $(".container").css("background", "lightgreen");
+         	// $("#imgView").html("<img src='${pageContext.request.contextPath}/img/green.png'>");
+          }
+         
          $(".year").text(yearPos);
          $("#month").html(monthArr[data.month]);
          for(var j = data.firstDayOfMonth-1; j >= 0 ; j--){
@@ -128,6 +140,9 @@
 </head>
 <body>
 <jsp:include page="layout/header.jsp"/>
+<div id = "imgView">
+
+</div>
    <div class="container">
          <div class = "year"></div>
       <div class="calendar">

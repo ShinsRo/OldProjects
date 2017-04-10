@@ -21,7 +21,7 @@ public class DeleteController implements Controller {
 		String id = vo.getId();
 		
 		AccountDAO.getInstance().deleteDetail(no, id);
-		return "account/detail.jsp";
+		return null;
 	}
 
 }
