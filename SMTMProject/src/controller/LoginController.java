@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.MemberDAO;
-import model.MemberMockDAO;
 import model.MemberVO;
 
 public class LoginController implements Controller {

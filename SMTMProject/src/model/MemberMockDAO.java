@@ -1,4 +1,4 @@
-package model;
+/*package model;
 
 public class MemberMockDAO {
 	//id : java , password : 1234
@@ -33,3 +33,4 @@ public class MemberMockDAO {
 		System.out.println(vo + "수정성공");
 	}
 }
+*/
