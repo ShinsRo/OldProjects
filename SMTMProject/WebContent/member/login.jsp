@@ -11,9 +11,7 @@
 		document.loginForm.submit();
 	} */
 	 $(document).ready(function(){   
-		   if(${empty sessionScope.mvo}){
-				  location.href = "${pageContext.request.contextPath}/index.jsp";
-			}else{
+		   if(${!empty sessionScope.mvo}){
 				location.href = "${pageContext.request.contextPath}/account/list.jsp";
 			}
 	 });
