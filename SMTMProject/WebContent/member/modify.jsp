@@ -31,6 +31,9 @@ function checkId() {
       }
          document.testForm.submit();
    } */
+   function modifyBtn(){
+      document.testForm.submit();
+   }
 </script>
 </head>
 <body>
@@ -44,27 +47,24 @@ function checkId() {
       <div class="bar">
          <i></i>
       </div>
-      <input type="text" name="id" value="${sessionScope.mvo.id}" readonly="readonly" id = "lowerRound">
+      <input type="text" name="id" value="${sessionScope.mvo.id}" id="middleField" readonly="readonly">
       <!-- <input type="hidden" name="data" value="">
       <a class="forgot_link" value="중복확인" onclick="openPopup()">중복확인</a> -->
       <div class="bar">
           <i></i>
       </div>
-      <br>
-      <input type="password" name="password" value="${sessionScope.mvo.password}" id = "upperRound" required>
+      <input type="password" name="password" value="${sessionScope.mvo.password}" required>
       <div class="bar">
          <i></i>
       </div>
-      <input type="password" name="password" placeholder="다시 한번 입력하세요." required>
-      <br>
+      <input type="password" name="password" placeholder="패스워드를 확인해주세요." required>
       <div class="bar">
           <i></i>
       </div>
-      <input type="text" name="limit" placeholder="${sessionScope.mvo.limit}" required>
+      <input type="text" name="limit" placeholder="기준금액: ${sessionScope.mvo.limit}" id="lowerRound" required>
       <br>
-      <input type="submit" id = "modifyBtn" value="회원 정보 수정">
-<!--       <button onclick="submit()">Sign up</button> -->
-      
+     <!--  <input type="submit" id = "modifyBtn" value="회원 정보 수정"> -->
+      <button onclick="modifyBtn()">회원정보 수정</button> 
    </div>
 
   <script src=""></script>
