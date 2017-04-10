@@ -24,16 +24,7 @@ function checkId() {
       return false;
       }
    }
-  /*  function submit() {
-      if(document.testForm.data.value!=document.testForm.id.value){
-         alert("인증 되지 않은 아이디입니다. 다시 중복확인 해주세요");
-         return;
-      }
-         document.testForm.submit();
-   } */
-   function modifyBtn(){
-      document.testForm.submit();
-   }
+   
 </script>
 </head>
 <body>
@@ -63,8 +54,7 @@ function checkId() {
       </div>
       <input type="text" name="limit" placeholder="기준금액: ${sessionScope.mvo.limit}" id="lowerRound" required>
       <br>
-     <!--  <input type="submit" id = "modifyBtn" value="회원 정보 수정"> -->
-      <button onclick="modifyBtn()">회원정보 수정</button> 
+     <input type="submit" id = "modifyBtn" style="margin-bottom:15px; HEIGHT: 35pt" value="회원 정보 수정">  
    </div>
 
   <script src=""></script>

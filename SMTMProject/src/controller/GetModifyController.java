@@ -25,8 +25,12 @@ public class GetModifyController implements Controller {
       vo.setName(name);
       vo.setLimit(limit);
       
+      
+      //System.out.println("vo"+ vo.toString());
       session.setAttribute("mvo", vo);
+      
       MemberDAO.getInstance().updateMember(vo);
+      
       return "/member/modify_result.jsp";
    }
 }

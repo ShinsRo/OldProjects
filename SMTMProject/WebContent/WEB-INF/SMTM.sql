@@ -61,7 +61,7 @@ update ACCOUNT_BOOK set today=to_date('2017/1/1 9:12:10', 'yyyy/mm/dd hh24:mi:ss
 
 
 select * from account_book
-
+select * from ACCOUNT_MEMBER
 
 
 update account_book set today=to_date('2017/04/08','yyyy/mm/dd hh24:mi:ss'), 

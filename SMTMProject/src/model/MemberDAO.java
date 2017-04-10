@@ -41,7 +41,7 @@ public class MemberDAO {
       ResultSet rs=null;    
       try{
          con = getConnection();
-         String sql = "select name from account_member where id=? and password=?";
+         String sql = "select name, limit from account_member where id=? and password=?";
          pstmt = con.prepareStatement(sql);
          pstmt.setString(1, id);
          pstmt.setString(2, password);
@@ -49,6 +49,7 @@ public class MemberDAO {
          if(rs.next()){
            vo = new MemberVO();
             vo.setId(id);
+            vo.setLimit(rs.getInt("limit"));
             vo.setName(rs.getString("name"));
             vo.setTotal(0);//여기서 해줘야하나..?
             vo.setPassword(password);
