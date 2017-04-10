@@ -31,7 +31,7 @@
 		
 			<a href="../account/list.jsp">List</a>
 			<a href="${pageContext.request.contextPath}/graph.jsp">Graph</a>
-			<a href="../calendar.jsp">Calendar</a>
+			<a href="../DispatcherServlet?command=getCurrent&go=calendar">Calendar</a>
 			<a href="javascript:logout()" class="selected">Logout</a>
 		
 

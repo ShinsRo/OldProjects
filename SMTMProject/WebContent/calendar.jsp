@@ -12,8 +12,8 @@
    <script src="//code.jquery.com/jquery.min.js"></script>
    <script type="text/javascript">
    var monthArr = [0,"January","February","March", "April", "May", "June", "July", "August", "September", "October","November","December"];
-   var monthPos = 4;
-   var yearPos = 2017;
+   var monthPos = ${requestScope.month};
+   var yearPos = ${requestScope.year};
    
    $(document).ready(function(){
       $.getJSON("DispatcherServlet","command=getCalendarList&year="+yearPos+"&month="+monthPos, function(data) {
@@ -37,6 +37,7 @@
                   "<span class = 'income'>"+income+"</sapn><br><br>"+
                   "<span class = 'spend'>"+spend+"</span>");
          }
+         
       });//getJSON
       $(".btn-prev").click(function() {
          //alert("left");
@@ -69,6 +70,7 @@
                      "<span class = 'income'>"+income+"</sapn><br><br>"+
                      "<span class = 'spend'>"+spend+"</span>");
             }
+           
          });//getJSON
       })//move to prev
       $(".btn-next").click(function() {

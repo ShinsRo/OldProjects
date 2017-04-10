@@ -23,12 +23,10 @@ public class GetCalendarListController implements Controller {
       int year = Integer.parseInt(request.getParameter("year"));
       int month = Integer.parseInt(request.getParameter("month"));
       String monthStr = "";
-      if (month < 10)
-         monthStr = "0" + month;
-      else
-         monthStr = "" + month;
+      monthStr = (month < 10)? "0" + month: ""+month;
+ 
       String key = "key"+year+monthStr;
-
+      
       CalendarManager cm = CalendarManager.getInstance();
       cm.setCurrent(year, month);
       CalendarBean cb = cm.getCurrent();
