@@ -16,7 +16,7 @@
    var yearPos = ${requestScope.year};
    
    function toGraph() {
-	   location
+	   location.href = "${pageContext.request.contextPath}/graph.jsp?month="+monthPos;
 }
    $(document).ready(function(){
       $.getJSON("DispatcherServlet","command=getCalendarList&year="+yearPos+"&month="+monthPos, function(data) {
