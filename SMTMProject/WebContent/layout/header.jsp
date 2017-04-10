@@ -30,7 +30,7 @@
 			<a href="">${sessionScope.mvo.name}님 가계부</a>
 		
 			<a href="../account/list.jsp">List</a>
-			<a href="${pageContext.request.contextPath}/graph.jsp">Graph</a>
+<%-- 			<a href="${pageContext.request.contextPath}/graph.jsp">Graph</a> --%>
 			<a href="../DispatcherServlet?command=getCurrent&go=calendar">Calendar</a>
 			<a href="javascript:logout()" class="selected">Logout</a>
 		

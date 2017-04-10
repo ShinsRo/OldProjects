@@ -15,6 +15,9 @@
    var monthPos = ${requestScope.month};
    var yearPos = ${requestScope.year};
    
+   function toGraph() {
+	   location
+}
    $(document).ready(function(){
       $.getJSON("DispatcherServlet","command=getCalendarList&year="+yearPos+"&month="+monthPos, function(data) {
          //alert("월 : " + data.month + " 마지막 날짜 : " + data.lastDayOfMonth + " 시작 요일 : " + data.firstDayOfMonth);
@@ -108,10 +111,17 @@
       });
       $("#calendar-body").on("click", "td", function(){
             //alert($(this).children("#dayPos").text());
-            location.href = "${pageContext.request.contextPath}/account/detail.jsp?&today="+
-                  yearPos+"/0"+
-                  monthPos+"/0"+                  
-                  $(this).children("#dayPos").text();
+            var dayPos = $(this).children("#dayPos").text();
+            if(monthPos < 10){
+            	monthPos = "0"+monthPos;
+            }
+            if(dayPos < 10){
+            	dayPos = "0" + dayPos;
+            }
+            	location.href = "${pageContext.request.contextPath}/account/detail.jsp?&today="+
+                yearPos+"/"+
+                monthPos+"/"+                  
+                dayPos;
       });
    });//ready
    </script>
@@ -127,9 +137,9 @@
 
             <a class="btn-prev fontawesome-angle-left"></a>
             <a class="btn-next fontawesome-angle-right"></a>
-
+			
          </header>
-         
+         <a href="" id = "toGraphBtn" onclick = "toGraph()">Graph</a>
          <table>
          
             <thead>
