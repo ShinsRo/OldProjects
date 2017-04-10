@@ -46,8 +46,11 @@
                <a id="toGraphBtn" onclick="toGraph()"> <img
                   src="${pageContext.request.contextPath }/img/graph_icon.png"></a>
             </c:if>
+            <a href="javascript:modify()"> 
+            <img src="${pageContext.request.contextPath }/img/modify_icon.png"
+            style="width:24px; height:24px"></a>
             <a href="javascript:logout()" class="selected">Logout</a>
-            <a href="javascript:modify()">modify</a>
+            
          </nav>
       </c:if>
    </div>
