@@ -21,7 +21,7 @@ margin: 30px 10px 0px 0px;
   /*  font-size: 15px; 
    font: Arial, Helvetica, sans-serif; */
    }
-#textView{
+#textView,#balanceView{
 margin: 0px 0px 0px 10px;
 font-size: 13px; 
 font: Arial, Helvetica, sans-serif;
@@ -40,18 +40,26 @@ color: #5c616a;
    var monthArr = [0,"January","February","March", "April", "May", "June", "July", "August", "September", "October","November","December"];
    var monthPos = ${requestScope.month};
    var yearPos = ${requestScope.year};
+   var day;
+   
+   function isCurrMonth() {
+	alert(${requestScope.month== monthPos});	
+	return ${requestScope.month== monthPos};
+	}
    
    function toGraph() {
-      location.href = "${pageContext.request.contextPath}/graph.jsp?month="+monthPos;
-	}
+	      location.href = "${pageContext.request.contextPath}/graph.jsp?month="+monthPos
+	            +"&day="+day;
+	   }
+   
    $(document).ready(function(){
       $.getJSON("DispatcherServlet","command=getCalendarList&year="+yearPos+"&month="+monthPos, function(data) {
          //alert("월 : " + data.month + " 마지막 날짜 : " + data.lastDayOfMonth + " 시작 요일 : " + data.firstDayOfMonth);
          //alert("${sessionScope.mvo.total}"); //잔액
+         day = data.lastDayOfMonth;
          $("#balanceView").text("${sessionScope.mvo.total}");
-         
          var html = "<img class='imgColor' src='${pageContext.request.contextPath}/img/";
-          var span = "<span id = 'textView'>Your Condition</span>";
+          var span = "<span id = 'textView'>이번달의 당신의 지출현황</span>";
 	        if(data.ryb =="red"){
 	           $("#imgView").html(html+"red.png'>"+span);
 	        }else if(data.ryb == "yellow"){
@@ -65,6 +73,8 @@ color: #5c616a;
          for(var j = data.firstDayOfMonth-1; j >= 0 ; j--){
             $("#calendar-body td:eq("+j+")").html("");
          }
+         
+        
          for(var i = 1 ; i <= data.lastDayOfMonth; i ++){
             var income = 0;
             var spend = 0;
@@ -91,10 +101,16 @@ color: #5c616a;
             monthPos = 12;
             yearPos -= 1;
          }
+         if((${requestScope.month}-monthPos) == 0){
+        	 $("#conditionView").show();
+         }else{
+        	 $("#conditionView").hide();
+         }
          $.getJSON("DispatcherServlet","command=getCalendarList&year="+yearPos+"&month="+monthPos, function(data) {
             //alert("월 : " + data.month + " 마지막 날짜 : " + data.lastDayOfMonth + " 시작 요일 : " + data.firstDayOfMonth);
             $(".year").text(yearPos);
             $("#month").html(monthArr[data.month]);
+            $("#calendar-body td").text("");
             for(var j = data.firstDayOfMonth-1; j >= 0 ; j--){
                $("#calendar-body td:eq("+j+")").html("");
             }
@@ -125,10 +141,17 @@ color: #5c616a;
             monthPos = 1;
             yearPos += 1;
          }
+         
+         if((${requestScope.month}-monthPos) == 0){
+        	 $("#conditionView").show();
+         }else{
+        	 $("#conditionView").hide();
+         }
          $.getJSON("DispatcherServlet","command=getCalendarList&year="+yearPos+"&month="+monthPos, function(data) {
             //alert("월 : " + data.month + " 마지막 날짜 : " + data.lastDayOfMonth + " 시작 요일 : " + data.firstDayOfMonth);
             $(".year").text(yearPos);
             $("#month").html(monthArr[data.month]);
+            $("#calendar-body td").text("");
             for(var j = data.firstDayOfMonth-1; j >= 0 ; j--){
                $("#calendar-body td:eq("+j+")").html("");
             }
@@ -171,7 +194,7 @@ color: #5c616a;
 </jsp:include>
 <div id="front-padding">
 </div>
-<div>
+<div id = "conditionView">
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 <img class='rgb' src='${pageContext.request.contextPath}/img/red.png'>
@@ -188,11 +211,17 @@ color: #5c616a;
 <span style="font-weight:bold; font-size: 13px; color: #5c616a;
    font: Arial, Helvetica, sans-serif">Stable</span>
 <br>
-<div id ="imgView"></div>
-<div id = "balanceView">
-</div>
-</div>
+	<div id ="imgView"></div>
 
+<br><br>
+
+</div>
+<div>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+${sessionScope.mvo.name}님의 잔액
+<span  id = "balanceView"></span>
+</div>
    <div class="container">
          <div class = "year"></div>
       <div class="calendar">

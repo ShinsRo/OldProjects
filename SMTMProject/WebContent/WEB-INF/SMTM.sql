@@ -22,7 +22,7 @@ drop sequence account_seq;
 drop table account_book;
 drop table account_member;
 -- 기존에 account_book table존재해서 지우고 생성합시다
-insert into ACCOUNT_MEMBER(id,password,name,total,limit) values('java','1234','임소영',10000,10000)
+insert into ACCOUNT_MEMBER(id,password,name,total,limit) values('java','1234','임소영',10000,100000)
 
 insert into ACCOUNT_BOOK(no,today,detail,income,id) values(account_seq.nextval,sysdate,'월급 ',100000,'java'); --income
 insert into ACCOUNT_BOOK(no,today,detail,income,id) values(account_seq.nextval,sysdate,'용돈 ',100000,'java'); --income

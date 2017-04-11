@@ -39,6 +39,8 @@
 <input type = "hidden" name = "command" value = "update">
 <input type = "hidden" name = "no" value = "${param.no}">
 <input type = "hidden" name = "today" value = "${param.today}">
+<input type = "hidden" name = "beforeIncome" value = "${param.beforeIncome}">
+<input type = "hidden" name = "beforeSpend" value = "${param.beforeSpend}">
 <table>
 <div class = "wrap">
    	

@@ -1,14 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml">   
 <head>     
 <meta http-equiv="content-type" content="text/html; charset=utf-8"/>     
-<title>주간 입/출 내역 현황</title>    
+<title>주간 입/출 내역 현황</title> 
+  
+<style type="text/css">
+#title, #graphInfo, #chart_div{
+font-size: 13px;
+font-weight: bold;
+color: #5c616a;
+}
+</style> 
+
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>     
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">       
- google.load('visualization', '1', {packages: ['corechart']});     
+ google.load('visualization', '1', {packages: ['corechart']}); 
+
 </script> 
 <script type="text/javascript">      
 
@@ -21,7 +32,8 @@ chartdata.addRows(7);
 
 // week : 시작 요일 인덱스
 var week = 0;
-
+var day=${param.day};
+var data_length;
 var week_arr = ['일','월','화','수','목','금','토'];
 var month_arr = ['','1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
 
@@ -34,12 +46,18 @@ for(var i = 0;i<7;i++){
 var m = month_arr[${param.month}];
 
   $(document).ready(function(){
+
    $.ajax({
       type:"get",
       url:"${pageContext.request.contextPath}/DispatcherServlet",
       data:"command=graph&week=1",
       dataType:"json",
       success:function(data){
+            data_length=data.length;
+            if(day==30 && data_length==2 || day==31 && data_length==1)
+            $("#graphInfo").append("<option value="+6+">6주차</option>");
+               
+            // alert(data_length);
             // week : data.length 길이로 시작 요일 찾기
             // data.length가 1일 경우 1-1 = 0
             // 0일 경우 시작 요일 일(1주차 일요일 하나뿐)
@@ -76,7 +94,10 @@ var m = month_arr[${param.month}];
          // drawVisualization : 그래프 그리기 함수
          drawVisualization(chartdata,m);
       }
+      // $("#graphInfo").hide();
    });
+   /* if(last)
+       $("#graphInfo").append("<option value="+6+">6주차</option>"); */
    
    $("#graphInfo").change(function(){
       
@@ -95,6 +116,8 @@ var m = month_arr[${param.month}];
             data:"command=graph&week=1",
             dataType:"json",
             success:function(data){
+               data_length=data.length;
+               
                if(data.length == 1){
                          week = 0;
                 }else if(data.length == 0){
@@ -162,17 +185,23 @@ google.setOnLoadCallback(drawVisualization);
 
 </script>  
 </head>  
-<body>     
-주간 입/출 내역 현황
-<select id = "graphInfo">
+<body>  
+<jsp:include page="layout/header.jsp"/>
+<br>
+<center>
+<span id="title">
+주간 입/출 내역 현황</span>
+<select id = "graphInfo" style="font-size: 12px">
    <option value = "1">1주차</option>
    <option value = "2">2주차</option>
    <option value = "3">3주차</option>
    <option value = "4">4주차</option>
    <option value = "5">5주차</option>
-   <option value = "6">6주차</option>
+   <!-- <option value = "6">6주차</option> -->
+
 </select>
-<%-- <jsp:include page="/layout/chartHeader.jsp" /> --%>
-<div id="chart_div" style="width: 900px; height: 500px;"></div>   
+
+<div id="chart_div" style="width: 900px; height: 500px;"></div> 
+</center>  
 </body> 
 </html>

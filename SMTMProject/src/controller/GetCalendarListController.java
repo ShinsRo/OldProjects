@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
@@ -16,6 +17,7 @@ import model.CalendarBean;
 import model.CalendarManager;
 import model.DayVO;
 import model.MemberDAO;
+import model.MemberVO;
 
 public class GetCalendarListController implements Controller {
 
@@ -26,9 +28,16 @@ public class GetCalendarListController implements Controller {
       int year = Integer.parseInt(request.getParameter("year"));
       int month = Integer.parseInt(request.getParameter("month"));
       String monthStr = "";
+      
+      
+      
+      HttpSession session = request.getSession();
+      MemberVO mvo = (MemberVO) session.getAttribute("mvo");
+      
+      
       int currDay = GregorianCalendar.getInstance().get(Calendar.DAY_OF_MONTH);
       //--------------------------------------------
-      int limit = MemberDAO.getInstance().getInfo("java");//100000
+      int limit = MemberDAO.getInstance().getInfo(mvo.getId());//100000
       int total = 0;//1일부터 오늘까지의 총지출 변수
       String ryb = null;
       //total이랑 limit비교
@@ -43,7 +52,7 @@ public class GetCalendarListController implements Controller {
       cb.setRyb(ryb);
       
       HashMap<String, DayVO> map = new HashMap<String, DayVO>();
-      map = AccountDAO.getInstance().getAllDayList("java");
+      map = AccountDAO.getInstance().getAllDayList(mvo.getId());
       ArrayList<DayVO> list = new ArrayList<>(32);
       
       for(int i = 0 ; i<cb.getLastDayOfMonth()+1; i ++){

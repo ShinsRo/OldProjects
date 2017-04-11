@@ -119,7 +119,8 @@ body {
       $("#info").on("click","#updateBtn", function(){
 			//alert($(this).parent().siblings().eq(1).text());
 		
-			open("detail_update.jsp?no="+$(this).parent().siblings().eq(0).val()+"&today="+$(this).parent().siblings().eq(1).text(),"update","width=500,height=300,top=150,left=200");				
+			open("detail_update.jsp?no="+$(this).parent().siblings().eq(0).val()+"&today="+$(this).parent().siblings().eq(1).text()
+				+"&beforeIncome="+$(this).parent().siblings().eq(4).text()+"&beforeSpend="+$(this).parent().siblings().eq(5).text(),"update","width=500,height=300,top=150,left=200");				
 		});//update click  
       
       
