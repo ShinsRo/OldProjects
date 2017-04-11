@@ -37,25 +37,28 @@ color: #5c616a;
    
    <script src="//code.jquery.com/jquery.min.js"></script>
    <script type="text/javascript">
+   /*
+   2017.04.11 마지막 수정
+   Calendar.jsp
+   - 사용자에게 해당 월의 일별 지출/수입 내역을 출력하여 제공
+   - 달력 일을 클릭하면 일별 상세보기 창으로 이동
+   - 최초 진입(getCurrentController로부터 진입) 시 현재 일을 기준으로 달력을 보여줌
+   */
+   // monthPos : 현재 보여지는 월
    var monthArr = [0,"January","February","March", "April", "May", "June", "July", "August", "September", "October","November","December"];
    var monthPos = ${requestScope.month};
    var yearPos = ${requestScope.year};
+  
    var day;
-   
-   function isCurrMonth() {
-	alert(${requestScope.month== monthPos});	
-	return ${requestScope.month== monthPos};
-	}
-   
    function toGraph() {
 	      location.href = "${pageContext.request.contextPath}/graph.jsp?month="+monthPos
 	            +"&day="+day;
 	   }
    
+   //페이지 초기화
    $(document).ready(function(){
       $.getJSON("DispatcherServlet","command=getCalendarList&year="+yearPos+"&month="+monthPos, function(data) {
          //alert("월 : " + data.month + " 마지막 날짜 : " + data.lastDayOfMonth + " 시작 요일 : " + data.firstDayOfMonth);
-         //alert("${sessionScope.mvo.total}"); //잔액
          day = data.lastDayOfMonth;
          $("#balanceView").text("${sessionScope.mvo.total}");
          var html = "<img class='imgColor' src='${pageContext.request.contextPath}/img/";

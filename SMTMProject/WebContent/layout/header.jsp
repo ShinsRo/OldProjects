@@ -40,7 +40,7 @@
             <a href="">${sessionScope.mvo.name}님 가계부</a> <a
                href="${pageContext.request.contextPath}/account/list.jsp"><img
                src="${pageContext.request.contextPath }/img/list_icon.png"></a>
-            <a href="../DispatcherServlet?command=getCurrent&go=calendar"> <img
+            <a href="${pageContext.request.contextPath}/DispatcherServlet?command=getCurrent&go=calendar"> <img
                src="${pageContext.request.contextPath }/img/calendar_icon.png"></a>
           <c:if test="${param.nowPage == 'calendar'}">
                <a id="toGraphBtn" onclick="toGraph()"> <img
