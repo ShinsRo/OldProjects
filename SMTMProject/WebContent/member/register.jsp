@@ -56,6 +56,10 @@ function checkId() {
       <div class="bar">
          <i></i>
       </div>
+      <input type="text" name="total" placeholder="소유중이신 금액을 입력하세요." required>
+      <div class="bar">
+          <i></i>
+      </div>
       <input type="text" name="limit" placeholder="기준치를 입력하세요." id="lowerRound" required>
       <br>
       <input type="submit" id = "registerBtn" style ="HEIGHT: 35pt" value="회원가입">
