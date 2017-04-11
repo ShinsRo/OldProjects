@@ -29,7 +29,7 @@ public class GetCalendarListController implements Controller {
       int currDay = GregorianCalendar.getInstance().get(Calendar.DAY_OF_MONTH);
       //--------------------------------------------
       int limit = MemberDAO.getInstance().getInfo("java");//100000
-      int total = 0;
+      int total = 0;//1일부터 오늘까지의 총지출 변수
       String ryb = null;
       //total이랑 limit비교
       //rvb = r/y/b
