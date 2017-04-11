@@ -43,11 +43,14 @@ color: #5c616a;
    
    function toGraph() {
       location.href = "${pageContext.request.contextPath}/graph.jsp?month="+monthPos;
-}
+	}
    $(document).ready(function(){
       $.getJSON("DispatcherServlet","command=getCalendarList&year="+yearPos+"&month="+monthPos, function(data) {
          //alert("월 : " + data.month + " 마지막 날짜 : " + data.lastDayOfMonth + " 시작 요일 : " + data.firstDayOfMonth);
-          var html = "<img class='imgColor' src='${pageContext.request.contextPath}/img/";
+         //alert("${sessionScope.mvo.total}"); //잔액
+         $("#balanceView").text("${sessionScope.mvo.total}");
+         
+         var html = "<img class='imgColor' src='${pageContext.request.contextPath}/img/";
           var span = "<span id = 'textView'>Your Condition</span>";
 	        if(data.ryb =="red"){
 	           $("#imgView").html(html+"red.png'>"+span);
@@ -186,7 +189,8 @@ color: #5c616a;
    font: Arial, Helvetica, sans-serif">Stable</span>
 <br>
 <div id ="imgView"></div>
-
+<div id = "balanceView">
+</div>
 </div>
 
    <div class="container">

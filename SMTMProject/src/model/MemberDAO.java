@@ -41,7 +41,7 @@ public class MemberDAO {
       ResultSet rs=null;    
       try{
          con = getConnection();
-         String sql = "select name, limit from account_member where id=? and password=?";
+         String sql = "select name, limit, total from account_member where id=? and password=?";
          pstmt = con.prepareStatement(sql);
          pstmt.setString(1, id);
          pstmt.setString(2, password);
@@ -51,7 +51,7 @@ public class MemberDAO {
             vo.setId(id);
             vo.setLimit(rs.getInt("limit"));
             vo.setName(rs.getString("name"));
-            vo.setTotal(0);//여기서 해줘야하나..?
+            vo.setTotal(rs.getInt("total"));//여기서 해줘야하나..?
             vo.setPassword(password);
          }
       }finally{
@@ -66,13 +66,14 @@ public class MemberDAO {
       PreparedStatement pstmt=null;
       try{
          con=getConnection();
-         String sql="insert into account_member(id,password,name,total)"
-               + " values(?,?,?,0)";
+         String sql="insert into account_member(id,password,name,total,limit)"
+               + " values(?,?,?,?,?)";
          pstmt=con.prepareStatement(sql);
          pstmt.setString(1, vo.getId());
          pstmt.setString(2, vo.getPassword());
          pstmt.setString(3, vo.getName());
-         
+         pstmt.setInt(4, vo.getTotal());
+         pstmt.setInt(5, vo.getLimit());
          pstmt.executeQuery();
       }finally{
          closeAll(pstmt, con);
@@ -126,12 +127,13 @@ public class MemberDAO {
       try{
          con=getConnection();
          String sql=
-            "update account_member set password=?,name=?,limit=? where id=?";
+            "update account_member set password=?,name=?,limit=?,total=? where id=?";
          pstmt=con.prepareStatement(sql);         
          pstmt.setString(1, vo.getPassword());
          pstmt.setString(2, vo.getName());
          pstmt.setInt(3, vo.getLimit());
-         pstmt.setString(4, vo.getId());
+         pstmt.setInt(4, vo.getTotal());
+         pstmt.setString(5, vo.getId());
 /*         pstmt.setString(2, vo.getName());*/
          pstmt.executeUpdate();         
       }finally{
