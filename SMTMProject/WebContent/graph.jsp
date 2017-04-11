@@ -1,15 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
-<html xmlns="http://www.w3.org/1999/xhtml">   
-<head>     
-<meta http-equiv="content-type" content="text/html; charset=utf-8"/>     
-<title>주간 입/출 내역 현황</title>    
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>     
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>주간 입/출 내역 현황</title>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">       
  google.load('visualization', '1', {packages: ['corechart']});     
-</script> 
+</script>
 <script type="text/javascript">      
 
 //chartdata : 그래프 초기 설정 정보
@@ -42,7 +42,12 @@ var m = "그래프 월 이름 정보";
 				// week : data.length 길이로 시작 요일 찾기
 				// data.length가 1일 경우 1-1 = 0
 				// 0일 경우 시작 요일 일(1주차 일요일 하나뿐)
-				week = data.length-1;
+				//week = data.length-1;
+			  if(data.length == 1){
+	               week = 0;
+	            }else{
+	               week = 8- data.length;
+	            }
 			for(var i=0;i<data.length;i++){
 				/*		
 						data[i].today.substring(data[i].today.length-2,data[i].today.length);
@@ -54,7 +59,7 @@ var m = "그래프 월 이름 정보";
 				*/
 				
 				// 요일 이름 설정
-				alert(data.
+				
 				chartdata.setCell(i, 0, week_arr[week]+"("+data[i].today.substring(data[i].today.length-2,data[i].today.length)+")"); 
 				// 수입
 				chartdata.setCell(week,1,data[i].totalIncome);
@@ -85,7 +90,12 @@ var m = "그래프 월 이름 정보";
 				data:"command=graph&week=1",
 				dataType:"json",
 				success:function(data){
-					week = data.length-1;
+					//week = data.length-1;
+					  if(data.length == 1){
+			               week = 0;
+			            }else{
+			               week = 8- data.length;
+			            }
 					for(var i=0;i<data.length;i++){
 						chartdata.setCell(week, 0, week_arr[week]+"("+data[i].today.substring(data[i].today.length-2,data[i].today.length)+")"); 
 						chartdata.setCell(week,1,data[i].totalIncome);
@@ -139,19 +149,19 @@ function drawVisualization(chartdata,m) {
 }
 
 google.setOnLoadCallback(drawVisualization);
-</script>  
-</head>  
-<body>     
-주간 입/출 내역 현황
-<select id = "graphInfo">
-	<option value = "1">1주차</option>
-	<option value = "2">2주차</option>
-	<option value = "3">3주차</option>
-	<option value = "4">4주차</option>
-	<option value = "5">5주차</option>
-	<option value = "6">6주차</option>
-</select>
-<%-- <jsp:include page="/layout/chartHeader.jsp" /> --%>
-<div id="chart_div" style="width: 900px; height: 500px;"></div>   
-</body> 
+</script>
+</head>
+<body>
+	주간 입/출 내역 현황
+	<select id="graphInfo">
+		<option value="1">1주차</option>
+		<option value="2">2주차</option>
+		<option value="3">3주차</option>
+		<option value="4">4주차</option>
+		<option value="5">5주차</option>
+		<option value="6">6주차</option>
+	</select>
+	<%-- <jsp:include page="/layout/chartHeader.jsp" /> --%>
+	<div id="chart_div" style="width: 900px; height: 500px;"></div>
+</body>
 </html>
