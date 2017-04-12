@@ -36,7 +36,7 @@ var day=${param.day};
 var data_length;
 var week_arr = ['일','월','화','수','목','금','토'];
 var month_arr = ['','1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
-
+var wi = 5;
 // 차트 데이터 초기 설정 일,월,화,수,목,금,토
 for(var i = 0;i<7;i++){
    chartdata.setCell(i,0,week_arr[i]);
@@ -46,6 +46,9 @@ for(var i = 0;i<7;i++){
 var m = month_arr[${param.month}];
 
   $(document).ready(function(){
+	  $("#MonthGraph").click(function(){
+          location.href = "monthGraph.jsp?wi="+wi; 
+        });
 
    $.ajax({
       type:"get",
@@ -56,7 +59,7 @@ var m = month_arr[${param.month}];
             data_length=data.length;
             if(day==30 && data_length==2 || day==31 && data_length==1)
             $("#graphInfo").append("<option value="+6+">6주차</option>");
-               
+               wi = 6;
             // alert(data_length);
             // week : data.length 길이로 시작 요일 찾기
             // data.length가 1일 경우 1-1 = 0
@@ -200,7 +203,7 @@ google.setOnLoadCallback(drawVisualization);
    <!-- <option value = "6">6주차</option> -->
 
 </select>
-
+<input type = "button" id = "MonthGraph" value = "월간그래프"></input>
 <div id="chart_div" style="width: 900px; height: 500px;"></div> 
 </center>  
 </body> 
