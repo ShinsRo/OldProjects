@@ -33,12 +33,12 @@
 </head>
 <body>
    <jsp:include page="/layout/header.jsp" />
-   <div class="container">
-      <div class="row">
+   <div class="container" align="center">
+      <div class="row"  >
 
 
-         <div class="table-responsive col-md-12">
-            <table class="table table-striped table-hover">
+         <div class="table-responsive col-md-12" >
+            <table class="table table-striped table-hover" >
                <thead>
                   <tr>
                      <th class="no">NO</th>
@@ -66,8 +66,6 @@
             </table>
          </div>
          
-         
-
       <p class = "paging">
             <c:if
                test="${requestScope.listVO.pagingBean.previousPageGroup ==true}">

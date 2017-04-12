@@ -32,33 +32,45 @@ function cancel(){
 </script>
 </head>
 <body>
-<%-- <jsp:include page="/board/board.jsp" /> --%>
+<jsp:include page="/layout/header.jsp" />
  <br>
   <form action="${pageContext.request.contextPath}/DispatcherServlet" method="post" name="write_form">  
    <input type="hidden" name="command" value="boardWrite"> 
-   <table class="inputForm" >
-    <caption>글쓰기</caption>
+   <table class="inputForm" align="center">
     <tbody>
-    <tr>
-     <td>제목</td>
+<!--     <tr>
+     <td>TITLE</td>
      <td colspan="3">
      <input type="text" name="title" size="48" >
      </td>
-    </tr>
-   
-    <tr>
+    </tr> -->
+   <div class="container">
+   <div class="form-group">
+      <label for="inputdefault">TITLE</label>
+      <input class="form-control" id="inputdefault" type="text" name="title">
+    </div>
+    </div>
+    
+<!--     <tr>
      <td colspan="4" align="left">
      &nbsp;&nbsp;
      <textarea cols="53" rows="15" name="content"></textarea>
      </td>
-    </tr> 
+    </tr>  -->
+    <div class="container">
+    <div class="form-group">
+      <label for="comment">COMMENT</label>
+      <textarea class="form-control" rows="5" id="comment" name="content"></textarea>
+    </div> 
+    </div>
+    
     <tr>
      <td colspan="4" align="center" >
         <button type="button" class="btn btn-primary" onclick="content_submit()">글쓰기</button>
          <button type="button" class="btn btn-primary" onclick="cancel()">취소</button>
-       
      </td>  
     </tr>
+    
     </tbody>
    </table>
   </form>
