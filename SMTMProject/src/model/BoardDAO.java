@@ -35,7 +35,7 @@ public class BoardDAO {
 	      return DriverManager.getConnection(url, user, password);
 	   }
 	   
-	   public ArrayList<BoardVO> getAllListByPageNO(int pageNO, int boardSize) throws SQLException{
+	   public ArrayList<BoardVO> getAllList(PagingBean p) throws SQLException{
 		   ArrayList<BoardVO> list = new ArrayList<>();
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -50,20 +50,20 @@ public class BoardDAO {
 				sql.append(") A where rnum between ? and ?");
 
 				pstmt = con.prepareStatement(sql.toString());
-				pstmt.setInt(1, (pageNO-1)*boardSize+1);
-				pstmt.setInt(2, pageNO*boardSize);
+				pstmt.setInt(1, p.getStartRowNumber());
+				pstmt.setInt(2, p.getEndRowNumber());
 				rs = pstmt.executeQuery();
 				while (rs.next()){
 					list.add(new BoardVO(rs.getInt(1), rs.getString(2),
 							null, rs.getString(3), rs.getString(4), null));
 				}
 			} finally {
-				closeAll(rs, pstmt, con);;
+				closeAll(rs, pstmt, con);
 			}
 			return list;
 		}
 	   
-	   public BoardVO getDetail(int no) throws SQLException{
+	   public BoardVO getDetail(int boardNO) throws SQLException{
 			BoardVO vo = null;
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -75,7 +75,7 @@ public class BoardDAO {
 						+ "to_char(time_posted, 'YYYY/MM/DD HH24:MI:SS') " 
 						+ "from free_board where no=?";
 				pstmt = con.prepareStatement(sql);
-				pstmt.setInt(1, no);
+				pstmt.setInt(1, boardNO);
 				rs = pstmt.executeQuery();
 				if (rs.next())
 					vo = new BoardVO(rs.getInt(1),
@@ -100,7 +100,80 @@ public class BoardDAO {
 			}
 			return vo;
 	   }
-	   
+		public void insert(BoardVO vo) throws SQLException{
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			
+			try {
+				con = getConnection();
+				String sql = "insert into free_board(board_no, title, id, content, time_posted) "
+						+ "values(board_seq.nextval,?,?,?,sysdate)";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, vo.getTitle());
+				pstmt.setString(2, vo.getId());
+				pstmt.setString(3, vo.getContent());
+				pstmt.executeUpdate();
+			}finally {
+				closeAll(pstmt, con);
+			}
+			return ;
+		}
+		public int nextSeq() throws SQLException{
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			int no = -1;
+			try {
+				con = getConnection();
+				String sql = "select board_seq.nextval from dual";
+				pstmt = con.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				if(rs.next())
+					no = rs.getInt(1);
+			}finally {
+				closeAll(rs, pstmt, con);
+			}
+			return no;
+		}
+		public void delete(int boardNO) throws SQLException {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			
+			try {
+				con = getConnection();
+				String sql = "delete from board_comment where board_no =?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, boardNO);
+				pstmt.executeUpdate();
+				
+				closeAll(pstmt, null);
+				
+				sql = "delete from free_board where no=?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, boardNO);
+				pstmt.executeUpdate();
+			} finally {
+				closeAll(pstmt, con);
+			}
+			return;
+		}
+		  public int getTotalContents() throws SQLException {
+		      Connection con=null;
+		      PreparedStatement pstmt=null;
+		      ResultSet rs=null;
+		      int count=0;
+		      try{
+		         con=getConnection();
+		         String sql="select count(*) from free_board";
+		         pstmt=con.prepareStatement(sql);
+		         rs=pstmt.executeQuery();
+		         if(rs.next())
+		            count=rs.getInt(1);
+		      }finally {
+		         closeAll(rs, pstmt, con);
+		      }
+		      return count;
+		   }
 	   public void closeAll(PreparedStatement pstmt, Connection con) throws SQLException {
 		      closeAll(null, pstmt, con);
 		   }

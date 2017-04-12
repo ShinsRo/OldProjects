@@ -61,13 +61,16 @@ insert into free_board(board_no, title, id, content, time_posted)
 select * from free_board;
 select board_no, title, id, content, time_posted 
 	from free_board where board_no = 1;
-	
+
+delete from free_board where board_no=1;
 -- 댓글 인서트 테스트
 insert into board_comment(com_no, content, depth, id, board_no)
 	values(com_seq.nextval, 'comment_test1', 0, 'java', 1);
 insert into board_comment(com_no, content, depth, id, board_no, parrent_com_no)
 	values(com_seq.nextval, 'comment_test1', 1, 'java', 1,1);
--- 셀렉트
+	
+delete from board_comment where board_no = 1;
+-- 댓글 셀렉트
 select * from board_comment;
 -- boardDAO SQL test
 select A.* from (select row_number() over(order by board_no desc) as rnum,
