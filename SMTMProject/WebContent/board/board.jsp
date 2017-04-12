@@ -49,8 +49,8 @@
                <tbody>
                   <c:forEach var="bvo" items="${requestScope.listVO.list}">
                      <tr>
-                        <td><a href = "${pageContext.request.contextPath}/DispatcherServlet?command=boardDetail&boardNO=${bvo.boardNO }">${bvo.boardNO }</a></td>
-                        <td>${bvo.title }</td>
+                        <td>${bvo.boardNO }</td>
+                        <td><a href = "${pageContext.request.contextPath}/DispatcherServlet?command=boardDetail&boardNO=${bvo.boardNO }">${bvo.title }</a></td>
                         <td>${bvo.id}</td>
                         <td>${bvo.timePosted }</td>
                      </tr>
