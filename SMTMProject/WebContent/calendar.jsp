@@ -231,8 +231,9 @@ color: #5c616a;
 <div>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-<font style="font-size: 13px; font: Arial, Helvetica, sans-serif;
-font-weight: bold; color: #5c616a;">${sessionScope.mvo.name}님의 잔액</font>
+<img class='rgb'
+         src='${pageContext.request.contextPath}/img/wallet.png'> <span
+         id="name"><u>${sessionScope.mvo.name}님의 잔액</u></span>
 <span  id = "balanceView"></span>
 </div>
    <div class="container">
