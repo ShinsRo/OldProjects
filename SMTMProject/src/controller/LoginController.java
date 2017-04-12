@@ -9,18 +9,22 @@ import model.MemberVO;
 
 public class LoginController implements Controller {
 
-	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String id=request.getParameter("id");
-		String password=request.getParameter("password");
+		String id = request.getParameter("id");
+		String password = request.getParameter("password");
 		MemberVO vo = MemberDAO.getInstance().login(id, password);
+		HttpSession session = request.getSession();
 		String path = "";
-		if(vo!=null){
-			HttpSession session=request.getSession();
-			session.setAttribute("mvo", vo);
-			path = "redirect:member/login_result.jsp";
-		}else{
+		if (vo != null) {
+			if (vo.getAuthority() == 1) {
+				session.setAttribute("administrator", vo);
+				path = "redirect:member/admin.jsp";// 1이면 관리자
+			} else {
+				session.setAttribute("mvo", vo);
+				path = "redirect:member/login_result.jsp";
+			}
+		} else {
 			path = "redirect:member/login_fail.jsp";
 		}
 		return path;

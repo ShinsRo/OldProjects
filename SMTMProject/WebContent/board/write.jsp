@@ -5,8 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>게시글쓰기</title>
-<link rel="stylesheet" type="text/css" 
-href="${pageContext.request.contextPath}/css/board.css">
+
+<link
+   href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+   rel="stylesheet" id="bootstrap-css">
 <script type="text/javascript">
 function content_submit(){
    var f=document.write_form;
@@ -15,11 +17,7 @@ function content_submit(){
       f.title.focus();
       return; 
    }
-   if(f.writer.value==""){
-      alert("이름을 입력하세요!");
-      f.writer.focus();
-      return;
-   }
+  
    if(f.content.value==""){
       alert("내용을 입력하세요!");
       f.content.focus();
@@ -47,10 +45,7 @@ function cancel(){
      <input type="text" name="title" size="48" >
      </td>
     </tr>
-    <tr>
-     <td>이름</td>
-     <td><input type="text" name="id" size="20" ></td>
-    </tr>
+   
     <tr>
      <td colspan="4" align="left">
      &nbsp;&nbsp;
@@ -59,8 +54,9 @@ function cancel(){
     </tr> 
     <tr>
      <td colspan="4" align="center" >
-      <img class="action" src="${pageContext.request.contextPath}/img/write_btn.jpg" alt="글입력"  onclick="content_submit()">
-      <img class="action" src="${pageContext.request.contextPath}/img/cancel.gif" onclick="cancel()">      
+        <button type="button" class="btn btn-primary" onclick="content_submit()">글쓰기</button>
+         <button type="button" class="btn btn-primary" onclick="cancel()">취소</button>
+       
      </td>  
     </tr>
     </tbody>

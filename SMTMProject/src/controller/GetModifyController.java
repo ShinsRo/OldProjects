@@ -24,7 +24,9 @@ public class GetModifyController implements Controller {
       vo.setId(id);
       vo.setName(name);
       vo.setLimit(limit);
+      MemberVO totalVO = (MemberVO) session.getAttribute("mvo");
       
+      vo.setTotal(totalVO.getTotal());
       
       //System.out.println("vo"+ vo.toString());
       session.setAttribute("mvo", vo);

@@ -189,7 +189,7 @@ public class BoardDAO {
 		      }
 		      return count;
 		   }
-			public void update(int boardNO, String title, String content) throws SQLException {
+			public void boardUpdate(int boardNO, String title, String content) throws SQLException {
 				Connection con = null;
 				PreparedStatement pstmt = null;
 				ResultSet rs = null;

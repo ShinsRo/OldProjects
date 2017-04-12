@@ -38,16 +38,14 @@
 
 
                <tr>
-                  <td valign="middle" align="center" colspan="3"><img
-                     class="action"
-                     src="${pageContext.request.contextPath}/img/list_btn.jpg"
-                     onclick="sendList()"> <c:choose>
+                  <td valign="middle" align="center" colspan="3">
+                  <button type="button" class="btn btn-primary" onclick="sendList()">목록</button>
+                  <c:choose>
                         <c:when
                            test="${sessionScope.mvo!=null&&sessionScope.mvo.id == requestScope.bvo.id}">
-                           <img class="action" onclick="winOpen('delete')"
-                              src="${pageContext.request.contextPath}/img/delete_btn.jpg">
-                           <img class="action" onclick="winOpen('update')"
-                              src="${pageContext.request.contextPath}/img/modify_btn.jpg"></td>
+                           <button type="button" class="btn btn-primary" onclick="winOpen('delete')">삭제</button>
+                           <button type="button" class="btn btn-primary" onclick="winOpen('update')">수정</button>
+                           
                   </c:when>
                   </c:choose>
                </tr>

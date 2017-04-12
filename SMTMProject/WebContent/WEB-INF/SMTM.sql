@@ -73,6 +73,8 @@ insert into board_comment(com_no, content, depth, id, board_no, parrent_com_no)
 delete from board_comment where board_no = 1;
 -- 댓글 셀렉트
 select * from board_comment;
+-- 회원 셀렉트
+select * from ACCOUNT_MEMBER;
 -- boardDAO SQL test
 select A.* from (select row_number() over(order by board_no desc) as rnum,
 board_no, title, to_char(time_posted, 'YY.MM.DD') as time_posted, id 
@@ -85,7 +87,7 @@ from free_board) A where rnum between 1 and 5
 		from board_comment where board_no = 1;
 -- 기존에 account_book table존재해서 지우고 생성합시다
 insert into ACCOUNT_MEMBER(id,password,name,total,limit, authority) values('java','1234','임소영',10000,100000, 0)
-
+insert into ACCOUNT_MEMBER(id,password,name,total,limit, authority) values('admin','1234','admin',10000,100000, 1)
 insert into ACCOUNT_BOOK(no,today,detail,income,id) values(account_seq.nextval,sysdate,'월급 ',100000,'java'); --income
 insert into ACCOUNT_BOOK(no,today,detail,income,id) values(account_seq.nextval,sysdate,'용돈 ',100000,'java'); --income
 

@@ -138,20 +138,20 @@ public class MemberDAO {
 		PreparedStatement pstmt = null;
 		try {
 			con = getConnection();
-			String sql = "update account_member set password=?,name=?,limit=?,total=? where id=?";
+			String sql = "update account_member set password=?,name=?,limit=? where id=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, vo.getPassword());
 			pstmt.setString(2, vo.getName());
 			pstmt.setInt(3, vo.getLimit());
-			pstmt.setInt(4, vo.getTotal());
-			pstmt.setString(5, vo.getId());
+
+			pstmt.setString(4, vo.getId());
 			/* pstmt.setString(2, vo.getName()); */
 			pstmt.executeUpdate();
 		} finally {
 			closeAll(pstmt, con);
 		}
 	}
-	
+
 	// 권한 부여/해제 위한 memberList(admin.jsp에서 table로 뿌려줌)
 	public ArrayList<MemberVO> getAllMemberList() throws SQLException {
 		Connection con = null;
@@ -177,12 +177,12 @@ public class MemberDAO {
 	public void updateAuthority(int authoNum, String id) throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String sql =null;
+		String sql = null;
 		try {
 			con = getConnection();
-			if (authoNum == 1) 
+			if (authoNum == 1)
 				sql = "update account_member set authority=0 where id=?";
-			 else if (authoNum == 0) 
+			else if (authoNum == 0)
 				sql = "update account_member set authority=1 where id=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);

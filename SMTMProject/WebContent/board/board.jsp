@@ -15,7 +15,9 @@
    $(document).ready(function(){
       
    });
-
+   function toWrite(){
+      location.href = "${pageContext.request.contextPath}/board/write.jsp";
+   }
 </script>
 <style type="text/css">
    p.paging{
@@ -93,9 +95,9 @@
                   href="${pageContext.request.contextPath}/DispatcherServlet?command=board&nowPage=${requestScope.listVO.pagingBean.endPageOfPageGroup+1}">▶</a>
             </c:if>
          
-   </p>
+            </p>
          
-            
+            <button type="button" class="btn btn-primary" onclick = "toWrite()">글쓰기</button>
          </div>
       </div>
    </div>
