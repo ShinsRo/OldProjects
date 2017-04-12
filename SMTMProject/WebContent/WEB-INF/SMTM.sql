@@ -4,7 +4,8 @@ create table account_member(
    password varchar2(50) not null,
    name varchar2(50) not null,
    total number default 0,
-   limit number default 0
+   limit number default 0,
+   authority number default 0
 );
 -- 가계부 테이블
 create table account_book(
@@ -83,7 +84,7 @@ from free_board) A where rnum between 1 and 5
 	select com_no, content, depth, id, parrent_com_no 
 		from board_comment where board_no = 1;
 -- 기존에 account_book table존재해서 지우고 생성합시다
-insert into ACCOUNT_MEMBER(id,password,name,total,limit) values('java','1234','임소영',10000,100000)
+insert into ACCOUNT_MEMBER(id,password,name,total,limit, authority) values('java','1234','임소영',10000,100000, 0)
 
 insert into ACCOUNT_BOOK(no,today,detail,income,id) values(account_seq.nextval,sysdate,'월급 ',100000,'java'); --income
 insert into ACCOUNT_BOOK(no,today,detail,income,id) values(account_seq.nextval,sysdate,'용돈 ',100000,'java'); --income

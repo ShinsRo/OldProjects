@@ -42,6 +42,16 @@ public class HandlerMapping {
 			c = new GetModifyController();
 		} else if (command.equals("monthGraph")) {
 			c = new GetMonthGraphController();
+		} else if (command.equals("boardWrite")) {
+			c = new WriteController();
+		} else if (command.equals("board")) {
+			c = new BoardController();
+		} else if (command.equals("boardDetail")) {
+			c = new BoardDetailController();
+		} else if (command.equals("authority")) {
+			c = new AuthorityController();
+		} else if (command.equals("setAuthority")) {
+			c = new SetAuthorityController();
 		}
 		return c;
 	}
