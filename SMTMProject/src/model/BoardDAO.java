@@ -35,7 +35,7 @@ public class BoardDAO {
 	      return DriverManager.getConnection(url, user, password);
 	   }
 	   
-	   ArrayList<BoardVO> getAllListByPageNO(int pageNO, int boardSize) throws SQLException{
+	   public ArrayList<BoardVO> getAllListByPageNO(int pageNO, int boardSize) throws SQLException{
 		   ArrayList<BoardVO> list = new ArrayList<>();
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -44,7 +44,7 @@ public class BoardDAO {
 				con = getConnection();
 				StringBuilder sql = new StringBuilder();
 				sql.append("select A.* from (");
-				sql.append("select row_number() over(order by no desc) as rnum,");
+				sql.append("select row_number() over(order by board_no desc) as rnum,");
 				sql.append("board_no, title, to_char(time_posted, 'YY.MM.DD') as time_posted, id ");
 				sql.append("from free_board");
 				sql.append(") A where rnum between ? and ?");
@@ -63,7 +63,7 @@ public class BoardDAO {
 			return list;
 		}
 	   
-	   BoardVO getDetail(int no) throws SQLException{
+	   public BoardVO getDetail(int no) throws SQLException{
 			BoardVO vo = null;
 			Connection con = null;
 			PreparedStatement pstmt = null;

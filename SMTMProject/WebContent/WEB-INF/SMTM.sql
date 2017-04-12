@@ -1,3 +1,4 @@
+--회원 테이블
 create table account_member(
    id varchar2(50) primary key,
    password varchar2(50) not null,
@@ -5,7 +6,7 @@ create table account_member(
    total number default 0,
    limit number default 0
 );
-
+-- 가계부 테이블
 create table account_book(
    no varchar2(50) primary key,
    today date not null,
@@ -15,12 +16,69 @@ create table account_book(
    id varchar2(50) not null,
    constraint fk_id_account foreign key(id) references account_member(id)
 );
+-- 자유상담게시판 테이블
+create table free_board(
+	board_no number primary key,
+   title varchar2(50) not null,
+   id varchar2(50),
+   content clob,
+	time_posted date not null,
+   constraint fk_id_board foreign key(id) references account_member(id)
+);
+--자유상담게시판 댓글 테이블
+create table board_comment(
+  com_no number primary key,
+   content varchar2(1000) not null,
+   depth number default 0,
+   id varchar2(50) not null,
+   parrent_com_no number default 0,
+   board_no number,
+   constraint fk_id_comment foreign key(id) references account_member(id),
+   constraint fk_no_board foreign key(board_no) references free_board(board_no)
+);
 
+-- 게시판 시리얼 넘버, 코멘트 시리얼 넘버 시퀸스
+drop sequence board_seq;
+create sequence board_seq;
+drop sequence com_seq;
+create sequence com_seq;
 
+-- 멤버, 가계부 시리얼 넘버 시퀸스
 create sequence account_seq;
 drop sequence account_seq;
+
+-- drop
+drop table board_comment;
+drop table free_board;
 drop table account_book;
 drop table account_member;
+
+-- 게시글 테스트 인서트
+insert into free_board(board_no, title, id, content, time_posted)
+	values(board_seq.nextval, 'test1', 'java', 'content1', sysdate);
+
+-- 게시글 셀렉트
+select * from free_board;
+select board_no, title, id, content, time_posted 
+	from free_board where board_no = 1;
+	
+-- 댓글 인서트 테스트
+insert into board_comment(com_no, content, depth, id, board_no)
+	values(com_seq.nextval, 'comment_test1', 0, 'java', 1);
+insert into board_comment(com_no, content, depth, id, board_no, parrent_com_no)
+	values(com_seq.nextval, 'comment_test1', 1, 'java', 1,1);
+-- 셀렉트
+select * from board_comment;
+-- boardDAO SQL test
+select A.* from (select row_number() over(order by board_no desc) as rnum,
+board_no, title, to_char(time_posted, 'YY.MM.DD') as time_posted, id 
+from free_board) A where rnum between 1 and 5
+	-- getDetail
+	select board_no, title, id, content,
+		to_char(time_posted, 'YYYY/MM/DD HH24:MI:SS')
+		from free_board where board_no=1
+	select com_no, content, depth, id, parrent_com_no 
+		from board_comment where board_no = 1;
 -- 기존에 account_book table존재해서 지우고 생성합시다
 insert into ACCOUNT_MEMBER(id,password,name,total,limit) values('java','1234','임소영',10000,100000)
 
