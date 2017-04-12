@@ -54,7 +54,16 @@ function winOpen(kind){
                </tr>
                <c:forEach items ="${requestScope.bvo.commentList }" var = "com" >
                		<tr>
-               		<td colspan = "2">comment : ${com.content }</td><td>${com.id }</td>
+               		<td colspan = "2">comment : ${com.content }</td><td>
+               		<form method = "post" action="${pageContext.request.contextPath}/DispatcherServlet?command=deleteComment">
+               		${com.id }
+               		<input type = "hidden" name = "comNO" value = "${com.comNO }">
+               		<c:if test="${sessionScope.mvo.id  == com.id }">	
+               		<input type = "hidden" name = "boardNO" value = "${requestScope.bvo.boardNO }">
+               		<button class= "btn btn-success"><font size = "1">삭제</font></button>
+               		</c:if>
+               		</form>
+               		</td>
                		</tr>
                </c:forEach>
             </table>
@@ -65,7 +74,7 @@ function winOpen(kind){
                <div class="status-upload">
                   <form method= "post" action ="${pageContext.request.contextPath}/DispatcherServlet?command=insertComment&board_no=${requestScope.bvo.boardNO }" >
                   
-                     <textarea placeholder="댓글을 작성해주세요" name = "content" ></textarea>
+                     <textarea placeholder="댓글을 작성해주세요" name = "content" required="required"></textarea>
 					
 					<input type = "hidden" name = "parrentComNO" value = "0">
 					<input type = "hidden" name = "depth" value = "0">

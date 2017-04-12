@@ -60,7 +60,10 @@ public class HandlerMapping {
 			c = new BoardDeleteController();
 		} else if(command.equals("insertComment")){
 			c = new InsertCommentController();
+		}else if(command.equals("deleteComment")){
+			c = new DeleteCommentController();
 		}
+		
 			return c;
 	}
 }

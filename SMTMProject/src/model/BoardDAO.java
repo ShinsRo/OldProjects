@@ -227,6 +227,23 @@ public class BoardDAO {
 				}
 				return ;
 			}
+			
+			public void deleteComment(int comNO) throws SQLException {
+				Connection con = null;
+				PreparedStatement pstmt = null;
+				
+				try {
+					con = getConnection();
+					String sql = "delete from board_comment where com_no =?";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setInt(1, comNO);
+					pstmt.executeUpdate();
+				} finally {
+					closeAll(pstmt, con);
+				}
+				return;
+			}
+			
 	   public void closeAll(PreparedStatement pstmt, Connection con) throws SQLException {
 		      closeAll(null, pstmt, con);
 		   }
@@ -239,5 +256,6 @@ public class BoardDAO {
 		      if (con != null)
 		         con.close();
 		   }
+
 	   
 }
