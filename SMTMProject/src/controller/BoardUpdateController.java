@@ -11,14 +11,12 @@ public class BoardUpdateController implements Controller {
    @Override
    public String execute(HttpServletRequest request,
          HttpServletResponse response) throws Exception {
+	  int boardNO = Integer.parseInt(request.getParameter("boardNO"));
       String title = request.getParameter("title");
       String content = request.getParameter("content");
-      String id = request.getParameter("id");
-      BoardVO vo=new BoardVO();
-      vo.setTitle(title);
-      vo.setContent(content);
-      vo.setId(id);
-      BoardDAO.getInstance().boardUpdate(vo.getBoardNO(), vo.getTitle(), vo.getContent());   
+      String id = request.getParameter("writer");
+      //System.out.println(boardNO);
+      BoardDAO.getInstance().boardUpdate(boardNO,title,content);   
 
       String path="redirect:DispatcherServlet?command=board";
       return path;

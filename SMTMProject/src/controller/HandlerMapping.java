@@ -52,6 +52,12 @@ public class HandlerMapping {
 			c = new AuthorityController();
 		} else if (command.equals("setAuthority")) {
 			c = new SetAuthorityController();
+		} else if(command.equals("boardUpdateView")){
+			c = new BoardUpdateView();
+		} else if(command.equals("boardUpdate")){
+			c = new BoardUpdateController();
+		} else if(command.equals("boardDelete")){
+			c = new BoardDeleteController();
 		}
 		return c;
 	}

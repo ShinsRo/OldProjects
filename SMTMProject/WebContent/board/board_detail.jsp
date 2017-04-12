@@ -15,6 +15,24 @@
 <style type="text/css">
 
 </style>
+<script type="text/javascript">
+function sendList(){
+	location.href="${pageContext.request.contextPath}/DispatcherServlet?command=getList";
+}
+function winOpen(kind){	
+	
+	if(kind=="delete"){
+		if(confirm("삭제하시겠습니까?")){
+			location.href = "${pageContext.request.contextPath}/DispatcherServlet?command=boardDelete&boardNO=${requestScope.bvo.boardNO }";						
+		}
+		
+	}else if(kind=="update"){
+		if(confirm("수정하시겠습니까?")){
+			location.href = "${pageContext.request.contextPath}/DispatcherServlet?command=boardUpdateView&boardNO=${requestScope.bvo.boardNO }";						
+		}
+	}
+}
+</script>
 </head>
 <body>
    <jsp:include page="/layout/header.jsp" />

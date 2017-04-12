@@ -163,7 +163,7 @@ public class BoardDAO {
 				
 				closeAll(pstmt, null);
 				
-				sql = "delete from free_board where no=?";
+				sql = "delete from free_board where board_no=?";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setInt(1, boardNO);
 				pstmt.executeUpdate();
@@ -196,7 +196,7 @@ public class BoardDAO {
 				
 				try {
 					con = getConnection();
-					String sql = "update board " + "set title = ?, content = ? where board_no=?";
+					String sql = "update free_board " + "set title = ?, content = ? where board_no=?";
 					pstmt = con.prepareStatement(sql);
 					pstmt.setString(1, title);
 					pstmt.setString(2, content);
