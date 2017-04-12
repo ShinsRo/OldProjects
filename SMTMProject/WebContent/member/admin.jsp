@@ -37,20 +37,14 @@ $(document).ready(function(){
 			success:function(data){
 				var list=null;
 				for(var i=0; i<data.length; i++){
-					if(data[i].authority ==0){
-						list +="<tr>"+
-						"<td>"+data[i].id+"</td>"+
-						"<td>"+data[i].name+"</td>"+
-						"<td>일반회원</td>"
-						+"</tr>";
-					}else{
-						list +="<tr>"+
-						"<td>"+data[i].id+"</td>"+
-						"<td>"+data[i].name+"</td>"+
-						"<td>관리자회원</td>"
-						+"</tr>";
-					}
 					
+						list +="<tr>"+
+						"<td>"+data[i].id+"</td>"+
+						"<td>"+data[i].name+"</td>"+
+						"<td>"+data[i].authority+"</td>"
+						+"</tr>";
+
+	
 				}
 						$("#memberList").html(list);
 			}

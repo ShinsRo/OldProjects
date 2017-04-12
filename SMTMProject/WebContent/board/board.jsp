@@ -34,70 +34,61 @@
 <body>
    <jsp:include page="/layout/header.jsp" />
    <div class="container" align="center">
-      <div class="row"  >
-
-
-         <div class="table-responsive col-md-12" >
+      <div class="row" >
+      <div class="table-responsive col-md-12" >
             <table class="table table-striped table-hover" >
                <thead>
                   <tr>
                      <th class="no">NO</th>
                      <th class="title">제목</th>
-                     <th class="name">이름</th>
+                     <th class="name">아이디</th>
                      <th class="date">작성일</th>
 
                   </tr>
-
                </thead>
                <tbody>
-
                   <c:forEach var="bvo" items="${requestScope.listVO.list}">
                      <tr>
-                        <td>${bvo.boardNO }</td>
-                        <td><a href = "${pageContext.request.contextPath}/DispatcherServlet?command=boardDetail&boardNO=${bvo.boardNO }">${bvo.title }</a></td>
+                        <td><a href = "${pageContext.request.contextPath}/DispatcherServlet?command=boardDetail&boardNO=${bvo.boardNO }">${bvo.boardNO }</a></td>
+                        <td>${bvo.title }</td>
                         <td>${bvo.id}</td>
                         <td>${bvo.timePosted }</td>
-
                      </tr>
                   </c:forEach>
-
-
                </tbody>
             </table>
+         </div>
          </div>
          
       <p class = "paging">
             <c:if
                test="${requestScope.listVO.pagingBean.previousPageGroup ==true}">
                <li><a
-                  href="${pageContext.request.contextPath}/DispatcherServlet?command=board&nowPage=${requestScope.listVO.pagingBean.startPageOfPageGroup-1}">◀</a></li>
+                  href="${pageContext.request.contextPath}/DispatcherServlet?command=board&nowPage=${requestScope.listVO.pagingBean.startPageOfPageGroup-1}">◀&nbsp; </a></li>
             </c:if>
-
             <c:forEach
                begin="${requestScope.listVO.pagingBean.startPageOfPageGroup }"
                end="${requestScope.listVO.pagingBean.endPageOfPageGroup }"
                var="num">
                <c:choose>
                   <c:when test="${num!= requestScope.listVO.pagingBean.nowPage}">
-                     <li><a
+                     <a
                         href="${pageContext.request.contextPath}/DispatcherServlet?command=board&nowPage=${num}">
-                        ${num } </a></li>
+                        ${num}</a>
                   </c:when>
                   <c:otherwise>
-               ${num }
+               ${num}
             </c:otherwise>
                </c:choose>
+              
             </c:forEach>
             <c:if test="${requestScope.listVO.pagingBean.nextPageGroup ==true}">
                <a
                   href="${pageContext.request.contextPath}/DispatcherServlet?command=board&nowPage=${requestScope.listVO.pagingBean.endPageOfPageGroup+1}">▶</a>
             </c:if>
-         
             </p>
-         
             <button type="button" class="btn btn-primary" onclick = "toWrite()">글쓰기</button>
          </div>
-      </div>
-   </div>
+
 </body>
 </html>

@@ -61,9 +61,9 @@ color: #5c616a;
    var day;
    // 그래프로 이동
    function toGraph() {
-	      location.href = "${pageContext.request.contextPath}/graph.jsp?month="+monthPos
-	            +"&day="+day;
-	   }
+         location.href = "${pageContext.request.contextPath}/graph.jsp?month="+monthPos
+               +"&day="+day;
+      }
    
    /******페이지 초기화 시작*******/
    $(document).ready(function(){
@@ -122,12 +122,12 @@ color: #5c616a;
             yearPos -= 1;
          }
          if((${requestScope.month}-monthPos) == 0){
-        	 $("#conditionView").show();
+            $("#conditionView").show();
          }else{
-        	 $("#conditionView").hide();
+            $("#conditionView").hide();
          }
          $.getJSON("DispatcherServlet","command=getCalendarList&year="+yearPos+"&month="+monthPos, function(data) {
-        	 day = data.lastDayOfMonth;
+            day = data.lastDayOfMonth;
             $(".year").text(yearPos);
             $("#month").html(monthArr[data.month]);
             $("#calendar-body td").text("");
@@ -161,12 +161,12 @@ color: #5c616a;
          }
          
          if((${requestScope.month}-monthPos) == 0){
-        	 $("#conditionView").show();
+            $("#conditionView").show();
          }else{
-        	 $("#conditionView").hide();
+            $("#conditionView").hide();
          }
          $.getJSON("DispatcherServlet","command=getCalendarList&year="+yearPos+"&month="+monthPos, function(data) {
-        	 day = data.lastDayOfMonth;
+            day = data.lastDayOfMonth;
             $(".year").text(yearPos);
             $("#month").html(monthArr[data.month]);
             $("#calendar-body td").text("");
@@ -230,9 +230,8 @@ color: #5c616a;
 <span style="font-weight:bold; font-size: 13px; color: #5c616a;
    font: Arial, Helvetica, sans-serif">Stable</span>
 <br>
-	<div id ="imgView"></div>
+   <div id ="imgView"></div>
 
-<br><br>
 
 </div>
 <div>
