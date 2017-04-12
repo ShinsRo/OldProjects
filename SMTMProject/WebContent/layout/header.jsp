@@ -8,10 +8,10 @@
          location.href = "${pageContext.request.contextPath}/DispatcherServlet?command=logout";
    }
    function modify(){
-	      var modify=confirm("정보수정을 하시겠습니까?");
-	      if(modify)
-	         location.href="${pageContext.request.contextPath}/member/modify.jsp";
-	   }
+         var modify=confirm("정보수정을 하시겠습니까?");
+         if(modify)
+            location.href="${pageContext.request.contextPath}/member/modify.jsp";
+      }
 
 </script>
 <head>
@@ -49,10 +49,10 @@
             <a href="javascript:modify()"> 
             <img src="${pageContext.request.contextPath }/img/modify_icon.png"
             style="width:24px; height:24px"></a>
+             <a href="${pageContext.request.contextPath }/DispatcherServlet?command=board">자유게시판</a>
             <a href="javascript:logout()" class="selected">Logout</a>
             
          </nav>
       </c:if>
    </div>
 </header>
-

@@ -1,69 +1,85 @@
 package model;
 
 public class MemberVO {
-   private String id;
-   private String name;
-   private String password;
-   private int total;
-   private int limit;
+	private String id;
+	private String name;
+	private String password;
+	private int total;
+	private int limit;
+	private int authority;
 
-   public MemberVO() {
-      super();
-   }
+	public int getAuthority() {
+		return authority;
+	}
 
-   public String getId() {
-      return id;
-   }
+	public void setAuthority(int authority) {
+		this.authority = authority;
+	}
 
-   public void setId(String id) {
-      this.id = id;
-   }
+	public MemberVO() {
+		super();
+	}
 
-   public String getName() {
-      return name;
-   }
+	public String getId() {
+		return id;
+	}
 
-   public void setName(String name) {
-      this.name = name;
-   }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-   public String getPassword() {
-      return password;
-   }
+	public String getName() {
+		return name;
+	}
 
-   public void setPassword(String password) {
-      this.password = password;
-   }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-   public int getTotal() {
-      return total;
-   }
+	public String getPassword() {
+		return password;
+	}
 
-   public void setTotal(int total) {
-      this.total = total;
-   }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-   public int getLimit() {
-      return limit;
-   }
+	public int getTotal() {
+		return total;
+	}
 
-   public void setLimit(int limit) {
-      this.limit = limit;
-   }
+	public void setTotal(int total) {
+		this.total = total;
+	}
 
-   public MemberVO(String id, String name, String password, int total, int limit) {
-      super();
-      this.id = id;
-      this.name = name;
-      this.password = password;
-      this.total = total;
-      this.limit = limit;
-   }
+	public int getLimit() {
+		return limit;
+	}
 
-   @Override
-   public String toString() {
-      return "MemberVO [id=" + id + ", name=" + name + ", password=" + password + ", total=" + total + ", limit="
-            + limit + "]";
-   }
+	public void setLimit(int limit) {
+		this.limit = limit;
+	}
+
+	public MemberVO(String id, String name, String password, int total, int limit) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.password = password;
+		this.total = total;
+		this.limit = limit;
+	}
+
+	public MemberVO(String id, String name, int authority) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.authority = authority;
+	}
+
+	@Override
+	public String toString() {
+		return "MemberVO [id=" + id + ", name=" + name + ", password=" + password + ", total=" + total + ", limit="
+				+ limit + ", authority=" + authority + "]";
+	}
 
 }

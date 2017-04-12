@@ -36,70 +36,85 @@ public class BoardDAO {
 	   }
 	   
 	   public ArrayList<BoardVO> getAllList(PagingBean p) throws SQLException{
-		   ArrayList<BoardVO> list = new ArrayList<>();
-			Connection con = null;
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			try {
-				con = getConnection();
-				StringBuilder sql = new StringBuilder();
-				sql.append("select A.* from (");
-				sql.append("select row_number() over(order by board_no desc) as rnum,");
-				sql.append("board_no, title, to_char(time_posted, 'YY.MM.DD') as time_posted, id ");
-				sql.append("from free_board");
-				sql.append(") A where rnum between ? and ?");
+           BoardVO bvo = null;
+            ArrayList<BoardVO> list = new ArrayList<>();
+           Connection con = null;
+           PreparedStatement pstmt = null;
+           ResultSet rs = null;
+           try {
+              con = getConnection();
+              StringBuilder sql = new StringBuilder();
+              sql.append("select A.* from (");
+              sql.append("select row_number() over(order by board_no desc) as rnum,");
+              sql.append("board_no, title, to_char(time_posted, 'YY.MM.DD') as time_posted, id ");
+              sql.append("from free_board");
+              sql.append(") A where rnum between ? and ?");
 
-				pstmt = con.prepareStatement(sql.toString());
-				pstmt.setInt(1, p.getStartRowNumber());
-				pstmt.setInt(2, p.getEndRowNumber());
-				rs = pstmt.executeQuery();
-				while (rs.next()){
-					list.add(new BoardVO(rs.getInt(1), rs.getString(2),
-							null, rs.getString(3), rs.getString(4), null));
-				}
-			} finally {
-				closeAll(rs, pstmt, con);
-			}
-			return list;
-		}
+              pstmt = con.prepareStatement(sql.toString());
+              pstmt.setInt(1, p.getStartRowNumber());
+              pstmt.setInt(2, p.getEndRowNumber());
+              rs = pstmt.executeQuery();
+              while (rs.next()){
+                 bvo = new BoardVO();
+                 bvo.setBoardNO(rs.getInt("board_no"));
+                 bvo.setTitle(rs.getString("title"));
+                 bvo.setTimePosted(rs.getString("time_posted"));
+                 bvo.setId(rs.getString("id"));
+                 list.add(bvo);
+              }
+           } finally {
+              closeAll(rs, pstmt, con);
+           }
+           return list;
+        }
 	   
-	   public BoardVO getDetail(int boardNO) throws SQLException{
-			BoardVO vo = null;
-			Connection con = null;
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			
-			try {
-				con = getConnection();
-				String sql = "select board_no, title, id, content, "
-						+ "to_char(time_posted, 'YYYY/MM/DD HH24:MI:SS') " 
-						+ "from free_board where no=?";
-				pstmt = con.prepareStatement(sql);
-				pstmt.setInt(1, boardNO);
-				rs = pstmt.executeQuery();
-				if (rs.next())
-					vo = new BoardVO(rs.getInt(1),
-							rs.getString(2), rs.getString(3), rs.getString(4),
-							rs.getString(5), new ArrayList<CommentVO>());
-				
-				closeAll(rs, pstmt, null);
-				int board_no = vo.getBoardNO();
-				
-				sql = "select com_no, content, depth, id parrent_com_no "
-						+ "from board_comment where board_no = ?";
-				pstmt = con.prepareStatement(sql);
-				pstmt.setInt(1, board_no);
-				rs = pstmt.executeQuery();
-				while(rs.next()){
-					vo.getCommentList().add(
-							new CommentVO(rs.getInt(1),
-							rs.getString(2), rs.getInt(3), rs.getInt(4)));
-				}
-			} finally {
-				closeAll(rs, pstmt, con);
-			}
-			return vo;
-	   }
+	   public BoardVO getDetail(int no) throws SQLException{
+	         BoardVO vo = null;
+	         CommentVO cvo = null;
+	         Connection con = null;
+	         PreparedStatement pstmt = null;
+	         ResultSet rs = null;
+	         
+	         try {
+	            con = getConnection();
+	            String sql = "select board_no, title, id, content, "
+	                  + "to_char(time_posted, 'YYYY/MM/DD HH24:MI:SS') as time_posted " 
+	                  + "from free_board where board_no=?";
+	            pstmt = con.prepareStatement(sql);
+	            pstmt.setInt(1, no);
+	            rs = pstmt.executeQuery();
+	            if (rs.next()){
+	               vo = new BoardVO();
+	               vo.setBoardNO(rs.getInt("board_no"));
+	               vo.setTitle(rs.getString("title"));
+	               vo.setId(rs.getString("id"));
+	               vo.setContent(rs.getString("content"));
+	               vo.setTimePosted(rs.getString("time_posted"));
+	               vo.setCommentList(new ArrayList<CommentVO>());
+	            }
+	            
+	            closeAll(rs, pstmt, null);
+	            int board_no = vo.getBoardNO();
+	            
+	            sql = "select com_no, content, depth, id, parrent_com_no "
+	                  + "from board_comment where board_no = ?";
+	            pstmt = con.prepareStatement(sql);
+	            pstmt.setInt(1, board_no);
+	            rs = pstmt.executeQuery();
+	            while(rs.next()){
+	               cvo = new CommentVO();
+	               cvo.setComNO(rs.getInt("com_no"));
+	               cvo.setContent(rs.getString("content"));
+	               cvo.setDepth(rs.getInt("depth"));
+	               cvo.setId(rs.getString("id"));
+	               cvo.setParrentComNO(rs.getInt("parrent_com_no"));
+	               vo.getCommentList().add(cvo);
+	            }
+	         } finally {
+	            closeAll(rs, pstmt, con);
+	         }
+	         return vo;
+	      }
 		public void insert(BoardVO vo) throws SQLException{
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -174,6 +189,25 @@ public class BoardDAO {
 		      }
 		      return count;
 		   }
+			public void update(int boardNO, String title, String content) throws SQLException {
+				Connection con = null;
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				
+				try {
+					con = getConnection();
+					String sql = "update board " + "set title = ?, content = ? where board_no=?";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, title);
+					pstmt.setString(2, content);
+					pstmt.setInt(3, boardNO);
+					
+					pstmt.executeUpdate();
+				} finally {
+					closeAll(rs, pstmt, con);
+				}
+			}	
+			
 	   public void closeAll(PreparedStatement pstmt, Connection con) throws SQLException {
 		      closeAll(null, pstmt, con);
 		   }
