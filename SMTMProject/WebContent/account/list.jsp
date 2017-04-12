@@ -84,7 +84,6 @@ body {
       $("#info").on("click","td", function(){
         //alert($(this).parent().children(".today").css("color", "blue"));
         if(confirm("상세보기로 이동하시겠습니까?")){
-           alert("ㅇㅋ 기달");
            var lf = document.listForm;
            location.href = "${pageContext.request.contextPath}/account/detail.jsp?&today="+$(this).parent().children(".today").text();
         }else{

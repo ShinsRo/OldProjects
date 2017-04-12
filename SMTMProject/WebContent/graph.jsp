@@ -4,9 +4,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml">   
 <head>     
-<meta http-equiv="content-type" content="text/html; charset=utf-8"/>     
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>  
 <title>주간 입/출 내역 현황</title> 
-  
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <style type="text/css">
 #title, #graphInfo, #chart_div{
 font-size: 13px;
@@ -46,8 +47,8 @@ for(var i = 0;i<7;i++){
 var m = month_arr[${param.month}];
 
   $(document).ready(function(){
-	  $("#MonthGraph").click(function(){
-          location.href = "monthGraph.jsp?wi="+wi; 
+     $("#MonthGraph").click(function(){
+          location.href = "monthGraph.jsp?day=${param.day}&month=${param.month}&wi="+wi; 
         });
 
    $.ajax({
@@ -57,9 +58,10 @@ var m = month_arr[${param.month}];
       dataType:"json",
       success:function(data){
             data_length=data.length;
-            if(day==30 && data_length==2 || day==31 && data_length==1)
+            if(day==30 && data_length==1 || day==31 && data_length==2){
             $("#graphInfo").append("<option value="+6+">6주차</option>");
                wi = 6;
+            }
             // alert(data_length);
             // week : data.length 길이로 시작 요일 찾기
             // data.length가 1일 경우 1-1 = 0
@@ -200,10 +202,9 @@ google.setOnLoadCallback(drawVisualization);
    <option value = "3">3주차</option>
    <option value = "4">4주차</option>
    <option value = "5">5주차</option>
-   <!-- <option value = "6">6주차</option> -->
 
 </select>
-<input type = "button" id = "MonthGraph" value = "월간그래프"></input>
+<input type = "button" class="btn btn-default" id = "MonthGraph" value = "월간그래프"></input>
 <div id="chart_div" style="width: 900px; height: 500px;"></div> 
 </center>  
 </body> 

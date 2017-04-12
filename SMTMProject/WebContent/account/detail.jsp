@@ -90,12 +90,14 @@ body {
       $("#info").on("click","#deleteBtn", function(){
     	  if(confirm("정말로 삭제하시겠습니까?")){
     		  $.ajax({
-                 type:"get",
-                 url:"${pageContext.request.contextPath}/DispatcherServlet",
-                 data:"command=delete&no="+$(this).parent().siblings().eq(0).val()+"&today=${param.today}"
-              });//ajax
-              alert("삭제되었습니다.");
-              location.href="${pageContext.request.contextPath}/account/detail.jsp?today=${param.today}";
+                  type:"get",
+                  url:"${pageContext.request.contextPath}/DispatcherServlet",
+                  data:"command=delete&no="+$(this).parent().siblings().eq(0).val()+"&today=+${param.today}&beforeIncome="+$(this).parent().siblings().eq(4).text()+"&beforeSpend="+$(this).parent().siblings().eq(5).text(),
+                  success:function(){
+                      alert("삭제되었습니다.");
+                      location.href="${pageContext.request.contextPath}/account/detail.jsp?today=${param.today}";
+                  }
+               });//ajax
            }else{
               alert("삭제가 취소되었습니다.");
            }
@@ -118,17 +120,12 @@ body {
       */
       $("#info").on("click","#updateBtn", function(){
 			//alert($(this).parent().siblings().eq(1).text());
-		
 			open("detail_update.jsp?no="+$(this).parent().siblings().eq(0).val()+"&today="+$(this).parent().siblings().eq(1).text()
 				+"&beforeIncome="+$(this).parent().siblings().eq(4).text()+"&beforeSpend="+$(this).parent().siblings().eq(5).text(),"update","width=500,height=300,top=150,left=200");				
 		});//update click  
       
       
    });//ready
-      
-
-    
- 
 </script>
 </head>
 <body>

@@ -23,6 +23,11 @@ th, td{
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
+	
+	$("#boardBtn").click(function(){
+		//게시판 관리 클릭시 게시판으로 이동,\
+		location.href = "${pageContext.request.contextPath}/DispatcherServlet?command=board";
+	});
 	$("#authorityBtn").click(function(){
 		$.ajax({
 			 type:"get",
@@ -32,11 +37,20 @@ $(document).ready(function(){
 			success:function(data){
 				var list=null;
 				for(var i=0; i<data.length; i++){
-					list +="<tr>"+
-					"<td>"+data[i].id+"</td>"+
-					"<td>"+data[i].name+"</td>"+
-					"<td>"+data[i].authority+"</td>"
-					+"</tr>";
+					if(data[i].authority ==0){
+						list +="<tr>"+
+						"<td>"+data[i].id+"</td>"+
+						"<td>"+data[i].name+"</td>"+
+						"<td>일반회원</td>"
+						+"</tr>";
+					}else{
+						list +="<tr>"+
+						"<td>"+data[i].id+"</td>"+
+						"<td>"+data[i].name+"</td>"+
+						"<td>관리자회원</td>"
+						+"</tr>";
+					}
+					
 				}
 						$("#memberList").html(list);
 			}
@@ -110,6 +124,7 @@ $(document).ready(function(){
   
   <div class="btn-group">
     <button type="button" id="authorityBtn" class="btn btn-primary">사용자 권한 부여</button>
+     <button type="button" id="boardBtn" class="btn btn-primary">게시판관리</button>
     </div>
     <br><br>
     

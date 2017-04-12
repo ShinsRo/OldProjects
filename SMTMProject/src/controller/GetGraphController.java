@@ -39,31 +39,6 @@ public class GetGraphController implements Controller {
         
         CalendarBean cb = CalendarManager.getInstance().getCurrent();
         
-        if(cb.getMonth() == 1){
-         m = "January";
-      }else if(cb.getMonth() == 2){
-         m = "Febuary";
-      }else if(cb.getMonth() == 3){
-         m = "March";
-      }else if(cb.getMonth() == 4){
-         m = "April";
-      }else if(cb.getMonth() == 5){
-         m = "May";
-      }else if(cb.getMonth() == 6){
-         m = "June";
-      }else if(cb.getMonth() == 7){
-         m = "July";
-      }else if(cb.getMonth() == 8){
-         m = "August";
-      }else if(cb.getMonth() == 9){
-         m = "September";
-      }else if(cb.getMonth() == 10){
-         m = "October";
-      }else if(cb.getMonth() == 11){
-         m = "November";
-      }else{
-         m = "December";
-      }
         // 월 정보 넘기기
         request.setAttribute("month", m);
         
@@ -125,6 +100,10 @@ public class GetGraphController implements Controller {
           }
            break;
         case 5:
+        	int flag = cb.getLastDayOfMonth()+1;        
+            if(fd == 6){
+               flag = 4-fd+8*(weekInfo-1);
+            }
            // 6 23 ~ 29
            // fd가 0일 경우 마지막 주차 29 ~ 마지막 6일 경우 예외
            for(int i =5-fd+8*(weekInfo-2); i < 4-fd+8*(weekInfo-1);i++ ){

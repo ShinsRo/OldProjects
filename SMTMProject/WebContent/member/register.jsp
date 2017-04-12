@@ -23,14 +23,16 @@ function checkId() {
       alert("인증 되지 않은 아이디입니다. 다시 중복확인 해주세요");
       return false;
       }
+      if(document.testForm.password.value!=document.testForm.checkPassword.value){
+          alert("비밀번호가 틀립니다.");
+          return false;
+       }
    }
-  /*  function submit() {
-      if(document.testForm.data.value!=document.testForm.id.value){
-         alert("인증 되지 않은 아이디입니다. 다시 중복확인 해주세요");
-         return;
-      }
-         document.testForm.submit();
-   } */
+   
+function cancelFunc(){
+	   location.href = "${pageContext.request.contextPath}/index.jsp"
+	}
+	
 </script>
 </head>
 <body>
@@ -52,22 +54,21 @@ function checkId() {
       <div class="bar">
          <i></i>
       </div>
-      <input type="password" name="password" placeholder="다시 한번 입력하세요."required>
+      <input type="password" name="checkPassword" placeholder="다시 한번 입력하세요."required>
       <div class="bar">
          <i></i>
       </div>
-      <input type="text" name="total" placeholder="소유중이신 금액을 입력하세요." required>
+      <input type="text" name="total" placeholder="소유중이신 금액을 입력하세요." id="middleField" required>
       <div class="bar">
           <i></i>
       </div>
       <input type="text" name="limit" placeholder="기준치를 입력하세요." id="lowerRound" required>
       <br>
       <input type="submit" id = "registerBtn" style ="HEIGHT: 35pt" value="회원가입">
-<!--       <button onclick="submit()">Sign up</button> -->
-      
+	 </form>
+	 <br>
+		<button onclick="cancelFunc()">취소</button>
    </div>
 
-  <script src=""></script>
-  </form>
 </body>
 </html>

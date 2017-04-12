@@ -29,6 +29,13 @@ font-weight: bold;
 color: #5c616a;
 /* color: #5c616a; */
 }
+#name{
+font-size: 13px; 
+font: Arial, Helvetica, sans-serif;
+font-weight: bold;
+color: #5c616a;
+/* color: #5c616a; */
+}
 
 </style>
    <meta charset="UTF-8">

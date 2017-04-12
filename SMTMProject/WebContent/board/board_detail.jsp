@@ -17,7 +17,7 @@
 </style>
 <script type="text/javascript">
 function sendList(){
-	location.href="${pageContext.request.contextPath}/DispatcherServlet?command=getList";
+	location.href="${pageContext.request.contextPath}/DispatcherServlet?command=board";
 }
 function winOpen(kind){	
 	
@@ -60,12 +60,19 @@ function winOpen(kind){
                   <button type="button" class="btn btn-primary" onclick="sendList()">목록</button>
                   <c:choose>
                         <c:when
-                           test="${sessionScope.mvo!=null&&sessionScope.mvo.id == requestScope.bvo.id}">
+                           test="${sessionScope.mvo!=null&&sessionScope.mvo.id == requestScope.bvo.id }">
                            <button type="button" class="btn btn-primary" onclick="winOpen('delete')">삭제</button>
                            <button type="button" class="btn btn-primary" onclick="winOpen('update')">수정</button>
                            
-                  </c:when>
+                  		</c:when>
+                  	 	<c:when
+                           test="${sessionScope.mvo.authority==1 }">
+                           <button type="button" class="btn btn-primary" onclick="winOpen('delete')">삭제</button>
+                         
+                           
+                  		</c:when>
                   </c:choose>
+                 
                </tr>
 
 

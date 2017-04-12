@@ -132,6 +132,40 @@ income=5000,detail='수정테스트'
 where no='1'
 
 
+insert into ACCOUNT_BOOK(no,today,detail,income,id) values(account_seq.nextval,to_date('2017/04/01 9:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 지출1',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,income,id) values(account_seq.nextval,to_date('2017/04/02 10:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 수입1',1000,'java');
+
+insert into ACCOUNT_BOOK(no,today,detail,spend,id) values(account_seq.nextval,to_date('2017/04/03 18:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 수입2',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,spend,id) values(account_seq.nextval,to_date('2017/04/04 9:12:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 지출2',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,spend,id) values(account_seq.nextval,to_date('2017/04/05 9:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 지출1',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,spend,id) values(account_seq.nextval,to_date('2017/04/06 10:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 수입1',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,spend,id) values(account_seq.nextval,to_date('2017/04/07 18:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 수입2',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,spend,id) values(account_seq.nextval,to_date('2017/04/08 9:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 지출1',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,spend,id) values(account_seq.nextval,to_date('2017/04/09 10:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 수입1',1000,'java');
+
+insert into ACCOUNT_BOOK(no,today,detail,income,id) values(account_seq.nextval,to_date('2017/04/10 18:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 수입2',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,income,id) values(account_seq.nextval,to_date('2017/04/11 9:12:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 지출2',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,income,id) values(account_seq.nextval,to_date('2017/04/12 9:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 지출1',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,income,id) values(account_seq.nextval,to_date('2017/04/13 10:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 수입1',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,income,id) values(account_seq.nextval,to_date('2017/04/14 18:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 수입2',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,income,id) values(account_seq.nextval,to_date('2017/04/15 9:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 지출1',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,income,id) values(account_seq.nextval,to_date('2017/04/16 10:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 수입1',1000,'java');
+
+insert into ACCOUNT_BOOK(no,today,detail,spend,id) values(account_seq.nextval,to_date('2017/04/17 18:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 수입2',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,spend,id) values(account_seq.nextval,to_date('2017/04/18 9:12:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 지출2',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,spend,id) values(account_seq.nextval,to_date('2017/04/19 9:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 지출1',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,spend,id) values(account_seq.nextval,to_date('2017/04/20 10:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 수입1',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,spend,id) values(account_seq.nextval,to_date('2017/04/21 18:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 수입2',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,spend,id) values(account_seq.nextval,to_date('2017/04/22 9:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 지출1',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,spend,id) values(account_seq.nextval,to_date('2017/04/23 10:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 수입1',1000,'java');
+
+insert into ACCOUNT_BOOK(no,today,detail,income,id) values(account_seq.nextval,to_date('2017/04/24 18:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 수입2',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,income,id) values(account_seq.nextval,to_date('2017/04/25 9:12:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 지출2',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,income,id) values(account_seq.nextval,to_date('2017/04/26 9:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 지출1',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,income,id) values(account_seq.nextval,to_date('2017/04/27 10:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 수입1',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,income,id) values(account_seq.nextval,to_date('2017/04/28 18:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 수입2',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,income,id) values(account_seq.nextval,to_date('2017/04/29 9:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 지출1',1000,'java');
+insert into ACCOUNT_BOOK(no,today,detail,income,id) values(account_seq.nextval,to_date('2017/04/30 10:00:10', 'yyyy/mm/dd hh24:mi:ss'),'이번 날 수입1',1000,'java');
 
 
 

@@ -6,7 +6,7 @@
 <head>     
 <meta http-equiv="content-type" content="text/html; charset=utf-8"/>     
 <title>월간 입/출 내역 현황</title> 
-  
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <style type="text/css">
 #title, #graphInfo, #chart_div{
 font-size: 13px;
@@ -30,38 +30,43 @@ chartdata.addColumn('number', '수입');
 chartdata.addColumn('number', '지출');
 chartdata.addRows(${param.wi});
 var week_name = ['1주차','2주차','3주차','4주차','5주차','6주차'];
-
+var month_arr = ['','1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+var m = month_arr[${param.month}];
 // 차트 데이터 초기 설정 일,월,화,수,목,금,토
 for(var i = 0;i<${param.wi};i++){
-	chartdata.setCell(i,0,week_name[i]);
+   chartdata.setCell(i,0,week_name[i]);
 }
 
   $(document).ready(function(){
-	$.ajax({
-		type:"get",
-		url:"${pageContext.request.contextPath}/DispatcherServlet",
-		data:"command=monthGraph&wi="+${param.wi},
-		dataType:"json",
-		success:function(data){
-			 for(var i=0; i<data.length; i++){
-                 if(data[i].today == i+1+"주차"){
-                    chartdata.setCell(i,1,data[i].totalIncome);
-                    chartdata.setCell(i,2,data[i].totalSpend);
+     $("#Graph").click(function(){
+        location.href = "${pageContext.request.contextPath}/graph.jsp?month=${param.month}&day=${param.day}"
+     })
+      $.ajax({
+         type:"get",
+         url:"${pageContext.request.contextPath}/DispatcherServlet",
+         data:"command=monthGraph&wi="+${param.wi},
+         dataType:"json",
+         success:function(data){
+             for(var i=0; i<data.length; i++){
+                    if(data[i].today == i+1+"주차"){
+                       chartdata.setCell(i,1,data[i].totalIncome);
+                       chartdata.setCell(i,2,data[i].totalSpend);
+                    }
                  }
-              }
-			drawVisualization(chartdata);
-		}
-	});
-}) 
-
-function drawVisualization(chartdata) {         
-	var options = {
-	hAxis: {title: "요일"},
-	seriesType: "bars",
-	series: {7: {type: "line"}}
-	};
-	var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
-	chart.draw(chartdata, options);
+            drawVisualization(chartdata,m);
+         }
+      })//ajax;
+  })
+     
+function drawVisualization(chartdata,m) {         
+   var options = {
+   title : m,
+   hAxis: {title: "주차"},
+   seriesType: "bars",
+   series: {7: {type: "line"}}
+   };
+   var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+   chart.draw(chartdata, options);
 }
 
 google.setOnLoadCallback(drawVisualization);
@@ -73,7 +78,8 @@ google.setOnLoadCallback(drawVisualization);
 <br>
 <center>
 <span id="title">
-주간 입/출 내역 현황</span>
+월간 입/출 내역 현황</span>
+<input type = "button" class="btn btn-default" id = "Graph" value = "주간그래프"></input>
 <div id="chart_div" style="width: 900px; height: 500px;"></div> 
 </center>  
 </body> 

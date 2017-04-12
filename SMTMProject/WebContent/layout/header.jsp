@@ -35,26 +35,37 @@
          <a href="#">ShowMeThe<span>Money!</span></a>
       </h1>
       <c:if test="${!(empty mvo)}">
-         <nav>
-
-            <a href="">${sessionScope.mvo.name}님 가계부</a> <a
-               href="${pageContext.request.contextPath}/account/list.jsp"><img
-               src="${pageContext.request.contextPath }/img/list_icon.png"></a>
-            <a href="${pageContext.request.contextPath}/DispatcherServlet?command=getCurrent&go=calendar"> <img
-               src="${pageContext.request.contextPath }/img/calendar_icon.png"></a>
-          <c:if test="${param.nowPage == 'calendar'}">
-               <a id="toGraphBtn" onclick="toGraph()"> <img
-                  src="${pageContext.request.contextPath }/img/graph_icon.png"></a>
-            </c:if>
-            <a href="javascript:modify()"> 
-            <img src="${pageContext.request.contextPath }/img/modify_icon.png"
-            style="width:24px; height:24px"></a>
-             <a href="${pageContext.request.contextPath }/DispatcherServlet?command=board">
-             <img src="${pageContext.request.contextPath }/img/board.png"
-            style="width:24px; height:24px"></a>
-            <a href="javascript:logout()" class="selected">Logout</a>
-            
-         </nav>
+	      <c:if test="${sessionScope.mvo.authority ==1 }">
+	     	 <nav>
+		      	<a href="">${sessionScope.mvo.name}:관리자로그인</a>
+		      	<!-- 관리자로 로그인한 경우, 이름이랑 로그아웃만 뜬다 -->
+		      	<a href="javascript:logout()" class="selected">Logout</a>
+	      	</nav>
+	      </c:if>
+	      <c:if test="${sessionScope.mvo.authority ==0 }">
+	     	 <nav>
+	
+	            <a href="">${sessionScope.mvo.name}님 가계부</a> <a
+	               href="${pageContext.request.contextPath}/account/list.jsp"><img
+	               src="${pageContext.request.contextPath }/img/list_icon.png"></a>
+	            <a href="${pageContext.request.contextPath}/DispatcherServlet?command=getCurrent&go=calendar"> <img
+	               src="${pageContext.request.contextPath }/img/calendar_icon.png"></a>
+	          <c:if test="${param.nowPage == 'calendar'}">
+	               <a id="toGraphBtn" onclick="toGraph()"> <img
+	                  src="${pageContext.request.contextPath }/img/graph_icon.png"></a>
+	            </c:if>
+	            <a href="javascript:modify()"> 
+	            <img src="${pageContext.request.contextPath }/img/modify_icon.png"
+	            style="width:24px; height:24px"></a>
+	             <a href="${pageContext.request.contextPath }/DispatcherServlet?command=board">
+	             <img src="${pageContext.request.contextPath }/img/board.png"
+	            style="width:24px; height:24px"></a>
+	            <a href="javascript:logout()" class="selected">Logout</a>
+	            
+	         </nav>
+	      </c:if>
+         
       </c:if>
+      
    </div>
 </header>

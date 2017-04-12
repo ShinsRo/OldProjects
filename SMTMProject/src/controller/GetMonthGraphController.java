@@ -46,6 +46,7 @@ public class GetMonthGraphController implements Controller {
 		    	totalSpend+=cb.getListOnMonth().get(i).getTotalSpend();
 		    }
 		 }
+	     weekInfo++;
 	     weekList.add(new DayVO("1주차", totalIncome, totalSpend));
 	    	 
 	     totalIncome = 0;
@@ -83,6 +84,10 @@ public class GetMonthGraphController implements Controller {
 
 	    	 totalIncome = 0;
 	    	 totalSpend = 0;
+	    	 int flag = cb.getLastDayOfMonth()+1;
+	           if(fd == 6){
+	              flag = 4-fd+8*(weekInfo-1);
+	           }
 	    	 for(int i =5-fd+8*(weekInfo-2); i < 4-fd+8*(weekInfo-1);i++ ){
 	    		 if(cb.getListOnMonth().get(i) != null){
 			    		totalIncome+=cb.getListOnMonth().get(i).getTotalIncome();

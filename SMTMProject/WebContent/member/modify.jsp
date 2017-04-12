@@ -7,33 +7,32 @@
 <title>회원정보수정</title>
  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/reset.css">
  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" media="screen" type="text/css" />
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">
 
-function openPopup(){
-   var id = document.testForm.id.value;
-   
-      if (id == "") {
-         alert("아이디를 입력하세요.");
-      } else
-         open("${pageContext.request.contextPath}/DispatcherServlet?command=idcheck"+"&id="+id, "mypopup",
-               "width=200, height=200, top=150, left=200");
+$(document).ready(function(){
+   $("#testForm").submit(function(){
+      if(document.testForm.password.value != document.testForm.checkPassword.value){
+         alert("비밀번호가 틀립니다.");
+         return false;
       }
-function checkId() {
-      if(document.testForm.data.value!=document.testForm.id.value){
-      alert("인증 되지 않은 아이디입니다. 다시 중복확인 해주세요");
-      return false;
-      }
-   }
-   
+   })
+})
+
+/*          if(document.testForm.password.value!=document.testForm.checkPassword.value){
+            alert("비밀번호가 틀립니다.");
+            return false;
+         } */
 </script>
 </head>
 <body>
-<jsp:include page="../layout/header.jsp"/>
-<form name="testForm" method="post" action="${pageContext.request.contextPath}/DispatcherServlet?command=modify">
+<jsp:include page="/layout/header.jsp"/>
+<form name="testForm" id = "testForm" method="post" action="${pageContext.request.contextPath}/DispatcherServlet">
  <div class="wrap">
       <div class="avatar">
       <img src="${pageContext.request.contextPath}/img/logo.png">
       </div>
+      <input type = "hidden" name = "command" value = "modify">
       <input type="text" name="name" value="${sessionScope.mvo.name}" required>
       <div class="bar">
          <i></i>
@@ -48,7 +47,7 @@ function checkId() {
       <div class="bar">
          <i></i>
       </div>
-      <input type="password" name="password" placeholder="패스워드를 확인해주세요." required>
+      <input type="password" name="checkPassword" placeholder="패스워드를 확인해주세요." required>
       <div class="bar">
           <i></i>
       </div>
@@ -56,8 +55,6 @@ function checkId() {
       <br>
      <input type="submit" id = "modifyBtn" style="margin-bottom:15px; HEIGHT: 35pt" value="회원 정보 수정">  
    </div>
-
-  <script src=""></script>
   </form>
 </body>
 </html>

@@ -18,7 +18,7 @@ public class LoginController implements Controller {
 		String path = "";
 		if (vo != null) {
 			if (vo.getAuthority() == 1) {
-				session.setAttribute("administrator", vo);
+				session.setAttribute("mvo", vo);
 				path = "redirect:member/admin.jsp";// 1이면 관리자
 			} else {
 				session.setAttribute("mvo", vo);
