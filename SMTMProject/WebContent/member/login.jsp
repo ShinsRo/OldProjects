@@ -33,7 +33,7 @@
 		<div class="bar">
 			<i></i>
 		</div>
-		<input type="password" placeholder="비밀번호" name = "password" required>
+		<input type="password" placeholder="비밀번호" name = "password" id="lowerRound" required>
 		<a href="" class="forgot_link">forgot ?</a>
 		
 		<!-- <button onclick="loginFunc()">Login</button> -->
