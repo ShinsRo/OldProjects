@@ -207,7 +207,26 @@ public class BoardDAO {
 					closeAll(rs, pstmt, con);
 				}
 			}	
-			
+			public void insertComment(CommentVO vo) throws SQLException {
+				Connection con = null;
+				PreparedStatement pstmt = null;
+				
+				try {
+					con = getConnection();
+					String sql = "insert into board_comment(com_no, content, depth, id, parrent_com_no, board_no) "
+							+ "values(com_seq.nextval,?,?,?,?,?)";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, vo.getContent());
+					pstmt.setInt(2, vo.getDepth());
+					pstmt.setString(3, vo.getId());
+					pstmt.setInt(4, vo.getParrentComNO());
+					pstmt.setInt(5, vo.getBoardNO());
+					pstmt.executeUpdate();
+				}finally {
+					closeAll(pstmt, con);
+				}
+				return ;
+			}
 	   public void closeAll(PreparedStatement pstmt, Connection con) throws SQLException {
 		      closeAll(null, pstmt, con);
 		   }

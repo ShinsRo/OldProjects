@@ -6,20 +6,32 @@ public class CommentVO {
    private int depth;
    private int parrentComNO;
    private String id;
+   private int boardNO;
    public CommentVO() {
       super();
    }
    
-   public CommentVO(int comNO, String content, int depth, int parrentComNO, String id) {
-      super();
-      this.comNO = comNO;
-      this.content = content;
-      this.depth = depth;
-      this.parrentComNO = parrentComNO;
-      this.id = id;
-   }
+   public CommentVO(int comNO, String content, int depth, int parrentComNO, String id, int boardNO) {
+	super();
+	this.comNO = comNO;
+	this.content = content;
+	this.depth = depth;
+	this.parrentComNO = parrentComNO;
+	this.id = id;
+	this.boardNO = boardNO;
+}
 
-   public String getId() {
+public int getBoardNO() {
+	return boardNO;
+}
+
+public void setBoardNO(int boardNO) {
+	this.boardNO = boardNO;
+}
+
+
+
+public String getId() {
       return id;
    }
 
@@ -54,8 +66,8 @@ public class CommentVO {
       this.depth = depth;
    }
    @Override
-   public String toString() {
-      return "CommentVO [comNO=" + comNO + ", content=" + content + ", depth=" + depth + ", parrentComNO="
-            + parrentComNO + ", id=" + id + "]";
-   }   
+public String toString() {
+	return "CommentVO [comNO=" + comNO + ", content=" + content + ", depth=" + depth + ", parrentComNO=" + parrentComNO
+			+ ", id=" + id + ", boardNO=" + boardNO + "]";
+}   
 }

@@ -58,7 +58,9 @@ public class HandlerMapping {
 			c = new BoardUpdateController();
 		} else if(command.equals("boardDelete")){
 			c = new BoardDeleteController();
+		} else if(command.equals("insertComment")){
+			c = new InsertCommentController();
 		}
-		return c;
+			return c;
 	}
 }

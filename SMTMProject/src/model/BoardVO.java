@@ -8,8 +8,8 @@ public class BoardVO {
 	private String content;
 	private String timePosted;
 	private String id;
-	private ArrayList<CommentVO> CommentList;
-	
+	private ArrayList<CommentVO> commentList;
+
 	public BoardVO() {
 		super();
 	}
@@ -22,7 +22,7 @@ public class BoardVO {
 		this.content = content;
 		this.timePosted = timePosted;
 		this.id = id;
-		CommentList = commentList;
+		this.commentList = commentList;
 	}
 	public int getBoardNO() {
 		return boardNO;
@@ -56,15 +56,15 @@ public class BoardVO {
 	}
 	
 	public ArrayList<CommentVO> getCommentList() {
-		return CommentList;
+		return this.commentList;
 	}
 	public void setCommentList(ArrayList<CommentVO> commentList) {
-		CommentList = commentList;
+		this.commentList = commentList;
 	}
 	@Override
 	public String toString() {
 		return "BoardVO [boardNO=" + boardNO + ", title=" + title + ", content=" + content + ", timePosted="
-				+ timePosted + ", id=" + id + ", CommentList=" + CommentList + "]";
+				+ timePosted + ", id=" + id + ", CommentList=" + commentList + "]";
 	}
 
 }
