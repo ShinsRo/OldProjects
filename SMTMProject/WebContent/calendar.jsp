@@ -29,6 +29,7 @@ font-weight: bold;
 color: #5c616a;
 /* color: #5c616a; */
 }
+
 </style>
    <meta charset="UTF-8">
    <title>Calendar</title>
@@ -222,7 +223,8 @@ color: #5c616a;
 <div>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-${sessionScope.mvo.name}님의 잔액
+<font style="font-size: 13px; font: Arial, Helvetica, sans-serif;
+font-weight: bold; color: #5c616a;">${sessionScope.mvo.name}님의 잔액</font>
 <span  id = "balanceView"></span>
 </div>
    <div class="container">
