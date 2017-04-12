@@ -63,7 +63,7 @@ color: #5c616a;
          day = data.lastDayOfMonth;
          $("#balanceView").text("${sessionScope.mvo.total}");
          var html = "<img class='imgColor' src='${pageContext.request.contextPath}/img/";
-          var span = "<span id = 'textView'>이번달의 당신의 지출현황</span>";
+          var span = "<span id = 'textView'>이번달 당신의 지출현황</span>";
 	        if(data.ryb =="red"){
 	           $("#imgView").html(html+"red.png'>"+span);
 	        }else if(data.ryb == "yellow"){
