@@ -45,43 +45,49 @@ color: #5c616a;
    - 달력 일을 클릭하면 일별 상세보기 창으로 이동
    - 최초 진입(getCurrentController로부터 진입) 시 현재 일을 기준으로 달력을 보여줌
    */
-   // monthPos : 현재 보여지는 월
+   // monthPos : 현재 보여지는 정보의 월
+   // yearPos : 현재 보여지는 정보의 년도
    var monthArr = [0,"January","February","March", "April", "May", "June", "July", "August", "September", "October","November","December"];
    var monthPos = ${requestScope.month};
    var yearPos = ${requestScope.year};
   
    var day;
+   // 그래프로 이동
    function toGraph() {
 	      location.href = "${pageContext.request.contextPath}/graph.jsp?month="+monthPos
 	            +"&day="+day;
 	   }
    
-   //페이지 초기화
+   /******페이지 초기화 시작*******/
    $(document).ready(function(){
       $.getJSON("DispatcherServlet","command=getCalendarList&year="+yearPos+"&month="+monthPos, function(data) {
          //alert("월 : " + data.month + " 마지막 날짜 : " + data.lastDayOfMonth + " 시작 요일 : " + data.firstDayOfMonth);
+         //data.listOnMonth[i] : 현재 월에 따른 i번째 일의 DayVO 
          day = data.lastDayOfMonth;
-         $("#balanceView").text("${sessionScope.mvo.total}");
-         var html = "<img class='imgColor' src='${pageContext.request.contextPath}/img/";
-          var span = "<span id = 'textView'>이번달 당신의 지출현황</span>";
-	        if(data.ryb =="red"){
-	           $("#imgView").html(html+"red.png'>"+span);
-	        }else if(data.ryb == "yellow"){
-	           $("#imgView").html(html+"yellow.png'>"+span);
-	        }else if(data.ryb = "green"){
-	           $("#imgView").html(html+"green.png'>"+span);
-	       
-	        }
-         $(".year").text(yearPos);
-         $("#month").html(monthArr[data.month]);
-         for(var j = data.firstDayOfMonth-1; j >= 0 ; j--){
-            $("#calendar-body td:eq("+j+")").html("");
-         }
          
+         //총 누적 금액 표시
+         $("#balanceView").text("${sessionScope.mvo.total}");
+         
+        var html = "<img class='imgColor' src='${pageContext.request.contextPath}/img/";
+        var span = "<span id = 'textView'>이번달의 당신의 지출현황</span>";
+        if(data.ryb =="red"){
+           $("#imgView").html(html+"red.png'>"+span);
+        }else if(data.ryb == "yellow"){
+           $("#imgView").html(html+"yellow.png'>"+span);
+        }else if(data.ryb = "green"){
+           $("#imgView").html(html+"green.png'>"+span);
+        }
         
+        //년도 표시 및 월 표시 
+        $(".year").text(yearPos);
+        $("#month").html(monthArr[data.month]);
+        
+        //일별 정보 출력
          for(var i = 1 ; i <= data.lastDayOfMonth; i ++){
-            var income = 0;
-            var spend = 0;
+            var income = 0; //일 수입
+            var spend = 0; //일 지출
+            
+            //listOnMonth의 i번째 날의 입력값이 
             if(data.listOnMonth[i] != null){
                income += data.listOnMonth[i].totalIncome;
                spend += data.listOnMonth[i].totalSpend;
@@ -95,6 +101,9 @@ color: #5c616a;
          }
          
       });//getJSON
+      /******페이지 초기화 종료*******/
+      
+      /******'<' 버튼 클릭 시 이벤트 핸들링*******/
       $(".btn-prev").click(function() {
          //alert("left");
          if(1<monthPos){
@@ -111,13 +120,10 @@ color: #5c616a;
         	 $("#conditionView").hide();
          }
          $.getJSON("DispatcherServlet","command=getCalendarList&year="+yearPos+"&month="+monthPos, function(data) {
-            //alert("월 : " + data.month + " 마지막 날짜 : " + data.lastDayOfMonth + " 시작 요일 : " + data.firstDayOfMonth);
+        	 day = data.lastDayOfMonth;
             $(".year").text(yearPos);
             $("#month").html(monthArr[data.month]);
             $("#calendar-body td").text("");
-            for(var j = data.firstDayOfMonth-1; j >= 0 ; j--){
-               $("#calendar-body td:eq("+j+")").html("");
-            }
             for(var i = 1 ; i <= data.lastDayOfMonth; i ++){
                var income = 0;
                var spend = 0;
@@ -134,12 +140,13 @@ color: #5c616a;
             }
            
          });//getJSON
-      })//move to prev
+      });//move to prev
+      /*************/
+      
+      /******'>' 버튼 클릭 시 이벤트 핸들링*******/
       $(".btn-next").click(function() {
-         //alert("right");
          if(12>monthPos){
             monthPos += 1;
-            //alert(monthPos);
          }
          else{
             monthPos = 1;
@@ -152,13 +159,10 @@ color: #5c616a;
         	 $("#conditionView").hide();
          }
          $.getJSON("DispatcherServlet","command=getCalendarList&year="+yearPos+"&month="+monthPos, function(data) {
-            //alert("월 : " + data.month + " 마지막 날짜 : " + data.lastDayOfMonth + " 시작 요일 : " + data.firstDayOfMonth);
+        	 day = data.lastDayOfMonth;
             $(".year").text(yearPos);
             $("#month").html(monthArr[data.month]);
             $("#calendar-body td").text("");
-            for(var j = data.firstDayOfMonth-1; j >= 0 ; j--){
-               $("#calendar-body td:eq("+j+")").html("");
-            }
             for(var i = 1 ; i <= data.lastDayOfMonth; i ++){
                var income = 0;
                var spend = 0;
@@ -174,9 +178,12 @@ color: #5c616a;
                      "<span class = 'spend'>"+spend+"</span>");
             }
          });//getJSON
-      });
+      });//move to next
+     /*************/
+     
+     /******일자 클릭 시 이벤트 핸들링*******/
+     //클릭 시 상세보기로 이동
       $("#calendar-body").on("click", "td", function(){
-            //alert($(this).children("#dayPos").text());
             var dayPos = $(this).children("#dayPos").text();
             if(monthPos < 10){
                monthPos = "0"+monthPos;
@@ -189,6 +196,7 @@ color: #5c616a;
                 monthPos+"/"+                  
                 dayPos;
       });
+      /*************/
    });//ready
    </script>
 </head>
