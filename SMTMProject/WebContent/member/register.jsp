@@ -16,7 +16,7 @@ function openPopup(){
          alert("아이디를 입력하세요.");
       } else
          open("${pageContext.request.contextPath}/DispatcherServlet?command=idcheck"+"&id="+id, "mypopup",
-               "width=200, height=200, top=150, left=200");
+               "width=200, height=150, top=200, left=550");
       }
 function checkId() {
       if(document.testForm.data.value!=document.testForm.id.value){
@@ -30,9 +30,9 @@ function checkId() {
    }
    
 function cancelFunc(){
-	   location.href = "${pageContext.request.contextPath}/index.jsp"
-	}
-	
+      location.href = "${pageContext.request.contextPath}/index.jsp"
+   }
+   
 </script>
 </head>
 <body>
@@ -65,9 +65,9 @@ function cancelFunc(){
       <input type="text" name="limit" placeholder="기준치를 입력하세요." id="lowerRound" required>
       <br>
       <input type="submit" id = "registerBtn" style ="HEIGHT: 35pt" value="회원가입">
-	 </form>
-	 <br>
-		<button onclick="cancelFunc()">취소</button>
+    </form>
+    <br>
+      <button onclick="cancelFunc()" style ="HEIGHT: 35pt">취소</button>
    </div>
 
 </body>

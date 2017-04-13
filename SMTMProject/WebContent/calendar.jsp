@@ -132,8 +132,8 @@ color: #5c616a;
             $("#month").html(monthArr[data.month]);
             $("#calendar-body td").text("");
             for(var i = 1 ; i <= data.lastDayOfMonth; i ++){
-               var income = 0;
-               var spend = 0;
+               var income = "";
+               var spend = "";
                if(data.listOnMonth[i] != null){
                   income += data.listOnMonth[i].totalIncome;
                   spend += data.listOnMonth[i].totalSpend;

@@ -16,17 +16,14 @@ public class IdCheckController implements Controller {
 		String color = null;
 		String url="member/idcheck.jsp";
 		if(flag){
-			message = id+"는 사용불가!";
-			color = "orange";
+			message = id+" 사용불가!";
 			request.setAttribute("flag", "");
 		} 
 		else{ 
 			request.setAttribute("flag", id);
-			message = id+"는 사용가능";
-			color = "yellow";
+			message = id+" 사용가능";
 		}
 		request.setAttribute("message", message);
-		request.setAttribute("color", color);
 		
 		return url;
 	}

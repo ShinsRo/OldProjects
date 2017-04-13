@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>title:</title>
+<title>글 수정하기</title>
 <link
 	href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
 	rel="stylesheet" id="bootstrap-css">
@@ -16,45 +16,43 @@
 	<jsp:include page="/layout/header.jsp" />
 	<br>
 	<div class="container">
-		<form method=post
+	<div class = "row">
+	 <div class="col-md-2">
+	 </div>
+	 	 <div class="col-md-8">
+	<form method=post
 			action="${pageContext.request.contextPath}/DispatcherServlet">
 			<input type=hidden name=command value=boardUpdate></input>
-			<table class="inputForm" align="center">
-				<tbody>
-					<label for="inputdefault">글번호</label>
-					<input class="form-control" id="inputdefault" type="text"
-						name="boardNO" value = "${bvo.boardNO }" readonly>
-						
-						
-					<label for="inputdefault">타이틀</label>
-					<input class="form-control" id="inputdefault" type="text"
-						name="title" value = "${bvo.boardNO }">
-							
-								<tr>
-									<td>글번호: <input type=text name="boardNO"
-										value=${bvo.boardNO } readonly></input> | 타이틀:<input type=text
-										name="title"></input>
+	<table class="table table-striped table-hover" id = "detail-table">
+               <tr>
+                  <td><input class="form-control" id="inputdefault" type="text"
+								name="boardNO" value = "${bvo.boardNO }" readonly></td>
+                  <td colspan="2"><input class="form-control" id="inputdefault" type="text"
+								name="title" value = "${bvo.title }"></td>
+               </tr>	
+               <tr>
+                  <td><input class="form-control" id="inputdefault" type=text 
+                  				name="writer" value="작성자 : ${requestScope.bvo.id }" readonly> </td>
+                  <td colspan="2"><input class="form-control" id="inputdefault" type="text"
+								name="timePosted" value = "${requestScope.bvo.timePosted }" readonly>
+                  </td>
+
+               </tr>
+               <tr>
+                  <td colspan="4"><textarea rows="15" cols="135" name="content">${requestScope.bvo.content}</textarea></td>
+               </tr>
+               <tr>
+								<td colspan = "12" align="center"><!-- <input type="submit" value="수정하기"
+									class="action"></input> -->
+									 <button type="submit" class="btn btn-primary">수정하기</button>
 									</td>
-								</tr>
-								<tr>
-									<td><font size="2"> 작성자: <input type=text
-											name=writer value=${bvo.id } readonly></input>|
-											작성일시:${bvo.timePosted }
-									</font></td>
-								</tr>
-								<tr>
-									<td><textarea rows="15" cols="75" name="content"></textarea>
-									</td>
-								</tr>
-								<tr>
-									<td valign="middle"><input type="submit" value="수정하기"
-										class="action"></input></td>
-								</tr>
+							</tr>
 							
-						
-					
-			</table>
-		</form>
+    </table>
+    </form>
+    </div>
+	</div>
+	</div>
 </body>
 </html>
 

@@ -26,8 +26,7 @@ function content_submit(){
    f.submit();
 }
 function cancel(){
-   var f=document.write_form;
-   f.reset();
+   location.href="${pageContext.request.contextPath}/DispatcherServlet?command=board";
 }
 </script>
 </head>
@@ -38,34 +37,34 @@ function cancel(){
    <input type="hidden" name="command" value="boardWrite"> 
    <table class="inputForm" align="center">
     <tbody>
-<!--     <tr>
-     <td>TITLE</td>
-     <td colspan="3">
-     <input type="text" name="title" size="48" >
-     </td>
-    </tr> -->
+
    <div class="container">
+   <div class="col-sm-3"></div>
    <div class="form-group">
+   	  <div class="col-sm-6">
       <label for="inputdefault">TITLE</label>
-      <input class="form-control" id="inputdefault" type="text" name="title">
+      <input class="form-control" id="inputdefault" type="text" name="title" td colspan="3">
     </div>
     </div>
+    <div class="col-sm-3"></div>
+    </div>
+
+    <br>
     
-<!--     <tr>
-     <td colspan="4" align="left">
-     &nbsp;&nbsp;
-     <textarea cols="53" rows="15" name="content"></textarea>
-     </td>
-    </tr>  -->
     <div class="container">
-    <div class="form-group">
+   <div class="col-sm-3"></div>
+   <div class="form-group">
+   	  <div class="col-sm-6">
       <label for="comment">COMMENT</label>
-      <textarea class="form-control" rows="5" id="comment" name="content"></textarea>
-    </div> 
+      <textarea class="form-control" rows="10" id="comment" name="content"></textarea>
+    </div>
+    </div>
+    <div class="col-sm-3"></div>
     </div>
     
     <tr>
      <td colspan="4" align="center" >
+     <br>
         <button type="button" class="btn btn-primary" onclick="content_submit()">글쓰기</button>
          <button type="button" class="btn btn-primary" onclick="cancel()">취소</button>
      </td>  

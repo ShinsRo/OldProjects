@@ -35,8 +35,9 @@
    <jsp:include page="/layout/header.jsp" />
    <div class="container" align="center">
       <div class="row" >
-      <div class="table-responsive col-md-12" >
-            <table class="table table-striped table-hover" >
+      <div class="col-sm-2"></div>
+      <div class="table-responsive col-md-8">
+            <table class="table table-striped table-hover">
                <thead>
                   <tr>
                      <th class="no">NO</th>
@@ -58,6 +59,7 @@
                </tbody>
             </table>
          </div>
+         <div class="col-sm-2"></div>
          </div>
          
       <p class = "paging">
