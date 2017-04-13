@@ -11,14 +11,10 @@ public class IdCheckController implements Controller {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		HttpSession session = request.getSession();
-		if(session==null||session.getAttribute("mvo")==null){
-			throw new SessionExpiredException();
-		}
+		
 		String id = request.getParameter("id");
 		boolean flag= MemberDAO.getInstance().idCheck(id);
 		String message = null;
-		String color = null;
 		String url="member/idcheck.jsp";
 		if(flag){
 			message = id+" 사용불가!";
