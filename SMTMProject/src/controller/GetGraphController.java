@@ -127,8 +127,6 @@ public class GetGraphController implements Controller {
         }
         
         JSONArray json = new JSONArray(weekList);
-      System.out.println(json.toString());
-      System.out.println(gCal.get(Calendar.YEAR));
       pw.println(json.toString());
       pw.close();
       return null;

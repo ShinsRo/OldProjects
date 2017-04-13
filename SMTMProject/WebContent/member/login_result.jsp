@@ -11,13 +11,13 @@
 <c:choose>
    <c:when test="${empty sessionScope.mvo}">
       <script type="text/javascript">
-         alert("아이디나 비번 틀림!!");
+         alert("세션이 만료되었습니다.");
          location.href="${pageContext.request.contextPath}/member/login.jsp";
       </script>
    </c:when>
    <c:otherwise>
       <script type="text/javascript">
-         alert("${sessionScope.mvo.name}님 로그인 성공!!");
+         alert("${sessionScope.mvo.name}님 반갑습니다.");
          location.href="${pageContext.request.contextPath}/account/list.jsp";
       </script>
    </c:otherwise>

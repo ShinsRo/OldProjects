@@ -34,7 +34,7 @@
 			<i></i>
 		</div>
 		<input type="password" placeholder="비밀번호" name = "password" id="lowerRound" required>
-		<a href="" class="forgot_link">forgot ?</a>
+		<br>
 		
 		<!-- <button onclick="loginFunc()">Login</button> -->
 		 <input id = "loginBtn" type="submit"  style="margin-bottom:15px; HEIGHT: 35pt"  value="Login">
