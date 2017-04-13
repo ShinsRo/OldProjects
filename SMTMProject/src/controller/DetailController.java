@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 
+import exception.SessionExpiredException;
 import model.AccountDAO;
 import model.AccountVO;
 import model.MemberVO;
@@ -17,11 +18,14 @@ public class DetailController implements Controller {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		if(session==null||session.getAttribute("mvo")==null){
+			throw new SessionExpiredException();
+		}
 		response.setContentType("text/html;charset=utf-8");
 
 		PrintWriter pw = response.getWriter();
 		ArrayList<AccountVO> list = new ArrayList<AccountVO>();
-		HttpSession session = request.getSession();
 		MemberVO vo = (MemberVO) session.getAttribute("mvo");
 		
 		

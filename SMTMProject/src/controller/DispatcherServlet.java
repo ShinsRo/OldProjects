@@ -7,6 +7,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import exception.SessionExpiredException;
 
 /**
  * Servlet implementation class DispatcherServlet
@@ -51,9 +54,14 @@ public class DispatcherServlet extends HttpServlet {
 				response.sendRedirect(url.substring(9));
 			else
 				request.getRequestDispatcher(url).forward(request, response);
+		}catch (SessionExpiredException e) {
+			response.sendRedirect("error/ssession_expired.jsp");
 		}catch(Exception e){
+			HttpSession session=request.getSession(false);
+		      if(session!=null)
+		         session.invalidate();
 			e.printStackTrace();
-			response.sendRedirect("error.jsp");
+			response.sendRedirect("error/error.jsp");
 		}			
 	}
 }

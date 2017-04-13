@@ -53,7 +53,7 @@ function winOpen(kind){
 
                </tr>
                <tr>
-                  <td colspan="3"><textarea cols = "100" rows ="8" readonly="readonly">${requestScope.bvo.content}</textarea></td>
+                  <td colspan="3"><pre>${requestScope.bvo.content}</pre></td>
                </tr>
                <c:forEach items ="${requestScope.bvo.commentList }" var = "com" >
                      <tr>

@@ -55,7 +55,7 @@ function cancel(){
    <div class="col-sm-3"></div>
    <div class="form-group">
    	  <div class="col-sm-6">
-      <label for="comment">COMMENT</label>
+      <label for="comment">CONTENT</label>
       <textarea class="form-control" rows="10" id="comment" name="content"></textarea>
     </div>
     </div>

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
+import exception.SessionExpiredException;
 import model.AccountDAO;
 import model.CalendarBean;
 import model.CalendarManager;
@@ -23,6 +24,10 @@ public class GetCalendarListController implements Controller {
 
    @Override
    public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	   HttpSession session = request.getSession();
+	   if(session==null||session.getAttribute("mvo")==null){
+		   throw new SessionExpiredException();
+	   }
       response.setCharacterEncoding("utf-8");
       PrintWriter out = response.getWriter();
       int year = Integer.parseInt(request.getParameter("year"));
@@ -31,7 +36,6 @@ public class GetCalendarListController implements Controller {
       
       
       
-      HttpSession session = request.getSession();
       MemberVO mvo = (MemberVO) session.getAttribute("mvo");
       
       

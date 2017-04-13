@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import exception.SessionExpiredException;
 import model.AccountDAO;
 import model.CalendarBean;
 import model.CalendarManager;
@@ -25,6 +26,10 @@ public class GetMonthGraphController implements Controller {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		if(session==null||session.getAttribute("mvo")==null){
+			throw new SessionExpiredException();
+		}
 		response.setCharacterEncoding("utf-8");
 		String wi = request.getParameter("wi");
 		PrintWriter pw = response.getWriter();

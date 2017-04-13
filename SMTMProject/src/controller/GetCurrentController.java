@@ -5,11 +5,18 @@ import java.util.GregorianCalendar;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import exception.SessionExpiredException;
 
 public class GetCurrentController implements Controller {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		if(session==null||session.getAttribute("mvo")==null){
+			throw new SessionExpiredException();
+		}
 		String go = request.getParameter("go");
 		Calendar gCal = GregorianCalendar.getInstance();
 		

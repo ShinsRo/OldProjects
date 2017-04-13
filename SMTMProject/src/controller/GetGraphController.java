@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import exception.SessionExpiredException;
 import model.AccountDAO;
 import model.CalendarBean;
 import model.CalendarManager;
@@ -25,17 +26,15 @@ public class GetGraphController implements Controller {
 
    @Override
    public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	   HttpSession session = request.getSession();
+		if(session==null||session.getAttribute("mvo")==null){
+			throw new SessionExpiredException();
+		}
       String m = null;
-      //HttpSession session = request.getSession();
       PrintWriter pw = response.getWriter();
-      //MemberVO vo = (MemberVO)session.getAttribute("mvo");
    
       int weekInfo = Integer.parseInt(request.getParameter("week"));
       Calendar gCal = GregorianCalendar.getInstance();
-      //String id = "qwer";
-      
-      //HashMap<String,DayVO> map = AccountDAO.getInstance().getAllDayList(id);
-       //String month = map.keySet().iterator().next().substring(7,9);
         
         CalendarBean cb = CalendarManager.getInstance().getCurrent();
         
