@@ -1,3 +1,5 @@
+@CHARSET "UTF-8";
+
 	#container{
 		width: 822px; /* container 경계선 1 , left  200 padding 5+5 ,
 		                           main 600 padding 5+5 ,  border-left: 1   */
