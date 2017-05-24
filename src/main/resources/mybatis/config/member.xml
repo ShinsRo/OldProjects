@@ -4,20 +4,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member"> 	
-	<sql id="selectMember">
-		select id,password,addr,addr_detail,tel,job from GD_MEMBER
-	</sql>
-	<select id="findMemberById" resultType="memberVO" parameterType="string">
-		<include refid="selectMember"></include> where id=#{value}
-	</select>
-	<select id="login" resultType="memberVO" parameterType="memberVO">
- 		<include refid="selectMember"></include>
- 		where id=#{id} and password=#{password}
- 	</select>
-	<update id="updateMember" parameterType="memberVO">
-		update GD_MEMBER set password=#{password},address=#{address}
-		where id=#{id}
-	</update>
+
 </mapper>
  
  
