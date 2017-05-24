@@ -17,13 +17,8 @@
   <link rel="stylesheet"  type="text/css" href="${pageContext.request.contextPath}/resources/css/header.css" >
 </head>
 <body>
-	<div id="header"><tiles:insertAttribute name="header" /></div>
-	<div class="container-fluid text-center">    
-     <div class="row content">
-    <div id="left" class="col-sm-3 sidenav" ><tiles:insertAttribute name="left" /></div>
-	<div id="main" class="col-sm-7 text-left"><tiles:insertAttribute name="main" /></div>
-	</div>
-	</div>
+<div id = "left"><tiles:insertAttribute name="left" /></div>
+<div id = "main"><tiles:insertAttribute name="main" /></div>
 </body>
 </html>
 
