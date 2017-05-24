@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-home
-</body>
+ <title>home</title>
+
+    <body>
+    home
+  </body>
 </html>
