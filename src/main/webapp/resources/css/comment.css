@@ -10,11 +10,18 @@ textarea:focus, input:focus{
 textarea{
 	resize:none;
 }
-.comment_btn,.write_btn{
+.comment_btn,.write_btn,.update_btn{
 	border:none;
 	border-radius: 5px;
 	background-color: #3B4E32 !important;
 	width:100px;
 	padding:8px;
 	color: #ffffff;
+}
+#commentList a:link ,.pb_div a:link{
+	color:#000000;
+	text-decoration: none;
+}
+#commentList a:visited,.pb_div a:visited{
+	color:#000000;
 }

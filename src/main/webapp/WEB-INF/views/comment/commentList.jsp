@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <table class="table table-hover" id="commentList">
 		<thead>
 		<tr>
@@ -36,7 +36,7 @@
 			
 		</tbody>					
 	</table><br></br>
-	
+	<div class="pb_div">
 	<c:set var="pb" value="${requestScope.lvo.pagingBean}"></c:set>
     
 	<c:if test="${pb.previousPageGroup}">
@@ -73,5 +73,6 @@
 	<a href="${pageContext.request.contextPath}/getCommentList.do?pageNo=${pb.endPageOfPageGroup+1}">
 	▶<!-- <img src="img/right_arrow_btn.gif"> --></a>
 	</c:if>
+	</div>
 	<br><br>
-	<input type="button" value="글쓰기" onclick="javascript:location.href='${pageContext.request.contextPath}/commentRegisterView.do'">
+	<input class="write_btn" type="button" value="글쓰기" onclick="javascript:location.href='${pageContext.request.contextPath}/commentRegisterView.do'">
