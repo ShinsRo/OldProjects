@@ -25,9 +25,9 @@ public class CommentController {
 	
 	/**
 	 * 지역후기 리스트를 받아오는 메서드
-	 * @param pageNo
+	 * @param 페이지 번호
 	 * @param model
-	 * @return
+	 * @return 이동될 화면의 경로
 	 */
 	@RequestMapping("getCommentList.do")
 	public String getCommentList(String pageNo, Model model) {	
@@ -37,8 +37,8 @@ public class CommentController {
 	
 	/**
 	 * 지역후기의 상세내용
-	 * @param cno
-	 * @return
+	 * @param 글번호
+	 * @return	이동될 화면의 경로, 검색된 결과 vo
 	 */
 	@RequestMapping("showComment.do")
 	public ModelAndView showComment(String cno){
@@ -49,7 +49,7 @@ public class CommentController {
 	/**
 	 * 지역후기 수정 화면으로 이동
 	 * @param cno
-	 * @return
+	 * @return 이동될 화면의 경로, 조회수를 증가하지 않고 받아온 검색결과vo
 	 */
 	@RequestMapping("commentUpdateView.do")
 	public ModelAndView commentUpdate(String cno){
@@ -59,8 +59,8 @@ public class CommentController {
 	
 	/**
 	 * 지역후기 수정
-	 * @param cvo
-	 * @return
+	 * @param CommentVO
+	 * @return	이동될 화면의 경로, 조회수를 증가하지 않고 받아온 검색결과vo
 	 */
 	@RequestMapping("commentUpdate.do")
 	public ModelAndView commentUpdate(CommentVO cvo){
@@ -68,11 +68,21 @@ public class CommentController {
 		return new ModelAndView("comment/commentDetail.tiles","cvo",commentService.showCommentNoHit(Integer.parseInt(cvo.getCno())));
 	}
 	
+	/**
+	 * 지역후기 등록 페이지로 이동
+	 * @return	이동될 화면의 경로
+	 */
 	@RequestMapping("commentRegisterView.do")
 	public String commentRehisterView(){
 		return "comment/commentRegister.tiles";
 	}
 	
+	/**
+	 * 지역후기 등록
+	 * @param 로그인 정보를 받아오기 위해 받아온 request
+	 * @param 사용자에 의해 작성된 Comment 내용
+	 * @return	이동될 화면의 경로, 새로고침 적용되지 않게함, 조회수를 증가하지 않고 검색 시도
+	 */
 	@RequestMapping(value="commentRegister.do",method=RequestMethod.POST)	
 	public ModelAndView write(HttpServletRequest request,CommentVO cvo) {
 		HttpSession session=request.getSession(false);
@@ -90,6 +100,11 @@ public class CommentController {
 		return new ModelAndView("redirect:showCommentNoHit.do?cno="+cvo.getCno());
 	}
 	
+	/**
+	 * 조회수를 증가하지 않고 Comment조회
+	 * @param 글번호
+	 * @return	이동될 화면의 경로, 조회수를 증가하지 않고 받아온 검색결과vo
+	 */
 	@RequestMapping("showCommentNoHit.do")
 	public ModelAndView showCommentNoHit(String cno){
 		System.out.println(cno);
