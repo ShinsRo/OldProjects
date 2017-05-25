@@ -48,8 +48,8 @@ public class CommentController {
 	
 	/**
 	 * 지역후기 수정 화면으로 이동
-	 * @param 글번호
-	 * @return	이동될 화면의 경로, 조회수를 증가하지 않고 받아온 검색결과vo
+	 * @param cno
+	 * @return 이동될 화면의 경로, 조회수를 증가하지 않고 받아온 검색결과vo
 	 */
 	@RequestMapping("commentUpdateView.do")
 	public ModelAndView commentUpdate(String cno){
