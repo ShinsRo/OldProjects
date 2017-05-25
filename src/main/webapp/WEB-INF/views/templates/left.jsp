@@ -28,7 +28,8 @@
 	<li><a href="${pageContext.request.contextPath}/member/myPage.do">마이 페이지<span class="glyphicon glyphicon-cog pull-right"></span></a></li>
 </ul> --%>
        <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
-       <%-- <img class="logo_img" alt="logo" src="${pageContext.request.contextPath}/resources/img/logo_w.png"> --%>
+       <div><img class="logo_img" alt="logo" src="${pageContext.request.contextPath}/resources/img/logo_w.png"></div>
+       <%--  --%>
             <ul class="nav sidebar-nav">
                 <li class="sidebar-brand">
                     <a href="${pageContext.request.contextPath}/home.do"></a>
