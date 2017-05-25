@@ -11,4 +11,3 @@
     
     <a href="getCommentList.do">지역후기보기</a>
   </body>
-</html>

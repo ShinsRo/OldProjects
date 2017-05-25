@@ -4,7 +4,31 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member"> 	
-
+<sql id="selectMember">
+	SELECT ID,PASSWORD,NAME,ADDR,ADDR_DETAIL,TEL,JOB FROM GD_MEMBER
+</sql>
+<select id="findMemberById" resultType="memberVO">
+<include refid="selectMember"></include>
+WHERE ID=#{value}
+</select>
+<select id="login" resultType="memberVO" parameterType="memberVO">
+ 		<include refid="selectMember"></include>
+ 		WHERE ID=#{id} AND PASSWORD=#{password}
+ 	</select>
+ 	<update id="updateMember" parameterType="memberVO">
+		UPDATE GD_MEMBER SET PASSWORD=#{password},NAME=#{name},ADDR=#{addr},ADDR_DETAILE=#{addr_detail}
+		WHERE ID=#{id}
+	</update>
+	<select id="getMemberCount" resultType="int">
+ 		SELECT COUNT(*) FROM GD_MEMBER
+ 	</select>
+	<insert id="register" parameterType="memberVO">
+		INSERT INTO GD_MEMBER(ID,PASSWORD,NAME,ADDR,ADDR_DETAIL,TEL,JOB)
+		VALUES(#{id},#{password},#{name},#{addr},#{addr_detail},#{tel},#{job})
+	</insert>
+	<select id="idcheck" resultType="int">
+		SELECT COUNT(*) FROM GD_MEMBER WHERE ID=#{value}
+	</select>
 </mapper>
  
  
