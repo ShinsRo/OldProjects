@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<table>
-		<caption>목록</caption>
+<table class="table table-hover" id="commentList">
 		<thead>
 		<tr>
 			<th class="no">NO</th>
@@ -14,12 +12,12 @@
 			</tr>
 		</thead>
 		<tbody>			
-		<c:forEach items="${requestScope.lvo.list}" var="cvo" >				
+<%-- 		<c:forEach items="${requestScope.lvo.list}" var="cvo" >				
 			<tr>
 			    <td>${cvo.cno }</td>				
 				<td>
 				<a href="${pageContext.request.contextPath}/showComment.do?cno=${cvo.cno }">${cvo.title }</a>
-					<%-- 회원가입 여부에 따라
+					회원가입 여부에 따라
 					<c:choose>
 					<c:when test="${sessionScope.mvo!=null}">
 					<a href="${pageContext.request.contextPath}/showComment.do?cno=${bvo.cno }">
@@ -28,16 +26,26 @@
 					<c:otherwise>
 					${bvo.title }
 					</c:otherwise>
-					</c:choose> --%>
+					</c:choose>
 					</td>
 					<td>${cvo.id }</td>
 					<td>${cvo.time_posted }</td>
 					<td>${cvo.hit }</td>
 			</tr>	
-		</c:forEach>
+		</c:forEach> --%>
+			<tr>
+				<td>1</td><td>집에 가자</td><td>가린</td><td>2017.05.25</td><td>1</td>
+			</tr>
+			<tr>
+				<td>2</td><td>집에 가자2</td><td>가린</td><td>2017.05.25</td><td>1</td>
+			</tr>
+			<tr>
+				<td>3</td><td>집에 가자3</td><td>가린</td><td>2017.05.25</td><td>1</td>
+			</tr>
 		</tbody>					
 	</table><br></br>
-	<c:set var="pb" value="${requestScope.lvo.pagingBean}"></c:set>
+	<input type="button" value="글쓰기" onclick="javascript:location.href='${pageContext.request.contextPath}/commentRegisterView.do'">
+	<%-- <c:set var="pb" value="${requestScope.lvo.pagingBean}"></c:set>
 	<!-- 
 			step2 1) 이전 페이지 그룹이 있으면 이미지 보여준다. (img/left_arrow_btn.gif)
 				   		페이징빈의 previousPageGroup 이용 
@@ -79,4 +87,4 @@
 	▶<!-- <img src="img/right_arrow_btn.gif"> --></a>
 	</c:if>
 	<br><br>
-	<a href="${pageContext.request.contextPath}/commentRegisterView.do">글쓰기</a>
+	<a href="${pageContext.request.contextPath}/commentRegisterView.do">글쓰기</a> --%>
