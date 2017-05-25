@@ -44,7 +44,7 @@
 			</tr>
 		</tbody>					
 	</table><br></br>
-	<input type="button" value="글쓰기" onclick="javascript:location.href='${pageContext.request.contextPath}/commentRegisterView.do'">
+	<input class="write_btn"type="button" value="글쓰기" onclick="javascript:location.href='${pageContext.request.contextPath}/commentRegisterView.do'">
 	<%-- <c:set var="pb" value="${requestScope.lvo.pagingBean}"></c:set>
 	<!-- 
 			step2 1) 이전 페이지 그룹이 있으면 이미지 보여준다. (img/left_arrow_btn.gif)

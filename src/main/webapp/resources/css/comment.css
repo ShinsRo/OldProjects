@@ -1,10 +1,20 @@
 
 input,textarea {
 	border:none;
+	background-color: #F8F8FF !important;
 }
 textarea:focus, input:focus{
     outline: none;
+    background-color: #F8F8FF !important;
 }
 textarea{
 	resize:none;
+}
+.comment_btn,.write_btn{
+	border:none;
+	border-radius: 5px;
+	background-color: #3B4E32 !important;
+	width:100px;
+	padding:8px;
+	color: #ffffff;
 }
