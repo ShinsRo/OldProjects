@@ -12,13 +12,40 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-  <link rel="stylesheet"  type="text/css" href="${pageContext.request.contextPath}/resources/css/home.css" >
-  <link rel="stylesheet"  type="text/css" href="${pageContext.request.contextPath}/resources/css/left.css" >
-  <link rel="stylesheet"  type="text/css" href="${pageContext.request.contextPath}/resources/css/header.css" >
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
+   <script src="${pageContext.request.contextPath}/resources/js/index.js"></script> 
+
 </head>
 <body>
-<div id = "left"><tiles:insertAttribute name="left" /></div>
-<div id = "main"><tiles:insertAttribute name="main" /></div>
+	<div id="wrapper">
+		<div class="overlay"></div>
+		<div id="left">
+			<tiles:insertAttribute name="left" />
+		</div>
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+			<button type="button" class="hamburger is-closed animated fadeInLeft"
+				data-toggle="offcanvas">
+				<span class="hamb-top"></span> <span class="hamb-middle"></span> <span
+					class="hamb-bottom"></span>
+			</button>
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-8 col-lg-offset-2" align="center">
+						<div id="main">
+							<tiles:insertAttribute name="main" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /#page-content-wrapper -->
+	<!-- /#wrapper -->
+
 </body>
 </html>
 
