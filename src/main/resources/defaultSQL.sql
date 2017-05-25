@@ -43,6 +43,7 @@ CREATE TABLE LOC_COMMENT(
 	TIME_POSTED DATE NOT NULL,
 	ADDR VARCHAR2(100) NOT NULL,
 	ID VARCHAR2(30) NOT NULL,
+	CONTENT CLOB NOT NULL,
 	CONSTRAINT FK_COM_ID FOREIGN KEY(ID) REFERENCES GD_MEMBER
 );
 
@@ -79,10 +80,27 @@ DROP SEQUENCE B_SEQ;
 DROP SEQUENCE T_SEQ;
 DROP SEQUENCE P_SEQ;
 DROP SEQUENCE A_SEQ;
+DROP SEQUENCE C_SEQ;
 
--- B : BOARD / T : TRANSACTION / P : PRODUCT / A : APPLICATION
+-- B : BOARD / T : TRANSACTION / P : PRODUCT / A : APPLICATION / C : COMMENT
 CREATE SEQUENCE B_SEQ;
 CREATE SEQUENCE T_SEQ;
 CREATE SEQUENCE P_SEQ;
 CREATE SEQUENCE A_SEQ;
+CREATE SEQUENCE C_SEQ;
 
+-- SELECT
+SELECT * FROM GD_MEMBER;
+SELECT * FROM LOC_COMMENT;
+
+-- TEST MEMBER
+INSERT INTO GD_MEMBER(ID, NAME, PASSWORD, ADDR, ADDR_DETAIL, TEL, JOB) VALUES('java', '딘딘', '1234', '경기도 성남시 분당구', '삼평동 670','01012345678','취준생');
+
+-- TEST COMMENT
+insert into LOC_COMMENT(CNO, TITLE, HIT, TIME_POSTED, ADDR, ID, CONTENT) VALUES(C_SEQ.nextval, 'test1', '0', sysdate, '경기도 성남시 분당구', 'java', '내용');
+insert into LOC_COMMENT(CNO, TITLE, HIT, TIME_POSTED, ADDR, ID, CONTENT) VALUES(C_SEQ.nextval, 'test2', '0', sysdate, '경기도 광주시 회덕동', 'java', '내용');
+
+select * from (select cno, title, hit, time_posted, addr, id, content, row_number() over(order by cno desc) as rnumber from
+		loc_comment) where rnumber between 1 and 5;
+		
+select * from LOC_COMMENT;
