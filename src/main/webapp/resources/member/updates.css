@@ -1,0 +1,46 @@
+@CHARSET "UTF-8";
+button{
+	padding:1px;
+	text-align: center;
+	align:center;
+	margin-left : 200px;
+}
+form{
+	margin-left : 70px;
+	padding-left: 10px;
+	
+}
+  input[type=text],input[type=password],input[type=tel], select {
+  background-color: #ECF0F1;
+    width: 250px;
+    padding: 8px 0;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    text-align: left;
+    padding-left: 10px;
+}
+
+    input[type="text"]:focus{
+    border: 2px solid #3498DB;
+	box-shadow: none;
+    }
+    input[type="submit"],input[type="button"], select{
+
+      width: 125px;
+   background: #3498DB;
+   color: #ffffff;
+    color: black;
+    padding: 10px 0;
+    margin: 0 auto; 
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.25s;
+     display: bolock;
+    }
+    input[type="submit"]:hover{
+    background-color: #2980B9;
+    }

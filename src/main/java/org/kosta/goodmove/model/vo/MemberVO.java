@@ -8,25 +8,23 @@ public class MemberVO {
 	private String id;
 	private String password;
 	private String name;
-	private String addr_code;
+	private String addr;
+	private String addr_detail;
 	private String tel;
 	private String job;
-	private String tno;
-	private String ano;
 	public MemberVO() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
-	public MemberVO(String id, String password, String name, String addr_code, String tel, String job, String tno,
-			String ano) {
+	public MemberVO(String id, String password, String name, String addr, String addr_detail, String tel, String job) {
 		super();
 		this.id = id;
 		this.password = password;
 		this.name = name;
-		this.addr_code = addr_code;
+		this.addr = addr;
+		this.addr_detail = addr_detail;
 		this.tel = tel;
 		this.job = job;
-		this.tno = tno;
-		this.ano = ano;
 	}
 	public String getId() {
 		return id;
@@ -46,11 +44,17 @@ public class MemberVO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getAddr_code() {
-		return addr_code;
+	public String getAddr() {
+		return addr;
 	}
-	public void setAddr_code(String addr_code) {
-		this.addr_code = addr_code;
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
+	public String getAddr_detail() {
+		return addr_detail;
+	}
+	public void setAddr_detail(String addr_detail) {
+		this.addr_detail = addr_detail;
 	}
 	public String getTel() {
 		return tel;
@@ -64,22 +68,11 @@ public class MemberVO {
 	public void setJob(String job) {
 		this.job = job;
 	}
-	public String getTno() {
-		return tno;
-	}
-	public void setTno(String tno) {
-		this.tno = tno;
-	}
-	public String getAno() {
-		return ano;
-	}
-	public void setAno(String ano) {
-		this.ano = ano;
-	}
 	@Override
 	public String toString() {
-		return "MemberVO [id=" + id + ", password=" + password + ", name=" + name + ", addr_code=" + addr_code
-				+ ", tel=" + tel + ", job=" + job + ", tno=" + tno + ", ano=" + ano + "]";
+		return "MemberVO [id=" + id + ", password=" + password + ", name=" + name + ", addr=" + addr + ", addr_detail="
+				+ addr_detail + ", tel=" + tel + ", job=" + job + "]";
 	}
 	
+		
 }
