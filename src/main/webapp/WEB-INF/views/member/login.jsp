@@ -7,3 +7,4 @@
 	<input type="submit" value="로그인">
 </form>
 <a href="${pageContext.request.contextPath}/member/register.do">register</a>
+
