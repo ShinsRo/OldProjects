@@ -38,11 +38,10 @@
 		<c:choose>
 			<c:when test="${sessionScope.mvo == null}">
 				<li><a href="${pageContext.request.contextPath}/member/logins.do">Login</a></li>
-				<li><a href="${pageContext.request.contextPath }/member/registers.do">회원가입</a></li>
+				<li><a href="${pageContext.request.contextPath}/member/registers.do">회원가입</a></li>
 			</c:when>
 			<c:otherwise>
-				${sessionScope.mvo.name}님 로그인
-				<a href="${pageContext.request.contextPath }/logout.do">로그아웃</a>
+				<li><a href="${pageContext.request.contextPath}/logout.do">로그아웃</a></li>
 			</c:otherwise>
 		</c:choose>
 		<li><a href="${pageContext.request.contextPath}/comment/commentList.do">모든 후기 보기</a></li>

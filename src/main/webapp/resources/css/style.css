@@ -55,6 +55,7 @@ html {
   transition: all 0.5s ease;
   width: 0;
   z-index: 1000;
+  color : white;
 }
 #sidebar-wrapper::-webkit-scrollbar {
   display: none;
@@ -317,3 +318,6 @@ body a:hover {
 	margin-top:20px;
 }
 
+login_name {
+	color : #ffffff;
+}
