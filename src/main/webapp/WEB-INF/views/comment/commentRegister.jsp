@@ -43,8 +43,8 @@
     </tr> 
     <tr>
      <td colspan="4" align="center" >
-      <input type="button" id="writeBtn" value="등록">
-      <input type="button" id="resetBtn"  value="리셋" >      
+      <input class="comment_btn" type="button" id="writeBtn" value="등록">
+      <input class="comment_btn" type="button" id="resetBtn"  value="리셋" >      
      </td>  
     </tr>
     </tbody>
