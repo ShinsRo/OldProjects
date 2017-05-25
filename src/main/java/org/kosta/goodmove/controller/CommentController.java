@@ -80,7 +80,7 @@ public class CommentController {
 			MemberVO mvo=(MemberVO) session.getAttribute("mvo");
 			if(mvo!=null){
 				cvo.setId(mvo.getId());
-				cvo.setAddr(mvo.getAddr_code());
+				cvo.setAddr(mvo.getAddr());
 			}
 		}		
 		commentService.commentRegister(cvo);
