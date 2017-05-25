@@ -41,6 +41,7 @@ public class CommentDAOImpl implements CommentDAO{
 
 	@Override
 	public void commentRegister(CommentVO cvo) {
+		
 		template.insert("comment.commentRegister", cvo);
 		
 	}
