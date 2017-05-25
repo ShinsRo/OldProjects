@@ -77,13 +77,22 @@ public class CommentController {
 	public ModelAndView write(HttpServletRequest request,CommentVO cvo) {
 		HttpSession session=request.getSession(false);
 		if(session!=null){
+			
 			MemberVO mvo=(MemberVO) session.getAttribute("mvo");
 			if(mvo!=null){
 				cvo.setId(mvo.getId());
 				cvo.setAddr(mvo.getAddr());
+				
 			}
 		}		
 		commentService.commentRegister(cvo);
-		return new ModelAndView("redirect:showCommentNoHit.do?no="+cvo.getCno());
+		System.out.println(cvo);
+		return new ModelAndView("redirect:showCommentNoHit.do?cno="+cvo.getCno());
 	}
+	
+	@RequestMapping("showCommentNoHit.do")
+	public ModelAndView showCommentNoHit(String cno){
+		System.out.println(cno);
+	return new ModelAndView("comment/commentDetail.tiles","cvo",commentService.showCommentNoHit(Integer.parseInt(cno)));
+}
 }
