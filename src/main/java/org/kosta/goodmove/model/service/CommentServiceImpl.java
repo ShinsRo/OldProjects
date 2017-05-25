@@ -14,8 +14,8 @@ public class CommentServiceImpl implements CommentService{
 	private CommentDAO commentDAO;
 
 	/**
-	 * 페이지 정보가 없이 리스트 요청 시 
-	 * 페이지를 1로 설정 후 오버로딩 된 메서드로 이동
+	 * 페이지 정보가 없이 지역후기 게시판의 리스트 요청 시 사용
+	 * @return	현재 페이지번호로 1반환
 	 */
 	@Override
 	public CommentListVO getCommentList() {
@@ -23,7 +23,9 @@ public class CommentServiceImpl implements CommentService{
 	}
 
 	/**
-	 * 페이지 정보가 있는 지역후기 리스트 반환
+	 * 지역후기 게시판 리스트 요청, 반환
+	 * @param	현재 페이지 번호
+	 * @return	조회된 리스트와 페이징빈
 	 */
 	@Override
 	public CommentListVO getCommentList(String pageNo) {
@@ -40,8 +42,10 @@ public class CommentServiceImpl implements CommentService{
 	}
 	
 	/**
-	 * 지역후기 상세 내용 반환
-	 * hit수 증가됨
+	 * 지역후기 상세내용 검색, 반환
+	 * 조회수 증가
+	 * @param	글번호
+	 * @return	조회된 글 상세내용
 	 */
 	@Override
 	public CommentVO showComment(int clno){
@@ -58,8 +62,10 @@ public class CommentServiceImpl implements CommentService{
 	}
 
 	/**
-	 * 지역후기 상세정보 반환
-	 * hit수 증가되지 않음
+	 * 지역후기 상세내용 검색, 반환
+	 * 조회수 증가하지 않음
+	 * @param	글번호
+	 * @return	조회된 글 상세내용
 	 */
 	@Override
 	public CommentVO showCommentNoHit(int clno) {
@@ -67,17 +73,20 @@ public class CommentServiceImpl implements CommentService{
 	}
 
 	/**
-	 * 지역후기 상세정보 수정
+	 * 지역후기 상세내용 수정
+	 * @param	변경된 내용
 	 */
 	@Override
 	public void updateBoard(CommentVO cvo) {
 		commentDAO.commentUpdate(cvo);
-		
 	}
 
+	/**
+	 * 지역후기 등록
+	 * @param	고객이 작성한 지역후기 내용
+	 */
 	@Override
 	public void commentRegister(CommentVO cvo) {
 		commentDAO.commentRegister(cvo);
-		
 	}
 }
