@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-        <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-        <script src="${pageContext.request.contextPath}/resources/js/jquery-1.12.4.min.js"></script>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-1.12.4.min.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function(){
@@ -23,8 +23,7 @@
 
 
   <form action="${pageContext.request.contextPath}/commentRegister.do" method="post" id="write_form">
-   <table class="inputForm" >
-    <caption>글쓰기</caption>
+   <table id="inputForm" class="table table-hover">
     <tbody>
     <tr>
      <td>제목</td>
@@ -44,9 +43,8 @@
     </tr> 
     <tr>
      <td colspan="4" align="center" >
-
-      <input type="button" id="writeBtn" value="등록">
-      <input type="button" id="resetBtn"  value="리셋" >      
+      <input class="comment_btn" type="button" id="writeBtn" value="등록">
+      <input class="comment_btn" type="button" id="resetBtn"  value="리셋" >      
      </td>  
     </tr>
     </tbody>

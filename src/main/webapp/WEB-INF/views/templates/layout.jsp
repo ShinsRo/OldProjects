@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
   <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/comment.css">
    <script src="${pageContext.request.contextPath}/resources/js/index.js"></script> 
 
 </head>

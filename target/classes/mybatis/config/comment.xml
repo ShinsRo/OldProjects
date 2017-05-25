@@ -29,7 +29,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where cno=#{cno}
 	</update>
 	<insert id="commentRegister" parameterType="commentVO">
-		insert into LOC_COMMENT(CNO, TITLE, HIT, TIME_POSTED, ADDR, ID, CONTENT) VALUES(C_SEQ.nextval, #{title}, '0', sysdate, #{addr}, #{id}, #{content});
+	<selectKey keyProperty="cno" resultType="String" order="BEFORE">
+			select
+			C_SEQ.nextval from dual
+		</selectKey>
+		insert into LOC_COMMENT(CNO, TITLE, HIT, TIME_POSTED, ADDR, ID, CONTENT)
+		VALUES(#{cno}, #{title}, 0, sysdate, #{addr}, #{id}, #{content})
 	</insert>
 </mapper>
  
