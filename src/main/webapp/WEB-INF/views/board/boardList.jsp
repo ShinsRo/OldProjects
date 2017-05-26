@@ -1,17 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/3-col-portfolio.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/board.css">
+<script>
+	function img_click(){
+		alert("click~");
+	}
+</script>
 <!DOCTYPE html>
         <!-- Projects Row -->
         <div class="product_container">
         <div class="row">
         <c:forEach items="${requestScope.blvo.list}" var="list">
         	 <div class="col-md-4 portfolio-item">
-                <a href="#">
-                    <img class="img-responsive" src="http://placehold.it/700x400" alt="">
-                </a>
-                <span class="product_name">${list.title }</span>
+	                <a href="${pageContext.request.contextPath}/board/boardDetail.do?bno=${list.bno}">
+	                    <img class="img-responsive" src="${pageContext.request.contextPath}/resources/img/siba.jpg" alt="item_img">
+	                </a>
+	                <span class="product_name">${list.title}</span><br><span>[${list.addr}]</span>
             </div>
         </c:forEach>
         </div>
