@@ -7,13 +7,11 @@
 body {
   position: relative;
   overflow-x: hidden;
-    color:#000000;
 }
 body,
 html {
   height: 100%;
   background-color: #F8F8FF;
-  color:#000000;
 }
 .nav .open > a {
   background-color: transparent;
@@ -129,7 +127,7 @@ html {
   width: 100%;
 }
 .sidebar-nav li a {
-  color: #dddddd;
+  color: #dddddd !important;
   display: block;
   padding: 10px 15px 10px 30px;
   text-decoration: none;
@@ -299,14 +297,14 @@ body h1,
 body h2,
 body h3,
 body h4 {
-    color: #333 !important;
+  color: #fff;
 }
 body p,
 body blockquote {
   color: rgba(255, 255, 255, 0.7);
 }
 body a {
-  color: #333 !important;
+  color: #fff;
   text-decoration: underline;
 }
 body a:hover {
@@ -322,7 +320,4 @@ body a:hover {
 
 login_name {
 	color : #ffffff;
-}
-.pagination a{
-	color:black;
 }
