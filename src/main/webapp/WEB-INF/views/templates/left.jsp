@@ -10,7 +10,7 @@
 	});
 </script>
        <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
-       <div><img class="logo_img" alt="logo" src="${pageContext.request.contextPath}/resources/img/logo_w.png"></div>
+       <div><img class="logo_img" alt="logo" src="${pageContext.request.contextPath}/resources/img/logo_tw.png"></div>
             <ul class="nav sidebar-nav">
                 <li class="sidebar-brand">
                     <a href="${pageContext.request.contextPath}/home.do"></a>

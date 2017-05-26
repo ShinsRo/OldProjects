@@ -127,7 +127,7 @@ html {
   width: 100%;
 }
 .sidebar-nav li a {
-  color: #dddddd;
+  color: #dddddd !important;
   display: block;
   padding: 10px 15px 10px 30px;
   text-decoration: none;
@@ -297,14 +297,14 @@ body h1,
 body h2,
 body h3,
 body h4 {
-  color: rgba(255, 255, 255, 0.9);
+  color: #fff;
 }
 body p,
 body blockquote {
   color: rgba(255, 255, 255, 0.7);
 }
 body a {
-  color: rgba(255, 255, 255, 0.8);
+  color: #fff;
   text-decoration: underline;
 }
 body a:hover {

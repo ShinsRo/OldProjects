@@ -5,20 +5,18 @@
 		<thead>
 		<tr>
 			<th class="no">NO</th>
-			<th class="addr">지역</th>
 			<th class="title">제목</th>
 			<th class="name">이름</th>
 			<th class="date">작성일</th>
 			<th class="hit">HIT</th>
+			<th class="addr">지역</th>
 			</tr>
 		</thead>
 		<tbody>			
 <c:forEach items="${requestScope.lvo.list}" var="cvo" >				
 			<tr>
 			    <td>${cvo.cno }</td>		
-			    <td>${cvo.addr }</td>	
 				<td>
-			
 					<c:choose>
 					<c:when test="${sessionScope.mvo!=null}">
 					<a href="${pageContext.request.contextPath}/showComment.do?cno=${cvo.cno }">${cvo.title }</a>
@@ -31,6 +29,7 @@
 					<td>${cvo.id }</td>
 					<td>${cvo.time_posted }</td>
 					<td>${cvo.hit }</td>
+					<td>${cvo.addr }</td>	
 			</tr>	
 		</c:forEach>
 			
@@ -75,4 +74,7 @@
 	</c:if>
 	</div>
 	<br><br>
-	<input class="write_btn" type="button" value="글쓰기" onclick="javascript:location.href='${pageContext.request.contextPath}/commentRegisterView.do'">
+	<c:if test="${sessionScope.mvo.id != null }">
+		<input class="write_btn" type="button" value="글쓰기" onclick="javascript:location.href='${pageContext.request.contextPath}/commentRegisterView.do'">
+	</c:if>
+	

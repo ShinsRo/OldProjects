@@ -35,7 +35,7 @@
 			</button>
 			<div class="container">
 				<div class="row">
-					<div class="col-lg-8 col-lg-offset-2" align="center">
+					<div align="center">
 						<div id="main">
 							<tiles:insertAttribute name="main" />
 						</div>
