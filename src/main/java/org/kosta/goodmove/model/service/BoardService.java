@@ -1,5 +1,9 @@
 package org.kosta.goodmove.model.service;
 
-public interface BoardService {
+import org.kosta.goodmove.model.vo.BoardListVO;
 
+public interface BoardService {
+	public int getNextBno();
+	public BoardListVO getAllBoardList(String pageNo);
+	public BoardListVO getAllBoardList();
 }

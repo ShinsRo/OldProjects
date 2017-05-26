@@ -8,11 +8,12 @@ import java.util.List;
  */
 public class BoardListVO {
 	private List<BoardVO> list;
-	private PagingBean pagingBean;
+	private BoardPagingBean pagingBean;
 	public BoardListVO() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
-	public BoardListVO(List<BoardVO> list, PagingBean pagingBean) {
+	public BoardListVO(List<BoardVO> list, BoardPagingBean pagingBean) {
 		super();
 		this.list = list;
 		this.pagingBean = pagingBean;
@@ -23,14 +24,15 @@ public class BoardListVO {
 	public void setList(List<BoardVO> list) {
 		this.list = list;
 	}
-	public PagingBean getPagingBean() {
+	public BoardPagingBean getPagingBean() {
 		return pagingBean;
 	}
-	public void setPagingBean(PagingBean pagingBean) {
+	public void setPagingBean(BoardPagingBean pagingBean) {
 		this.pagingBean = pagingBean;
 	}
 	@Override
 	public String toString() {
 		return "BoardListVO [list=" + list + ", pagingBean=" + pagingBean + "]";
 	}
+	
 }

@@ -4,7 +4,21 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board"> 	
-
+	<sql id="selectBoard">
+	 select * from G_BOARD
+	</sql>
+	<select id="getNextBno" resultType="int">
+		select B_SEQ.nextval from dual
+	</select>
+	<select id="getAllBoardList" resultType="BoardVO" parameterType="boardPagingBean">
+		select title from (
+		select bno, title, hit, to_char(time_posted,'YYYY.MM.DD HH:mm:ss') as time_posted, 
+		id, addr,bcontent, row_number() over(order by bno desc) as rnum from G_BOARD) 
+		where rnum between #{startRowNumber} and #{endRowNumber}
+	</select>
+	<select id="getTotalBoardCount" resultType="int">
+		select count(*) from G_BOARD
+	</select>
 </mapper>
  
  

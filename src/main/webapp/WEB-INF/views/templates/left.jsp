@@ -26,7 +26,7 @@
 			</c:otherwise>
 		</c:choose>
 		<li><a href="${pageContext.request.contextPath}/getCommentList.do">모든 후기 보기</a></li>
-		<li><a href="${pageContext.request.contextPath}/board/boardList.do">모든 게시물 보기</a></li>
+		<li><a href="${pageContext.request.contextPath}/getBoardList.do">모든 게시물 보기</a></li>
 		<li class="dropdown"><a href="#" class="dropdown-toggle"
 			data-toggle="dropdown"><i class="fa fa-fw fa-cog"></i>마이페이지<span
 				class="caret"></span></a>

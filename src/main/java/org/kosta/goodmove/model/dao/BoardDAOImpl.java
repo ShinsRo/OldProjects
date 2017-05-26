@@ -1,7 +1,12 @@
 package org.kosta.goodmove.model.dao;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
+import org.kosta.goodmove.model.vo.BoardPagingBean;
+import org.kosta.goodmove.model.vo.BoardVO;
+import org.kosta.goodmove.model.vo.PagingBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 /**
@@ -13,5 +18,30 @@ import org.springframework.stereotype.Repository;
 public class BoardDAOImpl implements BoardDAO{
  @Resource
  private SqlSessionTemplate template;
+ 	/**
+ 	 * 다음 bno 받아오기
+ 	 *  @return B_SEQ.nextVal
+ 	 */
+	 @Override
+	 public int getNextBno(){
+		 return template.selectOne("board.getNextBno");
+	 }
+	 /**
+	  * 모든 board 게시글 조회
+	  * @param pagingbean
+	  * @return Board 리스트
+	  */
+	@Override
+	public List<BoardVO> getAllBoardList(BoardPagingBean pagingBean) {
+		return template.selectList("board.getAllBoardList", pagingBean);
+	}
+	/**
+	 * 총 board 글 갯수
+	 * @return 총 글 갯수
+	 */
+	@Override
+	public int getTotalBoardCount(){
+		return template.selectOne("board.getTotalBoardCount");
+	}
  
 }
