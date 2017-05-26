@@ -11,6 +11,13 @@
 			return false;
 		}
 	}
+	function deleteComment(){
+		if(confirm("삭제하시겠습니까?")){
+			location.href="";
+		}else{
+			return false;
+		}
+	}
 </script>
 <table id="inputForm" class="table table-hover">
 	<tbody>
@@ -30,7 +37,7 @@
 			<td valign="middle" align="center" colspan="3">
 			 <input class="update_btn" type="button" value="목록" onclick="sendList()" >
 			 <input class="update_btn" type="button" value="수정" onclick="updateComment()">
-			 <input class="update_btn" type="button" value="삭제" onclick="deleteCommnet()">
+			 <input class="update_btn" type="button" value="삭제" onclick="deleteComment()">
 			 <br><br>			
 			 </td>
 		</tr>

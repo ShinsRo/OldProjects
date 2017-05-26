@@ -22,14 +22,14 @@
 </script>
 
 <form method="post" id="commentUpdateForm" action="${pageContext.request.contextPath}/commentUpdate.do">
-	<table class="content">
+	<table class="table table-hover">
 	<tr>
 		<td>
 			<table>
 				<tr>
 					<td>
 					글번호: <input type=text name=cno value=${cvo.cno } readonly></input>
-					| 타이틀:<input type=text id=title name=title value=${cvo.title }></input>					
+					제목:<input type=text id=title name=title value=${cvo.title }></input>					
 					</td>
 				<tr>
 					<td>						
@@ -37,8 +37,8 @@
 					</td>
 				</tr>
 				<tr>
-				<td valign="middle">						
-					<input type="submit" value="수정하기" class="action"></input>			
+				<td valign="middle" align="center" colspan="2">				
+					<input type="submit" value="수정하기" class="update_btn"></input>			
 					</td>				
 				</tr>
 			</table>

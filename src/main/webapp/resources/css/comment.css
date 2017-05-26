@@ -17,6 +17,12 @@ textarea{
 	width:100px;
 	padding:8px;
 	color: #ffffff;
+	text-align: center;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
 }
 #commentList a:link ,.pb_div a:link{
 	color:#000000;
@@ -24,4 +30,24 @@ textarea{
 }
 #commentList a:visited,.pb_div a:visited{
 	color:#000000;
+}
+
+.comment_btn:after,.write_btn:after,.update_btn:after {
+    content: "";
+    background: #90EE90;
+    display: block;
+    position: absolute;
+    padding-top: 300%;
+    padding-left: 350%;
+    margin-left: -20px!important;
+    margin-top: -120%;
+    opacity: 0;
+    transition: all 0.8s
+}
+
+.comment_btn:active:after,.write_btn:after,.update_btn:after {
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+    transition: 0s
 }
