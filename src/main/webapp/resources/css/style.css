@@ -7,11 +7,13 @@
 body {
   position: relative;
   overflow-x: hidden;
+    color:#000000;
 }
 body,
 html {
   height: 100%;
   background-color: #F8F8FF;
+  color:#000000;
 }
 .nav .open > a {
   background-color: transparent;
@@ -297,14 +299,14 @@ body h1,
 body h2,
 body h3,
 body h4 {
-  color: rgba(255, 255, 255, 0.9);
+    color: #333 !important;
 }
 body p,
 body blockquote {
   color: rgba(255, 255, 255, 0.7);
 }
 body a {
-  color: rgba(255, 255, 255, 0.8);
+  color: #333 !important;
   text-decoration: underline;
 }
 body a:hover {
@@ -320,4 +322,7 @@ body a:hover {
 
 login_name {
 	color : #ffffff;
+}
+.pagination a{
+	color:black;
 }
