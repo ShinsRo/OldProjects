@@ -11,7 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select B_SEQ.nextval from dual
 	</select>
 	<select id="getAllBoardList" resultType="BoardVO" parameterType="boardPagingBean">
-		select title from (
+		select * from (
 		select bno, title, hit, to_char(time_posted,'YYYY.MM.DD HH:mm:ss') as time_posted, 
 		id, addr,bcontent, row_number() over(order by bno desc) as rnum from G_BOARD) 
 		where rnum between #{startRowNumber} and #{endRowNumber}

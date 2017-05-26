@@ -10,17 +10,23 @@ public class BoardVO {
 	private int hit;
 	private String title;
 	private String id;
+	private String addr;
+	private String bcontent;
 	private String time_posted;
 	public BoardVO() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
-	public BoardVO(int bno, int addr_code, int hit, String title, String id, String time_posted) {
+	public BoardVO(int bno, int addr_code, int hit, String title, String id, String addr, String bcontent,
+			String time_posted) {
 		super();
 		this.bno = bno;
 		this.addr_code = addr_code;
 		this.hit = hit;
 		this.title = title;
 		this.id = id;
+		this.addr = addr;
+		this.bcontent = bcontent;
 		this.time_posted = time_posted;
 	}
 	public int getBno() {
@@ -53,6 +59,18 @@ public class BoardVO {
 	public void setId(String id) {
 		this.id = id;
 	}
+	public String getAddr() {
+		return addr;
+	}
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
+	public String getBcontent() {
+		return bcontent;
+	}
+	public void setBcontent(String bcontent) {
+		this.bcontent = bcontent;
+	}
 	public String getTime_posted() {
 		return time_posted;
 	}
@@ -62,7 +80,8 @@ public class BoardVO {
 	@Override
 	public String toString() {
 		return "BoardVO [bno=" + bno + ", addr_code=" + addr_code + ", hit=" + hit + ", title=" + title + ", id=" + id
-				+ ", time_posted=" + time_posted + "]";
+				+ ", addr=" + addr + ", bcontent=" + bcontent + ", time_posted=" + time_posted + "]";
 	}
+	
 
 }
