@@ -13,7 +13,7 @@
         <div class="row">
         <c:forEach items="${requestScope.blvo.list}" var="list">
         	 <div class="col-md-4 portfolio-item">
-	                <a href="${pageContext.request.contextPath}/board/boardDetail.do?bno=${list.bno}">
+	                <a href="${pageContext.request.contextPath}/boardDetail.do?bno=${list.bno}">
 	                    <img class="img-responsive" src="${pageContext.request.contextPath}/resources/img/siba.jpg" alt="item_img">
 	                </a>
 	                <span class="product_name">${list.title}</span><br><span>[${list.addr}]</span>

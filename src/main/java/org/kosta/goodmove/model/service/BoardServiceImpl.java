@@ -5,7 +5,6 @@ import javax.annotation.Resource;
 import org.kosta.goodmove.model.dao.BoardDAO;
 import org.kosta.goodmove.model.vo.BoardListVO;
 import org.kosta.goodmove.model.vo.BoardPagingBean;
-import org.kosta.goodmove.model.vo.PagingBean;
 import org.springframework.stereotype.Service;
 
 @Service
