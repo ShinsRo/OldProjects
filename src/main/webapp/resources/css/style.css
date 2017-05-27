@@ -159,7 +159,7 @@
 }
 .sidebar-nav > .sidebar-brand {
   font-size: 20px !important;
-  height: 30px !important;
+  height: 150px !important;
   line-height: 44px;
 }
 /*-------------------------------*/
@@ -320,4 +320,7 @@ body a:hover {
 
 login_name {
 	color : #ffffff;
+}
+.logo-img{
+	margin-bottom:20px;
 }
