@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="tiles"  uri="http://tiles.apache.org/tags-tiles" %>   
 <!DOCTYPE html>
-<html>
+<html id = "layout-html">
 <head>
   <title>Bootstrap Example</title>
   <meta charset="utf-8">
@@ -20,7 +20,7 @@
    <script src="${pageContext.request.contextPath}/resources/js/index.js"></script> 
 
 </head>
-<body>
+<body id = "layout-body">
 	<div id="wrapper">
 		<div class="overlay"></div>
 		<div id="left">

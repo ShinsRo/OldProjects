@@ -4,22 +4,22 @@
 /*-------------------------------*/
 /*           VARIABLES           */
 /*-------------------------------*/
-body {
+#layout-body {
   position: relative;
   overflow-x: hidden;
 }
-body,
-html {
+#layout-html,
+#layout-body {
   height: 100%;
   background-color: #F8F8FF;
 }
-.nav .open > a {
+.left-nav .open > a {
   background-color: transparent;
 }
-.nav .open > a:hover {
+.left-nav .open > a:hover {
   background-color: transparent;
 }
-.nav .open > a:focus {
+.left-nav .open > a:focus {
   background-color: transparent;
 }
 /*-------------------------------*/
@@ -158,8 +158,8 @@ html {
   text-decoration: none;
 }
 .sidebar-nav > .sidebar-brand {
-  font-size: 20px;
-  height: 150px;
+  font-size: 20px !important;
+  height: 30px !important;
   line-height: 44px;
 }
 /*-------------------------------*/

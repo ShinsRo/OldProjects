@@ -116,6 +116,8 @@
   <!-- The container is used to define the width of the slideshow -->
   <div class="container">
     <div id="slides">
+    깃 레파짓토리(로컬)//
+    사용자 ID/bno/img/1,2,3,4
       <img src="${pageContext.request.contextPath}/resources/img/example-slide-1.jpg" alt="Photo by: Missy S Link: http://www.flickr.com/photos/listenmissy/5087404401/">
       <img src="${pageContext.request.contextPath}/resources/img/example-slide-2.jpg" alt="Photo by: Daniel Parks Link: http://www.flickr.com/photos/parksdh/5227623068/">
       <img src="${pageContext.request.contextPath}/resources/img/example-slide-3.jpg" alt="Photo by: Mike Ranweiler Link: http://www.flickr.com/photos/27874907@N04/4833059991/">

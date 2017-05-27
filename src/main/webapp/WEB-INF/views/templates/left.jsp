@@ -11,10 +11,9 @@
 </script>
        <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
        <div><img class="logo_img" alt="logo" src="${pageContext.request.contextPath}/resources/img/logo_tw.png"></div>
-            <ul class="nav sidebar-nav">
-                <li class="sidebar-brand">
-                    <a href="${pageContext.request.contextPath}/home.do"></a>
-                </li>
+            <ul class="left-nav sidebar-nav">
+               <li class="sidebar-brand">
+                </li> 
 		<li><a href="${pageContext.request.contextPath}/home.do"><i class="fa fa-fw fa-home"></i> Home</a></li>
 		<c:choose>
 			<c:when test="${sessionScope.mvo == null}">
