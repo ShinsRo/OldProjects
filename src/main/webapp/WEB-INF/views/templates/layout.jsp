@@ -2,51 +2,39 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="tiles"  uri="http://tiles.apache.org/tags-tiles" %>   
 <!DOCTYPE html>
-<html id = "layout-html">
+<html>
 <head>
-  <title>Bootstrap Example</title>
-  <meta charset="utf-8">
-  <!-- title이 null인 경우는 무시된다 -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+  	<!-- jquery 로딩 -->
+  	<script type="text/javascript" src="//code.jquery.com/jquery.min.js"></script>
+    
   <title><tiles:insertAttribute name="title" ignore="true" /></title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
   
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-  <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/comment.css">
-   <script src="${pageContext.request.contextPath}/resources/js/index.js"></script> 
+	
+	<!-- js 로딩 -->	
+    <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/lightbox.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/wow.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/main.js"></script>   
 
+	<!-- css 링크 -->
+    <link href="${pageContext.request.contextPath }/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath }/resources/css/font-awesome.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath }/resources/css/animate.min.css" rel="stylesheet"> 
+    <link href="${pageContext.request.contextPath }/resources/css/lightbox.css" rel="stylesheet"> 
+	<link href="${pageContext.request.contextPath }/resources/css/main.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath }/resources/css/responsive.css" rel="stylesheet">
 </head>
-<body id = "layout-body">
-	<div id="wrapper">
-		<div class="overlay"></div>
-		<div id="left">
-			<tiles:insertAttribute name="left" />
-		</div>
-		<!-- Page Content -->
-		<div id="page-content-wrapper">
-			<button type="button" class="hamburger is-closed animated fadeInLeft"
-				data-toggle="offcanvas">
-				<span class="hamb-top"></span> <span class="hamb-middle"></span> <span
-					class="hamb-bottom"></span>
-			</button>
-			<div class="container">
-				<div class="row">
-					<div align="center">
-						<div id="main">
-							<tiles:insertAttribute name="main" />
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- /#page-content-wrapper -->
-	<!-- /#wrapper -->
 
+<body>
+	<tiles:insertAttribute name = "header"/>
+	<tiles:insertAttribute name = "main"/>
+	<tiles:insertAttribute name = "footer"/>
 </body>
 </html>
 

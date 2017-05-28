@@ -38,16 +38,22 @@ public class BoardController {
 		return "board/boardDetail.tiles";
 	}
 	
+	@RequestMapping("boardRegisterView.do")
+	public String boardRegisterView(){
+		return "board/boardRegister.tiles";
+	}
+	
 	@RequestMapping("boardRegister.do")
-	public ModelAndView fileUpload(HttpServletRequest req, BoardVO bvo, ProductSetVO psvo){
+	public String fileUpload(HttpServletRequest req,  BoardVO bvo, ProductSetVO psvo){
 		//실제 운영시에 사용할 서버 업로드 경로
-		uploadPath = req.getSession().getServletContext().getRealPath("/resources/upload/");
-		//개발 시에는 워크스페이스 업로드 경로로 준다.
-		//uploadPath = "C:\\Java-kosta\\framework-workspace2\\springmvc21-fileupload\\src\\main\\webapp\\resources\\upload\\";
+		//uploadPath = req.getSession().getServletContext().getRealPath("/resources/upload/");
+
+		//로컬 깃 레퍼지토리 경로
+		uploadPath = "C:\\Users\\KOSTA\\git\\GoodMoveRepository\\src\\main\\webapp\\uploadedFiles\\";
 		List<MultipartFile> list = psvo.getFile();
 		//결과 응답 화면에 파일명 목록을 전달하기 위한 리스트
 		ArrayList<String> nameList = new ArrayList<String>();
-		for(int i = 0; i < list.size(); i ++){
+/*		for(int i = 0; i < list.size(); i ++){
 			String fileName = list.get(i).getOriginalFilename();
 			if(fileName.equals("")==false){
 				try {
@@ -58,10 +64,7 @@ public class BoardController {
 					e.printStackTrace();
 				}
 			}
-		}
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("nameList", nameList);
-		mv.setViewName("product/multifileupload_result.tiles");
-		return mv;
+		}*/
+		return "home.tiles";
 	}
 }
