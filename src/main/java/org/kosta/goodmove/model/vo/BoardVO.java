@@ -6,7 +6,6 @@ package org.kosta.goodmove.model.vo;
  */
 public class BoardVO {
 	private int bno;
-	private int addr_code;
 	private int hit;
 	private String title;
 	private String id;
@@ -17,11 +16,10 @@ public class BoardVO {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public BoardVO(int bno, int addr_code, int hit, String title, String id, String addr, String bcontent,
+	public BoardVO(int bno, int hit, String title, String id, String addr, String bcontent,
 			String time_posted) {
 		super();
 		this.bno = bno;
-		this.addr_code = addr_code;
 		this.hit = hit;
 		this.title = title;
 		this.id = id;
@@ -34,12 +32,6 @@ public class BoardVO {
 	}
 	public void setBno(int bno) {
 		this.bno = bno;
-	}
-	public int getAddr_code() {
-		return addr_code;
-	}
-	public void setAddr_code(int addr_code) {
-		this.addr_code = addr_code;
 	}
 	public int getHit() {
 		return hit;
@@ -79,8 +71,8 @@ public class BoardVO {
 	}
 	@Override
 	public String toString() {
-		return "BoardVO [bno=" + bno + ", addr_code=" + addr_code + ", hit=" + hit + ", title=" + title + ", id=" + id
-				+ ", addr=" + addr + ", bcontent=" + bcontent + ", time_posted=" + time_posted + "]";
+		return "BoardVO [bno=" + bno + ", hit=" + hit + ", title=" + title + ", id=" + id + ", addr=" + addr
+				+ ", bcontent=" + bcontent + ", time_posted=" + time_posted + "]";
 	}
 	
 
