@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.kosta.goodmove.model.vo.CommentVO;
 import org.kosta.goodmove.model.vo.PagingBean;
+import org.kosta.goodmove.model.vo.SearchVO;
 
 public interface CommentDAO {
 
@@ -13,5 +14,6 @@ public interface CommentDAO {
 	void updateCount(int clno);
 	void commentUpdate(CommentVO cvo);
 	void commentRegister(CommentVO cvo);
+	int getSearchContentCount(SearchVO svo);
 
 }

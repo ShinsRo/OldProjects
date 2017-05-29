@@ -43,7 +43,7 @@
                         </li>
                         <li class="dropdown"><a href="portfolio.html">여기는요<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
-                                <li><a href="portfolio.html">여기는요 모아보기</a></li>
+                                <li><a href="${pageContext.request.contextPath}/getCommentList.do">여기는요 모아보기</a></li>
                                 <li><a href="portfoliofour.html">여기는요 작성하기</a></li>
                             </ul>
                         </li>

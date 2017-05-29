@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.kosta.goodmove.model.vo.CommentVO;
 import org.kosta.goodmove.model.vo.PagingBean;
+import org.kosta.goodmove.model.vo.SearchVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -68,5 +69,14 @@ public class CommentDAOImpl implements CommentDAO{
 	@Override
 	public void commentRegister(CommentVO cvo) {
 		template.insert("comment.commentRegister", cvo);
+	}
+	
+	/**
+	 * 검색 시 검색어에 해당하는 작성물의 갯수 받아오기
+	 */
+	@Override
+	public int getSearchContentCount(SearchVO svo) {
+		int count = template.selectOne("comment.getSearchContentCount", svo);
+		return count;
 	}
 }

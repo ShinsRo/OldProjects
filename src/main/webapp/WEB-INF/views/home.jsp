@@ -8,9 +8,10 @@
 				<div class="col-sm-2"></div>
 				<div class="col-sm-8 text-center padding wow fadeIn"
 					data-wow-duration="1000ms" data-wow-delay="600ms">
-					<form role="form">
+					<form action="${pageContext.request.contextPath}/search.do" method="post" role="form">
 						<input type="text" class="search-form" autocomplete="off"
 							placeholder="검색하기" size="80"> <i class=""></i>
+							<button type="submit" class="btn btn-info">검색</button>
 					</form>
 				</div>
 				<div class="col-sm-2"></div>
