@@ -20,7 +20,7 @@
                         <h2 class="bold">${bvo.title}</h2>
                         <ul class="nav navbar-nav navbar-default">
                             <li><i class="fa fa-clock-o"></i>${bvo.time_posted}</li>
-                            <li><i class="fa fa-tag"></i>${bvo.addr}</li>
+                            <li><img src="${pageContext.request.contextPath}/resources/images/portfolio-details/addr-icon.png" class="addr-icon">${bvo.addr}</li>
                         </ul>
                     </div>
                     <div class="project-info overflow">

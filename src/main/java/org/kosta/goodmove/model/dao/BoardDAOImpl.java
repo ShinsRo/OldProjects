@@ -43,6 +43,10 @@ public class BoardDAOImpl implements BoardDAO{
 	public int getTotalBoardCount(){
 		return template.selectOne("board.getTotalBoardCount");
 	}
+	/**
+	 * 글번호의 board 디테일
+	 * return BoardVO
+	 */
 	@Override
 	public BoardVO getBoardDetailByBno(int bno){
 		return template.selectOne("board.getBoardDetailByBno", bno);

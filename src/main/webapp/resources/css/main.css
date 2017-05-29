@@ -1084,6 +1084,7 @@ ul.elements li > i{
 .portfolio-info {
   overflow: hidden;
   margin-bottom: 30px;
+  text-align:center;
 }
 
 .portfolio-info h2 {
