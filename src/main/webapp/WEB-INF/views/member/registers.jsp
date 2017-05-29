@@ -137,8 +137,9 @@
                     <option value = "011"> 011 </option>
                     <option value = "070"> 070 </option>
 					</select>
-					<input id="tel2" name="tel2"  type="tel" required="required" placeholder="전화번호"  maxlength="4" size="4"/>
-					<input id="tel3" name="tel3"  type="tel" required="required" placeholder="전화번호" maxlength="4" size="4"/><br>
+					<input id="tel2" name="tel2"  type="tel" required="required" placeholder="전화번호"  maxlength="4" />
+					<input id="tel3" name="tel3"  type="tel" required="required" placeholder="전화번호" maxlength="4" /><br>
+					
 					<input id="job" 	name="job"  type="text" required="required" placeholder="직업" /><br>
 					<button id="regfo" class="regF">회원가입</button><br>
 						</form>
