@@ -20,7 +20,7 @@
 				<td>
 			
 					<c:choose>
-					<c:when test="${sessionScope.mvo==null}">
+					<c:when test="${sessionScope.mvo!=null}">
 					<a href="${pageContext.request.contextPath}/showComment.do?cno=${cvo.cno }">${cvo.title }</a>
 					</c:when>
 					<c:otherwise>
@@ -42,11 +42,16 @@
 	<ul class="pagination">
 		<c:set var="pb" value="${requestScope.lvo.pagingBean}"></c:set>
 
-		<c:if test="${pb.previousPageGroup}">
-			<li><a
+			<c:choose>
+				<c:when test="${pb.previousPageGroup}">
+					<li><a
 				href="${pageContext.request.contextPath}/getCommentList.do?pageNo=${pb.startPageOfPageGroup-1}">left</a></li>
-		</c:if>
-		<li><a href="#">left</a></li>
+				</c:when>
+				<c:otherwise>
+					<li></li>
+				</c:otherwise>
+			</c:choose>
+
 		<c:forEach var="i" begin="${pb.startPageOfPageGroup}"
 			end="${pb.endPageOfPageGroup}">
 			<c:choose>
@@ -59,11 +64,15 @@
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>
-		<c:if test="${pb.nextPageGroup}">
-			<li><a
-				href="${pageContext.request.contextPath}/getCommentList.do?pageNo=${pb.endPageOfPageGroup+1}">right</a></li>
-		</c:if>
-		<li><a href="#">right</a></li>
+		
+		<c:choose>
+				<c:when test="${pb.nextPageGroup}">
+					<li><a href="${pageContext.request.contextPath}/getCommentList.do?pageNo=${pb.endPageOfPageGroup+1}">right</a></li>
+				</c:when>
+				<c:otherwise>
+					<li></li>
+				</c:otherwise>
+			</c:choose>
 	</ul>
 </div>
 

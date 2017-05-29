@@ -24,19 +24,17 @@
 
   <form action="${pageContext.request.contextPath}/commentRegister.do" method="post" id="write_form">
    <table id="inputForm" class="table table-hover">
-    <tbody>
+    <tbody align="center">
     <tr>
-     <td>제목</td>
      <td colspan="3">
-     <input type="text" id="title" name="title" size="48">
+     제목 &nbsp;&nbsp;<input type="text" id="title" name="title" size="48" >
      </td>
     </tr>
     <tr>
-     <td>이름</td>
-     <td>${sessionScope.mvo.name}</td>     
+     <td colspan="3">작성자&nbsp;&nbsp;${sessionScope.mvo.name}</td>     
     </tr>
     <tr>
-     <td colspan="4" align="left">
+     <td colspan="4" align="center">
      &nbsp;&nbsp;
      <textarea cols="53" rows="15" id="content" name="content"></textarea>
      </td>

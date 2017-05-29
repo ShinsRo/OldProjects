@@ -22,27 +22,30 @@
 </script>
 
 <form method="post" id="commentUpdateForm" action="${pageContext.request.contextPath}/commentUpdate.do">
-	<table class="table table-hover">
-	<tr>
-		<td>
-			<table>
-				<tr>
-					<td>
-					글번호: <input type=text name=cno value=${cvo.cno } readonly></input>
-					제목:<input type=text id=title name=title value=${cvo.title }></input>					
-					</td>
-				<tr>
-					<td>						
-	<textarea rows="15" cols="75" id="content" name="content">${cvo.content }</textarea>
-					</td>
-				</tr>
-				<tr>
-				<td valign="middle" align="center" colspan="2">				
-					<input type="submit" value="수정하기" class="update_btn"></input>			
-					</td>				
-				</tr>
-			</table>
-		</td>
-	</tr>
-</table>
+
+		<table id="inputForm" class="table table-hover">
+    <tbody align="center">
+    <tr>
+     <td colspan="3">
+     글번호: ${cvo.cno }&nbsp;&nbsp;&nbsp;&nbsp;작성자&nbsp;&nbsp;${sessionScope.mvo.name}
+     
+     </td>
+    </tr>
+    <tr>
+     <td colspan="3"> 제목 &nbsp;&nbsp;<input type=text id=title name=title value=${cvo.title } size="48" ></td>     
+    </tr>
+    <tr>
+     <td colspan="4" align="center">
+     &nbsp;&nbsp;
+     <textarea rows="15" cols="75" id="content" name="content">${cvo.content }</textarea>
+     </td>
+    </tr> 
+    <tr>
+     <td colspan="4" align="center" >
+      <input type="submit" value="수정하기" class="update_btn"></input>   
+     </td>  
+    </tr>
+    </tbody>
+   </table>
+
 </form>	

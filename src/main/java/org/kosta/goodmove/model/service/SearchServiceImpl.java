@@ -39,4 +39,5 @@ public class SearchServiceImpl implements SearchService {
 		//return new BoardListVO(searchDAO.search(svo, pagingBean),pagingBean);
 		return null;
 	}
+
 }
