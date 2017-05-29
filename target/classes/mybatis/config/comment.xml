@@ -36,6 +36,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into LOC_COMMENT(CNO, TITLE, HIT, TIME_POSTED, ADDR, ID, CONTENT)
 		VALUES(#{cno}, #{title}, 0, sysdate, #{addr}, #{id}, #{content})
 	</insert>
+	<delete id="deleteComment">
+		delete from LOC_COMMENT where cno=#{value}
+	</delete>
 </mapper>
  
  

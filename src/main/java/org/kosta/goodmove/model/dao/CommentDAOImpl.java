@@ -69,4 +69,9 @@ public class CommentDAOImpl implements CommentDAO{
 	public void commentRegister(CommentVO cvo) {
 		template.insert("comment.commentRegister", cvo);
 	}
+	
+	@Override
+	public void deleteComment(int cno){
+		template.delete("comment.deleteComment", cno);
+	}
 }

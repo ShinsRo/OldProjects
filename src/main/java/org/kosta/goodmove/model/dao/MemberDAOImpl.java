@@ -31,5 +31,10 @@ public class MemberDAOImpl implements MemberDAO{
 	public MemberVO findMemberById(String id) {
 		return template.selectOne("member.findMemberById", id);
 	}
+	
+	@Override
+	public int getTotalMember(){
+		return template.selectOne("member.getMemberCount");
+	}
 		
 }

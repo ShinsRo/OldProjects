@@ -30,5 +30,10 @@ public class MemberServiceImpl implements MemberService{
 	public MemberVO findMemberById(String id) {
 		return memberDAO.findMemberById(id);
 	}
+
+	@Override
+	public int getMemberCount() {
+		return memberDAO.getTotalMember();
+	}
 	
 }

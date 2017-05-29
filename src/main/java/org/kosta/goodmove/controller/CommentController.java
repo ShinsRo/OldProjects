@@ -110,4 +110,9 @@ public class CommentController {
 		System.out.println(cno);
 	return new ModelAndView("comment/commentDetail.tiles","cvo",commentService.showCommentNoHit(Integer.parseInt(cno)));
 }
+	@RequestMapping("deleteComment.do")
+	public ModelAndView deleteBoard(int cno) {
+		commentService.deleteComment(cno);
+		return new ModelAndView("comment/commentList", "lvo", commentService.getCommentList());
+	}
 }

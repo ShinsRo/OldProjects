@@ -12,4 +12,6 @@ public interface CommentService {
 	public void updateBoard(CommentVO cvo);
 	void updateCount(int clno);
 	public void commentRegister(CommentVO cvo);
+	void deleteComment(int cno);
+	public int getTotalContentCount();
 }
