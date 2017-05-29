@@ -31,31 +31,28 @@
                         <a href="#" class="btn btn-common uppercase">주세요 신청</a>
                     </div>
                     <!-- 주세요 신청 modal -->
-                    <!-- start modal -->
-					<div class="modal fade" id="myModal" role="dialog">
-						<div class="modal-dialog">
-							<!-- Modal content-->
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal">&times;</button>
-									<h4 class="modal-title">주세요 신청하기</h4>
-								</div>
-								<div class="modal-body">
-									<div>
-										신청 글: ${bvo.title}
-									</div>
-									신청 사유를 적어주세요.<br>
-									<input type="text" name="reason">
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-sm btn-info">신청하기</button>
-									<button type="button" class="btn btn-default"
-										data-dismiss="modal">Close</button>
-								</div>
+                <!-- start modal -->
+				<div class="modal fade" id="myModal" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">주세요 신청하기</h4>
 							</div>
-	
+							<div class="contact-form bottom">
+								<form id="main-contact-form" name="contact-form" method="post" action="">
+									<div class="form-group">
+										<textarea name="message" id="message" required="required" class="form-control" rows="8" placeholder="신청 사유를 적어주세요."></textarea>
+									</div>
+									<div class="form-group">
+										<input type="submit" name="submit" class="btn btn-submit" value="Submit">
+									</div>
+								</form>
+							</div>
 						</div>
 					</div>
+				</div>
 				<!-- end of modal -->
 			</div>
             </div>

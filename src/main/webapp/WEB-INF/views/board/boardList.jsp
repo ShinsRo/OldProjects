@@ -60,13 +60,38 @@
 				</c:forEach>
 
 
-
 				<!-- pg -->
 				<c:set var="pb" value="${requestScope.blvo.pagingBean}"></c:set>
-				<div class="portfolio-pagination">
+				     <!-- Pagination -->
+        <div class="row text-center">
+            <div class="col-lg-12">
+                <ul class="pagination">
+                	<c:if test="${pb.previousPageGroup}">
+                    <li>
+                        <a href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${pb.startPageOfPageGroup-1}">&laquo;</a>
+                    </li>
+                    </c:if>
+				    <c:forEach var="i" begin="${pb.startPageOfPageGroup}" end="${pb.endPageOfPageGroup}">
+						<c:choose>
+							<c:when test="${pb.nowPage!=i}">
+								<li><a href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${i}">${i}</a></li>
+							</c:when>
+							<c:otherwise><li class="active"><a href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${i}">${i}</a></li></c:otherwise>
+						</c:choose>
+					</c:forEach>	
+					<c:if test="${pb.nextPageGroup}">
+                    <li>
+                        <a href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${pb.endPageOfPageGroup+1}">&raquo;</a>
+                    </li>
+                    </c:if>
+                </ul>
+            </div>
+        </div>
+<%-- 				<div class="portfolio-pagination">
 					<ul class="pagination">
 					<c:if test="${pb.previousPageGroup}">
-						<li><a href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${pb.startPageOfPageGroup-1}">왼</a></li></c:if>
+						<li><a href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${pb.startPageOfPageGroup-1}">왼</a></li>
+					</c:if>
 						<li><a href="#">left</a></li>
 						<c:forEach var="i" begin="${pb.startPageOfPageGroup}" end="${pb.endPageOfPageGroup}">
 							<c:choose>
@@ -82,7 +107,7 @@
 							<li><a href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${pb.endPageOfPageGroup+1}">right</a></li>
 						</c:if>
 					</ul>
-				</div>
+				</div> --%>
 			</div>
 		</div>
 		</div>

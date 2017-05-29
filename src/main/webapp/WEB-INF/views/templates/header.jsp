@@ -28,7 +28,7 @@
                     </button>
 
                     <a class="navbar-brand" href="${pageContext.request.contextPath}/home.do">
-                    	<h1><img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="logo"></h1>
+                    	<h1><img class="logo_img" src="${pageContext.request.contextPath}/resources/img/logo_w.png" alt="logo" height="100" width="100"></h1>
                     </a>
                     
                 </div>

@@ -9,12 +9,12 @@
                         <h3>Team AreadyDone</h3>
                         <br>
                              <p>
-                        	SeungShin : JinWoo<br>
-                        	GaRin : YoungWoo<br>
-                        	TangJa : Yonghyuk<br>
+                        	SeungShin , JinWoo<br>
+                        	GaRin , YoungWoo<br>
+                        	TaekMin , Yonghyuk<br>
 							</p>
 							<p>
-							Contact : 0000@0000.com
+							Contact : goodmove@kosta145.com
 							</p>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="col-sm-12">
                     <div class="copyright-text text-center">
-                        <p>&copy; Your Company 2014. All Rights Reserved.</p>
+                        <p>&copy; KOSTA145 2017. All Rights Reserved.</p>
                         <p>Designed by <a target="_blank" href="http://www.themeum.com">Themeum</a></p>
                     </div>
                 </div>
