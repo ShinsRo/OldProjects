@@ -1,42 +1,40 @@
 package org.kosta.goodmove.model.vo;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
 public class ProductSetVO {
-	private String[] ptitle;
-	private String[] kind;
-	private String[] pcontent;
+	private List<String> ptitle;
+	private List<String> kind;
+	private List<String> pcontent;
 	private List<MultipartFile> file;
 	public ProductSetVO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-	public ProductSetVO(String[] ptitle, String[] kind, String[] pcontent, List<MultipartFile> file) {
+	public ProductSetVO(List<String> ptitle, List<String> kind, List<String> pcontent, List<MultipartFile> file) {
 		super();
 		this.ptitle = ptitle;
 		this.kind = kind;
 		this.pcontent = pcontent;
 		this.file = file;
 	}
-	public String[] getPtitle() {
+	public List<String> getPtitle() {
 		return ptitle;
 	}
-	public void setPtitle(String[] ptitle) {
+	public void setPtitle(List<String> ptitle) {
 		this.ptitle = ptitle;
 	}
-	public String[] getKind() {
+	public List<String> getKind() {
 		return kind;
 	}
-	public void setKind(String[] kind) {
+	public void setKind(List<String> kind) {
 		this.kind = kind;
 	}
-	public String[] getPcontent() {
+	public List<String> getPcontent() {
 		return pcontent;
 	}
-	public void setPcontent(String[] pcontent) {
+	public void setPcontent(List<String> pcontent) {
 		this.pcontent = pcontent;
 	}
 	public List<MultipartFile> getFile() {
@@ -47,8 +45,7 @@ public class ProductSetVO {
 	}
 	@Override
 	public String toString() {
-		return "ProductSetVO [ptitle=" + Arrays.toString(ptitle) + ", kind=" + Arrays.toString(kind) + ", pcontent="
-				+ Arrays.toString(pcontent) + ", file=" + file + "]";
+		return "ProductSetVO [ptitle=" + ptitle + ", kind=" + kind + ", pcontent=" + pcontent + ", file=" + file + "]";
 	}
-	
+
 }

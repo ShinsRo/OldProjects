@@ -10,12 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kosta.goodmove.model.service.BoardService;
 import org.kosta.goodmove.model.vo.BoardVO;
+import org.kosta.goodmove.model.vo.MemberVO;
 import org.kosta.goodmove.model.vo.ProductSetVO;
+import org.kosta.goodmove.model.vo.ProductVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 /**
  * 게시 정보 관할 컨트롤러 : Controller
  * @author AreadyDoneTeam
@@ -45,26 +46,52 @@ public class BoardController {
 	
 	@RequestMapping("boardRegister.do")
 	public String fileUpload(HttpServletRequest req,  BoardVO bvo, ProductSetVO psvo){
+		
+		int bno = boardService.getNextBno();
+		String userId = ((MemberVO)req.getSession(false).getAttribute("mvo")).getId();
+		
+		bvo.setId(userId);
+		bvo.setBno(bno);
+		
 		//실제 운영시에 사용할 서버 업로드 경로
 		//uploadPath = req.getSession().getServletContext().getRealPath("/resources/upload/");
-
+		
 		//로컬 깃 레퍼지토리 경로
-		uploadPath = "C:\\Users\\KOSTA\\git\\GoodMoveRepository\\src\\main\\webapp\\uploadedFiles\\";
+		uploadPath = "C:\\Users\\KOSTA\\git\\GoodMoveRepository\\src\\main\\webapp\\uploadedFiles\\"
+				+userId+"\\"+"board"+bno+"\\";
+		
+		
 		List<MultipartFile> list = psvo.getFile();
-		//결과 응답 화면에 파일명 목록을 전달하기 위한 리스트
-		ArrayList<String> nameList = new ArrayList<String>();
-/*		for(int i = 0; i < list.size(); i ++){
+		for(int i = 0; i < list.size(); i ++){
 			String fileName = list.get(i).getOriginalFilename();
+			String fileSuffix = fileName.substring(fileName.lastIndexOf('.'));
+			System.out.println(fileSuffix);
+			//물건 번호 초기화
+			int nPno = boardService.getNextPno();
+			bvo.setpList(new ArrayList<ProductVO>());
+			
+			//물건 리스트 초기화
+			ProductVO tempPVO = new ProductVO();
+			tempPVO.setPno(nPno);
+			bvo.getpList().add(tempPVO);
+			
 			if(fileName.equals("")==false){
 				try {
-					list.get(i).transferTo(new File(uploadPath+fileName));
-					nameList.add(fileName);
+					if(new File(uploadPath).mkdirs())
+						list.get(i).transferTo(new File(uploadPath+nPno+fileSuffix));
+					else{
+						System.out.println("업로드 실패");
+						throw new Exception();
+					}
 					System.out.println("업로드 완료 "+fileName);
 				} catch (IllegalStateException | IOException e) {
 					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
-		}*/
+		}
+		boardService.boardRegister(bvo, psvo);
 		return "home.tiles";
 	}
 }

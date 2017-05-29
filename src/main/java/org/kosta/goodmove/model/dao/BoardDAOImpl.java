@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.kosta.goodmove.model.vo.BoardPagingBean;
 import org.kosta.goodmove.model.vo.BoardVO;
 import org.kosta.goodmove.model.vo.PagingBean;
+import org.kosta.goodmove.model.vo.ProductVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 /**
@@ -26,6 +27,10 @@ public class BoardDAOImpl implements BoardDAO{
 	 public int getNextBno(){
 		 return template.selectOne("board.getNextBno");
 	 }
+	 @Override
+	 public int getNextPno(){
+		 return template.selectOne("board.getNextPno");
+	 }
 	 /**
 	  * 모든 board 게시글 조회
 	  * @param pagingbean
@@ -43,5 +48,16 @@ public class BoardDAOImpl implements BoardDAO{
 	public int getTotalBoardCount(){
 		return template.selectOne("board.getTotalBoardCount");
 	}
- 
+	/**
+	 * board등록 후 product 순차 등록
+	 * @
+	 */
+	@Override
+	public void boardRegister(BoardVO bvo) {
+		System.out.println(bvo);
+		template.insert("board.boardRegister", bvo);
+		for(ProductVO pvo : bvo.getpList()){
+			template.insert("board.productRegister", pvo);
+		}
+	}
 }

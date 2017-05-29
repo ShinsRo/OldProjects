@@ -13,4 +13,8 @@ public interface BoardDAO {
 
 	List<BoardVO> getAllBoardList(BoardPagingBean pagingBean);
 
+	void boardRegister(BoardVO bvo);
+
+	int getNextPno();
+
 }

@@ -10,6 +10,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getNextBno" resultType="int">
 		select B_SEQ.nextval from dual
 	</select>
+	<select id="getNextPno" resultType="int">
+		select P_SEQ.nextval from dual
+	</select>
 	<select id="getAllBoardList" resultType="BoardVO" parameterType="boardPagingBean">
 		select * from (
 		select bno, title, hit, to_char(time_posted,'YYYY.MM.DD HH:mm:ss') as time_posted, 
@@ -18,6 +21,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<select id="getTotalBoardCount" resultType="int">
 		select count(*) from G_BOARD
+	</select>
+	<select id="boardRegister" parameterType="boardVO">
+		INSERT INTO G_BOARD(BNO, ID, TITLE, BCONTENT, ADDR, TIME_POSTED, HIT) 
+		VALUES(#{bno}, #{id}, #{title}, #{bcontent}, #{addr}, sysdate, 0)
+	</select>
+	<select id="productRegister" parameterType="productVO">
+		INSERT INTO G_PRODUCT(BNO, PNO, PTITLE, KIND, PCONTENT) 
+		VALUES(#{bno}, #{pno}, #{ptitle}, #{kind}, #{pcontent})
 	</select>
 </mapper>
  

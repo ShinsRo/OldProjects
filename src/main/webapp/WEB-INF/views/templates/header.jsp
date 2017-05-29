@@ -34,7 +34,7 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="index.html">Home</a></li>
+                        <li class="active"><a href="${pageContext.request.contextPath }/home.do">Home</a></li>
                          <li class="dropdown"><a href="portfolio.html">드려요<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
                                 <li><a href="portfolio.html">드려요 모아보기</a></li>
@@ -55,7 +55,7 @@
                                 <li><a href="portfolioone.html">주세요 현황</a></li>
                             </ul>
                         </li>                         
-                        <li><a href="shortcodes.html ">로그인</a></li>
+                        <li><a href="${pageContext.request.contextPath }/member/logins.do ">로그인</a></li>
                         <li><a href="${pageContext.request.contextPath }/member/registers.do">회원가입</a></li>                               
                     </ul>
                 </div>
