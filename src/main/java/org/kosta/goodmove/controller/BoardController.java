@@ -85,12 +85,8 @@ public class BoardController {
 			
 			if(fileName.equals("")==false){
 				try {
-					if(new File(uploadPath).mkdirs())
-						list.get(i).transferTo(new File(uploadPath+nPno+fileSuffix));
-					else{
-						System.out.println("업로드 실패");
-						throw new Exception();
-					}
+					new File(uploadPath).mkdirs();
+					list.get(i).transferTo(new File(uploadPath+nPno+fileSuffix));
 					System.out.println("업로드 완료 "+fileName);
 				} catch (IllegalStateException | IOException e) {
 					e.printStackTrace();
