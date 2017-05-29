@@ -13,10 +13,10 @@ WHERE ID=#{value}
 </select>
 <select id="login" resultType="memberVO" parameterType="memberVO">
  		<include refid="selectMember"></include>
- 		WHERE ID=#{id} AND PASSWORD=#{password}
+ 		WHERE ID=#{id} AND PASSWORD=#{password}  AND deletemember='TRUE'
  	</select>
  	<update id="updateMember" parameterType="memberVO">
-		UPDATE GD_MEMBER SET PASSWORD=#{password},NAME=#{name},ADDR=#{addr},ADDR_DETAILE=#{addr_detail}
+		UPDATE GD_MEMBER SET PASSWORD=#{password},ADDR=#{addr},ADDR_DETAIL=#{addr_detail},TEL=#{tel},Job=#{job}
 		WHERE ID=#{id}
 	</update>
 	<select id="getMemberCount" resultType="int">
@@ -29,6 +29,12 @@ WHERE ID=#{value}
 	<select id="idcheck" resultType="int">
 		SELECT COUNT(*) FROM GD_MEMBER WHERE ID=#{value}
 	</select>
+		<select id="passwordCheck" resultType="String">
+		SELECT COUNT(*) FROM GD_MEMBER WHERE PASSWORD=#{value}
+	</select>
+		<update id="deleteMember" parameterType="memberVO" > 
+	UPDATE GD_MEMBER SET deletemember='FALSE' WHERE ID=#{id} AND PASSWORD=#{password}
+	</update>
 </mapper>
  
  

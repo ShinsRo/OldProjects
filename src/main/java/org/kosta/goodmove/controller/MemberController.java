@@ -25,7 +25,7 @@ public class MemberController {
 	public String login(MemberVO memberVO,HttpServletRequest request){
 		MemberVO vo=service.login(memberVO);
 		if(vo==null){
-			return "member/logins.tiles";
+			return "member/login_fail.tiles";
 		}else{
 			request.getSession().setAttribute("mvo", vo);
 			return "home.tiles";
@@ -39,7 +39,8 @@ public class MemberController {
 			return "home.tiles";
 	}
 	@RequestMapping(value="register.do", method=RequestMethod.POST)
-public String register(MemberVO vo){
+public String register(MemberVO vo,String tel1,String tel2,String tel3){
+		vo.setTel(tel1+tel2+tel3);
 		service.register(vo);
 		return "redirect:registerResultView.do?id=" +vo.getId();
 	}
@@ -54,4 +55,33 @@ public String register(MemberVO vo){
 		int count=service.idcheck(id);
 		return (count==0)? "ok":"fail";
 	}
+	@RequestMapping(value="updateMember.do",method=RequestMethod.POST)
+	public String updateMember(HttpServletRequest request,MemberVO memberVO, String tel1, String tel2, String tel3){	
+			
+			HttpSession session=request.getSession(false);
+		if(session!=null&&session.getAttribute("mvo")!=null){	
+				session.setAttribute("mvo", memberVO);
+				memberVO.setTel(tel1+tel2+tel3);
+				service.updateMember(memberVO);
+				return "member/update_result.tiles";
+		}else{
+			return "home.tiles";
+			}	
+	}
+	@RequestMapping("passwordCheck.do")
+	public String passwordCheck(String password){
+		String trim=service.passwordCheck(password);
+		return (trim==null)? "ok":"fail";
+	}
+	@RequestMapping("delete.do")
+	public String deleteMember(HttpServletRequest request,String id,String password,MemberVO memberVO){
+		HttpSession session=request.getSession(false);
+		if(session!=null&&session.getAttribute("mvo")!=null){	
+			session.invalidate();
+			service.deleteMember(id, password);
+			return "member/delete_result.tiles";
+	}else{
+		return "home.tiles";
+		}	
+}
 }

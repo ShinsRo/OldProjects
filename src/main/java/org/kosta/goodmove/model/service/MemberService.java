@@ -11,5 +11,10 @@ public interface MemberService {
 	int idcheck(String id);
 
 	public MemberVO findMemberById(String id);
+
+	void updateMember(MemberVO memberVO);
 	
+	String passwordCheck(String password);
+	
+	void deleteMember(String id,String password);
 }

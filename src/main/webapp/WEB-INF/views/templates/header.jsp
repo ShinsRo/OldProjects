@@ -34,7 +34,7 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="index.html">Home</a></li>
+                        <li class="active"><a href="${pageContext.request.contextPath }/home.do">Home</a></li>
                          <li class="dropdown"><a href="portfolio.html">드려요<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
                                 <li><a href="portfolio.html">드려요 모아보기</a></li>
@@ -49,14 +49,23 @@
                         </li>
                         <li class="dropdown"><a href="portfolio.html">내 정보<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
+                            	<c:if test="${sessionScope.mvo!=null }">
+                            	<li><a href="${pageContext.request.contextPath}/member/updates.do">회원수정</a></li>
+                            	</c:if>
                                 <li><a href="portfolio.html">내가 올린 드려요</a></li>
                                 <li><a href="portfoliofour.html">내가 쓴 여기는요 </a></li>
                                 <li><a href="portfoliotwo.html">드려요 현황</a></li>
                                 <li><a href="portfolioone.html">주세요 현황</a></li>
                             </ul>
-                        </li>                         
-                        <li><a href="shortcodes.html ">로그인</a></li>
-                        <li><a href="${pageContext.request.contextPath }/member/registers.do">회원가입</a></li>                               
+                        </li>  
+                          <c:if test="${sessionScope.mvo == null}">                     
+                        <li><a href="${pageContext.request.contextPath}/member/logins.do">로그인</a></li>
+                        <li><a href="${pageContext.request.contextPath }/member/registers.do">회원가입</a></li> 
+                        </c:if>
+                        <c:if test="${sessionScope.mvo!=null }">
+                        <li><a href="${pageContext.request.contextPath }/member/updates.do">${sessionScope.mvo.name}님 로그인</a></li>
+                        <li><a href="${pageContext.request.contextPath }/logout.do">로그아웃</a></li>
+                        </c:if>                              
                     </ul>
                 </div>
             </div>

@@ -31,5 +31,20 @@ public class MemberDAOImpl implements MemberDAO{
 	public MemberVO findMemberById(String id) {
 		return template.selectOne("member.findMemberById", id);
 	}
+	@Override
+	public void updateMember(MemberVO memberVO) {
+		template.update("member.updateMember", memberVO);
+	}
+
+	@Override
+	public String passwordCheck(String password) {
+		return template.selectOne("member.passwordCheck", password);
+	}
+ 
+	@Override
+	public void deleteMember(String id, String password) {
+		MemberVO vo=new MemberVO(id,password);
+		template.update("member.deleteMember", vo);
 		
+	}	
 }

@@ -11,4 +11,11 @@ public interface MemberDAO {
 
 	int idcheck(String id);
 
+	void updateMember(MemberVO memberVO);
+	
+	String passwordCheck(String password);
+	
+	void deleteMember(String id,String password);
+
+
 }
