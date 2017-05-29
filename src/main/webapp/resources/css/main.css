@@ -163,7 +163,10 @@
 /*************************
 *******Header******
 **************************/
-
+.logo_img{
+	height:100px;
+	width:100px;
+}
 
 #header{
   margin-bottom: 0;
@@ -1081,6 +1084,7 @@ ul.elements li > i{
 .portfolio-info {
   overflow: hidden;
   margin-bottom: 30px;
+  text-align:center;
 }
 
 .portfolio-info h2 {

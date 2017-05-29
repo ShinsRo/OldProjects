@@ -1,6 +1,8 @@
 package org.kosta.goodmove.model.service;
 
 import java.util.List;
+import java.util.Iterator;
+import java.util.StringTokenizer;
 
 import javax.annotation.Resource;
 
@@ -40,14 +42,34 @@ public class BoardServiceImpl implements BoardService {
 			pagingBean = new BoardPagingBean(totalCount);
 		else
 			pagingBean = new BoardPagingBean(totalCount, Integer.parseInt(pageNo));
-		return new BoardListVO(boardDAO.getAllBoardList(pagingBean), pagingBean);
+		BoardListVO bList = new BoardListVO(boardDAO.getAllBoardList(pagingBean), pagingBean);
+		for (Iterator<BoardVO> it = bList.getList().iterator(); it.hasNext();) {
+			BoardVO bvo = it.next();
+			StringTokenizer tempAddr = new StringTokenizer(bvo.getAddr(), " ");
+			bvo.setAddr(tempAddr.nextToken() + " " + tempAddr.nextToken());
+		}
+		return bList;
+	}
+
+	@Override
+	public BoardVO getBoardDetailByBno(int bno) {
+		BoardVO bvo = boardDAO.getBoardDetailByBno(bno);
+		String addr = bvo.getAddr();
+		String newAddr = "";
+		StringTokenizer str = new StringTokenizer(addr, " ");
+		for (int i = 0; i < 2; i++) {
+			String data = str.nextToken();
+			newAddr += data + " ";
+		}
+		bvo.setAddr(newAddr);
+		return bvo;
 	}
 
 	@Override
 	public void boardRegister(BoardVO bvo, ProductSetVO psvo) {
 		System.out.println(bvo);
 		List<ProductVO> pList = bvo.getpList();
-		for (int i = 0; i < pList.size(); i++){
+		for (int i = 0; i < pList.size(); i++) {
 			ProductVO tempPVO = pList.get(i);
 			tempPVO.setBno(bvo.getBno());
 			tempPVO.setPtitle(psvo.getPtitle().remove(0));

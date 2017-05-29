@@ -6,7 +6,6 @@ import javax.annotation.Resource;
 
 import org.kosta.goodmove.model.vo.BoardPagingBean;
 import org.kosta.goodmove.model.vo.BoardVO;
-import org.kosta.goodmove.model.vo.PagingBean;
 import org.kosta.goodmove.model.vo.ProductVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -48,6 +47,15 @@ public class BoardDAOImpl implements BoardDAO{
 	public int getTotalBoardCount(){
 		return template.selectOne("board.getTotalBoardCount");
 	}
+	/**
+	 * 글번호의 board 디테일
+	 * return BoardVO
+	 */
+	@Override
+	public BoardVO getBoardDetailByBno(int bno){
+		return template.selectOne("board.getBoardDetailByBno", bno);
+	}
+	
 	/**
 	 * board등록 후 product 순차 등록
 	 * @

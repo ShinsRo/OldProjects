@@ -10,4 +10,5 @@ public interface BoardService {
 	public BoardListVO getAllBoardList(String pageNo);
 	public BoardListVO getAllBoardList();
 	public void boardRegister(BoardVO bvo, ProductSetVO psvo);
+	BoardVO getBoardDetailByBno(int bno);
 }

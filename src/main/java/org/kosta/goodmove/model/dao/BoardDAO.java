@@ -16,5 +16,7 @@ public interface BoardDAO {
 	void boardRegister(BoardVO bvo);
 
 	int getNextPno();
+	
+	BoardVO getBoardDetailByBno(int bno);
 
 }
