@@ -89,4 +89,14 @@ public class CommentServiceImpl implements CommentService{
 	public void commentRegister(CommentVO cvo) {
 		commentDAO.commentRegister(cvo);
 	}
+	
+	@Override
+	public void deleteComment(int cno){
+		commentDAO.deleteComment(cno);
+	}
+
+	@Override
+	public int getTotalContentCount() {
+		return commentDAO.getTotalContentCount();
+	}
 }

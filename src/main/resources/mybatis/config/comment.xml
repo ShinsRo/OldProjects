@@ -45,6 +45,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*)
 		from loc_comment where upper(${scategory}) like '%' || upper(#{word}) || '%'
 	</select>
+	<delete id="deleteComment">
+		delete from LOC_COMMENT where cno=#{value}
+	</delete>
 </mapper>
  
  

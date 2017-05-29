@@ -15,5 +15,5 @@ public interface CommentDAO {
 	void commentUpdate(CommentVO cvo);
 	void commentRegister(CommentVO cvo);
 	int getSearchContentCount(SearchVO svo);
-
+	void deleteComment(int cno);
 }

@@ -6,7 +6,6 @@ import javax.annotation.Resource;
 
 import org.kosta.goodmove.model.vo.BoardPagingBean;
 import org.kosta.goodmove.model.vo.BoardVO;
-import org.kosta.goodmove.model.vo.PagingBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 /**

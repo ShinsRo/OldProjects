@@ -11,4 +11,6 @@ public interface MemberDAO {
 
 	int idcheck(String id);
 
+	int getTotalMember();
+
 }

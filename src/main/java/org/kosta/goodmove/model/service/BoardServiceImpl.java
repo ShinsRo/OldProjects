@@ -32,4 +32,9 @@ public class BoardServiceImpl implements BoardService{
 		return new BoardListVO(boardDAO.getAllBoardList(pagingBean),pagingBean);
 	}
 
+	@Override
+	public int getCountBoard() {
+		return boardDAO.getTotalBoardCount();
+	}
+
 }

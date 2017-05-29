@@ -79,4 +79,9 @@ public class CommentDAOImpl implements CommentDAO{
 		int count = template.selectOne("comment.getSearchContentCount", svo);
 		return count;
 	}
+	
+	@Override
+	public void deleteComment(int cno){
+		template.delete("comment.deleteComment", cno);
+	}
 }

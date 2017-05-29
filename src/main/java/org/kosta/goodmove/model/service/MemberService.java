@@ -11,5 +11,7 @@ public interface MemberService {
 	int idcheck(String id);
 
 	public MemberVO findMemberById(String id);
+
+	public int getMemberCount();
 	
 }

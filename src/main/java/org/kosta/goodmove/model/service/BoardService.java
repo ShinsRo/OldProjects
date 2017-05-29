@@ -6,4 +6,5 @@ public interface BoardService {
 	public int getNextBno();
 	public BoardListVO getAllBoardList(String pageNo);
 	public BoardListVO getAllBoardList();
+	public int getCountBoard();
 }
