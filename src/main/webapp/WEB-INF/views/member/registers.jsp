@@ -10,8 +10,12 @@
 				alert("아이디를 입력하세요");				
 				return false;
 			}
-			else if($("#password").val().trim()==""){
-				alert("패스워드를 입력하세요");				
+			else if($("#pass1").val().trim()==""){
+				alert("비밀번호를 입력하세요");				
+				return false;
+			}
+			else if($("#pass2").val().trim()==""){
+				alert("비밀번호확인를 입력하세요");				
 				return false;
 			}
 			else if($("#name").val().trim()==""){

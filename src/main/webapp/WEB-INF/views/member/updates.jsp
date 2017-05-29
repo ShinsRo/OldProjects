@@ -102,7 +102,7 @@ $(document).ready(function(){
 		<span id="passCheckView"></span><br>
 	<input type="text" name="name" readonly="readonly" placeholder="이름" id="name" value="${sessionScope.mvo.name }"><br> 
 		<input type="text" class="postcodify_postcode5" placeholder="우편번호" /><br>
-		<input id="postcodify_search_button" type="button" value="검색">
+		<input  id="postcodify_search_button" type="button" value="검색" size="6">
 	<br />  <input type="text" name="addr" class="postcodify_address" 	value="${sessionScope.mvo.addr }" readonly="readonly" placeholder="주소" /><br /> 
 	<input type="text" name="addr_detail" class="postcodify_details" value="${sessionScope.mvo.addr_detail }" placeholder="상세주소" /><br> 
 					<select id="tel1" name="tel1" >

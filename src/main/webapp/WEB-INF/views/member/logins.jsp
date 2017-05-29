@@ -27,7 +27,7 @@
 			}
   		});
   		
-			$("#id").keyup(function(){
+/* 			$("#id").keyup(function(){
 				var id=$(this).val().trim();
 				if(id.length<4 || id.length>10){
 					$("#idCheckView").html("아이디는 4자이상 10자 이하여야 함!").css(
@@ -51,7 +51,7 @@
 						}					
 					}//callback			
 				});//ajax
-			});//keyup
+			});//keyup */
 			$("#log").click(function(){
 				var result=confirm("로그인하시겠습니까?");
 				if(result){

@@ -74,14 +74,14 @@ public String register(MemberVO vo,String tel1,String tel2,String tel3){
 		return (trim==null)? "ok":"fail";
 	}
 	@RequestMapping("deleteMember.do")
-	public String deleteMember(HttpServletRequest request,String id,String password,MemberVO memberVO){
+	public String deleteMember(HttpServletRequest request,String id,String password){
+		System.out.println(id + password);
 		HttpSession session=request.getSession(false);
-		if(session!=null&&session.getAttribute("mvo")!=null){	
+		service.deleteMember(id, password);
+		if(session!=null){
 			session.invalidate();
-			service.deleteMember(id, password);
-			return "member/delete_result.tiles";
-	}else{
+		}
 		return "home.tiles";
-		}	
+		
 }
 }

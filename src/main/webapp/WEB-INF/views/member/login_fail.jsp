@@ -16,12 +16,14 @@
 		}
 	}
 </script>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/resources/member/result.css">
 </head>
 
-<body onkeypress="keypress()">
+<body onkeypress="keypress()" class="result" >
 	<c:if test="${sessionScope.mvo==null}">
 				<h1>등록된 회원이 없습니다.</h1>
 				<a href="${pageContext.request.contextPath}/home.do"><input type="button" value="확인" onclick="pageOut()"></a>
-			</c:if>
+	</c:if>
 </body>
 </html>

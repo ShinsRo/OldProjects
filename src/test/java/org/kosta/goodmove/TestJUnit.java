@@ -19,7 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"file:src/main/webapp/WEB-INF/kosta-*.xml"})
+@ContextConfiguration(locations={"file:src/main/webapp/WEB-INF/spring-*.xml"})
 public class TestJUnit {
 	
 	@Resource
