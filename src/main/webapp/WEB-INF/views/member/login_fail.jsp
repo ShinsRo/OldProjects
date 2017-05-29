@@ -17,7 +17,7 @@
 	}
 </script>
 </head>
-<body>
+
 <body onkeypress="keypress()">
 	<c:if test="${sessionScope.mvo==null}">
 				<h1>등록된 회원이 없습니다.</h1>

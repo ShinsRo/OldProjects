@@ -16,7 +16,7 @@ WHERE ID=#{value}
  		WHERE ID=#{id} AND PASSWORD=#{password}  AND deletemember='TRUE'
  	</select>
  	<update id="updateMember" parameterType="memberVO">
-		UPDATE GD_MEMBER SET PASSWORD=#{password},ADDR=#{addr},ADDR_DETAIL=#{addr_detail},TEL=#{tel},Job=#{job}
+		UPDATE GD_MEMBER SET PASSWORD=#{password}, ADDR=#{addr}, ADDR_DETAIL=#{addr_detail}, TEL=#{tel}, Job=#{job}
 		WHERE ID=#{id}
 	</update>
 	<select id="getMemberCount" resultType="int">
