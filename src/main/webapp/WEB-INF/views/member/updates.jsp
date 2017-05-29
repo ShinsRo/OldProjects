@@ -17,6 +17,10 @@ $(document).ready(function(){
 			alert("이름을 입력하세요");				
 			return false;
 		}
+		if($("#postcodify_postcode5").val().trim()==""){
+			alert("우편번호를 입력하세요");
+			return false;
+		}
 		if($("#address").val().trim()==""){
 			alert("주소를 입력하세요");				
 			return false;
@@ -110,7 +114,7 @@ $(document).ready(function(){
 					<input id="tel2" name="tel2"  type="tel" placeholder="전화번호"  maxlength="4" size="4"/>
 					<input id="tel3" name="tel3"  type="tel" placeholder="전화번호" maxlength="4" size="4"/><br>
 					<input id="job" 	name="job"  type="text" placeholder="직업" /><br>
-	<button id="upd" class="uplo" > 회원수정</button>&nbsp;<a href="${pageContext.request.contextPath }/member/delete.do"><button>회원탈퇴</button></a>
+	<button id="upd" class="uplo" > 회원수정</button>&nbsp;<a href="${pageContext.request.contextPath }/member/delete.do"><input type="button" value="회원탈퇴"></a>
 </form>
 </div>
 </div>

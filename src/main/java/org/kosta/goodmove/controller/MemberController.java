@@ -73,7 +73,7 @@ public String register(MemberVO vo,String tel1,String tel2,String tel3){
 		String trim=service.passwordCheck(password);
 		return (trim==null)? "ok":"fail";
 	}
-	@RequestMapping("delete.do")
+	@RequestMapping("deleteMember.do")
 	public String deleteMember(HttpServletRequest request,String id,String password,MemberVO memberVO){
 		HttpSession session=request.getSession(false);
 		if(session!=null&&session.getAttribute("mvo")!=null){	
