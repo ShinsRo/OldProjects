@@ -53,29 +53,25 @@ $(document).ready(function(){
 	</div>
 </section>
 <!--/#action-->
-    <section id="action">
-        <div class="vertical-center">
-             <div class="container">
-                <div class="row">
-                    <div class="action count">
-                        <div class="col-sm-3 text-center wow bounceIn" data-wow-duration="1000ms" data-wow-delay="300ms">
-                            <h1 id="CountMemberView" class="timer bold" data-to="7000" data-speed="3000" data-from="0"></h1>   
-                            <h3>전체회원 수</h3>
-                        </div>
-                        <div class="col-sm-3 text-center wow bounceIn" data-wow-duration="1000ms" data-wow-delay="300ms">
-                            <h1 id="CountBoardView" class="timer bold" data-to="12" data-speed="3000" data-from="0"></h1>   
-                            <h3>전체물품 수</h3> 
-                        </div>
-                        <div class="col-sm-3 text-center wow bounceIn" data-wow-duration="1000ms" data-wow-delay="300ms">
-                            <h1 id="CountCommentView" class="timer bold" data-to="432" data-speed="3000" data-from="0"></h1> 
-                            <h3>전체후기 수</h3>
-                        </div>
-                        <div class="col-sm-3 text-center wow bounceIn" data-wow-duration="1000ms" data-wow-delay="300ms">
-                            <h1 class="timer bold" data-to="145" data-speed="3000" data-from="0"></h1> 
-                            <h3>아직 안정했음!</h3>
-                        </div>
+<div class="col-sm-12">
+                    <div class="time-count">
+                        <ul id="countdown">
+                            <li class="angle-one">
+                                <span id="CountMemberView" class="days time-font"></span>
+                                <p>전체회원 수</p>
+                            </li>
+                            <li class="angle-two">
+                                <span id="CountBoardView" class="hours time-font"></span>
+                                <p>전체물품 수</p>
+                            </li>
+                            <li class="angle-three">
+                                <span id="CountCommentView" class="minutes time-font"></span>
+                                <p class="minute">전체후기 수</p>
+                            </li>                            
+                            <li class="angle-four">
+                                <span class="seconds time-font">00</span>
+                                <p>아직 미정!</p>
+                            </li>               
+                        </ul>   
                     </div>
                 </div>
-            </div>
-        </div>
-   </section>
