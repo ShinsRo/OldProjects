@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.kosta.goodmove.model.dao.BoardDAO;
 import org.kosta.goodmove.model.vo.BoardListVO;
 import org.kosta.goodmove.model.vo.BoardPagingBean;
+import org.kosta.goodmove.model.vo.BoardVO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,6 +31,10 @@ public class BoardServiceImpl implements BoardService{
 		else
 			pagingBean= new BoardPagingBean(totalCount,Integer.parseInt(pageNo));		
 		return new BoardListVO(boardDAO.getAllBoardList(pagingBean),pagingBean);
+	}
+	@Override
+	public BoardVO getBoardDetailByBno(int bno){
+		return boardDAO.getBoardDetailByBno(bno);
 	}
 
 }

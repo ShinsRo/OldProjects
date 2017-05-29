@@ -13,4 +13,6 @@ public interface BoardDAO {
 
 	List<BoardVO> getAllBoardList(BoardPagingBean pagingBean);
 
+	BoardVO getBoardDetailByBno(int bno);
+
 }

@@ -43,5 +43,9 @@ public class BoardDAOImpl implements BoardDAO{
 	public int getTotalBoardCount(){
 		return template.selectOne("board.getTotalBoardCount");
 	}
+	@Override
+	public BoardVO getBoardDetailByBno(int bno){
+		return template.selectOne("board.getBoardDetailByBno", bno);
+	}
  
 }

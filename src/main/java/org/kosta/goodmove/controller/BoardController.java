@@ -32,9 +32,17 @@ public class BoardController {
 		model.addAttribute("blvo", boardService.getAllBoardList(pageNo));
 		return "board/boardList.tiles";
 	}
+	/**
+	 * 리스트에서 상세보기 눌렀을 때
+	 * 번호에 따라 bvo 반환
+	 * @param bno
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("boardDetail.do")
 	public String boardDetail(String bno,Model model){
-		model.addAttribute("bno", bno);
+		BoardVO bvo = boardService.getBoardDetailByBno(Integer.parseInt(bno));
+		model.addAttribute("bvo", bvo);
 		return "board/boardDetail.tiles";
 	}
 	
