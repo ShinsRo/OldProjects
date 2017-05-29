@@ -30,7 +30,7 @@
 				<li><a class="btn btn-default" href="#" data-filter=".mockup">Mockup</a></li>
 			</ul>
 			<!--/#portfolio-filter-->
-
+			<%--${pageContext.request.contextPath }/uploadedFiles/JAVA/board${list.bno}/1.jpg --%>
 			<div class="portfolio-items">
 				<c:forEach items="${requestScope.blvo.list}" var="list">
 					<div class="col-xs-6 col-sm-4 col-md-3 portfolio-item branded logos">

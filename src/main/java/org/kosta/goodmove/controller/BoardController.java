@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kosta.goodmove.model.service.BoardService;
+import org.kosta.goodmove.model.vo.BoardListVO;
 import org.kosta.goodmove.model.vo.BoardVO;
 import org.kosta.goodmove.model.vo.MemberVO;
 import org.kosta.goodmove.model.vo.ProductSetVO;
@@ -30,7 +31,23 @@ public class BoardController {
 	
 	@RequestMapping("getBoardList.do")
 	public String boardList(String pageNo, Model model){
-		model.addAttribute("blvo", boardService.getAllBoardList(pageNo));
+		BoardListVO blvo = boardService.getAllBoardList(pageNo);
+		model.addAttribute("blvo", blvo);
+		
+/*		String dir = "";
+		List<List<File>> dirList = new ArrayList<>();
+		for(BoardVO vo :blvo.getList()){
+			dir = "C:\\Users\\KOSTA\\git\\GoodMoveRepository\\src\\main\\webapp\\uploadedFiles\\"
+					+vo.getId()+"\\"+"board"+vo.getBno()+"\\";
+			List<File> bvoFileArray = new ArrayList<>();
+			for(File f:new File(dir).listFiles()){
+				bvoFileArray.add(f);
+			}
+			dirList.add(bvoFileArray);
+		}
+		System.out.println(dir);
+		System.out.println(dirList);
+		model.addAttribute("dirList", dirList);*/
 		return "board/boardList.tiles";
 	}
 	/**

@@ -13,14 +13,14 @@
        <div class="container">
            <div class="row">
                <div class="col-sm-6">
-                   <img src="${pageContext.request.contextPath}/resources/images/portfolio-details/1.jpg" class="img-responsive" alt="">
+                   <img src="${pageContext.request.contextPath }/uploadedFiles/JAVA/board${bvo.bno}/1.jpg" class="img-responsive" alt="">
                </div>
                <div class="col-sm-6">
                     <div class="project-name overflow">
                         <h2 class="bold">${bvo.title}</h2>
                         <ul class="nav navbar-nav navbar-default">
                             <li><i class="fa fa-clock-o"></i>${bvo.time_posted}</li>
-                            <li><img src="${pageContext.request.contextPath}/resources/images/portfolio-details/addr-icon.png" class="addr-icon">${bvo.addr}</li>
+                            <li><img width="12" height="14" src="${pageContext.request.contextPath}/resources/images/portfolio-details/addr-icon.png" class="addr-icon">${bvo.addr}</li>
                         </ul>
                     </div>
                     <div class="project-info overflow">
