@@ -1,149 +1,138 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%> 
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="bvo" value="${requestScope.bvo}"></c:set>
+<script>
+	$(document).ready(function(){
+		$("#give-me").click(function(){
+			$("#myModal").modal();
+		});
+	});
+</script>
+<section id="portfolio-information" class="padding-top">
+       <div class="container">
+           <div class="row">
+               <div class="col-sm-6">
+                   <img src="${pageContext.request.contextPath }/uploadedFiles/JAVA/board${bvo.bno}/1.jpg" class="img-responsive" alt="">
+               </div>
+               <div class="col-sm-6">
+                    <div class="project-name overflow">
+                        <h2 class="bold">${bvo.title}</h2>
+                        <ul class="nav navbar-nav navbar-default">
+                            <li><i class="fa fa-clock-o"></i>${bvo.time_posted}</li>
+                            <li><img width="12" height="14" src="${pageContext.request.contextPath}/resources/images/portfolio-details/addr-icon.png" class="addr-icon">${bvo.addr}</li>
+                        </ul>
+                    </div>
+                    <div class="project-info overflow">
+                        <h3>상품 설명</h3>
+                        <p>${bvo.bcontent}</p>
+                    </div>
+                    <div class="give-me-btn" id="give-me">
+                        <a href="#" class="btn btn-common uppercase">주세요 신청</a>
+                    </div>
+                    <!-- 주세요 신청 modal -->
+                <!-- start modal -->
+				<div class="modal fade" id="myModal" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">주세요 신청하기</h4>
+							</div>
+							<div class="contact-form bottom">
+								<form id="main-contact-form" name="contact-form" method="post" action="">
+									<div class="form-group">
+										<textarea name="message" id="message" required="required" class="form-control" rows="8" placeholder="신청 사유를 적어주세요."></textarea>
+									</div>
+									<div class="form-group">
+										<input type="submit" name="submit" class="btn btn-submit" value="Submit">
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end of modal -->
+			</div>
+            </div>
+        </div>
+    </section>
+     <!--/#portfolio-information-->
 
-  <!-- SlidesJS Required (if responsive): Sets the page width to the device width. -->
-  <meta name="viewport" content="width=device-width">
-  <!-- End SlidesJS Required -->
-
-  <!-- CSS for slidesjs.com example -->
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/example.css">
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">
-  <!-- End CSS for slidesjs.com example -->
-
-  <!-- SlidesJS Optional: If you'd like to use this design -->
-  <style>
-    body {
-      -webkit-font-smoothing: antialiased;
-      font: normal 15px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
-      color: #232525;
-      padding-top:70px;
-    }
-
-    #slides {
-      display: none
-    }
-
-    #slides .slidesjs-navigation {
-      margin-top:3px;
-    }
-
-    #slides .slidesjs-previous {
-      margin-right: 5px;
-      float: left;
-    }
-
-    #slides .slidesjs-next {
-      margin-right: 5px;
-      float: left;
-    }
-
-    .slidesjs-pagination {
-      margin: 6px 0 0;
-      float: right;
-      list-style: none;
-    }
-
-    .slidesjs-pagination li {
-      float: left;
-      margin: 0 1px;
-    }
-
-    .slidesjs-pagination li a {
-      display: block;
-      width: 13px;
-      height: 0;
-      padding-top: 13px;
-      background-image: url(img/pagination.png);
-      background-position: 0 0;
-      float: left;
-      overflow: hidden;
-    }
-
-    .slidesjs-pagination li a.active,
-    .slidesjs-pagination li a:hover.active {
-      background-position: 0 -13px
-    }
-
-    .slidesjs-pagination li a:hover {
-      background-position: 0 -26px
-    }
-
-    #slides a:link,
-    #slides a:visited {
-      color: #333
-    }
-
-    #slides a:hover,
-    #slides a:active {
-      color: #9e2020
-    }
-
-    .navbar {
-      overflow: hidden
-    }
-  </style>
-  <!-- End SlidesJS Optional-->
-
-  <!-- SlidesJS Required: These styles are required if you'd like a responsive slideshow -->
-  <style>
-    #slides {
-      display: none
-    }
-
-    .container {
-      margin: 0 auto
-    }
-
-    /* For smaller displays like laptops */
-    @media (min-width: 600px) and (max-width: 800px) {
-      .container {
-        width: 724px
-      }
-    }
-
-    /* For larger displays */
-    @media (min-width: 600px) {
-      .container {
-        width: 900px
-      }
-    }
-  </style>
-  <!-- SlidesJS Required: -->
-</head>
-<body>
-
-  <!-- SlidesJS Required: Start Slides -->
-  <!-- The container is used to define the width of the slideshow -->
-  <div class="container">
-    <div id="slides">
-    깃 레파짓토리(로컬)//
-    사용자 ID/bno/img/1,2,3,4
-      <img src="${pageContext.request.contextPath}/resources/img/example-slide-1.jpg" alt="Photo by: Missy S Link: http://www.flickr.com/photos/listenmissy/5087404401/">
-      <img src="${pageContext.request.contextPath}/resources/img/example-slide-2.jpg" alt="Photo by: Daniel Parks Link: http://www.flickr.com/photos/parksdh/5227623068/">
-      <img src="${pageContext.request.contextPath}/resources/img/example-slide-3.jpg" alt="Photo by: Mike Ranweiler Link: http://www.flickr.com/photos/27874907@N04/4833059991/">
-      <img src="${pageContext.request.contextPath}/resources/img/example-slide-4.jpg" alt="Photo by: Stuart SeegerLink: http://www.flickr.com/photos/stuseeger/97577796/">
-      <a href="#" class="slidesjs-previous slidesjs-navigation"><i class="icon-chevron-left icon-large"></i></a>
-      <a href="#" class="slidesjs-next slidesjs-navigation"><i class="icon-chevron-right icon-large"></i></a>
-    </div>
-  </div>
-  <!-- End SlidesJS Required: Start Slides -->
-
-  <!-- End SlidesJS Required -->
-
-  <!-- SlidesJS Required: Link to jquery.slides.js -->
-  <script src="${pageContext.request.contextPath}/resources/js/jquery.slides.min.js"></script>
-  <!-- End SlidesJS Required -->
-
-  <!-- SlidesJS Required: Initialize SlidesJS with a jQuery doc ready -->
-  <script>
-    $(function() {
-      $('#slides').slidesjs({
-        width: 940,
-        height: 528,
-        navigation: false
-      });
-    });
-  </script>
-  <!-- End SlidesJS Required -->
-</body>
-</html>
+    <section id="related-work" class="padding-top padding-bottom">
+        <div class="container">
+            <div class="row">
+                <h1 class="title text-center">Related Image</h1>
+                <div class="col-sm-3">
+                    <div class="portfolio-wrapper">
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="${pageContext.request.contextPath}/resources/images/portfolio/1.jpg" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="${pageContext.request.contextPath}/resources/images/portfolio/1.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="portfolio-info ">
+                            <h2>Sailing Vivamus</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="portfolio-wrapper">
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="${pageContext.request.contextPath}/resources/images/portfolio/2.jpg" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="${pageContext.request.contextPath}/resources/images/portfolio/2.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="portfolio-info ">
+                            <h2>Sailing Vivamus</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="portfolio-wrapper">
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="${pageContext.request.contextPath}/resources/images/portfolio/3.jpg" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="${pageContext.request.contextPath}/resources/images/portfolio/3.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="portfolio-info ">
+                            <h2>Sailing Vivamus</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="portfolio-wrapper">
+                        <div class="portfolio-single">
+                            <div class="portfolio-thumb">
+                                <img src="${pageContext.request.contextPath}/resources/images/portfolio/4.jpg" class="img-responsive" alt="">
+                            </div>
+                            <div class="portfolio-view">
+                                <ul class="nav nav-pills">
+                                    <li><a href="${pageContext.request.contextPath}/resources/images/portfolio/4.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="portfolio-info ">
+                            <h2>Sailing Vivamus</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--/#related-work-->

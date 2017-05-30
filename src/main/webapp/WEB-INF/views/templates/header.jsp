@@ -27,18 +27,18 @@
                         <span class="icon-bar"></span>
                     </button>
 
-                    <a class="navbar-brand" href="home.do">
-                    	<h1><img src="${pageContext.request.contextPath }/resources/images/logo.png" alt="logo"></h1>
+                    <a class="navbar-brand" href="${pageContext.request.contextPath}/home.do">
+                    	<h1><img class="logo_img" src="${pageContext.request.contextPath}/resources/img/logo_w.png" alt="logo" height="100" width="100"></h1>
                     </a>
                     
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="home.do">Home</a></li>
+                        <li class="active"><a href="${pageContext.request.contextPath}/home.do">Home</a></li>
                          <li class="dropdown"><a href="portfolio.html">드려요<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
-                                <li><a href="portfolio.html">드려요 모아보기</a></li>
-                                <li><a href="${pageContext.request.contextPath }/boardRegisterView.do">드려요 작성하기</a></li>
+                                <li><a href="${pageContext.request.contextPath}/getBoardList.do">드려요 모아보기</a></li>
+                                <li><a href="${pageContext.request.contextPath}/boardRegisterView.do">드려요 작성하기</a></li>
                             </ul>
                         </li>
                         <li class="dropdown"><a href="portfolio.html">여기는요<i class="fa fa-angle-down"></i></a>
@@ -55,7 +55,7 @@
                                 <li><a href="portfolioone.html">주세요 현황</a></li>
                             </ul>
                         </li>                         
-                        <li><a href="${pageContext.request.contextPath}/member/logins.do">로그인</a></li>
+                        <li><a href="${pageContext.request.contextPath }/member/logins.do ">로그인</a></li>
                         <li><a href="${pageContext.request.contextPath }/member/registers.do">회원가입</a></li>                               
                     </ul>
                 </div>

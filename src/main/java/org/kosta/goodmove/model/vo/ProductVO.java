@@ -5,35 +5,33 @@ package org.kosta.goodmove.model.vo;
  * @version 1
  */
 public class ProductVO {
-	private String pno;
-	private String pname;
+	private int pno;
+	private String ptitle;
 	private String kind;
 	private String pcontent;
 	private int bno;
-	private int addr_code;
 	public ProductVO() {
 		super();
 	}
-	public ProductVO(String pno, String pname, String kind, String pcontent, int bno, int addr_code) {
+	public ProductVO(int pno, String ptitle, String kind, String pcontent, int bno) {
 		super();
 		this.pno = pno;
-		this.pname = pname;
+		this.ptitle = ptitle;
 		this.kind = kind;
 		this.pcontent = pcontent;
 		this.bno = bno;
-		this.addr_code = addr_code;
 	}
-	public String getPno() {
+	public int getPno() {
 		return pno;
 	}
-	public void setPno(String pno) {
+	public void setPno(int pno) {
 		this.pno = pno;
 	}
-	public String getPname() {
-		return pname;
+	public String getPtitle() {
+		return ptitle;
 	}
-	public void setPname(String pname) {
-		this.pname = pname;
+	public void setPtitle(String ptitle) {
+		this.ptitle = ptitle;
 	}
 	public String getKind() {
 		return kind;
@@ -53,16 +51,9 @@ public class ProductVO {
 	public void setBno(int bno) {
 		this.bno = bno;
 	}
-	public int getAddr_code() {
-		return addr_code;
-	}
-	public void setAddr_code(int addr_code) {
-		this.addr_code = addr_code;
-	}
 	@Override
 	public String toString() {
-		return "ProductVO [pno=" + pno + ", pname=" + pname + ", kind=" + kind + ", pcontent=" + pcontent + ", bno="
-				+ bno + ", addr_code=" + addr_code + "]";
+		return "ProductVO [pno=" + pno + ", ptitle=" + ptitle + ", kind=" + kind + ", pcontent=" + pcontent + ", bno="
+				+ bno + "]";
 	}
-	
 }
