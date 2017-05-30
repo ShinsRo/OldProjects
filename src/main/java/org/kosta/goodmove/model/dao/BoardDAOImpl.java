@@ -68,4 +68,8 @@ public class BoardDAOImpl implements BoardDAO{
 			template.insert("board.productRegister", pvo);
 		}
 	}
+	@Override
+	public List<ProductVO> getProductImgByBno(int bno){
+		return template.selectList("board.getProductImgByBno", bno);
+	}
 }

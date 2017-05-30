@@ -13,7 +13,7 @@
        <div class="container">
            <div class="row">
                <div class="col-sm-6">
-                   <img src="${pageContext.request.contextPath }/uploadedFiles/JAVA/board${bvo.bno}/1.jpg" class="img-responsive" alt="">
+                   <img src="${pageContext.request.contextPath }/${bvo.thumbPath}" class="img-responsive" alt="">
                </div>
                <div class="col-sm-6">
                     <div class="project-name overflow">
@@ -60,79 +60,37 @@
     </section>
      <!--/#portfolio-information-->
 
-    <section id="related-work" class="padding-top padding-bottom">
-        <div class="container">
-            <div class="row">
-                <h1 class="title text-center">Related Image</h1>
-                <div class="col-sm-3">
-                    <div class="portfolio-wrapper">
-                        <div class="portfolio-single">
-                            <div class="portfolio-thumb">
-                                <img src="${pageContext.request.contextPath}/resources/images/portfolio/1.jpg" class="img-responsive" alt="">
-                            </div>
-                            <div class="portfolio-view">
-                                <ul class="nav nav-pills">
-                                    <li><a href="${pageContext.request.contextPath}/resources/images/portfolio/1.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="portfolio-info ">
-                            <h2>Sailing Vivamus</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <div class="portfolio-wrapper">
-                        <div class="portfolio-single">
-                            <div class="portfolio-thumb">
-                                <img src="${pageContext.request.contextPath}/resources/images/portfolio/2.jpg" class="img-responsive" alt="">
-                            </div>
-                            <div class="portfolio-view">
-                                <ul class="nav nav-pills">
-                                    <li><a href="${pageContext.request.contextPath}/resources/images/portfolio/2.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="portfolio-info ">
-                            <h2>Sailing Vivamus</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <div class="portfolio-wrapper">
-                        <div class="portfolio-single">
-                            <div class="portfolio-thumb">
-                                <img src="${pageContext.request.contextPath}/resources/images/portfolio/3.jpg" class="img-responsive" alt="">
-                            </div>
-                            <div class="portfolio-view">
-                                <ul class="nav nav-pills">
-                                    <li><a href="${pageContext.request.contextPath}/resources/images/portfolio/3.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="portfolio-info ">
-                            <h2>Sailing Vivamus</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <div class="portfolio-wrapper">
-                        <div class="portfolio-single">
-                            <div class="portfolio-thumb">
-                                <img src="${pageContext.request.contextPath}/resources/images/portfolio/4.jpg" class="img-responsive" alt="">
-                            </div>
-                            <div class="portfolio-view">
-                                <ul class="nav nav-pills">
-                                    <li><a href="${pageContext.request.contextPath}/resources/images/portfolio/4.jpg" data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="portfolio-info ">
-                            <h2>Sailing Vivamus</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--/#related-work-->
+<section id="related-work" class="padding-top padding-bottom">
+	<div class="container">
+		<div class="row">
+			<h1 class="title text-center">Related Image</h1>
+			<c:forEach items="${requestScope.plist}" var="imgList">
+				<div class="col-sm-4">
+					<div class="portfolio-wrapper">
+						<div class="portfolio-single">
+							<div class="portfolio-thumb">
+								<img
+									src="${pageContext.request.contextPath}/${imgList.img_path}"
+									class="img-responsive" alt="">
+							</div>
+							<div class="portfolio-view">
+								<ul class="nav nav-pills">
+									<li><a
+										href="${pageContext.request.contextPath}/${imgList.img_path}"
+										data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="portfolio-info ">
+							<h2>${imgList.ptitle}</h2>
+							<p>${imgList.pcontent}</p>
+						</div>
+					</div>
+					<!-- wrapper -->
+				</div>
+			</c:forEach>
+
+		</div>
+	</div>
+</section>
+<!--/#related-work-->

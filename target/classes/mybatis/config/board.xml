@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="board"> 	
 	<sql id="selectBoard">
 	 select bno,title,hit,to_char(time_posted,'YYYY.MM.DD HH:mm') as time_posted,
-	 id,addr,bcontent from G_BOARD
+	 id,addr,bcontent,thumbpath from G_BOARD
 	</sql>
 	<select id="getNextBno" resultType="int">
 		select B_SEQ.nextval from dual
@@ -33,6 +33,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</select>
 	<select id="getBoardDetailByBno" parameterType="int" resultType="boardVO">
 	 	<include refid="selectBoard"/> where bno=#{value}
+	</select>
+	<select id="getProductImgByBno" parameterType="int" resultType="productVO">
+		select * from G_PRODUCT where bno=#{value}
 	</select>
 </mapper>
  

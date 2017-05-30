@@ -40,7 +40,7 @@
 								<div class="portfolio-thumb">
 								<%-- "${pageContext.request.contextPath }/resources/images/portfolio/1.jpg" --%>
 									<img
-										src= "${pageContext.request.contextPath}/${list.thumbPath }"
+										src= "${pageContext.request.contextPath}/${list.thumbPath}"
 										class="img-responsive" alt="">
 								</div>
 								<div class="portfolio-view">
@@ -49,7 +49,7 @@
 											href="${pageContext.request.contextPath}/boardDetail.do?bno=${list.bno}"><i
 												class="fa fa-link"></i></a></li>
 										<li><a
-											href="${pageContext.request.contextPath}/resources/images/portfolio/1.jpg"
+											href="${pageContext.request.contextPath}/${list.thumbPath}"
 											data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
 									</ul>
 								</div>

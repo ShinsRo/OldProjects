@@ -34,20 +34,6 @@ public class BoardController {
 		BoardListVO blvo = boardService.getAllBoardList(pageNo);
 		model.addAttribute("blvo", blvo);
 		System.out.println(blvo);
-/*		String dir = "";
-		List<List<File>> dirList = new ArrayList<>();
-		for(BoardVO vo :blvo.getList()){
-			dir = "C:\\Users\\KOSTA\\git\\GoodMoveRepository\\src\\main\\webapp\\uploadedFiles\\"
-					+vo.getId()+"\\"+"board"+vo.getBno()+"\\";
-			List<File> bvoFileArray = new ArrayList<>();
-			for(File f:new File(dir).listFiles()){
-				bvoFileArray.add(f);
-			}
-			dirList.add(bvoFileArray);
-		}
-		System.out.println(dir);
-		System.out.println(dirList);
-		model.addAttribute("dirList", dirList);*/
 		return "board/boardList.tiles";
 	}
 	/**
@@ -60,7 +46,9 @@ public class BoardController {
 	@RequestMapping("boardDetail.do")
 	public String boardDetail(String bno,Model model){
 		BoardVO bvo = boardService.getBoardDetailByBno(Integer.parseInt(bno));
+		List<ProductVO> plist = boardService.getProductImgByBno(Integer.parseInt(bno));
 		model.addAttribute("bvo", bvo);
+		model.addAttribute("plist", plist);
 		return "board/boardDetail.tiles";
 	}
 	
@@ -85,6 +73,7 @@ public class BoardController {
 		uploadPath = "C:\\Users\\KOSTA\\git\\GoodMoveRepository\\src\\main\\webapp\\uploadedFiles\\"
 				+userId+"\\"+"board"+bno+"\\";
 		
+		bvo.setpList(new ArrayList<ProductVO>());
 		
 		List<MultipartFile> list = psvo.getFile();
 		for(int i = 0; i < list.size(); i ++){
@@ -93,7 +82,6 @@ public class BoardController {
 			System.out.println(fileSuffix);
 			//물건 번호 초기화
 			int nPno = boardService.getNextPno();
-			bvo.setpList(new ArrayList<ProductVO>());
 			
 			//물건 리스트 초기화
 			ProductVO tempPVO = new ProductVO();

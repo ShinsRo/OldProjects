@@ -82,4 +82,9 @@ public class BoardServiceImpl implements BoardService {
 		}
 		boardDAO.boardRegister(bvo);
 	}
+	
+	@Override
+	public List<ProductVO> getProductImgByBno(int bno){
+		return boardDAO.getProductImgByBno(bno);
+	}
 }
