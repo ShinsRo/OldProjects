@@ -22,12 +22,4 @@ CREATE SEQUENCE A_SEQ;
 /*
  *	
  */
-
-insert into G_BOARD values(B_SEQ.nextval,'팔아여1','0',
-sysdate,'java','서울특별시 강남구 테헤란로5길 28','사주세요');
-insert into G_BOARD values(B_SEQ.nextval,'팔아여2222','0',
-sysdate,'java','서울특별시 강남구 테헤란로5길 28','연락주세용');
-insert into G_BOARD values(B_SEQ.nextval,'팔아여333','0',
-sysdate,'java','서울특별시 강남구 테헤란로5길 28','급하게 팔아요');
-insert into G_BOARD values(B_SEQ.nextval,'사주세요','0',
-sysdate,'java','서울특별시 강남구 테헤란로5길 28','엉엉엉');
+select * from G_PRODUCT  where bno = 2;
