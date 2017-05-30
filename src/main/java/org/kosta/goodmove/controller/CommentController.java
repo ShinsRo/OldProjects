@@ -121,11 +121,13 @@ public class CommentController {
 	 * @param 글번호
 	 * @return 이동될 화면의 경로, 조회수를 증가하지 않고 받아온 검색결과vo
 	 */
+	
 	@RequestMapping("showCommentNoHit.do")
-	public ModelAndView showCommentNoHit(String cno) {
-		System.out.println(cno);
-		return new ModelAndView("comment/commentDetail.tiles", "cvo",
-				commentService.showCommentNoHit(Integer.parseInt(cno)));
+	public String showCommentNoHit(String cno,Model model) {
+		int clno = Integer.parseInt(cno);
+		model.addAttribute("CommentReplyList", commentService.getAllCommentReplyList(clno));
+		model.addAttribute("cvo",commentService.showCommentNoHit(Integer.parseInt(cno)));
+		return "comment/commentDetail.tiles";
 	}
 
 	@RequestMapping("deleteComment.do")
@@ -139,18 +141,57 @@ public class CommentController {
 			HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		MemberVO mvo = (MemberVO) session.getAttribute("mvo");
+		System.out.println("parent=" + parent);
+		System.out.println("cno=" + cno);
+		System.out.println("rememo =" + rememo);
 		if (reFlag.equals("true")) {
 			int reparent = Integer.parseInt(request.getParameter("reparent"));
 			parent = reparent;
+			System.out.println("reparent= " +reparent);
 		} else {
 			parent = Integer.parseInt(request.getParameter("parent"));
+			System.out.println("parent="+parent);
 		}
 		String id = mvo.getId();
 		String name = mvo.getName();
 		String content = rememo;
-		CommentReplyVO crvo = new CommentReplyVO(cno,id,name,parent,content);
+		CommentReplyVO pvo = null;
+		int rno = commentService.getNextReplyNo();
+		int gno = 1;
+		int depth = 0;
+		int order_no = 0;
+		if(parent ==0){ // 글에 댓글 달때 
+			gno = rno;
+			depth = 0;
+			order_no= 1;
+		}else{ // 대댓글 달기
+			gno = parent;
+			pvo = commentService.getParentInfo(parent);
+			depth = pvo.getdepth();
+			order_no = pvo.getOrder_no();
+			if(commentService.getParentsParentId(parent) !=0){
+				parent = commentService.getParentsParentId(parent);
+				System.out.println(parent);
+				gno = parent;
+			}
+		}
+		CommentReplyVO crvo = new CommentReplyVO(rno,cno,id,name,parent,content,gno,depth,order_no);
 		commentService.insertNewCommentReply(crvo);
 		return "redirect:showCommentNoHit.do?cno=" +cno;
+	}
+	
+	
+	@RequestMapping("deleteCommentReply.do")
+	public String deleteCommentReply(int rno,int cno){
+		commentService.deleteCommentReply(rno);
+		return "redirect:showCommentNoHit.do?cno="+cno;
+	}
+	
+	@RequestMapping("updateCommentReply.do")
+	public String updateCommentReply(int cno, int rno, String rememo){
+		CommentReplyVO crvo = new CommentReplyVO(rno,rememo);
+		commentService.updateCommentReply(crvo);
+		return "redirect:showCommentNoHit.do?&cno="+cno;
 	}
 
 }

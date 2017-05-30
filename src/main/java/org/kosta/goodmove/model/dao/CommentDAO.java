@@ -20,4 +20,8 @@ public interface CommentDAO {
 	List<CommentReplyVO> getAllCommentReplyList(int cno);
 	void insertNewCommentReply(CommentReplyVO rcvo);
 	int getNextReplyNo();
+	CommentReplyVO getParentInfo(int parent);
+	int getParentsParentId(int parent);
+	void deleteCommentReply(int rno);
+	void updateCommentReply(CommentReplyVO crvo);
 }

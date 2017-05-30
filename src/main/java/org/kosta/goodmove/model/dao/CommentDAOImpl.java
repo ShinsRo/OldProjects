@@ -98,4 +98,21 @@ public class CommentDAOImpl implements CommentDAO{
 	public int getNextReplyNo(){
 		return template.selectOne("comment.getNextReplyNo");
 	}
+	@Override
+	public CommentReplyVO getParentInfo(int parent){
+		return template.selectOne("comment.getParentInfo",parent);
+	}
+	@Override
+	public int getParentsParentId(int parent){
+		return template.selectOne("comment.getParentsParentId",parent);
+	}
+	@Override
+	public void deleteCommentReply(int rno){
+		template.delete("comment.deleteCommentReply",rno);
+	}
+	
+	@Override
+	public void updateCommentReply(CommentReplyVO crvo){
+		template.update("comment.updateCommentReply",crvo);
+	}
 }

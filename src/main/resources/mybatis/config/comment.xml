@@ -54,17 +54,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!--  commentreply -->
 		<select id="getAllCommentReplyList" resultType="commentReplyVO">
 	SELECT rno,cno,id,name,TO_CHAR(TIME_POSTED,'YYYY.MM.DD HH24:MI') as time_posted,
-	parent,content,gno,dept,order_no 
+	parent,content,gno,depth,order_no 
 	FROM LOC_COMMENT_REPLY WHERE cno=#{value} ORDER BY GNO ASC
 	</select>
 	<insert id="insertNewCommentReply" parameterType="commentReplyVO">
-	INSERT INTO LOC_COMMENT_REPLY(RNO,CNO,ID,NAME,TIME_POSTED,PARENT,CONTENT,GNO,DEPT,ORDER_NO) 
-	VALEUS(CR_SEQ.NEXTVAL,#{cno},#{id},#{name},sysdate,#{contet})
+	INSERT INTO LOC_COMMENT_REPLY(RNO, CNO, ID, NAME, TIME_POSTED, PARENT, CONTENT, GNO, depth, ORDER_NO) 
+	VALUES(#{rno}, #{cno}, #{id}, #{name}, sysdate, #{parent}, #{content}, #{gno}, #{depth}, #{order_no})
 	</insert>
-	
 	<select id="getNextReplyNo" resultType="int">
 		select CR_SEQ.nextval from dual
 	</select>
+	<select id="getParentInfo" resultType="commentReplyVO">
+	SELECT CNO, depth+1 depth, ORDER_NO+1 ORDER_NO  FROM LOC_COMMENT_REPLY WHERE RNO=#{value}
+	</select>
+	<select id="getParentsParentId" resultType="int" parameterType="int">
+	select PARENT from LOC_COMMENT_REPLY where RNO=#{value}
+	</select>
+	<delete id="deleteCommentReply" parameterType="int">
+	DELETE FROM LOC_COMMENT_REPLY WHERE RNO=#{value}
+	</delete>
+	<update id="updateCommentReply" parameterType="commentReplyVO">
+	UPDATE LOC_COMMENT_REPLY SET content=#{content} where RNO=#{rno}
+	</update>
 </mapper>
  
  

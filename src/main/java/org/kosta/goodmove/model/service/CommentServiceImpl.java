@@ -116,4 +116,23 @@ public class CommentServiceImpl implements CommentService{
 	public int getNextReplyNo(){
 		return commentDAO.getNextReplyNo();
 	}
+	
+	@Override
+	public CommentReplyVO getParentInfo(int parent){
+		return commentDAO.getParentInfo(parent);
+	}
+	@Override
+	public int getParentsParentId(int parent){
+		return commentDAO.getParentsParentId(parent);
+	}
+	
+	@Override
+	public void deleteCommentReply(int rno){
+		commentDAO.deleteCommentReply(rno);
+	}
+	
+	@Override
+	public void updateCommentReply(CommentReplyVO crvo){
+		commentDAO.updateCommentReply(crvo);
+	}
 }

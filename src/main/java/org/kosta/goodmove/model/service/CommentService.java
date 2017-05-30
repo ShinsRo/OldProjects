@@ -20,4 +20,8 @@ public interface CommentService {
 	List<CommentReplyVO> getAllCommentReplyList(int clno);
 	void insertNewCommentReply(CommentReplyVO rcvo);
 	int getNextReplyNo();
+	CommentReplyVO getParentInfo(int parent);
+	int getParentsParentId(int parent);
+	void deleteCommentReply(int rno);
+	void updateCommentReply(CommentReplyVO crvo);
 }
