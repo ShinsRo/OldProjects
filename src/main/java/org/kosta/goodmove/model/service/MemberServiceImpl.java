@@ -7,7 +7,7 @@ import org.kosta.goodmove.model.vo.MemberVO;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService {
 	@Resource
 	private MemberDAO memberDAO;
 
@@ -35,5 +35,30 @@ public class MemberServiceImpl implements MemberService{
 	public int getMemberCount() {
 		return memberDAO.getTotalMember();
 	}
-	
+	@Override
+	public void updateMember(MemberVO memberVO) {
+		memberDAO.updateMember(memberVO);
+	}
+
+	@Override
+	public String passwordCheck(String password) {
+		return memberDAO.passwordCheck(password);
+	}
+
+	@Override
+	public void deleteMember(String id, String password) {
+		memberDAO.deleteMember(id, password);
+
+	}
+
+	@Override
+	public String forgotId(String name, String tel) {
+		return memberDAO.forgotId(name, tel);
+	}
+
+	@Override
+	public String forgotPass(String id, String name, String tel) {
+		return memberDAO.forgotPass(id, name, tel);
+	}
+
 }

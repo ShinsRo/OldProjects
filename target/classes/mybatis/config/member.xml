@@ -4,19 +4,19 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member"> 	
-<sql id="selectMember">
-	SELECT ID,PASSWORD,NAME,ADDR,ADDR_DETAIL,TEL,JOB FROM GD_MEMBER
-</sql>
-<select id="findMemberById" resultType="memberVO">
-<include refid="selectMember"></include>
-WHERE ID=#{value}
-</select>
-<select id="login" resultType="memberVO" parameterType="memberVO">
+		<sql id="selectMember">
+			SELECT ID,PASSWORD,NAME,ADDR,ADDR_DETAIL,TEL,JOB FROM GD_MEMBER
+		</sql>
+		<select id="findMemberById" resultType="memberVO">
+		<include refid="selectMember"></include>
+		WHERE ID=#{value}
+		</select>
+		<select id="login" resultType="memberVO" parameterType="memberVO">
  		<include refid="selectMember"></include>
- 		WHERE ID=#{id} AND PASSWORD=#{password}
+ 		WHERE ID=#{id} AND PASSWORD=#{password}  AND deletemember='TRUE'
  	</select>
  	<update id="updateMember" parameterType="memberVO">
-		UPDATE GD_MEMBER SET PASSWORD=#{password},NAME=#{name},ADDR=#{addr},ADDR_DETAILE=#{addr_detail}
+		UPDATE GD_MEMBER SET PASSWORD=#{password}, ADDR=#{addr}, ADDR_DETAIL=#{addr_detail}, TEL=#{tel}, Job=#{job}
 		WHERE ID=#{id}
 	</update>
 	<select id="getMemberCount" resultType="int">
@@ -26,8 +26,20 @@ WHERE ID=#{value}
 		INSERT INTO GD_MEMBER(ID,PASSWORD,NAME,ADDR,ADDR_DETAIL,TEL,JOB)
 		VALUES(#{id},#{password},#{name},#{addr},#{addr_detail},#{tel},#{job})
 	</insert>
-	<select id="idcheck" resultType="int">
+		<select id="idcheck" resultType="int">
 		SELECT COUNT(*) FROM GD_MEMBER WHERE ID=#{value}
+		</select>
+		<select id="passwordCheck" resultType="String">
+		SELECT COUNT(*) FROM GD_MEMBER WHERE PASSWORD=#{value}
+		</select>
+		<update id="deleteMember" parameterType="memberVO"> 
+		UPDATE GD_MEMBER SET deletemember='FALSE' WHERE ID=#{id} AND PASSWORD=#{password}
+	</update>
+	<select id="forgotId" resultType="memberVO" parameterType="memberVO">
+		SELECT ID FROM GD_MEMBER WHERE NAME=#{value} AND TEL=#{value} AND deletemember='TRUE'
+	</select>
+	<select id="forgotPass" resultType="memberVO" parameterType="memberVO">
+		SELECT PASSWORD FROM GD_MEMBER WHERE ID=#{value} AND NAEM=#{value} AND TEL=#{value} AND deletemember='TRUE'
 	</select>
 </mapper>
  

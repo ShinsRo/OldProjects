@@ -12,9 +12,23 @@ public class MemberVO {
 	private String addr_detail;
 	private String tel;
 	private String job;
+	private String deletemember;
 	public MemberVO() {
 		super();
-		// TODO Auto-generated constructor stub
+	}
+	
+
+	public MemberVO(String id, String name, String tel) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.tel = tel;
+	}
+
+	public MemberVO(String id, String password) {
+		super();
+		this.id = id;
+		this.password = password;
 	}
 	public MemberVO(String id, String password, String name, String addr, String addr_detail, String tel, String job) {
 		super();
@@ -25,6 +39,18 @@ public class MemberVO {
 		this.addr_detail = addr_detail;
 		this.tel = tel;
 		this.job = job;
+	}
+	public MemberVO(String id, String password, String name, String addr, String addr_detail, String tel, String job,
+			String deletemember) {
+		super();
+		this.id = id;
+		this.password = password;
+		this.name = name;
+		this.addr = addr;
+		this.addr_detail = addr_detail;
+		this.tel = tel;
+		this.job = job;
+		this.deletemember = deletemember;
 	}
 	public String getId() {
 		return id;
@@ -68,11 +94,17 @@ public class MemberVO {
 	public void setJob(String job) {
 		this.job = job;
 	}
+	public String getDeletemember() {
+		return deletemember;
+	}
+	public void setDeletemember(String deletemember) {
+		this.deletemember = deletemember;
+	}
 	@Override
 	public String toString() {
 		return "MemberVO [id=" + id + ", password=" + password + ", name=" + name + ", addr=" + addr + ", addr_detail="
-				+ addr_detail + ", tel=" + tel + ", job=" + job + "]";
+				+ addr_detail + ", tel=" + tel + ", job=" + job + ", deletemember=" + deletemember + "]";
 	}
-	
+
 		
 }

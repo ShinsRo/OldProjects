@@ -15,11 +15,48 @@
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
-.form input {
+input[type="text"], input[type="password"] {
   font-family: "Roboto", sans-serif;
   outline: 0;
   background: #f2f2f2;
   width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+input[type="tel"]{
+	 font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 32%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 10px;
+}
+ input[type="button"]{
+	 font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 100%;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+select{
+	 font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 32%;
   border: 0;
   margin: 0 0 15px;
   padding: 15px;

@@ -1,0 +1,49 @@
+@CHARSET "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+
+input[type="text"]{
+  
+  background: #f2f2f2;
+  width: 360px;
+  margin: 4px;
+  margin-left : 300px;
+  padding: 14px;
+  font-size: 14px;
+}
+
+input[type="tel"]{
+	
+  background: #f2f2f2;
+ width: 12%;
+  margin:1px;
+  padding: 14px;
+  box-sizing: border-box;
+  font-size: 10px;
+}
+ input[type="button"]{
+ 	margin: 4px;
+	 font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  margin-left : 40%;
+  width: 150px;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+select{
+	 font-family: "Roboto", sans-serif;
+  background: #f2f2f2;
+  width: 100px;
+  margin: 2px;
+  margin-left: 300px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}

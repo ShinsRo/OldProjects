@@ -22,26 +22,26 @@
                     <div class="single-service">
                         <h3>버려질 물건을 이웃에게 전달해보세요.</h3>
                         <br>
-                             <p>
+                            
                         	매년 이사로 인해 000ton의 물건들이<br>
-                        	불타거나, 땅 속에 묻힙니다. 
-							</p>
-							<p>
+                        	불타거나, 땅 속에 묻힙니다. <br>
+							
+						
 							누군가는 필요로 할텐데 말이에요!
-							</p>
+							
                     </div>
                 </div>
                 <div class="col-sm-4 text-center padding wow fadeIn" data-wow-duration="1500ms" data-wow-delay="1000ms">
                     <div class="single-service">
                         <h3>내가 이사할 동네는 어떤 곳일까요?</h3>
                         <br>
-                             <p>
+                             
                         	그 동네에 머물렀던 사람들의<br>
-                        	"여기는요"를 둘러보세요.
-							</p>
-							<p>
+                        	"여기는요"를 둘러보세요.<br>
+							
+							
 							생생한 정보가 당신을 도울 겁니다.
-							</p>
+							
                     </div>
                 </div>
                 <div class="col-sm-12">

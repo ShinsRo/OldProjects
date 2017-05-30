@@ -36,5 +36,32 @@ public class MemberDAOImpl implements MemberDAO{
 	public int getTotalMember(){
 		return template.selectOne("member.getMemberCount");
 	}
-		
+	@Override
+	public void updateMember(MemberVO memberVO) {
+		template.update("member.updateMember", memberVO);
+	}
+
+	@Override
+	public String passwordCheck(String password) {
+		return template.selectOne("member.passwordCheck", password);
+	}
+ 
+	@Override
+	public void deleteMember(String id, String password) {
+		MemberVO vo=new MemberVO(id,password);
+		template.update("member.deleteMember", vo);
+	}
+
+	@Override
+	public String forgotId(String name, String tel) {
+		MemberVO vo=new MemberVO(name,tel);
+		return template.selectOne("member.forgotId", vo);
+	}
+
+	@Override
+	public String forgotPass(String id, String name, String tel) {
+		MemberVO vo=new MemberVO(id,name,tel);
+		return template.selectOne("member.forgotPass", vo);
+	}	
+	
 }
