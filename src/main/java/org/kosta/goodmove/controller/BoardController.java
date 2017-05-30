@@ -98,6 +98,7 @@ public class BoardController {
 			//물건 리스트 초기화
 			ProductVO tempPVO = new ProductVO();
 			tempPVO.setPno(nPno);
+			tempPVO.setImg_path(uploadPath+nPno+fileSuffix);
 			bvo.getpList().add(tempPVO);
 			
 			if(fileName.equals("")==false){

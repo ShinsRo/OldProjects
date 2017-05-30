@@ -5,8 +5,7 @@
 <script type="text/javascript"
 	src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
 <script type="text/javascript">
-	var prevProductRegFormHtml="";
-	var productRegFormHtml ="";
+	var ProductRegFormHtml="";
 	var productCnt = 1;
 	
 	$(function() {
@@ -17,6 +16,10 @@
 		productRegFormHtml = $("#productFormView").html();
 		$("#productFormView").prepend("<h4>"+productCnt+"</h4>");
 		
+		//상품 추가 폼 html div영역 추가
+		$("#productFormView").prepend("<div id = 'product'"+ productCnt + ">");
+		$("#productFormView").append("</div>");
+		
 		//상품 추가 버튼 클릭 시 추가 폼 생성
 		$("#addProduct").click(function() {
 			if(productCnt >= 3){
@@ -24,9 +27,12 @@
 				return;
 			}
 			productCnt++;
-			prevProductRegFormHtml = $("#productFormView").html();
-			$("#productFormView").prepend("<h4>"+productCnt+"</h4>"+productRegFormHtml);
-		})
+			var productRegFormHtmlTemp ="<div id = 'product"+ productCnt + "'>" + productRegFormHtml + "<input type ='button' id ='deleteProduct value = '물건삭제'></div>";
+			$("#productFormView").prepend("<h4>"+productCnt+"</h4>"+productRegFormHtmlTemp);
+		});
+		$( "#deleteProduct" ).on( "click", function() {
+			alert("삭제");
+		});
 	});
 </script>
 

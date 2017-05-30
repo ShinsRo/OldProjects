@@ -1,10 +1,10 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
-.login-page {
+/* .login-page {
   width: 360px;
   padding: 8% 0 0;
   margin: auto;
-}
+} */
 .form {
   position: relative;
   z-index: 1;
@@ -92,7 +92,7 @@ select{
 .form .register-form {
   display: none;
 }
-.container {
+/* .container {
   position: relative;
   z-index: 1;
   max-width: 300px;
@@ -124,7 +124,7 @@ select{
 }
 .container .info span .fa {
   color: #EF3B3A;
-}
+} */
 /* body {
   background: #76b852; fallback for old browsers
   background: -webkit-linear-gradient(right, #76b852, #8DC26F);

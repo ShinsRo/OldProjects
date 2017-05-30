@@ -28,8 +28,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES(#{bno}, #{id}, #{title}, #{bcontent}, #{addr}, sysdate, 0)
 	</select>
 	<select id="productRegister" parameterType="productVO">
-		INSERT INTO G_PRODUCT(BNO, PNO, PTITLE, KIND, PCONTENT) 
-		VALUES(#{bno}, #{pno}, #{ptitle}, #{kind}, #{pcontent})
+		INSERT INTO G_PRODUCT(BNO, PNO, PTITLE, KIND, PCONTENT, IMG_PATH) 
+		VALUES(#{bno}, #{pno}, #{ptitle}, #{kind}, #{pcontent}, #{thumbPath})
 		</select>
 	<select id="getBoardDetailByBno" parameterType="int" resultType="boardVO">
 	 	<include refid="selectBoard"/> where bno=#{value}
