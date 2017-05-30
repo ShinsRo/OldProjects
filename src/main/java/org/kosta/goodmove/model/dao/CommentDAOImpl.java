@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.kosta.goodmove.model.vo.CommentReplyVO;
 import org.kosta.goodmove.model.vo.CommentVO;
 import org.kosta.goodmove.model.vo.PagingBean;
 import org.kosta.goodmove.model.vo.SearchVO;
@@ -83,5 +84,18 @@ public class CommentDAOImpl implements CommentDAO{
 	@Override
 	public void deleteComment(int cno){
 		template.delete("comment.deleteComment", cno);
+	}
+	
+	@Override
+	public List<CommentReplyVO> getAllCommentReplyList(int cno){
+		return template.selectList("comment.getAllCommentReplyList",cno);
+	}
+	@Override
+	public void insertNewCommentReply(CommentReplyVO rcvo){
+		template.insert("comment.insertNewCommentReply",rcvo);
+	}
+	@Override
+	public int getNextReplyNo(){
+		return template.selectOne("comment.getNextReplyNo");
 	}
 }

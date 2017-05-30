@@ -1,9 +1,12 @@
 package org.kosta.goodmove.model.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.kosta.goodmove.model.dao.CommentDAO;
 import org.kosta.goodmove.model.vo.CommentListVO;
+import org.kosta.goodmove.model.vo.CommentReplyVO;
 import org.kosta.goodmove.model.vo.CommentVO;
 import org.kosta.goodmove.model.vo.PagingBean;
 import org.springframework.stereotype.Service;
@@ -98,5 +101,19 @@ public class CommentServiceImpl implements CommentService{
 	@Override
 	public int getTotalContentCount() {
 		return commentDAO.getTotalContentCount();
+	}
+	
+	
+	@Override
+	public List<CommentReplyVO> getAllCommentReplyList(int clno) {
+		return commentDAO.getAllCommentReplyList(clno);
+	}
+	@Override
+	public void insertNewCommentReply(CommentReplyVO rcvo){
+		commentDAO.insertNewCommentReply(rcvo);
+	}
+	@Override
+	public int getNextReplyNo(){
+		return commentDAO.getNextReplyNo();
 	}
 }

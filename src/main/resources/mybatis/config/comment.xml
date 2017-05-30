@@ -48,8 +48,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteComment">
 		delete from LOC_COMMENT where cno=#{value}
 	</delete>
+	
+	
+	
+	<!--  commentreply -->
+		<select id="getAllCommentReplyList" resultType="commentReplyVO">
+	SELECT rno,cno,id,name,TO_CHAR(TIME_POSTED,'YYYY.MM.DD HH24:MI') as time_posted,
+	parent,content,gno,dept,order_no 
+	FROM LOC_COMMENT_REPLY WHERE cno=#{value} ORDER BY GNO ASC
+	</select>
+	<insert id="insertNewCommentReply" parameterType="commentReplyVO">
+	INSERT INTO LOC_COMMENT_REPLY(RNO,CNO,ID,NAME,TIME_POSTED,PARENT,CONTENT,GNO,DEPT,ORDER_NO) 
+	VALEUS(CR_SEQ.NEXTVAL,#{cno},#{id},#{name},sysdate,#{contet})
+	</insert>
+	
+	<select id="getNextReplyNo" resultType="int">
+		select CR_SEQ.nextval from dual
+	</select>
 </mapper>
- 
  
  
  

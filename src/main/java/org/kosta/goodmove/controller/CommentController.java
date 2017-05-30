@@ -4,7 +4,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.kosta.goodmove.model.service.CommentReplyService;
 import org.kosta.goodmove.model.service.CommentService;
 import org.kosta.goodmove.model.vo.CommentReplyVO;
 import org.kosta.goodmove.model.vo.CommentVO;
@@ -25,9 +24,6 @@ public class CommentController {
 
 	@Resource
 	private CommentService commentService;
-	@Resource
-	private CommentReplyService commentReplyService;
-
 	/**
 	 * 지역후기 리스트를 받아오는 메서드
 	 * 
@@ -53,8 +49,8 @@ public class CommentController {
 		int clno = Integer.parseInt(cno);
 		model.addAttribute("cvo", commentService.showComment(clno));
 		System.out.println("여긴까진 됨!");
-		model.addAttribute("CommentReplyList", commentReplyService.getAllCommentReplyList(clno));
-		System.out.println(commentReplyService.getAllCommentReplyList(clno));
+		model.addAttribute("CommentReplyList", commentService.getAllCommentReplyList(clno));
+		System.out.println(commentService.getAllCommentReplyList(clno));
 		return "comment/commentDetail.tiles";
 	}
 
@@ -153,7 +149,7 @@ public class CommentController {
 		String name = mvo.getName();
 		String content = rememo;
 		CommentReplyVO crvo = new CommentReplyVO(cno,id,name,parent,content);
-		commentReplyService.insertNewCommentReply(crvo);
+		commentService.insertNewCommentReply(crvo);
 		return "redirect:showCommentNoHit.do?cno=" +cno;
 	}
 

@@ -11,7 +11,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="mybatis/config/member.xml"/>	
 		<mapper resource="mybatis/config/board.xml"/>	
 		<mapper resource="mybatis/config/comment.xml"/>	
-		<mapper resource="mybatis/config/commentreply.xml"/>
 	</mappers>
 </configuration>
 
