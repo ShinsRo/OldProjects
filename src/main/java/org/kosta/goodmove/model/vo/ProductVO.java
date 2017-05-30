@@ -9,18 +9,18 @@ public class ProductVO {
 	private String ptitle;
 	private String kind;
 	private String pcontent;
-	private String thumbPath;
+	private String img_path;
 	private int bno;
 	public ProductVO() {
 		super();
 	}
-	public ProductVO(int pno, String ptitle, String kind, String pcontent, String thumbPath, int bno) {
+	public ProductVO(int pno, String ptitle, String kind, String pcontent, String img_path, int bno) {
 		super();
 		this.pno = pno;
 		this.ptitle = ptitle;
 		this.kind = kind;
 		this.pcontent = pcontent;
-		this.thumbPath = thumbPath;
+		this.img_path = img_path;
 		this.bno = bno;
 	}
 	public int getPno() {
@@ -48,10 +48,10 @@ public class ProductVO {
 		this.pcontent = pcontent;
 	}
 	public String getImg_path() {
-		return thumbPath;
+		return img_path;
 	}
 	public void setImg_path(String thumbPath) {
-		this.thumbPath = thumbPath;
+		this.img_path = thumbPath;
 	}
 	public int getBno() {
 		return bno;
@@ -62,7 +62,7 @@ public class ProductVO {
 	@Override
 	public String toString() {
 		return "ProductVO [pno=" + pno + ", ptitle=" + ptitle + ", kind=" + kind + ", pcontent=" + pcontent
-				+ ", img_path=" + thumbPath + ", bno=" + bno + "]";
+				+ ", img_path=" + img_path + ", bno=" + bno + "]";
 	}
 	
 }
