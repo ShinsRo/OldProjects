@@ -32,13 +32,15 @@
 			<!--/#portfolio-filter-->
 			<%--${pageContext.request.contextPath }/uploadedFiles/JAVA/board${list.bno}/1.jpg --%>
 			<div class="portfolio-items">
+			
 				<c:forEach items="${requestScope.blvo.list}" var="list">
 					<div class="col-xs-6 col-sm-4 col-md-3 portfolio-item branded logos">
 						<div class="portfolio-wrapper">
 							<div class="portfolio-single">
 								<div class="portfolio-thumb">
+								<%-- "${pageContext.request.contextPath }/resources/images/portfolio/1.jpg" --%>
 									<img
-										src="${pageContext.request.contextPath }/resources/images/portfolio/1.jpg"
+										src= "${pageContext.request.contextPath}/${list.thumbPath }"
 										class="img-responsive" alt="">
 								</div>
 								<div class="portfolio-view">

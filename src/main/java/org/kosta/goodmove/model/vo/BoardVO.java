@@ -4,6 +4,7 @@ import java.util.List;
 
 /**
  * 게시 기본 단위로서 물려줄 물건 정보를 저장 : Value Object
+ * 
  * @author AreadyDoneTeam
  * @version 1
  */
@@ -15,14 +16,14 @@ public class BoardVO {
 	private String addr;
 	private String bcontent;
 	private String time_posted;
+	private String thumbPath;
 	private List<ProductVO> pList;
-	
 	public BoardVO() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
-	
 	public BoardVO(int bno, int hit, String title, String id, String addr, String bcontent, String time_posted,
-			List<ProductVO> pList) {
+			String thumbPath, List<ProductVO> pList) {
 		super();
 		this.bno = bno;
 		this.hit = hit;
@@ -31,6 +32,7 @@ public class BoardVO {
 		this.addr = addr;
 		this.bcontent = bcontent;
 		this.time_posted = time_posted;
+		this.thumbPath = thumbPath;
 		this.pList = pList;
 	}
 	public int getBno() {
@@ -75,6 +77,12 @@ public class BoardVO {
 	public void setTime_posted(String time_posted) {
 		this.time_posted = time_posted;
 	}
+	public String getThumbPath() {
+		return thumbPath;
+	}
+	public void setThumbPath(String thumbPath) {
+		this.thumbPath = thumbPath;
+	}
 	public List<ProductVO> getpList() {
 		return pList;
 	}
@@ -84,7 +92,7 @@ public class BoardVO {
 	@Override
 	public String toString() {
 		return "BoardVO [bno=" + bno + ", hit=" + hit + ", title=" + title + ", id=" + id + ", addr=" + addr
-				+ ", bcontent=" + bcontent + ", time_posted=" + time_posted + ", pList=" + pList + "]";
+				+ ", bcontent=" + bcontent + ", time_posted=" + time_posted + ", thumbPath=" + thumbPath + ", pList="
+				+ pList + "]";
 	}
-	
 }

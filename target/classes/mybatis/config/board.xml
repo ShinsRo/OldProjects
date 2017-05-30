@@ -17,19 +17,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getAllBoardList" resultType="BoardVO" parameterType="boardPagingBean">
 		select * from (
 		select bno, title, hit, to_char(time_posted,'YYYY.MM.DD HH:mm') as time_posted, 
-		id, addr,bcontent, row_number() over(order by bno desc) as rnum from G_BOARD) 
+		id, addr,bcontent, thumbpath, row_number() over(order by bno desc) as rnum from G_BOARD) 
 		where rnum between #{startRowNumber} and #{endRowNumber}
 	</select>
 	<select id="getTotalBoardCount" resultType="int">
 		select count(*) from G_BOARD
 	</select>
 	<select id="boardRegister" parameterType="boardVO">
-		INSERT INTO G_BOARD(BNO, ID, TITLE, BCONTENT, ADDR, TIME_POSTED, HIT) 
-		VALUES(#{bno}, #{id}, #{title}, #{bcontent}, #{addr}, sysdate, 0)
+		INSERT INTO G_BOARD(BNO, ID, TITLE, BCONTENT, ADDR, TIME_POSTED, HIT, THUMBPATH) 
+		VALUES(#{bno}, #{id}, #{title}, #{bcontent}, #{addr}, sysdate, 0, #{thumbPath})
 	</select>
 	<select id="productRegister" parameterType="productVO">
 		INSERT INTO G_PRODUCT(BNO, PNO, PTITLE, KIND, PCONTENT, IMG_PATH) 
-		VALUES(#{bno}, #{pno}, #{ptitle}, #{kind}, #{pcontent}, #{thumbPath})
+		VALUES(#{bno}, #{pno}, #{ptitle}, #{kind}, #{pcontent}, #{img_path})
 		</select>
 	<select id="getBoardDetailByBno" parameterType="int" resultType="boardVO">
 	 	<include refid="selectBoard"/> where bno=#{value}

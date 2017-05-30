@@ -33,7 +33,7 @@ public class BoardController {
 	public String boardList(String pageNo, Model model){
 		BoardListVO blvo = boardService.getAllBoardList(pageNo);
 		model.addAttribute("blvo", blvo);
-		
+		System.out.println(blvo);
 /*		String dir = "";
 		List<List<File>> dirList = new ArrayList<>();
 		for(BoardVO vo :blvo.getList()){
@@ -98,7 +98,7 @@ public class BoardController {
 			//물건 리스트 초기화
 			ProductVO tempPVO = new ProductVO();
 			tempPVO.setPno(nPno);
-			tempPVO.setImg_path(uploadPath+nPno+fileSuffix);
+			tempPVO.setImg_path("uploadedFiles\\"+userId+"\\"+"board"+bno+"\\"+nPno+fileSuffix);
 			bvo.getpList().add(tempPVO);
 			
 			if(fileName.equals("")==false){
@@ -113,6 +113,10 @@ public class BoardController {
 				}
 			}
 		}
+		
+		//Board Thumb nail 저장
+		bvo.setThumbPath(bvo.getpList().get(0).getImg_path());
+		
 		boardService.boardRegister(bvo, psvo);
 		return "home.tiles";
 	}
