@@ -16,6 +16,10 @@ public interface MemberDAO {
 	String passwordCheck(String password);
 	
 	void deleteMember(String id,String password);
+	
+	public String forgotId(String name,String tel);
+	
+	public String forgotPass(String id,String name,String tel);
 
 
 }

@@ -45,4 +45,15 @@ public class MemberServiceImpl implements MemberService{
 		memberDAO.deleteMember(id, password);
 		
 	}
+
+	@Override
+	public String forgotId(String name, String tel) {
+		return memberDAO.forgotId(name, tel);
+	}
+
+	@Override
+	public String forgotPass(String id, String name, String tel) {
+		return memberDAO.forgotPass(id, name, tel);
+	}
+	
 }

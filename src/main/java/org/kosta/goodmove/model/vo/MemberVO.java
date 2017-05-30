@@ -15,8 +15,16 @@ public class MemberVO {
 	private String deletemember;
 	public MemberVO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
+	
+
+	public MemberVO(String id, String name, String tel) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.tel = tel;
+	}
+
 	public MemberVO(String id, String password) {
 		super();
 		this.id = id;

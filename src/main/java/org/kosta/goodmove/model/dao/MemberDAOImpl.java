@@ -46,5 +46,18 @@ public class MemberDAOImpl implements MemberDAO{
 		MemberVO vo=new MemberVO(id,password);
 		template.update("member.deleteMember", vo);
 		
+	}
+
+	@Override
+	public String forgotId(String name, String tel) {
+		MemberVO vo=new MemberVO(name,tel);
+		return template.selectOne("member.forgotId", vo);
+	}
+
+	@Override
+	public String forgotPass(String id, String name, String tel) {
+		MemberVO vo=new MemberVO(id,name,tel);
+		return template.selectOne("member.forgotPass", vo);
 	}	
+	
 }
