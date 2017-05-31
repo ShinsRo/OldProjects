@@ -43,7 +43,7 @@ function passwordChecking(){
 <form  method="post"
 action="${pageContext.request.contextPath}/deleteMember.do" onsubmit="return passwordChecking()">
 <input type = "hidden" name = "id" value = "${mvo.id }">
-<input id="pass1" type="password" name="password" placeholder="비밀번호"  ><br>
+<input id="pass1" type="password" name="password" placeholder="비밀번호"  maxlength="11"><br>
 <button id="DeleteMember" >회원탈퇴</button>
 </form>
 </div>

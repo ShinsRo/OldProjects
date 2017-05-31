@@ -26,7 +26,6 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-
                     <a class="navbar-brand" href="${pageContext.request.contextPath}/home.do">
                     	<h1><img class="logo_img" src="${pageContext.request.contextPath}/resources/img/logo_w.png" alt="logo" height="100" width="100"></h1>
                     </a>
@@ -34,7 +33,7 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="${pageContext.request.contextPath }/home.do">Home</a></li>
+                        <li class="active"><a href="${pageContext.request.contextPath}/home.do">Home</a></li>
                          <li class="dropdown"><a href="portfolio.html">드려요<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
                                 <li><a href="${pageContext.request.contextPath}/getBoardList.do">드려요 모아보기</a></li>
@@ -76,4 +75,29 @@
         </div>
     </header>
     <!--/#header-->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     

@@ -6,8 +6,8 @@
   margin: auto;
 } */
 .form {
-  position: relative;
-  z-index: 1;
+  position: relative; 
+   z-index: 1; 
   background: #FFFFFF;
   max-width: 360px;
   margin: 0 auto 100px;
@@ -97,8 +97,8 @@ select{
   z-index: 1;
   max-width: 300px;
   margin: 0 auto;
-}
-.container:before, .container:after {
+} */
+/* .container:before, .container:after {
   content: "";
   display: block;
   clear: both;

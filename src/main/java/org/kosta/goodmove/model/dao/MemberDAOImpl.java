@@ -42,7 +42,7 @@ public class MemberDAOImpl implements MemberDAO{
 	}
 
 	@Override
-	public String passwordCheck(String password) {
+	public int passwordCheck(String password) {
 		return template.selectOne("member.passwordCheck", password);
 	}
  

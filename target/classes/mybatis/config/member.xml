@@ -29,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<select id="idcheck" resultType="int">
 		SELECT COUNT(*) FROM GD_MEMBER WHERE ID=#{value}
 		</select>
-		<select id="passwordCheck" resultType="String">
+		<select id="passwordCheck" resultType="int">
 		SELECT COUNT(*) FROM GD_MEMBER WHERE PASSWORD=#{value}
 		</select>
 		<update id="deleteMember" parameterType="memberVO"> 
