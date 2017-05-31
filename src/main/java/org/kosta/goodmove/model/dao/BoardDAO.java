@@ -30,6 +30,10 @@ public interface BoardDAO {
 	List<ProductVO> getProductImgByBno(int bno);
 
 	void registerApplication(ApplicationVO avo);
+
 	void registerTransaction(TransactionVO tvo);
 
+	int getTotalBoardCount(String id);
+
+	List<BoardVO> getMyBoardList(BoardPagingBean pagingBean, String id);
 }

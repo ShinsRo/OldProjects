@@ -58,6 +58,23 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	public BoardListVO getMyBoardList(String pageNo, String id) {
+		int totalCount = boardDAO.getTotalBoardCount(id);
+		BoardPagingBean pagingBean = null;
+		if (pageNo == null)
+			pagingBean = new BoardPagingBean(totalCount);
+		else
+			pagingBean = new BoardPagingBean(totalCount, Integer.parseInt(pageNo));
+		BoardListVO bList = new BoardListVO(boardDAO.getMyBoardList(pagingBean, id), pagingBean);
+		for (Iterator<BoardVO> it = bList.getList().iterator(); it.hasNext();) {
+			BoardVO bvo = it.next();
+			StringTokenizer tempAddr = new StringTokenizer(bvo.getAddr(), " ");
+			bvo.setAddr(tempAddr.nextToken() + " " + tempAddr.nextToken());
+		}
+		return bList;
+	}
+
+	@Override
 	public BoardVO getBoardDetailByBno(int bno) {
 		BoardVO bvo = boardDAO.getBoardDetailByBno(bno);
 		String addr = bvo.getAddr();

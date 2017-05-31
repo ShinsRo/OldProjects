@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.kosta.goodmove.model.service.BoardService;
 import org.kosta.goodmove.model.vo.ApplicationVO;
@@ -36,6 +37,13 @@ public class BoardController {
 		BoardListVO blvo = boardService.getAllBoardList(pageNo);
 		model.addAttribute("blvo", blvo);
 		return "board/boardList.tiles";
+	}
+	@RequestMapping("myBoardList.do")
+	public String myBoardList(String pageNo, Model model, HttpServletRequest req){
+		String id = ((MemberVO)req.getSession(false).getAttribute("mvo")).getId();
+		BoardListVO blvo = boardService.getMyBoardList(pageNo, id);
+		model.addAttribute("blvo", blvo);
+		return "mypage/my_board.tiles";
 	}
 	/**
 	 * 리스트에서 상세보기 눌렀을 때
@@ -107,7 +115,7 @@ public class BoardController {
 		bvo.setThumbPath(bvo.getpList().get(0).getImg_path());
 		
 		boardService.boardRegister(bvo, psvo);
-		return "home.tiles";
+		return "redirect:boardDetail.do?bno="+bvo.getBno()+".tiles";
 	}
 	/**
 	 * 주세요 신청할 시
