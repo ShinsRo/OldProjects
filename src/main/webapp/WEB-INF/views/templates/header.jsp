@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
  pageEncoding="UTF-8"%>
+
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<header id="header">      
         <div class="container">
@@ -69,6 +70,7 @@
 	                        <li><a href="${pageContext.request.contextPath }/member/updates.do">${sessionScope.mvo.name}님 로그인</a></li>
 	                        <li><a href="${pageContext.request.contextPath }/logout.do">로그아웃</a></li>
                         </c:if>
+                        <li><a href="${pageContext.request.contextPath}/member/contact.do">Contact</a></li>
                     </ul>
                 </div>
             </div>
