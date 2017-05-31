@@ -27,9 +27,11 @@
                         <h3>상품 설명</h3>
                         <p>${bvo.bcontent}</p>
                     </div>
-                    <div class="give-me-btn" id="give-me">
-                        <a href="#" class="btn btn-common uppercase">주세요 신청</a>
-                    </div>
+                    <c:if test="${sessionScope.mvo != null}">  
+	                    <div class="give-me-btn" id="give-me">
+	                        <a href="#" class="btn btn-common uppercase">주세요 신청</a>
+	                    </div>
+                    </c:if>
                     <!-- 주세요 신청 modal -->
                 <!-- start modal -->
 				<div class="modal fade" id="myModal" role="dialog">
@@ -42,8 +44,11 @@
 							</div>
 							<div class="contact-form bottom">
 								<form id="main-contact-form" name="contact-form" method="post" action="">
+									<div>
+										글번호:${bvo.bno}&nbsp;&nbsp;글 제목: ${bvo.title}
+									</div>
 									<div class="kind-of-product">
-										<p>&nbsp;주세요 신청 할 상품을 선택해주세요!</p>
+										<p>주세요 신청 할 상품을 선택해주세요! ლ(╹◡╹ლ)๑</p>
 										<ul>
 											<c:forEach items="${requestScope.plist}" var="product">
 												<li> <label><input type="checkbox" name="kind" 
@@ -52,7 +57,7 @@
 										</ul>
 									</div>
 									<div class="form-group">
-										<p>상품 등록자가 신청사유 검토 후 물건을 드릴게요! @.@♥</p>
+										<p>상품 등록자가 신청사유 검토 후 물건을 드릴게요! ლ(╹◡╹ლ)</p>
 										<textarea name="message" id="message" required="required" class="form-control" rows="8" 
 										placeholder="신청 사유를 적어주세요."></textarea>
 									</div>
