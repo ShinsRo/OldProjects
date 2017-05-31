@@ -134,7 +134,6 @@ public class BoardController {
 		tvo.setTno(tno);	tvo.setAno(ano);
 		tvo.setId(writer);	tvo.setBno(bno);
 		// db insert
-		System.out.println(tvo);
 		boardService.registerApplication(avo);
 		boardService.registerTransaction(tvo);
 		return "home.tiles";
