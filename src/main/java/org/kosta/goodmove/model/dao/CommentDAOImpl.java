@@ -34,7 +34,6 @@ public class CommentDAOImpl implements CommentDAO{
 	public List<CommentVO> getCommentList(PagingBean pagingBean) {
 		return template.selectList("comment.getCommentList", pagingBean);
 	}
-
 	/**
 	 * 지역후기의 상세 내용 조회, 반환
 	 * @param	글번호
@@ -114,5 +113,14 @@ public class CommentDAOImpl implements CommentDAO{
 	@Override
 	public void updateCommentReply(CommentReplyVO crvo){
 		template.update("comment.updateCommentReply",crvo);
+	}
+	
+	@Override
+	public CommentReplyVO getCommentReplyInfoByRNO(int rno){
+		return template.selectOne("comment.getCommentReplyInfoByRNO",rno);
+	}
+	@Override
+	public void deleteCommentReplyChild(int gno){
+		template.delete("comment.deleteCommentReplyChild",gno);
 	}
 }

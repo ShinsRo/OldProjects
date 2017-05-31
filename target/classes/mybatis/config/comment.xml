@@ -30,8 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	<insert id="commentRegister" parameterType="commentVO">
 	<selectKey keyProperty="cno" resultType="String" order="BEFORE">
-			select
-			C_SEQ.nextval from dual
+			select C_SEQ.nextval from dual
 		</selectKey>
 		insert into LOC_COMMENT(CNO, TITLE, HIT, TIME_POSTED, ADDR, ID, CONTENT)
 		VALUES(#{cno}, #{title}, 0, sysdate, #{addr}, #{id}, #{content})
@@ -76,6 +75,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateCommentReply" parameterType="commentReplyVO">
 	UPDATE LOC_COMMENT_REPLY SET content=#{content} where RNO=#{rno}
 	</update>
+	<select id="getCommentReplyInfoByRNO" parameterType="int" resultType="commentReplyVO">
+	SELECT * from LOC_COMMENT_REPLY WHERE RNO=#{value}
+	</select>
+	<delete id="deleteCommentReplyChild" parameterType="int">
+	DELETE FROM LOC_COMMENT_REPLY WHERE GNO=#{value}
+	</delete>
 </mapper>
  
  

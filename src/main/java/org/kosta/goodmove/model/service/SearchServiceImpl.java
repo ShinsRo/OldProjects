@@ -27,6 +27,7 @@ public class SearchServiceImpl implements SearchService {
 	@Override
 	public CommentListVO searchComment(SearchVO svo, String pageNo) {
 		int totalCount = commentDAO.getSearchContentCount(svo);
+		System.out.println("토탈카운트" + totalCount);
 		PagingBean pagingBean=new PagingBean(totalCount,Integer.parseInt(pageNo));
 		return new CommentListVO(searchDAO.searchComment(svo, pagingBean),pagingBean);
 	}

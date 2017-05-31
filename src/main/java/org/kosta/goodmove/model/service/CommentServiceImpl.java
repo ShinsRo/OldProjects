@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 public class CommentServiceImpl implements CommentService{
 	@Resource
 	private CommentDAO commentDAO;
-
 	/**
 	 * 페이지 정보가 없이 지역후기 게시판의 리스트 요청 시 사용
 	 * @return	현재 페이지번호로 1반환
@@ -135,4 +134,15 @@ public class CommentServiceImpl implements CommentService{
 	public void updateCommentReply(CommentReplyVO crvo){
 		commentDAO.updateCommentReply(crvo);
 	}
+	
+	@Override
+	public CommentReplyVO getCommentReplyInfoByRNO(int rno){
+		return commentDAO.getCommentReplyInfoByRNO(rno);
+	}
+	
+	@Override
+	public void deleteCommentReplyChild(int gno){
+		commentDAO.deleteCommentReplyChild(gno);
+	}
+
 }

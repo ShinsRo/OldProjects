@@ -24,4 +24,6 @@ public interface CommentDAO {
 	int getParentsParentId(int parent);
 	void deleteCommentReply(int rno);
 	void updateCommentReply(CommentReplyVO crvo);
+	CommentReplyVO getCommentReplyInfoByRNO(int rno);
+	void deleteCommentReplyChild(int gno);
 }
