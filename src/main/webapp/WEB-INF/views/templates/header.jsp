@@ -55,7 +55,7 @@
                         <li class="dropdown"><a href="portfolio.html">내 정보<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
                             	<li><a href="${pageContext.request.contextPath}/member/updates.do">회원수정</a></li>
-                                <li><a href="portfolio.html">내가 올린 드려요</a></li>
+                                <li><a href="${pageContext.request.contextPath}/myBoardList.do">내가 올린 드려요</a></li>
                                 <li><a href="portfoliofour.html">내가 쓴 여기는요 </a></li>
                                 <li><a href="portfoliotwo.html">드려요 현황</a></li>
                                 <li><a href="portfolioone.html">주세요 현황</a></li>

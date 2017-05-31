@@ -22,4 +22,7 @@ public interface BoardDAO {
 
 	List<ProductVO> getProductImgByBno(int bno);
 
+	int getTotalBoardCount(String id);
+
+	List<BoardVO> getMyBoardList(BoardPagingBean pagingBean, String id);
 }

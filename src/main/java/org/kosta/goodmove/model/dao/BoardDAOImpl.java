@@ -1,5 +1,6 @@
 package org.kosta.goodmove.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -47,6 +48,10 @@ public class BoardDAOImpl implements BoardDAO{
 	public int getTotalBoardCount(){
 		return template.selectOne("board.getTotalBoardCount");
 	}
+	@Override
+	public int getTotalBoardCount(String id) {
+		return template.selectOne("board.getTotalBoardCountById", id);
+	}
 	/**
 	 * 글번호의 board 디테일
 	 * return BoardVO
@@ -71,5 +76,12 @@ public class BoardDAOImpl implements BoardDAO{
 	@Override
 	public List<ProductVO> getProductImgByBno(int bno){
 		return template.selectList("board.getProductImgByBno", bno);
+	}
+	@Override
+	public List<BoardVO> getMyBoardList(BoardPagingBean pagingBean, String id) {
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("pagingBean", pagingBean);
+		paramMap.put("id", id);
+		return template.selectList("board.getMyBoardList", paramMap);
 	}
 }

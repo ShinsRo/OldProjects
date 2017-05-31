@@ -8,6 +8,3 @@
 </head>
 <body>
 String id=(String)session.getAttribute("sessionID");
-
- </body>
-</html>
