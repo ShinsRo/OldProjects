@@ -11,4 +11,6 @@ public interface SearchService {
 
 	CommentListVO searchComment(SearchVO svo, String pageNo);
 
+	int count(SearchVO searchVO);
+
 }

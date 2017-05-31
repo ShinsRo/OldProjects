@@ -97,7 +97,7 @@ SELECT * FROM GD_MEMBER;
 SELECT * FROM LOC_COMMENT;
 
 -- TEST MEMBER
-INSERT INTO GD_MEMBER(ID, NAME, PASSWORD, ADDR, ADDR_DETAIL, TEL, JOB) VALUES('java', '딘딘', '1234', '경기도 성남시 분당구', '삼평동 670','01012345678','취준생');
+INSERT INTO GD_MEMBER(ID, NAME, PASSWORD, ADDR, ADDR_DETAIL, TEL, JOB) VALUES('java2', '딘딘', '1234', '경기도 성남시 분당구', '삼평동 670','01012345678','취준생');
 
 -- TEST COMMENT
 insert into LOC_COMMENT(CNO, TITLE, HIT, TIME_POSTED, ADDR, ID, CONTENT) VALUES(C_SEQ.nextval, 'test1', '0', sysdate, '경기도 성남시 분당구', 'java', '내용');

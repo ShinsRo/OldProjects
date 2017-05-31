@@ -40,4 +40,16 @@ public class SearchServiceImpl implements SearchService {
 		return null;
 	}
 
+
+	@Override
+	public int count(SearchVO searchVO) {
+		int count = 0;
+		if(searchVO.getMcategory().equals("board")){
+			//count = boardDAO.getSearchContentCount(searchVO);
+		}else{
+			count = commentDAO.getSearchContentCount(searchVO);
+		}
+		return count;
+	}
+
 }
