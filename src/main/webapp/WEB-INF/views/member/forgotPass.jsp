@@ -1,10 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
 <link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/resources/member/login_register.css">
-	
-<script src="//code.jquery.com/jquery.min.js"></script>
+	href="${pageContext.request.contextPath }/resources/member/search.css">
 <script type="text/javascript">
 
 	$('.message a').click(function(){
@@ -17,60 +14,36 @@
 				return false; 
 				
 			 }
-  			if($("#name").val()==""){
-				alert("이름를 입력하세요");				
-				return false; 
-				
-			 }
-  			else if($("#tel1").val().trim()==""){
-				var tel1=$(this).val().trim();
-				if(tel1.length==1 || tel1.length==2){
-				alert("3자리를 입력해주세요");
+			if($("#password").val().trim()==""){
+				alert("비밀번호를 입력하세요");				
 				return false;
-				}
-			}	
-			else if($("#tel2").val().trim()==""){
-				var tel2=$(this).val().trim();
-				if(tel2.length==1 || tel2.length==2 || tel2.length==3 ){	
-				alert("4자리를 입력하세요");				
-				return false;
-				}
-			}	
-			else if($("#tel3").val().trim()==""){
-				var tel3=$(this).val().trim();
-				if(tel3.length==1 || tel3.length==2 || tel3.length==3 ){	
-				alert("4자리를 입력하세요");				
-				return false;
-				}
-			}	
+			}
+	
   		});
   		
-
-			$("#log").click(function(){
-				var result=confirm("비밀번호를 찾으시겠습니까?");
+			 $("#log").click(function(){
+				var result=confirm("로그인하시겠습니까?");
 				if(result){
 					return true;
 				}else{
 					return false;
 					
-				}
+				} 
 			});
+			 $(".num").keyup(function(){$(this).val( $(this).val().replace(/[^0-9]/g,"") );} );
   	});
 </script>
-<div class="findMemberByPass-page">
+<section>
+<div class="login-page">
   <div class="form">
-	<form action="${pageContext.request.contextPath }/forgotPass.do" >
+	<form action="${pageContext.request.contextPath }/login.do" method="post">
 	<input id="id" name="id" required="required" type="text" placeholder="아이디" /><br> 
-	<input id="name" name="name" required="required" type="text" placeholder="이름" /><br> 
-	<select id="tel1" name="tel1"  required="required" >
-					<option value = "010" > 010 </option>
-                    <option value = "011"> 011 </option>
-                    <option value = "070"> 070 </option>
-					</select>
-					<input id="tel2" name="tel2"  type="tel" required="required" placeholder="전화번호"  maxlength="4" />
-					<input id="tel3" name="tel3"  type="tel" required="required" placeholder="전화번호" maxlength="4" /><br>
-      <button id="findpass" class="findpass">비밀번호찾기</button>
-     </form>
+	<input type="password" name="password" id="password" required="required" placeholder="비밀번호"><br>
+     <span id="idCheckView"></span>
+      <button id="log" class="logc">login</button>
+      <p class="message">Not registered? <a href="${pageContext.request.contextPath}/member/registers.do">Create an account</a></p>
+    </form>
   </div>
 </div>
+</section>
 

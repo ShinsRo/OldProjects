@@ -131,6 +131,7 @@
 					return false;
 	    		}
 	    	});
+	    	$(".num").keyup(function(){$(this).val( $(this).val().replace(/[^0-9]/g,"") );} );
 	});//ready
 </script>
 <link rel="stylesheet" type="text/css"
@@ -159,8 +160,8 @@
                     <option value = "011"> 011 </option>
                     <option value = "070"> 070 </option>
 					</select>
-					<input id="tel2" name="tel2"  type="tel"  placeholder="전화번호"  maxlength="4" />
-					<input id="tel3" name="tel3"  type="tel" placeholder="전화번호" maxlength="4" /><br>
+					<input class="num" id="tel2" name="tel2"  type="tel"  placeholder="전화번호"  maxlength="4" />
+					<input class="num" id="tel3" name="tel3"  type="tel" placeholder="전화번호" maxlength="4" /><br>
 					<input id="job" 	name="job"  type="text"  placeholder="직업" /><br>
 					<button id="regfo" class="regF">회원가입</button><br>
 					</form>
