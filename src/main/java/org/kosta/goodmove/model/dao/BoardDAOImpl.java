@@ -4,9 +4,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.BoardPagingBean;
 import org.kosta.goodmove.model.vo.BoardVO;
 import org.kosta.goodmove.model.vo.ProductVO;
+import org.kosta.goodmove.model.vo.TransactionVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 /**
@@ -30,6 +32,14 @@ public class BoardDAOImpl implements BoardDAO{
 	 public int getNextPno(){
 		 return template.selectOne("board.getNextPno");
 	 }
+	@Override
+	public int getNextAno() {
+		return template.selectOne("board.getNextAno");
+	}
+	@Override
+	public int getNextTno() {
+		return template.selectOne("board.getNextTno");
+	}
 	 /**
 	  * 모든 board 게시글 조회
 	  * @param pagingbean
@@ -72,4 +82,13 @@ public class BoardDAOImpl implements BoardDAO{
 	public List<ProductVO> getProductImgByBno(int bno){
 		return template.selectList("board.getProductImgByBno", bno);
 	}
+	@Override
+	public void registerApplication(ApplicationVO avo) {
+		template.insert("board.registerApplication", avo);
+	}
+	@Override
+	public void registerTransaction(TransactionVO tvo) {
+		template.insert("board.registerTransaction",tvo);
+	}
+
 }

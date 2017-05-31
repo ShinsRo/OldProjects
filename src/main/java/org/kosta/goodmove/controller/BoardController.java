@@ -9,11 +9,13 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kosta.goodmove.model.service.BoardService;
+import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.BoardListVO;
 import org.kosta.goodmove.model.vo.BoardVO;
 import org.kosta.goodmove.model.vo.MemberVO;
 import org.kosta.goodmove.model.vo.ProductSetVO;
 import org.kosta.goodmove.model.vo.ProductVO;
+import org.kosta.goodmove.model.vo.TransactionVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -105,6 +107,29 @@ public class BoardController {
 		bvo.setThumbPath(bvo.getpList().get(0).getImg_path());
 		
 		boardService.boardRegister(bvo, psvo);
+		return "home.tiles";
+	}
+	/**
+	 * 주세요 신청할 시
+	 * transacion,application table에 db 저장
+	 * @return
+	 */
+	@RequestMapping("registerGiveMe.do")
+	public String registerGiveMe(ApplicationVO avo,HttpServletRequest req,String writer,int bno){
+		int ano =boardService.getNextAno();
+		int tno = boardService.getNextTno();
+		String userId = ((MemberVO)req.getSession(false).getAttribute("mvo")).getId();
+		// application
+		avo.setAno(ano);
+		avo.setId(userId);
+		// transaction
+		TransactionVO tvo = new TransactionVO();
+		tvo.setTno(tno);	tvo.setAno(ano);
+		tvo.setId(writer);	tvo.setBno(bno);
+		// db insert
+		System.out.println(tvo);
+		boardService.registerApplication(avo);
+		boardService.registerTransaction(tvo);
 		return "home.tiles";
 	}
 }

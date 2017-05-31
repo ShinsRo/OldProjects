@@ -2,13 +2,22 @@ package org.kosta.goodmove.model.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.cache.decorators.TransactionalCache;
+import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.BoardPagingBean;
 import org.kosta.goodmove.model.vo.BoardVO;
 import org.kosta.goodmove.model.vo.ProductVO;
+import org.kosta.goodmove.model.vo.TransactionVO;
 
 public interface BoardDAO {
 
 	int getNextBno();
+
+	int getNextAno();
+
+	int getNextTno();
+
+	int getNextPno();
 
 	int getTotalBoardCount();
 
@@ -16,10 +25,11 @@ public interface BoardDAO {
 
 	void boardRegister(BoardVO bvo);
 
-	int getNextPno();
-	
 	BoardVO getBoardDetailByBno(int bno);
 
 	List<ProductVO> getProductImgByBno(int bno);
+
+	void registerApplication(ApplicationVO avo);
+	void registerTransaction(TransactionVO tvo);
 
 }

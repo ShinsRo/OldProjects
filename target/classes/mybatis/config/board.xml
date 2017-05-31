@@ -17,6 +17,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getNextPno" resultType="int">
 		select P_SEQ.nextval from dual
 	</select>
+	<select id="getNextAno" resultType="int">
+		select A_SEQ.nextval from dual
+	</select>
+	<select id="getNextTno" resultType="int">
+		select T_SEQ.nextval from dual
+	</select>
 	<select id="getAllBoardList" resultType="BoardVO" parameterType="boardPagingBean">
 		select * from (
 		select bno, title, hit, to_char(time_posted,'YYYY.MM.DD HH:mm') as time_posted, 
@@ -41,10 +47,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from G_PRODUCT where bno=#{value}
 	</select>
 	<insert id="registerApplication" parameterType="applicationVO">
-		INSERT INTO APPLICATION(ANO,REASON,ID) VALUES(A_SEQ.NEXTVAL,#{REASON},#{ID});
+		INSERT INTO APPLICATION(ANO,REASON,PNOS,ID) VALUES(#{ano},#{reason},#{pnos},#{id})
 	</insert>
 	<insert id="registerTransaction" parameterType="transactionVO">
-		INSERT INTO TRANSACTION(TNO,ID,ANO) VALUES(T_SEQ.NEXTVAL,#{ID},#{ANO});
+		INSERT INTO TRANSACTION(TNO,ID,ANO,BNO) VALUES(#{tno},#{id},#{ano},#{bno})
 	</insert>
 </mapper>
  

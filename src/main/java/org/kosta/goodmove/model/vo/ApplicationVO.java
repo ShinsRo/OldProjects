@@ -5,22 +5,24 @@ package org.kosta.goodmove.model.vo;
  * @version 1
  */
 public class ApplicationVO {
-	private String ano;
+	private int ano;
 	private String id;
+	private String pnos;
 	private String reason;
 	public ApplicationVO() {
 		super();
 	}
-	public ApplicationVO(String ano, String id, String reason) {
+	public ApplicationVO(int ano, String id, String pnos, String reason) {
 		super();
 		this.ano = ano;
 		this.id = id;
+		this.pnos = pnos;
 		this.reason = reason;
 	}
-	public String getAno() {
+	public int getAno() {
 		return ano;
 	}
-	public void setAno(String ano) {
+	public void setAno(int ano) {
 		this.ano = ano;
 	}
 	public String getId() {
@@ -28,6 +30,12 @@ public class ApplicationVO {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getPnos() {
+		return pnos;
+	}
+	public void setPnos(String pnos) {
+		this.pnos = pnos;
 	}
 	public String getReason() {
 		return reason;
@@ -37,7 +45,7 @@ public class ApplicationVO {
 	}
 	@Override
 	public String toString() {
-		return "ApplicationVO [ano=" + ano + ", id=" + id + ", reason=" + reason + "]";
+		return "ApplicationVO [ano=" + ano + ", id=" + id + ", pnos=" + pnos + ", reason=" + reason + "]";
 	}
 	
 }

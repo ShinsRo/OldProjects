@@ -7,6 +7,7 @@
 		$("#give-me").click(function(){
 			$("#myModal").modal();
 		});
+	
 	});
 </script>
 <section id="portfolio-information" class="padding-top">
@@ -43,26 +44,28 @@
 								<h4 class="modal-title">주세요 신청하기</h4>
 							</div>
 							<div class="contact-form bottom">
-								<form id="main-contact-form" name="contact-form" method="post" action="">
-									<div>
+							<form id="main-contact-form" name="contact-form" method="post" action="${pageContext.request.contextPath}/registerGiveMe.do"></form>
+								<form id="main-contact-form" name="contact-form" method="post" action="${pageContext.request.contextPath}/registerGiveMe.do">
+									<div><input type="hidden" name="bno" value="${bvo.bno}">
 										글번호:${bvo.bno}&nbsp;&nbsp;글 제목: ${bvo.title}
 									</div>
 									<div class="kind-of-product">
 										<p>주세요 신청 할 상품을 선택해주세요! ლ(╹◡╹ლ)๑</p>
 										<ul>
 											<c:forEach items="${requestScope.plist}" var="product">
-												<li> <label><input type="checkbox" name="kind" 
-												value="${product.ptitle}">${product.ptitle}</label></li>
+												<li> <label><input type="checkbox" name="pnos" 
+												value="${product.pno}">${product.ptitle}</label></li>
 											</c:forEach>
 										</ul>
-									</div>
+									</div> 
 									<div class="form-group">
-										<p>상품 등록자가 신청사유 검토 후 물건을 드릴게요! ლ(╹◡╹ლ)</p>
-										<textarea name="message" id="message" required="required" class="form-control" rows="8" 
+										<input type="hidden" name="writer" value="${bvo.id}">
+										<p>상품 등록자가 신청사유 검토 후 물건을 드릴게요! (◕‿◕✿)</p>
+										<textarea name="reason" id="reason" required="required" class="form-control" rows="8" 
 										placeholder="신청 사유를 적어주세요."></textarea>
 									</div>
 									<div class="form-group">
-										<input type="submit" name="submit" class="btn btn-submit" value="Submit">
+										<input type="submit" id="submit-btn" name="submit" class="btn btn-submit" value="Submit" >
 									</div>
 								</form>
 							</div>

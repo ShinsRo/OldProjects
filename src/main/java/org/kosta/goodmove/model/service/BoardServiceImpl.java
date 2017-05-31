@@ -7,11 +7,13 @@ import java.util.StringTokenizer;
 import javax.annotation.Resource;
 
 import org.kosta.goodmove.model.dao.BoardDAO;
+import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.BoardListVO;
 import org.kosta.goodmove.model.vo.BoardPagingBean;
 import org.kosta.goodmove.model.vo.BoardVO;
 import org.kosta.goodmove.model.vo.ProductSetVO;
 import org.kosta.goodmove.model.vo.ProductVO;
+import org.kosta.goodmove.model.vo.TransactionVO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -86,5 +88,25 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<ProductVO> getProductImgByBno(int bno){
 		return boardDAO.getProductImgByBno(bno);
+	}
+
+	@Override
+	public int getNextAno() {
+		return boardDAO.getNextAno();
+	}
+
+	@Override
+	public int getNextTno() {
+		return boardDAO.getNextTno();
+	}
+
+	@Override
+	public void registerApplication(ApplicationVO avo) {
+		boardDAO.registerApplication(avo);
+	}
+
+	@Override
+	public void registerTransaction(TransactionVO tvo) {
+		boardDAO.registerTransaction(tvo);
 	}
 }
