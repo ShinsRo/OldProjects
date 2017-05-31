@@ -82,6 +82,7 @@ $(document).ready(function(){
 		}
 		
     	});//keyup  */ 
+	$(".num").keyup(function(){$(this).val( $(this).val().replace(/[^0-9]/g,"") );} );
 });//ready
 </script>
 <link rel="stylesheet" type="text/css"
@@ -108,8 +109,8 @@ $(document).ready(function(){
                     <option value = "070"> 070 </option>
 					<!-- <input id="tel1" name="tel1"  type="tel" placeholder="전화번호" maxlength="3"/> -->
 					</select>
-					<input id="tel2" name="tel2"  type="tel" placeholder="전화번호"  maxlength="4" size="4"/>
-					<input id="tel3" name="tel3"  type="tel" placeholder="전화번호" maxlength="4" size="4"/><br>
+					<input class="num" id="tel2" name="tel2"  type="tel" placeholder="전화번호"  maxlength="4" size="4"/>
+					<input class="num" id="tel3" name="tel3"  type="tel" placeholder="전화번호" maxlength="4" size="4"/><br>
 					<input id="job" 	name="job"  type="text" placeholder="직업" /><br>
 	<button id="upd" class="uplo" > 회원수정</button>&nbsp;<a href="${pageContext.request.contextPath }/member/delete.do"><input type="button" value="회원탈퇴"></a>
 </form>
