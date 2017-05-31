@@ -54,8 +54,8 @@
 									</ul>
 								</div>
 							</div>
-							<div class="portfolio-info ">
-								<h2>${list.title}</h2>
+							<div class="portfolio-info" >
+								<h2 style="text-overflow:ellipsis; overflow:hidden;">${list.title}</h2>
 								<h3>${list.addr}</h3>
 							</div>
 						</div>

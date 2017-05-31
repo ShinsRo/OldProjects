@@ -35,15 +35,26 @@
 				<div class="modal fade" id="myModal" role="dialog">
 					<div class="modal-dialog">
 						<!-- Modal content-->
-						<div class="modal-content">
+						<div class="modal-content" id="modal-content">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
 								<h4 class="modal-title">주세요 신청하기</h4>
 							</div>
 							<div class="contact-form bottom">
 								<form id="main-contact-form" name="contact-form" method="post" action="">
+									<div class="kind-of-product">
+										<p>&nbsp;주세요 신청 할 상품을 선택해주세요!</p>
+										<ul>
+											<c:forEach items="${requestScope.plist}" var="product">
+												<li> <label><input type="checkbox" name="kind" 
+												value="${product.ptitle}">${product.ptitle}</label></li>
+											</c:forEach>
+										</ul>
+									</div>
 									<div class="form-group">
-										<textarea name="message" id="message" required="required" class="form-control" rows="8" placeholder="신청 사유를 적어주세요."></textarea>
+										<p>상품 등록자가 신청사유 검토 후 물건을 드릴게요! @.@♥</p>
+										<textarea name="message" id="message" required="required" class="form-control" rows="8" 
+										placeholder="신청 사유를 적어주세요."></textarea>
 									</div>
 									<div class="form-group">
 										<input type="submit" name="submit" class="btn btn-submit" value="Submit">
@@ -63,7 +74,7 @@
 <section id="related-work" class="padding-top padding-bottom">
 	<div class="container">
 		<div class="row">
-			<h1 class="title text-center">Related Image</h1>
+			<h1 class="title text-center">등록한 상품 사진</h1>
 			<c:forEach items="${requestScope.plist}" var="imgList">
 				<div class="col-sm-4">
 					<div class="portfolio-wrapper">

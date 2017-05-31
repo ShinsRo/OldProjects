@@ -22,4 +22,6 @@ CREATE SEQUENCE A_SEQ;
 /*
  *	
  */
-select * from G_PRODUCT  where bno = 2;
+select * from TRANSACTION;
+select * from APPLICATION;
+

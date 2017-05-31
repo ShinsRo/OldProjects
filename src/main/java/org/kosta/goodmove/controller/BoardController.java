@@ -33,7 +33,6 @@ public class BoardController {
 	public String boardList(String pageNo, Model model){
 		BoardListVO blvo = boardService.getAllBoardList(pageNo);
 		model.addAttribute("blvo", blvo);
-		System.out.println(blvo);
 		return "board/boardList.tiles";
 	}
 	/**
@@ -79,7 +78,7 @@ public class BoardController {
 		for(int i = 0; i < list.size(); i ++){
 			String fileName = list.get(i).getOriginalFilename();
 			String fileSuffix = fileName.substring(fileName.lastIndexOf('.'));
-			System.out.println(fileSuffix);
+			/*System.out.println(fileSuffix);*/
 			//물건 번호 초기화
 			int nPno = boardService.getNextPno();
 			
@@ -93,7 +92,7 @@ public class BoardController {
 				try {
 					new File(uploadPath).mkdirs();
 					list.get(i).transferTo(new File(uploadPath+nPno+fileSuffix));
-					System.out.println("업로드 완료 "+fileName);
+					/*System.out.println("업로드 완료 "+fileName);*/
 				} catch (IllegalStateException | IOException e) {
 					e.printStackTrace();
 				} catch (Exception e) {
