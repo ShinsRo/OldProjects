@@ -14,8 +14,7 @@
 		
 		//상품 추가 폼 html 초기화
 		productRegFormHtml = $("#productFormView").html();
-		$("#productFormView").prepend("<h4>"+productCnt+"</h4>");
-		
+	
 		//상품 추가 폼 html div영역 추가
 		$("#productFormView").prepend("<div id = 'product'"+ productCnt + ">");
 		$("#productFormView").append("</div>");
@@ -27,12 +26,18 @@
 				return;
 			}
 			productCnt++;
-			var productRegFormHtmlTemp ="<div id = 'product"+ productCnt + "'>" + productRegFormHtml + "<input type ='button' id ='deleteProduct value = '물건삭제'></div>";
-			$("#productFormView").prepend("<h4>"+productCnt+"</h4>"+productRegFormHtmlTemp);
+			var productRegFormHtmlTemp =
+				"<div id = 'product'>" + productRegFormHtml + "</div>";
+			$("#productFormView").prepend(productRegFormHtmlTemp);
 		});
-		$( "#deleteProduct" ).on( "click", function() {
-			alert("삭제");
-		});
+		$(document).on("click","#deleteProduct", function() {
+			if(productCnt <= 1){
+				alert("물품은 하나 이상 등록 되어야 합니다.");
+				return;
+			}
+			productCnt--;
+			$(this).parent().parent().remove();
+		})
 	});
 </script>
 
@@ -98,6 +103,9 @@
 				<div class="form-group">
 					<textarea name="pcontent" id="message" required="required"
 						class="form-control" rows="8" placeholder="물건 설명"></textarea>
+				</div>
+				<div align = "right" class="">
+				<input type ='button' class = "btn btn-sm btn-danger" id ='deleteProduct' value = "물건 삭제">
 				</div>
 				<input type = "file" name="file" > 
 				<hr>
