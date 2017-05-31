@@ -21,4 +21,8 @@ public class HomeController {
 		//System.out.println("@PathVariable:"+dirName+"/"+viewName);
 		return dirName+"/"+viewName+".tiles";
 	}
+	@RequestMapping("contact.do")
+	public String contact(){
+		return "contact.tiles";
+	}
 }
