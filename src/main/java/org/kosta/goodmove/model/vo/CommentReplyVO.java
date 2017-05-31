@@ -23,6 +23,25 @@ public class CommentReplyVO{
 		this.parent = parent;
 		this.content = content;
 	}
+	
+	public CommentReplyVO(int rno, String content) {
+		super();
+		this.rno = rno;
+		this.content = content;
+	}
+	public CommentReplyVO(int rno, int cno, String id, String name, int parent, String content, int gno, int depth,
+			int order_no) {
+		super();
+		this.rno = rno;
+		this.cno = cno;
+		this.id = id;
+		this.name = name;
+		this.parent = parent;
+		this.content = content;
+		this.gno = gno;
+		this.depth = depth;
+		this.order_no = order_no;
+	}
 	public CommentReplyVO(int rno, int cno, String id, String name, String time_posted, int parent, String content,
 			int gno, int depth, int order_no) {
 		super();

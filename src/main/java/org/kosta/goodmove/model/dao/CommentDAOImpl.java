@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.kosta.goodmove.model.vo.CommentReplyVO;
 import org.kosta.goodmove.model.vo.CommentVO;
 import org.kosta.goodmove.model.vo.PagingBean;
 import org.kosta.goodmove.model.vo.SearchVO;
@@ -33,7 +34,6 @@ public class CommentDAOImpl implements CommentDAO{
 	public List<CommentVO> getCommentList(PagingBean pagingBean) {
 		return template.selectList("comment.getCommentList", pagingBean);
 	}
-
 	/**
 	 * 지역후기의 상세 내용 조회, 반환
 	 * @param	글번호
@@ -83,5 +83,44 @@ public class CommentDAOImpl implements CommentDAO{
 	@Override
 	public void deleteComment(int cno){
 		template.delete("comment.deleteComment", cno);
+	}
+	
+	@Override
+	public List<CommentReplyVO> getAllCommentReplyList(int cno){
+		return template.selectList("comment.getAllCommentReplyList",cno);
+	}
+	@Override
+	public void insertNewCommentReply(CommentReplyVO rcvo){
+		template.insert("comment.insertNewCommentReply",rcvo);
+	}
+	@Override
+	public int getNextReplyNo(){
+		return template.selectOne("comment.getNextReplyNo");
+	}
+	@Override
+	public CommentReplyVO getParentInfo(int parent){
+		return template.selectOne("comment.getParentInfo",parent);
+	}
+	@Override
+	public int getParentsParentId(int parent){
+		return template.selectOne("comment.getParentsParentId",parent);
+	}
+	@Override
+	public void deleteCommentReply(int rno){
+		template.delete("comment.deleteCommentReply",rno);
+	}
+	
+	@Override
+	public void updateCommentReply(CommentReplyVO crvo){
+		template.update("comment.updateCommentReply",crvo);
+	}
+	
+	@Override
+	public CommentReplyVO getCommentReplyInfoByRNO(int rno){
+		return template.selectOne("comment.getCommentReplyInfoByRNO",rno);
+	}
+	@Override
+	public void deleteCommentReplyChild(int gno){
+		template.delete("comment.deleteCommentReplyChild",gno);
 	}
 }

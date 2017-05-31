@@ -27,6 +27,7 @@ public class SearchServiceImpl implements SearchService {
 	@Override
 	public CommentListVO searchComment(SearchVO svo, String pageNo) {
 		int totalCount = commentDAO.getSearchContentCount(svo);
+		System.out.println("토탈카운트" + totalCount);
 		PagingBean pagingBean=new PagingBean(totalCount,Integer.parseInt(pageNo));
 		return new CommentListVO(searchDAO.searchComment(svo, pagingBean),pagingBean);
 	}
@@ -38,6 +39,18 @@ public class SearchServiceImpl implements SearchService {
 		//pagingBean=new PagingBean(totalCount,Integer.parseInt(pageNo));
 		//return new BoardListVO(searchDAO.search(svo, pagingBean),pagingBean);
 		return null;
+	}
+
+
+	@Override
+	public int count(SearchVO searchVO) {
+		int count = 0;
+		if(searchVO.getMcategory().equals("board")){
+			//count = boardDAO.getSearchContentCount(searchVO);
+		}else{
+			count = commentDAO.getSearchContentCount(searchVO);
+		}
+		return count;
 	}
 
 }

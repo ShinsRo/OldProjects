@@ -2,6 +2,7 @@ package org.kosta.goodmove.model.dao;
 
 import java.util.List;
 
+import org.kosta.goodmove.model.vo.CommentReplyVO;
 import org.kosta.goodmove.model.vo.CommentVO;
 import org.kosta.goodmove.model.vo.PagingBean;
 import org.kosta.goodmove.model.vo.SearchVO;
@@ -16,4 +17,13 @@ public interface CommentDAO {
 	void commentRegister(CommentVO cvo);
 	int getSearchContentCount(SearchVO svo);
 	void deleteComment(int cno);
+	List<CommentReplyVO> getAllCommentReplyList(int cno);
+	void insertNewCommentReply(CommentReplyVO rcvo);
+	int getNextReplyNo();
+	CommentReplyVO getParentInfo(int parent);
+	int getParentsParentId(int parent);
+	void deleteCommentReply(int rno);
+	void updateCommentReply(CommentReplyVO crvo);
+	CommentReplyVO getCommentReplyInfoByRNO(int rno);
+	void deleteCommentReplyChild(int gno);
 }

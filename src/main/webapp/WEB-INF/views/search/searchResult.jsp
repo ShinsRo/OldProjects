@@ -10,30 +10,96 @@
 					<div class="sidebar-item categories">
 						<h3>Project Categories</h3>
 						<ul class="nav navbar-stacked">
+						
+						<c:choose>
+							<c:when test="${type!='btitle'}">
 							<li><a
 								href="${pageContext.request.contextPath}/search.do?mcategory=board&scategory=title&word=${requestScope.svo.word}">기부목록
-									제목으로 검색<span class="pull-right">()</span>
+									제목으로 검색<span class="pull-right">(${requestScope.btitle})</span>
 							</a></li>
+							</c:when>
+							<c:otherwise>
+								<li class="active"><a
+								href="${pageContext.request.contextPath}/search.do?mcategory=board&scategory=title&word=${requestScope.svo.word}">기부목록
+									제목으로 검색<span class="pull-right">(${requestScope.btitle})</span>
+							</a></li>
+							</c:otherwise>
+						</c:choose>
+							
+							<c:choose>
+							<c:when test="${type!='baddr'}">
 							<li><a
 								href="${pageContext.request.contextPath}/search.do?mcategory=board&scategory=addr&word=${requestScope.svo.word}">기부목록
-									주소로 검색<span class="pull-right">()</span>
+									주소로 검색<span class="pull-right">(${requestScope.baddr})</span>
 							</a></li>
+							</c:when>
+							<c:otherwise>
+								<li class="active"><a
+								href="${pageContext.request.contextPath}/search.do?mcategory=board&scategory=addr&word=${requestScope.svo.word}">기부목록
+									주소로 검색<span class="pull-right">(${requestScope.baddr})</span>
+							</a></li>
+							</c:otherwise>
+						</c:choose>
+							
+							<c:choose>
+							<c:when test="${type!='bid'}">
 							<li><a
 								href="${pageContext.request.contextPath}/search.do?mcategory=board&scategory=id&word=${requestScope.svo.word}">기부목록
-									아이디로 검색<span class="pull-right">()</span>
+									아이디로 검색<span class="pull-right">(${requestScope.bid})</span>
 							</a></li>
+							</c:when>
+							<c:otherwise>
+								<li class="active"><a
+								href="${pageContext.request.contextPath}/search.do?mcategory=board&scategory=id&word=${requestScope.svo.word}">기부목록
+									아이디로 검색<span class="pull-right">(${requestScope.bid})</span>
+							</a></li>
+							</c:otherwise>
+						</c:choose>
+							
+							<c:choose>
+							<c:when test="${type!='ctitle'}">
 							<li><a
 								href="${pageContext.request.contextPath}/search.do?mcategory=comment&scategory=title&word=${requestScope.svo.word}">지역후기
-									제목으로 검색<span class="pull-right">()</span>
+									제목으로 검색<span class="pull-right">(${requestScope.ctitle})</span>
 							</a></li>
+							</c:when>
+							<c:otherwise>
+								<li class="active"><a
+								href="${pageContext.request.contextPath}/search.do?mcategory=comment&scategory=title&word=${requestScope.svo.word}">지역후기
+									제목으로 검색<span class="pull-right">(${requestScope.ctitle})</span>
+							</a></li>
+							</c:otherwise>
+						</c:choose>
+							
+							<c:choose>
+							<c:when test="${type!='caddr'}">
 							<li><a
 								href="${pageContext.request.contextPath}/search.do?mcategory=comment&scategory=addr&word=${requestScope.svo.word}">지역후기
-									주소로 검색<span class="pull-right">()</span>
+									주소로 검색<span class="pull-right">(${requestScope.caddr})</span>
 							</a></li>
+							</c:when>
+							<c:otherwise>
+								<li class="active"><a
+								href="${pageContext.request.contextPath}/search.do?mcategory=comment&scategory=addr&word=${requestScope.svo.word}">지역후기
+									주소로 검색<span class="pull-right">(${requestScope.caddr})</span>
+							</a></li>
+							</c:otherwise>
+						</c:choose>
+							
+							<c:choose>
+							<c:when test="${type!='cid'}">
 							<li><a
 								href="${pageContext.request.contextPath}/search.do?mcategory=comment&scategory=id&word=${requestScope.svo.word}">지역후기
-									아이디로 검색<span class="pull-right">()</span>
+									아이디로 검색<span class="pull-right">(${requestScope.cid})</span>
 							</a></li>
+							</c:when>
+							<c:otherwise>
+								<li class="active"><a
+								href="${pageContext.request.contextPath}/search.do?mcategory=comment&scategory=id&word=${requestScope.svo.word}">지역후기
+									아이디로 검색<span class="pull-right">(${requestScope.cid})</span>
+							</a></li>
+							</c:otherwise>
+						</c:choose>
 						</ul>
 					</div>
 

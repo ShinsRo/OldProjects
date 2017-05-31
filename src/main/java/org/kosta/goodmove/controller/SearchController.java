@@ -57,7 +57,20 @@ public class SearchController {
 		} else if (vo.getMcategory().equals("comment")) {
 			model.addAttribute("search", searchService.searchComment(vo, pageNo));
 		}
+		model.addAttribute("btitle", searchService.count(new SearchVO("board", "title", vo.getWord())));
+		model.addAttribute("baddr", searchService.count(new SearchVO("board", "addr", vo.getWord())));
+		model.addAttribute("bid", searchService.count(new SearchVO("board", "id", vo.getWord())));
+		model.addAttribute("ctitle", searchService.count(new SearchVO("comment", "title", vo.getWord())));
+		model.addAttribute("caddr", searchService.count(new SearchVO("comment", "addr", vo.getWord())));
+		model.addAttribute("cid", searchService.count(new SearchVO("comment", "id", vo.getWord())));
 		model.addAttribute("svo", vo);
+		String type;
+		if(vo.getMcategory().equals("board")){
+			type="b"+vo.getScategory();
+		}else{
+			type="c"+vo.getScategory();
+		}
+		model.addAttribute("type", type);
 		return "search/searchResult.tiles";
 	}
 }
