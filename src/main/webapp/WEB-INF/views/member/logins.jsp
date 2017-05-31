@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/resources/member/login_register.css">
 	
@@ -21,46 +20,18 @@
 				alert("비밀번호를 입력하세요");				
 				return false;
 			}
-			if(checkResultId==""){
-				alert("아이디 중복확인을 하세요");
-				return false;
-			}
+	
   		});
   		
-/* 			$("#id").keyup(function(){
-				var id=$(this).val().trim();
-				if(id.length<4 || id.length>10){
-					$("#idCheckView").html("아이디는 4자이상 10자 이하여야 함!").css(
-							"color","green");
-					checkResultId="";
-					return;
-				}
-				
-				$.ajax({
-					type:"POST",
-					url:"${pageContext.request.contextPath}/idcheckAjax.do",				
-					data:"id="+id,	
-					success:function(data){						
-						if(data=="fail"){
-						$("#idCheckView").html(id+" 사용가능!").css("color","blue");
-						checkResultId=id;	
-						}else{						
-							$("#idCheckView").html(id+" 사용불가!").css(
-									"color","red");		
-							checkResultId="";
-						}					
-					}//callback			
-				});//ajax
-			});//keyup */
-			$("#log").click(function(){
+			/* $("#log").click(function(){
 				var result=confirm("로그인하시겠습니까?");
 				if(result){
 					return true;
 				}else{
 					return false;
 					
-				}
-			});
+				} 
+			});*/
   	});
 </script>
 <div class="login-page">

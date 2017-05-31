@@ -8,11 +8,11 @@
 <title>Insert title here</title>
 <script type="text/javascript">
 	function pageOut() {
-		location.href = "${pageContext.request.contextPath}/home.jsp";
+		location.href = "${pageContext.request.contextPath}/home.do";
 	}
 	function keypress(){
 		if(event.keyCode==13){
-			location.href = "${pageContext.request.contextPath}/home.jsp";
+			location.href = "${pageContext.request.contextPath}/home.do";
 		}
 	}
 </script>

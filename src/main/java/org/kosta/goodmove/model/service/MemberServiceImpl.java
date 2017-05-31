@@ -36,7 +36,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public String passwordCheck(String password) {
+	public int passwordCheck(String password) {
 		return memberDAO.passwordCheck(password);
 	}
 
