@@ -23,7 +23,7 @@
 	
   		});
   		
-			/* $("#log").click(function(){
+			 $("#log").click(function(){
 				var result=confirm("로그인하시겠습니까?");
 				if(result){
 					return true;
@@ -31,7 +31,7 @@
 					return false;
 					
 				} 
-			});*/
+			});
   	});
 </script>
 <div class="login-page">
