@@ -69,8 +69,8 @@ $(document).ready(function(){
                                 <p class="minute">전체후기 수</p>
                             </li>                            
                             <li class="angle-four">
-                                <span class="seconds time-font">00</span>
-                                <p>아직 미정!</p>
+                                <span class="seconds time-font">${requestScope.count}</span>
+                                <p>오늘의 방문자수</p>
                             </li>               
                         </ul>   
                     </div>
