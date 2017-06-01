@@ -18,18 +18,17 @@
 				return false;
 
 			}
-			if ($("#password").val().trim() == "") {
+			else if ($("#password").val().trim() == "") {
 				alert("비밀번호를 입력하세요");
 				return false;
-			}
-		});
-		$("#log").click(function() {
-			var result = confirm("로그인하시겠습니까?");
-			if (result) {
-				return true;
-			} else {
-				return false;
+			}else{
+				var result = confirm("로그인하시겠습니까?");
+				if (result) {
+					return true;
+				} else {
+					return false;
 
+				}
 			}
 		});
 	});
