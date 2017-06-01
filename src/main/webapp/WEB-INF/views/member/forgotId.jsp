@@ -1,16 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/resources/member/search.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/member/search.css">
 	
-<script src="//code.jquery.com/jquery.min.js"></script>
+ <script src="//code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">
-
-	$('.message a').click(function(){
-		   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
-		});
 	$(document).ready(function(){
   		$(".searchId").click(function(){
+  			var te=$("#tel2").val();
+			var te1=$("#tel3").val();
   			if($("#name").val()==""){
 				alert("이름을 입력하세요");				
 				return false; 
@@ -24,25 +21,35 @@
 			else if($("#tel2").val().trim()==""){
 				alert("중간번호 4자리를 입력하세요");				
 				return false;
-			
 			}	
+			else if(te.length<4){
+				alert("중간번호 4자리를 입력하세요");
+				return false;
+			}
 			else if($("#tel3").val().trim()==""){
 				alert("뒷번호 4자리를 입력하세요");				
 				return false;
-			}else{
-  			var result=confirm("아이디 찾으시겠습니까?");
-			if(result){
-				return true;
-			}else{
-				return false;
-				
-			} 
 			}
-  		});
+			else if(te1.length<4){
+				alert("뒷자리 4자리를 입력해주세요");
+				return false;
+			}
+			else{
+				var result=confirm("아이디를 찾으시겠습니까?");
+				if(result){
+					return true;	
+				}
+				else if(te.length==4 && te1.length==4){
+					return true;
+				}
+				else{
+					return false;
+			}
+			}
+		});
   		$(".num").keyup(function(){$(this).val( $(this).val().replace(/[^0-9]/g,"") );} );
   	});
 </script>
-<section>
 <div class="forgotId-page">
   <div class="form">
 	<form action="${pageContext.request.contextPath }/forgotId.do" method="post">
@@ -59,4 +66,4 @@
     </form>
   </div>
 </div>
-</section>
+

@@ -3,6 +3,7 @@ package org.kosta.goodmove.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.kosta.goodmove.model.service.MemberService;
 import org.kosta.goodmove.model.vo.MemberVO;
 import org.springframework.stereotype.Controller;
@@ -134,4 +135,38 @@ public String register(MemberVO vo,String tel1,String tel2,String tel3){
 		return "member/delete_result.tiles";
 		
 }
+	@RequestMapping("forgotId.do")
+	public String forgotId(HttpServletRequest request,String name,String tel1,String tel2,String tel3){
+		System.out.println(name+tel1+tel2+tel3);
+		MemberVO vo=service.forgotId(name, tel1+tel2+tel3);
+		/*HttpSession session=request.getSession();*/
+		if(vo==null){
+			return "member/login_fail.tiles";
+		}else{	
+			request.setAttribute("id", vo.getId());
+			return "member/forgotId_result.tiles";
+		}
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

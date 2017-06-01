@@ -53,14 +53,20 @@ public class MemberDAOImpl implements MemberDAO{
 	}
 
 	@Override
-	public String forgotId(String name, String tel) {
-		MemberVO vo=new MemberVO(name,tel);
+	public MemberVO forgotId(String name, String tel) {
+		MemberVO vo=new MemberVO();
+		vo.setName(name);
+		vo.setTel(tel);
 		return template.selectOne("member.forgotId", vo);
 	}
 
 	@Override
-	public String forgotPass(String id, String name, String tel) {
-		MemberVO vo=new MemberVO(id,name,tel);
+	public MemberVO forgotPass(String id, String password,String name, String tel) {
+		MemberVO vo=new MemberVO();
+		vo.setId(id);
+		vo.setPassword(password);
+		vo.setName(name);
+		vo.setTel(tel);
 		return template.selectOne("member.forgotPass", vo);
 	}	
 	

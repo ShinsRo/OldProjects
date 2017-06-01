@@ -52,13 +52,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public String forgotId(String name, String tel) {
+	public MemberVO forgotId(String name, String tel) {
 		return memberDAO.forgotId(name, tel);
 	}
 
 	@Override
-	public String forgotPass(String id, String name, String tel) {
-		return memberDAO.forgotPass(id, name, tel);
+	public MemberVO forgotPass(String id, String password,String name, String tel) {
+		return memberDAO.forgotPass(id,  password, name, tel);
 	}
 
 }
