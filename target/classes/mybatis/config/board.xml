@@ -56,7 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from G_PRODUCT where bno=#{value}
 	</select>
 	<insert id="registerApplication" parameterType="applicationVO">
-		INSERT INTO APPLICATION(ANO,REASON,PNOS,ID) VALUES(#{ano},#{reason},#{pnos},#{id})
+		INSERT INTO APPLICATION(ANO,BNO,REASON,PNOS,ID) VALUES(#{ano},#{bno},#{reason},#{pnos},#{id})
 	</insert>
 	<insert id="registerTransaction" parameterType="transactionVO">
 		INSERT INTO TRANSACTION(TNO,ID,ANO,BNO) VALUES(#{tno},#{id},#{ano},#{bno})

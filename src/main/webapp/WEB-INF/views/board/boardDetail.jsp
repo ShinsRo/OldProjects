@@ -7,7 +7,6 @@
 		$("#give-me").click(function(){
 			$("#myModal").modal();
 		});
-	
 	});
 </script>
 <section id="portfolio-information" class="padding-top">
@@ -54,7 +53,7 @@
 										<ul>
 											<c:forEach items="${requestScope.plist}" var="product">
 												<li> <label><input type="checkbox" name="pnos" 
-												value="${product.pno}">${product.ptitle}</label></li>
+												value="${product.pno}" required>${product.ptitle}</label></li>
 											</c:forEach>
 										</ul>
 									</div> 

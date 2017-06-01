@@ -32,7 +32,7 @@ public class MemberController {
 			return "member/login_fail.tiles";
 		}else{
 			request.getSession().setAttribute("mvo", vo);
-			return "home.tiles";
+			return "redirect:home.do";
 		}
 	}
 	/**
@@ -45,7 +45,7 @@ public class MemberController {
 			HttpSession session=request.getSession(false);
 			if(session!=null)
 				session.invalidate();
-			return "home.tiles";
+			return "redirect:home.do";
 	}
 	/**
 	 * 회원가입에 관한 컨트롤러: tel을 데이터에 넘겨주기 위해 
@@ -125,7 +125,6 @@ public String register(MemberVO vo,String tel1,String tel2,String tel3){
 	 */
 	@RequestMapping("deleteMember.do")
 	public String deleteMember(HttpServletRequest request,String id,String password){
-		System.out.println(id + password);
 		HttpSession session=request.getSession(false);
 		service.deleteMember(id, password);
 		if(session!=null){

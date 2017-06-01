@@ -114,7 +114,7 @@ public class BoardController {
 		bvo.setThumbPath(bvo.getpList().get(0).getImg_path());
 		
 		boardService.boardRegister(bvo, psvo);
-		return "redirect:boardDetail.do?bno="+bvo.getBno()+".tiles";
+		return "redirect:boardDetail.do?bno="+bvo.getBno();
 	}
 	/**
 	 * 주세요 신청할 시
@@ -124,18 +124,19 @@ public class BoardController {
 	@RequestMapping("registerGiveMe.do")
 	public String registerGiveMe(ApplicationVO avo,HttpServletRequest req,String writer,int bno){
 		int ano =boardService.getNextAno();
-		int tno = boardService.getNextTno();
+		/*int tno = boardService.getNextTno();*/
 		String userId = ((MemberVO)req.getSession(false).getAttribute("mvo")).getId();
 		// application
 		avo.setAno(ano);
 		avo.setId(userId);
+		avo.setBno(bno);
 		// transaction
-		TransactionVO tvo = new TransactionVO();
+		/*TransactionVO tvo = new TransactionVO();
 		tvo.setTno(tno);	tvo.setAno(ano);
-		tvo.setId(writer);	tvo.setBno(bno);
+		tvo.setId(writer);	tvo.setBno(bno);*/
 		// db insert
 		boardService.registerApplication(avo);
-		boardService.registerTransaction(tvo);
-		return "home.tiles";
+	/*	boardService.registerTransaction(tvo);*/
+		return "redirect:boardDetail.do?bno="+bno;
 	}
 }

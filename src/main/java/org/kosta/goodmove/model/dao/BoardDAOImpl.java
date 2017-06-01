@@ -77,9 +77,9 @@ public class BoardDAOImpl implements BoardDAO{
 	 */
 	@Override
 	public void boardRegister(BoardVO bvo) {
-		System.out.println(bvo);
 		template.insert("board.boardRegister", bvo);
 		for(ProductVO pvo : bvo.getpList()){
+			
 			template.insert("board.productRegister", pvo);
 		}
 	}
