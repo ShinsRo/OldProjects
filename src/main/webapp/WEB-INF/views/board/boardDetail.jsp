@@ -4,10 +4,17 @@
 <c:set var="bvo" value="${requestScope.bvo}"></c:set>
 <script>
 	$(document).ready(function(){
+		
 		$("#give-me").click(function(){
 			$("#myModal").modal();
 		});
-	
+		$("form[name=app-form]").submit(function() {
+			if($("input[name=pnos]:checkbox:checked").length<1){
+				alert("물품은 하나 이상 신청되어야 합니다.");
+				return false;
+			}
+			return true;
+		});
 	});
 </script>
 <section id="portfolio-information" class="padding-top">
@@ -28,7 +35,7 @@
                         <h3>상품 설명</h3>
                         <p>${bvo.bcontent}</p>
                     </div>
-                    <c:if test="${sessionScope.mvo != null}">  
+                    <c:if test="${sessionScope.mvo != null && sessionScope.mvo.id !=bvo.id}">  
 	                    <div class="give-me-btn" id="give-me">
 	                        <a href="#" class="btn btn-common uppercase">주세요 신청</a>
 	                    </div>
@@ -44,8 +51,8 @@
 								<h4 class="modal-title">주세요 신청하기</h4>
 							</div>
 							<div class="contact-form bottom">
-							<form id="main-contact-form" name="contact-form" method="post" action="${pageContext.request.contextPath}/registerGiveMe.do"></form>
-								<form id="main-contact-form" name="contact-form" method="post" action="${pageContext.request.contextPath}/registerGiveMe.do">
+							<form id="app-form" name="app-form" method="post" action="${pageContext.request.contextPath}/registerGiveMe.do"></form>
+								<form id="app-form" name="app-form" method="post" action="${pageContext.request.contextPath}/registerGiveMe.do">
 									<div><input type="hidden" name="bno" value="${bvo.bno}">
 										글번호:${bvo.bno}&nbsp;&nbsp;글 제목: ${bvo.title}
 									</div>
@@ -65,7 +72,7 @@
 										placeholder="신청 사유를 적어주세요."></textarea>
 									</div>
 									<div class="form-group">
-										<input type="submit" id="submit-btn" name="submit" class="btn btn-submit" value="Submit" >
+										<input type="submit" id="submit-btn" name="submit" class="btn btn-submit" value="Submit">
 									</div>
 								</form>
 							</div>

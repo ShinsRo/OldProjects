@@ -125,7 +125,6 @@ public String register(MemberVO vo,String tel1,String tel2,String tel3){
 	 */
 	@RequestMapping("deleteMember.do")
 	public String deleteMember(HttpServletRequest request,String id,String password){
-		System.out.println(id + password);
 		HttpSession session=request.getSession(false);
 		service.deleteMember(id, password);
 		if(session!=null){

@@ -35,4 +35,8 @@ public interface BoardService {
 	void registerTransaction(TransactionVO tvo);
 
 	public BoardListVO getMyBoardList(String pageNo, String id);
+
+	String isGiveMeChecked(ApplicationVO avo);
+
+	public List<ApplicationVO> getApplications(int bno_int);
 }

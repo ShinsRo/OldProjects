@@ -17,14 +17,14 @@ public class BoardVO {
 	private String bcontent;
 	private String time_posted;
 	private String thumbPath;
+	private String is_traded;
 	private List<ProductVO> pList;
 	private List<ApplicationVO> aList;
 	public BoardVO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public BoardVO(int bno, int hit, String title, String id, String addr, String bcontent, String time_posted,
-			String thumbPath, List<ProductVO> pList) {
+			String thumbPath, String is_traded, List<ProductVO> pList, List<ApplicationVO> aList) {
 		super();
 		this.bno = bno;
 		this.hit = hit;
@@ -34,13 +34,8 @@ public class BoardVO {
 		this.bcontent = bcontent;
 		this.time_posted = time_posted;
 		this.thumbPath = thumbPath;
+		this.is_traded = is_traded;
 		this.pList = pList;
-	}
-	
-	public List<ApplicationVO> getaList() {
-		return aList;
-	}
-	public void setaList(List<ApplicationVO> aList) {
 		this.aList = aList;
 	}
 	public int getBno() {
@@ -91,16 +86,28 @@ public class BoardVO {
 	public void setThumbPath(String thumbPath) {
 		this.thumbPath = thumbPath;
 	}
+	public String getIs_traded() {
+		return is_traded;
+	}
+	public void setIs_traded(String is_traded) {
+		this.is_traded = is_traded;
+	}
 	public List<ProductVO> getpList() {
 		return pList;
 	}
 	public void setpList(List<ProductVO> pList) {
 		this.pList = pList;
 	}
+	public List<ApplicationVO> getaList() {
+		return aList;
+	}
+	public void setaList(List<ApplicationVO> aList) {
+		this.aList = aList;
+	}
 	@Override
 	public String toString() {
 		return "BoardVO [bno=" + bno + ", hit=" + hit + ", title=" + title + ", id=" + id + ", addr=" + addr
-				+ ", bcontent=" + bcontent + ", time_posted=" + time_posted + ", thumbPath=" + thumbPath + ", pList="
-				+ pList + "]";
+				+ ", bcontent=" + bcontent + ", time_posted=" + time_posted + ", thumbPath=" + thumbPath
+				+ ", is_traded=" + is_traded + ", pList=" + pList + ", aList=" + aList + "]";
 	}
 }

@@ -32,7 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<select id="getMyBoardList" resultType="BoardVO" parameterType="hashMap">
 		select * from (
 		select bno, title, hit, to_char(time_posted,'YYYY.MM.DD HH:mm') as time_posted, 
-		id, addr,bcontent, thumbpath, row_number() over(order by bno desc) as rnum from G_BOARD) 
+		id, addr,bcontent, thumbpath, is_traded, row_number() over(order by bno desc) as rnum from G_BOARD) 
 		where id = #{id} and rnum between #{pagingBean.startRowNumber} and #{pagingBean.endRowNumber}
 	</select>
 	<select id="getTotalBoardCount" resultType="int">
@@ -56,7 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from G_PRODUCT where bno=#{value}
 	</select>
 	<insert id="registerApplication" parameterType="applicationVO">
-		INSERT INTO APPLICATION(ANO,REASON,PNOS,ID) VALUES(#{ano},#{reason},#{pnos},#{id})
+		INSERT INTO APPLICATION(ANO,BNO,REASON,PNOS,ID) VALUES(#{ano},#{bno},#{reason},#{pnos},#{id})
 	</insert>
 	<insert id="registerTransaction" parameterType="transactionVO">
 		INSERT INTO TRANSACTION(TNO,ID,ANO,BNO) VALUES(#{tno},#{id},#{ano},#{bno})
@@ -64,6 +64,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id = "getApplications" parameterType = "int" resultType="applicationVO">
 		SELECT * FROM APPLICATION WHERE BNO = #{value}
 	</select>
+	<select id="isGiveMeChecked" parameterType="applicationVO" resultType="int">
+		SELECT COUNT(*) FROM APPLICATION WHERE ID=#{id} AND BNO=#{bno}
+</select>
 </mapper>
  
  

@@ -18,7 +18,6 @@ public class MemberDAOImpl implements MemberDAO{
 
 	@Override
 	public void register(MemberVO vo) {
-		System.out.println(vo);
 		template.insert("member.register", vo);
 	}
 

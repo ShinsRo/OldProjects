@@ -19,9 +19,12 @@ import org.kosta.goodmove.model.vo.TransactionVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
 /**
  * 게시 정보 관할 컨트롤러 : Controller
+ * 
  * @author AreadyDoneTeam
  * @version 1
  */
@@ -30,76 +33,79 @@ public class BoardController {
 	@Resource
 	private BoardService boardService;
 	private String uploadPath;
-	
+
 	@RequestMapping("getBoardList.do")
-	public String boardList(String pageNo, Model model){
+	public String boardList(String pageNo, Model model) {
 		BoardListVO blvo = boardService.getAllBoardList(pageNo);
 		model.addAttribute("blvo", blvo);
 		return "board/boardList.tiles";
 	}
+
 	@RequestMapping("myBoardList.do")
-	public String myBoardList(String pageNo, Model model, HttpServletRequest req){
-		String id = ((MemberVO)req.getSession(false).getAttribute("mvo")).getId();
+	public String myBoardList(String pageNo, Model model, HttpServletRequest req) {
+		String id = ((MemberVO) req.getSession(false).getAttribute("mvo")).getId();
 		BoardListVO blvo = boardService.getMyBoardList(pageNo, id);
 		model.addAttribute("blvo", blvo);
 		return "mypage/my_board.tiles";
 	}
+
 	/**
-	 * 리스트에서 상세보기 눌렀을 때
-	 * 번호에 따라 bvo 반환
+	 * 리스트에서 상세보기 눌렀을 때 번호에 따라 bvo 반환
+	 * 
 	 * @param bno
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping("boardDetail.do")
-	public String boardDetail(String bno,Model model){
+	public String boardDetail(String bno, Model model) {
 		BoardVO bvo = boardService.getBoardDetailByBno(Integer.parseInt(bno));
 		List<ProductVO> plist = boardService.getProductImgByBno(Integer.parseInt(bno));
 		model.addAttribute("bvo", bvo);
 		model.addAttribute("plist", plist);
 		return "board/boardDetail.tiles";
 	}
-	
+
 	@RequestMapping("boardRegisterView.do")
-	public String boardRegisterView(){
+	public String boardRegisterView() {
 		return "board/boardRegister.tiles";
 	}
-	
+
 	@RequestMapping("boardRegister.do")
-	public String fileUpload(HttpServletRequest req,  BoardVO bvo, ProductSetVO psvo){
-		
+	public String fileUpload(HttpServletRequest req, BoardVO bvo, ProductSetVO psvo) {
+
 		int bno = boardService.getNextBno();
-		String userId = ((MemberVO)req.getSession(false).getAttribute("mvo")).getId();
-		
+		String userId = ((MemberVO) req.getSession(false).getAttribute("mvo")).getId();
+
 		bvo.setId(userId);
 		bvo.setBno(bno);
-		
-		//실제 운영시에 사용할 서버 업로드 경로
-		//uploadPath = req.getSession().getServletContext().getRealPath("/resources/upload/");
-		
-		//로컬 깃 레퍼지토리 경로
-		uploadPath = "C:\\Users\\KOSTA\\git\\GoodMoveRepository\\src\\main\\webapp\\uploadedFiles\\"
-				+userId+"\\"+"board"+bno+"\\";
-		
+
+		// 실제 운영시에 사용할 서버 업로드 경로
+		// uploadPath =
+		// req.getSession().getServletContext().getRealPath("/resources/upload/");
+
+		// 로컬 깃 레퍼지토리 경로
+		uploadPath = "C:\\Users\\KOSTA\\git\\GoodMoveRepository\\src\\main\\webapp\\uploadedFiles\\" + userId + "\\"
+				+ "board" + bno + "\\";
+
 		bvo.setpList(new ArrayList<ProductVO>());
-		
+
 		List<MultipartFile> list = psvo.getFile();
-		for(int i = 0; i < list.size(); i ++){
+		for (int i = 0; i < list.size(); i++) {
 			String fileName = list.get(i).getOriginalFilename();
 			String fileSuffix = fileName.substring(fileName.lastIndexOf('.'));
-			//물건 번호 초기화
+			// 물건 번호 초기화
 			int nPno = boardService.getNextPno();
-			
-			//물건 리스트 초기화
+
+			// 물건 리스트 초기화
 			ProductVO tempPVO = new ProductVO();
 			tempPVO.setPno(nPno);
-			tempPVO.setImg_path("uploadedFiles\\"+userId+"\\"+"board"+bno+"\\"+nPno+fileSuffix);
+			tempPVO.setImg_path("uploadedFiles\\" + userId + "\\" + "board" + bno + "\\" + nPno + fileSuffix);
 			bvo.getpList().add(tempPVO);
-			
-			if(fileName.equals("")==false){
+
+			if (fileName.equals("") == false) {
 				try {
 					new File(uploadPath).mkdirs();
-					list.get(i).transferTo(new File(uploadPath+nPno+fileSuffix));
+					list.get(i).transferTo(new File(uploadPath + nPno + fileSuffix));
 				} catch (IllegalStateException | IOException e) {
 					e.printStackTrace();
 				} catch (Exception e) {
@@ -107,33 +113,54 @@ public class BoardController {
 				}
 			}
 		}
-		
-		//Board Thumb nail 저장
+
+		// Board Thumb nail 저장
 		bvo.setThumbPath(bvo.getpList().get(0).getImg_path());
-		
+
 		boardService.boardRegister(bvo, psvo);
-		return "redirect:boardDetail.do?bno="+bvo.getBno();
+		return "redirect:boardDetail.do?bno=" + bvo.getBno();
 	}
+
 	/**
-	 * 주세요 신청할 시
-	 * transacion,application table에 db 저장
+	 * 주세요 신청할 시 transacion,application table에 db 저장
+	 * 
 	 * @return
 	 */
 	@RequestMapping("registerGiveMe.do")
-	public String registerGiveMe(ApplicationVO avo,HttpServletRequest req,String writer,int bno){
-		int ano =boardService.getNextAno();
-		int tno = boardService.getNextTno();
-		String userId = ((MemberVO)req.getSession(false).getAttribute("mvo")).getId();
+	public String registerGiveMe(ApplicationVO avo, HttpServletRequest req, String writer, int bno) {
+		int ano = boardService.getNextAno();
+		/* int tno = boardService.getNextTno(); */
+		String userId = ((MemberVO) req.getSession(false).getAttribute("mvo")).getId();
 		// application
 		avo.setAno(ano);
 		avo.setId(userId);
-		// transaction
-		TransactionVO tvo = new TransactionVO();
-		tvo.setTno(tno);	tvo.setAno(ano);
-		tvo.setId(writer);	tvo.setBno(bno);
-		// db insert
-		boardService.registerApplication(avo);
-		boardService.registerTransaction(tvo);
-		return "home.tiles";
+		avo.setBno(bno);
+		if (boardService.isGiveMeChecked(avo).equals("ok")) {
+			System.out.println("ok");
+			boardService.registerApplication(avo);
+			return "redirect:boardDetail.do?bno=" + bno;
+		} else {
+			System.out.println("fail");
+			return "board/giveMe_fail.tiles";
+		}
+
 	}
+
+	@RequestMapping("getApplication.do")
+	@ResponseBody
+	public String getApplication(Model model, String bno) {
+		int bno_int = Integer.parseInt(bno);
+		List<ApplicationVO> aList = boardService.getApplications(bno_int);
+		BoardVO bvo = boardService.getBoardDetailByBno(bno_int);
+		bvo.setaList(aList);
+		model.addAttribute(aList);
+		return aList.toString();
+	}
+	// transaction
+	/*
+	 * TransactionVO tvo = new TransactionVO(); tvo.setTno(tno);
+	 * tvo.setAno(ano); tvo.setId(writer); tvo.setBno(bno);
+	 */
+	// db insert
+	/* boardService.registerTransaction(tvo); */
 }
