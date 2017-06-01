@@ -126,4 +126,15 @@ public class BoardServiceImpl implements BoardService {
 	public void registerTransaction(TransactionVO tvo) {
 		boardDAO.registerTransaction(tvo);
 	}
+
+	@Override
+	public String isGiveMeChecked(ApplicationVO avo) {
+		int isChecked = boardDAO.isGiveMeChecked(avo);
+		System.out.println(isChecked);
+		if(isChecked == 0){ // 처음 등록 신청한 사람
+			return "ok";
+		}else{
+			return "fail";
+		}
+	}
 }

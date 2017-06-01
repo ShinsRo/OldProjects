@@ -130,13 +130,19 @@ public class BoardController {
 		avo.setAno(ano);
 		avo.setId(userId);
 		avo.setBno(bno);
+		if(boardService.isGiveMeChecked(avo).equals("ok")){
+			System.out.println("ok");
+			boardService.registerApplication(avo);
+			return "redirect:boardDetail.do?bno="+bno;
+		}else{
+			System.out.println("fail");
+			return "redirect:myBoardList.do";
+		}
 		// transaction
 		/*TransactionVO tvo = new TransactionVO();
 		tvo.setTno(tno);	tvo.setAno(ano);
 		tvo.setId(writer);	tvo.setBno(bno);*/
 		// db insert
-		boardService.registerApplication(avo);
 	/*	boardService.registerTransaction(tvo);*/
-		return "redirect:boardDetail.do?bno="+bno;
 	}
 }

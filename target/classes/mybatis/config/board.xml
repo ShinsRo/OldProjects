@@ -61,6 +61,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="registerTransaction" parameterType="transactionVO">
 		INSERT INTO TRANSACTION(TNO,ID,ANO,BNO) VALUES(#{tno},#{id},#{ano},#{bno})
 	</insert>
+	<select id="isGiveMeChecked" parameterType="applicationVO" resultType="int">
+		SELECT COUNT(*) FROM APPLICATION WHERE ID=#{id} AND BNO=#{bno}
+	</select>
 </mapper>
  
  

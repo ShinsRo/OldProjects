@@ -103,4 +103,8 @@ public class BoardDAOImpl implements BoardDAO{
 		paramMap.put("id", id);
 		return template.selectList("board.getMyBoardList", paramMap);
 	}
+	@Override
+	public int isGiveMeChecked(ApplicationVO avo) {
+		return template.selectOne("board.isGiveMeChecked", avo);
+	}
 }
