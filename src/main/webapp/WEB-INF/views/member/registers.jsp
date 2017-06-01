@@ -166,7 +166,7 @@
 					<input id="pass2" type="password"  name="pass2" placeholder="비밀번호확인" maxlength="11"><br>
 					<span id="passCheckView"></span><br>
 					<input id="name" 	name="name"   type="text" placeholder="이름" /><br>
-					<input id="addr_code" type="text" name="addrcode" class="postcodify_postcode5"  placeholder="우편번호" /><br>
+					<input id="addr_code" type="text" name="addrcode" readonly="readonly" class="postcodify_postcode5"  placeholder="우편번호" /><br>
 					<input type = "button" id="postcodify_search_button" class="button" value = "검색"><br />
 					<input id="addr" type="text" name="addr" class="postcodify_address" readonly="readonly" placeholder="주소" /><br />
 					<input id="addr_detail" type="text"  name="addr_detail" class="postcodify_details" placeholder="상세주소" /><br>

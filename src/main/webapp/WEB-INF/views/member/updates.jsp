@@ -98,7 +98,7 @@ $(document).ready(function(){
 		<input id="pass2" type="password" name="pass2" placeholder="비밀번호확인" maxlength="11"><br>
 		<span id="passCheckView"></span><br>
 	<input type="text" name="name" readonly="readonly" placeholder="이름" id="name" value="${sessionScope.mvo.name }"><br> 
-		<input id="addr_code" type="text" class="postcodify_postcode5" placeholder="우편번호" /><br>
+		<input id="addr_code" type="text" readonly="readonly" class="postcodify_postcode5" placeholder="우편번호" /><br>
 		<input  id="postcodify_search_button" type="button" value="검색" size="6">
 	<br />  <input id="addr" type="text" name="addr" class="postcodify_address" 	value="${sessionScope.mvo.addr }" readonly="readonly" placeholder="주소" /><br /> 
 	<input id="addr_detail" type="text" name="addr_detail" class="postcodify_details" value="${sessionScope.mvo.addr_detail }" placeholder="상세주소" /><br> 
