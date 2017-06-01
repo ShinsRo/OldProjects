@@ -95,7 +95,25 @@ public class CommentController {
 	 * @return 이동될 화면의 경로
 	 */
 	@RequestMapping("commentRegisterView.do")
-	public String commentRehisterView() {
+	public String commentRehisterView(HttpServletRequest request, Model model) {
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+
+			MemberVO mvo = (MemberVO) session.getAttribute("mvo");
+			if (mvo != null) {
+				String add = mvo.getAddr();
+				System.out.println(add.lastIndexOf("로"));
+				System.out.println(add.lastIndexOf("길"));
+				System.out.println(add.substring(0,add.lastIndexOf("길")+1));
+				if(add.lastIndexOf("길")>0){
+					model.addAttribute("add", add.substring(0,add.lastIndexOf("길")+1));
+				}else if(add.lastIndexOf("로")<0 && add.lastIndexOf("길")>0){
+					model.addAttribute("add", add.substring(0,add.lastIndexOf("로")+1));
+				}else{
+					model.addAttribute("add", add);
+				}
+			}
+		}
 		return "comment/commentRegister.tiles";
 	}
 
@@ -109,14 +127,14 @@ public class CommentController {
 	 * @return 이동될 화면의 경로, 새로고침 적용되지 않게함, 조회수를 증가하지 않고 검색 시도
 	 */
 	@RequestMapping(value = "commentRegister.do", method = RequestMethod.POST)
-	public ModelAndView write(HttpServletRequest request, CommentVO cvo) {
+	public ModelAndView write(String addr, HttpServletRequest request, CommentVO cvo) {
 		HttpSession session = request.getSession(false);
 		if (session != null) {
 
 			MemberVO mvo = (MemberVO) session.getAttribute("mvo");
 			if (mvo != null) {
 				cvo.setId(mvo.getId());
-				cvo.setAddr(mvo.getAddr());
+				cvo.setAddr(addr);
 
 			}
 		}
