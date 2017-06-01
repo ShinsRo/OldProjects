@@ -59,12 +59,11 @@ $(document).ready(function(){
 			if(result){
 				return true;
 			}
+			else if(te.length==4 && te1.length==4){
+				return true;
+			} 
 			else if($("#pass1").val()==$("#pass2").val()){
 				return true;	
-			}
-			else{
-				return false;
-				
 			}
 		}
 	});

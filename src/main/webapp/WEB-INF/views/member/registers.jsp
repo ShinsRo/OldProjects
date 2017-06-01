@@ -79,18 +79,19 @@
 				var result=confirm("가입하시겠습니까?");
 				if(result){
 					return true;	
-				}
-				else if($("#pass1").val()==$("#pass2").val()){
+			 	}
+			else if(result==false){
+				return false;
+			}
+			 else if(te.length==4 && te1.length==4){
+				return true;
+			} 
+			 else if($("#pass1").val()==$("#pass2").val()){
 					return true;		
-				}
-				else if(te.length==4 && te1.length==4){
-					return true;
-				}
-				else{
-					return false;
-			}
-			}
-		});
+		}
+		}
+	});
+			
 		$("#id").keyup(function(){
 			var id=$(this).val().trim();
 			if(id.length<4 || id.length>10){
