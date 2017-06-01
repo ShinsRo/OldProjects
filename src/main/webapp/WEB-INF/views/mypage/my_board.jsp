@@ -73,6 +73,7 @@ $(function() {
 	</div>
 </div>
 <!-- end of modal -->
+<div class="container">
 <table class="table table-hover" id="my_board">
 	<thead>
 		<tr>
@@ -150,7 +151,10 @@ $(function() {
 
 <br>
 <br>
+<span style="float:right">
 <c:if test="${sessionScope.mvo.id != null }">
-	<input class="write_btn" type="button" value="글쓰기"
+	<input type="button" value="글쓰기"  class="btn btn-info"
 		onclick="javascript:location.href='${pageContext.request.contextPath}/boardRegisterView.do'">
 </c:if>
+</span>
+</div>

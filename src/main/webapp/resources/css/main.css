@@ -485,6 +485,7 @@ ul.sub-menu {
   outline: none;
   box-shadow: none;
   height: 40px;
+  resize: none;
 }
 
 .form-control:hover, 
