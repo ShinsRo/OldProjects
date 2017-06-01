@@ -6,9 +6,10 @@
 	$(document).ready(function(){
 		var checkResultId="";		
 		var checkResultPass="";
-		var te=$("#tel2").val();
-		var te1=$("#tel3").val();
+		
 		$(".regF").click(function(){
+			var te=$("#tel2").val();
+			var te1=$("#tel3").val();
 			if($("#id").val()==""){
 				alert("아이디를 입력하세요");				
 				return false;
@@ -52,7 +53,7 @@
 				return false;
 			
 			}
-			else if(te.length>0||te.length<4){
+			else if(te.length<4){
 				alert("중간번호 4자리를 입력하세요");
 				return false;
 			}
@@ -61,7 +62,7 @@
 				alert("뒷번호 4자리를 입력하세요");				
 				return false;
 			}	
-			else if(te1.length>0||te1.length<4){
+			else if(te1.length<4){
 				alert("뒷자리 4자리를 입력해주세요");
 				return false;
 			}
@@ -82,10 +83,7 @@
 				else if($("#pass1").val()==$("#pass2").val()){
 					return true;		
 				}
-				else if(te.length==4){
-					return true;
-				}
-				else if(te1.length==4){
+				else if(te.length==4 && te1.length==4){
 					return true;
 				}
 				else{

@@ -60,6 +60,8 @@ select{
   border: 0;
   margin: 0 0 15px;
   padding: 15px;
+   padding-top: 13px;
+  padding-bottom:20px;
   box-sizing: border-box;
   font-size: 14px;
 }
