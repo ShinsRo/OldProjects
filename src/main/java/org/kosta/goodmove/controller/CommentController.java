@@ -140,12 +140,27 @@ public class CommentController {
 		return "comment/commentDetail.tiles";
 	}
 
+	/**
+	 * 지역후기 삭제
+	 * @param cno
+	 * @return
+	 */
 	@RequestMapping("deleteComment.do")
 	public ModelAndView deleteBoard(int cno) {
 		commentService.deleteComment(cno);
 		return new ModelAndView("comment/commentList", "lvo", commentService.getCommentList());
 	}
 
+	/**
+	 * 지역후기 댓글작성
+	 * @param model
+	 * @param parent
+	 * @param reFlag
+	 * @param cno
+	 * @param rememo
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("writeCommentReply.do")
 	public String writeCommentReply(Model model, int parent, String reFlag, int cno, String rememo,
 			HttpServletRequest request) {
@@ -190,6 +205,12 @@ public class CommentController {
 		return "redirect:showCommentNoHit.do?cno=" + cno;
 	}
 
+	/**
+	 * 댓글삭제
+	 * @param rno
+	 * @param cno
+	 * @return
+	 */
 	@RequestMapping("deleteCommentReply.do")
 	public String deleteCommentReply(int rno, int cno) {
 		CommentReplyVO crvo = commentService.getCommentReplyInfoByRNO(rno);
@@ -199,6 +220,13 @@ public class CommentController {
 		return "redirect:showCommentNoHit.do?cno=" + cno;
 	}
 
+	/**
+	 * 댓글 수정
+	 * @param cno
+	 * @param rno
+	 * @param rememo
+	 * @return
+	 */
 	@RequestMapping("updateCommentReply.do")
 	public String updateCommentReply(int cno, int rno, String rememo) {
 		CommentReplyVO crvo = new CommentReplyVO(rno, rememo);

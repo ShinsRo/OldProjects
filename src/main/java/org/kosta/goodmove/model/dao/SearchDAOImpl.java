@@ -28,14 +28,17 @@ public class SearchDAOImpl implements SearchDAO {
 	}
 
 	@Override 
-	public int countday() {
+	public int countday(String info) {
 		String today = template.selectOne("member.today");
-		int findtoday = template.selectOne("member.findtoday", today);
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("today", today);
+		map.put("info", info);
+		int findtoday = template.selectOne("member.findtoday", map);
 		if(findtoday==0){
-			template.insert("member.insertday", today);
-			template.update("member.upcount", today);
+			template.insert("member.insertday", map);
+			template.update("member.upcount", map);
 		}else{
-			template.update("member.upcount", today);
+			template.update("member.upcount", map);
 		}
 		return template.selectOne("member.getcount", today);
 	}

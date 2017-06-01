@@ -10,6 +10,6 @@ public interface SearchDAO {
 
 	List<CommentVO> searchComment(SearchVO svo, PagingBean pagingBean);
 
-	int countday();
+	int countday(String info);
 
 }

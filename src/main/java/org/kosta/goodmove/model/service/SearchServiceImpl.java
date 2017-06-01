@@ -54,8 +54,8 @@ public class SearchServiceImpl implements SearchService {
 	}
 	
 	@Override
-	public int countday(){
-		return searchDAO.countday();
+	public int countday(String info){
+		return searchDAO.countday(info);
 	}
 
 }

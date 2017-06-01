@@ -21,7 +21,24 @@
 </script>
 
 
-
+<!-- 배너 타이틀 -->
+<section id="page-breadcrumb">
+	<div class="vertical-center sun">
+		<div class="container">
+			<div class="row">
+				<div class="action">
+					<div class="col-sm-12">
+						<h1 class="title">지역후기 작성</h1>
+						<p>
+							<br>지역에 거주하며 경험한 후기를 적어주세요
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!--배너 타이틀-->
   <form action="${pageContext.request.contextPath}/commentRegister.do" method="post" id="write_form">
    <table id="inputForm" class="table table-hover">
     <tbody align="center">

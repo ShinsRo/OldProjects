@@ -92,54 +92,88 @@ public class CommentServiceImpl implements CommentService{
 		commentDAO.commentRegister(cvo);
 	}
 	
+	/**
+	 * 지역후기 삭제
+	 */
 	@Override
 	public void deleteComment(int cno){
 		commentDAO.deleteComment(cno);
 	}
 
+	/**
+	 * 지역후기 등록갯수 반환
+	 */
 	@Override
 	public int getTotalContentCount() {
 		return commentDAO.getTotalContentCount();
 	}
 	
-	
+	/**
+	 * 댓글 리스트 반환
+	 */
 	@Override
 	public List<CommentReplyVO> getAllCommentReplyList(int clno) {
 		return commentDAO.getAllCommentReplyList(clno);
 	}
+	/**
+	 * 댓글 등록
+	 */
 	@Override
 	public void insertNewCommentReply(CommentReplyVO rcvo){
 		commentDAO.insertNewCommentReply(rcvo);
 	}
+	
+	/**
+	 * 다음 댓글번호 받아오기
+	 */
 	@Override
 	public int getNextReplyNo(){
 		return commentDAO.getNextReplyNo();
 	}
 	
+	/**
+	 * 부모댓글 정보 받아오기
+	 */
 	@Override
 	public CommentReplyVO getParentInfo(int parent){
 		return commentDAO.getParentInfo(parent);
 	}
+	
+	/**
+	 * 부모댓글 아이디 받아오기
+	 */
 	@Override
 	public int getParentsParentId(int parent){
 		return commentDAO.getParentsParentId(parent);
 	}
 	
+	/**
+	 * 댓글 삭제
+	 */
 	@Override
 	public void deleteCommentReply(int rno){
 		commentDAO.deleteCommentReply(rno);
 	}
 	
+	/**
+	 * 댓글 수정
+	 */
 	@Override
 	public void updateCommentReply(CommentReplyVO crvo){
 		commentDAO.updateCommentReply(crvo);
 	}
 	
+	/**
+	 * 댓글번호로 댓글 정보 반환
+	 */
 	@Override
 	public CommentReplyVO getCommentReplyInfoByRNO(int rno){
 		return commentDAO.getCommentReplyInfoByRNO(rno);
 	}
 	
+	/**
+	 * 부모댓글 삭제 시 자식댓글 삭제
+	 */
 	@Override
 	public void deleteCommentReplyChild(int gno){
 		commentDAO.deleteCommentReplyChild(gno);
