@@ -32,7 +32,7 @@ public class MemberController {
 			return "member/login_fail.tiles";
 		}else{
 			request.getSession().setAttribute("mvo", vo);
-			return "home.tiles";
+			return "redirect:home.do";
 		}
 	}
 	/**
@@ -45,7 +45,7 @@ public class MemberController {
 			HttpSession session=request.getSession(false);
 			if(session!=null)
 				session.invalidate();
-			return "home.tiles";
+			return "redirect:home.do";
 	}
 	/**
 	 * 회원가입에 관한 컨트롤러: tel을 데이터에 넘겨주기 위해 

@@ -27,7 +27,7 @@
 					</td>
 					<td>${bvo.time_posted }</td>
 					<td>${bvo.hit }</td>
-					<td>신청현황</td>
+					<td>${bvo.aList }</td>
 			</tr>	
 		</c:forEach>
 			

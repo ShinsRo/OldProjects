@@ -103,4 +103,8 @@ public class BoardDAOImpl implements BoardDAO{
 		paramMap.put("id", id);
 		return template.selectList("board.getMyBoardList", paramMap);
 	}
+	@Override
+	public List<ApplicationVO> getApplications(int bno) {
+		return template.selectList("board.getApplications", bno);
+	}
 }

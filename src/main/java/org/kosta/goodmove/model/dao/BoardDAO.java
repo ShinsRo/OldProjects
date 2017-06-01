@@ -36,4 +36,6 @@ public interface BoardDAO {
 	int getTotalBoardCount(String id);
 
 	List<BoardVO> getMyBoardList(BoardPagingBean pagingBean, String id);
+
+	List<ApplicationVO> getApplications(int bno);
 }

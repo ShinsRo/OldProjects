@@ -1,7 +1,8 @@
 package org.kosta.goodmove.model.service;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.annotation.Resource;
@@ -65,9 +66,12 @@ public class BoardServiceImpl implements BoardService {
 			pagingBean = new BoardPagingBean(totalCount);
 		else
 			pagingBean = new BoardPagingBean(totalCount, Integer.parseInt(pageNo));
+		
 		BoardListVO bList = new BoardListVO(boardDAO.getMyBoardList(pagingBean, id), pagingBean);
+		
 		for (Iterator<BoardVO> it = bList.getList().iterator(); it.hasNext();) {
 			BoardVO bvo = it.next();
+			bvo.setaList(boardDAO.getApplications(bvo.getBno()));
 			StringTokenizer tempAddr = new StringTokenizer(bvo.getAddr(), " ");
 			bvo.setAddr(tempAddr.nextToken() + " " + tempAddr.nextToken());
 		}

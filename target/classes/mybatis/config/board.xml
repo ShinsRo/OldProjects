@@ -61,6 +61,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="registerTransaction" parameterType="transactionVO">
 		INSERT INTO TRANSACTION(TNO,ID,ANO,BNO) VALUES(#{tno},#{id},#{ano},#{bno})
 	</insert>
+	<select id = "getApplications" parameterType = "int" resultType="applicationVO">
+		SELECT * FROM APPLICATION WHERE BNO = #{value}
+	</select>
 </mapper>
  
  

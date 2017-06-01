@@ -18,6 +18,7 @@ public class BoardVO {
 	private String time_posted;
 	private String thumbPath;
 	private List<ProductVO> pList;
+	private List<ApplicationVO> aList;
 	public BoardVO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -34,6 +35,13 @@ public class BoardVO {
 		this.time_posted = time_posted;
 		this.thumbPath = thumbPath;
 		this.pList = pList;
+	}
+	
+	public List<ApplicationVO> getaList() {
+		return aList;
+	}
+	public void setaList(List<ApplicationVO> aList) {
+		this.aList = aList;
 	}
 	public int getBno() {
 		return bno;
