@@ -142,9 +142,9 @@
 		</tr>
 		<tr>
 			<td valign="middle" align="center" colspan="3">
-			 <input class="update_btn" type="button" value="목록" onclick="sendList()" >
-			 <input class="update_btn" type="button" value="수정" onclick="updateComment()">
-			 <input class="update_btn" type="button" value="삭제" onclick="deleteComment()">
+			 <input class="btn btn-info"  type="button" value="목록" onclick="sendList()" >
+			 <input class="btn btn-info" type="button" value="수정" onclick="updateComment()">
+			 <input class="btn btn-info" type="button" value="삭제" onclick="deleteComment()">
 			 <br><br>			
 			 </td>
 		</tr>
@@ -160,7 +160,7 @@
 				<input type="hidden" name="cno" value="${requestScope.cvo.cno}">
 				<textarea class="reply_field" id="rememo" name="rememo"
 				placeholder="댓글을 달아주세요." style="border:solid 3px #ffd100;"></textarea>
-				<input type="button" id="writeReplyBtn" value="등록" onclick="fn_formSubmit()">
+				<input type="button" id="writeReplyBtn"  value="등록" onclick="fn_formSubmit()">
 			</form>
 		</div>
 	</c:if>

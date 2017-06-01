@@ -136,7 +136,7 @@ public class BoardController {
 			return "redirect:boardDetail.do?bno="+bno;
 		}else{
 			System.out.println("fail");
-			return "redirect:myBoardList.do";
+			return "board/giveMe_fail.tiles";
 		}
 		// transaction
 		/*TransactionVO tvo = new TransactionVO();

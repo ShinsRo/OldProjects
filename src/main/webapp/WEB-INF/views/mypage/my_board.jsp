@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<div class="container">
 <table class="table table-hover" id="my_board">
 	<thead>
 		<tr>
@@ -75,7 +76,10 @@
 
 <br>
 <br>
+<span style="float:right">
 <c:if test="${sessionScope.mvo.id != null }">
-	<input class="write_btn" type="button" value="글쓰기"
+	<input type="button" value="글쓰기"  class="btn btn-info"
 		onclick="javascript:location.href='${pageContext.request.contextPath}/boardRegisterView.do'">
 </c:if>
+</span>
+</div>
