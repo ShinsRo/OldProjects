@@ -6,6 +6,8 @@
 	$(document).ready(function(){
 		var checkResultId="";		
 		var checkResultPass="";
+		var te=$("#tel2").val();
+		var te1=$("#tel3").val();
 		$(".regF").click(function(){
 			if($("#id").val()==""){
 				alert("아이디를 입력하세요");				
@@ -44,16 +46,26 @@
 			    alert("번호를 선택해주세요.");
 			    return false;
 			}
-
+		
 			else if($("#tel2").val().trim()==""){
 				alert("중간번호 4자리를 입력하세요");				
 				return false;
 			
-			}	
+			}
+			else if(te.length>0||te.length<4){
+				alert("중간번호 4자리를 입력하세요");
+				return false;
+			}
+			
 			else if($("#tel3").val().trim()==""){
 				alert("뒷번호 4자리를 입력하세요");				
 				return false;
 			}	
+			else if(te1.length>0||te1.length<4){
+				alert("뒷자리 4자리를 입력해주세요");
+				return false;
+			}
+			
 			else if($("#job").val().trim()==""){
 				alert("직업을 입력해주세요");
 				return false;
@@ -68,8 +80,14 @@
 					return true;	
 				}
 				else if($("#pass1").val()==$("#pass2").val()){
-					return true;	
-				}		
+					return true;		
+				}
+				else if(te.length==4){
+					return true;
+				}
+				else if(te1.length==4){
+					return true;
+				}
 				else{
 					return false;
 			}
