@@ -180,8 +180,8 @@
 								</c:otherwise>
 							</c:choose>
 						</ul>
-						<br> <input class="write_btn" type="button" value="글쓰기"
-							onclick="javascript:location.href='${pageContext.request.contextPath}/commentRegisterView.do'">
+						<br>
+						
 					</div>
 				</div>
 			</div>

@@ -27,5 +27,18 @@ public class SearchDAOImpl implements SearchDAO {
 		return template.selectList("comment.search", map);
 	}
 
+	@Override 
+	public int countday() {
+		String today = template.selectOne("member.today");
+		int findtoday = template.selectOne("member.findtoday", today);
+		if(findtoday==0){
+			template.insert("member.insertday", today);
+			template.update("member.upcount", today);
+		}else{
+			template.update("member.upcount", today);
+		}
+		return template.selectOne("member.getcount", today);
+	}
+
 	
 }
