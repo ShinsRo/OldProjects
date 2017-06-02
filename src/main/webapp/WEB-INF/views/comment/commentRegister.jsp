@@ -58,7 +58,7 @@
                   readonly="readonly"/>
                   <input type="text" name="addr"
                   class="postcodify_address form-control" value="${requestScope.add}"
-                  readonly="readonly"/>
+                  />
             </div>
             <div class="form-group" align="center">
                <textarea name="content" id="content" required="required"

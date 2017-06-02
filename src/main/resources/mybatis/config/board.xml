@@ -67,6 +67,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="isGiveMeChecked" parameterType="applicationVO" resultType="int">
 		SELECT COUNT(*) FROM APPLICATION WHERE ID=#{id} AND BNO=#{bno}
 </select>
+	<select id="getSearchContentCount" resultType="int" parameterType="searchVO">
+		select count(*)
+		from g_board where upper(${scategory}) like '%' || upper(#{word}) || '%'
+	</select>
+	
+	<select id="search" resultType="boardVO"   parameterType="hashMap">
+		select * from (
+		select bno, title, hit, to_char(time_posted,'YYYY.MM.DD HH:mm') as time_posted, 
+		id, addr,bcontent, thumbpath, row_number() over(order by bno desc) as rnum from G_BOARD
+		where upper(${scategory}) like '%' || upper(#{word}) || '%') 
+		where rnum between #{startRowNumber} and #{endRowNumber}
+	</select>
 </mapper>
  
  

@@ -6,6 +6,7 @@ import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.BoardPagingBean;
 import org.kosta.goodmove.model.vo.BoardVO;
 import org.kosta.goodmove.model.vo.ProductVO;
+import org.kosta.goodmove.model.vo.SearchVO;
 import org.kosta.goodmove.model.vo.TransactionVO;
 
 public interface BoardDAO {
@@ -39,4 +40,6 @@ public interface BoardDAO {
 	List<ApplicationVO> getApplications(int bno);
 	
 	int isGiveMeChecked(ApplicationVO avo);
+
+	int getSearchContentCount(SearchVO searchVO);
 }

@@ -5,7 +5,7 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-    	$("#updateForm").submit(function(){ 
+    	$("#updateBtn").click(function(){ 
     		if($("#title").val()==""){
     			alert("제목을 입력하세요!");
     			return false;
@@ -14,6 +14,7 @@
     			alert("본문을 입력하세요!");
     			return false;
     		}
+    		$("#update_form")[0].reset();
     	});
     	$("#resetBtn").click(function(){    		
     		$("#write_form")[0].reset();
@@ -39,31 +40,39 @@
 	</div>
 </section>
 <!--배너 타이틀-->
-<form method="post" id="commentUpdateForm" action="${pageContext.request.contextPath}/commentUpdate.do">
 
-		<table id="inputForm" class="table table-hover">
-    <tbody align="center">
-    <tr>
-     <td colspan="3">
-     글번호: ${cvo.cno }&nbsp;&nbsp;&nbsp;&nbsp;작성자&nbsp;&nbsp;${sessionScope.mvo.name}
-     
-     </td>
-    </tr>
-    <tr>
-     <td colspan="3"> 제목 &nbsp;&nbsp;<input type=text id=title name=title value=${cvo.title } size="48" ></td>     
-    </tr>
-    <tr>
-     <td colspan="4" align="center">
-     &nbsp;&nbsp;
-     <textarea rows="15" cols="75" id="content" name="content">${cvo.content }</textarea>
-     </td>
-    </tr> 
-    <tr>
-     <td colspan="4" align="center" >
-      <input type="submit" value="수정하기" class="update_btn"></input>   
-     </td>  
-    </tr>
-    </tbody>
-   </table>
+<!-- 여기는요 수정폼 -->
+<section id="">
+   <form enctype="multipart/form-data" id="update_form"
+      name="boardRegForm" method="post" action="${pageContext.request.contextPath}/commentUpdate.do">
+      <div class="col-md-1 col-sm-1" align="center">
+      </div>
+      <div class="col-md-10 col-sm-10" align="center">
+         <div class="contact-form bottom">
+         <br>
+            <div class="form-group" align="center">
+               <input type="text" name="title" class="form-control"
+                  required="required" value="${cvo.title }">
+            </div>
+            <div class="form-group" align="center">
+               <input type="text" name="writer"
+                  class="postcodify_address form-control" value="작성자&nbsp;&nbsp;${sessionScope.mvo.name}"
+                  readonly="readonly"/>
+                  <input type="text" name="addr"
+                  class="postcodify_address form-control" value="${cvo.addr}"
+                  />
+            </div>
+            <div class="form-group" align="center">
+               <textarea name="content" id="content" required="required"
+                  class="form-control" rows="15">${cvo.content }</textarea>
+            </div>
+            <div class="form-group" align="center">
+				<input class="btn btn-submit" type="button" id="updateBtn" onclick=submit value="수정하기" > 
+            </div>
+         </div>
+      </div>
+   </form>
+</section>
+<!-- 여기는요 수정폼 -->
 
-</form>	
+
