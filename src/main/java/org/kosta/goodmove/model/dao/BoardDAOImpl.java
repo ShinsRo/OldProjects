@@ -9,6 +9,7 @@ import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.BoardPagingBean;
 import org.kosta.goodmove.model.vo.BoardVO;
 import org.kosta.goodmove.model.vo.ProductVO;
+import org.kosta.goodmove.model.vo.SearchVO;
 import org.kosta.goodmove.model.vo.TransactionVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -130,5 +131,10 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public List<ApplicationVO> getApplicationsById(String id) {
 		return template.selectList("board.getApplicationsById", id);
+	}
+	@Override
+	public int getSearchContentCount(SearchVO svo) {
+		int count = template.selectOne("board.getSearchContentCount", svo);
+		return count;
 	}
 }

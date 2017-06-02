@@ -58,9 +58,7 @@ public class CommentController {
 	public String showComment(String cno, Model model) {
 		int clno = Integer.parseInt(cno);
 		model.addAttribute("cvo", commentService.showComment(clno));
-		System.out.println("여긴까진 됨!");
 		model.addAttribute("CommentReplyList", commentService.getAllCommentReplyList(clno));
-		System.out.println(commentService.getAllCommentReplyList(clno));
 		return "comment/commentDetail.tiles";
 	}
 
@@ -102,9 +100,6 @@ public class CommentController {
 			MemberVO mvo = (MemberVO) session.getAttribute("mvo");
 			if (mvo != null) {
 				String add = mvo.getAddr();
-				System.out.println(add.lastIndexOf("로"));
-				System.out.println(add.lastIndexOf("길"));
-				System.out.println(add.substring(0,add.lastIndexOf("길")+1));
 				if(add.lastIndexOf("길")>0){
 					model.addAttribute("add", add.substring(0,add.lastIndexOf("길")+1));
 				}else if(add.lastIndexOf("로")<0 && add.lastIndexOf("길")>0){
@@ -139,7 +134,6 @@ public class CommentController {
 			}
 		}
 		commentService.commentRegister(cvo);
-		System.out.println(cvo);
 		return new ModelAndView("redirect:showCommentNoHit.do?cno=" + cvo.getCno());
 	}
 
@@ -184,16 +178,11 @@ public class CommentController {
 			HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		MemberVO mvo = (MemberVO) session.getAttribute("mvo");
-		System.out.println("parent=" + parent);
-		System.out.println("cno=" + cno);
-		System.out.println("rememo =" + rememo);
 		if (reFlag.equals("true")) {
 			int reparent = Integer.parseInt(request.getParameter("reparent"));
 			parent = reparent;
-			System.out.println("reparent= " + reparent);
 		} else {
 			parent = Integer.parseInt(request.getParameter("parent"));
-			System.out.println("parent=" + parent);
 		}
 		String id = mvo.getId();
 		String name = mvo.getName();
@@ -214,7 +203,6 @@ public class CommentController {
 			order_no = pvo.getOrder_no();
 			if (commentService.getParentsParentId(parent) != 0) {
 				parent = commentService.getParentsParentId(parent);
-				System.out.println(parent);
 				gno = parent;
 			}
 		}

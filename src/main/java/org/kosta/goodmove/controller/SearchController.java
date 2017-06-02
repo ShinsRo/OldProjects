@@ -24,23 +24,43 @@ public class SearchController {
 	@Resource
 	private MemberService memberService;
 	
+	/**
+	 * 메인화면에 표시되는 기부물품 글갯수
+	 * @return
+	 */
 	@RequestMapping("getCountBoardMain.do")
 	@ResponseBody
 	public int getCountBoardMain(){
 		return boardService.getCountBoard();
 	}
 	
+	/**
+	 * 메인화면에 표시되는 지역후기 글갯수
+	 * @return
+	 */
 	@RequestMapping("getCountCommentMain.do")
 	@ResponseBody
 	public int getCountCommentMain(){
 		return commentService.getTotalContentCount();
 	}
+	
+	/**
+	 * 메인화면에 표시되는 회원수
+	 * @return
+	 */
 	@RequestMapping("getCountMemberMain.do")
 	@ResponseBody
 	public int getCountMemberMain(){
 		return memberService.getMemberCount();
 	}
 	
+	/**
+	 * 검색기능
+	 * @param vo
+	 * @param pageNo
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("search.do")
 	public String search(SearchVO vo, String pageNo, Model model) {
 		if (pageNo == null) {
@@ -71,6 +91,7 @@ public class SearchController {
 			type="c"+vo.getScategory();
 		}
 		model.addAttribute("type", type);
+		model.addAttribute("mcategory", vo.getMcategory());
 		return "search/searchResult.tiles";
 	}
 }
