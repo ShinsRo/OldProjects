@@ -42,8 +42,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<include refid="selectMember"></include>
 		WHERE ID=#{id} AND NAME=#{name} AND TEL=#{tel} AND deletemember='TRUE'
 	</select>
-		<update id="changePass" parameterType="String">
-		UPDATE GD_MEMBER SET PASSWORD=#{password} WHERE ID=#{id}
+	<update id="changePass" parameterType="memberVO">
+		UPDATE GD_MEMBER SET PASSWORD=#{password}	WHERE ID=#{id}
 	</update>
 	<select id="today" resultType="String">
 		select sdate from (select to_char(sysdate,'YYYY.MM.DD') as sdate, row_number() over(order by sysdate desc) as rnum from DATE_TEST) where rnum=1

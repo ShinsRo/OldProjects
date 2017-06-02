@@ -22,10 +22,10 @@ $(document).ready(function(){
 			alert("이름을 입력하세요");				
 			return false;
 		}
-		else if($("#addr_code").val().trim()==""){
+		/* else if($("#addr_code").val().trim()==""){
 			alert("우편번호를 검색해주세요");
 			return false;
-		}
+		} */
 		else if($("#addr").val().trim()==""){
 			alert("주소를 입력하세요");				
 			return false;
@@ -95,8 +95,8 @@ $(document).ready(function(){
 	<div class="form">
 <form id="updateM" action="${pageContext.request.contextPath }/updateMember.do" method="post">
 	 <input type="text" readonly="readonly" name="id" placeholder="아이디" id="id" value="${sessionScope.mvo.id }"><br> 
-		<input id="pass1" name="password"  type="password" placeholder="비밀번호" maxlength="11"/><br>
-		<input id="pass2" type="password" name="pass2" placeholder="비밀번호확인" maxlength="11"><br>
+		<input id="pass1" name="password"  type="password" placeholder="비밀번호" value="${sessionScope.mvo.password }" maxlength="11"/><br>
+		<input id="pass2" type="password" name="pass2" placeholder="비밀번호확인" value="${sessionScope.mvo.password }" maxlength="11"><br>
 		<span id="passCheckView"></span><br>
 	<input type="text" name="name" readonly="readonly" placeholder="이름" id="name" value="${sessionScope.mvo.name }"><br> 
 		<input id="addr_code" type="text" readonly="readonly" class="postcodify_postcode5" placeholder="우편번호" /><br>
@@ -110,9 +110,9 @@ $(document).ready(function(){
                     <option value = "070"> 070 </option>
 					<!-- <input id="tel1" name="tel1"  type="tel" placeholder="전화번호" maxlength="3"/> -->
 					</select>
-					<input class="num" id="tel2" name="tel2"  type="tel" placeholder="전화번호"  maxlength="4" size="4"/>
+					<input class="num" id="tel2" name="tel2"  type="tel" placeholder="전화번호" maxlength="4" size="4"/>
 					<input class="num" id="tel3" name="tel3"  type="tel" placeholder="전화번호" maxlength="4" size="4"/><br>
-					<input id="job" 	name="job"  type="text" placeholder="직업" /><br>
+					<input id="job" 	name="job"  type="text" value="${sessionScope.mvo.job }" placeholder="직업" /><br>
 	<button id="upd" class="uplo" > 회원수정</button>&nbsp;<a href="${pageContext.request.contextPath }/member/delete.do"><input type="button" value="회원탈퇴"></a>
 </form>
 </div>

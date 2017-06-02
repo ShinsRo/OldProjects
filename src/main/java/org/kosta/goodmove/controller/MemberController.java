@@ -155,12 +155,13 @@ public String register(MemberVO vo,String tel1,String tel2,String tel3){
 			return "member/login_fail.tiles";
 		}else{
 			HttpSession session=request.getSession();
+			request.setAttribute("id", id);
 			session.setAttribute("pass", vo.getPassword());
 			return "member/changePass.tiles";
 		}
 	}
 	@RequestMapping("changePass.do")
-	public String chagePass(String id,String password){
+	public String chagePass(HttpServletRequest request,String id,String password){
 		System.out.println(id+password);
 		service.changePass(id, password);
 		return "member/changePass_result.tiles";

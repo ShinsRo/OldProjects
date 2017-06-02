@@ -52,8 +52,8 @@ $(document).ready(function(){
 <div class = "row">
 	<div class="forgotPass_page">
 	<div class="form">
-<form id="updateM" action="${pageContext.request.contextPath }/changePass.do" method="post">
-		<input type="hidden" name="id" value="${mvo.id }">
+<form id="changePass" action="${pageContext.request.contextPath }/changePass.do" method="post">
+		<input type="text" name="id" value="${requestScope.id}" readonly="readonly">
 		<input id="pass1" name="password"  type="password" placeholder="비밀번호" maxlength="11"/><br>
 		<input id="pass2" type="password" name="pass2" placeholder="비밀번호확인" maxlength="11"><br>
 		<span id="passCheckView"></span><br>
