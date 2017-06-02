@@ -21,8 +21,8 @@ public interface MemberDAO {
 
 	public MemberVO forgotId(String name, String tel);
 
-	public MemberVO forgotPass(String id, String password,String name, String tel);
+	public MemberVO forgotPass(String id,String name, String tel);
 	
-	
+	public void changePass(String id,String password);
 
 }

@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
-<script> $(function() { $("#postcodify_search_button").postcodifyPopUp(); }); </script>
  <script type="text/javascript">
 $(document).ready(function(){
 	$(".uplo").click(function(){
@@ -57,16 +56,19 @@ $(document).ready(function(){
 		else{
 			var result=confirm("수정하시겠습니까?");
 			if(result){
-				return true;
-			}
-			else if(te.length==4 && te1.length==4){
-				return true;
-			} 
-			else if($("#pass1").val()==$("#pass2").val()){
 				return true;	
-			}
+		 	}
+		else if(result==false){
+			return false;
 		}
-	});
+		 else if(te.length==4 && te1.length==4){
+			return true;
+		} 
+		 else if($("#pass1").val()==$("#pass2").val()){
+				return true;		
+	}
+	}
+});
 
 	$(function(){ $("#postcodify_search_button").postcodifyPopUp(); });
 	$("#pass2").keyup(function(){

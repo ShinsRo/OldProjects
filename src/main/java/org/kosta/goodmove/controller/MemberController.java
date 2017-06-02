@@ -147,6 +147,24 @@ public String register(MemberVO vo,String tel1,String tel2,String tel3){
 			return "member/forgotId_result.tiles";
 		}
 	}
+		@RequestMapping("forgotPass.do")
+		public String forgotPass(HttpServletRequest request, String id,String name,String tel1, String tel2, String tel3){
+			System.out.println(id+name+tel1+tel2+tel3);
+			MemberVO vo=service.forgotPass(id, name, tel1+tel2+tel3);
+		if(vo==null){
+			return "member/login_fail.tiles";
+		}else{
+			HttpSession session=request.getSession();
+			session.setAttribute("pass", vo.getPassword());
+			return "member/changePass.tiles";
+		}
+	}
+	@RequestMapping("changePass.do")
+	public String chagePass(String id,String password){
+		System.out.println(id+password);
+		service.changePass(id, password);
+		return "member/changePass_result.tiles";
+	}
 }
 
 

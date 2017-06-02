@@ -57,8 +57,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public MemberVO forgotPass(String id, String password,String name, String tel) {
-		return memberDAO.forgotPass(id,  password, name, tel);
+	public MemberVO forgotPass(String id,String name, String tel) {
+		return memberDAO.forgotPass(id,name, tel);
 	}
 
+	@Override
+	public void changePass(String id, String password) {
+		memberDAO.changePass(id, password);
+		
+	}	
 }
