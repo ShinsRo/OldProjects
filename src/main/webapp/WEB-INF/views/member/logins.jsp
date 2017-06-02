@@ -18,18 +18,17 @@
 				return false;
 
 			}
-			if ($("#password").val().trim() == "") {
+			else if ($("#password").val().trim() == "") {
 				alert("비밀번호를 입력하세요");
 				return false;
-			}
-		});
-		$("#log").click(function() {
-			var result = confirm("로그인하시겠습니까?");
-			if (result) {
-				return true;
-			} else {
-				return false;
+			}else{
+				var result = confirm("로그인하시겠습니까?");
+				if (result) {
+					return true;
+				} else {
+					return false;
 
+				}
 			}
 		});
 	});
@@ -47,7 +46,7 @@
 							placeholder="비밀번호"><br> <span id="idCheckView"></span>
 						<a href="${pageContext.request.contextPath }/member/forgotId.do">아이디찾기</a><br>
 						<a href="${pageContext.request.contextPath }/member/forgotPass.do">비밀번호찾기</a><br>
-						<button id="log" class="logc">login</button>
+						<button id="log" class="logc">로그인</button>
 						<p class="message">
 							Not registered? <a
 								href="${pageContext.request.contextPath}/member/registers.do">Create

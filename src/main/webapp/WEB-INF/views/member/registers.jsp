@@ -6,7 +6,10 @@
 	$(document).ready(function(){
 		var checkResultId="";		
 		var checkResultPass="";
+		
 		$(".regF").click(function(){
+			var te=$("#tel2").val();
+			var te1=$("#tel3").val();
 			if($("#id").val()==""){
 				alert("아이디를 입력하세요");				
 				return false;
@@ -44,16 +47,26 @@
 			    alert("번호를 선택해주세요.");
 			    return false;
 			}
-
+		
 			else if($("#tel2").val().trim()==""){
 				alert("중간번호 4자리를 입력하세요");				
 				return false;
 			
-			}	
+			}
+			else if(te.length<4){
+				alert("중간번호 4자리를 입력하세요");
+				return false;
+			}
+			
 			else if($("#tel3").val().trim()==""){
 				alert("뒷번호 4자리를 입력하세요");				
 				return false;
 			}	
+			else if(te1.length<4){
+				alert("뒷자리 4자리를 입력해주세요");
+				return false;
+			}
+			
 			else if($("#job").val().trim()==""){
 				alert("직업을 입력해주세요");
 				return false;
@@ -66,15 +79,19 @@
 				var result=confirm("가입하시겠습니까?");
 				if(result){
 					return true;	
-				}
-				else if($("#pass1").val()==$("#pass2").val()){
-					return true;	
-				}		
-				else{
-					return false;
+			 	}
+			else if(result==false){
+				return false;
 			}
-			}
-		});
+			 else if(te.length==4 && te1.length==4){
+				return true;
+			} 
+			 else if($("#pass1").val()==$("#pass2").val()){
+					return true;		
+		}
+		}
+	});
+			
 		$("#id").keyup(function(){
 			var id=$(this).val().trim();
 			if(id.length<4 || id.length>10){
@@ -150,7 +167,7 @@
 					<input id="pass2" type="password"  name="pass2" placeholder="비밀번호확인" maxlength="11"><br>
 					<span id="passCheckView"></span><br>
 					<input id="name" 	name="name"   type="text" placeholder="이름" /><br>
-					<input id="addr_code" type="text" name="addrcode" class="postcodify_postcode5"  placeholder="우편번호" /><br>
+					<input id="addr_code" type="text" name="addrcode" readonly="readonly" class="postcodify_postcode5"  placeholder="우편번호" /><br>
 					<input type = "button" id="postcodify_search_button" class="button" value = "검색"><br />
 					<input id="addr" type="text" name="addr" class="postcodify_address" readonly="readonly" placeholder="주소" /><br />
 					<input id="addr_detail" type="text"  name="addr_detail" class="postcodify_details" placeholder="상세주소" /><br>

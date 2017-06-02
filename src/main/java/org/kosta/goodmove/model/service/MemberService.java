@@ -16,9 +16,9 @@ public interface MemberService {
 
 	void updateMember(MemberVO memberVO);
 
-	public String forgotId(String name, String tel);
+	public MemberVO forgotId (String name, String tel);
 
-	public String forgotPass(String id, String name, String tel);
+	public MemberVO forgotPass(String id,String password, String name, String tel);
 	
 	int passwordCheck(String password);
 	

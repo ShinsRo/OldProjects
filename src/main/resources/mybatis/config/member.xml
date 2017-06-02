@@ -35,11 +35,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<update id="deleteMember" parameterType="memberVO"> 
 		UPDATE GD_MEMBER SET deletemember='FALSE' WHERE ID=#{id} AND PASSWORD=#{password}
 	</update>
-	<select id="forgotId" resultType="memberVO" parameterType="memberVO">
-		SELECT ID FROM GD_MEMBER WHERE NAME=#{value} AND TEL=#{value} AND deletemember='TRUE'
+	<select id="forgotId"  resultType="memberVO" parameterType="String">
+		 SELECT ID,deletemember FROM GD_MEMBER WHERE  NAME=#{name} AND TEL=#{tel} AND deletemember='TRUE'
 	</select>
-	<select id="forgotPass" resultType="memberVO" parameterType="memberVO">
-		SELECT PASSWORD FROM GD_MEMBER WHERE ID=#{value} AND NAEM=#{value} AND TEL=#{value} AND deletemember='TRUE'
+	<select id="forgotPass" resultType="memberVO" parameterType="String">
+	<include refid="selectMember"></include>
+		WHERE ID=#{id} AND NAME=#{name} AND TEL=#{tel} AND deletemember='TRUE'
 	</select>
 	
 	<select id="today" resultType="String">
