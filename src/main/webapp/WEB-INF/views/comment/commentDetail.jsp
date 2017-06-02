@@ -180,19 +180,21 @@
 </section>
 
 <!-- 댓글구간 -->
-<div class="reply_container">
+<div class="container">
 	<c:if test="${sessionScope.mvo != null}">
 		<div class="replyList" >
-		<div class="form-group" align="center">
-			<form name="replyWriteForm" action="writeCommentReply.do" method="post">
-				<input type="hidden" name="parent" value="0">
-				<input type="hidden" name="reFlag" value="false">
-				<input type="hidden" name="cno" value="${requestScope.cvo.cno}">
-				<textarea class="reply_field" id="rememo" name="rememo" rows="3" cols="130"
-				placeholder="댓글을 달아주세요."></textarea>
-				<input type="button" id="writeReplyBtn"  value="등록" onclick="fn_formSubmit()">
-			</form>
-		</div>
+			<div class="form-group" align="center">
+				<form name="replyWriteForm" action="writeCommentReply.do" method="post">
+					<ul class="nav navbar-nav navbar-default" id="reply_ul">
+						<li><input type="hidden" name="parent" value="0">
+						<input type="hidden" name="reFlag" value="false">
+						<input type="hidden" name="cno" value="${requestScope.cvo.cno}">
+						<textarea class="reply_field" id="rememo" name="rememo" rows="3" cols="130"
+						placeholder="댓글을 달아주세요."></textarea></li>
+						<li><input type="button" id="writeReplyBtn" class="btn btn-lg btn-info" value="등록" onclick="fn_formSubmit()"></li>
+					</ul>
+				</form>
+			</div>
 		</div>
 	</c:if>
 
@@ -203,12 +205,12 @@
 			<c:forEach items="${requestScope.CommentReplyList}" var="reply">
 				<li>
 				<div class="col-md-10 col-sm-10" align="left">
-					<span class="nickspan"> <c:if test="${reply.depth >=1 }">&nbsp;&nbsp;&nbsp;&nbsp;
+					<span class="nickspan"> <c:if test="${reply.depth >=1}">&nbsp;&nbsp;&nbsp;&nbsp;
 						<img class="reply_icon" src="${pageContext.request.contextPath}/img/reply_icon.png" width="20">
-						</c:if>${reply.name}</span> <span class="cmdate">${reply.time_posted }</span>
+						</c:if>${reply.name}</span> <span class="cmdate">${reply.time_posted}</span>
 						<span class="recmbtn">
 						<a href="#"	onclick="fn_replyReply(${reply.rno})">
-				 		<img class="reply_icon" src="${pageContext.request.contextPath}/img/bu_arr.png">답글 </a></span> 
+				 		<img class="reply_icon" src="${pageContext.request.contextPath}/img/bu_arr.png">답글</a></span> 
 						<span class="cmbtn">
 						<c:if test="${sessionScope.mvo.id==reply.id}">
 						<a onclick="fn_replyDelete(${reply.rno },${requestScope.cvo.cno})">삭제</a>
@@ -229,7 +231,7 @@
 		<form name="replyUpdateForm" action="updateCommentReply.do" method="post">
 			<input type="hidden" name="cno" value="${requestScope.cvo.cno}">
 			 <input type="hidden" name="rno">
-			<textarea class="reply_field" name="rememo" rows="3" cols="60"
+			<textarea class="reply_field" name="rememo" rows="3" cols="60" style="border:solid 1px #D8D8D8;
 			maxlength="500"></textarea>
 			<a onclick="fn_replyUpdateSave()">저장</a>
 			<a onclick="fn_replyUpdateCancel()">취소</a>
@@ -244,8 +246,8 @@
 			<input type="hidden" name="rno"> 
 			<input type="hidden" name="reparent">
 			<input type="hidden" name="parent" value="0">
-			<textarea class="reply_field" name="rememo" rows="3" cols="60" maxlength="500" style="border:solid 3px #ffd100;
-			background-color: #FAFAAA;margin-left:10px;"></textarea>
+			<textarea class="reply_field" name="rememo" rows="3" cols="60" maxlength="500" style="border:solid 1px #D8D8D8;
+			margin-left:10px;"></textarea>
 			<a onclick="fn_replyReplySave()">저장</a>
 			<a onclick="fn_replyReplyCancel()">취소</a>
 		</form>
