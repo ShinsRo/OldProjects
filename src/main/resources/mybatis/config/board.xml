@@ -66,7 +66,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<select id="isGiveMeChecked" parameterType="applicationVO" resultType="int">
 		SELECT COUNT(*) FROM APPLICATION WHERE ID=#{id} AND BNO=#{bno}
-</select>
+	</select>
+	<select id="getApplicationsById" parameterType="string" resultType="applicationVO">
+		SELECT * FROM APPLICATION WHERE ID=#{value}
+	</select>
 </mapper>
  
  

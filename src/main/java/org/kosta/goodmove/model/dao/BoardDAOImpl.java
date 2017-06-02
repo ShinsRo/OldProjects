@@ -126,4 +126,9 @@ public class BoardDAOImpl implements BoardDAO {
 	public int isGiveMeChecked(ApplicationVO avo) {
 		return template.selectOne("board.isGiveMeChecked", avo);
 	}
+
+	@Override
+	public List<ApplicationVO> getApplicationsById(String id) {
+		return template.selectList("board.getApplicationsById", id);
+	}
 }

@@ -39,4 +39,6 @@ public interface BoardService {
 	String isGiveMeChecked(ApplicationVO avo);
 
 	public List<ApplicationVO> getApplications(int bno_int);
+	
+	List<ApplicationVO> getApplicationsById(String id);
 }

@@ -1,6 +1,5 @@
 package org.kosta.goodmove.model.service;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -145,5 +144,10 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<ApplicationVO> getApplications(int bno_int) {
 		return boardDAO.getApplications(bno_int);
+	}
+
+	@Override
+	public List<ApplicationVO> getApplicationsById(String id) {
+		return boardDAO.getApplicationsById(id);
 	}
 }

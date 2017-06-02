@@ -15,7 +15,6 @@ import org.kosta.goodmove.model.vo.BoardVO;
 import org.kosta.goodmove.model.vo.MemberVO;
 import org.kosta.goodmove.model.vo.ProductSetVO;
 import org.kosta.goodmove.model.vo.ProductVO;
-import org.kosta.goodmove.model.vo.TransactionVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -163,4 +162,11 @@ public class BoardController {
 	 */
 	// db insert
 	/* boardService.registerTransaction(tvo); */
+	@RequestMapping("getApplicationsById.do")
+	public String getApplicationsById(HttpServletRequest req,Model model){
+		String id  = ((MemberVO) req.getSession(false).getAttribute("mvo")).getId();
+		List<ApplicationVO> appList = boardService.getApplicationsById(id);
+		model.addAttribute("appList", appList);
+		return "mypage/my_application.tiles";
+	}
 }

@@ -92,3 +92,5 @@ select * from visit where id='java' and day='2017.05.31'
 update visit set count=count+1 where id='java' and day='2017.05.31'
 select count(*) from visit where day='2017.05.31'
 
+--
+select ANO,BNO,REASON,PNOS,IS_SELECTED,ID from APPLICATION where id='spring';

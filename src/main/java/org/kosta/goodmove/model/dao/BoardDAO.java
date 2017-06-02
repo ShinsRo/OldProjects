@@ -39,4 +39,6 @@ public interface BoardDAO {
 	List<ApplicationVO> getApplications(int bno);
 	
 	int isGiveMeChecked(ApplicationVO avo);
+	
+	List<ApplicationVO> getApplicationsById(String id);
 }
