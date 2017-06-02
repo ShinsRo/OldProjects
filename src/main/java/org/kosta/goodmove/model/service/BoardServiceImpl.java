@@ -173,7 +173,7 @@ public class BoardServiceImpl implements BoardService {
 				boardDAO.nowUnavailable(pno);
 			}
 		}
-		if(boardDAO.selectedProductCnt(avo.getBno()) > 0){
+		if(!(boardDAO.selectedProductCnt(avo.getBno()) > 0)){
 			boardDAO.Refresh(avo.getBno());
 		}
 	}
