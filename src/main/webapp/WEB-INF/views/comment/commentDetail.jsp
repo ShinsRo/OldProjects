@@ -126,6 +126,7 @@
 	    form.submit();    
 	}
 </script>
+<<<<<<< HEAD
 <table id="inputForm" class="table table-hover">
 	<tbody>
 		<tr>
@@ -150,6 +151,57 @@
 		</tr>
 	</tbody>
 </table>
+=======
+<!-- 배너 타이틀 -->
+<section id="page-breadcrumb">
+	<div class="vertical-center sun">
+		<div class="container">
+			<div class="row">
+				<div class="action">
+					<div class="col-sm-12">
+						<h1 class="title">지역후기</h1>
+						<p>
+							<br>지역에 거주하며 경험한 후기를 적어주세요
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!--배너 타이틀-->
+
+<section id="">
+   <form enctype="multipart/form-data" id="write_form"
+      name="boardRegForm" method="post" action="${pageContext.request.contextPath}/commentRegister.do">
+      <div class="col-md-1 col-sm-1" align="center">
+      </div>
+      <div class="col-md-10 col-sm-10" align="center">
+         <div class="contact-form bottom">
+         <br>
+            <div class="form-group" align="center">
+               NO : ${requestScope.cvo.cno}&nbsp;&nbsp;&nbsp;&nbsp;제목 : ${requestScope.cvo.title}
+            </div>
+            <div class="form-group" align="center">
+            작성자 : ${requestScope.cvo.id}&nbsp;&nbsp;&nbsp;&nbsp;
+			작성일 : ${requestScope.cvo.time_posted}&nbsp;&nbsp;&nbsp;&nbsp;
+			조회수 : ${requestScope.cvo.hit}&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="form-group" align="center">
+               <textarea name="content" id="content" required="required"
+                  class="form-control" rows="15" placeholder="${requestScope.cvo.content}" readonly="readonly"></textarea>
+            </div>
+            <div class="form-group" align="center">
+<input class="update_btn" type="button" value="목록" onclick="sendList()" >
+			 <input class="update_btn" type="button" value="수정" onclick="updateComment()">
+			 <input class="update_btn" type="button" value="삭제" onclick="deleteComment()">  
+            </div>
+         </div>
+      </div>
+   </form>
+</section>
+
+>>>>>>> refs/heads/A_Team
 <!-- 댓글구간 -->
 <div class="reply_container">
 	<c:if test="${sessionScope.mvo != null}">

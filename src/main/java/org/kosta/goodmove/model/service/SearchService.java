@@ -13,6 +13,6 @@ public interface SearchService {
 
 	int count(SearchVO searchVO);
 
-	int countday();
+	int countday(String info);
 
 }

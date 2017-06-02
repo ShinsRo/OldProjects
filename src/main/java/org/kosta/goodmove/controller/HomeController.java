@@ -1,8 +1,13 @@
 package org.kosta.goodmove.controller;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.kosta.goodmove.model.service.SearchService;
+import org.kosta.goodmove.model.vo.MemberVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,16 +21,38 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class HomeController {
-	
+
 	@Resource
 	SearchService ss;
-	
+
 	@RequestMapping("home.do")
-	public String home(Model model){
-		model.addAttribute("count", ss.countday());
+	public String home(Model model, HttpServletRequest request) {
+		MemberVO mvo = (MemberVO) request.getSession().getAttribute("mvo");
+		String info;
+		if (mvo != null) {
+			try {
+				int i = InetAddress.getLocalHost().toString().lastIndexOf("/");
+				info = mvo.getId() + InetAddress.getLocalHost().toString().substring(i);
+				model.addAttribute("count", ss.countday(info));
+
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{
+			try {
+				int i = InetAddress.getLocalHost().toString().lastIndexOf("/");
+				info = InetAddress.getLocalHost().toString().substring(i);
+				model.addAttribute("count", ss.countday(info));
+
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return "home.tiles";
 	}
-	
+
 	@RequestMapping("{viewName}.do")
 	public String showView(@PathVariable String viewName) {
 		// System.out.println("@PathVariable:"+viewName);
@@ -38,8 +65,9 @@ public class HomeController {
 		// System.out.println("@PathVariable:"+dirName+"/"+viewName);
 		return dirName + "/" + viewName + ".tiles";
 	}
+
 	@RequestMapping("contact.do")
-	public String contact(){
+	public String contact() {
 		return "contact.tiles";
 	}
 }

@@ -43,19 +43,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="today" resultType="String">
-		select sdate from (select to_char(sysdate,'YYYY.MM.DD') as sdate, row_number() over(order by sysdate desc) as rnum from DATE_TEST) where rnum=1
+		select sdate from (select to_char(sysdate,'YYYY.MM.DD') as sdate, row_number() over(order by sysdate desc) as rnum from dual) where rnum=1
 	</select>
-	<select id="findtoday" resultType="int">
-		select count(*) from visit where day=#{value}
+	<select id="findtoday" resultType="int" parameterType="hashMap">
+		select count(*) from visit where id=#{info} and day=#{today}
 	</select>
-	<insert id="insertday" parameterType="String">
-		insert into visit(day) values(#{value})
+	<insert id="insertday" parameterType="hashMap">
+		insert into visit(id, day) values(#{info},#{today})
 	</insert>
-	<update id="upcount" parameterType="String">
-		update visit set count=count+1 where day=#{value}
+	<update id="upcount" parameterType="hashMap">
+		update visit set count=count+1 where id=#{info} and day=#{today}
 	</update>
-	<select id="getcount" resultType="int" parameterType="String">
-	select count from visit where day=#{value}
+	<select id="getcount" resultType="int" parameterType="hashMap">
+	select count(*) from visit where day=#{today}
 	</select>
 </mapper>
  

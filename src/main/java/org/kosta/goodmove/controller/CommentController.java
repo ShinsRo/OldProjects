@@ -95,7 +95,25 @@ public class CommentController {
 	 * @return 이동될 화면의 경로
 	 */
 	@RequestMapping("commentRegisterView.do")
-	public String commentRehisterView() {
+	public String commentRehisterView(HttpServletRequest request, Model model) {
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+
+			MemberVO mvo = (MemberVO) session.getAttribute("mvo");
+			if (mvo != null) {
+				String add = mvo.getAddr();
+				System.out.println(add.lastIndexOf("로"));
+				System.out.println(add.lastIndexOf("길"));
+				System.out.println(add.substring(0,add.lastIndexOf("길")+1));
+				if(add.lastIndexOf("길")>0){
+					model.addAttribute("add", add.substring(0,add.lastIndexOf("길")+1));
+				}else if(add.lastIndexOf("로")<0 && add.lastIndexOf("길")>0){
+					model.addAttribute("add", add.substring(0,add.lastIndexOf("로")+1));
+				}else{
+					model.addAttribute("add", add);
+				}
+			}
+		}
 		return "comment/commentRegister.tiles";
 	}
 
@@ -109,14 +127,14 @@ public class CommentController {
 	 * @return 이동될 화면의 경로, 새로고침 적용되지 않게함, 조회수를 증가하지 않고 검색 시도
 	 */
 	@RequestMapping(value = "commentRegister.do", method = RequestMethod.POST)
-	public ModelAndView write(HttpServletRequest request, CommentVO cvo) {
+	public ModelAndView write(String addr, HttpServletRequest request, CommentVO cvo) {
 		HttpSession session = request.getSession(false);
 		if (session != null) {
 
 			MemberVO mvo = (MemberVO) session.getAttribute("mvo");
 			if (mvo != null) {
 				cvo.setId(mvo.getId());
-				cvo.setAddr(mvo.getAddr());
+				cvo.setAddr(addr);
 
 			}
 		}
@@ -140,12 +158,27 @@ public class CommentController {
 		return "comment/commentDetail.tiles";
 	}
 
+	/**
+	 * 지역후기 삭제
+	 * @param cno
+	 * @return
+	 */
 	@RequestMapping("deleteComment.do")
 	public ModelAndView deleteBoard(int cno) {
 		commentService.deleteComment(cno);
 		return new ModelAndView("comment/commentList", "lvo", commentService.getCommentList());
 	}
 
+	/**
+	 * 지역후기 댓글작성
+	 * @param model
+	 * @param parent
+	 * @param reFlag
+	 * @param cno
+	 * @param rememo
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("writeCommentReply.do")
 	public String writeCommentReply(Model model, int parent, String reFlag, int cno, String rememo,
 			HttpServletRequest request) {
@@ -190,6 +223,12 @@ public class CommentController {
 		return "redirect:showCommentNoHit.do?cno=" + cno;
 	}
 
+	/**
+	 * 댓글삭제
+	 * @param rno
+	 * @param cno
+	 * @return
+	 */
 	@RequestMapping("deleteCommentReply.do")
 	public String deleteCommentReply(int rno, int cno) {
 		CommentReplyVO crvo = commentService.getCommentReplyInfoByRNO(rno);
@@ -199,6 +238,13 @@ public class CommentController {
 		return "redirect:showCommentNoHit.do?cno=" + cno;
 	}
 
+	/**
+	 * 댓글 수정
+	 * @param cno
+	 * @param rno
+	 * @param rememo
+	 * @return
+	 */
 	@RequestMapping("updateCommentReply.do")
 	public String updateCommentReply(int cno, int rno, String rememo) {
 		CommentReplyVO crvo = new CommentReplyVO(rno, rememo);

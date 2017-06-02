@@ -80,45 +80,81 @@ public class CommentDAOImpl implements CommentDAO{
 		return count;
 	}
 	
+	/**
+	 * 지역후기 삭제
+	 */
 	@Override
 	public void deleteComment(int cno){
 		template.delete("comment.deleteComment", cno);
 	}
 	
+	/**
+	 * 전체 댓글 리스트 반환
+	 */
 	@Override
 	public List<CommentReplyVO> getAllCommentReplyList(int cno){
 		return template.selectList("comment.getAllCommentReplyList",cno);
 	}
+	
+	/** 
+	 * 댓글 작성
+	 */
 	@Override
 	public void insertNewCommentReply(CommentReplyVO rcvo){
 		template.insert("comment.insertNewCommentReply",rcvo);
 	}
+	
+	/**
+	 * 다음 댓글번호 반환
+	 */
 	@Override
 	public int getNextReplyNo(){
 		return template.selectOne("comment.getNextReplyNo");
 	}
+	
+	/**
+	 * 부모댓글 정보 반환
+	 */
 	@Override
 	public CommentReplyVO getParentInfo(int parent){
 		return template.selectOne("comment.getParentInfo",parent);
 	}
+	
+	/**
+	 * 부모댓글 번호 반환
+	 */
 	@Override
 	public int getParentsParentId(int parent){
 		return template.selectOne("comment.getParentsParentId",parent);
 	}
+	
+	/**
+	 * 댓글 삭제
+	 */
 	@Override
 	public void deleteCommentReply(int rno){
 		template.delete("comment.deleteCommentReply",rno);
 	}
 	
+	/**
+	 * 댓글 수정
+	 */
 	@Override
 	public void updateCommentReply(CommentReplyVO crvo){
 		template.update("comment.updateCommentReply",crvo);
 	}
 	
+	/**
+	 * 번호로 댓글 정보 반환
+	 */
 	@Override
 	public CommentReplyVO getCommentReplyInfoByRNO(int rno){
 		return template.selectOne("comment.getCommentReplyInfoByRNO",rno);
 	}
+	
+	/**
+	 * 부모댓글 삭제 시 자녀댓글 삭제
+	 */
 	@Override
 	public void deleteCommentReplyChild(int gno){
 		template.delete("comment.deleteCommentReplyChild",gno);

@@ -76,7 +76,9 @@ SELECT * from visit;
 drop table visit
 select * from visit where date=sysdate;
 select count(*) from visit where date=sysdate;
-select to_char(sysdate,'YYYY.MM.DD') as sdate from DATE_TEST;
+select to_char(sysdate,'YYYY.MM.DD') as sdate from dual;
+select * from DATE_TEST
+
 
 select sdate from (select to_char(sysdate,'YYYY.MM.DD') as sdate, row_number() over(order by sysdate desc) as rnum from DATE_TEST) where rnum=1
 select count(*) from visit where day='2017.05.31';
@@ -84,4 +86,9 @@ insert into visit(day) values('2017.05.31');
 update visit set count=count+1 where day='2017.05.31';
 select count from visit where day='2017.05.31';
 
+insert into visit(id, day, count) values('java','2017.05.31', 0)
+select * from visit
+select * from visit where id='java' and day='2017.05.31'
+update visit set count=count+1 where id='java' and day='2017.05.31'
+select count(*) from visit where day='2017.05.31'
 
