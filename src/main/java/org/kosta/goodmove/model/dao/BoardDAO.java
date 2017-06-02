@@ -39,4 +39,16 @@ public interface BoardDAO {
 	List<ApplicationVO> getApplications(int bno);
 	
 	int isGiveMeChecked(ApplicationVO avo);
+
+	ProductVO getProductByPno(String pno);
+
+	void confirmApply(String ano);
+
+	void nowUnavailable(String pno);
+
+	ApplicationVO getApplicationByAno(String ano);
+
+	void Refresh(int bno);
+
+	int selectedProductCnt(int bno);
 }

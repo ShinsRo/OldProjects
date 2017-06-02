@@ -1,5 +1,7 @@
 package org.kosta.goodmove.model.vo;
 
+import java.util.List;
+
 /**
  * 물려받기 신청서 정보를 저장 : Value Object
  * 
@@ -13,6 +15,7 @@ public class ApplicationVO {
 	private String pnos;
 	private String reason;
 	private String is_selected;
+	private List<ProductVO> pList;
 
 	public ApplicationVO() {
 		super();
@@ -26,7 +29,15 @@ public class ApplicationVO {
 		this.pnos = pnos;
 		this.reason = reason;
 	}
-	
+
+	public List<ProductVO> getpList() {
+		return pList;
+	}
+
+	public void setpList(List<ProductVO> pList) {
+		this.pList = pList;
+	}
+
 	public String getIs_selected() {
 		return is_selected;
 	}
@@ -78,7 +89,7 @@ public class ApplicationVO {
 	@Override
 	public String toString() {
 		return "ApplicationVO [ano=" + ano + ", bno=" + bno + ", id=" + id + ", pnos=" + pnos + ", reason=" + reason
-				+ "]";
+				+ ", is_selected=" + is_selected + ", pList=" + pList + "]";
 	}
 
 }

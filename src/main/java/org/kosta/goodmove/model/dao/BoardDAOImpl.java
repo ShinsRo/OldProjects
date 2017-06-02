@@ -117,7 +117,6 @@ public class BoardDAOImpl implements BoardDAO {
 		paramMap.put("id", id);
 		return template.selectList("board.getMyBoardList", paramMap);
 	}
-
 	@Override
 	public List<ApplicationVO> getApplications(int bno) {
 		return template.selectList("board.getApplications", bno);
@@ -125,5 +124,35 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public int isGiveMeChecked(ApplicationVO avo) {
 		return template.selectOne("board.isGiveMeChecked", avo);
+	}
+
+	@Override
+	public ProductVO getProductByPno(String pno) {
+		return template.selectOne("board.getProductByPno", pno);
+	}
+
+	@Override
+	public void confirmApply(String ano) {
+		template.update("board.confirmApply", ano);
+	}
+
+	@Override
+	public void nowUnavailable(String pno) {
+		template.update("board.nowUnavailable", pno);
+	}
+
+	@Override
+	public ApplicationVO getApplicationByAno(String ano) {
+		return template.selectOne("board.getApplicationByAno", ano);
+	}
+
+	@Override
+	public void Refresh(int bno) {
+		template.update("board.Refresh", bno);
+	}
+
+	@Override
+	public int selectedProductCnt(int bno) {
+		return template.selectOne("board.selectedProductCnt", bno);
 	}
 }

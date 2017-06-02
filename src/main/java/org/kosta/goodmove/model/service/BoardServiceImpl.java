@@ -71,7 +71,6 @@ public class BoardServiceImpl implements BoardService {
 		
 		for (Iterator<BoardVO> it = bList.getList().iterator(); it.hasNext();) {
 			BoardVO bvo = it.next();
-			bvo.setaList(boardDAO.getApplications(bvo.getBno()));
 			StringTokenizer tempAddr = new StringTokenizer(bvo.getAddr(), " ");
 			bvo.setAddr(tempAddr.nextToken() + " " + tempAddr.nextToken());
 		}
@@ -144,6 +143,34 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<ApplicationVO> getApplications(int bno_int) {
-		return boardDAO.getApplications(bno_int);
+		List<ApplicationVO> aList =boardDAO.getApplications(bno_int);
+				for(ApplicationVO avo : aList){
+					String pno = "";
+					StringTokenizer st = new StringTokenizer(avo.getPnos(), ","); 
+					avo.setpList(new ArrayList<ProductVO>());
+					while (st.hasMoreElements()) {
+						if(( pno = st.nextToken()) != ""){
+							avo.getpList().add(boardDAO.getProductByPno(pno));
+						}
+					}
+				}
+				System.out.println(aList);
+		return aList;
+	}
+
+	@Override
+	public void confirmApply(String ano) {
+		boardDAO.confirmApply(ano);
+		ApplicationVO avo = boardDAO.getApplicationByAno(ano);
+		String pno = "";
+		StringTokenizer st = new StringTokenizer(avo.getPnos(), ","); 
+		while (st.hasMoreElements()) {
+			if(( pno = st.nextToken()) != ""){
+				boardDAO.nowUnavailable(pno);
+			}
+		}
+		if(boardDAO.selectedProductCnt(avo.getBno()) > 0){
+			boardDAO.Refresh(avo.getBno());
+		}
 	}
 }
