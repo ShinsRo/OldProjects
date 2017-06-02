@@ -134,6 +134,15 @@ public String register(MemberVO vo,String tel1,String tel2,String tel3){
 		return "member/delete_result.tiles";
 		
 }
+	/**
+	 * 아이디찾기 기능 컨트롤러
+	 * @param request
+	 * @param name
+	 * @param tel1
+	 * @param tel2
+	 * @param tel3
+	 * @return
+	 */
 	@RequestMapping("forgotId.do")
 	public String forgotId(HttpServletRequest request,String name,String tel1,String tel2,String tel3){
 		System.out.println(name+tel1+tel2+tel3);
@@ -145,6 +154,42 @@ public String register(MemberVO vo,String tel1,String tel2,String tel3){
 			request.setAttribute("id", vo.getId());
 			return "member/forgotId_result.tiles";
 		}
+	}
+	/**
+	 * 비밀번호 찾기 기능 컨트롤러
+	 * @param request
+	 * @param id
+	 * @param name
+	 * @param tel1
+	 * @param tel2
+	 * @param tel3
+	 * @return
+	 */
+		@RequestMapping("forgotPass.do")
+		public String forgotPass(HttpServletRequest request, String id,String name,String tel1, String tel2, String tel3){
+			System.out.println(id+name+tel1+tel2+tel3);
+			MemberVO vo=service.forgotPass(id, name, tel1+tel2+tel3);
+		if(vo==null){
+			return "member/login_fail.tiles";
+		}else{
+			HttpSession session=request.getSession();
+			request.setAttribute("id", id);
+			session.setAttribute("pass", vo.getPassword());
+			return "member/changePass.tiles";
+		}
+	}
+	/**
+	 * 비밀번호 찾기시 비밀번호 변경 컨트롤러	
+	 * @param request
+	 * @param id
+	 * @param password
+	 * @return
+	 */
+	@RequestMapping("changePass.do")
+	public String chagePass(HttpServletRequest request,String id,String password){
+		System.out.println(id+password);
+		service.changePass(id, password);
+		return "member/changePass_result.tiles";
 	}
 }
 

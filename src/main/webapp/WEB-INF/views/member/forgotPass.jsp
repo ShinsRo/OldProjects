@@ -3,9 +3,6 @@
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/resources/member/search.css">
 <script type="text/javascript">
-	$('.message a').click(function(){
-		   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
-		});
 	$(document).ready(function(){
   		$(".searchPass").click(function(){
   			var te=$("#tel2").val();
@@ -40,26 +37,25 @@
 				return false;
 			}
 			else{
-  			var result=confirm("비밀번호를 찾으시겠습니까?");
-			if(result){
-				return true;
+				var result=confirm("비밀번호를 찾으시겠습니까?");
+				if(result){
+					return true;	
+				}else if(result==false){
+					return false;
+				}
+				 else if(te.length==4 && te1.length==4){
+					return true;
+				} 
 			}
-			else if(te.length==4 && te1.length==4){
-				return true;
-			}
-			else{
-				return false;
-			} 
-			}
-  		});
-  		$(".num").keyup(function(){$(this).val( $(this).val().replace(/[^0-9]/g,"") );} );
-  	});
+		});
+	    	$(".num").keyup(function(){$(this).val( $(this).val().replace(/[^0-9]/g,"") );} );
+	});//ready
 </script>
 <section>
 <div class="forgotPass-page">
   <div class="form">
 	<form action="${pageContext.request.contextPath }/forgotPass.do" method="post">
-	<input id="id" name="id" required="required" type="text" placeholder="아이디" /><br> 
+	<input id="id" name="id" type="text" placeholder="아이디" /><br> 
 	<input id="name" name="name" type="text" placeholder="이름"><br>
 	 <select id="tel1" name="tel1"  >
 					<option value="">번호</option>
@@ -69,7 +65,7 @@
 					</select>
 					<input class="num" id="tel2" name="tel2"  type="tel"  placeholder="전화번호"  maxlength="4" />
 					<input class="num" id="tel3" name="tel3"  type="tel" placeholder="전화번호" maxlength="4" /><br>
-      <button id="searchPass" class="logc">비밀번호 찾기</button>
+      <button id="searchPass" class="searchPass">비밀번호 찾기</button>
     </form>
   </div>
 </div>
