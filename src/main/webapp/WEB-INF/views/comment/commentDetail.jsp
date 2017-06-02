@@ -189,7 +189,7 @@
 				<input type="hidden" name="reFlag" value="false">
 				<input type="hidden" name="cno" value="${requestScope.cvo.cno}">
 				<textarea class="reply_field" id="rememo" name="rememo" rows="3" cols="130"
-				placeholder="댓글을 달아주세요." style="border:solid 3px #ffd100;"></textarea>
+				placeholder="댓글을 달아주세요."></textarea>
 				<input type="button" id="writeReplyBtn"  value="등록" onclick="fn_formSubmit()">
 			</form>
 		</div>
