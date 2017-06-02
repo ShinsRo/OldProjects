@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script>
+<script type="text/javascript">
 	function sendList(){
 		location.href="getCommentList.do";
 	}
@@ -166,36 +166,38 @@
                   class="form-control" rows="15" placeholder="${requestScope.cvo.content}" readonly="readonly"></textarea>
             </div>
             <div class="form-group" align="center">
-<input class="update_btn" type="button" value="목록" onclick="sendList()" >
+			<input class="update_btn" type="button" value="목록" onclick="sendList()" >
 			 <input class="update_btn" type="button" value="수정" onclick="updateComment()">
 			 <input class="update_btn" type="button" value="삭제" onclick="deleteComment()">  
             </div>
          </div>
       </div>
    </form>
-</section>
 
 <!-- 댓글구간 -->
 <div class="reply_container">
 	<c:if test="${sessionScope.mvo != null}">
-		<div class="replyList">
+		<div class="replyList" >
+		<div class="form-group" align="center">
 			<form name="replyWriteForm" action="writeCommentReply.do" method="post">
 				<input type="hidden" name="parent" value="0">
 				<input type="hidden" name="reFlag" value="false">
 				<input type="hidden" name="cno" value="${requestScope.cvo.cno}">
-				<textarea class="reply_field" id="rememo" name="rememo"
+				<textarea class="reply_field" id="rememo" name="rememo" rows="3" cols="130"
 				placeholder="댓글을 달아주세요." style="border:solid 3px #ffd100;"></textarea>
 				<input type="button" id="writeReplyBtn" value="등록" onclick="fn_formSubmit()">
 			</form>
+		</div>
 		</div>
 	</c:if>
 
 	<!-- 댓글 리스트 -->
 	<div class="box_reply">
+	<div class="form-group" align="center">
 		<ul class="cmlist">
 			<c:forEach items="${requestScope.CommentReplyList}" var="reply">
 				<li>
-				<div class="h">
+				<div class="col-md-10 col-sm-10" align="left">
 					<span class="nickspan"> <c:if test="${reply.depth >=1 }">&nbsp;&nbsp;&nbsp;&nbsp;
 						<img class="reply_icon" src="${pageContext.request.contextPath}/img/reply_icon.png" width="20">
 						</c:if>${reply.name}</span> <span class="cmdate">${reply.time_posted }</span>
@@ -208,14 +210,15 @@
 						<a onclick="fn_replyUpdate(${reply.rno })">수정</a>
 						</c:if></span>
 				</div>
-				<div class="cm_list_box" id="reply<c:out value="${reply.rno}"/>">
+				<!-- class="cm_list_box" -->
+				<div class="col-md-10 col-sm-10" align="left" id="reply<c:out value="${reply.rno}"/>">
 					<c:out value="${reply.content }" />
 				</div>
 				</li>
 			</c:forEach>
 		</ul>
 	</div>
-	
+	</div>
 	<!--  댓글 수정시 나오는 부분 -->
 	<div id="replyDiv" style="width: 99%; display: none">
 		<form name="replyUpdateForm" action="updateCommentReply.do" method="post">
@@ -243,3 +246,4 @@
 		</form>
 	</div>
 </div>
+</section>
