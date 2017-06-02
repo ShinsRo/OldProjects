@@ -70,7 +70,7 @@
 			<br>
 				<div class="form-group">
 					<input type="text" name="title" class="form-control"
-						required="required" placeholder="제목">
+						required="required" placeholder="제목" maxlength="20">
 				</div>
 				<div class="form-group" align="right">
 					<button type="button" id="postcodify_search_button"
@@ -107,7 +107,7 @@
 				<div align = "right" class="">
 				<input type ='button' class = "btn btn-sm btn-danger" id ='deleteProduct' value = "물건 삭제">
 				</div>
-				<input type = "file" name="file" > 
+				<input type = "file" name="file" required="required"> 
 				<hr>
 			</div>
 				<div align="right">
