@@ -25,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="commentUpdate" parameterType="commentVO">
 		update loc_comment
 		set
-		title=#{title},content=#{content}
+		title=#{title},content=#{content}, addr=#{addr}
 		where cno=#{cno}
 	</update>
 	<insert id="commentRegister" parameterType="commentVO">
