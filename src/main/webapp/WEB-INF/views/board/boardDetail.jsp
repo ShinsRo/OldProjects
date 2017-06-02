@@ -29,7 +29,8 @@
                         <ul class="nav navbar-nav navbar-default">
                             <li><i class="fa fa-clock-o"></i>${bvo.time_posted}</li>
                             <li><img width="12" height="14" src="${pageContext.request.contextPath}/resources/images/portfolio-details/addr-icon.png" class="addr-icon">${bvo.addr}</li>
-                        </ul>
+                        </ul><br>
+                        <h3>작성자: ${bvo.id}</h3>
                     </div>
                     <div class="project-info overflow">
                         <h3>상품 설명</h3>
