@@ -14,7 +14,7 @@
 	}
 	function deleteComment(){
 		if(confirm("삭제하시겠습니까?")){
-			location.href="";
+			location.href="deleteComment.do?cno="+${requestScope.cvo.cno};
 		}else{
 			return false;
 		}
@@ -168,8 +168,10 @@
             </div>
             <div class="form-group" align="center">
 <input class="update_btn" type="button" value="목록" onclick="sendList()" >
+			<c:if test="${requestScope.cvo.id==sessionScope.mvo.id}">
 			 <input class="update_btn" type="button" value="수정" onclick="updateComment()">
 			 <input class="update_btn" type="button" value="삭제" onclick="deleteComment()">  
+			 </c:if>
             </div>
          </div>
       </div>

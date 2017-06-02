@@ -14,7 +14,7 @@
     			alert("본문을 입력하세요!");
     			return false;
     		}
-    		$("#update_form")[0].reset();
+    		$("#update_form").submit();
     	});
     	$("#resetBtn").click(function(){    		
     		$("#write_form")[0].reset();
@@ -55,6 +55,7 @@
                   required="required" value="${cvo.title }">
             </div>
             <div class="form-group" align="center">
+            <input type="hidden" name="cno" value="${cvo.cno}">
                <input type="text" name="writer"
                   class="postcodify_address form-control" value="작성자&nbsp;&nbsp;${sessionScope.mvo.name}"
                   readonly="readonly"/>
@@ -67,7 +68,7 @@
                   class="form-control" rows="15">${cvo.content }</textarea>
             </div>
             <div class="form-group" align="center">
-				<input class="btn btn-submit" type="button" id="updateBtn" onclick=submit value="수정하기" > 
+				<input class="btn btn-submit" type="button" id="updateBtn" value="수정하기" > 
             </div>
          </div>
       </div>

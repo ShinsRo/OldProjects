@@ -160,7 +160,7 @@ public class CommentController {
 	@RequestMapping("deleteComment.do")
 	public ModelAndView deleteBoard(int cno) {
 		commentService.deleteComment(cno);
-		return new ModelAndView("comment/commentList", "lvo", commentService.getCommentList());
+		return new ModelAndView("comment/commentList.tiles", "lvo", commentService.getCommentList());
 	}
 
 	/**
