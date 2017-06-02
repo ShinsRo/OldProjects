@@ -167,10 +167,10 @@
                   class="form-control" rows="15" readonly="readonly">${requestScope.cvo.content}</textarea>
             </div>
             <div class="form-group" align="center">
-<input class="update_btn" type="button" value="목록" onclick="sendList()" >
+			<input class="btn btn-info" type="button" value="목록" onclick="sendList()" >
 			<c:if test="${requestScope.cvo.id==sessionScope.mvo.id}">
-			 <input class="update_btn" type="button" value="수정" onclick="updateComment()">
-			 <input class="update_btn" type="button" value="삭제" onclick="deleteComment()">  
+			 <input class="btn btn-info" type="button" value="수정" onclick="updateComment()">
+			 <input class="btn btn-danger" type="button" value="삭제" onclick="deleteComment()">  
 			 </c:if>
             </div>
          </div>
