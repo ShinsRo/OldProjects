@@ -3,7 +3,9 @@ package org.kosta.goodmove.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -145,13 +147,18 @@ public class BoardController {
 
 	@RequestMapping("getApplication.do")
 	@ResponseBody
-	public String getApplication(Model model, String bno) {
+	public List<ApplicationVO> getApplication(String bno) {
 		int bno_int = Integer.parseInt(bno);
+		HashMap<String, Object> rsMap = new HashMap<>();
 		List<ApplicationVO> aList = boardService.getApplications(bno_int);
-		BoardVO bvo = boardService.getBoardDetailByBno(bno_int);
-		bvo.setaList(aList);
-		model.addAttribute(aList);
-		return aList.toString();
+		rsMap.put("apps", aList);
+		return aList;
+	}
+	
+	@RequestMapping("confirmApply.do")
+	public String confirmApply(String ano){
+		boardService.confirmApply(ano);
+		return "redirect:myBoardList.do";
 	}
 	// transaction
 	/*

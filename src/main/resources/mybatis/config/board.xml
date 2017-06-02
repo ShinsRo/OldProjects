@@ -64,6 +64,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id = "getApplications" parameterType = "int" resultType="applicationVO">
 		SELECT * FROM APPLICATION WHERE BNO = #{value}
 	</select>
+	<select id = "getProductByPno" resultType = "productVO">
+		SELECT * FROM G_PRODUCT WHERE PNO = #{value}
+	</select>
 	<select id="isGiveMeChecked" parameterType="applicationVO" resultType="int">
 		SELECT COUNT(*) FROM APPLICATION WHERE ID=#{id} AND BNO=#{bno}
 	</select>
@@ -80,6 +83,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		id, addr,bcontent, thumbpath, row_number() over(order by bno desc) as rnum from G_BOARD
 		where upper(${scategory}) like '%' || upper(#{word}) || '%') 
 		where rnum between #{startRowNumber} and #{endRowNumber}
+</select>
+<update id = "confirmApply">
+	UPDATE APPLICATION SET IS_SELECTED = 'SELECTED' WHERE ANO = #{value}
+</update>
+<update id = "nowUnavailable">
+	UPDATE G_PRODUCT SET IS_TRADED = 'SELECTED' WHERE PNO = #{value}
+	</update>
+	<select id = "getApplicationByAno" resultType = "applicationVO">
+	SELECT * FROM APPLICATION WHERE ANO = ${value}
+	</select>
+	<update id="Refresh" parameterType="int">
+	UPDATE G_BOARD SET IS_TRADED = 'TRADED' WHERE BNO = ${value}
+	</update>
+	<select id = "selectedProductCnt" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM G_PRODUCT WHERE BNO = #{value} AND IS_TRADED = 'SELECTED'
 	</select>
 </mapper>
  

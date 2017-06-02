@@ -45,4 +45,15 @@ public interface BoardDAO {
 
 	int getSearchContentCount(SearchVO searchVO);
 
+	ProductVO getProductByPno(String pno);
+
+	void confirmApply(String ano);
+
+	void nowUnavailable(String pno);
+
+	ApplicationVO getApplicationByAno(String ano);
+
+	void Refresh(int bno);
+
+	int selectedProductCnt(int bno);
 }

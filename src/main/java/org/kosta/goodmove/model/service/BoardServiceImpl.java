@@ -1,5 +1,6 @@
 package org.kosta.goodmove.model.service;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -35,6 +36,7 @@ public class BoardServiceImpl implements BoardService {
 	public int getCountBoard() {
 		return boardDAO.getTotalBoardCount();
 	}
+
 	@Override
 	public BoardListVO getAllBoardList() {
 		return getAllBoardList("1");
@@ -65,12 +67,11 @@ public class BoardServiceImpl implements BoardService {
 			pagingBean = new BoardPagingBean(totalCount);
 		else
 			pagingBean = new BoardPagingBean(totalCount, Integer.parseInt(pageNo));
-		
+
 		BoardListVO bList = new BoardListVO(boardDAO.getMyBoardList(pagingBean, id), pagingBean);
-		
+
 		for (Iterator<BoardVO> it = bList.getList().iterator(); it.hasNext();) {
 			BoardVO bvo = it.next();
-			bvo.setaList(boardDAO.getApplications(bvo.getBno()));
 			StringTokenizer tempAddr = new StringTokenizer(bvo.getAddr(), " ");
 			bvo.setAddr(tempAddr.nextToken() + " " + tempAddr.nextToken());
 		}
@@ -103,9 +104,9 @@ public class BoardServiceImpl implements BoardService {
 		}
 		boardDAO.boardRegister(bvo);
 	}
-	
+
 	@Override
-	public List<ProductVO> getProductImgByBno(int bno){
+	public List<ProductVO> getProductImgByBno(int bno) {
 		return boardDAO.getProductImgByBno(bno);
 	}
 
@@ -132,20 +133,48 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public String isGiveMeChecked(ApplicationVO avo) {
 		int isChecked = boardDAO.isGiveMeChecked(avo);
-		if(isChecked == 0){ // 처음 등록 신청한 사람
+		if (isChecked == 0) { // 처음 등록 신청한 사람
 			return "ok";
-		}else{
+		} else {
 			return "fail";
 		}
 	}
 
 	@Override
 	public List<ApplicationVO> getApplications(int bno_int) {
-		return boardDAO.getApplications(bno_int);
+		List<ApplicationVO> aList = boardDAO.getApplications(bno_int);
+		for (ApplicationVO avo : aList) {
+			String pno = "";
+			StringTokenizer st = new StringTokenizer(avo.getPnos(), ",");
+			avo.setpList(new ArrayList<ProductVO>());
+			while (st.hasMoreElements()) {
+				if ((pno = st.nextToken()) != "") {
+					avo.getpList().add(boardDAO.getProductByPno(pno));
+				}
+			}
+		}
+		System.out.println(aList);
+		return aList;
 	}
 
 	@Override
 	public List<ApplicationVO> getApplicationsById(String id) {
 		return boardDAO.getApplicationsById(id);
+	}
+
+	@Override
+	public void confirmApply(String ano) {
+		boardDAO.confirmApply(ano);
+		ApplicationVO avo = boardDAO.getApplicationByAno(ano);
+		String pno = "";
+		StringTokenizer st = new StringTokenizer(avo.getPnos(), ","); 
+		while (st.hasMoreElements()) {
+			if(( pno = st.nextToken()) != ""){
+				boardDAO.nowUnavailable(pno);
+			}
+		}
+		if(boardDAO.selectedProductCnt(avo.getBno()) > 0){
+			boardDAO.Refresh(avo.getBno());
+		}
 	}
 }
