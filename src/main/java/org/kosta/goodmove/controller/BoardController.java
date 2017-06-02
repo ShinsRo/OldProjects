@@ -135,11 +135,9 @@ public class BoardController {
 		avo.setId(userId);
 		avo.setBno(bno);
 		if (boardService.isGiveMeChecked(avo).equals("ok")) {
-			System.out.println("ok");
 			boardService.registerApplication(avo);
 			return "redirect:boardDetail.do?bno=" + bno;
 		} else {
-			System.out.println("fail");
 			return "board/giveMe_fail.tiles";
 		}
 

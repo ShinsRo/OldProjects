@@ -93,7 +93,6 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void boardRegister(BoardVO bvo, ProductSetVO psvo) {
-		System.out.println(bvo);
 		List<ProductVO> pList = bvo.getpList();
 		for (int i = 0; i < pList.size(); i++) {
 			ProductVO tempPVO = pList.get(i);
@@ -133,7 +132,6 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public String isGiveMeChecked(ApplicationVO avo) {
 		int isChecked = boardDAO.isGiveMeChecked(avo);
-		System.out.println(isChecked);
 		if(isChecked == 0){ // 처음 등록 신청한 사람
 			return "ok";
 		}else{
