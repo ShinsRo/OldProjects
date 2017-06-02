@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <section id="page-breadcrumb">
 	<div class="vertical-center sun">
 		<div class="container">
@@ -21,22 +21,20 @@
 			<tr>
 				<th>NO</th>
 				<th>신청번호</th>
-				<th>상품명</th>
-				<th>올린일</th>
+				<th>상품번호</th>
+				<th>신청사유</th>
 				<th>신청현황</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${requestScope.appList}" var="apl">
 				<tr>
-					<td>${apl.bno}</td>
+					<td><a
+						href="${pageContext.request.contextPath}/boardDetail.do?bno=${apl.bno}">${apl.bno}</a></td>
 					<td>${apl.ano}</td>
-				<%-- 	<td>${bvo.time_posted }</td>
-					<td>${bvo.hit }</td>
-					<td>${bvo.is_traded }&nbsp;&nbsp;&nbsp;
-						<button class="btn btn-sm btn-info" value="${bvo.bno}"
-							id="showApps">신청현황보기</button>
-					</td> --%>
+					<td>${apl.pnos}</td>
+					<td>${apl.reason}</td>
+					<td>${apl.is_selected}</td>
 				</tr>
 			</c:forEach>
 
@@ -44,10 +42,9 @@
 	</table>
 	<br></br>
 
-	<%-- <div class="portfolio-pagination">
+	<div class="portfolio-pagination">
 		<ul class="pagination">
 			<c:set var="pb" value="${requestScope.blvo.pagingBean}"></c:set>
-
 			<c:choose>
 				<c:when test="${pb.previousPageGroup}">
 					<li><a
@@ -82,6 +79,5 @@
 			</c:choose>
 		</ul>
 	</div>
- --%>
 	<br> <br>
 </div>

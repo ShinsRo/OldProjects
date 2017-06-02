@@ -35,7 +35,7 @@
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="active"><a href="${pageContext.request.contextPath}/home.do">Home</a></li>
-                         <li class="dropdown"><a href="portfolio.html">드려요<i class="fa fa-angle-down"></i></a>
+                         <li class="dropdown"><a href="">드려요<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
                                 <li><a href="${pageContext.request.contextPath}/getBoardList.do">드려요 모아보기</a></li>
                                 <c:if test="${sessionScope.mvo != null}">       
@@ -43,7 +43,7 @@
                                 </c:if>
                             </ul>
                         </li>
-                        <li class="dropdown"><a href="portfolio.html">여기는요<i class="fa fa-angle-down"></i></a>
+                        <li class="dropdown"><a href="">여기는요<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
                                 <li><a href="${pageContext.request.contextPath}/getCommentList.do">여기는요 모아보기</a></li>
                                 <c:if test="${sessionScope.mvo != null}">       
@@ -52,7 +52,7 @@
                             </ul>
                         </li>
                           <c:if test="${sessionScope.mvo != null}">       
-                        <li class="dropdown"><a href="portfolio.html">내 정보<i class="fa fa-angle-down"></i></a>
+                        <li class="dropdown"><a href="">내 정보<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
                             	<li><a href="${pageContext.request.contextPath}/member/updates.do">회원수정</a></li>
                                 <li><a href="${pageContext.request.contextPath}/myBoardList.do">내가 올린 드려요</a></li>
