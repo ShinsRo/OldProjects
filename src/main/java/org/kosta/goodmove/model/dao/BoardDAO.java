@@ -47,13 +47,13 @@ public interface BoardDAO {
 
 	ProductVO getProductByPno(String pno);
 
-	void confirmApply(String ano);
-
 	void nowUnavailable(String pno);
-
-	ApplicationVO getApplicationByAno(String ano);
 
 	void Refresh(int bno);
 
 	int selectedProductCnt(int bno);
+
+	void confirmApply(String bno, String id);
+
+	ApplicationVO getApplicationByPk(String bno, String id);
 }

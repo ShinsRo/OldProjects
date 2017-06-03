@@ -163,9 +163,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void confirmApply(String ano) {
-		boardDAO.confirmApply(ano);
-		ApplicationVO avo = boardDAO.getApplicationByAno(ano);
+	public void confirmApply(String bno, String id) {
+		boardDAO.confirmApply(bno, id);
+		ApplicationVO avo = boardDAO.getApplicationByPk(bno, id);
 		String pno = "";
 		StringTokenizer st = new StringTokenizer(avo.getPnos(), ","); 
 		while (st.hasMoreElements()) {

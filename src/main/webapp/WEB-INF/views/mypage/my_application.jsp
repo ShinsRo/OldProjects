@@ -20,10 +20,10 @@
 		<thead>
 			<tr>
 				<th>NO</th>
-				<th>신청번호</th>
 				<th>상품번호</th>
 				<th>신청사유</th>
 				<th>신청현황</th>
+				<th>용달 서비스 신청</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -31,10 +31,10 @@
 				<tr>
 					<td><a
 						href="${pageContext.request.contextPath}/boardDetail.do?bno=${apl.bno}">${apl.bno}</a></td>
-					<td>${apl.ano}</td>
 					<td>${apl.pnos}</td>
 					<td>${apl.reason}</td>
 					<td>${apl.is_selected}</td>
+					<td>${apl.is_delivery}</td>
 				</tr>
 			</c:forEach>
 
