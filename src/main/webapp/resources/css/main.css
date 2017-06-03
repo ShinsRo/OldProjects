@@ -2742,7 +2742,7 @@ span.stButton_gradient,
 .reply_field{
 	height:50px;
 	resize:none;
-	border:none;
+	border: 1px solid #D8D8D8;
 }
 
 .reply_field:focus{
@@ -2768,7 +2768,7 @@ span.stButton_gradient,
 	color: gray;
 }
 .box_reply{
-	background-color: #FAFAAA;
+	background-color: #CEE3F6;
 	margin-bottom: 50px;
 }
 
