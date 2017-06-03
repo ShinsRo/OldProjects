@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -129,14 +128,12 @@ public class BoardController {
 	 */
 	@RequestMapping("registerGiveMe.do")
 	public String registerGiveMe(ApplicationVO avo, HttpServletRequest req, String writer, int bno) {
-		int ano = boardService.getNextAno();
-		/* int tno = boardService.getNextTno(); */
 		String userId = ((MemberVO) req.getSession(false).getAttribute("mvo")).getId();
 		// application
-		avo.setAno(ano);
 		avo.setId(userId);
 		avo.setBno(bno);
 		if (boardService.isGiveMeChecked(avo).equals("ok")) {
+			System.out.println("주세요 신청 avo: "+avo);
 			boardService.registerApplication(avo);
 			return "redirect:boardDetail.do?bno=" + bno;
 		} else {

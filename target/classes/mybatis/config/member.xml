@@ -3,62 +3,75 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="member"> 	
-		<sql id="selectMember">
-			SELECT ID,PASSWORD,NAME,ADDR,ADDR_DETAIL,TEL,JOB FROM GD_MEMBER
-		</sql>
-		<select id="findMemberById" resultType="memberVO">
+<mapper namespace="member">
+	<sql id="selectMember">
+		SELECT ID,PASSWORD,NAME,ADDR,ADDR_DETAIL,TEL,JOB FROM GD_MEMBER
+	</sql>
+	<select id="findMemberById" resultType="memberVO">
 		<include refid="selectMember"></include>
 		WHERE ID=#{value}
-		</select>
-		<select id="login" resultType="memberVO" parameterType="memberVO">
- 		<include refid="selectMember"></include>
- 		WHERE ID=#{id} AND PASSWORD=#{password}  AND deletemember='TRUE'
- 	</select>
- 	<update id="updateMember" parameterType="memberVO">
-		UPDATE GD_MEMBER SET PASSWORD=#{password}, ADDR=#{addr}, ADDR_DETAIL=#{addr_detail}, TEL=#{tel}, Job=#{job}
+	</select>
+	<select id="login" resultType="memberVO" parameterType="memberVO">
+		<include refid="selectMember"></include>
+		WHERE ID=#{id} AND PASSWORD=#{password} AND deletemember='TRUE'
+	</select>
+	<update id="updateMember" parameterType="memberVO">
+		UPDATE GD_MEMBER SET
+		PASSWORD=#{password}, ADDR=#{addr}, ADDR_DETAIL=#{addr_detail},
+		TEL=#{tel}, Job=#{job}
 		WHERE ID=#{id}
 	</update>
 	<select id="getMemberCount" resultType="int">
- 		SELECT COUNT(*) FROM GD_MEMBER
- 	</select>
+		SELECT COUNT(*) FROM GD_MEMBER
+	</select>
 	<insert id="register" parameterType="memberVO">
-		INSERT INTO GD_MEMBER(ID,PASSWORD,NAME,ADDR,ADDR_DETAIL,TEL,JOB)
+		INSERT INTO
+		GD_MEMBER(ID,PASSWORD,NAME,ADDR,ADDR_DETAIL,TEL,JOB)
 		VALUES(#{id},#{password},#{name},#{addr},#{addr_detail},#{tel},#{job})
 	</insert>
-		<select id="idcheck" resultType="int">
-		SELECT COUNT(*) FROM GD_MEMBER WHERE ID=#{value}
-		</select>
-		<select id="passwordCheck" resultType="int">
-		SELECT COUNT(*) FROM GD_MEMBER WHERE PASSWORD=#{value}
-		</select>
-		<update id="deleteMember" parameterType="memberVO"> 
-		UPDATE GD_MEMBER SET deletemember='FALSE' WHERE ID=#{id} AND PASSWORD=#{password}
+	<select id="idcheck" resultType="int">
+		SELECT COUNT(*) FROM GD_MEMBER
+		WHERE ID=#{value}
+	</select>
+	<select id="passwordCheck" resultType="int">
+		SELECT COUNT(*) FROM
+		GD_MEMBER WHERE PASSWORD=#{value}
+	</select>
+	<update id="deleteMember" parameterType="memberVO">
+		UPDATE GD_MEMBER SET deletemember='FALSE' WHERE ID=#{id} AND
+		PASSWORD=#{password}
 	</update>
-	<select id="forgotId"  resultType="memberVO" parameterType="String">
-		 SELECT ID,deletemember FROM GD_MEMBER WHERE  NAME=#{name} AND TEL=#{tel} AND deletemember='TRUE'
+	<select id="forgotId" resultType="memberVO" parameterType="String">
+		SELECT ID,deletemember FROM GD_MEMBER WHERE NAME=#{name} AND
+		TEL=#{tel} AND deletemember='TRUE'
 	</select>
 	<select id="forgotPass" resultType="memberVO" parameterType="String">
-	<include refid="selectMember"></include>
+		<include refid="selectMember"></include>
 		WHERE ID=#{id} AND NAME=#{name} AND TEL=#{tel} AND deletemember='TRUE'
 	</select>
 	<update id="changePass" parameterType="memberVO">
-		UPDATE GD_MEMBER SET PASSWORD=#{password}	WHERE ID=#{id}
+		UPDATE GD_MEMBER SET
+		PASSWORD=#{password} WHERE ID=#{id}
 	</update>
 	<select id="today" resultType="String">
-		select sdate from (select to_char(sysdate,'YYYY.MM.DD') as sdate, row_number() over(order by sysdate desc) as rnum from dual) where rnum=1
+		select sdate from (select
+		to_char(sysdate,'YYYY.MM.DD') as sdate, row_number() over(order by
+		sysdate desc) as rnum from dual) where rnum=1
 	</select>
 	<select id="findtoday" resultType="int" parameterType="hashMap">
-		select count(*) from visit where id=#{info} and day=#{today}
+		select
+		count(*) from visit where id=#{info} and day=#{today}
 	</select>
 	<insert id="insertday" parameterType="hashMap">
-		insert into visit(id, day) values(#{info},#{today})
+		insert into visit(id, day)
+		values(#{info},#{today})
 	</insert>
 	<update id="upcount" parameterType="hashMap">
-		update visit set count=count+1 where id=#{info} and day=#{today}
+		update visit set
+		count=count+1 where id=#{info} and day=#{today}
 	</update>
 	<select id="getcount" resultType="int" parameterType="hashMap">
-	select count(*) from visit where day=#{today}
+		select count(*) from visit where day=#{today}
 	</select>
 </mapper>
  
