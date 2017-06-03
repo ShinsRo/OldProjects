@@ -43,10 +43,10 @@ $("#next").click(function(){
 </section>
    <div class="btnn"><a href="${pageContext.request.contextPath }/member/registers_terms.do">
    <button id="btn" name="reg_term" >이용약관</button></a>&nbsp;
-   <img class="begin_img" src="${pageContext.request.contextPath}/resources/img/begin.png" alt="begin" height="40" width="40" >
+   <img class="begin_img" src="${pageContext.request.contextPath}/img/begin.png" alt="begin" height="40" width="40" >
    <a href="${pageContext.request.contextPath }/member/registers.do">
    <button id="btn"  name="reg" >회원가입</button></a>&nbsp;
-    <img class="begin_img" src="${pageContext.request.contextPath}/resources/img/begin.png" alt="begin" height="40" width="40">
+    <img class="begin_img" src="${pageContext.request.contextPath}/img/begin.png" alt="begin" height="40" width="40">
    <a href="${pageContext.request.contextPath }/member/registers_result.do">
    <button id="btn"  name="reg_result">가입완료</button></a>
    </div>
