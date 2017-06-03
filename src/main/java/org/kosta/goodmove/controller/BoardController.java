@@ -145,14 +145,12 @@ public class BoardController {
 
 	}
 
-	@RequestMapping("getApplication.do")
-	@ResponseBody
-	public List<ApplicationVO> getApplication(String bno) {
+	@RequestMapping("getApplications.do")
+	public String getApplication(String bno, Model model) {
 		int bno_int = Integer.parseInt(bno);
-		HashMap<String, Object> rsMap = new HashMap<>();
 		List<ApplicationVO> aList = boardService.getApplications(bno_int);
-		rsMap.put("apps", aList);
-		return aList;
+		model.addAttribute("aList", aList);
+		return "mypage/applications";
 	}
 	
 	@RequestMapping("confirmApply.do")
