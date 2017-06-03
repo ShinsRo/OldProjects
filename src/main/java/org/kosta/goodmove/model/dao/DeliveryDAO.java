@@ -14,6 +14,6 @@ public interface DeliveryDAO {
 
 	int passwordCheck(String password);
 
-	void deleteDelivery(String id, String password);
+	void deleteDelivery(DeliveryVO dvo);
 
 }

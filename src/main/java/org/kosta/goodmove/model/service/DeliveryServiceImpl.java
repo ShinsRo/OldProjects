@@ -14,17 +14,17 @@ public class DeliveryServiceImpl implements DeliveryService {
 
 	@Override
 	public DeliveryVO login(DeliveryVO dvo) {
-		return null;
+		return dao.login(dvo);
 	}
 
 	@Override
 	public void register(DeliveryVO dvo) {
-
+		dao.register(dvo);
 	}
 
 	@Override
 	public int idcheck(String id) {
-		return 0;
+		return dao.idcheck(id);
 	}
 
 	@Override
@@ -34,11 +34,12 @@ public class DeliveryServiceImpl implements DeliveryService {
 
 	@Override
 	public int passwordCheck(String password) {
-		return 0;
+		return dao.passwordCheck(password);
 	}
 
 	@Override
-	public void deleteDelivery(String id, String password) {
+	public void deleteDelivery(DeliveryVO dvo) {
+		dao.deleteDelivery(dvo);
 	}
 
 }

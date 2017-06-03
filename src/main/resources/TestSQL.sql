@@ -94,3 +94,7 @@ select count(*) from visit where day='2017.05.31'
 
 --
 select *from APPLICATION,G_PRODUCT where id='spring';
+
+insert into
+		delivery(id,name,password,tel)
+		values('test12y','test','1234','01034323232');

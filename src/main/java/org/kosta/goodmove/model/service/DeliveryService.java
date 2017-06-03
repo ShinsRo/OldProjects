@@ -14,6 +14,6 @@ public interface DeliveryService {
 
 	int passwordCheck(String password);
 
-	void deleteDelivery(String id, String password);
+	void deleteDelivery(DeliveryVO dvo);
 
 }

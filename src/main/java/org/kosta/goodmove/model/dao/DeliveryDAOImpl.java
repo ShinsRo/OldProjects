@@ -13,38 +13,32 @@ public class DeliveryDAOImpl implements DeliveryDAO {
 
 	@Override
 	public DeliveryVO login(DeliveryVO dvo) {
-		// TODO Auto-generated method stub
-		return null;
+		return template.selectOne("delivery.login",dvo);
 	}
 
 	@Override
 	public void register(DeliveryVO dvo) {
-		// TODO Auto-generated method stub
-
+		template.insert("delivery.register", dvo);
 	}
 
 	@Override
 	public int idcheck(String id) {
-		// TODO Auto-generated method stub
-		return 0;
+		return template.selectOne("delivery.idcheck", "id");
 	}
 
 	@Override
 	public int getTotalDelivery() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 0;	
 	}
 
 	@Override
 	public int passwordCheck(String password) {
-		// TODO Auto-generated method stub
-		return 0;
+		return template.selectOne("delivery.passwordCheck", password);
 	}
 
 	@Override
-	public void deleteDelivery(String id, String password) {
-		// TODO Auto-generated method stub
-
+	public void deleteDelivery(DeliveryVO dvo) {
+		template.delete("delivery.deleteDelivery", dvo);
 	}
 
 }

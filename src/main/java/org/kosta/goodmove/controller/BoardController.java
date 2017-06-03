@@ -133,7 +133,6 @@ public class BoardController {
 		avo.setId(userId);
 		avo.setBno(bno);
 		if (boardService.isGiveMeChecked(avo).equals("ok")) {
-			System.out.println("주세요 신청 avo: "+avo);
 			boardService.registerApplication(avo);
 			return "redirect:boardDetail.do?bno=" + bno;
 		} else {
