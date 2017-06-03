@@ -24,5 +24,4 @@ public interface MemberDAO {
 	public MemberVO forgotPass(String id,String name, String tel);
 	
 	public void changePass(String id,String password);
-
 }

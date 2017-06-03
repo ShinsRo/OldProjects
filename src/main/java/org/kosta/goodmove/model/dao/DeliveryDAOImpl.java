@@ -23,7 +23,7 @@ public class DeliveryDAOImpl implements DeliveryDAO {
 
 	@Override
 	public int idcheck(String id) {
-		return template.selectOne("delivery.idcheck", "id");
+		return template.selectOne("delivery.idcheck", id);
 	}
 
 	@Override

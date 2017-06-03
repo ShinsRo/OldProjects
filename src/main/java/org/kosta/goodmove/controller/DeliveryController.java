@@ -54,5 +54,4 @@ public class DeliveryController {
 		int count=service.idcheck(id);
 		return (count==0)? "ok":"fail";
 	}
-	
 }

@@ -65,5 +65,5 @@ public class MemberServiceImpl implements MemberService {
 	public void changePass(String id, String password) {
 		memberDAO.changePass(id, password);
 		
-	}	
+	}
 }
