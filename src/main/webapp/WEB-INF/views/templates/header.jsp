@@ -63,7 +63,7 @@
                         </c:if>
                          <c:if test="${sessionScope.mvo == null}">                     
 	                        <li><a href="${pageContext.request.contextPath}/member/logins.do">로그인</a></li>
-	                        <li><a href="${pageContext.request.contextPath }/member/registers.do">회원가입</a></li> 
+	                        <li><a href="${pageContext.request.contextPath }/member/registers_terms.do">회원가입</a></li> 
                         </c:if>
                         <c:if test="${sessionScope.mvo != null }">
 	                        <li><a href="${pageContext.request.contextPath }/member/updates.do">${sessionScope.mvo.name}님 로그인</a></li>

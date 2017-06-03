@@ -93,6 +93,24 @@
 </script>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/resources/member/updates.css">
+		<!-- 배너 타이틀 -->
+<section id="page-breadcrumb">
+	<div class="vertical-center sun">
+		<div class="container">
+			<div class="row">
+				<div class="action">
+					<div class="col-sm-12">
+						<h1 class="title">드려요 작성하기</h1>
+						<p>
+							<br>버리기 아까운 물건들에게 새 주인을 찾아주세요
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!--배너 타이틀-->
 <section>
 	<div class="container">
 		<div class="row">

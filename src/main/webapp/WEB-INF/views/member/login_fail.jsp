@@ -19,7 +19,24 @@
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/resources/member/result.css">
 </head>
-
+	<!-- 배너 타이틀 -->
+<section id="page-breadcrumb">
+	<div class="vertical-center sun">
+		<div class="container">
+			<div class="row">
+				<div class="action">
+					<div class="col-sm-12">
+						<h1 class="title">등록되지 않은 회원</h1>
+						<p>
+							<br>회원이 없어요 등록해주세요
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!--배너 타이틀-->
 <body onkeypress="keypress()" class="result" >
 	<c:if test="${sessionScope.mvo==null}">
 				<h1>회원정보 없음</h1>
