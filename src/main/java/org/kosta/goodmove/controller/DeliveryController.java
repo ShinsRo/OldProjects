@@ -23,7 +23,7 @@ public class DeliveryController {
 		if(vo==null){
 			return "member/login_fail.tiles";
 		}else{
-			request.getSession().setAttribute("mvo", vo);
+			request.getSession().setAttribute("dvo", vo);
 			return "redirect:home.do";
 		}
 	}
@@ -35,8 +35,7 @@ public class DeliveryController {
 	@RequestMapping(value = "register_delivery.do", method = RequestMethod.POST)
 	public String register(DeliveryVO dvo, String tel1, String tel2, String tel3) {
 		dvo.setTel(tel1 + tel2 + tel3);
-//		service.register(dvo);
-		System.out.println(dvo+" 회원가입 완료");
+		service.register(dvo);
 		return "redirect:home.do";
 	}
 
