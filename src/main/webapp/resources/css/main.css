@@ -172,8 +172,17 @@
   margin-bottom: 0;
   padding: 30px 0 60px 0;
 }
+#header_admin{
+  margin-bottom: 0;
+  padding: 30px 0 60px 0;
+  background-color: #000000;
+}
 
 #header .navbar-inverse .container{
+  position: relative;
+}
+
+#header_header .navbar-inverse .container{
   position: relative;
 }
 
@@ -264,6 +273,11 @@
 }
 
 #header .navbar-brand{
+  padding: 0;
+  margin-left: 0;
+}
+
+#header_admin .navbar-brand{
   padding: 0;
   margin-left: 0;
 }
