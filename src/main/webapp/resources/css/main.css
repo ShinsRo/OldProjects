@@ -2732,3 +2732,43 @@ span.stButton_gradient,
 #modal-content{
 	padding:15px !important;
 }
+
+/* 댓글 css*/
+/* .replyList{
+	border: 1px solid white;
+	padding: 5px;
+	width: 100%;
+} */
+.reply_field{
+	height:50px;
+	resize:none;
+	border: 1px solid #D8D8D8;
+}
+
+.reply_field:focus{
+	outline:none;
+}
+
+.nickspan{
+	font-weight: bold;
+}
+.cmlist{
+	list-style:none;
+	padding:0;
+	margin:0;
+}
+.box_reply{
+	width:100%;
+}
+.cm_list_box{
+	min-height: 50px;
+}
+.cmdate{
+	font-size: 10pt;
+	color: gray;
+}
+.box_reply{
+	background-color: #CEE3F6;
+	margin-bottom: 50px;
+}
+
