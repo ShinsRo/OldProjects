@@ -110,14 +110,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		|| '%')
 		where rnum between #{startRowNumber} and #{endRowNumber}
 	</select>
-	<update id="confirmApply">
-		UPDATE APPLICATION SET IS_SELECTED = 'SELECTED' WHERE ANO = #{value}
+	<update id="confirmApply" parameterType="hashMap">
+		UPDATE APPLICATION SET IS_SELECTED = 'SELECTED' WHERE BNO = #{bno} AND ID = #{id}
 	</update>
 	<update id="nowUnavailable">
 		UPDATE G_PRODUCT SET IS_TRADED = 'SELECTED' WHERE PNO = #{value}
 	</update>
-	<select id="getApplicationByAno" resultType="applicationVO">
-		SELECT * FROM APPLICATION WHERE ANO = ${value}
+	<select id="getApplicationByPk" parameterType="hashMap" resultType="applicationVO">
+		SELECT * FROM APPLICATION WHERE BNO = #{bno} AND ID = #{id}
 	</select>
 	<update id="Refresh" parameterType="int">
 		UPDATE G_BOARD SET IS_TRADED = 'TRADED' WHERE BNO = ${value}
