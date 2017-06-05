@@ -30,7 +30,6 @@
                     <a class="navbar-brand" href="${pageContext.request.contextPath}/home.do">
                     	<h1><img class="logo_img" src="${pageContext.request.contextPath}/resources/img/logo_tw.png" alt="logo" height="100" width="100"></h1>
                     </a>
-                    
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">

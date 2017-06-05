@@ -174,4 +174,14 @@ public class BoardController {
 		model.addAttribute("appList", appList);
 		return "mypage/my_application.tiles";
 	}
+/*	@RequestMapping("getBoardList.do")
+	public String boardList(String pageNo, Model model) {
+		BoardListVO blvo = boardService.getAllBoardList(pageNo);
+		model.addAttribute("blvo", blvo);
+		return "board/boardList.tiles";
+	}*/
+	@RequestMapping("getBoardList_admin.do")
+	public String getBoardList_admin(String pageNo, Model model){
+		return null;
+	}
 }

@@ -1,6 +1,9 @@
 package org.kosta.goodmove.model.dao;
 
+import java.util.List;
+
 import org.kosta.goodmove.model.vo.MemberVO;
+import org.kosta.goodmove.model.vo.PagingBean;
 
 public interface MemberDAO {
 	public MemberVO findMemberById(String id);
@@ -24,5 +27,11 @@ public interface MemberDAO {
 	public MemberVO forgotPass(String id,String name, String tel);
 	
 	public void changePass(String id,String password);
+
+	int getTotalMemberCount();
+
+	List<MemberVO> getMemberList_admin(PagingBean pagingBean);
+
+	void deleteMember_admin(String id);
 
 }
