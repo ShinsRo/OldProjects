@@ -24,6 +24,7 @@
 				<th>신청사유</th>
 				<th>신청현황</th>
 				<th>용달 서비스 신청</th>
+				<th>수령 여부</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -35,6 +36,14 @@
 					<td>${apl.reason}</td>
 					<td>${apl.is_selected}</td>
 					<td>${apl.is_delivery}</td>
+					<td>
+					<c:if test="${apl.is_done == 'NO' }">
+					미수령 <button class = "btn btn-sm btn-success">확인</button>
+					</c:if>
+					<c:if test = "${apl.is_done == 'YES' }">
+					수령 완료 <button class = "btn btn-sm btn-">취소</button>
+					</c:if>
+					</td>
 				</tr>
 			</c:forEach>
 
