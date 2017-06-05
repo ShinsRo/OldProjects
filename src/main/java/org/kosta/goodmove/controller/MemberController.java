@@ -196,7 +196,7 @@ public class MemberController {
 	public String getMemberList_admin(Model model){
 		int pageNo = 1;
 		model.addAttribute("lvo",service.getMemberList_admin(pageNo));
-		return "admin/memberList_admin.tiles";
+		return "admin/memberList_admin.tiles2";
 	}
 	@RequestMapping("deleteMember_admin.do")
 	public String deleteMember_admin(String id, Model model){
@@ -204,12 +204,12 @@ public class MemberController {
 		int pageNo = 1;
 		model.addAttribute("lvo", service.getMemberList_admin(pageNo));
 		System.out.println("삭제완료!");
-		return "admin/memberList_admin.tiles";
+		return "admin/memberList_admin.tiles2";
 }
 	@RequestMapping("updateMember_admin.do")
 	public String updateMember_admin(String id, Model model){
 		model.addAttribute("mvo", service.findMemberById(id));
-		return "admin/updateMember_admin.tiles";
+		return "admin/updateMember_admin.tiles2";
 	}
 	@RequestMapping(value="updateMember_admin.do",method=RequestMethod.POST)
 	public String updateMember_admin(Model model,MemberVO memberVO, String tel1, String tel2, String tel3){	
@@ -217,7 +217,7 @@ public class MemberController {
 				service.updateMember(memberVO);
 				int pageNo = 1;
 				model.addAttribute("lvo",service.getMemberList_admin(pageNo));
-				return "admin/memberList_admin.tiles";
+				return "admin/memberList_admin.tiles2";
 	}
 }
 
