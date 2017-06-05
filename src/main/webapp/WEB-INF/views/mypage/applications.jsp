@@ -95,7 +95,7 @@
 							${avo.reason }
 							<div align="right">
 								<input type="hidden" id="${avo.id }bno" value="${avo.bno }">
-								<c:if test="${avo.is_selected != 'SELECTED' & avo.is_done = 'disabled'}">
+								<c:if test="${avo.is_selected != 'SELECTED' && avo.is_done != 'DISABLED'}">
 									<button class='btn btn-sm btn-info' id="selectApp"
 										value="${avo.id}">채택</button>
 								</c:if>

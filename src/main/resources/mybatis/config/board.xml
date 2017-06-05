@@ -130,7 +130,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE APPLICATION SET IS_DELIVERY= 'YES' WHERE BNO = ${value} AND ID = #{id}
 	</update>
 	<update id = "disableOtherApps">
-		UPDATE APPLICATION SET IS_DONE = 'DISABLE' WHERE BNO = ${value} AND ID = #{id}
+		UPDATE APPLICATION SET IS_DONE = 'DISABLED' WHERE BNO = ${value} AND ID = #{id}
 	</update>
 </mapper>
  
