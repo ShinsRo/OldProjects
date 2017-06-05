@@ -1,5 +1,6 @@
 package org.kosta.goodmove.model.service;
 
+import org.kosta.goodmove.model.vo.MemberListVO;
 import org.kosta.goodmove.model.vo.MemberVO;
 
 public interface MemberService {
@@ -25,4 +26,10 @@ public interface MemberService {
 	void deleteMember(String id,String password);
 	
 	public void changePass(String id,String password);
+
+	int getTotalMemberCount();
+
+	MemberListVO getMemberList_admin(int pageNo);
+
+	void deleteMember_admin(String id);
 }

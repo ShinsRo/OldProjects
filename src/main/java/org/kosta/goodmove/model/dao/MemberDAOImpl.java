@@ -1,8 +1,11 @@
 package org.kosta.goodmove.model.dao;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.kosta.goodmove.model.vo.MemberVO;
+import org.kosta.goodmove.model.vo.PagingBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -74,5 +77,21 @@ public class MemberDAOImpl implements MemberDAO{
 		vo.setId(id);
 		vo.setPassword(password);
 		template.update("member.changePass", vo);
-	}	
+	}
+	
+	/** 
+	 * 관리자 회원관리
+	 */
+	@Override
+	public int getTotalMemberCount(){
+		return template.selectOne("member.getTotalMemberCount");
+	}
+	@Override
+	public List<MemberVO> getMemberList_admin(PagingBean pagingBean){
+		return template.selectList("member.getMemberList_admin",pagingBean);
+	}
+	@Override
+	public void deleteMember_admin(String id){
+		template.update("member.deleteMember_admin",id);
+	}
 }

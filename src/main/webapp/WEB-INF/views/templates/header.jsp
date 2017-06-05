@@ -34,6 +34,9 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
+                    <c:if test="${sessionScope.mvo.id == 'admin' }">
+	                        <li><a href="${pageContext.request.contextPath }/admin.do">관리자페이지</a></li>
+                        </c:if>
                         <li class="active"><a href="${pageContext.request.contextPath}/home.do">Home</a></li>
                          <li class="dropdown"><a href="">드려요<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
