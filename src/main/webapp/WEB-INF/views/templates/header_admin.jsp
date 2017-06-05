@@ -34,42 +34,14 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="${pageContext.request.contextPath}/home.do">Home</a></li>
-                         <li class="dropdown"><a href="">드려요<i class="fa fa-angle-down"></i></a>
-                            <ul role="menu" class="sub-menu">
-                                <li><a href="${pageContext.request.contextPath}/getBoardList.do">드려요 모아보기</a></li>
-                                <c:if test="${sessionScope.mvo != null}">       
-                                	<li><a href="${pageContext.request.contextPath}/boardRegisterView.do">드려요 작성하기</a></li>
-                                </c:if>
-                            </ul>
-                        </li>
-                        <li class="dropdown"><a href="">여기는요<i class="fa fa-angle-down"></i></a>
-                            <ul role="menu" class="sub-menu">
-                                <li><a href="${pageContext.request.contextPath}/getCommentList.do">여기는요 모아보기</a></li>
-                                <c:if test="${sessionScope.mvo != null}">       
-                                	<li><a href="${pageContext.request.contextPath}/commentRegisterView.do">여기는요 작성하기</a></li>
-                                </c:if>
-                            </ul>
-                        </li>
-                          <c:if test="${sessionScope.mvo != null}">       
-                        <li class="dropdown"><a href="">내 정보<i class="fa fa-angle-down"></i></a>
-                            <ul role="menu" class="sub-menu">
-                            	<li><a href="${pageContext.request.contextPath}/member/updates.do">회원수정</a></li>
-                                <li><a href="${pageContext.request.contextPath}/myBoardList.do">내가 올린 드려요</a></li>
-                                <li><a href="${pageContext.request.contextPath}/getCommentList.do?id=${sessionScope.mvo.id}">내가 쓴 여기는요 </a></li>
-                                <li><a href="${pageContext.request.contextPath}/getApplicationsById.do">주세요 현황</a></li>
-                            </ul>
-                        </li>  
-                        </c:if>
-                         <c:if test="${sessionScope.mvo == null}">                     
-	                        <li><a href="${pageContext.request.contextPath}/member/logins.do">로그인</a></li>
-	                        <li><a href="${pageContext.request.contextPath }/member/registers.do">회원가입</a></li> 
-                        </c:if>
-                        <c:if test="${sessionScope.mvo != null }">
-	                        <li><a href="${pageContext.request.contextPath }/member/updates.do">${sessionScope.mvo.name}님 로그인</a></li>
-	                        <li><a href="${pageContext.request.contextPath }/logout.do">로그아웃</a></li>
-                        </c:if>
-                        <li><a href="${pageContext.request.contextPath}/member/contact.do">Contact</a></li>
+                    	<li class="active"><a href="${pageContext.request.contextPath}/admin.do">관리자홈으로</a></li>
+                        <li class="active"><a href="${pageContext.request.contextPath}/home.do">일반홈으로</a></li>
+                        <li class="active"><a href="${pageContext.request.contextPath}/getBoardList.do">상품관리</a></li>
+                        <li class="active"><a href="${pageContext.request.contextPath}/getCommentList.do">후기관리</a></li>
+                        <li class="active"><a href="${pageContext.request.contextPath}/getMemberList.do">후기관리</a></li>
+                       	<li class="active"><a href="${pageContext.request.contextPath}/admin.do">용달관리</a></li>
+                       	<li class="active"><a href="${pageContext.request.contextPath}/logout.do">로그아웃</a></li>
+                        
                     </ul>
                 </div>
             </div>
