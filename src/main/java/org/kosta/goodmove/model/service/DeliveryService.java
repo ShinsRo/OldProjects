@@ -1,5 +1,8 @@
 package org.kosta.goodmove.model.service;
 
+import java.util.List;
+
+import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.DeliveryVO;
 
 public interface DeliveryService {
@@ -18,4 +21,5 @@ public interface DeliveryService {
 
 	public void convertDoneState(String id, String bno, String currState);
 
+	List<ApplicationVO> getAllDeliveryList();
 }

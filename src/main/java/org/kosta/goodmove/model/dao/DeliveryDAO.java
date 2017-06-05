@@ -1,5 +1,8 @@
 package org.kosta.goodmove.model.dao;
 
+import java.util.List;
+
+import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.DeliveryVO;
 
 public interface DeliveryDAO {
@@ -17,4 +20,6 @@ public interface DeliveryDAO {
 	void deleteDelivery(DeliveryVO dvo);
 
 	public void convertDoneState(String id, String bno, String state);
+	
+	List<ApplicationVO> getAllDeliveryList();
 }

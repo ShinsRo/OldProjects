@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.kosta.goodmove.model.service.DeliveryService;
 import org.kosta.goodmove.model.vo.DeliveryVO;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -57,5 +58,10 @@ public class DeliveryController {
 	public String convertDoneState(String id, String bno, String currState){
 		service.convertDoneState(id, bno, currState);
 		return "redirect:getApplicationsById.do";
+	}
+	@RequestMapping("getAllDeliveryList.do")
+	public String getAllDeliveryList(Model model){
+		model.addAttribute("delivery_list", service.getAllDeliveryList());
+		return "delivery/delivery_list.tiles";
 	}
 }

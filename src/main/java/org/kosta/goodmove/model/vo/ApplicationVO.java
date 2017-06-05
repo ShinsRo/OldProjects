@@ -19,7 +19,6 @@ public class ApplicationVO {
 	private List<ProductVO> pList;
 	public ApplicationVO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public ApplicationVO(int bno, String reason, String pnos, String id, String is_selected, String is_delivery,
 			String is_done, List<ProductVO> pList) {

@@ -1,9 +1,11 @@
 package org.kosta.goodmove.model.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.DeliveryVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -50,6 +52,9 @@ public class DeliveryDAOImpl implements DeliveryDAO {
 		paramMap.put("id", id);
 		paramMap.put("state", state);
 		template.update("delivery.convertDoneState", paramMap);
+	}
+	public List<ApplicationVO> getAllDeliveryList() {
+		return template.selectList("delivery.getAllDeliveryList");
 	}
 
 }

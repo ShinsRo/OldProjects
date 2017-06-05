@@ -1,8 +1,11 @@
 package org.kosta.goodmove.model.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.kosta.goodmove.model.dao.DeliveryDAO;
+import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.DeliveryVO;
 import org.springframework.stereotype.Service;
 
@@ -49,5 +52,9 @@ public class DeliveryServiceImpl implements DeliveryService {
 		else state = "YES";
 		dao.convertDoneState(id, bno, state);
 	}
+	public List<ApplicationVO> getAllDeliveryList() {
+		return dao.getAllDeliveryList();
+	}
+	
 
 }
