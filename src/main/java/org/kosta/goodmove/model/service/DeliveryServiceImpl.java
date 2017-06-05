@@ -1,12 +1,15 @@
 package org.kosta.goodmove.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.kosta.goodmove.model.dao.DeliveryDAO;
 import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.DeliveryVO;
+import org.kosta.goodmove.model.vo.MemberVO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -52,9 +55,16 @@ public class DeliveryServiceImpl implements DeliveryService {
 		else state = "YES";
 		dao.convertDoneState(id, bno, state);
 	}
+	@Override
 	public List<ApplicationVO> getAllDeliveryList() {
 		return dao.getAllDeliveryList();
 	}
-	
+	@Override
+	public Map<String, MemberVO> getDeliveryDetail(String id,String bno){
+		Map<String, MemberVO> map = new HashMap<>();
+		map.put("giver", dao.selectGiverByBno(bno));
+		map.put("reciever", dao.selectRecieverById(id));
+		return map;
+	}
 
 }

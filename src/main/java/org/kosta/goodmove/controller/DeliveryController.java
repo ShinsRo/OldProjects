@@ -1,11 +1,14 @@
 package org.kosta.goodmove.controller;
 
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.kosta.goodmove.model.service.DeliveryService;
 import org.kosta.goodmove.model.vo.DeliveryVO;
+import org.kosta.goodmove.model.vo.MemberVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,5 +66,11 @@ public class DeliveryController {
 	public String getAllDeliveryList(Model model){
 		model.addAttribute("delivery_list", service.getAllDeliveryList());
 		return "delivery/delivery_list.tiles";
+	}
+	@RequestMapping("getDeliveryDetail.do")
+	public String getDeliveryDetail(String id,String bno, Model model) {
+		Map<String, MemberVO> map= service.getDeliveryDetail(id, bno);
+		model.addAttribute("map",map);
+		return "delivery/deliveryDetail";
 	}
 }

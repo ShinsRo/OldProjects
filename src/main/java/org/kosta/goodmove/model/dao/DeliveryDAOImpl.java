@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.DeliveryVO;
+import org.kosta.goodmove.model.vo.MemberVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -55,6 +56,16 @@ public class DeliveryDAOImpl implements DeliveryDAO {
 	}
 	public List<ApplicationVO> getAllDeliveryList() {
 		return template.selectList("delivery.getAllDeliveryList");
+	}
+
+	@Override
+	public MemberVO selectRecieverById(String id) {
+		return template.selectOne("delivery.selectRecieverById", id);
+	}
+
+	@Override
+	public MemberVO selectGiverByBno(String bno) {
+		return template.selectOne("delivery.selectGiverByBno", bno);
 	}
 
 }

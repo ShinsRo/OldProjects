@@ -162,9 +162,4 @@ public class BoardController {
 		return "mypage/my_application.tiles";
 	}
 
-	@RequestMapping("getDeliveryDetail.do")
-	public String getDeliveryDetail(String id,String bno, Model model) {
-		System.out.println(id+" "+bno);
-		return "delivery/deliveryDetail";
-	}
 }
