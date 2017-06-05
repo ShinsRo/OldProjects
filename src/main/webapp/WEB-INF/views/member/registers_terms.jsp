@@ -30,8 +30,12 @@ $(document).ready(function(){
 		}
 	});
 	$("#allcheck").click(function(){
-		$("input[name=allcheck]:checkbox").attr("checked", true);
-		return true;
+	if($("#allcheck").prop("checked")) {
+		$("input[type=checkbox]").prop("checked",true);  
+		} else {
+			$("input[type=checkbox]").prop("checked",false); 
+			
+		}
 	});
 });
 </script>
