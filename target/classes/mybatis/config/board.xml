@@ -3,102 +3,135 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="board"> 	
+<mapper namespace="board">
 	<sql id="selectBoard">
-	 select bno,title,hit,to_char(time_posted,'YYYY.MM.DD HH:mm') as time_posted,
-	 id,addr,bcontent,thumbpath from G_BOARD
+		select bno,title,hit,to_char(time_posted,'YYYY.MM.DD HH:mm') as time_posted,
+		id,addr,bcontent,thumbpath from G_BOARD
 	</sql>
 	<sql id="selectApplication">
 		SELECT ANO,REASON,ID FROM APPLICATION
 	</sql>
 	<select id="getNextBno" resultType="int">
-		select B_SEQ.nextval from dual
+		select B_SEQ.nextval from
+		dual
 	</select>
 	<select id="getNextPno" resultType="int">
-		select P_SEQ.nextval from dual
+		select P_SEQ.nextval from
+		dual
 	</select>
 	<select id="getNextAno" resultType="int">
-		select A_SEQ.nextval from dual
+		select A_SEQ.nextval from
+		dual
 	</select>
 	<select id="getNextTno" resultType="int">
-		select T_SEQ.nextval from dual
+		select T_SEQ.nextval from
+		dual
 	</select>
 	<select id="getAllBoardList" resultType="BoardVO" parameterType="boardPagingBean">
 		select * from (
-		select bno, title, hit, to_char(time_posted,'YYYY.MM.DD HH:mm') as time_posted, 
-		id, addr,bcontent, thumbpath, row_number() over(order by bno desc) as rnum from G_BOARD) 
+		select bno, title, hit, to_char(time_posted,'YYYY.MM.DD
+		HH:mm') as time_posted,
+		id, addr,bcontent, thumbpath, row_number() over(order by bno desc) as
+		rnum from G_BOARD)
 		where rnum between #{startRowNumber} and #{endRowNumber}
 	</select>
-		<select id="getMyBoardList" resultType="BoardVO" parameterType="hashMap">
+	<select id="getMyBoardList" resultType="BoardVO" parameterType="hashMap">
 		select * from (
-		select bno, title, hit, to_char(time_posted,'YYYY.MM.DD HH:mm') as time_posted, 
-		id, addr,bcontent, thumbpath, is_traded, row_number() over(order by bno desc) as rnum from G_BOARD) 
-		where id = #{id} and rnum between #{pagingBean.startRowNumber} and #{pagingBean.endRowNumber}
+		select bno, title, hit, to_char(time_posted,'YYYY.MM.DD
+		HH:mm') as time_posted,
+		id, addr,bcontent, thumbpath, is_traded, row_number() over(order by bno
+		desc) as rnum from G_BOARD)
+		where id = #{id} and rnum between #{pagingBean.startRowNumber} and
+		#{pagingBean.endRowNumber}
 	</select>
 	<select id="getTotalBoardCount" resultType="int">
-		select count(*) from G_BOARD
+		select count(*) from
+		G_BOARD
 	</select>
 	<select id="getTotalBoardCountById" resultType="int">
-		select count(*) from G_BOARD where id = #{id}
+		select count(*)
+		from G_BOARD where id = #{id}
 	</select>
 	<select id="boardRegister" parameterType="boardVO">
-		INSERT INTO G_BOARD(BNO, ID, TITLE, BCONTENT, ADDR, TIME_POSTED, HIT, THUMBPATH) 
+		INSERT INTO G_BOARD(BNO, ID, TITLE, BCONTENT, ADDR, TIME_POSTED, HIT,
+		THUMBPATH)
 		VALUES(#{bno}, #{id}, #{title}, #{bcontent}, #{addr}, sysdate, 0, #{thumbPath})
 	</select>
 	<select id="productRegister" parameterType="productVO">
-		INSERT INTO G_PRODUCT(BNO, PNO, PTITLE, KIND, PCONTENT, IMG_PATH) 
+		INSERT INTO
+		G_PRODUCT(BNO, PNO, PTITLE, KIND, PCONTENT, IMG_PATH)
 		VALUES(#{bno}, #{pno}, #{ptitle}, #{kind}, #{pcontent}, #{img_path})
-		</select>
+	</select>
 	<select id="getBoardDetailByBno" parameterType="int" resultType="boardVO">
-	 	<include refid="selectBoard"/> where bno=#{value}
+		<include refid="selectBoard" />
+		where bno=#{value}
 	</select>
 	<select id="getProductImgByBno" parameterType="int" resultType="productVO">
 		select * from G_PRODUCT where bno=#{value}
 	</select>
 	<insert id="registerApplication" parameterType="applicationVO">
-		INSERT INTO APPLICATION(ANO,BNO,REASON,PNOS,ID) VALUES(#{ano},#{bno},#{reason},#{pnos},#{id})
+		INSERT INTO
+		APPLICATION(BNO,REASON,PNOS,ID,IS_DELIVERY)
+		VALUES(#{bno},#{reason},#{pnos},#{id},#{is_delivery})
 	</insert>
 	<insert id="registerTransaction" parameterType="transactionVO">
-		INSERT INTO TRANSACTION(TNO,ID,ANO,BNO) VALUES(#{tno},#{id},#{ano},#{bno})
+		INSERT INTO
+		TRANSACTION(TNO,ID,ANO,BNO) VALUES(#{tno},#{id},#{ano},#{bno})
 	</insert>
-	<select id = "getApplications" parameterType = "int" resultType="applicationVO">
+	<select id="getApplications" parameterType="int" resultType="applicationVO">
 		SELECT * FROM APPLICATION WHERE BNO = #{value}
 	</select>
-	<select id = "getProductByPno" resultType = "productVO">
-		SELECT * FROM G_PRODUCT WHERE PNO = #{value}
+	<select id="getProductByPno" resultType="productVO">
+		SELECT * FROM G_PRODUCT
+		WHERE PNO = #{value}
 	</select>
-	<select id="isGiveMeChecked" parameterType="applicationVO" resultType="int">
+	<select id="isGiveMeChecked" parameterType="applicationVO"
+		resultType="int">
 		SELECT COUNT(*) FROM APPLICATION WHERE ID=#{id} AND BNO=#{bno}
 	</select>
-	<select id="getApplicationsById" parameterType="string" resultType="applicationVO">
+	<select id="getApplicationsById" parameterType="string"
+		resultType="applicationVO">
 		SELECT * FROM APPLICATION WHERE ID=#{value}
 	</select>
-	<select id="getSearchContentCount" resultType="int" parameterType="searchVO">
+	<select id="getSearchContentCount" resultType="int"
+		parameterType="searchVO">
 		select count(*)
-		from g_board where upper(${scategory}) like '%' || upper(#{word}) || '%'
+		from g_board where upper(${scategory})
+		like '%' || upper(#{word}) || '%'
 	</select>
-	<select id="search" resultType="boardVO"   parameterType="hashMap">
-		select * from (
-		select bno, title, hit, to_char(time_posted,'YYYY.MM.DD HH:mm') as time_posted, 
-		id, addr,bcontent, thumbpath, row_number() over(order by bno desc) as rnum from G_BOARD
-		where upper(${scategory}) like '%' || upper(#{word}) || '%') 
+	<select id="search" resultType="boardVO" parameterType="hashMap">
+		select *
+		from (
+		select bno, title, hit, to_char(time_posted,'YYYY.MM.DD HH:mm')
+		as time_posted,
+		id, addr,bcontent, thumbpath, row_number() over(order by bno desc) as
+		rnum from G_BOARD
+		where upper(${scategory}) like '%' || upper(#{word})
+		|| '%')
 		where rnum between #{startRowNumber} and #{endRowNumber}
-</select>
-<update id = "confirmApply">
-	UPDATE APPLICATION SET IS_SELECTED = 'SELECTED' WHERE ANO = #{value}
-</update>
-<update id = "nowUnavailable">
-	UPDATE G_PRODUCT SET IS_TRADED = 'SELECTED' WHERE PNO = #{value}
+	</select>
+	<update id="confirmApply" parameterType="hashMap">
+		UPDATE APPLICATION SET IS_SELECTED = 'SELECTED' WHERE BNO = #{bno} AND ID = #{id}
 	</update>
-	<select id = "getApplicationByAno" resultType = "applicationVO">
-	SELECT * FROM APPLICATION WHERE ANO = ${value}
+	<update id="nowUnavailable">
+		UPDATE G_PRODUCT SET IS_TRADED = 'SELECTED' WHERE PNO = #{value}
+	</update>
+	<select id="getApplicationByPk" parameterType="hashMap" resultType="applicationVO">
+		SELECT * FROM APPLICATION WHERE BNO = #{bno} AND ID = #{id}
 	</select>
 	<update id="Refresh" parameterType="int">
-	UPDATE G_BOARD SET IS_TRADED = 'TRADED' WHERE BNO = ${value}
+		UPDATE G_BOARD SET IS_TRADED = 'TRADED' WHERE BNO = ${value}
 	</update>
-	<select id = "selectedProductCnt" parameterType="int" resultType="int">
-		SELECT COUNT(*) FROM G_PRODUCT WHERE BNO = #{value} AND IS_TRADED = 'SELECTED'
+	<select id="selectedProductCnt" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM G_PRODUCT WHERE BNO = #{value} AND IS_TRADED =
+		'SELECTED'
 	</select>
+	<update id="putItOnDelivery" parameterType="hashMap">
+		UPDATE APPLICATION SET IS_DELIVERY= 'YES' WHERE BNO = ${value} AND ID = #{id}
+	</update>
+	<update id = "disableOtherApps">
+		UPDATE APPLICATION SET IS_DONE = 'DISABLED' WHERE BNO = ${value} AND ID = #{id}
+	</update>
 </mapper>
  
  

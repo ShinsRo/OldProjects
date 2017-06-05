@@ -35,12 +35,12 @@ FROM LOC_COMMENT_REPLY WHERE cno=1 ORDER BY GNO ASC
 -- SELECT
 SELECT * FROM GD_MEMBER;
 SELECT * FROM LOC_COMMENT;
-select * from LOC_COMMENT;
-select * from APPLICATION;
-select * from TRANSACTION;
+SELECT * FROM LOC_COMMENT;
+SELECT * FROM APPLICATION;
+SELECT * FROM TRANSACTION;
+SELECT * FROM DELIVERY;
 
 -- TRANSACTION, APPLICATION TEST SQL
-select * from TRANSACTION;
 SELECT ANO,REASON,ID FROM APPLICATION;
 
 -- TEST MEMBER
@@ -94,3 +94,9 @@ select count(*) from visit where day='2017.05.31'
 
 --
 select *from APPLICATION,G_PRODUCT where id='spring';
+
+insert into
+		delivery(id,name,password,tel)
+		values('test12y','test','1234','01034323232');
+		
+select id,name,address,tel from GD_MEMBER where id='garin';

@@ -58,11 +58,11 @@ public class MemberController {
 	 * @param tel3
 	 * @return
 	 */
-	@RequestMapping(value="register.do", method=RequestMethod.POST)
-public String register(MemberVO vo,String tel1,String tel2,String tel3){
-		vo.setTel(tel1+tel2+tel3);
+	@RequestMapping(value = "register.do", method = RequestMethod.POST)
+	public String register(MemberVO vo, String tel1, String tel2, String tel3) {
+		vo.setTel(tel1 + tel2 + tel3);
 		service.register(vo);
-		return "redirect:registerResultView.do?id=" +vo.getId();
+		return "redirect:registerResultView.do?id=" + vo.getId();
 	}
 	/**
 	 * 회원가입결과를 보여주는 컨트롤러

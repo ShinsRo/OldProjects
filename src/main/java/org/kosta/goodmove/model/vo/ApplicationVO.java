@@ -9,87 +9,81 @@ import java.util.List;
  * @version 1
  */
 public class ApplicationVO {
-	private int ano;
 	private int bno;
-	private String id;
-	private String pnos;
 	private String reason;
+	private String pnos;
+	private String id;
 	private String is_selected;
+	private String is_delivery;
+	private String is_done;
 	private List<ProductVO> pList;
-
 	public ApplicationVO() {
 		super();
 	}
-
-	public ApplicationVO(int ano, int bno, String id, String pnos, String reason) {
+	public ApplicationVO(int bno, String reason, String pnos, String id, String is_selected, String is_delivery,
+			String is_done, List<ProductVO> pList) {
 		super();
-		this.ano = ano;
 		this.bno = bno;
-		this.id = id;
-		this.pnos = pnos;
 		this.reason = reason;
-	}
-
-	public List<ProductVO> getpList() {
-		return pList;
-	}
-
-	public void setpList(List<ProductVO> pList) {
+		this.pnos = pnos;
+		this.id = id;
+		this.is_selected = is_selected;
+		this.is_delivery = is_delivery;
+		this.is_done = is_done;
 		this.pList = pList;
 	}
-
-	public String getIs_selected() {
-		return is_selected;
-	}
-
-	public void setIs_selected(String is_selected) {
-		this.is_selected = is_selected;
-	}
-
-	public int getAno() {
-		return ano;
-	}
-
-	public void setAno(int ano) {
-		this.ano = ano;
-	}
-
 	public int getBno() {
 		return bno;
 	}
-
 	public void setBno(int bno) {
 		this.bno = bno;
 	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getPnos() {
-		return pnos;
-	}
-
-	public void setPnos(String pnos) {
-		this.pnos = pnos;
-	}
-
 	public String getReason() {
 		return reason;
 	}
-
 	public void setReason(String reason) {
 		this.reason = reason;
 	}
-
+	public String getPnos() {
+		return pnos;
+	}
+	public void setPnos(String pnos) {
+		this.pnos = pnos;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getIs_selected() {
+		return is_selected;
+	}
+	public void setIs_selected(String is_selected) {
+		this.is_selected = is_selected;
+	}
+	public String getIs_delivery() {
+		return is_delivery;
+	}
+	public void setIs_delivery(String is_delivery) {
+		this.is_delivery = is_delivery;
+	}
+	public String getIs_done() {
+		return is_done;
+	}
+	public void setIs_done(String is_done) {
+		this.is_done = is_done;
+	}
+	public List<ProductVO> getpList() {
+		return pList;
+	}
+	public void setpList(List<ProductVO> pList) {
+		this.pList = pList;
+	}
 	@Override
 	public String toString() {
-		return "ApplicationVO [ano=" + ano + ", bno=" + bno + ", id=" + id + ", pnos=" + pnos + ", reason=" + reason
-				+ ", is_selected=" + is_selected + ", pList=" + pList + "]";
+		return "ApplicationVO [bno=" + bno + ", reason=" + reason + ", pnos=" + pnos + ", id=" + id + ", is_selected="
+				+ is_selected + ", is_delivery=" + is_delivery + ", is_done=" + is_done + ", pList=" + pList + "]";
 	}
 
 }

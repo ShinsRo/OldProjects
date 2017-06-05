@@ -65,6 +65,10 @@
 												value="${product.pno}">${product.ptitle}</label></li>
 											</c:forEach>
 										</ul>
+									</div>
+									<div class="delivery-select">
+										<label><input type="radio" name="is_delivery" value="YES">용달 서비스</label><br>
+										<label><input type="radio" name="is_delivery" value="NO">직거래</label>	
 									</div> 
 									<div class="form-group">
 										<input type="hidden" name="writer" value="${bvo.id}">

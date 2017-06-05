@@ -146,18 +146,17 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public void confirmApply(String ano) {
-		template.update("board.confirmApply", ano);
+	public void confirmApply(String bno, String id) {
+		HashMap<String, String> paramMap = new HashMap<>();
+		paramMap.put("bno", bno);
+		paramMap.put("id", id);
+		template.update("board.confirmApply", paramMap);
 	}
 
 	@Override
 	public void nowUnavailable(String pno) {
+		System.out.println("nowUnavailable");
 		template.update("board.nowUnavailable", pno);
-	}
-
-	@Override
-	public ApplicationVO getApplicationByAno(String ano) {
-		return template.selectOne("board.getApplicationByAno", ano);
 	}
 
 	@Override
@@ -168,5 +167,26 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public int selectedProductCnt(int bno) {
 		return template.selectOne("board.selectedProductCnt", bno);
+	}
+
+	@Override
+	public ApplicationVO getApplicationByPk(String bno, String id) {
+		HashMap<String, String> paramMap = new HashMap<>();
+		paramMap.put("bno", bno);
+		paramMap.put("id", id);
+		return template.selectOne("board.getApplicationByPk", paramMap);
+	}
+
+	@Override
+	public void putItOnDelivery(String bno, String id) {
+		HashMap<String, String> paramMap = new HashMap<>();
+		paramMap.put("bno", bno);
+		paramMap.put("id", id);
+		template.update("board.putItOnDelivery", paramMap);
+	}
+
+	@Override
+	public void disableOtherApps(String pno) {
+		template.update("board.disableOtherApps", pno);
 	}
 }

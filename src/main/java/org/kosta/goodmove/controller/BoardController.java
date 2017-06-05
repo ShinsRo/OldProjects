@@ -3,9 +3,7 @@ package org.kosta.goodmove.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +18,6 @@ import org.kosta.goodmove.model.vo.ProductVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -129,11 +126,8 @@ public class BoardController {
 	 */
 	@RequestMapping("registerGiveMe.do")
 	public String registerGiveMe(ApplicationVO avo, HttpServletRequest req, String writer, int bno) {
-		int ano = boardService.getNextAno();
-		/* int tno = boardService.getNextTno(); */
 		String userId = ((MemberVO) req.getSession(false).getAttribute("mvo")).getId();
 		// application
-		avo.setAno(ano);
 		avo.setId(userId);
 		avo.setBno(bno);
 		if (boardService.isGiveMeChecked(avo).equals("ok")) {
@@ -145,43 +139,36 @@ public class BoardController {
 
 	}
 
-	@RequestMapping("getApplication.do")
-	@ResponseBody
-	public List<ApplicationVO> getApplication(String bno) {
+	@RequestMapping("getApplications.do")
+	public String getApplication(String bno, Model model) {
 		int bno_int = Integer.parseInt(bno);
-		HashMap<String, Object> rsMap = new HashMap<>();
 		List<ApplicationVO> aList = boardService.getApplications(bno_int);
-		rsMap.put("apps", aList);
-		return aList;
+		model.addAttribute("aList", aList);
+		return "mypage/applications";
 	}
-	
+
 	@RequestMapping("confirmApply.do")
-	public String confirmApply(String ano){
-		boardService.confirmApply(ano);
-		return "redirect:myBoardList.do";
+	public String confirmApply(String bno, String id) {
+		System.out.println(bno + id);
+		boardService.confirmApply(bno, id);
+		return "redirect:getApplications.do?bno=" + bno;
 	}
-	// transaction
-	/*
-	 * TransactionVO tvo = new TransactionVO(); tvo.setTno(tno);
-	 * tvo.setAno(ano); tvo.setId(writer); tvo.setBno(bno);
-	 */
-	// db insert
-	/* boardService.registerTransaction(tvo); */
+
 	@RequestMapping("getApplicationsById.do")
-	public String getApplicationsById(HttpServletRequest req,Model model){
-		String id  = ((MemberVO) req.getSession(false).getAttribute("mvo")).getId();
+	public String getApplicationsById(HttpServletRequest req, Model model) {
+		String id = ((MemberVO) req.getSession(false).getAttribute("mvo")).getId();
 		List<ApplicationVO> appList = boardService.getApplicationsById(id);
 		model.addAttribute("appList", appList);
 		return "mypage/my_application.tiles";
 	}
-/*	@RequestMapping("getBoardList.do")
-	public String boardList(String pageNo, Model model) {
-		BoardListVO blvo = boardService.getAllBoardList(pageNo);
-		model.addAttribute("blvo", blvo);
-		return "board/boardList.tiles";
-	}*/
+
 	@RequestMapping("getBoardList_admin.do")
 	public String getBoardList_admin(String pageNo, Model model){
 		return null;
+	}
+	@RequestMapping("getDeliveryDetail.do")
+	public String getDeliveryDetail(String id,String bno, Model model) {
+		System.out.println(id+" "+bno);
+		return "delivery/deliveryDetail";
 	}
 }

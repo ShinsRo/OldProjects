@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kosta.goodmove.model.service.SearchService;
+import org.kosta.goodmove.model.vo.DeliveryVO;
 import org.kosta.goodmove.model.vo.MemberVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +29,7 @@ public class HomeController {
 	@RequestMapping("home.do")
 	public String home(Model model, HttpServletRequest request) {
 		MemberVO mvo = (MemberVO) request.getSession().getAttribute("mvo");
+		DeliveryVO dvo = (DeliveryVO) request.getSession().getAttribute("dvo");
 		String info;
 		if (mvo != null) {
 			try {

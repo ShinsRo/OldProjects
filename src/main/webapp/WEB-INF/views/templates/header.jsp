@@ -54,7 +54,7 @@
                                 </c:if>
                             </ul>
                         </li>
-                          <c:if test="${sessionScope.mvo != null}">       
+                         <c:if test="${sessionScope.mvo != null}">       
                         <li class="dropdown"><a href="">내 정보<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
                             	<li><a href="${pageContext.request.contextPath}/member/updates.do">회원수정</a></li>
@@ -64,15 +64,25 @@
                             </ul>
                         </li>  
                         </c:if>
-                         <c:if test="${sessionScope.mvo == null}">                     
+                         <c:if test="${sessionScope.mvo == null && sessionScope.dvo==null}">                     
 	                        <li><a href="${pageContext.request.contextPath}/member/logins.do">로그인</a></li>
-	                        <li><a href="${pageContext.request.contextPath }/member/registers.do">회원가입</a></li> 
+	                        <li><a href="${pageContext.request.contextPath }/member/register_view.do">회원가입</a></li> 
                         </c:if>
-                        <c:if test="${sessionScope.mvo != null }">
+                        <c:if test="${sessionScope.mvo != null}">
 	                        <li><a href="${pageContext.request.contextPath }/member/updates.do">${sessionScope.mvo.name}님 로그인</a></li>
 	                        <li><a href="${pageContext.request.contextPath }/logout.do">로그아웃</a></li>
                         </c:if>
-                        <li><a href="${pageContext.request.contextPath}/member/contact.do">Contact</a></li>
+						<c:if test="${sessionScope.dvo != null}">
+							<li class="dropdown"><a href="">${sessionScope.dvo.name}님 로그인<i class="fa fa-angle-down"></i></a>
+								<ul role="menu" class="sub-menu">
+									<li><a href="${pageContext.request.contextPath}/getAllDeliveryList.do">용달 대기 신청</a></li>
+								</ul>
+							</li>
+						</c:if>
+						<c:if test="${sessionScope.dvo != null}">
+							<li><a href="${pageContext.request.contextPath}/logout.do">로그아웃</a></li>
+						</c:if>
+					<li><a href="${pageContext.request.contextPath}/member/contact.do">Contact</a></li>
                     </ul>
                 </div>
             </div>
