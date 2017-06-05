@@ -166,9 +166,4 @@ public class BoardController {
 	public String getBoardList_admin(String pageNo, Model model){
 		return null;
 	}
-	@RequestMapping("getDeliveryDetail.do")
-	public String getDeliveryDetail(String id,String bno, Model model) {
-		System.out.println(id+" "+bno);
-		return "delivery/deliveryDetail";
-	}
 }
