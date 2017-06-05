@@ -25,11 +25,8 @@
 		<div class="container">
 			<div class="row">
 				<div class="action">
-					<div class="col-sm-12">
-						<h1 class="title">등록되지 않은 회원</h1>
-						<p>
-							<br>회원이 없어요 등록해주세요
-						</p>
+					<div class="col-sm-4">
+						<h1 class="title">로그인 실패</h1>
 					</div>
 				</div>
 			</div>
@@ -39,7 +36,7 @@
 <!--배너 타이틀-->
 <body onkeypress="keypress()" class="result" >
 	<c:if test="${sessionScope.mvo==null}">
-				<h1>회원정보 없음</h1>
+				<h1>아이디와 비밀번호를 확인해 주세요</h1>
 				<a href="${pageContext.request.contextPath}/home.do"><input type="button" value="확인" onclick="pageOut()"></a>
 	</c:if>
 </body>

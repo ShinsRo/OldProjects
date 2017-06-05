@@ -28,7 +28,7 @@ function keypress(){
 		<div class="container">
 			<div class="row">
 				<div class="action">
-					<div class="col-sm-12">
+					<div class="col-sm-4">
 						<h1 class="title">회원정보수정 결과</h1>
 						<p>
 							<br>회원 정보가 수정되었어요
