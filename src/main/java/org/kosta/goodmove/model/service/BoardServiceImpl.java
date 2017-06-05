@@ -177,8 +177,5 @@ public class BoardServiceImpl implements BoardService {
 		if(!(boardDAO.selectedProductCnt(avo.getBno()) > 0)){
 			boardDAO.Refresh(avo.getBno());
 		}
-		if(avo.getIs_delivery().equals("YES")){
-			boardDAO.putItOnDelivery(bno, id);
-		}
 	}
 }
