@@ -4626,7 +4626,8 @@ select[multiple].input-group-sm>.form-control, select[multiple].input-group-sm>.
 	}
 	.navbar-nav>li>a {
 		padding-top: 15px;
-		padding-bottom: 15px
+		padding-bottom: 15px;
+		color: #333;
 	}
 }
 
@@ -4883,8 +4884,7 @@ select[multiple].input-group-sm>.form-control, select[multiple].input-group-sm>.
 	border-color: #080808
 }
 .navbar-inverseadmin {
-	background-color: #000000;
-	border-color: #080808
+	
 }
 
 .navbar-inverse .navbar-brand {

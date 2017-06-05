@@ -25,5 +25,9 @@
      <put-attribute name="footer" value="/WEB-INF/views/templates/footer.jsp" /> 
      <put-attribute name="main" value="/WEB-INF/views/admin.jsp" />       
   </definition> 
+  <definition name="admin/*.tiles2" extends="admin.tiles">
+		<put-attribute name="title" value="{1}" /> <!-- 두번째 들어오는 value -->
+		<put-attribute name="main" value="/WEB-INF/views/admin/{1}.jsp" />
+	</definition>
 	
 </tiles-definitions>   

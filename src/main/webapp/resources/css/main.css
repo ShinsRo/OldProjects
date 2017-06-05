@@ -175,7 +175,7 @@
 #header_admin{
   margin-bottom: 0;
   padding: 30px 0 60px 0;
-  background-color: #000000;
+  background-color: #8dced4;
 }
 
 #header .navbar-inverse .container{
@@ -280,6 +280,7 @@
 #header_admin .navbar-brand{
   padding: 0;
   margin-left: 0;
+  margin-top: -35px;
 }
 
 #header .navbar-brand h1{
@@ -307,6 +308,15 @@
   background-color: inherit;
   border: 0;
   color: #00aeef;
+}
+
+#header_admin .navbar-inverse .navbar-nav  li.active > a,  
+#header_admin .navbar-inverse .navbar-nav  li.active > a:focus, 
+#header_admin .navbar-nav.navbar-right li > a:hover,
+.navbar-inverse .navbar-nav > .open > a {
+  background-color: inherit;
+  border: 0;
+  color: #ffffff;
 }
 
 #header .navbar-inverse .navbar-nav  li a:hover{
