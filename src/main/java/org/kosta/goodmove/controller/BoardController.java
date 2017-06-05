@@ -32,6 +32,13 @@ public class BoardController {
 	private BoardService boardService;
 	private String uploadPath;
 
+	/**
+	 * 드려요 리스트 페이지로 이동
+	 * 
+	 * @param pageNo
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("getBoardList.do")
 	public String boardList(String pageNo, Model model) {
 		BoardListVO blvo = boardService.getAllBoardList(pageNo);
@@ -39,6 +46,14 @@ public class BoardController {
 		return "board/boardList.tiles";
 	}
 
+	/**
+	 * 내가 작성한 드려요 리스트
+	 * 
+	 * @param pageNo
+	 * @param model
+	 * @param req
+	 * @return
+	 */
 	@RequestMapping("myBoardList.do")
 	public String myBoardList(String pageNo, Model model, HttpServletRequest req) {
 		String id = ((MemberVO) req.getSession(false).getAttribute("mvo")).getId();
@@ -63,11 +78,24 @@ public class BoardController {
 		return "board/boardDetail.tiles";
 	}
 
+	/**
+	 * 드려요 작성 페이지 이동
+	 * 
+	 * @return
+	 */
 	@RequestMapping("boardRegisterView.do")
 	public String boardRegisterView() {
 		return "board/boardRegister.tiles";
 	}
 
+	/**
+	 * 드려요 작성 컨트롤러
+	 * 
+	 * @param req
+	 * @param bvo
+	 * @param psvo
+	 * @return
+	 */
 	@RequestMapping("boardRegister.do")
 	public String fileUpload(HttpServletRequest req, BoardVO bvo, ProductSetVO psvo) {
 
@@ -139,6 +167,13 @@ public class BoardController {
 
 	}
 
+	/**
+	 * 내가 받은 주세요 신청들 보여주기
+	 * 
+	 * @param bno
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("getApplications.do")
 	public String getApplication(String bno, Model model) {
 		int bno_int = Integer.parseInt(bno);
@@ -147,13 +182,25 @@ public class BoardController {
 		return "mypage/applications";
 	}
 
+	/**
+	 * 주세요 신청 채택
+	 * 
+	 * @param bno
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("confirmApply.do")
 	public String confirmApply(String bno, String id) {
 		System.out.println(bno + id);
 		boardService.confirmApply(bno, id);
 		return "redirect:getApplications.do?bno=" + bno;
 	}
-
+	/**
+	 * 아이디로 검색한 주세요 신청 반환
+	 * @param req
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("getApplicationsById.do")
 	public String getApplicationsById(HttpServletRequest req, Model model) {
 		String id = ((MemberVO) req.getSession(false).getAttribute("mvo")).getId();
@@ -163,7 +210,7 @@ public class BoardController {
 	}
 
 	@RequestMapping("getBoardList_admin.do")
-	public String getBoardList_admin(String pageNo, Model model){
+	public String getBoardList_admin(String pageNo, Model model) {
 		return null;
 	}
 }

@@ -25,7 +25,12 @@ public class HomeController {
 
 	@Resource
 	SearchService ss;
-
+	/**
+	 * 메인 페이지
+	 * @param model
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("home.do")
 	public String home(Model model, HttpServletRequest request) {
 		MemberVO mvo = (MemberVO) request.getSession().getAttribute("mvo");
@@ -67,11 +72,18 @@ public class HomeController {
 		// System.out.println("@PathVariable:"+dirName+"/"+viewName);
 		return dirName + "/" + viewName + ".tiles";
 	}
-
+	/**
+	 * contact 페이지 이동
+	 * @return
+	 */
 	@RequestMapping("contact.do")
 	public String contact() {
 		return "contact.tiles";
 	}
+	/**
+	 * admin 페이지 이동
+	 * @return
+	 */
 	@RequestMapping("admin.do")
 	public String admin(){
 		return "admin.tiles";
