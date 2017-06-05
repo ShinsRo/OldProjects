@@ -99,4 +99,14 @@ insert into
 		delivery(id,name,password,tel)
 		values('test12y','test','1234','01034323232');
 		
-select id,name,address,tel from GD_MEMBER where id='garin';
+
+select id,name,addr,tel from GD_MEMBER
+where id = (
+	select id from G_BOARD where bno=2
+)
+
+		
+
+
+
+

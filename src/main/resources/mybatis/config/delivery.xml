@@ -40,6 +40,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 <select id = "getAllDeliveryList" resultType="applicationVO">
 		select * from application where is_selected='SELECTED' and is_delivery='YES' and is_done='NO'
 	</select>
+	<select id="selectRecieverById" parameterType="string" resultType="memberVO">
+		select id,name,addr,addr_detail,tel from GD_MEMBER where id=#{value}
+	</select>
+	<select id="selectGiverByBno" parameterType="string" resultType="memberVO">
+		select id,name,addr,addr_detail,tel from GD_MEMBER
+		where id = (select id from G_BOARD where bno=#{value})
+	</select>
 </mapper>
  
  

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.DeliveryVO;
+import org.kosta.goodmove.model.vo.MemberVO;
 
 public interface DeliveryDAO {
 
@@ -22,4 +23,8 @@ public interface DeliveryDAO {
 	public void convertDoneState(String id, String bno, String state);
 	
 	List<ApplicationVO> getAllDeliveryList();
+	
+	MemberVO selectRecieverById(String id);
+	
+	MemberVO selectGiverByBno(String bno);
 }
