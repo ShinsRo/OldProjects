@@ -7,19 +7,32 @@
 <link rel="stylesheet" type="text/css"
    href="${pageContext.request.contextPath }/resources/member/terms.css">
 </head>
+<script src="//code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-$("#next").click(function(){	
-
-	$("#join_user_agree").is(":checked") == false{
-		alert("이용약관에 체크해주세요");
-		return false;
-	}
-	$("#join_priv_agree").is(":checked") == false{
-		alert("이용약관에 체크해주세요");
-		return false;
-	}
-});
+	$("#next").click(function(){
+		if(!($("#user_agree").is(":checked"))){
+			alert("이용약관에 동의하지 않으셨습니다. 이용약관에 동의하셔야 등록할 수 있습니다.");
+			$("#user_agree").focus();
+			return false;
+		}
+		else if(!($("#priv_agree").is(":checked"))){
+			alert("이용약관에 동의하지 않으셨습니다. 이용약관에 동의하셔야 등록할 수 있습니다.");
+			$("#priv_agree").focus();
+			return false;
+		}else{
+			var result = confirm("회원가입단계로 넘어가시겠습니까?");
+			if (result) {
+				return true;
+			} else if (result == false) {
+				return false;
+			}
+		}
+	});
+	$("#allcheck").click(function(){
+		$("input[name=allcheck]:checkbox").attr("checked", true);
+		return true;
+	});
 });
 </script>
 <br><br>
@@ -41,14 +54,12 @@ $("#next").click(function(){
 		</div>
 	</div>
 </section>
-   <div class="btnn"><a href="${pageContext.request.contextPath }/member/registers_terms.do">
-   <button id="btn" name="reg_term" >이용약관</button></a>&nbsp;
+   <div class="btnn">
+   <button class="btn1" name="reg_term" >이용약관</button>&nbsp;
    <img class="begin_img" src="${pageContext.request.contextPath}/img/begin.png" alt="begin" height="40" width="40" >
-   <a href="${pageContext.request.contextPath }/member/registers.do">
-   <button id="btn"  name="reg" >회원가입</button></a>&nbsp;
+   <button class="btn2"  name="reg" >회원가입</button>&nbsp;
     <img class="begin_img" src="${pageContext.request.contextPath}/img/begin.png" alt="begin" height="40" width="40">
-   <a href="${pageContext.request.contextPath }/member/registers_result.do">
-   <button id="btn"  name="reg_result">가입완료</button></a>
+   <button class="btn3"  name="reg_result">가입완료</button>
    </div>
    <div class="row">
       <div class="col-sm-offset-2 col-sm-6">
@@ -66,7 +77,7 @@ $("#next").click(function(){
 이 이용약관(이하 '약관')은 -착한이사-(이하 착한이사라 합니다)와 이용 고객(이하 '회원')간에 착한이사가 제공하는 서비스의 가입조건 및 이용에 관한 제반 사항과 기타 필요한 사항을 구체적으로 규정함을 목적으로 합니다. 
 
 제 2 조 (이용약관의 효력 및 변경) 
-(1) 이 약관은 본 착한이사에 가입된 고객을 포함하여 서비스를 이용하고자 하는 모든 이용자에 대하여 서비스 메뉴 및 착한이사에 게시하여 공시하거나 기타의 방법으로 고객에게 공지함으로써 그 효력을 발생합니다. 약관의 게시는 -착한이사-(www.hermesiv.com)사이트에서 확인 
+(1) 이 약관은 본 착한이사에 가입된 고객을 포함하여 서비스를 이용하고자 하는 모든 이용자에 대하여 서비스 메뉴 및 착한이사에 게시하여 공시하거나 기타의 방법으로 고객에게 공지함으로써 그 효력을 발생합니다. 약관의 게시는 착한이사 사이트에서 확인 
 할 수 있습니다. 
 (2) 착한이사는 합리적인 사유가 발생될 경우에는 이 약관을 변경할 수 있으며, 약관을 변경할 경우에는 지체 없이 이를 사전에 공시합니다. 
 
@@ -95,11 +106,10 @@ $("#next").click(function(){
 (2) 본 이용약관에 대한 동의는 신청시 -착한이사-사이트의 '동의' 버튼을 누름으로써 의사표시를 합니다. 
 
 제 6 조 (서비스 이용 신청) 
-(1) 본 서비스를 이용하고자 하는 이용고객은 착한이사에서 요청하는 정보(성명,  연락처 ,주소 등)를 제공하여 회원으로 가입한 후 이용이 가능합니다. 
+(1) 본 서비스를 이용하고자 하는 이용고객은 착한이사에서 요청하는 정보(성명,  연락처, 아이피,주소 등)를 제공하여 회원으로 가입한 후 이용이 가능합니다. 
 (2) 모든 회원은 반드시 회원 본인의 이름을 제공하여야만 서비스의 이용이 가능하며 비실명의 경우 서비스 이용에 제한을 받으실 수 있습니다. 
 (3) 회원가입은 반드시 실명으로만 가입이 가능 합니다. 
 (4) 타인의 명의(이름)를 도용하여 이용신청을 한 회원의 ID는 사전예고 없이 삭제가 될 수 있으며, 관계법령에 따라 처벌을 받을 수 있습니다. 
-(5) 착한이사는 본 서비스를 이용하는 회원에 대하여 등급별로 구분하여 서비스의 이용에 차등을 둘 수 있습니다. 
 
 제 7 조 (개인정보의 보호 및 사용) 
 착한이사는 관계법령이 정하는 바에 따라 서비스 이용자의 개인정보를 보호하기 위해 개인정보보호정책을 시행합니다. 이용자 개인정보의 보호 및 사용에 대해서는 관련법령 및 착한이사의 개인정보 보호정책이 적용됩니다. 그러나  착한이사는 이용자의 귀책사유로 인해 노출된 정보에 대해서 일체의 책임을 지지 않습니다. 
@@ -261,8 +271,8 @@ $("#next").click(function(){
                      <div class="col-xs-12">
                         <div class="checkbox pull-right">
                            <label for="join_user_agree">
-                              <input type="checkbox" name="join_user_agree" id="join_user_agree" value="1"/>
-                              회원가입 약관에 동의합니다.                           </label>
+                              <input type="checkbox" name="allcheck" id="user_agree" value="1"/>
+                              회원가입 약관에 동의합니다.</label>
                         </div>
                      </div>
                   </div>
@@ -298,21 +308,24 @@ $("#next").click(function(){
                      <div class="col-xs-12">
                         <div class="checkbox pull-right">
                            <label for="join_priv_agree">
-                              <input type="checkbox" name="join_priv_agree" id="join_priv_agree" value="1"/>
-                              개인정보 처리방침에 동의합니다.                           </label>
+                              <input type="checkbox" name="allcheck" id="priv_agree" value="1"/>
+                              개인정보 처리방침에 동의합니다. </label>
+                     
                         </div>
                      </div>
                   </div>
+              <div class="allcheck">
+               <input id="allcheck" type="checkbox" name="allcheck" value="1">&nbsp;모두동의
+                 </div>
                </div><!-- panel body -->
                
-               
                      <div class="col-sm-offset-3 col-sm-5">
-                     <input id="next" type="button" class="btn btn-lg btn-primary btn-block" value="다음단계">
+                    <a href="${pageContext.request.contextPath }/member/registers.do"> <input id="next" type="button" class="next" value="다음단계"></a>
                         <!-- <button class="btn btn-lg btn-primary btn-block" type="submit">다음단계</button> -->
                         <input type="hidden" name="rq_url" value="/">
-                                                                <input type="hidden" name="nid" value="">
-                                                                <input type="hidden" name="nname" value="">
-                                                                <input type="hidden" name="nemail" value="">
+                               <input type="hidden" name="nid" value="">
+                               <input type="hidden" name="nname" value="">
+                               <input type="hidden" name="nemail" value="">
                      </div>
                   </div>
          </form>   

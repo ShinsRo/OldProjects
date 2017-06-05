@@ -65,7 +65,7 @@ select{
   font-size: 14px;
   
 }
-.form button {
+/* .form button {
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
@@ -78,10 +78,10 @@ select{
   -webkit-transition: all 0.3 ease;
   transition: all 0.3 ease;
   cursor: pointer;
-}
-.form button:hover,.form button:active,.form button:focus {
+} */
+/* .form button:hover,.form button:active,.form button:focus {
   background: #43A047;
-}
+} */
 .form .message {
   margin: 15px 0 0;
   color: #b3b3b3;
@@ -137,3 +137,52 @@ select{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;      
 } */
+.btn1 {
+
+    font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #DBD8D8;
+  width: 100px;
+  border: 0;
+  padding: 30px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+  
+}
+.btn2 {
+
+    font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 100px;
+  border: 0;
+  padding: 30px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+  
+}
+.btn3{
+	 font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #DBD8D8;
+  width: 100px;
+  border: 0;
+  padding: 30px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+.btnn{
+	margin-left: 34%;
+}

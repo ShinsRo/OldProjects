@@ -188,7 +188,13 @@
 	</div>
 </section>
 <!--배너 타이틀-->
-	
+<div class="btnn">
+   <button class="btn1" name="reg_term" >이용약관</button>&nbsp;
+   <img class="begin_img" src="${pageContext.request.contextPath}/img/begin.png" alt="begin" height="40" width="40" >
+   <button class="btn2"  name="reg" >회원가입</button>&nbsp;
+    <img class="begin_img" src="${pageContext.request.contextPath}/img/begin.png" alt="begin" height="40" width="40">
+   <button class="btn3"  name="reg_result">가입완료</button>
+   </div>
 <section id="login">
 	<div class="container">
 		<div class="row">
@@ -219,7 +225,8 @@
 							placeholder="전화번호" maxlength="4" /> <input class="num" id="tel3"
 							name="tel3" type="tel" placeholder="전화번호" maxlength="4" /><br>
 						<input id="job" name="job" type="text" placeholder="직업" /><br>
-						<button id="regfo" class="regF">회원가입</button>
+						<!-- <button id="regfo" class="regF">회원가입</button> -->
+						<input type="button" id="regfo" class="regF" value="회원가입">
 						<br>
 					</form>
 				</div>

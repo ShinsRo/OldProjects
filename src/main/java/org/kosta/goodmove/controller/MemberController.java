@@ -3,7 +3,6 @@ package org.kosta.goodmove.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.kosta.goodmove.model.service.MemberService;
 import org.kosta.goodmove.model.vo.MemberVO;
 import org.springframework.stereotype.Controller;
@@ -191,6 +190,8 @@ public String register(MemberVO vo,String tel1,String tel2,String tel3){
 		service.changePass(id, password);
 		return "member/changePass_result.tiles";
 	}
+	/*@RequestMapping("registers_terms.do")
+	public String registers_terms(HttpServletRequest request, checked box)*/
 }
 
 

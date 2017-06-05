@@ -2,8 +2,8 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
 .panel-body{
-   border: 1px solid grey;
-    font-size: 12px;
+   border: 1px solid gainsboro;
+    font-size: 14px;
   padding: 15px;
   margin: 10px;
   margin-left: 30%;
@@ -31,7 +31,23 @@
 input[type=button]:hover,.focus {
   background: #43A047;
 }
-button {
+/* button {
+
+    font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 100px;
+  border: 0;
+  padding: 30px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+  
+} */
+.btn1 {
 
     font-family: "Roboto", sans-serif;
   text-transform: uppercase;
@@ -47,15 +63,46 @@ button {
   cursor: pointer;
   
 }
+.btn2 {
 
-button:hover,button:focus {
+    font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #DBD8D8;
+  width: 100px;
+  border: 0;
+  padding: 30px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+  
+}
+.btn3{
+	 font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #DBD8D8;
+  width: 100px;
+  border: 0;
+  padding: 30px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+
+/* button:hover,button:focus {
   background: #43A047;
-} 
+}  */
 .btnn{
 	margin-left: 34%;
 }
-.begin_img{
-	color: #4CAF50;
+.allcheck{
+	margin-left: 80%;
+	font-size: 14px;
 }
 /* div.butn{
 font-family: "Roboto", sans-serif;
