@@ -70,4 +70,8 @@ public class HomeController {
 	public String contact() {
 		return "contact.tiles";
 	}
+	@RequestMapping("admin.do")
+	public String admin(){
+		return "admin.tiles";
+	}
 }

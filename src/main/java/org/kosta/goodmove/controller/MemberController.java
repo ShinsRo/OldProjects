@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.kosta.goodmove.model.service.MemberService;
 import org.kosta.goodmove.model.vo.MemberVO;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -132,7 +133,6 @@ public String register(MemberVO vo,String tel1,String tel2,String tel3){
 			session.invalidate();
 		}
 		return "member/delete_result.tiles";
-		
 }
 	/**
 	 * 아이디찾기 기능 컨트롤러
@@ -190,6 +190,34 @@ public String register(MemberVO vo,String tel1,String tel2,String tel3){
 		System.out.println(id+password);
 		service.changePass(id, password);
 		return "member/changePass_result.tiles";
+	}
+	
+	@RequestMapping("getMemberList_admin.do")
+	public String getMemberList_admin(Model model){
+		int pageNo = 1;
+		model.addAttribute("lvo",service.getMemberList_admin(pageNo));
+		return "admin/memberList_admin.tiles";
+	}
+	@RequestMapping("deleteMember_admin.do")
+	public String deleteMember_admin(String id, Model model){
+		service.deleteMember_admin(id);
+		int pageNo = 1;
+		model.addAttribute("lvo", service.getMemberList_admin(pageNo));
+		System.out.println("삭제완료!");
+		return "admin/memberList_admin.tiles";
+}
+	@RequestMapping("updateMember_admin.do")
+	public String updateMember_admin(String id, Model model){
+		model.addAttribute("mvo", service.findMemberById(id));
+		return "admin/updateMember_admin.tiles";
+	}
+	@RequestMapping(value="updateMember_admin.do",method=RequestMethod.POST)
+	public String updateMember_admin(Model model,MemberVO memberVO, String tel1, String tel2, String tel3){	
+				memberVO.setTel(tel1+tel2+tel3);
+				service.updateMember(memberVO);
+				int pageNo = 1;
+				model.addAttribute("lvo",service.getMemberList_admin(pageNo));
+				return "admin/memberList_admin.tiles";
 	}
 }
 

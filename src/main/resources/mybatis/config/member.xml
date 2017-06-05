@@ -26,13 +26,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO GD_MEMBER(ID,PASSWORD,NAME,ADDR,ADDR_DETAIL,TEL,JOB)
 		VALUES(#{id},#{password},#{name},#{addr},#{addr_detail},#{tel},#{job})
 	</insert>
-		<select id="idcheck" resultType="int">
+	<select id="idcheck" resultType="int">
 		SELECT COUNT(*) FROM GD_MEMBER WHERE ID=#{value}
-		</select>
-		<select id="passwordCheck" resultType="int">
+	</select>
+	<select id="passwordCheck" resultType="int">
 		SELECT COUNT(*) FROM GD_MEMBER WHERE PASSWORD=#{value}
-		</select>
-		<update id="deleteMember" parameterType="memberVO"> 
+	</select>
+	<update id="deleteMember" parameterType="memberVO"> 
 		UPDATE GD_MEMBER SET deletemember='FALSE' WHERE ID=#{id} AND PASSWORD=#{password}
 	</update>
 	<select id="forgotId"  resultType="memberVO" parameterType="String">
@@ -60,6 +60,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getcount" resultType="int" parameterType="hashMap">
 	select count(*) from visit where day=#{today}
 	</select>
+	
+	
+	
+	<!-- Admin 회원관리 -->
+	<select id="getTotalMemberCount" resultType="int">
+	select count(*) from GD_MEMBER
+	</select>
+	<select id="getMemberList_admin" resultType="memberVO"
+		parameterType="pagingBean">
+		select * from (select ID, PASSWORD, NAME, ADDR, ADDR_DETAIL, TEL, JOB, DELETEMEMBER, row_number() over(order by ID desc) as rnum from
+		GD_MEMBER) where rnum between #{startRowNumber} and #{endRowNumber}
+	</select>
+	<update id="deleteMember_admin" parameterType="String"> 
+		UPDATE GD_MEMBER SET deletemember='FALSE' WHERE ID=#{value}
+	</update>
+	
 </mapper>
  
  

@@ -3,7 +3,9 @@ package org.kosta.goodmove.model.service;
 import javax.annotation.Resource;
 
 import org.kosta.goodmove.model.dao.MemberDAO;
+import org.kosta.goodmove.model.vo.MemberListVO;
 import org.kosta.goodmove.model.vo.MemberVO;
+import org.kosta.goodmove.model.vo.PagingBean;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -64,6 +66,25 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void changePass(String id, String password) {
 		memberDAO.changePass(id, password);
-		
-	}	
+	}
+	
+	/**
+	 * 관리자 회원관리
+	 */
+	@Override
+	public int getTotalMemberCount(){
+		return memberDAO.getTotalMemberCount();
+	}
+	
+	@Override
+	public MemberListVO getMemberList_admin(int pageNo){
+		int totalCount = memberDAO.getTotalMemberCount();
+		PagingBean pagingBean = new PagingBean(totalCount,pageNo);
+		return new MemberListVO(memberDAO.getMemberList_admin(pagingBean),pagingBean);
+	}
+	
+	@Override
+	public void deleteMember_admin(String id){
+		memberDAO.deleteMember_admin(id);
+	}
 }

@@ -30,15 +30,14 @@
                     <a class="navbar-brand" href="${pageContext.request.contextPath}/home.do">
                     	<h1><img class="logo_img" src="${pageContext.request.contextPath}/resources/img/logo_w.png" alt="logo" height="100" width="100"></h1>
                     </a>
-                    
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                     	<li class="active"><a href="${pageContext.request.contextPath}/admin.do">관리자홈으로</a></li>
                         <li class="active"><a href="${pageContext.request.contextPath}/home.do">일반홈으로</a></li>
-                        <li class="active"><a href="${pageContext.request.contextPath}/getBoardList.do">상품관리</a></li>
-                        <li class="active"><a href="${pageContext.request.contextPath}/getCommentList.do">후기관리</a></li>
-                        <li class="active"><a href="${pageContext.request.contextPath}/getMemberList.do">후기관리</a></li>
+                        <li class="active"><a href="${pageContext.request.contextPath}/getBoardList_admin.do">상품관리</a></li>
+                        <li class="active"><a href="${pageContext.request.contextPath}/getCommentList_admin.do">후기관리</a></li>
+                        <li class="active"><a href="${pageContext.request.contextPath}/getMemberList_admin.do">회원관리</a></li>
                        	<li class="active"><a href="${pageContext.request.contextPath}/admin.do">용달관리</a></li>
                        	<li class="active"><a href="${pageContext.request.contextPath}/logout.do">로그아웃</a></li>
                         
