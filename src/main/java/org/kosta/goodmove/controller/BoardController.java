@@ -146,19 +146,25 @@ public class BoardController {
 		model.addAttribute("aList", aList);
 		return "mypage/applications";
 	}
-	
+
 	@RequestMapping("confirmApply.do")
-	public String confirmApply(String bno, String id){
+	public String confirmApply(String bno, String id) {
 		System.out.println(bno + id);
 		boardService.confirmApply(bno, id);
-		return "redirect:getApplications.do?bno="+bno;
+		return "redirect:getApplications.do?bno=" + bno;
 	}
 
 	@RequestMapping("getApplicationsById.do")
-	public String getApplicationsById(HttpServletRequest req,Model model){
-		String id  = ((MemberVO) req.getSession(false).getAttribute("mvo")).getId();
+	public String getApplicationsById(HttpServletRequest req, Model model) {
+		String id = ((MemberVO) req.getSession(false).getAttribute("mvo")).getId();
 		List<ApplicationVO> appList = boardService.getApplicationsById(id);
 		model.addAttribute("appList", appList);
 		return "mypage/my_application.tiles";
+	}
+
+	@RequestMapping("getDeliveryDetail.do")
+	public String getDeliveryDetail(String id,String bno, Model model) {
+		System.out.println(id+" "+bno);
+		return "delivery/deliveryDetail";
 	}
 }

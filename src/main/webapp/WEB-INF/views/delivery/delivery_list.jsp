@@ -2,12 +2,17 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script type="text/javascript">
-	$(document).ready(function(){
+	/* $(document).ready(function(){
 		$("#select_delivery_btn").click(function(){
 			alert("접수버튼 클릭");
 			alert($(this).parent().siblings().text());
 		});
-	});
+	}); */
+	function getDetail(id,bno) {
+		var appPopURL = "${pageContext.request.contextPath}/getDeliveryDetail.do?id="+id+"&bno="+bno;
+		var PopOption = "width=670, height=360, resizable=no, scrollbars=no, status=no";
+		window.open(appPopURL,"",PopOption);
+	}
 </script>
 <section id="page-breadcrumb">
 	<div class="vertical-center sun">
@@ -37,6 +42,7 @@
 						<th>신청자 ID</th>
 						<th>용달 완료 여부</th>
 						<th>접수하기</th>
+						<th>상세정보</th>
 					</tr>
 				</thead>
 
@@ -46,6 +52,7 @@
 							<td>${list.bno}</td><td>${list.pnos}</td>
 							<td id = "id">${list.id}</td><td>${list.is_done}</td>
 							<td><input type="button" id="select_delivery_btn" class="btn btn-sm btn-info" value="접수"></td>
+							<td><input type="button" id="select_delivery_btn" class="btn btn-sm btn-info" value="상세 정보" onclick="getDetail('${list.id}',${list.bno})"></td>
 						</tr>
 					</c:forEach>
 				</tbody>
