@@ -172,6 +172,7 @@ public class BoardServiceImpl implements BoardService {
 		while (st.hasMoreElements()) {
 			if(( pno = st.nextToken()) != ""){
 				boardDAO.nowUnavailable(pno);
+				boardDAO.disableOtherApps(pno);
 			}
 		}
 		if(!(boardDAO.selectedProductCnt(avo.getBno()) > 0)){

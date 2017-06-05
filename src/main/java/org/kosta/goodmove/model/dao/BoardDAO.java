@@ -58,4 +58,6 @@ public interface BoardDAO {
 	ApplicationVO getApplicationByPk(String bno, String id);
 
 	void putItOnDelivery(String bno, String id);
+
+	void disableOtherApps(String pno);
 }

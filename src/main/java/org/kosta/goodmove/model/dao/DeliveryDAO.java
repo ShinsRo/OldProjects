@@ -15,4 +15,6 @@ public interface DeliveryDAO {
 	int passwordCheck(String password);
 
 	void deleteDelivery(DeliveryVO dvo);
+
+	public void convertDoneState(String id, String bno, String state);
 }

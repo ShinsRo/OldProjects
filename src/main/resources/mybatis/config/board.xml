@@ -129,6 +129,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="putItOnDelivery" parameterType="hashMap">
 		UPDATE APPLICATION SET IS_DELIVERY= 'YES' WHERE BNO = ${value} AND ID = #{id}
 	</update>
+	<update id = "disableOtherApps">
+		UPDATE APPLICATION SET IS_DONE = 'DISABLE' WHERE BNO = ${value} AND ID = #{id}
+	</update>
 </mapper>
  
  

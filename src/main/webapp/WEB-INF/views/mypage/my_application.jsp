@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script type="text/javascript">
+		function convertIt(id, bno, currState) {
+			location.href="${pageContext.request.contextPath}/convertDoneState.do?bno="+bno+"&id="+id+"&currState="+currState;
+		}
+</script>
 <section id="page-breadcrumb">
 	<div class="vertical-center sun">
 		<div class="container">
@@ -37,11 +42,20 @@
 					<td>${apl.is_selected}</td>
 					<td>${apl.is_delivery}</td>
 					<td>
-					<c:if test="${apl.is_done == 'NO' }">
-					미수령 <button class = "btn btn-sm btn-success">확인</button>
+					<c:if test = "${apl.is_selected == 'SELECTED' }">
+						<c:if test="${apl.is_done == 'NO' }">
+						미수령 &nbsp; 
+						<button class = "btn btn-sm btn-success" onclick="convertIt('${apl.id}', '${apl.bno}', '${apl.is_done}')">
+						수령 완료</button>
+						</c:if>
+						<c:if test = "${apl.is_done == 'YES' }">
+						수령 완료 &nbsp; 
+						<button class ="btn btn-sm btn-warning" onclick="convertIt('${apl.id}', '${apl.bno}', '${apl.is_done}')">
+						수령 취소</button>
+						</c:if>
 					</c:if>
-					<c:if test = "${apl.is_done == 'YES' }">
-					수령 완료 <button class = "btn btn-sm btn-">취소</button>
+					<c:if test="${apl.is_selected == 'WATING' }">
+						승인 대기중
 					</c:if>
 					</td>
 				</tr>

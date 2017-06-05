@@ -16,4 +16,6 @@ public interface DeliveryService {
 
 	void deleteDelivery(DeliveryVO dvo);
 
+	public void convertDoneState(String id, String bno, String currState);
+
 }

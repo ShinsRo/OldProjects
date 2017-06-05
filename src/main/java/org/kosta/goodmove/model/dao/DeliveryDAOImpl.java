@@ -1,5 +1,7 @@
 package org.kosta.goodmove.model.dao;
 
+import java.util.HashMap;
+
 import javax.annotation.Resource;
 
 import org.kosta.goodmove.model.vo.DeliveryVO;
@@ -39,6 +41,15 @@ public class DeliveryDAOImpl implements DeliveryDAO {
 	@Override
 	public void deleteDelivery(DeliveryVO dvo) {
 		template.delete("delivery.deleteDelivery", dvo);
+	}
+
+	@Override
+	public void convertDoneState(String id, String bno, String state) {
+		HashMap<String, String> paramMap = new HashMap<>();
+		paramMap.put("bno", bno);
+		paramMap.put("id", id);
+		paramMap.put("state", state);
+		template.update("delivery.convertDoneState", paramMap);
 	}
 
 }

@@ -32,6 +32,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update delivery set
 		is_deleted='yes' where id=#{id} and password=#{password}
 	</update>
+	<update id="convertDoneState" parameterType="hashMap">
+		update application
+		set
+		is_done =#{state} where id=#{id} and bno = #{bno}
+	</update>
 </mapper>
  
  

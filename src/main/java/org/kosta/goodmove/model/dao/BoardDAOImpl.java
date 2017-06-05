@@ -184,4 +184,9 @@ public class BoardDAOImpl implements BoardDAO {
 		paramMap.put("id", id);
 		template.update("board.putItOnDelivery", paramMap);
 	}
+
+	@Override
+	public void disableOtherApps(String pno) {
+		template.update("board.disableOtherApps", pno);
+	}
 }

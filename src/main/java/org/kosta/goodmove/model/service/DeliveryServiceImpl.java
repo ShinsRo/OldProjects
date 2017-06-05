@@ -42,4 +42,12 @@ public class DeliveryServiceImpl implements DeliveryService {
 		dao.deleteDelivery(dvo);
 	}
 
+	@Override
+	public void convertDoneState(String id, String bno, String currState) {
+		String state = "";
+		if(currState.equals("YES")) state = "NO";
+		else state = "YES";
+		dao.convertDoneState(id, bno, state);
+	}
+
 }

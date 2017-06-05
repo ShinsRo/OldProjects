@@ -53,4 +53,9 @@ public class DeliveryController {
 		int count=service.idcheck(id);
 		return (count==0)? "ok":"fail";
 	}
+	@RequestMapping("convertDoneState.do")
+	public String convertDoneState(String id, String bno, String currState){
+		service.convertDoneState(id, bno, currState);
+		return "redirect:getApplicationsById.do";
+	}
 }
