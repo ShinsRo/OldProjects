@@ -32,6 +32,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update delivery set
 		is_deleted='yes' where id=#{id} and password=#{password}
 	</update>
+	<select id="getAllDeliveryList" resultType="applicationVO">
+		select * from application where is_selected='SELECTED' and is_delivery='YES' and is_done='NO'
+	</select>
 </mapper>
  
  

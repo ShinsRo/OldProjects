@@ -1,5 +1,8 @@
 package org.kosta.goodmove.model.dao;
 
+import java.util.List;
+
+import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.DeliveryVO;
 
 public interface DeliveryDAO {
@@ -15,4 +18,6 @@ public interface DeliveryDAO {
 	int passwordCheck(String password);
 
 	void deleteDelivery(DeliveryVO dvo);
+	
+	List<ApplicationVO> getAllDeliveryList();
 }

@@ -1,7 +1,10 @@
 package org.kosta.goodmove.model.dao;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
+import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.DeliveryVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -39,6 +42,11 @@ public class DeliveryDAOImpl implements DeliveryDAO {
 	@Override
 	public void deleteDelivery(DeliveryVO dvo) {
 		template.delete("delivery.deleteDelivery", dvo);
+	}
+
+	@Override
+	public List<ApplicationVO> getAllDeliveryList() {
+		return template.selectList("delivery.getAllDeliveryList");
 	}
 
 }

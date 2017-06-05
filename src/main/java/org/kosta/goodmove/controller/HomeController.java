@@ -30,7 +30,6 @@ public class HomeController {
 	public String home(Model model, HttpServletRequest request) {
 		MemberVO mvo = (MemberVO) request.getSession().getAttribute("mvo");
 		DeliveryVO dvo = (DeliveryVO) request.getSession().getAttribute("dvo");
-		System.out.println("dvo: "+dvo);
 		String info;
 		if (mvo != null) {
 			try {

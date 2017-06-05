@@ -72,7 +72,7 @@
 						<c:if test="${sessionScope.dvo != null}">
 							<li class="dropdown"><a href="">${sessionScope.dvo.name}님 로그인<i class="fa fa-angle-down"></i></a>
 								<ul role="menu" class="sub-menu">
-									<li><a href="${pageContext.request.contextPath}/delivery/apply_partnership.do">제휴신청 하기</a></li>
+									<li><a href="${pageContext.request.contextPath}/getAllDeliveryList.do">용달 대기 신청</a></li>
 								</ul>
 							</li>
 						</c:if>
