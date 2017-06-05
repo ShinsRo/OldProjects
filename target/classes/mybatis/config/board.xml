@@ -126,6 +126,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT COUNT(*) FROM G_PRODUCT WHERE BNO = #{value} AND IS_TRADED =
 		'SELECTED'
 	</select>
+	<update id="putItOnDelivery" parameterType="hashMap">
+		UPDATE APPLICATION SET IS_DELIVERY= 'YES' WHERE BNO = ${value} AND ID = #{id}
+	</update>
 </mapper>
  
  

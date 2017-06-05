@@ -5,19 +5,19 @@ public class DeliveryVO {
 	private String name;
 	private String password;
 	private String tel;
-	private String is_delete;
+	private String is_deleted;
 
 	public DeliveryVO() {
 		super();
 	}
 
-	public DeliveryVO(String id, String name, String password, String tel, String is_delete) {
+	public DeliveryVO(String id, String name, String password, String tel, String is_deleted) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.password = password;
 		this.tel = tel;
-		this.is_delete = is_delete;
+		this.is_deleted = is_deleted;
 	}
 
 	public String getId() {
@@ -52,18 +52,18 @@ public class DeliveryVO {
 		this.tel = tel;
 	}
 
-	public String getIs_delete() {
-		return is_delete;
+	public String getIs_deleted() {
+		return is_deleted;
 	}
 
-	public void setIs_delete(String is_delete) {
-		this.is_delete = is_delete;
+	public void setIs_deleted(String is_deleted) {
+		this.is_deleted = is_deleted;
 	}
 
 	@Override
 	public String toString() {
-		return "DeliveryVO [id=" + id + ", name=" + name + ", password=" + password + ", tel=" + tel + ", is_delete="
-				+ is_delete + "]";
+		return "DeliveryVO [id=" + id + ", name=" + name + ", password=" + password + ", tel=" + tel + ", is_deleted="
+				+ is_deleted + "]";
 	}
 
 }

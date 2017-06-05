@@ -56,4 +56,6 @@ public interface BoardDAO {
 	void confirmApply(String bno, String id);
 
 	ApplicationVO getApplicationByPk(String bno, String id);
+
+	void putItOnDelivery(String bno, String id);
 }

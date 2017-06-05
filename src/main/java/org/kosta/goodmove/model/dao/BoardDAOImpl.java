@@ -147,7 +147,6 @@ public class BoardDAOImpl implements BoardDAO {
 
 	@Override
 	public void confirmApply(String bno, String id) {
-		System.out.println("confirmApply");
 		HashMap<String, String> paramMap = new HashMap<>();
 		paramMap.put("bno", bno);
 		paramMap.put("id", id);
@@ -172,10 +171,17 @@ public class BoardDAOImpl implements BoardDAO {
 
 	@Override
 	public ApplicationVO getApplicationByPk(String bno, String id) {
-		System.out.println("getApplicationByPk");
 		HashMap<String, String> paramMap = new HashMap<>();
 		paramMap.put("bno", bno);
 		paramMap.put("id", id);
 		return template.selectOne("board.getApplicationByPk", paramMap);
+	}
+
+	@Override
+	public void putItOnDelivery(String bno, String id) {
+		HashMap<String, String> paramMap = new HashMap<>();
+		paramMap.put("bno", bno);
+		paramMap.put("id", id);
+		template.update("board.putItOnDelivery", paramMap);
 	}
 }

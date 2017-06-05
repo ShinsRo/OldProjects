@@ -8,6 +8,7 @@ import java.util.StringTokenizer;
 import javax.annotation.Resource;
 
 import org.kosta.goodmove.model.dao.BoardDAO;
+import org.kosta.goodmove.model.dao.DeliveryDAO;
 import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.BoardListVO;
 import org.kosta.goodmove.model.vo.BoardPagingBean;
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Service;
 public class BoardServiceImpl implements BoardService {
 	@Resource
 	private BoardDAO boardDAO;
-
+	
 	@Override
 	public int getNextBno() {
 		return boardDAO.getNextBno();
@@ -175,6 +176,9 @@ public class BoardServiceImpl implements BoardService {
 		}
 		if(!(boardDAO.selectedProductCnt(avo.getBno()) > 0)){
 			boardDAO.Refresh(avo.getBno());
+		}
+		if(avo.getIs_delivery().equals("YES")){
+			boardDAO.putItOnDelivery(bno, id);
 		}
 	}
 }

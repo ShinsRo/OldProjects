@@ -5,11 +5,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="delivery">
 	<sql id="selectDelivery">
-		select id,name,password,tel,is_delete from delivery
+		select id,name,password,tel,is_deleted from delivery
 	</sql>
 	<select id="login" resultType="deliveryVO" parameterType="deliveryVO">
 		<include refid="selectDelivery"></include>
-		where id=#{id} and password=#{password} and is_delete='NO'
+		where id=#{id} and password=#{password} and is_deleted='NO'
 	</select>
 	<select id="getMemberCount" resultType="int">
 		select count(*) from
@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<update id="deleteMember" parameterType="deliveryVO">
 		update delivery set
-		is_delete='yes' where id=#{id} and password=#{password}
+		is_deleted='yes' where id=#{id} and password=#{password}
 	</update>
 </mapper>
  
