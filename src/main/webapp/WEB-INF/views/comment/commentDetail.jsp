@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script type="text/javascript">
 	function sendList(){
-		location.href="getCommentList.do";
+		location.href= "getCommentList.do";
 	}
 	function updateComment(){
 		if(confirm("수정하시겠습니까?")){
@@ -19,6 +19,13 @@
 			return false;
 		}
 	}
+ 	function reportComment(){
+ 		if(confirm("신고하시겠습니까?")){
+ 			$("#replyComment").modal();
+		}else{
+			return;
+		}
+ 	}
 	function fn_formSubmit() {
 		var f = document.replyWriteForm;
 		if($("#rememo").val()==""){
@@ -35,6 +42,13 @@
 			return;
 		}
 	}
+ 	function fn_replyReport(){
+ 		if(confirm("신고하시겠습니까?")){
+ 			$("#replyReport").modal();
+		}else{
+			return;
+		}
+ 	}
 	//댓글 수정버튼 클릭시 수정창 나타나게 하기
 	var updaterno = updateRememo = null;
 	function fn_replyUpdate(rno){
@@ -172,7 +186,9 @@
 			 <input class="btn btn-info" type="button" value="수정" onclick="updateComment()">
 			 <input class="btn btn-danger" type="button" value="삭제" onclick="deleteComment()">  
 			 </c:if>
-
+			<c:if test="${requestScope.cvo.id!=sessionScope.mvo.id}">
+			<input class="btn btn-danger" type="button" value="신고" onclick="reportComment()">
+			</c:if>
             </div>
          </div>
       </div>
@@ -209,13 +225,52 @@
 						<img class="reply_icon" src="${pageContext.request.contextPath}/resources/img/reply_icon.png" width="20">
 						</c:if>${reply.id}</span> <span class="cmdate">${reply.time_posted}</span>
 						<span class="recmbtn">
-						<a href="#"	onclick="fn_replyReply(${reply.rno})">
+						<a onclick="fn_replyReply(${reply.rno})">
 				 		<img class="reply_icon" src="${pageContext.request.contextPath}/img/bu_arr.png">답글</a></span> 
 						<span class="cmbtn">
-						<c:if test="${sessionScope.mvo.id==reply.id}">
+						<c:choose>
+						<c:when test="${sessionScope.mvo.id==reply.id}">
 						<a onclick="fn_replyDelete(${reply.rno },${requestScope.cvo.cno})">삭제</a>
 						<a onclick="fn_replyUpdate(${reply.rno })">수정</a>
-						</c:if></span>
+						</c:when>
+						<c:when test="${sessionScope.mvo.id!=reply.id}">
+						<a onclick="fn_replyReport()">신고</a>
+				 <!-- start modal -->
+				<div class="modal fade" id="replyReport" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content" id="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">신고하기</h4>
+							</div>
+							<div class="contact-form bottom">
+							<form id="app-form" name="app-form" method="post" action="${pageContext.request.contextPath}/reportReply.do"></form>
+								<form id="app-form" name="app-form" method="post" action="${pageContext.request.contextPath}/reportReply.do">
+									<div><input type="hidden" name="reno" value="${reply.rno}">
+										<input type="hidden" name="category" value="reply">
+										<input type="hidden" name="reporter" value="${sessionScope.mvo.id}">
+										<input type="hidden" name="cno" value="${requestScope.cvo.cno}">
+										작성자:${reply.id}<br><br>댓글 내용: ${reply.content}
+									</div>
+									<div class="form-group">
+										<input type="hidden" name="id" value="${reply.id}">
+										<p>신고 사유를 구체적으로 적어주세요</p>
+										<textarea name="why" id="why" required="required" class="form-control" rows="8" 
+										placeholder="신청 사유를 적어주세요."></textarea>
+									</div>
+									<div class="form-group">
+										<input type="submit" id="submit-btn" name="submit" class="btn btn-submit" value="Submit">
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end of modal -->
+						</c:when>
+						</c:choose>
+						</span>
 				</div>
 				<!-- class="cm_list_box" -->
 				<div class="col-md-10 col-sm-10" align="left" id="reply<c:out value="${reply.rno}"/>">
@@ -253,3 +308,40 @@
 		</form>
 	</div>
 </div>
+
+
+
+
+<!-- comment 신고modal -->
+<!-- start modal -->
+<div class="modal fade" id="replyComment" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+			<div class="modal-content" id="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">신고하기</h4>
+							</div>
+							<div class="contact-form bottom">
+							<form id="app-form" name="app-form" method="post" action="${pageContext.request.contextPath}/reportComment.do"></form>
+								<form id="app-form" name="app-form" method="post" action="${pageContext.request.contextPath}/reportComment.do">
+									<div><input type="hidden" name="reno" value="${requestScope.cvo.cno}">
+										<input type="hidden" name="category" value="comment">
+										<input type="hidden" name="reporter" value="${sessionScope.mvo.id}">
+										작성자:${requestScope.cvo.id}<br><br>후기 내용: ${requestScope.cvo.content}
+									</div>
+									<div class="form-group">
+										<input type="hidden" name="id" value="${requestScope.cvo.id}">
+										<p>신고 사유를 구체적으로 적어주세요</p>
+										<textarea name="why" id="why" required="required" class="form-control" rows="8" 
+										placeholder="신청 사유를 적어주세요."></textarea>
+									</div>
+									<div class="form-group">
+										<input type="submit" id="submit-btn" name="submit" class="btn btn-submit" value="Submit">
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end of modal -->

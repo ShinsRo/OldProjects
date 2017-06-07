@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.kosta.goodmove.model.dao.AdminDAO;
 import org.kosta.goodmove.model.vo.ReportListVO;
 import org.kosta.goodmove.model.vo.ReportPagingBean;
+import org.kosta.goodmove.model.vo.ReportVO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,6 +25,16 @@ public class AdminServiceImpl implements AdminService {
 			reportPagingBean=new ReportPagingBean(totalCount,Integer.parseInt(pageNo));		
 	
 		return new ReportListVO(adminDAO.getReportList(category, reportPagingBean),reportPagingBean);
+	}
+	
+	@Override
+	public void replyReport(ReportVO rvo) {
+		adminDAO.replyReport(rvo);
+	}
+
+	@Override
+	public void commentReport(ReportVO rvo) {
+		adminDAO.commentReport(rvo);
 	}
 
 	@Override

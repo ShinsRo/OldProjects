@@ -159,4 +159,5 @@ public class CommentDAOImpl implements CommentDAO{
 	public void deleteCommentReplyChild(int gno){
 		template.delete("comment.deleteCommentReplyChild",gno);
 	}
+	
 }

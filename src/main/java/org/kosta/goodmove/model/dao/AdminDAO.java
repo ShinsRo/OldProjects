@@ -15,4 +15,8 @@ public interface AdminDAO {
 
 	List<ReportVO> getAllReportList(String category, ReportPagingBean reportPagingBean);
 
+	void replyReport(ReportVO rvo);
+
+	void commentReport(ReportVO rvo);
+
 }

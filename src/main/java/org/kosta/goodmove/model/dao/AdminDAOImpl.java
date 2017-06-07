@@ -12,10 +12,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class AdminDAOImpl implements AdminDAO {
-	
+
 	@Resource
 	private SqlSessionTemplate template;
-	
+
 	@Override
 	public int getTotalReportCount(String category) {
 		return template.selectOne("admin.getTotalReportCount", category);
@@ -44,4 +44,13 @@ public class AdminDAOImpl implements AdminDAO {
 		return template.selectList("admin.getAllReportList", map);
 	}
 
+	@Override
+	public void replyReport(ReportVO rvo) {
+		template.insert("admin.replyReport", rvo);
+	}
+
+	@Override
+	public void commentReport(ReportVO rvo) {
+		template.insert("admin.commentReport", rvo);
+	}
 }

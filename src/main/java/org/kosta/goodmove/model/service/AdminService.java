@@ -1,6 +1,9 @@
 package org.kosta.goodmove.model.service;
 
+
 import org.kosta.goodmove.model.vo.ReportListVO;
+
+import org.kosta.goodmove.model.vo.ReportVO;
 
 public interface AdminService {
 
@@ -11,5 +14,9 @@ public interface AdminService {
 	public int reportAllCount(String category);
 
 	public ReportListVO getAllReportList(String pageNo, String category);
+
+	void replyReport(ReportVO rvo);
+
+	void commentReport(ReportVO rvo);
 
 }
