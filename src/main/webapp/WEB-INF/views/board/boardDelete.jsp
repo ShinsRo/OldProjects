@@ -7,6 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<script type="text/javascript">
+		alert("게시물이 정상적으로 삭제되었습니다.");
+		location.href = "${pageContext.request.contentPath}/home.do";
+	</script>
 </body>
 </html>
