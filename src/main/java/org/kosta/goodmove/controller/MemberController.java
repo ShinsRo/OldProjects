@@ -249,6 +249,15 @@ public class MemberController {
 	 * @param model
 	 * @return
 	 */
+	@RequestMapping("restoreMember_admin.do")
+	public String restoreMember_admin(String id, Model model){
+		service.restoreMember_admin(id);
+		int pageNo = 1;
+		model.addAttribute("lvo", service.getMemberList_admin(pageNo));
+		System.out.println("삭제완료!");
+		return "admin/memberList_admin.tiles2";
+	}
+	
 	@RequestMapping("updateMember_admin.do")
 	public String updateMember_admin(String id, Model model) {
 		model.addAttribute("mvo", service.findMemberById(id));

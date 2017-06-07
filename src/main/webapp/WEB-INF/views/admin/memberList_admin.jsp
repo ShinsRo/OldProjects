@@ -64,6 +64,9 @@
 					<td>${cvo.deletemember}</td>
 					<td><a href="updateMember_admin.do?id=${cvo.id}">수정</a>
 					<td><a href="deleteMember_admin.do?id=${cvo.id}">삭제</a>
+					<c:if test="${cvo.deletemember ==false}">
+					<td><a href="restoreMember_admin.do?id=${cvo.id}">복구</a>
+					</c:if>
  				</tr>
 			</c:forEach>
 		</tbody>

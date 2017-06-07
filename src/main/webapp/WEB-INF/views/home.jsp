@@ -29,6 +29,14 @@ $(document).ready(function(){
 			$("#CountMemberView").html(data);
 		}
 	});
+	$.ajax({
+		type:"post",
+		url:"${pageContext.request.contextPath}/getCountToDay.do",
+		dataType:"json",
+		success:function(data){
+			$("#CountToDayView").html(data);
+		}
+	});
 });//ready
 </script>
 
@@ -69,7 +77,7 @@ $(document).ready(function(){
                                 <p class="minute">전체후기 수</p>
                             </li>                            
                             <li class="angle-four">
-                                <span class="seconds time-font">${requestScope.count}</span>
+                                <span id="CountToDayView" class="seconds time-font"></span>
                                 <p>오늘의 방문자수</p>
                             </li>               
                         </ul>   

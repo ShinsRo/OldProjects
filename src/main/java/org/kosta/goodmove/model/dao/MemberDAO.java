@@ -34,4 +34,6 @@ public interface MemberDAO {
 
 	void deleteMember_admin(String id);
 
+	void restoreMember_admin(String id);
+
 }
