@@ -32,15 +32,14 @@
 			<!--/#portfolio-filter-->
 			<%--${pageContext.request.contextPath }/uploadedFiles/JAVA/board${list.bno}/1.jpg --%>
 			<div class="portfolio-items">
-			
 				<c:forEach items="${requestScope.blvo.list}" var="list">
-					<div class="col-xs-6 col-sm-4 col-md-3 portfolio-item branded logos">
+					<div
+						class="col-xs-6 col-sm-4 col-md-3 portfolio-item branded logos">
 						<div class="portfolio-wrapper">
 							<div class="portfolio-single">
 								<div class="portfolio-thumb">
-								<%-- "${pageContext.request.contextPath }/resources/images/portfolio/1.jpg" --%>
-									<img
-										src= "${pageContext.request.contextPath}/${list.thumbPath}"
+									<%-- "${pageContext.request.contextPath }/resources/images/portfolio/1.jpg" --%>
+									<img src="${pageContext.request.contextPath}/${list.thumbPath}"
 										class="img-responsive" alt="">
 								</div>
 								<div class="portfolio-view">
@@ -54,39 +53,53 @@
 									</ul>
 								</div>
 							</div>
-							<div class="portfolio-info" >
-								<h2 style="text-overflow:ellipsis; overflow:hidden;">${list.title}</h2>
+							<div class="portfolio-info">
+								<h2 style="text-overflow: ellipsis; overflow: hidden;">${list.title}</h2>
 								<h3>${list.addr}</h3>
 							</div>
 						</div>
 					</div>
 				</c:forEach>
-
-
-				<!-- pg -->
-				<c:set var="pb" value="${requestScope.blvo.pagingBean}"></c:set>
-<%-- 				<div class="portfolio-pagination">
+			</div><!-- portfolio -->
+		</div><!-- row -->
+		
+	</div><!-- container -->
+</section>
+			<!-- pg -->
+				<div class="portfolio-pagination">
 					<ul class="pagination">
-					<c:if test="${pb.previousPageGroup}">
-						<li><a href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${pb.startPageOfPageGroup-1}">왼</a></li>
-					</c:if>
-						<li><a href="#">left</a></li>
-						<c:forEach var="i" begin="${pb.startPageOfPageGroup}" end="${pb.endPageOfPageGroup}">
+						<c:set var="pb" value="${requestScope.blvo.pagingBean}"></c:set>
+						<c:choose>
+							<c:when test="${pb.previousPageGroup}">
+								<li><a
+									href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${pb.startPageOfPageGroup-1}">left</a></li>
+							</c:when>
+							<c:otherwise>
+								<li></li>
+							</c:otherwise>
+						</c:choose>
+
+						<c:forEach var="i" begin="${pb.startPageOfPageGroup}"
+							end="${pb.endPageOfPageGroup}">
 							<c:choose>
 								<c:when test="${pb.nowPage!=i}">
-									<li><a href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${i}">${i}</a></li>
+									<li><a
+										href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${i}">${i}</a></li>
 								</c:when>
 								<c:otherwise>
-									<li class="active"><a href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${i}">${i}</a></li>
+									<li class="active"><a href="#">${i}</a></li>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
-						<c:if test="${pb.nextPageGroup}">
-							<li><a href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${pb.endPageOfPageGroup+1}">right</a></li>
-						</c:if>
+
+						<c:choose>
+							<c:when test="${pb.nextPageGroup}">
+								<li><a
+									href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${pb.endPageOfPageGroup+1}">right</a></li>
+							</c:when>
+							<c:otherwise>
+								<li></li>
+							</c:otherwise>
+						</c:choose>
 					</ul>
-				</div> --%>
-			</div>
-		</div>
-		</div>
-</section>
+				</div><!-- pagingbean -->
