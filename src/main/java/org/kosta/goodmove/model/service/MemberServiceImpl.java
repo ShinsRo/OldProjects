@@ -87,4 +87,8 @@ public class MemberServiceImpl implements MemberService {
 	public void deleteMember_admin(String id){
 		memberDAO.deleteMember_admin(id);
 	}
+	@Override
+	public void restoreMember_admin(String id){
+		memberDAO.restoreMember_admin(id);
+	}
 }

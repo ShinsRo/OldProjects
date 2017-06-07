@@ -75,5 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="deleteMember_admin" parameterType="String"> 
 		UPDATE GD_MEMBER SET deletemember='FALSE' WHERE ID=#{value}
 	</update>
-	
+	<update id="restoreMember_admin" parameterType="String"> 
+		UPDATE GD_MEMBER SET deletemember='TRUE' WHERE ID=#{value}
+	</update>
 </mapper>

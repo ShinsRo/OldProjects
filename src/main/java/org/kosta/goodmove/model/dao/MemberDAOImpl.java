@@ -94,4 +94,8 @@ public class MemberDAOImpl implements MemberDAO{
 	public void deleteMember_admin(String id){
 		template.update("member.deleteMember_admin",id);
 	}
+	@Override
+	public void restoreMember_admin(String id){
+		template.update("member.restoreMember_admin",id);
+	}
 }

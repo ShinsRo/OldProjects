@@ -120,17 +120,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM APPLICATION WHERE BNO = #{bno} AND ID = #{id}
 	</select>
 	<update id="Refresh" parameterType="int">
-		UPDATE G_BOARD SET IS_TRADED = 'TRADED' WHERE BNO = ${value}
+		UPDATE G_BOARD SET IS_TRADED = 'TRADED' WHERE BNO = #{value}
 	</update>
 	<select id="selectedProductCnt" parameterType="int" resultType="int">
 		SELECT COUNT(*) FROM G_PRODUCT WHERE BNO = #{value} AND IS_TRADED =
 		'SELECTED'
 	</select>
 	<update id="putItOnDelivery" parameterType="hashMap">
-		UPDATE APPLICATION SET IS_DELIVERY= 'YES' WHERE BNO = ${value} AND ID = #{id}
+		UPDATE APPLICATION SET IS_DELIVERY= 'YES' WHERE BNO = #{value} AND ID = #{id}
 	</update>
 	<update id = "disableOtherApps">
-		UPDATE APPLICATION SET IS_DONE = 'DISABLED' WHERE BNO = ${value} AND ID = #{id}
+		UPDATE APPLICATION SET IS_DONE = 'DISABLED' WHERE BNO = #{value} AND ID = #{id}
+	</update>
+	<update id="deleteBoard">
+		UPDATE BOARD SET IS_DELETED = 'YES' WHERE BNO = #{value}
+	</update>
+	<update id="deleteProduct">
+		UPDATE G_PRODUCT SET IS_TRADED = 'DELETED_BOARD' WHERE BNO = #{value}
+	</update>
+	<update id= "deleteApplication">
+		UPDATE APPLICATION SET IS_DONE = 'DELETED_BOARD' WHERE BNO = #{value}	
 	</update>
 </mapper>
  

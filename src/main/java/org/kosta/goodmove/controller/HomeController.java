@@ -1,14 +1,9 @@
 package org.kosta.goodmove.controller;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kosta.goodmove.model.service.SearchService;
-import org.kosta.goodmove.model.vo.DeliveryVO;
-import org.kosta.goodmove.model.vo.MemberVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,30 +28,6 @@ public class HomeController {
 	 */
 	@RequestMapping("home.do")
 	public String home(Model model, HttpServletRequest request) {
-		MemberVO mvo = (MemberVO) request.getSession().getAttribute("mvo");
-		DeliveryVO dvo = (DeliveryVO) request.getSession().getAttribute("dvo");
-		String info;
-		if (mvo != null) {
-			try {
-				int i = InetAddress.getLocalHost().toString().lastIndexOf("/");
-				info = mvo.getId() + InetAddress.getLocalHost().toString().substring(i);
-				model.addAttribute("count", ss.countday(info));
-
-			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}else{
-			try {
-				int i = InetAddress.getLocalHost().toString().lastIndexOf("/");
-				info = InetAddress.getLocalHost().toString().substring(i);
-				model.addAttribute("count", ss.countday(info));
-
-			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 		return "home.tiles";
 	}
 

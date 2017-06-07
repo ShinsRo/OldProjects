@@ -32,4 +32,6 @@ public interface MemberService {
 	MemberListVO getMemberList_admin(int pageNo);
 
 	void deleteMember_admin(String id);
+
+	void restoreMember_admin(String id);
 }
