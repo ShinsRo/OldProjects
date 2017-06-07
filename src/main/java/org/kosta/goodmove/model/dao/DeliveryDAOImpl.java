@@ -67,5 +67,13 @@ public class DeliveryDAOImpl implements DeliveryDAO {
 	public MemberVO selectGiverByBno(String bno) {
 		return template.selectOne("delivery.selectGiverByBno", bno);
 	}
+	@Override
+	public List<DeliveryVO> getNotConfirmedDeliveryList(){
+		return template.selectList("delivery.getNotConfirmedDeliveryList");
+	}
+	@Override
+	public void confirmDelivery(DeliveryVO vo){
+		template.update("delivery.confirmDelivery", vo);
+	}
 
 }
