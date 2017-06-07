@@ -124,7 +124,7 @@
 		<div class = "row">
 			<div align = "center">
 				<button class = "btn btn-info"
-				onclick = "">수정</button> 
+				onclick = "javascript:location.href='${pageContext.request.contextPath}/boardUpdateView.do?bno=${bvo.bno}'">수정</button> 
 				<button class = "btn btn-info"
 				onclick = "">목록</button> 
 				<button class = "btn btn-danger"

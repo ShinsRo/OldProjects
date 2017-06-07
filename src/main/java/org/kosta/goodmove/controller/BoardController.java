@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 게시 정보 관할 컨트롤러 : Controller
@@ -98,7 +99,6 @@ public class BoardController {
 	 */
 	@RequestMapping("boardRegister.do")
 	public String fileUpload(HttpServletRequest req, BoardVO bvo, ProductSetVO psvo) {
-
 		int bno = boardService.getNextBno();
 		String userId = ((MemberVO) req.getSession(false).getAttribute("mvo")).getId();
 
@@ -231,6 +231,15 @@ public class BoardController {
 		model.addAttribute("bvo", bvo);
 		model.addAttribute("plist", plist);
 		return "admin/boardDetail_admin.tiles2";
+	}
+	
+	@RequestMapping("boardUpdateView.do")
+	public String boardUpdateView(String bno, Model model) {
+		BoardVO bvo = boardService.getBoardDetailByBno(Integer.parseInt(bno));
+		List<ProductVO> plist = boardService.getProductImgByBno(Integer.parseInt(bno));
+		model.addAttribute("bvo", bvo);
+		model.addAttribute("plist", plist);
+		return "board/boardUpdate.tiles";
 	}
 	
 }
