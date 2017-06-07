@@ -66,5 +66,9 @@ public class DeliveryServiceImpl implements DeliveryService {
 		map.put("reciever", dao.selectRecieverById(id));
 		return map;
 	}
+	@Override
+	public List<DeliveryVO> getNotConfirmedDeliveryList(){
+		return dao.getNotConfirmedDeliveryList();
+	}
 
 }

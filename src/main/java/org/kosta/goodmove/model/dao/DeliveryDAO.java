@@ -27,4 +27,8 @@ public interface DeliveryDAO {
 	MemberVO selectRecieverById(String id);
 	
 	MemberVO selectGiverByBno(String bno);
+
+	List<DeliveryVO> getNotConfirmedDeliveryList();
+
+	void confirmDelivery(DeliveryVO vo);
 }

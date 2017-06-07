@@ -26,6 +26,8 @@ public interface DeliveryService {
 	List<ApplicationVO> getAllDeliveryList();
 
 	Map<String, MemberVO> getDeliveryDetail(String id, String bno);
+
+	List<DeliveryVO> getNotConfirmedDeliveryList();
 	
 
 }

@@ -37,9 +37,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		set
 		is_done =#{state} where id=#{id} and bno = #{bno}
 	</update>
-	 <select id = "getAllDeliveryList" resultType="applicationVO">
+	<!-- 승인 된 용달 리스트 -->
+	<select id = "getAllDeliveryList" resultType="applicationVO">
 		select * from application where is_selected='SELECTED' and is_delivery='YES' and is_done='NO'
 	</select>
+	<!-- 미승인된 용달 리스트 -->
+	<select id = "getNotConfirmedDeliveryList" resultType="deliveryVO">
+		select * from delivery where is_confirmed='NO' and is_deleted='NO'
+	</select>
+	<update id="confirmDelivery" parameterType="deliveryVO">
+		update delivery set is_confirmed='YES' where id=#{id}
+	</update>
 	<select id="selectRecieverById" parameterType="string" resultType="memberVO">
 		select id,name,addr,addr_detail,tel from GD_MEMBER where id=#{value}
 	</select>
