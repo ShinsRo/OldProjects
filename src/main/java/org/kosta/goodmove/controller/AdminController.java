@@ -1,12 +1,18 @@
 package org.kosta.goodmove.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
+import org.kosta.goodmove.model.service.BoardService;
 import org.kosta.goodmove.model.service.CommentService;
 import org.kosta.goodmove.model.service.DeliveryService;
 import org.kosta.goodmove.model.service.SearchService;
+import org.kosta.goodmove.model.vo.BoardListVO;
+import org.kosta.goodmove.model.vo.BoardVO;
 import org.kosta.goodmove.model.vo.CommentReplyVO;
 import org.kosta.goodmove.model.vo.CommentVO;
+import org.kosta.goodmove.model.vo.ProductVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +26,9 @@ public class AdminController {
 	private SearchService searchService;
 	@Resource
 	private DeliveryService deliveryService;
-
+	@Resource
+	private BoardService boardService;
+	
 	/**
 	 * 관리자모드에서 지역후기 리스트 반환
 	 * 
@@ -140,6 +148,29 @@ public class AdminController {
 	}
 
 	/**
+	 * 관리자 상품관리
+	 * 
+	 * @param pageNo
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("getBoardList_admin.do")
+	public String getBoardList_admin(String pageNo, Model model) {
+		BoardListVO blvo = boardService.getAllBoardList(pageNo);
+		model.addAttribute("blvo", blvo);
+		return "admin/boardList_admin.tiles2";
+	}
+
+	@RequestMapping("boardDetail_admin.do")
+	public String boardDetail_admin(String bno, Model model) {
+		BoardVO bvo = boardService.getBoardDetailByBno(Integer.parseInt(bno));
+		List<ProductVO> plist = boardService.getProductImgByBno(Integer.parseInt(bno));
+		model.addAttribute("bvo", bvo);
+		model.addAttribute("plist", plist);
+		return "admin/boardDetail_admin.tiles2";
+	}
+
+	/**
 	 * 관리자 페이지에서 용달 제휴신청 관리
 	 * 
 	 * @return
@@ -149,10 +180,11 @@ public class AdminController {
 		model.addAttribute("NotSelectedlist", deliveryService.getNotConfirmedDeliveryList());
 		return "admin/deliveryList_admin.tiles2";
 	}
+
 	@RequestMapping("confirmDelivery.do")
-	public String confirmDelivery(String id){
+	public String confirmDelivery(String id) {
 		deliveryService.confirmDelivery(id);
-		System.out.println(id+ " 완료");
+		System.out.println(id + " 완료");
 		return "redirect:deliveryList_admin.do";
 	}
 }
