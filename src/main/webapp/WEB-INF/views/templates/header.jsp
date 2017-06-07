@@ -76,7 +76,7 @@
 							<li class="dropdown"><a href="">${sessionScope.dvo.name}님 로그인<i class="fa fa-angle-down"></i></a>
 								<ul role="menu" class="sub-menu">
 									<c:choose>
-										<c:when test="${sessionScope.dvo.is_confirmed == YES}">
+										<c:when test="${sessionScope.dvo.is_confirmed == 'YES'}">
 											<li><a href="${pageContext.request.contextPath}/getAllDeliveryList.do">용달 대기 신청</a></li>
 										</c:when>
 										<c:otherwise>
