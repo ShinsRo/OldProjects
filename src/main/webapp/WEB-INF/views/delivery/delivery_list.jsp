@@ -13,6 +13,14 @@
 		var PopOption = "width=670, height=360, resizable=no, scrollbars=no, status=no";
 		window.open(appPopURL,"",PopOption);
 	}
+	
+	function match_Delivery(bno,aid,did) {
+		if(confirm(bno+"번 용달 신청을 접수하시겠습니까?")){
+			location.href="registerDeliveryMatch.do?bno="+bno+"&aid="+aid+"&did="+did;
+		}else{
+			return false;
+		}
+	}
 </script>
 <section id="page-breadcrumb">
 	<div class="vertical-center sun">
@@ -37,7 +45,7 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th>BNO</th>
+						<th>게시물 번호</th>
 						<th>물건 번호</th>
 						<th>신청자 ID</th>
 						<th>용달 완료 여부</th>
@@ -45,14 +53,15 @@
 						<th>상세정보</th>
 					</tr>
 				</thead>
-
 				<tbody>
 					<c:forEach items="${requestScope.delivery_list}" var="list">
 						<tr>
 							<td>${list.bno}</td><td>${list.pnos}</td>
 							<td id = "id">${list.id}</td><td>${list.is_done}</td>
-							<td><input type="button" id="select_delivery_btn" class="btn btn-sm btn-info" value="접수"></td>
-							<td><input type="button" id="select_delivery_btn" class="btn btn-sm btn-info" value="상세 정보" onclick="getDetail('${list.id}',${list.bno})"></td>
+							<td><input type="button" id="select_delivery_btn" class="btn btn-sm btn-info" 
+							value="접수" onclick="match_Delivery(${list.bno},'${list.id}','${sessionScope.dvo.id}')"></td>
+							<td><input type="button" id="select_delivery_btn" class="btn btn-sm btn-info" 
+							value="상세 정보" onclick="getDetail('${list.id}',${list.bno})"></td>
 						</tr>
 					</c:forEach>
 				</tbody>

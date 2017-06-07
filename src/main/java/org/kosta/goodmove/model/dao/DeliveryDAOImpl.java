@@ -76,4 +76,13 @@ public class DeliveryDAOImpl implements DeliveryDAO {
 		template.update("delivery.confirmDelivery", id);
 	}
 
+	@Override
+	public void registerDeliveryMatch(String bno, String aid, String did) {
+		HashMap<String, String> dmMap = new HashMap<>();
+		dmMap.put("bno", bno);
+		dmMap.put("aid", aid);
+		dmMap.put("did", did);
+		template.insert("delivery.registerDeliveryMatch", dmMap);
+	}
+
 }

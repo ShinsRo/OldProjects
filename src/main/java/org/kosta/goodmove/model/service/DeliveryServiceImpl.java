@@ -75,4 +75,9 @@ public class DeliveryServiceImpl implements DeliveryService {
 		dao.confirmDelivery(id);
 	}
 
+	@Override
+	public void registerDeliveryMatch(String bno, String aid, String did) {
+		dao.registerDeliveryMatch(bno, aid, did);
+	}
+
 }
