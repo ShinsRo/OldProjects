@@ -161,9 +161,25 @@ public class BoardController {
 		model.addAttribute("appList", appList);
 		return "mypage/my_application.tiles";
 	}
-
+	/**
+	 * 관리자 상품관리
+	 * @param pageNo
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("getBoardList_admin.do")
 	public String getBoardList_admin(String pageNo, Model model){
-		return null;
+		BoardListVO blvo = boardService.getAllBoardList(pageNo);
+		model.addAttribute("blvo", blvo);
+		return "admin/boardList_admin.tiles2";
 	}
+	@RequestMapping("boardDetail_admin.do")
+	public String boardDetail_admin(String bno, Model model) {
+		BoardVO bvo = boardService.getBoardDetailByBno(Integer.parseInt(bno));
+		List<ProductVO> plist = boardService.getProductImgByBno(Integer.parseInt(bno));
+		model.addAttribute("bvo", bvo);
+		model.addAttribute("plist", plist);
+		return "admin/boardDetail_admin.tiles2";
+	}
+	
 }
