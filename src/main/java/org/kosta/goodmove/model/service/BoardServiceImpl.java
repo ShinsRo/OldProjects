@@ -92,6 +92,12 @@ public class BoardServiceImpl implements BoardService {
 		bvo.setAddr(newAddr);
 		return bvo;
 	}
+	
+	@Override
+	public BoardVO getBoardDetailByBnoWithFullAddr(int bno) {
+		BoardVO bvo = boardDAO.getBoardDetailByBno(bno);
+		return bvo;
+	}
 
 	@Override
 	public void boardRegister(BoardVO bvo, ProductSetVO psvo) {

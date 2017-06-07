@@ -197,7 +197,7 @@ public class BoardController {
 	@RequestMapping("boardDelete.do")
 	public String boardDelete(String bno){
 		boardService.delete(bno);
-		return "board/deleteResult";
+		return "redirect:board/deleteResult.do";
 	}
 	/**
 	 * 아이디로 검색한 주세요 신청 반환
@@ -211,5 +211,11 @@ public class BoardController {
 		List<ApplicationVO> appList = boardService.getApplicationsById(id);
 		model.addAttribute("appList", appList);
 		return "mypage/my_application.tiles";
+	}
+	@RequestMapping("boardUpdateView.do")
+	public String boardUpdateView(Model model, String bno){
+		model.addAttribute("bvo", boardService.getBoardDetailByBnoWithFullAddr(Integer.parseInt(bno)));
+		model.addAttribute("pList", boardService.getProductImgByBno(Integer.parseInt(bno)));
+		return "board/boardUpdate.tiles";
 	}
 }
