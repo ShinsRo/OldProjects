@@ -155,7 +155,32 @@ public class AdminController {
 	
 	@RequestMapping("getReportList_admin.do")
 	public String getReportList_admin(String category, String pageNo, Model model ){
-		model.addAttribute("lvo", adminService.getReportList(pageNo));
+		if(category==null){
+			category="comment";
+		}
+		model.addAttribute("lvo", adminService.getReportList(pageNo, category));
+		model.addAttribute("type", category);
+		model.addAttribute("reportBoardCount", adminService.reportCount("board"));
+		model.addAttribute("reportCommentCount", adminService.reportCount("comment"));
+		model.addAttribute("reportReplyCount", adminService.reportCount("reply"));
+		model.addAttribute("reportAllBoardCount", adminService.reportAllCount("board"));
+		model.addAttribute("reportAllCommentCount", adminService.reportAllCount("comment"));
+		model.addAttribute("reportAllReplyCount", adminService.reportAllCount("reply"));
+		return "admin/reportList.tiles2";
+	}
+	@RequestMapping("getAllReportList_admin.do")
+	public String getAllReportList_admin(String category, String pageNo, Model model ){
+		if(category==null){
+			category="comment";
+		}
+		model.addAttribute("lvo", adminService.getAllReportList(pageNo, category));
+		model.addAttribute("type", category+"All");
+		model.addAttribute("reportBoardCount", adminService.reportCount("board"));
+		model.addAttribute("reportCommentCount", adminService.reportCount("comment"));
+		model.addAttribute("reportReplyCount", adminService.reportCount("reply"));
+		model.addAttribute("reportAllBoardCount", adminService.reportAllCount("board"));
+		model.addAttribute("reportAllCommentCount", adminService.reportAllCount("comment"));
+		model.addAttribute("reportAllReplyCount", adminService.reportAllCount("reply"));
 		return "admin/reportList.tiles2";
 	}
 }

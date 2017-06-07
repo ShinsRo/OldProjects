@@ -107,7 +107,7 @@ where id = (
 
 --신고
 INSERT INTO REPORT(REPORT_NO, CATEGORY, RENO, ID, REPORTER, WHY, TIME_POSTED, PROCESS)
-VALUES(RE_SEQ.NEXTVAL,'comment',1,'java','java00','못생겼음',SYSDATE, 'FALSE');
+VALUES(RE_SEQ.NEXTVAL,'comment',1,'java','java00','못생겼음',SYSDATE, 'false');
 select * from REPORT;
 
 select * from REPORT where report_no=1;

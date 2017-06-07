@@ -4,7 +4,22 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="admin">
-
+	<select id="getTotalReportCount" resultType="int">
+		select count(*) from report where category=#{value} and process='FALSE'
+	</select>
+	<select id="getReportList" resultType="reportVO" parameterType="hashMap">
+		select * from (select report_no, category, reno, id, reporter, why, to_char(time_posted,'YYYY.MM.DD
+		HH:mm:ss') as time_posted, process, row_number() over(order by report_no desc) as rnum from
+		report where category=#{category} and process='FALSE') where rnum between #{startRowNumber} and #{endRowNumber}
+	</select>
+	<select id="getTotalReportCountAll" resultType="int">
+		select count(*) from report where category=#{value}
+	</select>
+	<select id="getAllReportList" resultType="reportVO" parameterType="hashMap">
+		select * from (select report_no, category, reno, id, reporter, why, to_char(time_posted,'YYYY.MM.DD
+		HH:mm:ss') as time_posted, process, row_number() over(order by report_no desc) as rnum from
+		report where category=#{category}) where rnum between #{startRowNumber} and #{endRowNumber}
+	</select>
 </mapper>
  
  
