@@ -29,7 +29,6 @@ public class DeliveryController {
 	@RequestMapping(value = "login_delivery.do", method = RequestMethod.POST)
 	public String login(DeliveryVO dvo, HttpServletRequest request) {
 		DeliveryVO vo = service.login(dvo);
-		System.out.println(vo);
 		if (vo == null) {
 			return "member/login_fail.tiles";
 		} else {
