@@ -31,4 +31,6 @@ public interface DeliveryDAO {
 	List<DeliveryVO> getNotConfirmedDeliveryList();
 
 	void confirmDelivery(String id);
+	
+	void registerDeliveryMatch(String bno,String aid,String did);
 }
