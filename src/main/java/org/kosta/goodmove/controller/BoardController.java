@@ -197,7 +197,7 @@ public class BoardController {
 	@RequestMapping("boardDelete.do")
 	public String boardDelete(String bno){
 		boardService.delete(bno);
-		return "board/boardDelete.tiles";
+		return "board/deleteResult";
 	}
 	/**
 	 * 아이디로 검색한 주세요 신청 반환

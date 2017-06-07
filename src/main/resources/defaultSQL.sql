@@ -156,5 +156,3 @@ CREATE SEQUENCE C_SEQ;
 CREATE SEQUENCE CR_SEQ;
 
 
-select * from delivery;
-
