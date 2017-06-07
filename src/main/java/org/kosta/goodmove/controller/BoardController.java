@@ -164,7 +164,6 @@ public class BoardController {
 		} else {
 			return "board/giveMe_fail.tiles";
 		}
-
 	}
 
 	/**

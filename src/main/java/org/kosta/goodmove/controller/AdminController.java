@@ -8,6 +8,7 @@ import org.kosta.goodmove.model.service.DeliveryService;
 import org.kosta.goodmove.model.service.SearchService;
 import org.kosta.goodmove.model.vo.CommentReplyVO;
 import org.kosta.goodmove.model.vo.CommentVO;
+import org.kosta.goodmove.model.vo.ReportVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -157,5 +158,28 @@ public class AdminController {
 	public String getReportList_admin(String category, String pageNo, Model model ){
 		model.addAttribute("lvo", adminService.getReportList(pageNo));
 		return "admin/reportList.tiles2";
+	}
+	
+	/**
+	 * 신고하기
+	 */
+	@RequestMapping("reportReply.do")
+	public String reortReply(ReportVO rvo, Model model, int cno){
+		System.out.println(rvo);
+		adminService.replyReport(rvo);
+		System.out.println("댓글 신고완료!");
+		model.addAttribute("CommentReplyList", commentService.getAllCommentReplyList(cno));
+		model.addAttribute("cvo",commentService.showCommentNoHit(cno));
+		return "comment/commentDetail.tiles";
+	}
+	
+	@RequestMapping("reportComment.do")
+	public String reportComment(ReportVO rvo, Model model){
+		System.out.println(rvo);
+		adminService.commentReport(rvo);
+		System.out.println("후기 신고완료!");
+		model.addAttribute("CommentReplyList", commentService.getAllCommentReplyList(rvo.getReno()));
+		model.addAttribute("cvo",commentService.showCommentNoHit(rvo.getReno()));
+		return "comment/commentDetail.tiles";
 	}
 }
