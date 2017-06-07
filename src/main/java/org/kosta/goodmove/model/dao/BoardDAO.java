@@ -60,4 +60,10 @@ public interface BoardDAO {
 	void putItOnDelivery(String bno, String id);
 
 	void disableOtherApps(String pno);
+
+	void deleteBoard(String bno);
+
+	void deletePoduct(String bno);
+
+	void deleteApplication(String bno);
 }

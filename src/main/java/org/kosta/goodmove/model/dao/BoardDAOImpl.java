@@ -189,4 +189,19 @@ public class BoardDAOImpl implements BoardDAO {
 	public void disableOtherApps(String pno) {
 		template.update("board.disableOtherApps", pno);
 	}
+
+	@Override
+	public void deleteBoard(String bno) {
+		template.update("board.deleteBoard", bno);
+	}
+
+	@Override
+	public void deletePoduct(String bno) {
+		template.update("board.deleteProduct", bno);
+	}
+
+	@Override
+	public void deleteApplication(String bno) {
+		template.update("board.deleteApplication", bno);
+	}
 }

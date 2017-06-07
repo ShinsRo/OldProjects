@@ -43,4 +43,6 @@ public interface BoardService {
 	List<ApplicationVO> getApplicationsById(String id);
 
 	public void confirmApply(String bno, String id);
+
+	public void delete(String bno);
 }

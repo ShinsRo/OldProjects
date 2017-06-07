@@ -179,4 +179,11 @@ public class BoardServiceImpl implements BoardService {
 			boardDAO.Refresh(avo.getBno());
 		}
 	}
+
+	@Override
+	public void delete(String bno) {
+		boardDAO.deleteBoard(bno);
+		boardDAO.deletePoduct(bno);
+		boardDAO.deleteApplication(bno);
+	}
 }

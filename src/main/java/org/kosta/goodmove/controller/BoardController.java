@@ -191,9 +191,13 @@ public class BoardController {
 	 */
 	@RequestMapping("confirmApply.do")
 	public String confirmApply(String bno, String id) {
-		System.out.println(bno + id);
 		boardService.confirmApply(bno, id);
 		return "redirect:getApplications.do?bno=" + bno;
+	}
+	@RequestMapping("boardDelete.do")
+	public String boardDelete(String bno){
+		boardService.delete(bno);
+		return "redirect:board/boardDelete";
 	}
 	/**
 	 * 아이디로 검색한 주세요 신청 반환

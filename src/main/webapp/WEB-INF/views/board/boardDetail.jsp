@@ -120,7 +120,16 @@
 					<!-- wrapper -->
 				</div>
 			</c:forEach>
-
+		</div>
+		<div class = "row">
+			<div align = "center">
+				<button class = "btn btn-info"
+				onclick = "">수정</button> 
+				<button class = "btn btn-info"
+				onclick = "">목록</button> 
+				<button class = "btn btn-danger"
+				onclick = "javascript:location.href='${pageContext.request.contextPath}/boardDelete.do'">삭제</button>
+			</div>
 		</div>
 	</div>
 </section>
