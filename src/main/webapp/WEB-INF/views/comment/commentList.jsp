@@ -44,7 +44,7 @@
 					${cvo.title }
 					</c:otherwise>
 						</c:choose></td>
-					<td>${cvo.id }</td>
+					<td><a href="${pageContext.request.contextPath }/search.do?mcategory=comment&scategory=id&word=${cvo.id }">${cvo.id }</a></td>
 					<td>${cvo.time_posted }</td>
 					<td>${cvo.hit }</td>
 					<td>${cvo.addr }</td>
