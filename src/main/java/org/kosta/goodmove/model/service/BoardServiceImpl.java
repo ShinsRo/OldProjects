@@ -182,7 +182,9 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void delete(String bno) {
+		System.out.println("board : " + bno);
 		boardDAO.deleteBoard(bno);
+		System.out.println("product");
 		boardDAO.deletePoduct(bno);
 		boardDAO.deleteApplication(bno);
 	}

@@ -18,13 +18,14 @@ public class BoardVO {
 	private String time_posted;
 	private String thumbPath;
 	private String is_traded;
+	private String is_deleted;
 	private List<ProductVO> pList;
 	private List<ApplicationVO> aList;
 	public BoardVO() {
 		super();
 	}
 	public BoardVO(int bno, int hit, String title, String id, String addr, String bcontent, String time_posted,
-			String thumbPath, String is_traded, List<ProductVO> pList, List<ApplicationVO> aList) {
+			String thumbPath, String is_traded, String is_deleted, List<ProductVO> pList, List<ApplicationVO> aList) {
 		super();
 		this.bno = bno;
 		this.hit = hit;
@@ -35,6 +36,7 @@ public class BoardVO {
 		this.time_posted = time_posted;
 		this.thumbPath = thumbPath;
 		this.is_traded = is_traded;
+		this.is_deleted = is_deleted;
 		this.pList = pList;
 		this.aList = aList;
 	}
@@ -92,6 +94,12 @@ public class BoardVO {
 	public void setIs_traded(String is_traded) {
 		this.is_traded = is_traded;
 	}
+	public String getIs_deleted() {
+		return is_deleted;
+	}
+	public void setIs_deleted(String is_deleted) {
+		this.is_deleted = is_deleted;
+	}
 	public List<ProductVO> getpList() {
 		return pList;
 	}
@@ -108,6 +116,8 @@ public class BoardVO {
 	public String toString() {
 		return "BoardVO [bno=" + bno + ", hit=" + hit + ", title=" + title + ", id=" + id + ", addr=" + addr
 				+ ", bcontent=" + bcontent + ", time_posted=" + time_posted + ", thumbPath=" + thumbPath
-				+ ", is_traded=" + is_traded + ", pList=" + pList + ", aList=" + aList + "]";
+				+ ", is_traded=" + is_traded + ", is_deleted=" + is_deleted + ", pList=" + pList + ", aList=" + aList
+				+ "]";
 	}
+	
 }

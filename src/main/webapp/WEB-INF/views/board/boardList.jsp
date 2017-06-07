@@ -34,6 +34,7 @@
 			<div class="portfolio-items">
 			
 				<c:forEach items="${requestScope.blvo.list}" var="list">
+					<c:if test = "${list.is_deleted != 'YES'}">
 					<div class="col-xs-6 col-sm-4 col-md-3 portfolio-item branded logos">
 						<div class="portfolio-wrapper">
 							<div class="portfolio-single">
@@ -60,6 +61,7 @@
 							</div>
 						</div>
 					</div>
+					</c:if>
 				</c:forEach>
 
 
