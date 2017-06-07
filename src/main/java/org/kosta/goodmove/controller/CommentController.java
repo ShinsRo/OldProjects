@@ -239,4 +239,9 @@ public class CommentController {
 		commentService.updateCommentReply(crvo);
 		return "redirect:showCommentNoHit.do?&cno=" + cno;
 	}
+	@RequestMapping("findCommentListById.do")
+	public String findCommentById(String id, String pageNo, Model model ){
+		model.addAttribute("lvo", commentService.findCommentListById(id, pageNo));
+		return "comment/commentList.tiles";
+	}
 }

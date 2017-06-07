@@ -28,11 +28,8 @@ function keypress(){
 		<div class="container">
 			<div class="row">
 				<div class="action">
-					<div class="col-sm-12">
+					<div class="col-sm-14">
 						<h1 class="title">회원탈퇴 결과</h1>
-						<p>
-							<br>회원탈퇴 결과입니다
-						</p>
 					</div>
 				</div>
 			</div>

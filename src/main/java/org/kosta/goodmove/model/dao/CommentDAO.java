@@ -2,6 +2,7 @@ package org.kosta.goodmove.model.dao;
 
 import java.util.List;
 
+import org.kosta.goodmove.model.vo.CommentListVO;
 import org.kosta.goodmove.model.vo.CommentReplyVO;
 import org.kosta.goodmove.model.vo.CommentVO;
 import org.kosta.goodmove.model.vo.PagingBean;
@@ -26,4 +27,6 @@ public interface CommentDAO {
 	void updateCommentReply(CommentReplyVO crvo);
 	CommentReplyVO getCommentReplyInfoByRNO(int rno);
 	void deleteCommentReplyChild(int gno);
+	List<CommentVO> findCommentById(String id, PagingBean pb);
+	int getTotalContentCountById(String id);
 }

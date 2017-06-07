@@ -44,7 +44,16 @@
 					${cvo.title }
 					</c:otherwise>
 						</c:choose></td>
-					<td><a href="${pageContext.request.contextPath }/search.do?mcategory=comment&scategory=id&word=${cvo.id }">${cvo.id }</a></td>
+					<td>
+					<ul class = "nav navbar-nav navbar-left">
+					<li class="dropdown">${cvo.id }<i class="fa fa-angle-down"></i>
+                            <ul role="menu" class="sub-menu">
+                                <li><a href="${pageContext.request.contextPath }/findCommentListById.do?id=${cvo.id }&pageNo=1">이 사람의 후기</a></li>
+                                	<li><a href="${pageContext.request.contextPath}/BoardListById.do?id=${cvo.id }&pageNo=1">이 사람의 드려요</a></li>
+                            </ul>
+                        </li>
+                     </ul>
+                     </td>
 					<td>${cvo.time_posted }</td>
 					<td>${cvo.hit }</td>
 					<td>${cvo.addr }</td>

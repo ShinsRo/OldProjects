@@ -1,9 +1,11 @@
 package org.kosta.goodmove.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.kosta.goodmove.model.vo.CommentListVO;
 import org.kosta.goodmove.model.vo.CommentReplyVO;
 import org.kosta.goodmove.model.vo.CommentVO;
 import org.kosta.goodmove.model.vo.PagingBean;
@@ -158,5 +160,19 @@ public class CommentDAOImpl implements CommentDAO{
 	@Override
 	public void deleteCommentReplyChild(int gno){
 		template.delete("comment.deleteCommentReplyChild",gno);
+	}
+
+	@Override
+	public int getTotalContentCountById(String id) {
+		return template.selectOne("comment.getTotalContentCountById", id);
+	}
+
+	@Override
+	public List<CommentVO> findCommentById(String id, PagingBean pb) {
+		HashMap<String, Object> param = new HashMap<>();
+		System.out.println(id + "---"+pb.getStartRowNumber());
+		param.put("id", id);
+		param.put("pagingBean", pb);
+		return template.selectList("comment.findCommentById", param);
 	}
 }
