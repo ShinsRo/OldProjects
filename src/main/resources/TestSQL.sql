@@ -105,6 +105,18 @@ where id = (
 	select id from G_BOARD where bno=2
 )
 
+--신고
+INSERT INTO REPORT(REPORT_NO, CATEGORY, RENO, ID, REPORTER, WHY, TIME_POSTED, PROCESS)
+VALUES(RE_SEQ.NEXTVAL,'comment',1,'java','java00','못생겼음',SYSDATE, 'FALSE');
+select * from REPORT;
+
+select * from REPORT where report_no=1;
+
+update report set process='삭제' where report_no=1;
+update report set process='수정' where report_no=1;
+update report set process='반려' where report_no=1;
+
+
 		
 
 

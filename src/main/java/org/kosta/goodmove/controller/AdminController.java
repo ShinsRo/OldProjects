@@ -2,6 +2,7 @@ package org.kosta.goodmove.controller;
 
 import javax.annotation.Resource;
 
+import org.kosta.goodmove.model.service.AdminService;
 import org.kosta.goodmove.model.service.CommentService;
 import org.kosta.goodmove.model.service.DeliveryService;
 import org.kosta.goodmove.model.service.SearchService;
@@ -20,6 +21,8 @@ public class AdminController {
 	private SearchService searchService;
 	@Resource
 	private DeliveryService deliveryService;
+	@Resource
+	private AdminService adminService;
 
 	/**
 	 * 관리자모드에서 지역후기 리스트 반환
@@ -148,5 +151,11 @@ public class AdminController {
 	public String deliveryListAdmin(Model model) {
 		model.addAttribute("NotSelectedlist", deliveryService.getNotConfirmedDeliveryList());
 		return "admin/deliveryList_admin.tiles2";
+	}
+	
+	@RequestMapping("getReportList_admin.do")
+	public String getReportList_admin(String category, String pageNo, Model model ){
+		model.addAttribute("lvo", adminService.getReportList(pageNo));
+		return "admin/reportList.tiles2";
 	}
 }
