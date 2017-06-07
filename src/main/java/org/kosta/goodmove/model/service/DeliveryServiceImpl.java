@@ -70,5 +70,9 @@ public class DeliveryServiceImpl implements DeliveryService {
 	public List<DeliveryVO> getNotConfirmedDeliveryList(){
 		return dao.getNotConfirmedDeliveryList();
 	}
+	@Override
+	public void confirmDelivery(String id){
+		dao.confirmDelivery(id);
+	}
 
 }

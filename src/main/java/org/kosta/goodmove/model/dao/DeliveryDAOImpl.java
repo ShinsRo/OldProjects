@@ -72,8 +72,8 @@ public class DeliveryDAOImpl implements DeliveryDAO {
 		return template.selectList("delivery.getNotConfirmedDeliveryList");
 	}
 	@Override
-	public void confirmDelivery(DeliveryVO vo){
-		template.update("delivery.confirmDelivery", vo);
+	public void confirmDelivery(String id){
+		template.update("delivery.confirmDelivery", id);
 	}
 
 }

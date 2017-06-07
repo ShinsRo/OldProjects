@@ -149,4 +149,10 @@ public class AdminController {
 		model.addAttribute("NotSelectedlist", deliveryService.getNotConfirmedDeliveryList());
 		return "admin/deliveryList_admin.tiles2";
 	}
+	@RequestMapping("confirmDelivery.do")
+	public String confirmDelivery(String id){
+		deliveryService.confirmDelivery(id);
+		System.out.println(id+ " 완료");
+		return "redirect:deliveryList_admin.do";
+	}
 }

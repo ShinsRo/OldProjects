@@ -75,7 +75,14 @@
 						<c:if test="${sessionScope.dvo != null}">
 							<li class="dropdown"><a href="">${sessionScope.dvo.name}님 로그인<i class="fa fa-angle-down"></i></a>
 								<ul role="menu" class="sub-menu">
-									<li><a href="${pageContext.request.contextPath}/getAllDeliveryList.do">용달 대기 신청</a></li>
+									<c:choose>
+										<c:when test="${sessionScope.dvo.is_confirmed == YES}">
+											<li><a href="${pageContext.request.contextPath}/getAllDeliveryList.do">용달 대기 신청</a></li>
+										</c:when>
+										<c:otherwise>
+											<li><a>제휴 승인 대기중입니다.</a></li>
+										</c:otherwise>
+									</c:choose>
 								</ul>
 							</li>
 						</c:if>

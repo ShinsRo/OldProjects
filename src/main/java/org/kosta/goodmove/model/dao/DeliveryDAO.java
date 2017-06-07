@@ -30,5 +30,5 @@ public interface DeliveryDAO {
 
 	List<DeliveryVO> getNotConfirmedDeliveryList();
 
-	void confirmDelivery(DeliveryVO vo);
+	void confirmDelivery(String id);
 }

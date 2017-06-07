@@ -28,6 +28,8 @@ public interface DeliveryService {
 	Map<String, MemberVO> getDeliveryDetail(String id, String bno);
 
 	List<DeliveryVO> getNotConfirmedDeliveryList();
+
+	void confirmDelivery(String id);
 	
 
 }
