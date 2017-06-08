@@ -1,5 +1,7 @@
 package org.kosta.goodmove.model.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.kosta.goodmove.model.dao.BoardDAO;
@@ -66,4 +68,11 @@ public class SearchServiceImpl implements SearchService {
 		return searchDAO.countday(info);
 	}
 
+	/**
+	 * 검색 자동완성
+	 */
+	@Override 
+	public List<String> getAutoSearchList(String keyword) {
+		return searchDAO.getAutoSearchList(keyword);
+	}
 }

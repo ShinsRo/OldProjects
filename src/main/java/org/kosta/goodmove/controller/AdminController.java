@@ -262,7 +262,20 @@ public class AdminController {
 		model.addAttribute("cvo",commentService.showCommentNoHit(rvo.getReno()));
 		return "comment/commentDetail.tiles";
 	}
-	
+
+	@RequestMapping("reportBoard.do")
+	public String reportBoard(ReportVO rvo, Model model){
+		System.out.println(rvo);
+		adminService.boardReport(rvo);
+		BoardVO bvo = boardService.getBoardDetailByBno(rvo.getReno());
+		List<ProductVO> plist = boardService.getProductImgByBno(rvo.getReno());
+		model.addAttribute("bvo",bvo);
+		model.addAttribute("plist",plist);
+		System.out.println("상품 신고완료!");
+		return "board/boardDetail.tiles";
+		
+	}
+
 	@RequestMapping("confirmDelivery.do")
 	public String confirmDelivery(String id) {
 		deliveryService.confirmDelivery(id);

@@ -23,4 +23,7 @@ public interface AdminDAO {
 
 	void rejectReport(int report_no);
 
+	void boardReport(ReportVO rvo);
+
+
 }

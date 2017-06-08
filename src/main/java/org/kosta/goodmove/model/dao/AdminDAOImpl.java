@@ -63,6 +63,10 @@ public class AdminDAOImpl implements AdminDAO {
 	@Override
 	public void rejectReport(int report_no) {
 		template.update("admin.rejectReport", report_no);
-		
+	}
+	
+	@Override
+	public void boardReport(ReportVO rvo) {
+		template.insert("admin.boardReport", rvo);
 	}
 }

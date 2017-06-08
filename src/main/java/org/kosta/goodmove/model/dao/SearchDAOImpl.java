@@ -56,5 +56,8 @@ public class SearchDAOImpl implements SearchDAO {
 	}
 
 
-	
+	@Override 
+	public List<String> getAutoSearchList(String keyword) {
+		return template.selectList("comment.getAutoSearchList",keyword);
+	}
 }

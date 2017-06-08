@@ -22,5 +22,8 @@ public interface AdminService {
 	public void deleteReport(int report_no);
 
 	public void rejectReport(int report_no);
+	
+	void boardReport(ReportVO rvo);
+
 
 }

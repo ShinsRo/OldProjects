@@ -1,5 +1,7 @@
 package org.kosta.goodmove.model.service;
 
+import java.util.List;
+
 import org.kosta.goodmove.model.vo.BoardListVO;
 import org.kosta.goodmove.model.vo.CommentListVO;
 import org.kosta.goodmove.model.vo.SearchVO;
@@ -13,5 +15,7 @@ public interface SearchService {
 	int count(SearchVO searchVO);
 
 	int countday(String info);
+
+	List<String> getAutoSearchList(String keyword);
 
 }
