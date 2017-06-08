@@ -29,6 +29,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO REPORT(REPORT_NO,CATEGORY,RENO,ID,REPORTER,WHY,TIME_POSTED,PROCESS)
 		VALUES(RE_SEQ.nextval, #{category}, #{reno}, #{id}, #{reporter}, #{why}, sysdate, 'FALSE')
 	</insert>
+	<insert id="boardReport" parameterType="reportVO">
+		INSERT INTO REPORT(REPORT_NO,CATEGORY,RENO,ID,REPORTER,WHY,TIME_POSTED,PROCESS)
+		VALUES(RE_SEQ.nextval, #{category}, #{reno}, #{id}, #{reporter}, #{why}, sysdate, 'FALSE')
+	</insert>
 </mapper>
  
  

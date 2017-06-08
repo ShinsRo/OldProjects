@@ -36,7 +36,10 @@ public class AdminServiceImpl implements AdminService {
 	public void commentReport(ReportVO rvo) {
 		adminDAO.commentReport(rvo);
 	}
-
+	@Override
+	public void boardReport(ReportVO rvo) {
+		adminDAO.boardReport(rvo);
+	}
 	@Override
 	public int reportCount(String category) {
 		return adminDAO.getTotalReportCount(category);

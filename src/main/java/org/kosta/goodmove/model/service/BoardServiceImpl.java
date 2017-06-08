@@ -8,7 +8,6 @@ import java.util.StringTokenizer;
 import javax.annotation.Resource;
 
 import org.kosta.goodmove.model.dao.BoardDAO;
-import org.kosta.goodmove.model.dao.DeliveryDAO;
 import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.BoardListVO;
 import org.kosta.goodmove.model.vo.BoardPagingBean;

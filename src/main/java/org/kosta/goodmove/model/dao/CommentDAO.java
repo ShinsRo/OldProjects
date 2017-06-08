@@ -2,7 +2,6 @@ package org.kosta.goodmove.model.dao;
 
 import java.util.List;
 
-import org.kosta.goodmove.model.vo.CommentListVO;
 import org.kosta.goodmove.model.vo.CommentReplyVO;
 import org.kosta.goodmove.model.vo.CommentVO;
 import org.kosta.goodmove.model.vo.PagingBean;

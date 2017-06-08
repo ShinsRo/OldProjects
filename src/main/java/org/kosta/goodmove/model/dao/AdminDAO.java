@@ -19,4 +19,6 @@ public interface AdminDAO {
 
 	void commentReport(ReportVO rvo);
 
+	void boardReport(ReportVO rvo);
+
 }

@@ -21,7 +21,7 @@
 	}
  	function reportComment(){
  		if(confirm("신고하시겠습니까?")){
- 			$("#replyComment").modal();
+ 			$("#reportComment").modal();
 		}else{
 			return;
 		}
@@ -314,7 +314,7 @@
 
 <!-- comment 신고modal -->
 <!-- start modal -->
-<div class="modal fade" id="replyComment" role="dialog">
+<div class="modal fade" id="reportComment" role="dialog">
 	<div class="modal-dialog">
 		<!-- Modal content-->
 			<div class="modal-content" id="modal-content">

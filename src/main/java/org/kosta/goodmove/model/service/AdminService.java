@@ -19,4 +19,6 @@ public interface AdminService {
 
 	void commentReport(ReportVO rvo);
 
+	void boardReport(ReportVO rvo);
+
 }
