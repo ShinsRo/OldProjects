@@ -1,11 +1,16 @@
 package org.kosta.goodmove.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.codehaus.jackson.map.util.JSONPObject;
 import org.kosta.goodmove.model.service.BoardService;
 import org.kosta.goodmove.model.service.CommentService;
 import org.kosta.goodmove.model.service.MemberService;
@@ -14,6 +19,7 @@ import org.kosta.goodmove.model.vo.MemberVO;
 import org.kosta.goodmove.model.vo.SearchVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -64,6 +70,7 @@ public class SearchController {
 
 	/**
 	 * 메인화면에 표시되는 오늘의 방문자
+	 * 
 	 * @param model
 	 * @param request
 	 * @return
@@ -77,7 +84,7 @@ public class SearchController {
 			try {
 				int i = InetAddress.getLocalHost().toString().lastIndexOf("/");
 				info = mvo.getId() + InetAddress.getLocalHost().toString().substring(i);
-				
+
 			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -136,5 +143,17 @@ public class SearchController {
 		model.addAttribute("type", type);
 		model.addAttribute("mcategory", vo.getMcategory());
 		return "search/searchResult.tiles";
+	}
+
+	@RequestMapping("autoSearch.do")
+	@ResponseBody
+	public void autoSearch(ModelMap modelMap, String keyword, HttpServletResponse response)
+			throws IOException {
+		List<String> searchList = null;
+		System.out.println(keyword);
+		searchList = searchService.getAutoSearchList(keyword);
+		System.out.println(searchList);
+		PrintWriter out = response.getWriter();
+		out.print(searchList.toString());
 	}
 }

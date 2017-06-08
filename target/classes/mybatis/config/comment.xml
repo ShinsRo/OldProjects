@@ -97,6 +97,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteCommentReplyChild" parameterType="int">
 	DELETE FROM LOC_COMMENT_REPLY WHERE GNO=#{value}
 	</delete>
+	
+	<!-- 검색자동완성 -->
+	<select id="getAutoSearchList" parameterType="String" resultType="String">
+	select * from AUTOSEARCH WHERE KEYWORD like '%' || #{value} || '%'
+	</select>
 </mapper>
  
  
