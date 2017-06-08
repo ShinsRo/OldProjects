@@ -162,11 +162,17 @@ public class CommentDAOImpl implements CommentDAO{
 	}
 	
 
+	/**
+	 * 아이디에 해당하는 지역후기 작성갯수 반환
+	 */
 	@Override
 	public int getTotalContentCountById(String id) {
 		return template.selectOne("comment.getTotalContentCountById", id);
 	}
 
+	/**
+	 * 아이디에 해당하는 지역후기 리스트 반환
+	 */
 	@Override
 	public List<CommentVO> findCommentById(String id, PagingBean pb) {
 		HashMap<String, Object> param = new HashMap<>();

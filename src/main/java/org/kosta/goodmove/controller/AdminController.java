@@ -165,6 +165,12 @@ public class AdminController {
 		return "admin/boardList_admin.tiles2";
 	}
 
+	/**
+	 * 관리자 기부글 관리
+	 * @param bno
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("boardDetail_admin.do")
 	public String boardDetail_admin(String bno, Model model) {
 		BoardVO bvo = boardService.getBoardDetailByBno(Integer.parseInt(bno));
@@ -194,7 +200,7 @@ public class AdminController {
 	@RequestMapping("getReportList_admin.do")
 	public String getReportList_admin(String category, String pageNo, Model model ){
 		if(category==null){
-			category="comment";
+			category="board";
 		}
 		model.addAttribute("lvo", adminService.getReportList(pageNo, category));
 		model.addAttribute("type", category);
@@ -216,9 +222,7 @@ public class AdminController {
 	 */
 	@RequestMapping("getAllReportList_admin.do")
 	public String getAllReportList_admin(String category, String pageNo, Model model ){
-		if(category==null){
-			category="comment";
-		}
+		
 		model.addAttribute("lvo", adminService.getAllReportList(pageNo, category));
 		model.addAttribute("type", category+"All");
 		model.addAttribute("reportBoardCount", adminService.reportCount("board"));
@@ -263,6 +267,12 @@ public class AdminController {
 		return "comment/commentDetail.tiles";
 	}
 
+	/**
+	 * 기부글 신고 상세보기
+	 * @param rvo
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("reportBoard.do")
 	public String reportBoard(ReportVO rvo, Model model){
 		System.out.println(rvo);
@@ -276,6 +286,7 @@ public class AdminController {
 		
 	}
 
+	
 	@RequestMapping("confirmDelivery.do")
 	public String confirmDelivery(String id) {
 		deliveryService.confirmDelivery(id);
