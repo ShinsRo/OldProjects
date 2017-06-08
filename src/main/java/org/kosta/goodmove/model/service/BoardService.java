@@ -1,7 +1,6 @@
 package org.kosta.goodmove.model.service;
 
 import java.util.List;
-
 import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.BoardListVO;
 import org.kosta.goodmove.model.vo.BoardVO;
@@ -43,4 +42,6 @@ public interface BoardService {
 	List<ApplicationVO> getApplicationsById(String id);
 
 	public void confirmApply(String ano);
+	
+	public BoardListVO boardListById(String id, String pageNo);
 }

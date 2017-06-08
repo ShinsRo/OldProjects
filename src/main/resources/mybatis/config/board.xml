@@ -84,6 +84,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where upper(${scategory}) like '%' || upper(#{word}) || '%') 
 		where rnum between #{startRowNumber} and #{endRowNumber}
 </select>
+<select id = "boardListById" parameterType="hashMap" resultType="BoardVO">
+		select * from (select bno, title, hit, to_char(time_posted,'YYYY.MM.DD HH:mm:ss') as
+		time_posted, addr, id, bcontent, row_number() over(order by bno desc) as rnum from
+		g_board where id = #{id}) where rnum between #{pagingBean.startRowNumber} and #{pagingBean.endRowNumber}
+	</select>
+		<select id = "getTotalContentCountById" resultType="int">
+	SELECT COUNT(*) FROM G_BOARD WHERE ID = #{value} 
+	</select>
 <update id = "confirmApply">
 	UPDATE APPLICATION SET IS_SELECTED = 'SELECTED' WHERE ANO = #{value}
 </update>
@@ -98,7 +106,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	<select id = "selectedProductCnt" parameterType="int" resultType="int">
 		SELECT COUNT(*) FROM G_PRODUCT WHERE BNO = #{value} AND IS_TRADED = 'SELECTED'
-	</select>
+	</select>	
 </mapper>
 
 

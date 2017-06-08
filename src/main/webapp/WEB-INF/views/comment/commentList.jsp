@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/resources/_css/dropdown.css">
 <!-- 배너 타이틀 -->
 <section id="page-breadcrumb">
 	<div class="vertical-center sun">
@@ -45,11 +47,11 @@
 					</c:otherwise>
 						</c:choose></td>
 					<td>
-					<ul class = "nav navbar-nav navbar-left">
+				<ul class = "nav navbar-nav navbar-left">
 					<li class="dropdown">${cvo.id }<i class="fa fa-angle-down"></i>
-                            <ul role="menu" class="sub-menu">
-                                <li><a href="${pageContext.request.contextPath }/findCommentListById.do?id=${cvo.id }&pageNo=1">이 사람의 후기</a></li>
-                                	<li><a href="${pageContext.request.contextPath}/BoardListById.do?id=${cvo.id }&pageNo=1">이 사람의 드려요</a></li>
+                            <ul role="menu" class="sub-menu" id="down">
+                                <li class="color1"><a href="${pageContext.request.contextPath }/findCommentListById.do?id=${cvo.id }&pageNo=1">이 사람의 후기</a></li>
+                                	<li class="color2"><a href="${pageContext.request.contextPath}/BoardListById.do?id=${cvo.id }&pageNo=1">이 사람의 드려요</a></li>
                             </ul>
                         </li>
                      </ul>

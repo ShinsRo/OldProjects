@@ -5,11 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.StringTokenizer;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
 import org.kosta.goodmove.model.service.BoardService;
 import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.BoardListVO;
@@ -174,4 +171,17 @@ public class BoardController {
 		model.addAttribute("appList", appList);
 		return "mypage/my_application.tiles";
 	}
+	/**
+	 * 아이디를 통해 내가올린드려요 페이지로 이동하기
+	 * 위해 필요한 컨트롤러
+	 * @param id
+	 * @param pageNo
+	 * @param model
+	 * @return 내가올린드려요페이지로 이동
+	 */
+		@RequestMapping("BoardListById.do")
+		public String boardListById(String id, String pageNo, Model model ){
+			model.addAttribute("blvo", boardService.boardListById(id, pageNo));
+			return "mypage/my_board.tiles";
+		}
 }

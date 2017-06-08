@@ -1,0 +1,17 @@
+@CHARSET "UTF-8";
+#down{
+	margin-top: -40px;
+	
+}
+.color1:hover{
+	background-color: #00aeef;
+	color: #fff;
+	padding: 5px;
+}
+.color2:hover{
+	background-color: #00aeef;
+	color: #fff;
+	padding: 5px;
+}
+
+

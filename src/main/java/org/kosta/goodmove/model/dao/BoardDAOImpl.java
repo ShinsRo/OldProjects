@@ -2,9 +2,7 @@ package org.kosta.goodmove.model.dao;
 
 import java.util.HashMap;
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.BoardPagingBean;
 import org.kosta.goodmove.model.vo.BoardVO;
@@ -168,5 +166,25 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public int selectedProductCnt(int bno) {
 		return template.selectOne("board.selectedProductCnt", bno);
+	}
+	/**
+	 * 아이디를 통해 글을 올린수를 
+	 * 가져오는 DAOImpl
+	 */
+	@Override
+	public int getTotalContentCountById(String id) {
+		return template.selectOne("board.getTotalContentCountById", id);
+	}
+	/**
+	 * 아이디를 통해 내가올린 드려요로
+	 * 연결되기 위한 DAOImpl
+	 */
+	@Override
+	public List<BoardVO> boardListById(String id, BoardPagingBean bpb) {
+		HashMap<String, Object> param = new HashMap<>();
+		System.out.println(id + "---"+bpb.getStartRowNumber());
+		param.put("id", id);
+		param.put("pagingBean", bpb);
+		return template.selectList("board.boardListById", param);
 	}
 }
