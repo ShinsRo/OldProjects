@@ -114,7 +114,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE APPLICATION SET IS_SELECTED = 'SELECTED' WHERE BNO = #{bno} AND ID = #{id}
 	</update>
 	<update id="nowUnavailable">
-		UPDATE G_PRODUCT SET IS_TRADED = 'SELECTED' WHERE PNO = #{value}
+		UPDATE G_PRODUCT SET IS_TRADED = 'AlREADY_SELECTED' WHERE PNO = #{value}
 	</update>
 	<select id="getApplicationByPk" parameterType="hashMap" resultType="applicationVO">
 		SELECT * FROM APPLICATION WHERE BNO = #{bno} AND ID = #{id}

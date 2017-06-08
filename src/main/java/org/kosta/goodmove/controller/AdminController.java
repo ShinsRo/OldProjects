@@ -173,7 +173,6 @@ public class AdminController {
 		model.addAttribute("plist", plist);
 		return "admin/boardDetail_admin.tiles2";
 	}
-
 	/**
 	 * 관리자 페이지에서 용달 제휴신청 관리
 	 * 

@@ -217,21 +217,4 @@ public class BoardController {
 		model.addAttribute("pList", boardService.getProductImgByBno(Integer.parseInt(bno)));
 		return "board/boardUpdate.tiles";
 	}
-	@RequestMapping("boardDetail_admin.do")
-	public String boardDetail_admin(String bno, Model model) {
-		BoardVO bvo = boardService.getBoardDetailByBno(Integer.parseInt(bno));
-		List<ProductVO> plist = boardService.getProductImgByBno(Integer.parseInt(bno));
-		model.addAttribute("bvo", bvo);
-		model.addAttribute("plist", plist);
-		return "admin/boardDetail_admin.tiles2";
-	}
-	
-	@RequestMapping("boardUpdateView.do")
-	public String boardUpdateView(String bno, Model model) {
-		BoardVO bvo = boardService.getBoardDetailByBno(Integer.parseInt(bno));
-		List<ProductVO> plist = boardService.getProductImgByBno(Integer.parseInt(bno));
-		model.addAttribute("bvo", bvo);
-		model.addAttribute("plist", plist);
-		return "board/boardUpdate.tiles";
-	}
 }
