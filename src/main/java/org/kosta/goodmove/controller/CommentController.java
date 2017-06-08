@@ -239,6 +239,14 @@ public class CommentController {
 		commentService.updateCommentReply(crvo);
 		return "redirect:showCommentNoHit.do?&cno=" + cno;
 	}
+	
+	/**
+	 * 아이디 이용하여 내가작성한 지역후기 리스트 반환
+	 * @param id
+	 * @param pageNo
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("findCommentListById.do")
 	public String findCommentById(String id, String pageNo, Model model ){
 		model.addAttribute("lvo", commentService.findCommentListById(id, pageNo));

@@ -184,6 +184,13 @@ public class AdminController {
 		return "admin/deliveryList_admin.tiles2";
 	}
 	
+	/**
+	 * 처리 완료되지 않은 신고내역 반환
+	 * @param category
+	 * @param pageNo
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("getReportList_admin.do")
 	public String getReportList_admin(String category, String pageNo, Model model ){
 		if(category==null){
@@ -199,6 +206,14 @@ public class AdminController {
 		model.addAttribute("reportAllReplyCount", adminService.reportAllCount("reply"));
 		return "admin/reportList.tiles2";
 	}
+	
+	/**
+	 * 모든 신고내역 반환
+	 * @param category
+	 * @param pageNo
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("getAllReportList_admin.do")
 	public String getAllReportList_admin(String category, String pageNo, Model model ){
 		if(category==null){
@@ -216,7 +231,11 @@ public class AdminController {
 	}
 	
 	/**
-	 * 신고하기
+	 * 댓글 신고하기
+	 * @param rvo
+	 * @param model
+	 * @param cno
+	 * @return
 	 */
 	@RequestMapping("reportReply.do")
 	public String reortReply(ReportVO rvo, Model model, int cno){
@@ -228,6 +247,12 @@ public class AdminController {
 		return "comment/commentDetail.tiles";
 	}
 	
+	/**
+	 * 후기 신고하기
+	 * @param rvo
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("reportComment.do")
 	public String reportComment(ReportVO rvo, Model model){
 		System.out.println(rvo);
@@ -237,10 +262,149 @@ public class AdminController {
 		model.addAttribute("cvo",commentService.showCommentNoHit(rvo.getReno()));
 		return "comment/commentDetail.tiles";
 	}
+	
 	@RequestMapping("confirmDelivery.do")
 	public String confirmDelivery(String id) {
 		deliveryService.confirmDelivery(id);
 		System.out.println(id + " 완료");
 		return "redirect:deliveryList_admin.do";
 	}
+	
+	/**
+	 * 관리자에서 기부글 삭제
+	 * @param bno
+	 * @return
+	 */
+	@RequestMapping("boardDelete_admin.do")
+	public String boardDelete_admin(String bno){
+		boardService.delete(bno);
+		return "redirect:admin/deleteResult_admin.do";
+	}
+	
+	/**
+	 * 신고된 글 삭제처리
+	 * @param category
+	 * @param reno
+	 * @param report_no
+	 * @param type
+	 * @param pageNo
+	 * @return
+	 */
+	@RequestMapping("deleteReport_admin.do")
+	public String deleteReport(String category, int reno, int report_no,String type, int pageNo){
+		if(category.equals("board")){
+			boardService.delete(Integer.toString(reno));
+		}else if(category.equals("comment")){
+			commentService.deleteComment(reno);
+		}else{
+			CommentReplyVO crvo = commentService.getCommentReplyInfoByRNO(reno);
+			commentService.deleteCommentReply(reno);
+			if (crvo.getParent() == 0)
+				commentService.deleteCommentReplyChild(crvo.getGno());
+		}
+		adminService.deleteReport(report_no);
+		if(type.lastIndexOf("All")==-1){
+			return "redirect:getReportList_admin.do?category="+category+"&pageNo="+pageNo;
+		}else{
+			return "redirect:getAllReportList_admin.do?category="+category+"&pageNo="+pageNo;
+		}
+	}
+	
+	/**
+	 * 신고된 글 처리거부
+	 * @param category
+	 * @param reno
+	 * @param report_no
+	 * @param type
+	 * @param pageNo
+	 * @return
+	 */
+	@RequestMapping("rejectReport_admin.do")
+	public String rejectReport(String category, int reno, int report_no,String type, int pageNo){
+		adminService.rejectReport(report_no);
+		if(type.lastIndexOf("All")==-1){
+			return "redirect:getReportList_admin.do?category="+category+"&pageNo="+pageNo;
+		}else{
+			return "redirect:getAllReportList_admin.do?category="+category+"&pageNo="+pageNo;
+		}
+	}
+	
+	/**
+	 * 신고된 글 상세내용
+	 * @param category
+	 * @param reno
+	 * @param report_no
+	 * @param type
+	 * @param pageNo
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("showReport_admin.do")
+	public String showReport_admin(String category, int reno, int report_no,String type, int pageNo, Model model){
+		if(category.equals("board")){
+			BoardVO bvo = boardService.getBoardDetailByBno(Integer.parseInt(Integer.toString(reno)));
+			List<ProductVO> plist = boardService.getProductImgByBno(Integer.parseInt(Integer.toString(reno)));
+			model.addAttribute("revo", bvo);
+			model.addAttribute("plist", plist);
+		}else if(category.equals("comment")){
+			model.addAttribute("revo", commentService.showCommentNoHit(reno));
+		}else{
+			model.addAttribute("revo", commentService.showReply(reno));
+		}
+		model.addAttribute("category", category);
+		model.addAttribute("reno", reno);
+		model.addAttribute("report_no", report_no);
+		model.addAttribute("type", type);
+		model.addAttribute("pageNo", pageNo);
+		return "admin/reportDitail_admin.tiles2";
+	}
+	
+	/**
+	 * 신고된 상세보기 에서 글 삭제처리
+	 * @param category
+	 * @param reno
+	 * @param report_no
+	 * @param type
+	 * @param pageNo
+	 * @return
+	 */
+	@RequestMapping("deleteDitailReport_admin.do")
+	public String deleteDitailReport(String category, int reno, int report_no,String type, int pageNo){
+		if(category.equals("board")){
+			boardService.delete(Integer.toString(reno));
+		}else if(category.equals("comment")){
+			commentService.deleteComment(reno);
+		}else{
+			CommentReplyVO crvo = commentService.getCommentReplyInfoByRNO(reno);
+			commentService.deleteCommentReply(reno);
+			if (crvo.getParent() == 0)
+				commentService.deleteCommentReplyChild(crvo.getGno());
+		}
+		adminService.deleteReport(report_no);
+		if(type.lastIndexOf("All")==-1){
+			return "redirect:getReportList_admin.do?category="+category+"&pageNo="+pageNo;
+		}else{
+			return "redirect:getAllReportList_admin.do?category="+category+"&pageNo="+pageNo;
+		}
+	}
+	
+	/**
+	 * 신고된 글 상세내용에서 처리거부
+	 * @param category
+	 * @param reno
+	 * @param report_no
+	 * @param type
+	 * @param pageNo
+	 * @return
+	 */
+	@RequestMapping("rejectDitailReport_admin.do")
+	public String rejectDitailReport(String category, int reno, int report_no,String type, int pageNo){
+		adminService.rejectReport(report_no);
+		if(type.lastIndexOf("All")==-1){
+			return "redirect:getReportList_admin.do?category="+category+"&pageNo="+pageNo;
+		}else{
+			return "redirect:getAllReportList_admin.do?category="+category+"&pageNo="+pageNo;
+		}
+	}
+	
 }

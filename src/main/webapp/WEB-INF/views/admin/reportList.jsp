@@ -121,6 +121,7 @@
 								<th class="why">신고사유</th>
 								<th class="time_posted">신고일시</th>
 								<th class="process">처리상태</th>
+								<th class="process">처리</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -128,12 +129,15 @@
 								<tr>
 									<td>${rvo.report_no }</td>
 									<td>${rvo.category }</td>
-									<td><a href="${pageContext.request.contextPath}/showReport.do?reno=${rvo.reno }">${rvo.reno }</a></td>
+									<td><a href="${pageContext.request.contextPath}/showReport_admin.do?category=${rvo.category }&reno=${rvo.reno }&report_no=${rvo.report_no}&type=${type}&pageNo=${requestScope.lvo.pagingBean.nowPage}">${rvo.reno }</a></td>
 									<td>${rvo.id }</td>
 									<td>${rvo.reporter }</td>
 									<td>${rvo.why }</td>
 									<td>${rvo.time_posted }</td>
 									<td>${rvo.process }</td>
+									<td><a href="${pageContext.request.contextPath}/deleteReport_admin.do?category=${rvo.category }&reno=${rvo.reno }&report_no=${rvo.report_no}&type=${type}&pageNo=${requestScope.lvo.pagingBean.nowPage}">삭제</a>
+									<a href="${pageContext.request.contextPath}/rejectReport_admin.do?category=${rvo.category }&reno=${rvo.reno }&report_no=${rvo.report_no}&type=${type}&pageNo=${requestScope.lvo.pagingBean.nowPage}">거부</a>
+									</td>
 								</tr>
 							</c:forEach>
 

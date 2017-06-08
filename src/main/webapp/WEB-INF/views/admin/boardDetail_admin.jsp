@@ -121,6 +121,16 @@
 				</div>
 			</c:forEach>
 		</div>
+		<div class = "row">
+			<div align = "center">
+				<c:if test="${mvo.id == 'admin' }">
+					<button class = "btn btn-danger"
+					onclick = "javascript:location.href='${pageContext.request.contextPath}/boardDelete_admin.do?bno=${ bvo.bno}'">삭제</button>
+				</c:if>
+				<button class = "btn btn-info"
+				onclick = "javascript:location.href='${pageContext.request.contextPath}/getBoardList_admin.do'">목록</button> 
+			</div>
+		</div>
 	</div>
 </section>
 <!--/#related-work-->

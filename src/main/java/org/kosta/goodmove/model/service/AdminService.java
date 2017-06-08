@@ -19,4 +19,8 @@ public interface AdminService {
 
 	void commentReport(ReportVO rvo);
 
+	public void deleteReport(int report_no);
+
+	public void rejectReport(int report_no);
+
 }

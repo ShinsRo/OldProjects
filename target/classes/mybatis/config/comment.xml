@@ -97,6 +97,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteCommentReplyChild" parameterType="int">
 	DELETE FROM LOC_COMMENT_REPLY WHERE GNO=#{value}
 	</delete>
+	<select id="findCommentReplyByNo" resultType="commentReplyVO" parameterType="int">
+	select * FROM LOC_COMMENT_REPLY WHERE RNO=#{value}
+	</select>
 </mapper>
  
  

@@ -60,5 +60,16 @@ public class AdminServiceImpl implements AdminService {
 		return new ReportListVO(adminDAO.getAllReportList(category, reportPagingBean),reportPagingBean);
 	}
 
+	@Override
+	public void deleteReport(int report_no) {
+		adminDAO.deleteReport(report_no);
+		
+	}
+
+	@Override
+	public void rejectReport(int report_no) {
+		adminDAO.rejectReport(report_no);
+	}
+
 
 }

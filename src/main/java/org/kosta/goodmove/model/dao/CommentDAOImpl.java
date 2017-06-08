@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.kosta.goodmove.model.vo.CommentListVO;
 import org.kosta.goodmove.model.vo.CommentReplyVO;
 import org.kosta.goodmove.model.vo.CommentVO;
 import org.kosta.goodmove.model.vo.PagingBean;
@@ -175,5 +174,13 @@ public class CommentDAOImpl implements CommentDAO{
 		param.put("id", id);
 		param.put("pagingBean", pb);
 		return template.selectList("comment.findCommentById", param);
+	}
+
+	/**
+	 * 댓글번호 이용하여 댓글 반환
+	 */
+	@Override
+	public CommentReplyVO showReply(int reno) {
+		return template.selectOne("comment.findCommentReplyByNo", reno);
 	}
 }

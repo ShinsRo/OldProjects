@@ -53,4 +53,16 @@ public class AdminDAOImpl implements AdminDAO {
 	public void commentReport(ReportVO rvo) {
 		template.insert("admin.commentReport", rvo);
 	}
+
+	@Override
+	public void deleteReport(int report_no) {
+		template.update("admin.deleteReport", report_no);
+		
+	}
+
+	@Override
+	public void rejectReport(int report_no) {
+		template.update("admin.rejectReport", report_no);
+		
+	}
 }

@@ -19,4 +19,8 @@ public interface AdminDAO {
 
 	void commentReport(ReportVO rvo);
 
+	void deleteReport(int report_no);
+
+	void rejectReport(int report_no);
+
 }

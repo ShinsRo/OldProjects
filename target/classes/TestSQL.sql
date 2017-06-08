@@ -110,7 +110,11 @@ select * from REPORT;
 
 select * from REPORT where report_no=1;
 
-update report set process='삭제' where report_no=1;
+SELECT CONCAT('s','u','m') total
+
+update report set process=concat(to_char(sysdate,'YYYY.MM.DD HH24:MI'),' 수정') where report_no=1;
+
+
 update report set process='수정' where report_no=1;
 update report set process='반려' where report_no=1;
 
