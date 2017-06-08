@@ -86,7 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 <select id = "boardListById" parameterType="hashMap" resultType="BoardVO">
 		select * from (select bno, title, hit, to_char(time_posted,'YYYY.MM.DD HH:mm:ss') as
-		time_posted, addr, id, bcontent, row_number() over(order by bno desc) as rnum from
+		time_posted, addr, id, bcontent,is_traded, row_number() over(order by bno desc) as rnum from
 		g_board where id = #{id}) where rnum between #{pagingBean.startRowNumber} and #{pagingBean.endRowNumber}
 	</select>
 		<select id = "getTotalContentCountById" resultType="int">
