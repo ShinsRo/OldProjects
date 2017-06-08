@@ -52,7 +52,7 @@ public class AdminController {
 	 * 
 	 * @param cno
 	 */
-	@RequestMapping("deleteCheck.do")
+	@RequestMapping("deleteCheck_admin.do")
 	public void deleteCheck(int cno) {
 		commentService.deleteComment(cno);
 	}
@@ -218,29 +218,24 @@ public class AdminController {
 	/**
 	 * 신고하기
 	 */
-	@RequestMapping("reportReply.do")
+	@RequestMapping("reportReply_admin.do")
 	public String reortReply(ReportVO rvo, Model model, int cno){
-		System.out.println(rvo);
 		adminService.replyReport(rvo);
-		System.out.println("댓글 신고완료!");
 		model.addAttribute("CommentReplyList", commentService.getAllCommentReplyList(cno));
 		model.addAttribute("cvo",commentService.showCommentNoHit(cno));
 		return "comment/commentDetail.tiles";
 	}
 	
-	@RequestMapping("reportComment.do")
+	@RequestMapping("reportComment_admin.do")
 	public String reportComment(ReportVO rvo, Model model){
-		System.out.println(rvo);
 		adminService.commentReport(rvo);
-		System.out.println("후기 신고완료!");
 		model.addAttribute("CommentReplyList", commentService.getAllCommentReplyList(rvo.getReno()));
 		model.addAttribute("cvo",commentService.showCommentNoHit(rvo.getReno()));
 		return "comment/commentDetail.tiles";
 	}
-	@RequestMapping("confirmDelivery.do")
+	@RequestMapping("confirmDelivery_admin.do")
 	public String confirmDelivery(String id) {
 		deliveryService.confirmDelivery(id);
-		System.out.println(id + " 완료");
 		return "redirect:deliveryList_admin.do";
 	}
 }

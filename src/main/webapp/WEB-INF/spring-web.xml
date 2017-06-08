@@ -29,4 +29,17 @@
 	<bean id = "multipartResolver" class = "org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name = "defaultEncoding" value = "utf-8"></property>
 	</bean>
+	<!-- session interceptor 설정 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/update*.do"/>
+			<mvc:mapping path="/convert*.do"/>
+			<mvc:mapping path="/register*.do"/>
+			<mvc:mapping path="/confirm*.do"/>
+			<mvc:mapping path="/board*.do" />
+			<mvc:mapping path="/comment*.do" />
+			<mvc:mapping path="/*_admin.do" /> <!-- 관리자 컨트롤러 전체 -->
+			<bean class="org.kosta.goodmove.controller.LoginCheckInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
 </beans>

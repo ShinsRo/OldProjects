@@ -4,7 +4,7 @@
 <script>
 	function confirm_fn(id) {
 		if(confirm(id+" 회원을 제휴 승인하시겠습니까?")){
-			location.href="confirmDelivery.do?id="+id;
+			location.href="confirmDelivery_admin.do?id="+id;
 		}else{
 			return false;
 		};
