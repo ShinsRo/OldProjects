@@ -54,6 +54,24 @@
 </script>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/resources/member/search.css">
+		<!-- 배너 타이틀 -->
+<section id="page-breadcrumb">
+	<div class="vertical-center sun">
+		<div class="container">
+			<div class="row">
+				<div class="action">
+					<div class="col-sm-12">
+						<h1 class="title">비밀번호변경</h1>
+						<p>
+							<br>비밀번호를 변경해주세요
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!--배너 타이틀-->
 <section>
 	<div class="container">
 		<div class="row">

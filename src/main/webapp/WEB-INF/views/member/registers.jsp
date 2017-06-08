@@ -170,6 +170,33 @@
 </script>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/resources/member/login_register.css">
+	<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/resources/member/terms2.css">
+	<!-- 배너 타이틀 -->
+<section id="page-breadcrumb">
+	<div class="vertical-center sun">
+		<div class="container">
+			<div class="row">
+				<div class="action">
+					<div class="col-sm-12">
+						<h1 class="title">회원가입</h1>
+						<p>
+							<br>회원가입을 해주세요
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!--배너 타이틀-->
+<div class="btnn">
+   <button class="btn1" name="reg_term">이용약관</button>&nbsp;
+   <img class="begin_img" src="${pageContext.request.contextPath}/img/begin.png" alt="begin" height="40" width="40" >
+   <button class="btn2"  name="reg" >회원가입</button>&nbsp; 
+    <img class="begin_img" src="${pageContext.request.contextPath}/img/begin.png" alt="begin" height="40" width="40">
+   <button class="btn3"  name="reg_result">가입완료</button>
+   </div><br>
 <section id="login">
 	<div class="container">
 		<div class="row">
@@ -185,9 +212,9 @@
 							id="passCheckView"></span><br> <input id="name" name="name"
 							type="text" placeholder="이름" /><br> <input id="addr_code"
 							type="text" name="addrcode" readonly="readonly"
-							class="postcodify_postcode5" placeholder="우편번호" /><br> <input
-							type="button" id="postcodify_search_button" class="button"
-							value="검색"><br /> <input id="addr" type="text"
+							class="postcodify_postcode5" placeholder="우편번호" /><br>
+							<input type="button" id="postcodify_search_button" class="button"
+							value="검색"><br /><input id="addr" type="text"
 							name="addr" class="postcodify_address" readonly="readonly"
 							placeholder="주소" /><br /> <input id="addr_detail" type="text"
 							name="addr_detail" class="postcodify_details" placeholder="상세주소" /><br>
@@ -200,7 +227,7 @@
 							placeholder="전화번호" maxlength="4" /> <input class="num" id="tel3"
 							name="tel3" type="tel" placeholder="전화번호" maxlength="4" /><br>
 						<input id="job" name="job" type="text" placeholder="직업" /><br>
-						<button id="regfo" class="regF">회원가입</button>
+						 <button id="regfo" class="regF">회원가입</button> 
 						<br>
 					</form>
 				</div>

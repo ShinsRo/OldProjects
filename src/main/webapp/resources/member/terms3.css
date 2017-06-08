@@ -1,0 +1,71 @@
+@CHARSET "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+.btn1 {
+    font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #DBD8D8;
+  width: 100px;
+  border: 0;
+  padding: 30px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+  
+}
+.btn2 {
+
+    font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #DBD8D8;
+  width: 100px;
+  border: 0;
+  padding: 30px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+  
+}
+.btn3{
+	 font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 100px;
+  border: 0;
+  padding: 30px;
+  color: #FFFFFF;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+
+/* button:hover,button:focus {
+  background: #43A047;
+}  */
+.btnn{
+	margin-left: 40px;
+}
+/* div.butn{
+font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4CAF50;
+  width: 10%;
+  margin-left: 40%;
+  padding: 10px;
+  color: #FFFFFF;
+  font-size: 14px;
+  cursor: pointer;
+}
+div.butn:hover,div.butn:focus{
+    background: #43A047;   
+}
+  */

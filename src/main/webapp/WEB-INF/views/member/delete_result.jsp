@@ -22,6 +22,21 @@ function keypress(){
 </script>
 </head>
 <body onkeypress="keypress()">
+	<!-- 배너 타이틀 -->
+<section id="page-breadcrumb">
+	<div class="vertical-center sun">
+		<div class="container">
+			<div class="row">
+				<div class="action">
+					<div class="col-sm-14">
+						<h1 class="title">회원탈퇴 결과</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!--배너 타이틀-->
 <div style="padding:150px; text-align:center;">
 <h1>
  <br> 

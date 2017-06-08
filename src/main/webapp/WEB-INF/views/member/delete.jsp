@@ -44,6 +44,24 @@
 	</script>
 </head>
 <body>
+	<!-- 배너 타이틀 -->
+<section id="page-breadcrumb">
+	<div class="vertical-center sun">
+		<div class="container">
+			<div class="row">
+				<div class="action">
+					<div class="col-sm-12">
+						<h1 class="title">회원탈퇴</h1>
+						<p>
+							<br>회원탈퇴 진행해주세요
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!--배너 타이틀-->
 	<div class="delete_page">
 		<div class="form">
 			<form method="post"
