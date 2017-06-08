@@ -33,6 +33,24 @@
 		});
 	});
 </script>
+	<!-- 배너 타이틀 -->
+<section id="page-breadcrumb">
+	<div class="vertical-center sun">
+		<div class="container">
+			<div class="row">
+				<div class="action">
+					<div class="col-sm-12">
+						<h1 class="title">로그인</h1>
+						<p>
+							<br>로그인 해주세요
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!--배너 타이틀-->
 <section id="login">
 	<div class="container">
 		<div class="row">
@@ -46,7 +64,7 @@
 							placeholder="비밀번호"><br> <span id="idCheckView"></span>
 						<a href="${pageContext.request.contextPath }/member/forgotId.do">아이디찾기</a><br>
 						<a href="${pageContext.request.contextPath }/member/forgotPass.do">비밀번호찾기</a><br>
-						<button id="log" class="logc">로그인</button>
+						 <button id="log" class="logc">로그인</button>
 						<p class="message">
 							Not registered? <a
 								href="${pageContext.request.contextPath}/member/registers.do">Create

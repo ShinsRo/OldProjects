@@ -31,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from (
 		select bno, title, hit, to_char(time_posted,'YYYY.MM.DD
 		HH:mm') as time_posted,
-		id, addr,bcontent, thumbpath, row_number() over(order by bno desc) as
+		id, addr,bcontent, thumbpath, is_deleted, row_number() over(order by bno desc) as
 		rnum from G_BOARD)
 		where rnum between #{startRowNumber} and #{endRowNumber}
 	</select>
@@ -39,7 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from (
 		select bno, title, hit, to_char(time_posted,'YYYY.MM.DD
 		HH:mm') as time_posted,
-		id, addr,bcontent, thumbpath, is_traded, row_number() over(order by bno
+		id, addr,bcontent, thumbpath, is_traded, is_deleted, row_number() over(order by bno
 		desc) as rnum from G_BOARD)
 		where id = #{id} and rnum between #{pagingBean.startRowNumber} and
 		#{pagingBean.endRowNumber}
@@ -133,7 +133,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE APPLICATION SET IS_DONE = 'DISABLED' WHERE BNO = #{value} AND ID = #{id}
 	</update>
 	<update id="deleteBoard">
-		UPDATE BOARD SET IS_DELETED = 'YES' WHERE BNO = #{value}
+		UPDATE G_BOARD SET IS_DELETED = 'YES' WHERE BNO = #{value}
 	</update>
 	<update id="deleteProduct">
 		UPDATE G_PRODUCT SET IS_TRADED = 'DELETED_BOARD' WHERE BNO = #{value}
@@ -142,48 +142,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE APPLICATION SET IS_DONE = 'DELETED_BOARD' WHERE BNO = #{value}	
 	</update>
 </mapper>
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

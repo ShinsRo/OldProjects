@@ -1,14 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- 서울시 주소 API 로딩 -->
 <script type="text/javascript"
 	src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
 <script type="text/javascript">
 	var ProductRegFormHtml="";
-	var productCnt = 1;
+	var productCnt = 0;
 	
 	$(function() {
 		//서울시 주소 검색 팝업 제이쿼리
@@ -52,7 +50,7 @@
 					<div class="col-sm-12">
 						<h1 class="title">드려요 수정하기</h1>
 						<p>
-							<br>버리기 아까운 물건들에게 새 주인을 찾아주세요
+							<br>
 						</p>
 					</div>
 				</div>
@@ -62,7 +60,7 @@
 </section>
 <!--배너 타이틀-->
 
-<!-- 드려요 수정폼 -->
+<!-- 드려요 작성폼 -->
 <section id="">
 	<form enctype="multipart/form-data" id="main-contact-form" name = "fakeForm"method="post" action=""></form>					
 	<form enctype="multipart/form-data" id="main-contact-form"
@@ -72,18 +70,18 @@
 			<br>
 				<div class="form-group">
 					<input type="text" name="title" class="form-control"
-						required="required" value="${bvo.title }" maxlength="20">
+						required="required" placeholder="제목" value = "${bvo.title }" maxlength="20">
 				</div>
 				<div class="form-group" align="right">
 					<button type="button" id="postcodify_search_button"
 						class="btn btn-sm btn-info">검색</button>
 					<input type="text" name="addr"
-						class="postcodify_address form-control" value="${bvo.addr}"
-						readonly="readonly" />
+						class="postcodify_address form-control"
+						readonly="readonly" value = "${bvo.addr }" placeholder="주소" />
 				</div>
 				<div class="form-group">
 					<textarea name="bcontent" id="content" required="required"
-						class="form-control" rows="15" >${bvo.bcontent }</textarea>
+						class="form-control" rows="15" placeholder="글을 작성해주세요.">${bvo.bcontent }</textarea>
 				</div>
 				<div class="form-group">
 					<input type="submit" name="submit" class="btn btn-submit"
@@ -92,36 +90,41 @@
 			</div>
 		</div>
 		<div class="col-md-4 col-sm-4">
+		<c:forEach items = "${pList}" var = "pvo">
+			<input type = "hidden" name = "pno" value = "${pvo.pno }">
 			<div id = "productFormView" class="contact-form bottom">
 				<!-- 상품 번호 -->
-				
-				<c:forEach items="${requestScope.plist}" var="imgList">
-				
 				<div class="form-group">
-					<input type="text" name="ptitle" class="form-control"
-						required="required" value="${imgList.ptitle}">
+					<input type="text" name="ptitle" class="form-control" value = "${pvo.ptitle}"
+						required="required" placeholder="물건명">
 				</div>
 				<div class="form-group">
-					<input type="text" name="kind" class="form-control"
-						required="required" value="${imgList.kind }">
+					<input type="text" name="kind" class="form-control" value = "${pvo.kind}"
+						required="required" placeholder="종류">
 				</div>
 				<div class="form-group">
 					<textarea name="pcontent" id="message" required="required"
-						class="form-control" rows="8" >${imgList.pcontent}</textarea>
+						class="form-control" rows="8" placeholder="물건 설명">${pvo.pcontent}</textarea>
 				</div>
 				<div align = "right" class="">
 				<input type ='button' class = "btn btn-sm btn-danger" id ='deleteProduct' value = "물건 삭제">
 				</div>
-				<input type = "file" name="file" required="required"> 
+				<span>
+					<img src="${pageContext.request.contextPath}/${pvo.img_path}" id = "imgView">
+					<a onclick = "">올린 사진 보기</a><br>
+				</span>
+				<input type = "file" name="file" required="required"
+				value="${pageContext.request.contextPath}/${pvo.img_path}">
 				<hr>
-				
-			</c:forEach>
-			
 			</div>
+			<script type="text/javascript">
+				productCnt++;
+			</script>
+		</c:forEach>
 				<div align="right">
 					<button type = "button" class="btn btn-sm btn-success" id="addProduct">상품추가</button>
 				</div>
 		</div>
 	</form>
 </section>
-<!-- 드려요 수정폼 -->
+<!-- 드려요 작성폼 -->

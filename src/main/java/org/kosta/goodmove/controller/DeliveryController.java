@@ -107,4 +107,18 @@ public class DeliveryController {
 		model.addAttribute("map", map);
 		return "delivery/deliveryDetail";
 	}
+	/**
+	 * 용달 사업자가 신청서를 채택하면
+	 * delivery_math 테이블에 insert시키고
+	 * 신청 리스트에서 제외한다.
+	 * @param bno
+	 * @param aid
+	 * @param did
+	 * @return
+	 */
+	@RequestMapping("registerDeliveryMatch.do")
+	public String registerDeliveryMatch(String bno, String aid, String did){
+		service.registerDeliveryMatch(bno, aid, did);
+		return "redirect:getAllDeliveryList.do";
+	}
 }

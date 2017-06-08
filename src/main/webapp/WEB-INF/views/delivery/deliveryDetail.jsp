@@ -9,7 +9,19 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<h2>신청 상세 정보</h2>
+<section id="page-breadcrumb">
+	<div class="vertical-center sun">
+		<div class="container">
+			<div class="row">
+				<div class="action">
+					<div class="col-sm-12">
+						<h1 class="title">신청 상세정보</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
 <div class="panel panel-default">
 	<div class="panel-heading">신청자</div>
 	<div class="panel-body">

@@ -179,4 +179,12 @@ public class CommentServiceImpl implements CommentService{
 		commentDAO.deleteCommentReplyChild(gno);
 	}
 
+	@Override
+	public CommentListVO findCommentListById(String id, String pageNo) {
+		PagingBean pb = 
+				new PagingBean(commentDAO.getTotalContentCountById(id), 
+				Integer.parseInt(pageNo));
+		return new CommentListVO(commentDAO.findCommentById(id, pb), pb);
+	}
+
 }

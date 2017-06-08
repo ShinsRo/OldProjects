@@ -3,7 +3,6 @@ package org.kosta.goodmove.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.kosta.goodmove.model.service.MemberService;
 import org.kosta.goodmove.model.vo.MemberVO;
 import org.springframework.stereotype.Controller;
@@ -214,7 +213,6 @@ public class MemberController {
 		service.changePass(id, password);
 		return "member/changePass_result.tiles";
 	}
-
 	/**
 	 * 관리자 페이지에서 멤버 리스트 보기
 	 * 

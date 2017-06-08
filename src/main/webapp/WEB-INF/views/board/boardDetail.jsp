@@ -123,12 +123,14 @@
 		</div>
 		<div class = "row">
 			<div align = "center">
-				<button class = "btn btn-info"
-				onclick = "javascript:location.href='${pageContext.request.contextPath}/boardUpdateView.do?bno=${bvo.bno}'">수정</button> 
+				<c:if test="${mvo.id == bvo.id }">
+					<button class = "btn btn-info"
+					onclick = "javascript:location.href='${pageContext.request.contextPath}/boardUpdateView.do?bno=${bvo.bno}'">수정</button> 
+					<button class = "btn btn-danger"
+					onclick = "javascript:location.href='${pageContext.request.contextPath}/boardDelete.do?bno=${ bvo.bno}'">삭제</button>
+				</c:if>
 				<button class = "btn btn-info"
 				onclick = "">목록</button> 
-				<button class = "btn btn-danger"
-				onclick = "javascript:location.href='${pageContext.request.contextPath}/boardDelete.do'">삭제</button>
 			</div>
 		</div>
 	</div>

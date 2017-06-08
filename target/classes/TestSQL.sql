@@ -92,13 +92,11 @@ select * from visit where id='java' and day='2017.05.31'
 update visit set count=count+1 where id='java' and day='2017.05.31'
 select count(*) from visit where day='2017.05.31'
 
---
-select *from APPLICATION,G_PRODUCT where id='spring';
 
-insert into
-		delivery(id,name,password,tel)
-		values('test12y','test','1234','01034323232');
-		
+-- delivery matching
+select * from application 
+where is_selected='SELECTED' and is_delivery='YES' 
+and is_done='NO';
 
 select id,name,addr,tel from GD_MEMBER
 where id = (
@@ -118,7 +116,13 @@ update report set process='반려' where report_no=1;
 
 
 		
+select a.bno,a.pnos,a.is_done,a.id,a.is_selected,m.state from APPLICATION a,DELIVERY_MATCH m
+where a.bno = m.bno(+) and a.id=m.aid(+) and a.is_selected='SELECTED'
+and m.state is NULL;
 
 
+select * from DELIVERY_MATCH;
+select * from APPLICATION;
+select * from G_BOARD;
 
 

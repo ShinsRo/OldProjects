@@ -72,8 +72,17 @@ public class DeliveryDAOImpl implements DeliveryDAO {
 		return template.selectList("delivery.getNotConfirmedDeliveryList");
 	}
 	@Override
-	public void confirmDelivery(DeliveryVO vo){
-		template.update("delivery.confirmDelivery", vo);
+	public void confirmDelivery(String id){
+		template.update("delivery.confirmDelivery", id);
+	}
+
+	@Override
+	public void registerDeliveryMatch(String bno, String aid, String did) {
+		HashMap<String, String> dmMap = new HashMap<>();
+		dmMap.put("bno", bno);
+		dmMap.put("aid", aid);
+		dmMap.put("did", did);
+		template.insert("delivery.registerDeliveryMatch", dmMap);
 	}
 
 }

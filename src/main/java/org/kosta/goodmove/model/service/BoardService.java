@@ -27,6 +27,8 @@ public interface BoardService {
 	public void boardRegister(BoardVO bvo, ProductSetVO psvo);
 
 	public BoardVO getBoardDetailByBno(int bno);
+	
+	public BoardVO getBoardDetailByBnoWithFullAddr(int bno);
 
 	List<ProductVO> getProductImgByBno(int bno);
 

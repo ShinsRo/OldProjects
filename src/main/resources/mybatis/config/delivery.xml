@@ -5,10 +5,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="delivery">
 	<sql id="selectDelivery">
-		select id,name,password,tel,is_deleted from delivery
+		select id,name,password,tel,is_deleted,is_confirmed from delivery
 	</sql>
 	<select id="login" resultType="deliveryVO" parameterType="deliveryVO">
-		<include refid="selectDelivery"></include>
+		select id,name,password,tel,is_deleted,is_confirmed from delivery
 		where id=#{id} and password=#{password} and is_deleted='NO'
 	</select>
 	<select id="getMemberCount" resultType="int">
@@ -39,14 +39,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	<!-- 승인 된 용달 리스트 -->
 	<select id = "getAllDeliveryList" resultType="applicationVO">
-		select * from application where is_selected='SELECTED' and is_delivery='YES' and is_done='NO'
+		select a.bno,a.pnos,a.is_done,a.id,a.is_selected,m.state
+		from APPLICATION a,DELIVERY_MATCH m
+		where a.bno = m.bno(+) and a.id=m.aid(+) and a.is_selected='SELECTED'
+		and m.state is NULL
 	</select>
 	<!-- 미승인된 용달 리스트 -->
+	<!-- delivery_math에 insert 되지 않은 리스트만 보여준다. -->
 	<select id = "getNotConfirmedDeliveryList" resultType="deliveryVO">
 		select * from delivery where is_confirmed='NO' and is_deleted='NO'
 	</select>
-	<update id="confirmDelivery" parameterType="deliveryVO">
-		update delivery set is_confirmed='YES' where id=#{id}
+	<update id="confirmDelivery" parameterType="string">
+		update delivery set is_confirmed='YES' where id=#{value}
 	</update>
 	<select id="selectRecieverById" parameterType="string" resultType="memberVO">
 		select id,name,addr,addr_detail,tel from GD_MEMBER where id=#{value}
@@ -55,6 +59,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select id,name,addr,addr_detail,tel from GD_MEMBER
 		where id = (select id from G_BOARD where bno=#{value})
 	</select>
+	<insert id="registerDeliveryMatch" parameterType="hashMap">
+		insert into delivery_match(bno,aid,did) values(#{bno},#{aid},#{did})
+	</insert>
 </mapper>
  
  

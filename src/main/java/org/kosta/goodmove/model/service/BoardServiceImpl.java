@@ -92,6 +92,12 @@ public class BoardServiceImpl implements BoardService {
 		bvo.setAddr(newAddr);
 		return bvo;
 	}
+	
+	@Override
+	public BoardVO getBoardDetailByBnoWithFullAddr(int bno) {
+		BoardVO bvo = boardDAO.getBoardDetailByBno(bno);
+		return bvo;
+	}
 
 	@Override
 	public void boardRegister(BoardVO bvo, ProductSetVO psvo) {
@@ -182,7 +188,9 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void delete(String bno) {
+		System.out.println("board : " + bno);
 		boardDAO.deleteBoard(bno);
+		System.out.println("product");
 		boardDAO.deletePoduct(bno);
 		boardDAO.deleteApplication(bno);
 	}
