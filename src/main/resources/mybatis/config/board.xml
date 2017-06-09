@@ -46,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<select id="getTotalBoardCount" resultType="int">
 		select count(*) from
-		G_BOARD
+		G_BOARD where is_deleted='NO'
 	</select>
 	<select id="getTotalBoardCountById" resultType="int">
 		select count(*)

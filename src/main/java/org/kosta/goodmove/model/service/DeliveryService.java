@@ -32,4 +32,6 @@ public interface DeliveryService {
 	void confirmDelivery(String id);
 	
 	void registerDeliveryMatch(String bno, String aid, String did);
+
+	public int countDelivery_admin();
 }

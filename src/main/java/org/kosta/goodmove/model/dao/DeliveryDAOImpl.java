@@ -33,7 +33,7 @@ public class DeliveryDAOImpl implements DeliveryDAO {
 
 	@Override
 	public int getTotalDelivery() {
-		return 0;	
+		return template.selectOne("delivery.countDelivery");	
 	}
 
 	@Override

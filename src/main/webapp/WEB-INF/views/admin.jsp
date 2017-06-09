@@ -7,34 +7,37 @@ $(document).ready(function(){
 //총 게시글,멤버수,물품수	
 	$.ajax({
 		type:"post",
-		url:"${pageContext.request.contextPath}/getCountBoardMain.do",
+		url:"${pageContext.request.contextPath}/CountReport_admin.do",
 		dataType:"json",
+		data : "category=board",
 		success:function(data){
-			$("#CountBoardView").html(data);
+			$("#CountReportBoardView").html(data);
 		}
 	});
 	$.ajax({
 		type:"post",
-		url:"${pageContext.request.contextPath}/getCountCommentMain.do",
+		url:"${pageContext.request.contextPath}/CountReport_admin.do",
 		dataType:"json",
+		data : "category=comment",
 		success:function(data){
-			$("#CountCommentView").html(data);
+			$("#CountReportCommentView").html(data);
 		}
 	});
 	$.ajax({
 		type:"post",
-		url:"${pageContext.request.contextPath}/getCountMemberMain.do",
+		url:"${pageContext.request.contextPath}/CountReport_admin.do",
 		dataType:"json",
+		data : "category=reply",
 		success:function(data){
-			$("#CountMemberView").html(data);
+			$("#CountReportReplyView").html(data);
 		}
 	});
 	$.ajax({
 		type:"post",
-		url:"${pageContext.request.contextPath}/getCountToDay.do",
+		url:"${pageContext.request.contextPath}/CountDelivery_admin.do",
 		dataType:"json",
 		success:function(data){
-			$("#CountToDayView").html(data);
+			$("#CountDeliveryView").html(data);
 		}
 	});
 });//ready
@@ -44,20 +47,20 @@ $(document).ready(function(){
                     <div class="time-count">
                         <ul id="countdown">
                             <li class="angle-one">
-                                <span id="CountMemberView" class="days time-font"></span>
-                                <p>전체회원 수</p>
+                                <span id="CountReportBoardView" class="days time-font"></span>
+                                <p>신고된 기부글</p>
                             </li>
                             <li class="angle-two">
-                                <span id="CountBoardView" class="hours time-font"></span>
-                                <p>전체물품 수</p>
+                                <span id="CountReportCommentView" class="hours time-font"></span>
+                                <p>신고된 지역후기</p>
                             </li>
                             <li class="angle-three">
-                                <span id="CountCommentView" class="minutes time-font"></span>
-                                <p class="minute">전체후기 수</p>
+                                <span id="CountReportReplyView" class="minutes time-font"></span>
+                                <p class="minute">신고된 댓글</p>
                             </li>                            
                             <li class="angle-four">
-                                <span id="CountToDayView" class="seconds time-font"></span>
-                                <p>오늘의 방문자수</p>
+                                <span id="CountDeliveryView" class="seconds time-font"></span>
+                                <p>제휴 승인 대기인원</p>
                             </li>               
                         </ul>   
                     </div>

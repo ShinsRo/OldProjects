@@ -80,4 +80,9 @@ public class DeliveryServiceImpl implements DeliveryService {
 		dao.registerDeliveryMatch(bno, aid, did);
 	}
 
+	@Override
+	public int countDelivery_admin() {
+		return dao.getTotalDelivery();
+	}
+
 }

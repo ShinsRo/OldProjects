@@ -152,5 +152,13 @@ public class AdminServiceImpl implements AdminService {
 		return map;
 	}
 
+	/**
+	 * 관리자 메인화면에 출력될 신고갯수 반환
+	 */
+	@Override
+	public int getTotalReportCount(String category) {
+		return adminDAO.getTotalReportCount(category);
+	}
+
 
 }
