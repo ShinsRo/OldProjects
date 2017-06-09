@@ -34,6 +34,13 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown"><a href="">에러 테스트 메뉴<i class="fa fa-angle-down"></i></a>
+                            <ul role="menu" class="sub-menu">
+		                    	<li><a href = "_없는페이지">404Error Test</a></li>
+                            	<li><a href = "${pageContext.request.contextPath }/makeError.do">500Error Test</a></li>
+                            	<li><a href = "${pageContext.request.contextPath }/makeException.do">unknown error</a></li>
+                            </ul>
+                            </li>
                     <c:if test="${sessionScope.mvo.id == 'admin' }">
 	                        <li><a href="${pageContext.request.contextPath }/admin.do">관리자페이지</a></li>
                         </c:if>
