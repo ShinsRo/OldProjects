@@ -95,13 +95,25 @@ public class SearchController {
 		return new ModelAndView("search/searchResult.tiles", "search", searchService.search(vo, pageNo));
 	}
 
+	/**
+	 * 검색어 자동완성
+	 * @param modelMap
+	 * @param keyword
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping("autoSearch.do")
 	@ResponseBody
-	public void autoSearch(ModelMap modelMap, String keyword, HttpServletResponse response)
+	public List<String> autoSearch(ModelMap modelMap, String keyword, HttpServletResponse response)
 			throws IOException {
 		List<String> searchList = null;
 		searchList = searchService.getAutoSearchList(keyword);
 		PrintWriter out = response.getWriter();
 		out.print(searchList.toString());
+		System.out.println(searchList);
+/*		PrintWriter out = response.getWriter();
+		out.print(searchList.toString());*/
+		return searchList;
 	}
 }
