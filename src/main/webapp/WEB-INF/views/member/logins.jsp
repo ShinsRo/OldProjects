@@ -12,6 +12,29 @@
 		}, "slow");
 	});
 	$(document).ready(function() {
+		 var userInputId = getCookie("userInputId");
+		    $("input[name='id']").val(userInputId); 
+		     
+		    if($("input[name='id']").val() != ""){ 
+		        $("#idSaveCheck").attr("checked", true); 
+		    }
+		     
+		    $("#idSaveCheck").change(function(){ 
+		        if($("#idSaveCheck").is(":checked")){ 
+		            var userInputId = $("input[name='id']").val();
+		            setCookie("userInputId", userInputId, 7);
+		        }else{
+		            deleteCookie("userInputId");
+		        }
+		    });
+		     
+		    $("input[name='id']").keyup(function(){ 
+		        if($("#idSaveCheck").is(":checked")){ 
+		            var userInputId = $("input[name='id']").val();
+		            setCookie("userInputId", userInputId, 7);
+		        }
+		    });
+		    
 		$(".logc").click(function() {
 			if ($("#id").val() == "") {
 				alert("아이디를 입력하세요");
@@ -32,6 +55,33 @@
 			}
 		});
 	});
+	
+	function setCookie(cookieName, value, exdays){
+	    var exdate = new Date();
+	    exdate.setDate(exdate.getDate() + exdays);
+	    var cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toGMTString());
+	    document.cookie = cookieName + "=" + cookieValue;
+	}
+	 
+	function deleteCookie(cookieName){
+	    var expireDate = new Date();
+	    expireDate.setDate(expireDate.getDate() - 1);
+	    document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
+	}
+	 
+	function getCookie(cookieName) {
+	    cookieName = cookieName + '=';
+	    var cookieData = document.cookie;
+	    var start = cookieData.indexOf(cookieName);
+	    var cookieValue = '';
+	    if(start != -1){
+	        start += cookieName.length;
+	        var end = cookieData.indexOf(';', start);
+	        if(end == -1)end = cookieData.length;
+	        cookieValue = cookieData.substring(start, end);
+	    }
+	    return unescape(cookieValue);
+	}
 </script>
 	<!-- 배너 타이틀 -->
 <section id="page-breadcrumb">
@@ -40,9 +90,9 @@
 			<div class="row">
 				<div class="action">
 					<div class="col-sm-12">
-						<h1 class="title">로그인</h1>
+						<h1 class="title">회원 로그인</h1>
 						<p>
-							<br>로그인 해주세요
+							<br>일반 회원 로그인 페이지입니다
 						</p>
 					</div>
 				</div>
@@ -64,6 +114,7 @@
 							placeholder="비밀번호"><br> <span id="idCheckView"></span>
 						<a href="${pageContext.request.contextPath }/member/forgotId.do">아이디찾기</a><br>
 						<a href="${pageContext.request.contextPath }/member/forgotPass.do">비밀번호찾기</a><br>
+						<input type="checkbox" id="idSaveCheck">&nbsp;&nbsp;아이디를 기억하겠습니다.<br>
 						 <button id="log" class="logc">로그인</button>
 						<p class="message">
 							Not registered? <a
