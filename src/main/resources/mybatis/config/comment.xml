@@ -48,7 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		time_posted, addr, id, content, row_number() over(order
 		by cno desc) as rnum from
 		loc_comment where upper(${scategory}) like
-		'%' || upper(#{word}) ||
+		'%' || upper(#{keyword}) ||
 		'%') where rnum between #{startRowNumber} and
 		#{endRowNumber}
 	</select>
@@ -56,7 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		parameterType="searchVO">
 		select count(*)
 		from loc_comment where
-		upper(${scategory}) like '%' || upper(#{word}) || '%'
+		upper(${scategory}) like '%' || upper(#{keyword}) || '%'
 	</select>
 	<delete id="deleteComment">
 		delete from LOC_COMMENT where cno=#{value}

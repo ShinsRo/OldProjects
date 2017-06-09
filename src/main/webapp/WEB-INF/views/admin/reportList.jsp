@@ -15,13 +15,13 @@
 								<c:when test="${type!='board'}">
 									<li><a
 										href="${pageContext.request.contextPath}/getReportList_admin.do?category=board">기부목록
-											신고내역<span class="pull-right">(${requestScope.reportBoardCount})</span>
+											신고내역<span class="pull-right">(${requestScope.count.reportBoardCount})</span>
 									</a></li>
 								</c:when>
 								<c:otherwise>
 									<li class="active"><a
 										href="${pageContext.request.contextPath}/getReportList_admin.do?category=board">기부목록
-											신고내역<span class="pull-right">(${requestScope.reportBoardCount})</span>
+											신고내역<span class="pull-right">(${requestScope.count.reportBoardCount})</span>
 									</a></li>
 								</c:otherwise>
 							</c:choose>
@@ -30,13 +30,13 @@
 								<c:when test="${type!='comment'}">
 									<li><a
 										href="${pageContext.request.contextPath}/getReportList_admin.do?category=comment">지역후기
-											신고내역<span class="pull-right">(${requestScope.reportCommentCount})</span>
+											신고내역<span class="pull-right">(${requestScope.count.reportCommentCount})</span>
 									</a></li>
 								</c:when>
 								<c:otherwise>
 									<li class="active"><a
 										href="${pageContext.request.contextPath}/getReportList_admin.do?category=comment">지역후기
-											신고내역<span class="pull-right">(${requestScope.reportCommentCount})</span>
+											신고내역<span class="pull-right">(${requestScope.count.reportCommentCount})</span>
 									</a></li>
 								</c:otherwise>
 							</c:choose>
@@ -45,13 +45,13 @@
 								<c:when test="${type!='reply'}">
 									<li><a
 										href="${pageContext.request.contextPath}/getReportList_admin.do?category=reply">지역후기 댓글
-											신고내역<span class="pull-right">(${requestScope.reportReplyCount})</span>
+											신고내역<span class="pull-right">(${requestScope.count.reportReplyCount})</span>
 									</a></li>
 								</c:when>
 								<c:otherwise>
 									<li class="active"><a
 										href="${pageContext.request.contextPath}/getReportList_admin.do?category=reply">지역후기 댓글
-											신고내역<span class="pull-right">(${requestScope.reportReplyCount})</span>
+											신고내역<span class="pull-right">(${requestScope.count.reportReplyCount})</span>
 									</a></li>
 								</c:otherwise>
 							</c:choose>
@@ -59,13 +59,13 @@
 								<c:when test="${type!='boardAll'}">
 									<li><a
 										href="${pageContext.request.contextPath}/getAllReportList_admin.do?category=board">기부목록
-											전체 신고내역<span class="pull-right">(${requestScope.reportAllBoardCount})</span>
+											전체 신고내역<span class="pull-right">(${requestScope.count.reportAllBoardCount})</span>
 									</a></li>
 								</c:when>
 								<c:otherwise>
 									<li class="active"><a
 										href="${pageContext.request.contextPath}/getAllReportList_admin.do?category=board">기부목록
-											전체 신고내역<span class="pull-right">(${requestScope.reportAllBoardCount})</span>
+											전체 신고내역<span class="pull-right">(${requestScope.count.reportAllBoardCount})</span>
 									</a></li>
 								</c:otherwise>
 							</c:choose>
@@ -74,13 +74,13 @@
 								<c:when test="${type!='commentAll'}">
 									<li><a
 										href="${pageContext.request.contextPath}/getAllReportList_admin.do?category=comment">지역후기
-											전체 신고내역<span class="pull-right">(${requestScope.reportAllCommentCount})</span>
+											전체 신고내역<span class="pull-right">(${requestScope.count.reportAllCommentCount})</span>
 									</a></li>
 								</c:when>
 								<c:otherwise>
 									<li class="active"><a
 										href="${pageContext.request.contextPath}/getAllReportList_admin.do?category=comment">지역후기
-											전체 신고내역<span class="pull-right">(${requestScope.reportAllCommentCount})</span>
+											전체 신고내역<span class="pull-right">(${requestScope.count.reportAllCommentCount})</span>
 									</a></li>
 								</c:otherwise>
 							</c:choose>
@@ -89,13 +89,13 @@
 								<c:when test="${type!='replyAll'}">
 									<li><a
 										href="${pageContext.request.contextPath}/getAllReportList_admin.do?category=reply">지역후기 댓글
-											전체 신고내역<span class="pull-right">(${requestScope.reportAllReplyCount})</span>
+											전체 신고내역<span class="pull-right">(${requestScope.count.reportAllReplyCount})</span>
 									</a></li>
 								</c:when>
 								<c:otherwise>
 									<li class="active"><a
 										href="${pageContext.request.contextPath}/getAllReportList_admin.do?category=reply">지역후기 댓글
-											전체 신고내역<span class="pull-right">(${requestScope.reportAllReplyCount})</span>
+											전체 신고내역<span class="pull-right">(${requestScope.count.reportAllReplyCount})</span>
 									</a></li>
 								</c:otherwise>
 							</c:choose>

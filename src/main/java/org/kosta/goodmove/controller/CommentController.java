@@ -96,7 +96,6 @@ public class CommentController {
 	public String commentRehisterView(HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession(false);
 		if (session != null) {
-
 			MemberVO mvo = (MemberVO) session.getAttribute("mvo");
 			if (mvo != null) {
 				String add = mvo.getAddr();
@@ -125,12 +124,10 @@ public class CommentController {
 	public ModelAndView write(String addr, HttpServletRequest request, CommentVO cvo) {
 		HttpSession session = request.getSession(false);
 		if (session != null) {
-
 			MemberVO mvo = (MemberVO) session.getAttribute("mvo");
 			if (mvo != null) {
 				cvo.setId(mvo.getId());
 				cvo.setAddr(addr);
-
 			}
 		}
 		commentService.commentRegister(cvo);

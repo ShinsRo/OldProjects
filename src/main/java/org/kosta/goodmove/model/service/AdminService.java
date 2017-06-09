@@ -1,17 +1,16 @@
 package org.kosta.goodmove.model.service;
 
 
-import org.kosta.goodmove.model.vo.ReportListVO;
+import java.util.HashMap;
 
+import org.kosta.goodmove.model.vo.ReportListVO;
 import org.kosta.goodmove.model.vo.ReportVO;
 
 public interface AdminService {
 
 	public ReportListVO getReportList(String pageNo, String category);
 
-	public int reportCount(String category);
-
-	public int reportAllCount(String category);
+	public HashMap<String, Integer> reportCount();
 
 	public ReportListVO getAllReportList(String pageNo, String category);
 
@@ -24,6 +23,10 @@ public interface AdminService {
 	public void rejectReport(int report_no);
 	
 	void boardReport(ReportVO rvo);
+
+	public void deleteObj(String category, int reno);
+
+	public HashMap<String, Object> showReport(String category, int reno, int report_no, String type, int pageNo);
 
 
 }

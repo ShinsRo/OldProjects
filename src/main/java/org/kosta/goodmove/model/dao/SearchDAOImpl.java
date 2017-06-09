@@ -26,7 +26,7 @@ public class SearchDAOImpl implements SearchDAO {
 	public List<CommentVO> searchComment(SearchVO svo, PagingBean pagingBean) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("scategory", svo.getScategory());
-		map.put("word", svo.getWord());
+		map.put("keyword", svo.getKeyword());
 		map.put("startRowNumber", pagingBean.getStartRowNumber());
 		map.put("endRowNumber", pagingBean.getEndRowNumber());
 		return template.selectList("comment.search", map);
@@ -39,7 +39,7 @@ public class SearchDAOImpl implements SearchDAO {
 	public List<BoardVO> searchBoard(SearchVO svo, BoardPagingBean pagingBean) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("scategory", svo.getScategory());
-		map.put("word", svo.getWord());
+		map.put("keyword", svo.getKeyword());
 		map.put("startRowNumber", pagingBean.getStartRowNumber());
 		map.put("endRowNumber", pagingBean.getEndRowNumber());
 		return template.selectList("board.search", map);

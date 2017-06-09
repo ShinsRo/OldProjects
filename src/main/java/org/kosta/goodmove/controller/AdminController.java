@@ -32,7 +32,7 @@ public class AdminController {
 	private AdminService adminService;
 	@Resource
 	private BoardService boardService;
-	
+
 	/**
 	 * 관리자모드에서 지역후기 리스트 반환
 	 * 
@@ -42,9 +42,8 @@ public class AdminController {
 	 * @return
 	 */
 	@RequestMapping("getCommentList_admin.do")
-	public String getCommentListAdmin(String pageNo, String id, Model model) {
-		model.addAttribute("lvo", commentService.getCommentList(pageNo));
-		return "admin/commentList_admin.tiles2";
+	public ModelAndView getCommentListAdmin(String pageNo, String id, Model model) {
+		return new ModelAndView("admin/commentList_admin.tiles2", "lvo", commentService.getCommentList(pageNo));
 	}
 
 	/**
@@ -59,6 +58,9 @@ public class AdminController {
 
 	/**
 	 * 관리자모드에서 지역후기 상세내용보기
+	 * 
+	 * @param cno
+	 * @param model
 	 */
 	@RequestMapping("showComment_admin.do")
 	public String showCommentAdmin(String cno, Model model) {
@@ -152,7 +154,7 @@ public class AdminController {
 	}
 
 	/**
-	 * 관리자 상품관리
+	 * 관리자 상품리스트 반환
 	 * 
 	 * @param pageNo
 	 * @param model
@@ -167,6 +169,7 @@ public class AdminController {
 
 	/**
 	 * 관리자 기부글 관리
+	 * 
 	 * @param bno
 	 * @param model
 	 * @return
@@ -179,6 +182,7 @@ public class AdminController {
 		model.addAttribute("plist", plist);
 		return "admin/boardDetail_admin.tiles2";
 	}
+
 	/**
 	 * 관리자 페이지에서 용달 제휴신청 관리
 	 * 
@@ -189,124 +193,114 @@ public class AdminController {
 		model.addAttribute("NotSelectedlist", deliveryService.getNotConfirmedDeliveryList());
 		return "admin/deliveryList_admin.tiles2";
 	}
-	
+
 	/**
 	 * 처리 완료되지 않은 신고내역 반환
+	 * 
 	 * @param category
 	 * @param pageNo
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping("getReportList_admin.do")
-	public String getReportList_admin(String category, String pageNo, Model model ){
-		if(category==null){
-			category="board";
-		}
+	public String getReportList_admin(String category, String pageNo, Model model) {
+		if (category == null)
+			category = "board";
 		model.addAttribute("lvo", adminService.getReportList(pageNo, category));
 		model.addAttribute("type", category);
-		model.addAttribute("reportBoardCount", adminService.reportCount("board"));
-		model.addAttribute("reportCommentCount", adminService.reportCount("comment"));
-		model.addAttribute("reportReplyCount", adminService.reportCount("reply"));
-		model.addAttribute("reportAllBoardCount", adminService.reportAllCount("board"));
-		model.addAttribute("reportAllCommentCount", adminService.reportAllCount("comment"));
-		model.addAttribute("reportAllReplyCount", adminService.reportAllCount("reply"));
+		model.addAttribute("count", adminService.reportCount());
 		return "admin/reportList.tiles2";
 	}
-	
+
 	/**
 	 * 모든 신고내역 반환
+	 * 
 	 * @param category
 	 * @param pageNo
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping("getAllReportList_admin.do")
-	public String getAllReportList_admin(String category, String pageNo, Model model ){
-		
+	public String getAllReportList_admin(String category, String pageNo, Model model) {
 		model.addAttribute("lvo", adminService.getAllReportList(pageNo, category));
-		model.addAttribute("type", category+"All");
-		model.addAttribute("reportBoardCount", adminService.reportCount("board"));
-		model.addAttribute("reportCommentCount", adminService.reportCount("comment"));
-		model.addAttribute("reportReplyCount", adminService.reportCount("reply"));
-		model.addAttribute("reportAllBoardCount", adminService.reportAllCount("board"));
-		model.addAttribute("reportAllCommentCount", adminService.reportAllCount("comment"));
-		model.addAttribute("reportAllReplyCount", adminService.reportAllCount("reply"));
+		model.addAttribute("type", category + "All");
+		model.addAttribute("count", adminService.reportCount());
 		return "admin/reportList.tiles2";
 	}
-	
+
 	/**
 	 * 댓글 신고하기
+	 * 
 	 * @param rvo
 	 * @param model
 	 * @param cno
 	 * @return
 	 */
 	@RequestMapping("reportReply.do")
-	public String reortReply(ReportVO rvo, Model model, int cno){
-		System.out.println(rvo);
+	public String reortReply(ReportVO rvo, Model model, int cno) {
 		adminService.replyReport(rvo);
-		System.out.println("댓글 신고완료!");
 		model.addAttribute("CommentReplyList", commentService.getAllCommentReplyList(cno));
-		model.addAttribute("cvo",commentService.showCommentNoHit(cno));
+		model.addAttribute("cvo", commentService.showCommentNoHit(cno));
 		return "comment/commentDetail.tiles";
 	}
-	
+
 	/**
 	 * 후기 신고하기
+	 * 
 	 * @param rvo
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping("reportComment.do")
-	public String reportComment(ReportVO rvo, Model model){
-		System.out.println(rvo);
+	public String reportComment(ReportVO rvo, Model model) {
 		adminService.commentReport(rvo);
-		System.out.println("후기 신고완료!");
 		model.addAttribute("CommentReplyList", commentService.getAllCommentReplyList(rvo.getReno()));
-		model.addAttribute("cvo",commentService.showCommentNoHit(rvo.getReno()));
+		model.addAttribute("cvo", commentService.showCommentNoHit(rvo.getReno()));
 		return "comment/commentDetail.tiles";
 	}
 
 	/**
-	 * 기부글 신고 상세보기
+	 * 기부글 신고
+	 * 
 	 * @param rvo
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping("reportBoard.do")
-	public String reportBoard(ReportVO rvo, Model model){
-		System.out.println(rvo);
+	public String reportBoard(ReportVO rvo, Model model) {
 		adminService.boardReport(rvo);
-		BoardVO bvo = boardService.getBoardDetailByBno(rvo.getReno());
-		List<ProductVO> plist = boardService.getProductImgByBno(rvo.getReno());
-		model.addAttribute("bvo",bvo);
-		model.addAttribute("plist",plist);
-		System.out.println("상품 신고완료!");
+		model.addAttribute("bvo", boardService.getBoardDetailByBno(rvo.getReno()));
+		model.addAttribute("plist", boardService.getProductImgByBno(rvo.getReno()));
 		return "board/boardDetail.tiles";
-		
+
 	}
 
-	
+	/**
+	 * 용달 제휴 승인
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("confirmDelivery.do")
 	public String confirmDelivery(String id) {
 		deliveryService.confirmDelivery(id);
-		System.out.println(id + " 완료");
 		return "redirect:deliveryList_admin.do";
 	}
-	
+
 	/**
 	 * 관리자에서 기부글 삭제
+	 * 
 	 * @param bno
 	 * @return
 	 */
 	@RequestMapping("boardDelete_admin.do")
-	public String boardDelete_admin(String bno){
+	public String boardDelete_admin(String bno) {
 		boardService.delete(bno);
 		return "redirect:admin/deleteResult_admin.do";
 	}
-	
+
 	/**
 	 * 신고된 글 삭제처리
+	 * 
 	 * @param category
 	 * @param reno
 	 * @param report_no
@@ -315,27 +309,19 @@ public class AdminController {
 	 * @return
 	 */
 	@RequestMapping("deleteReport_admin.do")
-	public String deleteReport(String category, int reno, int report_no,String type, int pageNo){
-		if(category.equals("board")){
-			boardService.delete(Integer.toString(reno));
-		}else if(category.equals("comment")){
-			commentService.deleteComment(reno);
-		}else{
-			CommentReplyVO crvo = commentService.getCommentReplyInfoByRNO(reno);
-			commentService.deleteCommentReply(reno);
-			if (crvo.getParent() == 0)
-				commentService.deleteCommentReplyChild(crvo.getGno());
-		}
+	public String deleteReport(String category, int reno, int report_no, String type, int pageNo) {
+		adminService.deleteObj(category, reno);
 		adminService.deleteReport(report_no);
-		if(type.lastIndexOf("All")==-1){
-			return "redirect:getReportList_admin.do?category="+category+"&pageNo="+pageNo;
-		}else{
-			return "redirect:getAllReportList_admin.do?category="+category+"&pageNo="+pageNo;
+		if (type.lastIndexOf("All") == -1) {
+			return "redirect:getReportList_admin.do?category=" + category + "&pageNo=" + pageNo;
+		} else {
+			return "redirect:getAllReportList_admin.do?category=" + category + "&pageNo=" + pageNo;
 		}
 	}
-	
+
 	/**
 	 * 신고된 글 처리거부
+	 * 
 	 * @param category
 	 * @param reno
 	 * @param report_no
@@ -344,17 +330,18 @@ public class AdminController {
 	 * @return
 	 */
 	@RequestMapping("rejectReport_admin.do")
-	public String rejectReport(String category, int reno, int report_no,String type, int pageNo){
+	public String rejectReport(String category, int reno, int report_no, String type, int pageNo) {
 		adminService.rejectReport(report_no);
-		if(type.lastIndexOf("All")==-1){
-			return "redirect:getReportList_admin.do?category="+category+"&pageNo="+pageNo;
-		}else{
-			return "redirect:getAllReportList_admin.do?category="+category+"&pageNo="+pageNo;
+		if (type.lastIndexOf("All") == -1) {
+			return "redirect:getReportList_admin.do?category=" + category + "&pageNo=" + pageNo;
+		} else {
+			return "redirect:getAllReportList_admin.do?category=" + category + "&pageNo=" + pageNo;
 		}
 	}
-	
+
 	/**
 	 * 신고된 글 상세내용
+	 * 
 	 * @param category
 	 * @param reno
 	 * @param report_no
@@ -364,71 +351,7 @@ public class AdminController {
 	 * @return
 	 */
 	@RequestMapping("showReport_admin.do")
-	public String showReport_admin(String category, int reno, int report_no,String type, int pageNo, Model model){
-		if(category.equals("board")){
-			BoardVO bvo = boardService.getBoardDetailByBno(Integer.parseInt(Integer.toString(reno)));
-			List<ProductVO> plist = boardService.getProductImgByBno(Integer.parseInt(Integer.toString(reno)));
-			model.addAttribute("revo", bvo);
-			model.addAttribute("plist", plist);
-		}else if(category.equals("comment")){
-			model.addAttribute("revo", commentService.showCommentNoHit(reno));
-		}else{
-			model.addAttribute("revo", commentService.showReply(reno));
-		}
-		model.addAttribute("category", category);
-		model.addAttribute("reno", reno);
-		model.addAttribute("report_no", report_no);
-		model.addAttribute("type", type);
-		model.addAttribute("pageNo", pageNo);
-		return "admin/reportDitail_admin.tiles2";
+	public ModelAndView showReport_admin(String category, int reno, int report_no, String type, int pageNo) {
+		return new ModelAndView("admin/reportDitail_admin.tiles2", "show", adminService.showReport(category, reno, report_no, type, pageNo));
 	}
-	
-	/**
-	 * 신고된 상세보기 에서 글 삭제처리
-	 * @param category
-	 * @param reno
-	 * @param report_no
-	 * @param type
-	 * @param pageNo
-	 * @return
-	 */
-	@RequestMapping("deleteDitailReport_admin.do")
-	public String deleteDitailReport(String category, int reno, int report_no,String type, int pageNo){
-		if(category.equals("board")){
-			boardService.delete(Integer.toString(reno));
-		}else if(category.equals("comment")){
-			commentService.deleteComment(reno);
-		}else{
-			CommentReplyVO crvo = commentService.getCommentReplyInfoByRNO(reno);
-			commentService.deleteCommentReply(reno);
-			if (crvo.getParent() == 0)
-				commentService.deleteCommentReplyChild(crvo.getGno());
-		}
-		adminService.deleteReport(report_no);
-		if(type.lastIndexOf("All")==-1){
-			return "redirect:getReportList_admin.do?category="+category+"&pageNo="+pageNo;
-		}else{
-			return "redirect:getAllReportList_admin.do?category="+category+"&pageNo="+pageNo;
-		}
-	}
-	
-	/**
-	 * 신고된 글 상세내용에서 처리거부
-	 * @param category
-	 * @param reno
-	 * @param report_no
-	 * @param type
-	 * @param pageNo
-	 * @return
-	 */
-	@RequestMapping("rejectDitailReport_admin.do")
-	public String rejectDitailReport(String category, int reno, int report_no,String type, int pageNo){
-		adminService.rejectReport(report_no);
-		if(type.lastIndexOf("All")==-1){
-			return "redirect:getReportList_admin.do?category="+category+"&pageNo="+pageNo;
-		}else{
-			return "redirect:getAllReportList_admin.do?category="+category+"&pageNo="+pageNo;
-		}
-	}
-	
 }

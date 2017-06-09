@@ -44,15 +44,14 @@ $(document).ready(function(){
 	//검색 자동완성
 	$("#keyword").autocomplete({
 			source : function( request, response ){
-				alert($("#keyword").val());	
+				
 				$.ajax({
 				url:"${pageContext.request.contextPath}/autoSearch.do",
 				type: "post",
 				dataType : "json",
 				data : "keyword=" + $("#keyword").val(),
 				success : function(data){
-					var result =data;
-					response(result);
+					alert(date.length);
 				},
 				error : function(data){
 					alert("ajax 에러 발생");
