@@ -38,7 +38,6 @@
                             <ul role="menu" class="sub-menu">
 		                    	<li><a href = "_없는페이지">404Error Test</a></li>
                             	<li><a href = "${pageContext.request.contextPath }/makeError.do">500Error Test</a></li>
-                            	<li><a href = "${pageContext.request.contextPath }/makeException.do">unknown error</a></li>
                             </ul>
                             </li>
                     <c:if test="${sessionScope.mvo.id == 'admin' }">

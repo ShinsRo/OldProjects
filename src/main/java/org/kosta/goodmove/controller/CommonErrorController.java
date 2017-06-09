@@ -17,11 +17,6 @@ public class CommonErrorController {
 		return "error/error-404";
 	}
 	
-	@RequestMapping("serverError.do")
-	public String errorPage500(){
-		return "error/error-500";
-	}
-	
 	@SuppressWarnings("null")
 	@RequestMapping("makeError.do")
 	public void makeError(){

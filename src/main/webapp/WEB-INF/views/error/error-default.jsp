@@ -33,12 +33,13 @@
                         <div class="text-center">
                             <div class="bg-404">
                                 <div class="error-image">                                
-		                            <h2>예외적 상황으로 페이지가 이동되었습니다.</h2>
+		                            <h2>서버 동작 간 오류가 발생했습니다.</h2>
 		                            <hr>
-		                            <p>홈으로 돌아가시려면 아래의 버튼을 이용하세요.</p>
+		                            <p>서버 관리자에게 문의하시거나 홈으로 이동하시려면 아래 버튼을 이용하세요.</p>
                                 </div>
                             </div>
-                            <a href="${pageContext.request.contextPath }/home.do" class="btn btn-error">RETURN TO THE HOMEPAGE</a>
+                            <a href="${pageContext.request.contextPath }/home.do" class="btn btn-error">HOMEPAGE</a>&nbsp;&nbsp;
+                            <a href="${pageContext.request.contextPath }/home.do" class="btn btn-error">REPORT ERROR</a>
                             <div class="social-link">
                                 <span><a href="#"><i class="fa fa-facebook"></i></a></span>
                                 <span><a href="#"><i class="fa fa-twitter"></i></a></span>
