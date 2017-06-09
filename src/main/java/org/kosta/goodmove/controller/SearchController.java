@@ -1,7 +1,6 @@
 package org.kosta.goodmove.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
@@ -10,7 +9,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.codehaus.jackson.map.util.JSONPObject;
 import org.kosta.goodmove.model.service.BoardService;
 import org.kosta.goodmove.model.service.CommentService;
 import org.kosta.goodmove.model.service.MemberService;
@@ -147,13 +145,15 @@ public class SearchController {
 
 	@RequestMapping("autoSearch.do")
 	@ResponseBody
-	public void autoSearch(ModelMap modelMap, String keyword, HttpServletResponse response)
+	public List<String> autoSearch(ModelMap modelMap, String keyword, HttpServletResponse response)
 			throws IOException {
 		List<String> searchList = null;
 		System.out.println(keyword);
 		searchList = searchService.getAutoSearchList(keyword);
 		System.out.println(searchList);
-		PrintWriter out = response.getWriter();
-		out.print(searchList.toString());
+/*		PrintWriter out = response.getWriter();
+		out.print(searchList.toString());*/
+		
+		return searchList;
 	}
 }

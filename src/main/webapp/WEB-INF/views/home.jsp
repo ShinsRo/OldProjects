@@ -44,20 +44,10 @@ $(document).ready(function(){
 	//검색 자동완성
 	$("#keyword").autocomplete({
 			source : function( request, response ){
-				alert($("#keyword").val());	
-				$.ajax({
-				url:"${pageContext.request.contextPath}/autoSearch.do",
-				type: "post",
-				dataType : "json",
-				data : "keyword=" + $("#keyword").val(),
-				success : function(data){
-					var result =data;
-					response(result);
-				},
-				error : function(data){
-					alert("ajax 에러 발생");
-				}
-			});
+				$.getJSON("${pageContext.request.contextPath}/autoSearch.do?keyword="
+					+ $("#keyword").val(),function(data){
+					response(data);
+				});	
 		}		
 	});
 });//ready
@@ -75,8 +65,8 @@ $(document).ready(function(){
 					<form action="${pageContext.request.contextPath}/search.do" method="post" role="form">
 						<input type="text" class="search-form" id="keyword"  
 							placeholder="검색하기" size="80" name="keyword"> <i class=""></i>
-						<div id="suggest" size="80"></div>
 							<button type="submit" class="btn btn-info">검색</button>
+						<div id="suggest"></div>
 					</form>
 				</div>
 				<div class="col-sm-2"></div>

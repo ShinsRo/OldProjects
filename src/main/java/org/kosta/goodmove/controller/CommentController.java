@@ -96,7 +96,6 @@ public class CommentController {
 	public String commentRehisterView(HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession(false);
 		if (session != null) {
-
 			MemberVO mvo = (MemberVO) session.getAttribute("mvo");
 			if (mvo != null) {
 				String add = mvo.getAddr();
@@ -125,7 +124,6 @@ public class CommentController {
 	public ModelAndView write(String addr, HttpServletRequest request, CommentVO cvo) {
 		HttpSession session = request.getSession(false);
 		if (session != null) {
-
 			MemberVO mvo = (MemberVO) session.getAttribute("mvo");
 			if (mvo != null) {
 				cvo.setId(mvo.getId());
@@ -162,53 +160,35 @@ public class CommentController {
 		commentService.deleteComment(cno);
 		return new ModelAndView("comment/commentList.tiles", "lvo", commentService.getCommentList());
 	}
-
 	/**
-	 * 지역후기 댓글작성
-	 * @param model
-	 * @param parent
-	 * @param reFlag
-	 * @param cno
-	 * @param rememo
-	 * @param request
+	 * 댓글
+	 * @param crvo
 	 * @return
 	 */
-	@RequestMapping("writeCommentReply.do")
-	public String writeCommentReply(Model model, int parent, String reFlag, int cno, String rememo,
-			HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		MemberVO mvo = (MemberVO) session.getAttribute("mvo");
-		if (reFlag.equals("true")) {
-			int reparent = Integer.parseInt(request.getParameter("reparent"));
-			parent = reparent;
-		} else {
-			parent = Integer.parseInt(request.getParameter("parent"));
-		}
-		String id = mvo.getId();
-		String name = mvo.getName();
-		String content = rememo;
-		CommentReplyVO pvo = null;
+	@RequestMapping("writeCommentReply1.do")
+	public String writeCommentReply1(CommentReplyVO crvo) {
 		int rno = commentService.getNextReplyNo();
-		int gno = 1;
-		int depth = 0;
-		int order_no = 0;
-		if (parent == 0) { // 글에 댓글 달때
-			gno = rno;
-			depth = 0;
-			order_no = 1;
-		} else { // 대댓글 달기
-			gno = parent;
-			pvo = commentService.getParentInfo(parent);
-			depth = pvo.getdepth();
-			order_no = pvo.getOrder_no();
-			if (commentService.getParentsParentId(parent) != 0) {
-				parent = commentService.getParentsParentId(parent);
-				gno = parent;
+		int gno = rno;
+		commentService.insertNewCommentReply(new CommentReplyVO(rno, crvo.getCno(), crvo.getId(), crvo.getName(), crvo.getParent(), crvo.getContent(), gno, crvo.getdepth(), crvo.getOrder_no()));
+		return "redirect:showCommentNoHit.do?cno=" + crvo.getCno();
+	}
+
+	/**
+	 * 대댓글
+	 * @param crvo
+	 * @return
+	 */
+	@RequestMapping("writeCommentReply2.do")
+	public String writeCommentReply(CommentReplyVO crvo) {
+		int rno = commentService.getNextReplyNo();
+		crvo.setGno(crvo.getParent());
+		CommentReplyVO pvo = commentService.getParentInfo(crvo.getParent());
+		if (commentService.getParentsParentId(crvo.getParent()) != 0) {
+			crvo.setParent(commentService.getParentsParentId(crvo.getParent()));
+			crvo.setGno(crvo.getParent());
 			}
-		}
-		CommentReplyVO crvo = new CommentReplyVO(rno, cno, id, name, parent, content, gno, depth, order_no);
-		commentService.insertNewCommentReply(crvo);
-		return "redirect:showCommentNoHit.do?cno=" + cno;
+		commentService.insertNewCommentReply(new CommentReplyVO(rno, crvo.getCno(), crvo.getId(), crvo.getName(), crvo.getParent(), crvo.getContent(), crvo.getGno(), pvo.getdepth(), pvo.getOrder_no()));
+		return "redirect:showCommentNoHit.do?cno=" + crvo.getCno();
 	}
 
 	/**
@@ -230,12 +210,12 @@ public class CommentController {
 	 * 댓글 수정
 	 * @param cno
 	 * @param rno
-	 * @param rememo
+	 * @param content
 	 * @return
 	 */
 	@RequestMapping("updateCommentReply.do")
-	public String updateCommentReply(int cno, int rno, String rememo) {
-		CommentReplyVO crvo = new CommentReplyVO(rno, rememo);
+	public String updateCommentReply(int cno, int rno, String content) {
+		CommentReplyVO crvo = new CommentReplyVO(rno, content);
 		commentService.updateCommentReply(crvo);
 		return "redirect:showCommentNoHit.do?&cno=" + cno;
 	}
