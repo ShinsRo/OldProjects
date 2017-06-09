@@ -40,9 +40,9 @@
 			<div class="row">
 				<div class="action">
 					<div class="col-sm-12">
-						<h1 class="title">로그인</h1>
+						<h1 class="title">회원 로그인</h1>
 						<p>
-							<br>로그인 해주세요
+							<br>일반 회원 로그인 페이지입니다
 						</p>
 					</div>
 				</div>

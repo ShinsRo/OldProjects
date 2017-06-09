@@ -32,7 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select bno, title, hit, to_char(time_posted,'YYYY.MM.DD
 		HH:mm') as time_posted,
 		id, addr,bcontent, thumbpath, is_deleted, row_number() over(order by bno desc) as
-		rnum from G_BOARD)
+		rnum from G_BOARD where is_deleted='NO')
 		where rnum between #{startRowNumber} and #{endRowNumber}
 	</select>
 	<select id="getMyBoardList" resultType="BoardVO" parameterType="hashMap">

@@ -40,7 +40,7 @@
 				<div class="action">
 					<div class="col-sm-12">
 						<h1 class="title">사업자 로그인</h1>
-						<p>용달 사업자 회원가입 페이지 입니다.</p>
+						<p>용달 사업자 로그인 페이지 입니다.</p>
 					</div>
 				</div>
 			</div>
