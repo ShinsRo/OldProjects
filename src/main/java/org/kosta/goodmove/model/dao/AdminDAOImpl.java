@@ -96,4 +96,5 @@ public class AdminDAOImpl implements AdminDAO {
 	public void boardReport(ReportVO rvo) {
 		template.insert("admin.boardReport", rvo);
 	}
+
 }

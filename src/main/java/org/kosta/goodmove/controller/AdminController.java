@@ -18,6 +18,7 @@ import org.kosta.goodmove.model.vo.ProductVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -353,5 +354,26 @@ public class AdminController {
 	@RequestMapping("showReport_admin.do")
 	public ModelAndView showReport_admin(String category, int reno, int report_no, String type, int pageNo) {
 		return new ModelAndView("admin/reportDitail_admin.tiles2", "show", adminService.showReport(category, reno, report_no, type, pageNo));
+	}
+	
+	/**
+	 * 관리자 메인페이지에 출력될 신고갯수 반환
+	 * @param category
+	 * @return
+	 */
+	@RequestMapping("CountReport_admin.do")
+	@ResponseBody
+	public int CountReport_admin(String category) {
+		return adminService.getTotalReportCount(category);
+	}
+	
+	/**
+	 * 관리자 메인페이지에 출력될 제휴 미승인 대기자수 반환
+	 * @return
+	 */
+	@RequestMapping("CountDelivery_admin.do")
+	@ResponseBody
+	public int CountDelivery_admin() {
+		return deliveryService.countDelivery_admin();
 	}
 }

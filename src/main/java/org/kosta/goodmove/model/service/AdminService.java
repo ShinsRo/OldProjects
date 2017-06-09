@@ -28,5 +28,7 @@ public interface AdminService {
 
 	public HashMap<String, Object> showReport(String category, int reno, int report_no, String type, int pageNo);
 
+	public int getTotalReportCount(String category);
+
 
 }

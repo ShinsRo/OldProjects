@@ -62,6 +62,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="registerDeliveryMatch" parameterType="hashMap">
 		insert into delivery_match(bno,aid,did) values(#{bno},#{aid},#{did})
 	</insert>
+	<select id="countDelivery" resultType="int">
+		select count(*) from delivery where is_confirmed='NO' and is_deleted='NO'
+	</select>
 </mapper>
  
  
