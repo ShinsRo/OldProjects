@@ -8,7 +8,9 @@ import org.kosta.goodmove.model.vo.BoardVO;
 import org.kosta.goodmove.model.vo.ProductSetVO;
 import org.kosta.goodmove.model.vo.ProductVO;
 import org.kosta.goodmove.model.vo.TransactionVO;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public interface BoardService {
 	public int getNextBno();
 
