@@ -4,7 +4,6 @@
 <c:set var="bvo" value="${requestScope.bvo}"></c:set>
 <script>
 	$(document).ready(function(){
-		
 		$("#give-me").click(function(){
 			$("#myModal").modal();
 		});
@@ -16,12 +15,53 @@
 			return true;
 		});
 	});
+	  function setCookie(cName, cValue, cDay){
+        var expire = new Date();
+        expire.setDate(expire.getDate() + cDay);
+        cookies = cName + '=' + escape(cValue) + '; path=/ ';
+        if(typeof cDay != 'undefined') cookies += ';expires=' + expire.toGMTString() + ';';
+        document.cookie = cookies;
+    }
+	
+	function getCookie(cName) {
+	    cName = cName + '=';
+	    var cookieData = document.cookie;
+	    var start = cookieData.indexOf(cName);
+	    var cValue = '';
+	    if(start != -1){
+	        start += cName.length;
+	        var end = cookieData.indexOf(';', start);
+	        if(end == -1)end = cookieData.length;
+	        cValue = cookieData.substring(start, end);
+	    }
+	    return unescape(cValue);
+	}
+	
+	function checkCookie(){
+		<c:set value="${bvo.thumbPath}" var="img"/>
+		var itemID = getCookie("itemID");
+		var thisItem = $("#bno").val()+":"+$("#thumbPath").val();
+		if(thisItem){
+			if(itemID != "" && itemID != null){
+				if (itemID.indexOf(thisItem) == -1) { //값이 없으면 
+					setCookie("itemID", thisItem + "&" + itemID, 1);
+				}
+			} else {
+				if (itemID == "" || itemID == null) {
+					setCookie("itemID", thisItem + "&", 1);
+				}
+			}
+		}
+	}
+
 </script>
+<body onload="checkCookie()">
 <section id="portfolio-information" class="padding-top">
        <div class="container">
            <div class="row">
                <div class="col-sm-6">
-                   <img src="${pageContext.request.contextPath }/${bvo.thumbPath}" class="img-responsive" alt="">
+                   <img src="${pageContext.request.contextPath }/${bvo.thumbPath}" class="img-responsive" alt="썸네일">
+                   <input type="hidden" id="thumbPath" value="${bvo.thumbPath}">
                </div>
                <div class="col-sm-6">
                     <div class="project-name overflow">
@@ -54,7 +94,7 @@
 							<div class="contact-form bottom">
 							<form id="app-form" name="app-form" method="post" action="${pageContext.request.contextPath}/registerGiveMe.do"></form>
 								<form id="app-form" name="app-form" method="post" action="${pageContext.request.contextPath}/registerGiveMe.do">
-									<div><input type="hidden" name="bno" value="${bvo.bno}">
+									<div><input type="hidden" id="bno" name="bno" value="${bvo.bno}">
 										글번호:${bvo.bno}&nbsp;&nbsp;글 제목: ${bvo.title}
 									</div>
 									<div class="kind-of-product">
@@ -130,9 +170,10 @@
 					onclick = "javascript:location.href='${pageContext.request.contextPath}/boardDelete.do?bno=${ bvo.bno}'">삭제</button>
 				</c:if>
 				<button class = "btn btn-info"
-				onclick = "">목록</button> 
+				onclick = "javascript:location.href='${pageContext.request.contextPath}/getBoardList.do'">목록</button> 
 			</div>
 		</div>
 	</div>
 </section>
+</body>
 <!--/#related-work-->
