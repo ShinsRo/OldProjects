@@ -1,7 +1,6 @@
 package org.kosta.goodmove.model.dao;
 
 import java.util.List;
-
 import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.BoardPagingBean;
 import org.kosta.goodmove.model.vo.BoardVO;
@@ -76,4 +75,8 @@ public interface BoardDAO {
 	void boardUpdate(BoardVO bvo);
 
 	void productDelete(String pno);
+	
+	List<BoardVO> boardListById(String id, BoardPagingBean bpb);
+	
+	int getTotalContentCountById(String id);
 }

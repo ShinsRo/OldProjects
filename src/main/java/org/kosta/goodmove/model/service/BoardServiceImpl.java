@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
-
 import javax.annotation.Resource;
-
 import org.kosta.goodmove.model.dao.BoardDAO;
 import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.BoardListVO;
@@ -229,5 +227,16 @@ public class BoardServiceImpl implements BoardService {
 			boardDAO.productDelete(deletedProductArr[i]);
 		}
 		boardDAO.boardUpdate(bvo);
+	}
+	/**
+	 * 아이디를 통해 내가올린 드려요로
+	 * 연결되기 위한 ServiceImpl
+	 */
+	@Override
+	public BoardListVO boardListById(String id, String pageNo) {
+		BoardPagingBean bpb = 
+				new BoardPagingBean(boardDAO.getTotalBoardCount(id), 
+				Integer.parseInt(pageNo));
+		return new BoardListVO(boardDAO.boardListById(id, bpb),bpb);
 	}
 }

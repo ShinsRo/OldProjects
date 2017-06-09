@@ -4,10 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
 import org.kosta.goodmove.model.service.BoardService;
 import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.BoardListVO;
@@ -274,10 +272,17 @@ public class BoardController {
 		boardService.boardUpdate(bvo, psvo, newProductCnt, deletedProductArr);
 		return "redirect:boardDetail.do?bno=" + bvo.getBno();
 	}
-	public String getPicture(Model model, String bno, String pno){
-		model.addAttribute("pno", pno);
-		model.addAttribute("imgURL", boardService.getProductURL(pno));
-		return "board/imgPopUp";
-	
-	}
+	/**
+	 * 아이디를 통해 내가올린드려요 페이지로 이동하기
+	 * 위해 필요한 컨트롤러
+	 * @param id
+	 * @param pageNo
+	 * @param model
+	 * @return 내가올린드려요페이지로 이동
+	 */
+		@RequestMapping("BoardListById.do")
+		public String boardListById(String id, String pageNo, Model model ){
+			model.addAttribute("blvo", boardService.boardListById(id, pageNo));
+			return "mypage/my_board.tiles";
+		}
 }

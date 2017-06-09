@@ -1,7 +1,6 @@
 package org.kosta.goodmove.model.service;
 
 import java.util.List;
-
 import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.BoardListVO;
 import org.kosta.goodmove.model.vo.BoardVO;
@@ -29,7 +28,7 @@ public interface BoardService {
 	public void boardRegister(BoardVO bvo, ProductSetVO psvo);
 
 	public BoardVO getBoardDetailByBno(int bno);
-	
+
 	public BoardVO getBoardDetailByBnoWithFullAddr(int bno);
 
 	List<ProductVO> getProductImgByBno(int bno);
@@ -55,4 +54,6 @@ public interface BoardService {
 	public int getProductCnt(int bno);
 
 	public void boardUpdate(BoardVO bvo, ProductSetVO psvo, int newProductCnt, String[] deletedProductArr);
+
+	public BoardListVO boardListById(String id, String pageNo);
 }
