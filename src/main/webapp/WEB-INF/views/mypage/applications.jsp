@@ -41,6 +41,9 @@
 	rel="stylesheet">
 </head>
 <script type="text/javascript">
+	$(function() {
+		opener.parent.location.reload();
+	});
 	$(document)
 			.on(
 					"click",

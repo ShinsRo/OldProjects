@@ -47,4 +47,10 @@ public interface BoardService {
 	public void confirmApply(String bno, String id);
 
 	public void delete(String bno);
+
+	public String getProductURL(String pno);
+
+	public int getProductCnt(int bno);
+
+	public void boardUpdate(BoardVO bvo, ProductSetVO psvo, int newProductCnt, String[] deletedProductArr);
 }

@@ -177,21 +177,57 @@ public class BoardServiceImpl implements BoardService {
 		StringTokenizer st = new StringTokenizer(avo.getPnos(), ","); 
 		while (st.hasMoreElements()) {
 			if(( pno = st.nextToken()) != ""){
+				System.out.println("pno :" +pno);
 				boardDAO.nowUnavailable(pno);
-				boardDAO.disableOtherApps(pno);
+				boardDAO.disableOtherApps(bno, pno);
 			}
 		}
-		if(!(boardDAO.selectedProductCnt(avo.getBno()) > 0)){
+		if(boardDAO.selectedProductCnt(avo.getBno()) == 0){
+			System.out.println("123");
 			boardDAO.Refresh(avo.getBno());
 		}
 	}
 
 	@Override
 	public void delete(String bno) {
-		System.out.println("board : " + bno);
 		boardDAO.deleteBoard(bno);
-		System.out.println("product");
 		boardDAO.deletePoduct(bno);
 		boardDAO.deleteApplication(bno);
+	}
+
+	@Override
+	public String getProductURL(String pno) {
+		return boardDAO.getProductByPno(pno).getImg_path();
+	}
+
+	@Override
+	public int getProductCnt(int bno) {
+		return boardDAO.getProductCnt(bno);
+	}
+
+	@Override
+	public void boardUpdate(BoardVO bvo, ProductSetVO psvo, int newProductCnt, String[] deletedProductArr) {
+		List<ProductVO> pList = bvo.getpList();
+		//새로 추가된 상품 등록
+		while(newProductCnt-->0){
+			ProductVO tempPVO = pList.remove(0);
+			tempPVO.setBno(bvo.getBno());
+			tempPVO.setPtitle(psvo.getPtitle().remove(0));
+			tempPVO.setKind(psvo.getKind().remove(0));
+			tempPVO.setPcontent(psvo.getPcontent().remove(0));
+			boardDAO.productRegister(tempPVO);
+		}
+		for (int i = 0; i < pList.size(); i++) {
+			ProductVO tempPVO = pList.remove(0);
+			tempPVO.setBno(bvo.getBno());
+			tempPVO.setPtitle(psvo.getPtitle().remove(0));
+			tempPVO.setKind(psvo.getKind().remove(0));
+			tempPVO.setPcontent(psvo.getPcontent().remove(0));
+			boardDAO.productUpdate(tempPVO);
+		}
+		for (int i = 0; i < deletedProductArr.length; i++) {
+			boardDAO.productDelete(deletedProductArr[i]);
+		}
+		boardDAO.boardUpdate(bvo);
 	}
 }

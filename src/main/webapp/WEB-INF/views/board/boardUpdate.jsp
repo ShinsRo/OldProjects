@@ -1,10 +1,23 @@
+<%@page import="org.kosta.goodmove.model.vo.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!-- 서울시 주소 API 로딩 -->
 <script type="text/javascript"
 	src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
 <script type="text/javascript">
+	
+	function changeStateStack(pno, index) {
+		$("#stackContainer").val($("#stackContainer").val()+"/"+pno+","+index);
+		return;
+	}
+	function deleteStackFnc(pno){
+		if(productCnt > 1)
+			$("#stackContainer").val($("#stackContainer").val()+pno+",");
+		return;
+	}
+	
 	var ProductRegFormHtml="";
 	var productCnt = 0;
 	
@@ -13,12 +26,13 @@
 		$("#postcodify_search_button").postcodifyPopUp();
 		
 		//상품 추가 폼 html 초기화
-		productRegFormHtml = $("#productFormView").html();
-	
-		//상품 추가 폼 html div영역 추가
+		productRegFormHtml = $("#singleProductRegFormHtml").html();
+		 $("#singleProductRegFormHtml").html("");
+		 
+/* 		//상품 추가 폼 html div영역 추가
 		$("#productFormView").prepend("<div id = 'product'"+ productCnt + ">");
 		$("#productFormView").append("</div>");
-		
+		 */
 		//상품 추가 버튼 클릭 시 추가 폼 생성
 		$("#addProduct").click(function() {
 			if(productCnt >= 3){
@@ -26,9 +40,7 @@
 				return;
 			}
 			productCnt++;
-			var productRegFormHtmlTemp =
-				"<div id = 'product'>" + productRegFormHtml + "</div>";
-			$("#productFormView").prepend(productRegFormHtmlTemp);
+			$("#productFormView").prepend(productRegFormHtml);
 		});
 		$(document).on("click","#deleteProduct", function() {
 			if(productCnt <= 1){
@@ -40,6 +52,32 @@
 		})
 	});
 </script>
+<!-- 상품 초기화 폼 -->
+<div id = "productRegFormHtml" style="display: none">
+		<div id = "singleProductRegFormHtml">
+		<div id = "product">
+		<!-- 상품 번호 -->
+		<div class="form-group">
+			<input type="text" name="ptitle" class="form-control"
+				required="required" placeholder="물건명">
+		</div>
+		<div class="form-group">
+			<input type="text" name="kind" class="form-control"
+				required="required" placeholder="종류">
+		</div>
+		<div class="form-group">
+			<textarea name="pcontent" id="message" required="required"
+				class="form-control" rows="8" placeholder="물건 설명"></textarea>
+		</div>
+		<div align = "right" class="">
+			<input type = "file" name="file" required="required">
+		<input type ='button' class = "btn btn-sm btn-danger" id ='deleteProduct' value = "물건 삭제" >
+		<hr>
+	</div>
+	</div>
+	</div>
+</div>
+<!-- 상품 초기화 폼 -->
 
 <!-- 배너 타이틀 -->
 <section id="page-breadcrumb">
@@ -64,7 +102,11 @@
 <section id="">
 	<form enctype="multipart/form-data" id="main-contact-form" name = "fakeForm"method="post" action=""></form>					
 	<form enctype="multipart/form-data" id="main-contact-form"
-		name="boardRegForm" method="post" action="${pageContext.request.contextPath }/boardRegister.do">
+		name="boardRegForm" method="post" action="${pageContext.request.contextPath }/boardUpdate.do">
+		<input type = "hidden" name = "bno" value="${bvo.bno }">
+		<input type = "hidden" name = "id" value = "${bvo.id }">
+		<input type = "hidden" name = "deleteStack" value = "" id = "stackContainer">
+		<input type = "file" name = "newFile" id = "empty" style="display: none;">
 		<div class="col-md-8 col-sm-8">
 			<div class="contact-form bottom">
 			<br>
@@ -85,14 +127,15 @@
 				</div>
 				<div class="form-group">
 					<input type="submit" name="submit" class="btn btn-submit"
-						value="게시하기">
+						value="수정하기">
 				</div>
 			</div>
 		</div>
 		<div class="col-md-4 col-sm-4">
-		<c:forEach items = "${pList}" var = "pvo">
-			<input type = "hidden" name = "pno" value = "${pvo.pno }">
+		<c:forEach items = "${pList}" var = "pvo" varStatus="status">
 			<div id = "productFormView" class="contact-form bottom">
+			<div id = "product">
+			<input type = "hidden" name = "pno" value = "${pvo.pno }">	
 				<!-- 상품 번호 -->
 				<div class="form-group">
 					<input type="text" name="ptitle" class="form-control" value = "${pvo.ptitle}"
@@ -106,16 +149,16 @@
 					<textarea name="pcontent" id="message" required="required"
 						class="form-control" rows="8" placeholder="물건 설명">${pvo.pcontent}</textarea>
 				</div>
+				<a id = "showOrHideImg" onclick="$('#ImgBlock${pvo.pno }').toggle()">이전 사진 보기</a><br>
 				<div align = "right" class="">
-				<input type ='button' class = "btn btn-sm btn-danger" id ='deleteProduct' value = "물건 삭제">
-				</div>
-				<span>
-					<img src="${pageContext.request.contextPath}/${pvo.img_path}" id = "imgView">
-					<a onclick = "">올린 사진 보기</a><br>
-				</span>
-				<input type = "file" name="file" required="required"
-				value="${pageContext.request.contextPath}/${pvo.img_path}">
+					<span id = "ImgBlock${pvo.pno }"  style="display: none;">
+						<img src="${pageContext.request.contextPath}/${pvo.img_path}" id = "imgView">
+						<input type = "file" name="corFile">
+					</span>
+				<input type ='button' class = "btn btn-sm btn-danger" id ='deleteProduct' value = "물건 삭제" onclick="deleteStackFnc(${pvo.pno})">
 				<hr>
+				</div>
+			</div>
 			</div>
 			<script type="text/javascript">
 				productCnt++;
