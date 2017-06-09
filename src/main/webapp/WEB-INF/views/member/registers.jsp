@@ -166,6 +166,9 @@
 						$(".num").keyup(function() {
 							$(this).val($(this).val().replace(/[^0-9]/g, ""));
 						});
+						$(".ids").keyup(function() {
+		                     $(this).val($(this).val().replace(/[^a-z0-9]/g, ""));
+		                  });   
 					});//ready
 </script>
 <link rel="stylesheet" type="text/css"
@@ -204,7 +207,7 @@
 				<div class="form">
 					<form action="${pageContext.request.contextPath }/register.do"
 						autocomplete="on" method="post" id="regForm">
-						<input id="id" name="id" type="text" placeholder="아이디" /><br>
+						<input id="id" name="id" type="text" class="ids" placeholder="아이디"  maxlength="11"/><br>
 						<span id="idCheckView"></span><br> <input id="pass1"
 							name="password" type="password" placeholder="비밀번호" maxlength="10" /><br>
 						<input id="pass2" type="password" name="pass2"
