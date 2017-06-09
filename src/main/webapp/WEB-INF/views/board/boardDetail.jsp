@@ -4,7 +4,6 @@
 <c:set var="bvo" value="${requestScope.bvo}"></c:set>
 <script>
 	$(document).ready(function(){
-		
 		$("#give-me").click(function(){
 			$("#myModal").modal();
 		});
@@ -16,28 +15,10 @@
 			return true;
 		});
 	});
-/* 	
-	// 쿠키 체크 함수
-	function checkCookie() {
-		var itemID = getCookie("itemID");
-		var thisItem = '<?=$bookID?>:<?=$itemImage ?>'; // 제품 아이디와 이미지 이름을 저장
-		if (thisItem) {
-			if (itemID != "" && itemID != null) {
-				if (itemID.indexOf(thisItem) == -1) { //값이 없으면 
-					setCookie("itemID", thisItem + "&" + itemID, 1);
-				}
-			} else {
-				if (itemID == "" || itemID == null) {
-					setCookie("itemID", thisItem + "&", 1);
-				}
-			}
-		}
-	}
-	checkCookie(); */
 	  function setCookie(cName, cValue, cDay){
         var expire = new Date();
         expire.setDate(expire.getDate() + cDay);
-        cookies = cName + '=' + escape(cValue) + '; path=/ '; // 한글 깨짐을 막기위해 escape(cValue)를 합니다.
+        cookies = cName + '=' + escape(cValue) + '; path=/ ';
         if(typeof cDay != 'undefined') cookies += ';expires=' + expire.toGMTString() + ';';
         document.cookie = cookies;
     }
