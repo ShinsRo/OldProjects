@@ -112,8 +112,6 @@ public class SearchController {
 		PrintWriter out = response.getWriter();
 		out.print(searchList.toString());
 		System.out.println(searchList);
-/*		PrintWriter out = response.getWriter();
-		out.print(searchList.toString());*/
 		return searchList;
 	}
 }

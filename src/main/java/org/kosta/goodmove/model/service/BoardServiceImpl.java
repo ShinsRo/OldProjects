@@ -171,6 +171,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void confirmApply(String bno, String id) {
 		boardDAO.confirmApply(bno, id);
+		boardDAO.Refresh(Integer.parseInt(bno));
 		ApplicationVO avo = boardDAO.getApplicationByPk(bno, id);
 		String pno = "";
 		StringTokenizer st = new StringTokenizer(avo.getPnos(), ","); 

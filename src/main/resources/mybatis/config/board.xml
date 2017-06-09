@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="board">
 	<sql id="selectBoard">
 		select bno,title,hit,to_char(time_posted,'YYYY.MM.DD HH:mm') as time_posted,
-		id,addr,bcontent,thumbpath from G_BOARD
+		id,addr,bcontent,thumbpath,is_traded from G_BOARD
 	</sql>
 	<sql id="selectApplication">
 		SELECT ANO,REASON,ID FROM APPLICATION

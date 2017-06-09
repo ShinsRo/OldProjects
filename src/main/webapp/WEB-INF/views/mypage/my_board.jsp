@@ -37,7 +37,7 @@ function getApp(bno) {
 			<th class="addr">신청현황</th>
 		</tr>
 	</thead>
-	<tbody>			
+	<tbody>
 			<c:forEach items="${requestScope.blvo.list}" var="bvo" >				
 			<tr>
 			    <td>${bvo.bno }</td>

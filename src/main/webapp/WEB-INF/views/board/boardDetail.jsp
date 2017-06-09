@@ -45,8 +45,15 @@
                     </div>
                     <c:if test="${sessionScope.mvo != null && sessionScope.mvo.id !=bvo.id}">  
 	                    <div class="give-me-btn">
+	                    <c:choose>
+						<c:when test="${bvo.is_traded=='TRADED'}">
+						이미 거래된 상품입니다.
+						</c:when>
+						<c:otherwise>
 	                        <a href="#" class="btn btn-common uppercase" id="give-me">주세요 신청</a>
-							<a class="btn btn-danger" onclick="reportBoard()">신고</a>
+							<a class="btn btn-danger" onclick="reportBoard()">신고${bvo.is_traded}</a>
+						</c:otherwise>
+						</c:choose>	
 	                    </div>
                     </c:if>
                     <!-- 주세요 신청 modal -->
