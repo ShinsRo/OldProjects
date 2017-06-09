@@ -245,8 +245,8 @@
 								<h4 class="modal-title">신고하기</h4>
 							</div>
 							<div class="contact-form bottom">
-							<form id="app-form" name="app-form" method="post" action="${pageContext.request.contextPath}/reportReply.do"></form>
-								<form id="app-form" name="app-form" method="post" action="${pageContext.request.contextPath}/reportReply.do">
+							<form id="app-form" name="app-form" method="post" action="${pageContext.request.contextPath}/reportReply_admin.do"></form>
+								<form id="app-form" name="app-form" method="post" action="${pageContext.request.contextPath}/reportReply_admin.do">
 									<div><input type="hidden" name="reno" value="${reply.rno}">
 										<input type="hidden" name="category" value="reply">
 										<input type="hidden" name="reporter" value="${sessionScope.mvo.id}">
@@ -323,8 +323,8 @@
 						<h4 class="modal-title">신고하기</h4>
 							</div>
 							<div class="contact-form bottom">
-							<form id="app-form" name="app-form" method="post" action="${pageContext.request.contextPath}/reportComment.do"></form>
-								<form id="app-form" name="app-form" method="post" action="${pageContext.request.contextPath}/reportComment.do">
+							<form id="app-form" name="app-form" method="post" action="${pageContext.request.contextPath}/reportComment_admin.do"></form>
+								<form id="app-form" name="app-form" method="post" action="${pageContext.request.contextPath}/reportComment_admin.do">
 									<div><input type="hidden" name="reno" value="${requestScope.cvo.cno}">
 										<input type="hidden" name="category" value="comment">
 										<input type="hidden" name="reporter" value="${sessionScope.mvo.id}">

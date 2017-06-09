@@ -22,7 +22,7 @@
     	   $('#check:checked').each(function() { 
     		   $.ajax({
     				type:"post",
-    				url:"deleteCheck.do",
+    				url:"deleteCheck_admin.do",
     				dataType:"json",
     				data:"cno="+$(this).val(),
     				success:function(data){	
