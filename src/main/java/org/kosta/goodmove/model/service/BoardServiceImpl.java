@@ -8,7 +8,6 @@ import java.util.StringTokenizer;
 import javax.annotation.Resource;
 
 import org.kosta.goodmove.model.dao.BoardDAO;
-import org.kosta.goodmove.model.dao.DeliveryDAO;
 import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.BoardListVO;
 import org.kosta.goodmove.model.vo.BoardPagingBean;
@@ -172,6 +171,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void confirmApply(String bno, String id) {
 		boardDAO.confirmApply(bno, id);
+		boardDAO.Refresh(Integer.parseInt(bno));
 		ApplicationVO avo = boardDAO.getApplicationByPk(bno, id);
 		String pno = "";
 		StringTokenizer st = new StringTokenizer(avo.getPnos(), ","); 

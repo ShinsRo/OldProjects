@@ -42,7 +42,6 @@
                        	<li class="active"><a href="${pageContext.request.contextPath}/deliveryList_admin.do">용달관리</a></li>
                        	<li class="active"><a href="${pageContext.request.contextPath}/getReportList_admin.do">신고관리</a></li>
                        	<li class="active"><a href="${pageContext.request.contextPath}/logout.do">로그아웃</a></li>
-                       	<li class="active"><a href="${pageContext.request.contextPath}/ffff.do">test</a></li>
 							</c:when>
 							<c:otherwise>
 					<li class="active"><a href="${pageContext.request.contextPath}/home.do">관리자 로그인 요망 일반홈으로</a></li>

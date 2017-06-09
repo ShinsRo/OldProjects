@@ -16,4 +16,6 @@ public interface SearchDAO {
 
 	List<BoardVO> searchBoard(SearchVO svo, BoardPagingBean pagingBean);
 
+	List<String> getAutoSearchList(String keyword);
+
 }

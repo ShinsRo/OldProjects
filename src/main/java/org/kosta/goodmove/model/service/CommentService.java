@@ -29,4 +29,5 @@ public interface CommentService {
 	public CommentReplyVO getCommentReplyInfoByRNO(int rno);
 	public void deleteCommentReplyChild(int gno);
 	public CommentListVO findCommentListById(String id, String pageNo);
+	public CommentReplyVO showReply(int reno);
 }

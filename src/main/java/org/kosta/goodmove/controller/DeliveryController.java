@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.kosta.goodmove.model.service.BoardService;
 import org.kosta.goodmove.model.service.DeliveryService;
 import org.kosta.goodmove.model.vo.DeliveryVO;
 import org.kosta.goodmove.model.vo.MemberVO;
@@ -20,6 +21,8 @@ public class DeliveryController {
 
 	@Resource
 	private DeliveryService service;
+	@Resource
+	private BoardService boardService;
 	/**
 	 * 용달 사업자 로그인
 	 * @param dvo

@@ -187,4 +187,12 @@ public class CommentServiceImpl implements CommentService{
 		return new CommentListVO(commentDAO.findCommentById(id, pb), pb);
 	}
 
+	/**
+	 * 댓글 번호를 이용하여 댓글 반환
+	 */
+	@Override
+	public CommentReplyVO showReply(int reno) {
+		return commentDAO.showReply(reno);
+	}
+
 }

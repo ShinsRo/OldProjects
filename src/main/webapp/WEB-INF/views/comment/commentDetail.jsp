@@ -21,14 +21,14 @@
 	}
  	function reportComment(){
  		if(confirm("신고하시겠습니까?")){
- 			$("#replyComment").modal();
+ 			$("#reportComment").modal();
 		}else{
 			return;
 		}
  	}
 	function fn_formSubmit() {
 		var f = document.replyWriteForm;
-		if($("#rememo").val()==""){
+		if($("#content").val()==""){
 			alert("댓글을 입력해주세요!");
 			return;
 		}else{
@@ -37,7 +37,7 @@
 	}
 	function fn_replyDelete(rno,cno){
 		if(confirm("삭제하시겠습니까?")){
-			location.href ="deleteCommentReply.do?rno="+rno+"&cno="+cno;
+			location.href ="deleteCommentReply.do?rno="+"&cno="+cno;
 		}else{
 			return;
 		}
@@ -50,7 +50,7 @@
 		}
  	}
 	//댓글 수정버튼 클릭시 수정창 나타나게 하기
-	var updaterno = updateRememo = null;
+	var updaterno = updatecontent = null;
 	function fn_replyUpdate(rno){
 	    var form = document.replyUpdateForm;
 	    var reply = document.getElementById("reply"+rno);
@@ -59,16 +59,16 @@
 	    if (updaterno) {
 	        document.body.appendChild(replyDiv);
 	        var oldrno = document.getElementById("reply"+updaterno);
-	        oldrno.innerText = updateRememo;
+	        oldrno.innerText = updatecontent;
 	    } 
 	    
 	    form.rno.value=rno;
-	    form.rememo.value = reply.innerText;
+	    form.content.value = reply.innerText;
 	    reply.innerText ="";
 	    reply.appendChild(replyDiv);
 	    updaterno   = rno;
-	    updateRememo = form.rememo.value;
-	    form.rememo.focus(); 
+	    updatecontent = form.content.value;
+	    form.content.focus(); 
 	} 
 
 	// 댓글 수정버튼->저장 누를때 
@@ -76,16 +76,16 @@
 	    var form = document.replyUpdateForm;
 	    var rno = document.replyUpdateForm.rno;
 	    var cno = document.replyUpdateForm.cno;
-	    if (form.rememo.value=="") {
+	    if (form.content.value=="") {
 	        alert("글 내용을 입력해주세요.");
-	        form.rememo.focus();
+	        form.content.focus();
 	        return;
 	    }
 		if(confirm("댓글을 수정하시겠습니까?")){
 			form.action="updateCommentReply.do";
 			form.submit();
 		}
-	    //form.action="updateCommentReply.do?rno="+rno+"&cno="+cno+"&rememo="+form.rememo.value;
+	    //form.action="updateCommentReply.do?rno="+rno+"&cno="+cno+"&content="+form.content.value;
 	    //form.submit();     
 	} 
 	// 댓글 수정하고 취소 누르기
@@ -96,8 +96,8 @@
 	    replyDiv.style.display = "none";
 	    
 	    var oldrno = document.getElementById("reply"+updaterno);
-	    oldrno.innerText = updateRememo;
-	    updaterno = updateRememo = null; 
+	    oldrno.innerText = updatecontent;
+	    updaterno = updatecontent = null; 
 	} 
 	
 	
@@ -119,24 +119,25 @@
 	        fn_replyUpdateCancel();
 	    } 
 	    
-	    form.rememo.value = "";
-	    form.reparent.value=rno;
+	    form.content.value = "";
+	    form.parent.value=rno;
 	    reply.appendChild(replyDia);
 
 	} 
+	
+	
 	function fn_replyReplyCancel(){
 	    hideDiv("replyDialog");
 	} 
-
 	function fn_replyReplySave(){
 	    var form = document.form3;
-	    var param = form.reparent.value
-	    if (form.rememo.value=="") {
+	    var param = form.parent.value
+	    if (form.content.value=="") {
 	        alert("글 내용을 입력해주세요.");
-	        form.rememo.focus();
+	        form.content.focus();
 	        return;
 	    }
-	    form.action="writeCommentReply.do";
+	    form.action="writeCommentReply2.do";
 	    form.submit();    
 	}
 </script>
@@ -200,12 +201,16 @@
 	<c:if test="${sessionScope.mvo != null}">
 		<div class="replyList" >
 			<div class="form-group" align="center">
-				<form name="replyWriteForm" action="writeCommentReply.do" method="post">
+				<form name="replyWriteForm" action="writeCommentReply1.do" method="post">
 					<ul class="nav navbar-nav navbar-default" id="reply_ul">
 						<li><input type="hidden" name="parent" value="0">
-						<input type="hidden" name="reFlag" value="false">
 						<input type="hidden" name="cno" value="${requestScope.cvo.cno}">
-						<textarea class="reply_field" id="rememo" name="rememo" rows="3" cols="130"
+						<input type="hidden" name="id" value="${sessionScope.mvo.id}">
+						<input type="hidden" name="name" value="${sessionScope.mvo.name}">
+						<input type="hidden" name="gno" value="1">
+						<input type="hidden" name="depth" value="0">
+						<input type="hidden" name="order_no" value="1">
+						<textarea class="reply_field" id="content" name="content" rows="3" cols="130"
 						placeholder="댓글을 달아주세요."></textarea></li>
 						<li><input type="button" id="writeReplyBtn" class="btn btn-lg btn-info" value="등록" onclick="fn_formSubmit()"></li>
 					</ul>
@@ -213,7 +218,6 @@
 			</div>
 		</div>
 	</c:if>
-
 	<!-- 댓글 리스트 -->
 	<div class="box_reply">
 	<div class="form-group" align="center">
@@ -221,9 +225,12 @@
 			<c:forEach items="${requestScope.CommentReplyList}" var="reply">
 				<li>
 				<div class="col-md-10 col-sm-10" align="left">
-					<span class="nickspan"> <c:if test="${reply.depth >=1}">&nbsp;&nbsp;&nbsp;&nbsp;
-						<img class="reply_icon" src="${pageContext.request.contextPath}/resources/img/reply_icon.png" width="20">
-						</c:if>${reply.id}</span> <span class="cmdate">${reply.time_posted}</span>
+					<span class="nickspan">
+					<c:if test="${reply.depth >=1}">
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<img class="reply_icon" src="${pageContext.request.contextPath}/resources/img/reply_icon.png" width="20">
+						</c:if>${reply.id}</span>
+						<span class="cmdate">${reply.time_posted}</span>
 						<span class="recmbtn">
 						<a onclick="fn_replyReply(${reply.rno})">
 				 		<img class="reply_icon" src="${pageContext.request.contextPath}/img/bu_arr.png">답글</a></span> 
@@ -286,22 +293,20 @@
 		<form name="replyUpdateForm" action="updateCommentReply.do" method="post">
 			<input type="hidden" name="cno" value="${requestScope.cvo.cno}">
 			 <input type="hidden" name="rno">
-			<textarea class="reply_field" name="rememo" rows="3" cols="60" style="border:solid 1px #D8D8D8;
+			<textarea class="reply_field" name="content" rows="3" cols="60" style="border:solid 1px #D8D8D8;
 			maxlength="500"></textarea>
 			<a onclick="fn_replyUpdateSave()">저장</a>
 			<a onclick="fn_replyUpdateCancel()">취소</a>
 		</form>
 	</div>
-	
 	<!--  대댓글 창 -->
 	<div id="replyDialog" style="width: 99%; display: none">
-		<form name="form3" action="board6ReplySave" method="post">
-			<input type="hidden" name="reFlag" value="true">
+		<form name="form3" action="writeCommentReply2.do" method="post">
 			<input type="hidden" name="cno" value="<c:out value="${requestScope.cvo.cno}"/>"> 
-			<input type="hidden" name="rno"> 
-			<input type="hidden" name="reparent">
-			<input type="hidden" name="parent" value="0">
-			<textarea class="reply_field" name="rememo" rows="3" cols="60" maxlength="500" style="border:solid 1px #D8D8D8;
+			<input type="hidden" name="parent">
+			<input type="hidden" name="id" value="${sessionScope.mvo.id}">
+			<input type="hidden" name="name" value="${sessionScope.mvo.name}">
+			<textarea class="reply_field" name="content" rows="3" cols="60" maxlength="500" style="border:solid 1px #D8D8D8;
 			margin-left:10px;"></textarea>
 			<a onclick="fn_replyReplySave()">저장</a>
 			<a onclick="fn_replyReplyCancel()">취소</a>
@@ -314,7 +319,7 @@
 
 <!-- comment 신고modal -->
 <!-- start modal -->
-<div class="modal fade" id="replyComment" role="dialog">
+<div class="modal fade" id="reportComment" role="dialog">
 	<div class="modal-dialog">
 		<!-- Modal content-->
 			<div class="modal-content" id="modal-content">

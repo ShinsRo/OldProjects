@@ -3,16 +3,16 @@ package org.kosta.goodmove.model.vo;
 public class SearchVO {
 private String Mcategory;
 private String Scategory;
-private String word;
+private String keyword;
 public SearchVO() {
 	super();
 	// TODO Auto-generated constructor stub
 }
-public SearchVO(String mcategory, String scategory, String word) {
+public SearchVO(String mcategory, String scategory, String keyword) {
 	super();
-	Mcategory = mcategory;
-	Scategory = scategory;
-	this.word = word;
+	this.Mcategory = mcategory;
+	this.Scategory = scategory;
+	this.keyword = keyword;
 }
 public String getMcategory() {
 	return Mcategory;
@@ -26,15 +26,18 @@ public String getScategory() {
 public void setScategory(String scategory) {
 	Scategory = scategory;
 }
-public String getWord() {
-	return word;
+public String getKeyword() {
+	return keyword;
 }
-public void setWord(String word) {
-	this.word = word;
+public void setKeyword(String keyword) {
+	this.keyword = keyword;
 }
 @Override
 public String toString() {
-	return "SearchVO [Mcategory=" + Mcategory + ", Scategory=" + Scategory + ", word=" + word + "]";
+	return "SearchVO [Mcategory=" + Mcategory + ", Scategory=" + Scategory + ", keyword=" + keyword + "]";
 }
+
+
+
 
 }

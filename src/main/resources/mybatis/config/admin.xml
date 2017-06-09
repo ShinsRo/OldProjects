@@ -29,6 +29,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO REPORT(REPORT_NO,CATEGORY,RENO,ID,REPORTER,WHY,TIME_POSTED,PROCESS)
 		VALUES(RE_SEQ.nextval, #{category}, #{reno}, #{id}, #{reporter}, #{why}, sysdate, 'FALSE')
 	</insert>
+
+	<update id="deleteReport" parameterType="int">
+		update report set process=concat(to_char(sysdate,'YYYY.MM.DD HH24:MI'),' delete') where report_no=#{value}
+	</update>
+	<update id="rejectReport" parameterType="int">
+		update report set process=concat(to_char(sysdate,'YYYY.MM.DD HH24:MI'),' reject') where report_no=#{value}
+	</update>
+
+	<insert id="boardReport" parameterType="reportVO">
+		INSERT INTO REPORT(REPORT_NO,CATEGORY,RENO,ID,REPORTER,WHY,TIME_POSTED,PROCESS)
+		VALUES(RE_SEQ.nextval, #{category}, #{reno}, #{id}, #{reporter}, #{why}, sysdate, 'FALSE')
+	</insert>
+
 </mapper>
  
  

@@ -76,6 +76,7 @@ public class BoardController {
 		List<ProductVO> plist = boardService.getProductImgByBno(Integer.parseInt(bno));
 		model.addAttribute("bvo", bvo);
 		model.addAttribute("plist", plist);
+		System.out.println(bvo.getIs_traded());
 		return "board/boardDetail.tiles";
 	}
 

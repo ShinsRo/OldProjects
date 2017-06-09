@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.kosta.goodmove.model.vo.CommentListVO;
 import org.kosta.goodmove.model.vo.CommentReplyVO;
 import org.kosta.goodmove.model.vo.CommentVO;
 import org.kosta.goodmove.model.vo.PagingBean;
@@ -163,11 +162,17 @@ public class CommentDAOImpl implements CommentDAO{
 	}
 	
 
+	/**
+	 * 아이디에 해당하는 지역후기 작성갯수 반환
+	 */
 	@Override
 	public int getTotalContentCountById(String id) {
 		return template.selectOne("comment.getTotalContentCountById", id);
 	}
 
+	/**
+	 * 아이디에 해당하는 지역후기 리스트 반환
+	 */
 	@Override
 	public List<CommentVO> findCommentById(String id, PagingBean pb) {
 		HashMap<String, Object> param = new HashMap<>();
@@ -175,5 +180,13 @@ public class CommentDAOImpl implements CommentDAO{
 		param.put("id", id);
 		param.put("pagingBean", pb);
 		return template.selectList("comment.findCommentById", param);
+	}
+
+	/**
+	 * 댓글번호 이용하여 댓글 반환
+	 */
+	@Override
+	public CommentReplyVO showReply(int reno) {
+		return template.selectOne("comment.findCommentReplyByNo", reno);
 	}
 }

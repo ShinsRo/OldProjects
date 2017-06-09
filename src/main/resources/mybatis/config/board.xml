@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="board">
 	<sql id="selectBoard">
 		select bno,title,hit,to_char(time_posted,'YYYY.MM.DD HH:mm') as time_posted,
-		id,addr,bcontent,thumbpath from G_BOARD
+		id,addr,bcontent,thumbpath,is_traded from G_BOARD
 	</sql>
 	<sql id="selectApplication">
 		SELECT ANO,REASON,ID FROM APPLICATION
@@ -46,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<select id="getTotalBoardCount" resultType="int">
 		select count(*) from
-		G_BOARD
+		G_BOARD where is_deleted='NO'
 	</select>
 	<select id="getTotalBoardCountById" resultType="int">
 		select count(*)
@@ -97,7 +97,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		parameterType="searchVO">
 		select count(*)
 		from g_board where upper(${scategory})
-		like '%' || upper(#{word}) || '%'
+		like '%' || upper(#{keyword}) || '%' and IS_DELETED= 'NO'
 	</select>
 	<select id="search" resultType="boardVO" parameterType="hashMap">
 		select *
@@ -106,8 +106,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		as time_posted,
 		id, addr,bcontent, thumbpath, row_number() over(order by bno desc) as
 		rnum from G_BOARD
-		where upper(${scategory}) like '%' || upper(#{word})
-		|| '%')
+		where upper(${scategory}) like '%' || upper(#{keyword})
+		|| '%' and IS_DELETED= 'NO')
 		where rnum between #{startRowNumber} and #{endRowNumber}
 	</select>
 	<update id="confirmApply" parameterType="hashMap">

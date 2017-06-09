@@ -29,91 +29,91 @@
 						<ul class="nav navbar-stacked">
 							<!-- 검색 조건 -->
 							<c:choose>
-								<c:when test="${type!='btitle'}">
+								<c:when test="${search.type!='btitle'}">
 									<li><a
-										href="${pageContext.request.contextPath}/search.do?mcategory=board&scategory=title&word=${requestScope.svo.word}">기부목록
-											제목으로 검색<span class="pull-right">(${requestScope.btitle})</span>
+										href="${pageContext.request.contextPath}/search.do?mcategory=board&scategory=title&keyword=${requestScope.search.svo.keyword}">기부목록
+											제목으로 검색<span class="pull-right">(${requestScope.search.btitle})</span>
 									</a></li>
 								</c:when>
 								<c:otherwise>
 									<li class="active"><a
-										href="${pageContext.request.contextPath}/search.do?mcategory=board&scategory=title&word=${requestScope.svo.word}">기부목록
-											제목으로 검색<span class="pull-right">(${requestScope.btitle})</span>
+										href="${pageContext.request.contextPath}/search.do?mcategory=board&scategory=title&keyword=${requestScope.search.svo.keyword}">기부목록
+											제목으로 검색<span class="pull-right">(${requestScope.search.btitle})</span>
 									</a></li>
 								</c:otherwise>
 							</c:choose>
 
 							<c:choose>
-								<c:when test="${type!='baddr'}">
+								<c:when test="${search.type!='baddr'}">
 									<li><a
-										href="${pageContext.request.contextPath}/search.do?mcategory=board&scategory=addr&word=${requestScope.svo.word}">기부목록
-											주소로 검색<span class="pull-right">(${requestScope.baddr})</span>
+										href="${pageContext.request.contextPath}/search.do?mcategory=board&scategory=addr&keyword=${requestScope.search.svo.keyword}">기부목록
+											주소로 검색<span class="pull-right">(${requestScope.search.baddr})</span>
 									</a></li>
 								</c:when>
 								<c:otherwise>
 									<li class="active"><a
-										href="${pageContext.request.contextPath}/search.do?mcategory=board&scategory=addr&word=${requestScope.svo.word}">기부목록
-											주소로 검색<span class="pull-right">(${requestScope.baddr})</span>
+										href="${pageContext.request.contextPath}/search.do?mcategory=board&scategory=addr&keyword=${requestScope.search.svo.keyword}">기부목록
+											주소로 검색<span class="pull-right">(${requestScope.search.baddr})</span>
 									</a></li>
 								</c:otherwise>
 							</c:choose>
 
 							<c:choose>
-								<c:when test="${type!='bid'}">
+								<c:when test="${search.type!='bid'}">
 									<li><a
-										href="${pageContext.request.contextPath}/search.do?mcategory=board&scategory=id&word=${requestScope.svo.word}">기부목록
-											아이디로 검색<span class="pull-right">(${requestScope.bid})</span>
+										href="${pageContext.request.contextPath}/search.do?mcategory=board&scategory=id&keyword=${requestScope.search.svo.keyword}">기부목록
+											아이디로 검색<span class="pull-right">(${requestScope.search.bid})</span>
 									</a></li>
 								</c:when>
 								<c:otherwise>
 									<li class="active"><a
-										href="${pageContext.request.contextPath}/search.do?mcategory=board&scategory=id&word=${requestScope.svo.word}">기부목록
-											아이디로 검색<span class="pull-right">(${requestScope.bid})</span>
+										href="${pageContext.request.contextPath}/search.do?mcategory=board&scategory=id&keyword=${requestScope.search.svo.keyword}">기부목록
+											아이디로 검색<span class="pull-right">(${requestScope.search.bid})</span>
 									</a></li>
 								</c:otherwise>
 							</c:choose>
 
 							<c:choose>
-								<c:when test="${type!='ctitle'}">
+								<c:when test="${search.type!='ctitle'}">
 									<li><a
-										href="${pageContext.request.contextPath}/search.do?mcategory=comment&scategory=title&word=${requestScope.svo.word}">지역후기
-											제목으로 검색<span class="pull-right">(${requestScope.ctitle})</span>
+										href="${pageContext.request.contextPath}/search.do?mcategory=comment&scategory=title&keyword=${requestScope.search.svo.keyword}">지역후기
+											제목으로 검색<span class="pull-right">(${requestScope.search.ctitle})</span>
 									</a></li>
 								</c:when>
 								<c:otherwise>
 									<li class="active"><a
-										href="${pageContext.request.contextPath}/search.do?mcategory=comment&scategory=title&word=${requestScope.svo.word}">지역후기
-											제목으로 검색<span class="pull-right">(${requestScope.ctitle})</span>
+										href="${pageContext.request.contextPath}/search.do?mcategory=comment&scategory=title&keyword=${requestScope.search.svo.keyword}">지역후기
+											제목으로 검색<span class="pull-right">(${requestScope.search.ctitle})</span>
 									</a></li>
 								</c:otherwise>
 							</c:choose>
 
 							<c:choose>
-								<c:when test="${type!='caddr'}">
+								<c:when test="${search.type!='caddr'}">
 									<li><a
-										href="${pageContext.request.contextPath}/search.do?mcategory=comment&scategory=addr&word=${requestScope.svo.word}">지역후기
-											주소로 검색<span class="pull-right">(${requestScope.caddr})</span>
+										href="${pageContext.request.contextPath}/search.do?mcategory=comment&scategory=addr&keyword=${requestScope.search.svo.keyword}">지역후기
+											주소로 검색<span class="pull-right">(${requestScope.search.caddr})</span>
 									</a></li>
 								</c:when>
 								<c:otherwise>
 									<li class="active"><a
-										href="${pageContext.request.contextPath}/search.do?mcategory=comment&scategory=addr&word=${requestScope.svo.word}">지역후기
-											주소로 검색<span class="pull-right">(${requestScope.caddr})</span>
+										href="${pageContext.request.contextPath}/search.do?mcategory=comment&scategory=addr&keyword=${requestScope.search.svo.keyword}">지역후기
+											주소로 검색<span class="pull-right">(${requestScope.search.caddr})</span>
 									</a></li>
 								</c:otherwise>
 							</c:choose>
 
 							<c:choose>
-								<c:when test="${type!='cid'}">
+								<c:when test="${search.type!='cid'}">
 									<li><a
-										href="${pageContext.request.contextPath}/search.do?mcategory=comment&scategory=id&word=${requestScope.svo.word}">지역후기
-											아이디로 검색<span class="pull-right">(${requestScope.cid})</span>
+										href="${pageContext.request.contextPath}/search.do?mcategory=comment&scategory=id&keyword=${requestScope.search.svo.keyword}">지역후기
+											아이디로 검색<span class="pull-right">(${requestScope.search.cid})</span>
 									</a></li>
 								</c:when>
 								<c:otherwise>
 									<li class="active"><a
-										href="${pageContext.request.contextPath}/search.do?mcategory=comment&scategory=id&word=${requestScope.svo.word}">지역후기
-											아이디로 검색<span class="pull-right">(${requestScope.cid})</span>
+										href="${pageContext.request.contextPath}/search.do?mcategory=comment&scategory=id&keyword=${requestScope.search.svo.keyword}">지역후기
+											아이디로 검색<span class="pull-right">(${requestScope.search.cid})</span>
 									</a></li>
 								</c:otherwise>
 							</c:choose>
@@ -124,9 +124,9 @@
 			</div>
 
 			<c:choose>
-				<c:when test="${requestScope.mcategory=='board'}">
+				<c:when test="${requestScope.search.mcategory=='board'}">
 					<!-- board -->
-					<c:forEach items="${requestScope.search.list}" var="list">
+					<c:forEach items="${requestScope.search.search.list}" var="list">
 						<div
 							class="col-xs-6 col-sm-4 col-md-3 portfolio-item branded logos">
 							<div class="portfolio-wrapper">
@@ -173,7 +173,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach items="${requestScope.search.list}" var="cvo">
+									<c:forEach items="${requestScope.search.search.list}" var="cvo">
 										<tr>
 											<td>${cvo.cno }</td>
 											<td>${cvo.addr }</td>
@@ -198,12 +198,12 @@
 
 							<div class="portfolio-pagination">
 								<ul class="pagination">
-									<c:set var="pb" value="${requestScope.search.pagingBean}"></c:set>
+									<c:set var="pb" value="${requestScope.search.search.pagingBean}"></c:set>
 
 									<c:choose>
 										<c:when test="${pb.previousPageGroup}">
 											<li><a
-												href="${pageContext.request.contextPath}/search.do?mcategory=${requestScope.svo.mcategory}&scategory=${requestScope.svo.scategory}&word=${requestScope.svo.word}&pageNo=${pb.startPageOfPageGroup-1}">left</a></li>
+												href="${pageContext.request.contextPath}/search.do?mcategory=${requestScope.search.svo.mcategory}&scategory=${requestScope.search.svo.scategory}&word=${requestScope.search.svo.keyword}&pageNo=${pb.startPageOfPageGroup-1}">left</a></li>
 										</c:when>
 										<c:otherwise>
 											<li></li>
@@ -215,7 +215,7 @@
 										<c:choose>
 											<c:when test="${pb.nowPage!=i}">
 												<li><a
-													href="${pageContext.request.contextPath}/search.do?mcategory=${requestScope.svo.mcategory}&scategory=${requestScope.svo.scategory}&word=${requestScope.svo.word}&pageNo=${i}">${i}</a></li>
+													href="${pageContext.request.contextPath}/search.do?mcategory=${requestScope.search.svo.mcategory}&scategory=${requestScope.search.svo.scategory}&word=${requestScope.search.svo.keyword}&pageNo=${i}">${i}</a></li>
 											</c:when>
 											<c:otherwise>
 												<li class="active"><a href="#">${i}</a></li>
@@ -226,7 +226,7 @@
 									<c:choose>
 										<c:when test="${pb.nextPageGroup}">
 											<li><a
-												href="${pageContext.request.contextPath}/search.do?mcategory=${requestScope.svo.mcategory}&scategory=${requestScope.svo.scategory}&word=${requestScope.svo.word}&pageNo=${pb.endPageOfPageGroup+1}">right</a></li>
+												href="${pageContext.request.contextPath}/search.do?mcategory=${requestScope.search.svo.mcategory}&scategory=${requestScope.search.svo.scategory}&word=${requestScope.search.svo.keyword}&pageNo=${pb.endPageOfPageGroup+1}">right</a></li>
 										</c:when>
 										<c:otherwise>
 											<li></li>

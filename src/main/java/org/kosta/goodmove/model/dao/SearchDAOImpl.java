@@ -19,26 +19,35 @@ public class SearchDAOImpl implements SearchDAO {
 	@Resource
 	 private SqlSessionTemplate template;
 
+	/**
+	 * 지역후기 검색
+	 */
 	@Override
 	public List<CommentVO> searchComment(SearchVO svo, PagingBean pagingBean) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("scategory", svo.getScategory());
-		map.put("word", svo.getWord());
+		map.put("keyword", svo.getKeyword());
 		map.put("startRowNumber", pagingBean.getStartRowNumber());
 		map.put("endRowNumber", pagingBean.getEndRowNumber());
 		return template.selectList("comment.search", map);
 	}
 
+	/**
+	 * 기부글 검색
+	 */
 	@Override
 	public List<BoardVO> searchBoard(SearchVO svo, BoardPagingBean pagingBean) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("scategory", svo.getScategory());
-		map.put("word", svo.getWord());
+		map.put("keyword", svo.getKeyword());
 		map.put("startRowNumber", pagingBean.getStartRowNumber());
 		map.put("endRowNumber", pagingBean.getEndRowNumber());
 		return template.selectList("board.search", map);
 	}
 	
+	/**
+	 * 당일 방문자 증가, 반환
+	 */
 	@Override 
 	public int countday(String info) {
 		String today = template.selectOne("member.today");
@@ -55,6 +64,11 @@ public class SearchDAOImpl implements SearchDAO {
 		return template.selectOne("member.getcount", today);
 	}
 
-
-	
+	/**
+	 * 검색거 자동추천
+	 */
+	@Override 
+	public List<String> getAutoSearchList(String keyword) {
+		return template.selectList("comment.getAutoSearchList",keyword);
+	}
 }

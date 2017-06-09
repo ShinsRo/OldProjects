@@ -21,7 +21,7 @@
     <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/lightbox.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/wow.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/main.js"></script>   
-
+	<script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery-ui.js"></script>
 	<!-- css 링크 -->
     <link href="${pageContext.request.contextPath }/resources/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath }/resources/css/font-awesome.min.css" rel="stylesheet">
@@ -29,6 +29,7 @@
     <link href="${pageContext.request.contextPath }/resources/css/lightbox.css" rel="stylesheet"> 
 	<link href="${pageContext.request.contextPath }/resources/css/main.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath }/resources/css/responsive.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath }/resources/css/jquery-ui.css" rel="stylesheet">
 </head>
 
 <body>

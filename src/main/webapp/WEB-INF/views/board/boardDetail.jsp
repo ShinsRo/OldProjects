@@ -54,6 +54,13 @@
 		}
 	}
 
+ 	function reportBoard(){
+ 		if(confirm("신고하시겠습니까?")){
+ 			$("#reportBoard").modal();
+		}else{
+			return;
+		}
+ 	}
 </script>
 <body onload="checkCookie()">
 <section id="portfolio-information" class="padding-top">
@@ -77,8 +84,16 @@
                         <p>${bvo.bcontent}</p>
                     </div>
                     <c:if test="${sessionScope.mvo != null && sessionScope.mvo.id !=bvo.id}">  
-	                    <div class="give-me-btn" id="give-me">
-	                        <a href="#" class="btn btn-common uppercase">주세요 신청</a>
+	                    <div class="give-me-btn">
+	                    <c:choose>
+						<c:when test="${bvo.is_traded=='TRADED'}">
+						이미 거래된 상품입니다.
+						</c:when>
+						<c:otherwise>
+	                        <a href="#" class="btn btn-common uppercase" id="give-me">주세요 신청</a>
+							<a class="btn btn-danger" onclick="reportBoard()">신고${bvo.is_traded}</a>
+						</c:otherwise>
+						</c:choose>	
 	                    </div>
                     </c:if>
                     <!-- 주세요 신청 modal -->
@@ -177,3 +192,37 @@
 </section>
 </body>
 <!--/#related-work-->
+
+<!-- 상품 신고modal -->
+<!-- start modal -->
+<div class="modal fade" id="reportBoard" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+			<div class="modal-content" id="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">신고하기</h4>
+							</div>
+							<div class="contact-form bottom">
+							<form id="report-form" name="report-form" method="post" action="${pageContext.request.contextPath}/reportBoard.do"></form>
+								<form id="report-form" name="report-form" method="post" action="${pageContext.request.contextPath}/reportBoard.do">
+									<div><input type="hidden" name="reno" value="${requestScope.bvo.bno}">
+										<input type="hidden" name="category" value="board">
+										<input type="hidden" name="reporter" value="${sessionScope.mvo.id}">
+										작성자:${requestScope.bvo.id}<br><br>상품 내용: ${requestScope.bvo.bcontent}
+									</div>
+									<div class="form-group">
+										<input type="hidden" name="id" value="${requestScope.bvo.id}">
+										<p>신고 사유를 구체적으로 적어주세요</p>
+										<textarea name="why" id="why" required="required" class="form-control" rows="8" 
+										placeholder="신청 사유를 적어주세요."></textarea>
+									</div>
+									<div class="form-group">
+										<input type="submit" id="submit-btn" name="submit" class="btn btn-submit" value="Submit">
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			<!-- end of modal -->

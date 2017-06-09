@@ -187,7 +187,6 @@ public class MemberController {
 	@RequestMapping("forgotPass.do")
 	public String forgotPass(HttpServletRequest request, String id, String name, String tel1, String tel2,
 			String tel3) {
-		System.out.println(id + name + tel1 + tel2 + tel3);
 		MemberVO vo = service.forgotPass(id, name, tel1 + tel2 + tel3);
 		if (vo == null) {
 			return "member/login_fail.tiles";
