@@ -8,7 +8,9 @@ import org.kosta.goodmove.model.vo.BoardVO;
 import org.kosta.goodmove.model.vo.ProductSetVO;
 import org.kosta.goodmove.model.vo.ProductVO;
 import org.kosta.goodmove.model.vo.TransactionVO;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public interface BoardService {
 	public int getNextBno();
 
@@ -47,4 +49,10 @@ public interface BoardService {
 	public void confirmApply(String bno, String id);
 
 	public void delete(String bno);
+
+	public String getProductURL(String pno);
+
+	public int getProductCnt(int bno);
+
+	public void boardUpdate(BoardVO bvo, ProductSetVO psvo, int newProductCnt, String[] deletedProductArr);
 }

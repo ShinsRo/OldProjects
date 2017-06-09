@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.kosta.goodmove.model.service.BoardService;
 import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.BoardListVO;
+import org.kosta.goodmove.model.vo.BoardUpdateParamDTO;
 import org.kosta.goodmove.model.vo.BoardVO;
 import org.kosta.goodmove.model.vo.MemberVO;
 import org.kosta.goodmove.model.vo.ProductSetVO;
@@ -155,6 +156,7 @@ public class BoardController {
 	public String registerGiveMe(ApplicationVO avo, HttpServletRequest req, String writer, int bno) {
 		String userId = ((MemberVO) req.getSession(false).getAttribute("mvo")).getId();
 		// application
+		avo.setPnos(avo.getPnos()+",");
 		avo.setId(userId);
 		avo.setBno(bno);
 		if (boardService.isGiveMeChecked(avo).equals("ok")) {
@@ -215,5 +217,66 @@ public class BoardController {
 		model.addAttribute("bvo", boardService.getBoardDetailByBnoWithFullAddr(Integer.parseInt(bno)));
 		model.addAttribute("pList", boardService.getProductImgByBno(Integer.parseInt(bno)));
 		return "board/boardUpdate.tiles";
+	}
+	@RequestMapping("boardUpdate.do")
+	public String  boardUpdate(BoardVO bvo, ProductSetVO psvo, BoardUpdateParamDTO param){
+		
+		String[] deletedProductArr = param.getDeleteStack().split(",");
+		int prevProductCnt = boardService.getProductCnt(bvo.getBno());
+		// 실제 운영시에 사용할 서버 업로드 경로
+		// uploadPath =
+		// req.getSession().getServletContext().getRealPath("/resources/upload/");
+
+		// 로컬 깃 레퍼지토리 경로
+		uploadPath = "C:\\Users\\KOSTA\\git\\GoodMoveRepository\\src\\main\\webapp\\uploadedFiles\\" + bvo.getId() + "\\"
+				+ "board" + bvo.getBno() + "\\";
+
+		bvo.setpList(new ArrayList<ProductVO>());
+		
+		List<MultipartFile> list = psvo.getFile();
+		
+		int leavedProductCnt = prevProductCnt - deletedProductArr.length;
+		int newProductCnt =  psvo.getPtitle().size() - leavedProductCnt;
+		
+		list.add(param.getCorFile().remove(0));
+		int j = newProductCnt;
+		for (int i = 0; i < psvo.getPtitle().size(); i++) {
+			String fileName = list.get(i).getOriginalFilename();
+			String fileSuffix = fileName.substring(fileName.lastIndexOf('.'));
+			// 물건 번호 초기화
+			int nPno = -1;
+			if(j > 0)
+				nPno = boardService.getNextPno();
+			else
+				nPno = Integer.parseInt(param.getPno().remove(0));
+			
+			// 물건 리스트 초기화
+			ProductVO tempPVO = new ProductVO();
+			tempPVO.setPno(nPno);
+			tempPVO.setImg_path("uploadedFiles\\" + bvo.getId() + "\\" + "board" + bvo.getBno() + "\\" + nPno + fileSuffix);
+			bvo.getpList().add(tempPVO);
+
+			if (fileName.equals("") == false) {
+				try {
+					new File(uploadPath).mkdirs();
+					list.get(i).transferTo(new File(uploadPath + nPno + fileSuffix));
+				} catch (IllegalStateException | IOException e) {
+					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			j--;
+		}
+		// Board Thumb nail 저장
+		bvo.setThumbPath(bvo.getpList().get(0).getImg_path());
+		boardService.boardUpdate(bvo, psvo, newProductCnt, deletedProductArr);
+		return "redirect:boardDetail.do?bno=" + bvo.getBno();
+	}
+	public String getPicture(Model model, String bno, String pno){
+		model.addAttribute("pno", pno);
+		model.addAttribute("imgURL", boardService.getProductURL(pno));
+		return "board/imgPopUp";
+	
 	}
 }

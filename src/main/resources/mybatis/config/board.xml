@@ -114,7 +114,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE APPLICATION SET IS_SELECTED = 'SELECTED' WHERE BNO = #{bno} AND ID = #{id}
 	</update>
 	<update id="nowUnavailable">
-		UPDATE G_PRODUCT SET IS_TRADED = 'AlREADY_SELECTED' WHERE PNO = #{value}
+		UPDATE G_PRODUCT SET IS_TRADED = 'SELECTED' WHERE PNO = #{value}
 	</update>
 	<select id="getApplicationByPk" parameterType="hashMap" resultType="applicationVO">
 		SELECT * FROM APPLICATION WHERE BNO = #{bno} AND ID = #{id}
@@ -123,14 +123,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE G_BOARD SET IS_TRADED = 'TRADED' WHERE BNO = #{value}
 	</update>
 	<select id="selectedProductCnt" parameterType="int" resultType="int">
-		SELECT COUNT(*) FROM G_PRODUCT WHERE BNO = #{value} AND IS_TRADED =
+		SELECT COUNT(*) FROM G_PRODUCT WHERE BNO = #{value} AND IS_TRADED !=
 		'SELECTED'
 	</select>
 	<update id="putItOnDelivery" parameterType="hashMap">
 		UPDATE APPLICATION SET IS_DELIVERY= 'YES' WHERE BNO = #{value} AND ID = #{id}
 	</update>
-	<update id = "disableOtherApps">
-		UPDATE APPLICATION SET IS_DONE = 'DISABLED' WHERE BNO = #{value} AND ID = #{id}
+	<update id = "disableOtherApps" parameterType="hashMap">
+		UPDATE APPLICATION SET IS_DONE = 'DISABLED' WHERE BNO = #{bno} AND
+		PNOS like '%' || #{pno} || '%'
 	</update>
 	<update id="deleteBoard">
 		UPDATE G_BOARD SET IS_DELETED = 'YES' WHERE BNO = #{value}
@@ -141,6 +142,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id= "deleteApplication">
 		UPDATE APPLICATION SET IS_DONE = 'DELETED_BOARD' WHERE BNO = #{value}	
 	</update>
+	<select id="getProductCnt" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM G_PRODUCT WHERE BNO = #{value}
+	</select>
+	<update id="productUpdate" parameterType="productVO">
+		UPDATE G_PRODUCT SET PTITLE = #{ptitle}, KIND = #{kind}, PCONTENT = #{pcontent}, IMG_PATH = #{img_path} WHERE PNO = #{pno}
+	</update>
+	<update id="boardUpdate" parameterType="boardVO">
+		UPDATE G_BOARD SET TITLE = #{title}, ADDR = #{addr}, BCONTENT = #{bcontent}, THUMBPATH = #{thumbPath} WHERE BNO = #{bno}
+	</update>
+	<delete id="productDelete">
+		DELETE FROM G_PRODUCT WHERE PNO = #{value}
+	</delete>
 </mapper>
 
 

@@ -4,7 +4,9 @@ package org.kosta.goodmove.model.service;
 import org.kosta.goodmove.model.vo.ReportListVO;
 
 import org.kosta.goodmove.model.vo.ReportVO;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public interface AdminService {
 
 	public ReportListVO getReportList(String pageNo, String category);

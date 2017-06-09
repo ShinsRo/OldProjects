@@ -62,7 +62,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	
-	
 	<!-- Admin 회원관리 -->
 	<select id="getTotalMemberCount" resultType="int">
 	select count(*) from GD_MEMBER

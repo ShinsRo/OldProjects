@@ -2,6 +2,7 @@ package org.kosta.goodmove.model.service;
 
 import org.kosta.goodmove.model.vo.MemberListVO;
 import org.kosta.goodmove.model.vo.MemberVO;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface MemberService {
 

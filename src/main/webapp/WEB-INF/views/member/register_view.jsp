@@ -21,7 +21,7 @@
 				<td><img src="${pageContext.request.contextPath}/resources/img/delivery_truck.png" style="width: 300px;"></td>
 			</tr>
 			<tr>
-				<td><h2><a href="${pageContext.request.contextPath}/member/registers.do">개인</a></h2></td>
+				<td><h2><a href="${pageContext.request.contextPath}/member/registers_terms.do">개인</a></h2></td>
 				<td><h2><a href="${pageContext.request.contextPath}/delivery/register.do">사업자</a></h2></td>
 			</tr>
 		</table>

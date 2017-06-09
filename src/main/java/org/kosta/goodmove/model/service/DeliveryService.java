@@ -6,7 +6,9 @@ import java.util.Map;
 import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.DeliveryVO;
 import org.kosta.goodmove.model.vo.MemberVO;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public interface DeliveryService {
 
 	public DeliveryVO login(DeliveryVO dvo);

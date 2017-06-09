@@ -3,7 +3,9 @@ package org.kosta.goodmove.model.service;
 import org.kosta.goodmove.model.vo.BoardListVO;
 import org.kosta.goodmove.model.vo.CommentListVO;
 import org.kosta.goodmove.model.vo.SearchVO;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public interface SearchService {
 
 	BoardListVO searchBoard(SearchVO svo, String pageNo);

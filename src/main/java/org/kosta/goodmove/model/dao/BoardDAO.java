@@ -59,11 +59,21 @@ public interface BoardDAO {
 
 	void putItOnDelivery(String bno, String id);
 
-	void disableOtherApps(String pno);
-
 	void deleteBoard(String bno);
 
 	void deletePoduct(String bno);
 
 	void deleteApplication(String bno);
+
+	void disableOtherApps(String bno, String pno);
+
+	int getProductCnt(int bno);
+
+	void productRegister(ProductVO tempPVO);
+
+	void productUpdate(ProductVO tempPVO);
+
+	void boardUpdate(BoardVO bvo);
+
+	void productDelete(String pno);
 }

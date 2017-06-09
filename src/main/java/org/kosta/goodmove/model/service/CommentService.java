@@ -5,7 +5,9 @@ import java.util.List;
 import org.kosta.goodmove.model.vo.CommentListVO;
 import org.kosta.goodmove.model.vo.CommentReplyVO;
 import org.kosta.goodmove.model.vo.CommentVO;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public interface CommentService {
 
 	public  CommentListVO getCommentList();

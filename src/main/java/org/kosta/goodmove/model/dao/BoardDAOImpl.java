@@ -186,11 +186,6 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public void disableOtherApps(String pno) {
-		template.update("board.disableOtherApps", pno);
-	}
-
-	@Override
 	public void deleteBoard(String bno) {
 		template.update("board.deleteBoard", bno);
 	}
@@ -203,5 +198,38 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public void deleteApplication(String bno) {
 		template.update("board.deleteApplication", bno);
+	}
+
+	@Override
+	public void disableOtherApps(String bno, String pno) {
+		HashMap<String, String> paramMap = new HashMap<>();
+		paramMap.put("bno", bno);
+		paramMap.put("pno", pno+",");
+		template.update("board.disableOtherApps", paramMap);
+	}
+
+	@Override
+	public int getProductCnt(int bno) {
+		return template.selectOne("board.getProductCnt", bno);
+	}
+//----------------
+	@Override
+	public void productRegister(ProductVO tempPVO) {
+		template.insert("board.productRegister", tempPVO);
+	}
+
+	@Override
+	public void productUpdate(ProductVO tempPVO) {
+		template.update("board.productUpdate", tempPVO);
+	}
+
+	@Override
+	public void boardUpdate(BoardVO bvo) {
+		template.update("board.boardUpdate", bvo);
+	}
+
+	@Override
+	public void productDelete(String pno) {
+		template.delete("board.productDelete", pno);
 	}
 }
