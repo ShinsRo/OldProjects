@@ -104,6 +104,7 @@
 <section id="login">
 	<div class="container">
 		<div class="row">
+			<br><br>
 			<div class="login-page">
 				<div class="form">
 					<form action="${pageContext.request.contextPath }/login.do"
@@ -112,7 +113,7 @@
 							placeholder="아이디" /><br> <input type="password"
 							name="password" id="password" required="required"
 							placeholder="비밀번호"><br> <span id="idCheckView"></span>
-						<a href="${pageContext.request.contextPath }/member/forgotId.do">아이디찾기</a><br>
+						<a href="${pageContext.request.contextPath }/member/forgotId.do">아이디찾기</a> | 
 						<a href="${pageContext.request.contextPath }/member/forgotPass.do">비밀번호찾기</a><br>
 						<input type="checkbox" id="idSaveCheck">&nbsp;&nbsp;아이디를 기억하겠습니다.<br>
 						 <button id="log" class="logc">로그인</button>

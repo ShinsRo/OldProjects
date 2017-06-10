@@ -1,9 +1,6 @@
 @CHARSET "UTF-8";
- body{
-	text-align: center;	
-	
- }
- input[type="button"]{
+
+#resBtn {
  font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
