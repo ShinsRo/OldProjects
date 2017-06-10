@@ -38,7 +38,7 @@
                         <li class="active"><a href="${pageContext.request.contextPath}/home.do">일반홈으로</a></li>
                         <li class="active"><a href="${pageContext.request.contextPath}/getBoardList_admin.do">상품관리</a></li>
                         <li class="active"><a href="${pageContext.request.contextPath}/getCommentList_admin.do">후기관리</a></li>
-                        <li class="active"><a href="${pageContext.request.contextPath}/getMemberList_admin.do">회원관리</a></li>
+                        <li class="active"><a href="${pageContext.request.contextPath}/getMemberList_admin.do?pageNo=1">회원관리</a></li>
                        	<li class="active"><a href="${pageContext.request.contextPath}/deliveryList_admin.do">용달관리</a></li>
                        	<li class="active"><a href="${pageContext.request.contextPath}/getReportList_admin.do">신고관리</a></li>
                        	<li class="active"><a href="${pageContext.request.contextPath}/logout.do">로그아웃</a></li>

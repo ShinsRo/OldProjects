@@ -219,8 +219,7 @@ public class MemberController {
 	 * @return
 	 */
 	@RequestMapping("getMemberList_admin.do")
-	public String getMemberList_admin(Model model) {
-		int pageNo = 1;
+	public String getMemberList_admin(Model model, int pageNo ) {
 		model.addAttribute("lvo", service.getMemberList_admin(pageNo));
 		return "admin/memberList_admin.tiles2";
 	}
