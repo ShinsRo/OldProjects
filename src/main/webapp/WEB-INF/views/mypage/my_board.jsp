@@ -15,7 +15,12 @@ function getApp(bno) {
 			<div class="row">
 				<div class="action">
 					<div class="col-sm-12">
+					<c:if test="${!empty requestScope.targetId}">
+						<h1 class="title">${requestScope.targetId}이 올린 드려요</h1>						
+					</c:if>
+					<c:if test="${empty requestScope.targetId}">
 						<h1 class="title">내가 올린 드려요</h1>
+					</c:if>
 						<p>
 							<br>
 						</p>
