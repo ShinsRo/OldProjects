@@ -64,31 +64,45 @@
 					</c:if>
 				</c:forEach>
 
+<!-- pg -->
+<div class="portfolio-pagination">
+   <ul class="pagination">
+      <c:set var="pb" value="${requestScope.blvo.pagingBean}"></c:set>
+      <c:choose>
+         <c:when test="${pb.previousPageGroup}">
+            <li><a
+               href="${pageContext.request.contextPath}/getBoardList_admin.do?pageNo=${pb.startPageOfPageGroup-1}">left</a></li>
+         </c:when>
+         <c:otherwise>
+            <li></li>
+         </c:otherwise>
+      </c:choose>
 
-				<!-- pg -->
-				<c:set var="pb" value="${requestScope.blvo.pagingBean}"></c:set>
-<%-- 				<div class="portfolio-pagination">
-					<ul class="pagination">
-					<c:if test="${pb.previousPageGroup}">
-						<li><a href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${pb.startPageOfPageGroup-1}">왼</a></li>
-					</c:if>
-						<li><a href="#">left</a></li>
-						<c:forEach var="i" begin="${pb.startPageOfPageGroup}" end="${pb.endPageOfPageGroup}">
-							<c:choose>
-								<c:when test="${pb.nowPage!=i}">
-									<li><a href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${i}">${i}</a></li>
-								</c:when>
-								<c:otherwise>
-									<li class="active"><a href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${i}">${i}</a></li>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-						<c:if test="${pb.nextPageGroup}">
-							<li><a href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${pb.endPageOfPageGroup+1}">right</a></li>
-						</c:if>
-					</ul>
-				</div> --%>
-			</div>
-		</div>
-		</div>
+      <c:forEach var="i" begin="${pb.startPageOfPageGroup}"
+         end="${pb.endPageOfPageGroup}">
+         <c:choose>
+            <c:when test="${pb.nowPage!=i}">
+               <li><a
+                  href="${pageContext.request.contextPath}/getBoardList_admin.do?pageNo=${i}">${i}</a></li>
+            </c:when>
+            <c:otherwise>
+               <li class="active"><a href="#">${i}</a></li>
+            </c:otherwise>
+         </c:choose>
+      </c:forEach>
+
+      <c:choose>
+         <c:when test="${pb.nextPageGroup}">
+            <li><a
+               href="${pageContext.request.contextPath}/getBoardList_admin.do?pageNo=${pb.endPageOfPageGroup+1}">right</a></li>
+         </c:when>
+         <c:otherwise>
+            <li></li>
+         </c:otherwise>
+      </c:choose>
+   </ul>
+</div>
+</div>
+</div>
+</div>
 </section>
