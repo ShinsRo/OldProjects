@@ -109,8 +109,8 @@ public class SearchController {
 			throws IOException {
 		List<String> searchList = null;
 		searchList = searchService.getAutoSearchList(keyword);
-		PrintWriter out = response.getWriter();
-		out.print(searchList.toString());
+/*		PrintWriter out = response.getWriter();
+		out.print(searchList.toString());*/
 		System.out.println(searchList);
 		return searchList;
 	}
