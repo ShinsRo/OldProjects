@@ -37,7 +37,7 @@
 	}
 	function fn_replyDelete(rno,cno){
 		if(confirm("삭제하시겠습니까?")){
-			location.href ="deleteCommentReply.do?rno="+"&cno="+cno;
+			location.href ="deleteCommentReply.do?rno="+rno+"&cno="+cno;
 		}else{
 			return;
 		}
@@ -233,7 +233,7 @@
 						<span class="cmdate">${reply.time_posted}</span>
 						<span class="recmbtn">
 						<a onclick="fn_replyReply(${reply.rno})">
-				 		<img class="reply_icon" src="${pageContext.request.contextPath}/img/bu_arr.png">답글</a></span> 
+				 		답글</a></span> 
 						<span class="cmbtn">
 						<c:choose>
 						<c:when test="${sessionScope.mvo.id==reply.id}">
