@@ -58,13 +58,16 @@ function getApp(bno) {
 					</td>
 					<td>${bvo.time_posted }</td>
 					<td>${bvo.hit }</td>
-					<td>${bvo.is_traded }&nbsp;&nbsp;&nbsp;
-					<c:if test="${bvo.is_traded == 'WAITING' }">
-					<button class = "btn btn-sm btn-info" value = "${bvo.bno}" id = "showApps" onclick="getApp(${bvo.bno})">
-					신청현황보기
-					</button>
+					
+						<td>${bvo.is_traded }&nbsp;&nbsp;&nbsp;
+					<c:if test="${bvo.id == mvo.id }">
+							<c:if test="${bvo.is_traded == 'WAITING' }">
+							<button class = "btn btn-sm btn-info" value = "${bvo.bno}" id = "showApps" onclick="getApp(${bvo.bno})">
+							신청현황보기
+							</button>
+							</c:if>					
 					</c:if>
-					</td>
+						</td>
 					
 			</tr>
 		</c:forEach>

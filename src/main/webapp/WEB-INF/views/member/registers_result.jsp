@@ -33,14 +33,17 @@
 	</div>
 </section>
 <!--배너 타이틀-->
+<div align = "center">
 <div class="btnn">
    <button class="btn1" name="reg_term">이용약관</button>&nbsp;
    <img class="begin_img" src="${pageContext.request.contextPath}/img/begin.png" alt="begin" height="40" width="40" >
    <button class="btn2"  name="reg" >회원가입</button>&nbsp; 
     <img class="begin_img" src="${pageContext.request.contextPath}/img/begin.png" alt="begin" height="40" width="40">
    <button class="btn3"  name="reg_result">가입완료</button>
-   </div><br>
+</div>
+   <br>
   <h1>${requestScope.memberVO.id }님 회원가입을 축하합니다</h1> <br>
 	<a href="${pageContext.request.contextPath}/home.do">
-	<input type="button" value="확인" onclick="pageOut()"></a>
+	<input type="button" id = "resBtn" value="확인" onclick="pageOut()"></a>
+	</div>
 </body>

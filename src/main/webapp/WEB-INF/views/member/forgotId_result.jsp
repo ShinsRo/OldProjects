@@ -28,7 +28,9 @@
    </div>
 </section>
 <!--배너 타이틀-->
+<div align="center">
   <h1>고객님의 아이디는 ${requestScope.id} 입니다</h1> <br>
    <a href="${pageContext.request.contextPath}/home.do">
-   <input type="button" value="확인" onclick="pageOut()"></a>
+   <input type="button" value="확인" id = "resBtn" onclick="pageOut()"></a>
+</div>
 </body>
