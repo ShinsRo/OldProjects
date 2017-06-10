@@ -283,6 +283,7 @@ public class BoardController {
 		@RequestMapping("BoardListById.do")
 		public String boardListById(String id, String pageNo, Model model ){
 			model.addAttribute("blvo", boardService.boardListById(id, pageNo));
+			model.addAttribute("targetId", id);
 			return "mypage/my_board.tiles";
 		}
 }
