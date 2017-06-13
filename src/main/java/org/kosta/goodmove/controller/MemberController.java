@@ -3,17 +3,16 @@ package org.kosta.goodmove.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.kosta.goodmove.model.service.MemberService;
 import org.kosta.goodmove.model.vo.MemberVO;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 /**
  * 회원 정보 관할 컨트롤러 : Controller
  * 
@@ -24,7 +23,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class MemberController {
 	@Resource
 	private MemberService service;
-
+	//회원정보수정시 비밀번호 암호화처리를 위한 객체를 주입받는다
+	@Resource
+	private BCryptPasswordEncoder passwordEncoder;
 	/**
 	 * 로그인에 관한 컨트롤러
 	 * 
@@ -42,7 +43,10 @@ public class MemberController {
 			return "redirect:home.do";
 		}
 	}*/
-
+	@RequestMapping("login_fail.do")
+    public String loginFail(){
+    	return "member/login_fail.tiles";
+    }
 	/**
 	 * 로그아웃에 관한 컨트롤러
 	 * 

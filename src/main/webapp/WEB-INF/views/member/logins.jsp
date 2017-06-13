@@ -2,7 +2,9 @@
 	pageEncoding="UTF-8"%>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/resources/member/login_register.css">
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%-- spring security custom tag를 사용하기 위한 선언 --%>
+<%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%>
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">
 	$('.message a').click(function() {
@@ -101,6 +103,7 @@
 	</div>
 </section>
 <!--배너 타이틀-->
+<sec:authorize ifNotGranted="ROLE_MEMBER">
 <section id="login">
 	<div class="container">
 		<div class="row">
@@ -132,4 +135,5 @@
 		</div>
 	</div>
 </section>
+</sec:authorize>
 

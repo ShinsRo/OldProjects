@@ -37,6 +37,8 @@ create table authorities(
 	constraint fk_authorities foreign key(id) references GD_MEMBER(id),
 	constraint member_authorities primary key(id,authority)
 );
+select * from GD_MEMBER;
+select * from authorities;
 -- 물려줄 물건 게시 단위 테이블
 CREATE TABLE G_BOARD(
 	BNO NUMBER PRIMARY KEY,

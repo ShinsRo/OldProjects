@@ -42,6 +42,7 @@ public class MemberAuthenticationProvider implements AuthenticationProvider{
 	 * 리턴 : 인증한 정보를 가진 Authentication	 * 
 	 * 매개변수에 전달된 Authentication객체를 받아 인증처리를 한뒤 인증한 정보를 Authentication에 담아 리턴
 	 */
+	
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {		
 		//1.파라미터로 전달받은 Authentication 객체에 대해 인증처리를 지원하지 않으면 null을 리턴한다.
 		if(!supports(authentication.getClass())){

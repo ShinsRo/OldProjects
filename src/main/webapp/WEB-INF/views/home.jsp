@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <script src="//code.jquery.com/jquery.min.js"></script>
 <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"></link>
-<script src="YourJquery source path"></script>
+<!-- <script src="YourJquery source path"></script> -->
 <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
 <script type="text/javascript">
 $(document).ready(function(){
