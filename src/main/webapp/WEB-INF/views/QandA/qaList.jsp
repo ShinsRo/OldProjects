@@ -10,9 +10,9 @@
 			<div class="row">
 				<div class="action">
 					<div class="col-sm-12">
-						<h1 class="title">지역후기</h1>
+						<h1 class="title">Q&amp;A</h1>
 						<p>
-							<br>지역에 거주하며 경험한 후기를 적어주세요
+							<br>Q&amp;A
 						</p>
 					</div>
 				</div>
@@ -30,39 +30,37 @@
 				<th class="date">아이디</th>
 				<th class="hit">작성일</th>
 				<th class="addr">조회수</th>
-				<th class="title">지역</th>
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${requestScope.lvo.list}" var="cvo">
+			<c:forEach items="${requestScope.lvo.list}" var="qvo">
 				<tr>
-					<td>${cvo.cno }</td>
-					<td><c:choose>
-							<c:when test="${sessionScope.mvo!=null}">
-								<a
-									href="${pageContext.request.contextPath}/showComment.do?cno=${cvo.cno }">${cvo.title }</a>
-							</c:when>
-							<c:otherwise>
-					${cvo.title }
-					</c:otherwise>
-						</c:choose></td>
-					<td>
-				<ul class = "nav navbar-nav navbar-left">
-					<li class="dropdown">${cvo.id }<i class="fa fa-angle-down"></i>
-                            <ul role="menu" class="sub-menu" id="down">
-                                <li class="color1"><a href="${pageContext.request.contextPath }/findCommentListById.do?id=${cvo.id }&pageNo=1">이 사람의 후기</a></li>
-                                	<li class="color2"><a href="${pageContext.request.contextPath}/BoardListById.do?id=${cvo.id }&pageNo=1">이 사람의 드려요</a></li>
-                            </ul>
-                        </li>
-                     </ul>
-                     </td>
-					<td>${cvo.time_posted }</td>
-					<td>${cvo.hit }</td>
-					<td>${cvo.addr }</td>
+					<td>${qvo.qno}</td>
+					<!-- 비밀글 -->
+					<c:choose>
+						<c:when test="${qvo.is_secret == '1' && qvo.id==mvo.id}">
+							<td><img src="${pageContext.request.contextPath}/resources/img/secret.png" style="width:20px"><a
+							href="${pageContext.request.contextPath}/showQuestionDetail.do?qno=${qvo.qno}">${qvo.title}</a></td>
+						</c:when>
+						<c:when test="${qvo.is_secret == '1' && mvo.id == 'admin'}">
+							<td><img src="${pageContext.request.contextPath}/resources/img/secret.png" style="width:20px"><a
+							href="${pageContext.request.contextPath}/showQuestionDetail.do?qno=${qvo.qno}">${qvo.title}</a></td>
+						</c:when>
+						<c:when test="${qvo.is_secret == '1' && qvo.id!=mvo.id}">
+							<td><img src="${pageContext.request.contextPath}/resources/img/secret.png" style="width:20px">${qvo.title}</td>
+						</c:when>
+						<c:otherwise>
+							<td> <a
+							href="${pageContext.request.contextPath}/showQuestionDetail.do?qno=${qvo.qno}">${qvo.title}</a></td>
+						</c:otherwise>
+					</c:choose>
+					<td>${qvo.id}</td>
+					<td>${qvo.time_posted }</td>
+					<td>${qvo.hit}</td>
 				</tr>
 			</c:forEach>
 
-		</tbody>
+		</tbody> 
 	</table>
 	<br></br>
 
@@ -73,7 +71,7 @@
 			<c:choose>
 				<c:when test="${pb.previousPageGroup}">
 					<li><a
-						href="${pageContext.request.contextPath}/getCommentList.do?pageNo=${pb.startPageOfPageGroup-1}">left</a></li>
+						href="${pageContext.request.contextPath}/getQuestionList.do?pageNo=${pb.startPageOfPageGroup-1}">left</a></li>
 				</c:when>
 				<c:otherwise>
 					<li></li>
@@ -85,7 +83,7 @@
 				<c:choose>
 					<c:when test="${pb.nowPage!=i}">
 						<li><a
-							href="${pageContext.request.contextPath}/getCommentList.do?pageNo=${i}">${i}</a></li>
+							href="${pageContext.request.contextPath}/getQuestionList.do?pageNo=${i}">${i}</a></li>
 					</c:when>
 					<c:otherwise>
 						<li class="active"><a href="#">${i}</a></li>
@@ -96,7 +94,7 @@
 			<c:choose>
 				<c:when test="${pb.nextPageGroup}">
 					<li><a
-						href="${pageContext.request.contextPath}/getCommentList.do?pageNo=${pb.endPageOfPageGroup+1}">right</a></li>
+						href="${pageContext.request.contextPath}/getQuestionList.do?pageNo=${pb.endPageOfPageGroup+1}">right</a></li>
 				</c:when>
 				<c:otherwise>
 					<li></li>
@@ -109,7 +107,7 @@
 	<span style="float:right">
 		<c:if test="${sessionScope.mvo.id != null }">
 			<input  class="btn btn-info" type="button" value="글쓰기"
-				onclick="javascript:location.href='${pageContext.request.contextPath}/commentRegisterView.do'">
+				onclick="javascript:location.href='${pageContext.request.contextPath}/registerQuestionView.do'">
 		</c:if>
 	</span>
 </div>

@@ -49,6 +49,7 @@ SELECT * FROM DELIVERY;
 select * from DELIVERY_MATCH;
 select * from APPLICATION;
 select * from G_BOARD;
+select * from question;
 
 -- TEST COMMENT
 insert into LOC_COMMENT(CNO, TITLE, HIT, TIME_POSTED, ADDR, ID, CONTENT) VALUES(C_SEQ.nextval, 'test1', '0', sysdate, '경기도 성남시 분당구', 'java', '내용');
@@ -140,3 +141,5 @@ INSERT INTO AUTOSEARCH(KEYWORD)
 VALUES ('가가어여우유');
 INSERT INTO AUTOSEARCH(KEYWORD)
 VALUES ('가ㅋㅋ');
+
+select Q_SEQ.nextval from dual;

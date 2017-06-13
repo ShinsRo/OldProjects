@@ -60,6 +60,7 @@
                                 </c:if>
                             </ul>
                         </li>
+                        
                          <c:if test="${sessionScope.mvo != null}">       
                         <li class="dropdown"><a href="">내 정보<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
@@ -96,6 +97,7 @@
 						<c:if test="${sessionScope.dvo != null}">
 							<li><a href="${pageContext.request.contextPath}/logout.do">로그아웃</a></li>
 						</c:if>
+					<li><a href="${pageContext.request.contextPath}/getQuestionList.do">Q&amp;A</a></li>
 					<li><a href="${pageContext.request.contextPath}/member/contact.do">Contact</a></li>
                     </ul>
                 </div>

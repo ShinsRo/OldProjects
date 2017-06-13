@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sql Mapper -->
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="question">
+	<select id="getTotalQuestionCount" resultType="int">
+		select count(*) from QUESTION
+	</select>
+	<select id="getQuestionList" resultType="questionVO"
+		parameterType="pagingBean">
+		select * from (select qno, title, hit,
+		to_char(time_posted,'YYYY.MM.DD HH:mm') as
+		time_posted, id,
+		content,is_secret,
+		row_number() over(order by qno desc) as rnum from
+		question) where rnum
+		between #{startRowNumber} and #{endRowNumber}
+	</select>
+	<insert id="registerQuestion" parameterType="questionVO">
+		<selectKey keyProperty="qno" resultType="String" order="BEFORE">
+			select Q_SEQ.nextval from dual
+		</selectKey>
+		INSERT INTO QUESTION(qno, title, hit, time_posted, id, content,is_secret)
+		VALUES(#{qno}, #{title}, 0, sysdate, #{id}, #{content},#{is_secret})
+	</insert>
+	<select id="showQuestionDetail" resultType="questionVO">
+		SELECT * 
+		FROM QUESTION
+		WHERE qno=#{value}
+	</select>
+	<update id="updateHit" parameterType="int">
+		update QUESTION
+		set
+		hit=hit+1 where qno=#{value}
+	</update>
+</mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
