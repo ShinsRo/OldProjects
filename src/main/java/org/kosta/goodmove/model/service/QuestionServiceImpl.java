@@ -21,12 +21,12 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Override
 	public void updateQuestion(QuestionVO qvo) {
-
+		dao.updateQuestion(qvo);
 	}
 
 	@Override
 	public void deleteQuestion(int qno) {
-
+		dao.deleteQuestion(qno);
 	}
 
 	@Override
@@ -45,12 +45,17 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public QuestionVO showQuestionDetail(String qno) {
+	public QuestionVO showQuestionNoHit(int qno) {
+		return dao.showQuestionDetail(qno);
+	}
+	@Override
+	public QuestionVO showQuestionHit(int qno) {
+		dao.updateHit(qno);
 		return dao.showQuestionDetail(qno);
 	}
 
 	@Override
-	public void updateHit(String qno) {
+	public void updateHit(int qno) {
 		dao.updateHit(qno);
 	}
 	

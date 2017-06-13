@@ -9,7 +9,8 @@ public interface QuestionService {
 	public void deleteQuestion(int qno);
 	QuestionListVO getQuestionList();
 	QuestionListVO getQuestionList(String pageNo);
-	QuestionVO showQuestionDetail(String qno);
-	void updateHit(String qno);
+	QuestionVO showQuestionNoHit(int qno);
+	QuestionVO showQuestionHit(int qno);
+	void updateHit(int qno);
 
 }

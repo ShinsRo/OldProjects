@@ -7,14 +7,14 @@
 	}
 	function updateComment(){
 		if(confirm("수정하시겠습니까?")){
-			location.href="commentUpdateView.do?cno="+${requestScope.cvo.cno};
+			location.href="updateQuestionView.do?qno="+${requestScope.qvo.qno};
 		}else{
 			return false;
 		}
 	}
 	function deleteComment(){
 		if(confirm("삭제하시겠습니까?")){
-			location.href="deleteComment.do?cno="+${requestScope.cvo.cno};
+			location.href="deleteQuestion.do?qno="+${requestScope.qvo.qno};
 		}else{
 			return false;
 		}
@@ -71,35 +71,39 @@
 </section>
 <!--배너 타이틀-->
 <section id="">
-   <form enctype="multipart/form-data" id="write_form"
-      name="boardRegForm" method="post" action="${pageContext.request.contextPath}/commentRegister.do">
-      <div class="col-md-1 col-sm-1" align="center"></div>
-      <div class="col-md-10 col-sm-10" align="center">
-         <div class="contact-form bottom">
-         <br>
-            <div class="form-group" align="center">
-               NO : ${requestScope.qvo.qno}&nbsp;&nbsp;&nbsp;&nbsp;제목 : ${requestScope.qvo.title}
-            </div>
-            <div class="form-group" align="center">
-            작성자 : ${requestScope.qvo.id}&nbsp;&nbsp;&nbsp;&nbsp;
-			작성일 : ${requestScope.qvo.time_posted}&nbsp;&nbsp;&nbsp;&nbsp;
-			조회수 : ${requestScope.qvo.hit}&nbsp;&nbsp;&nbsp;&nbsp;
-            </div>
-            <div class="form-group" align="center">
-               <textarea name="content" id="content" required="required"
-                  class="form-control" rows="15" readonly="readonly">${requestScope.qvo.content}</textarea>
-            </div>
-            <div class="form-group" align="center">
-			<input class="btn btn-info" type="button" value="목록" onclick="QuestionList()">
-			<c:if test="${requestScope.qvo.id==sessionScope.mvo.id}">
-			 <input class="btn btn-info" type="button" value="수정" onclick="updateComment()">
-			 <input class="btn btn-danger" type="button" value="삭제" onclick="deleteComment()">  
-			 </c:if>
-			 <c:if test="${sessionScope.mvo.id == 'admin'}">
-			 	 <input class="btn btn-danger" type="button" value="답글" onclick=""> 
-			 </c:if>
-            </div>
-         </div>
-      </div>
-   </form>
+	<form enctype="multipart/form-data" id="write_form" name="boardRegForm"
+		method="post"
+		action="${pageContext.request.contextPath}/commentRegister.do">
+		<div class="col-md-1 col-sm-1" align="center"></div>
+		<div class="col-md-10 col-sm-10" align="center">
+			<div class="contact-form bottom">
+				<br>
+				<div class="form-group" align="center">NO :
+					${requestScope.qvo.qno}&nbsp;&nbsp;&nbsp;&nbsp;제목 :
+					${requestScope.qvo.title}</div>
+				<div class="form-group" align="center">작성자 :
+					${requestScope.qvo.id}&nbsp;&nbsp;&nbsp;&nbsp; 작성일 :
+					${requestScope.qvo.time_posted}&nbsp;&nbsp;&nbsp;&nbsp; 조회수 :
+					${requestScope.qvo.hit}&nbsp;&nbsp;&nbsp;&nbsp;</div>
+				<div class="form-group" align="center">
+					<textarea name="content" id="content" required="required"
+						class="form-control" rows="15" readonly="readonly">${requestScope.qvo.content}</textarea>
+				</div>
+				<div class="form-group" align="center">
+					<input class="btn btn-info" type="button" value="목록"
+						onclick="QuestionList()">
+					<c:if test="${requestScope.qvo.id==sessionScope.mvo.id}">
+						<input class="btn btn-info" type="button" value="수정"
+							onclick="updateComment()">
+						<input class="btn btn-danger" type="button" value="삭제"
+							onclick="deleteComment()">
+					</c:if>
+					<c:if test="${sessionScope.mvo.id == 'admin'}">
+						<input class="btn btn-danger" type="button" value="답글"
+							onclick="alert('답글')">
+					</c:if>
+				</div>
+			</div>
+		</div>
+	</form>
 </section>

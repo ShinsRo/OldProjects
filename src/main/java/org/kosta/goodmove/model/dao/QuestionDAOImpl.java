@@ -22,12 +22,12 @@ public class QuestionDAOImpl implements QuestionDAO {
 
 	@Override
 	public void updateQuestion(QuestionVO qvo) {
-
+		template.update("question.updateQuestion", qvo);
 	}
 
 	@Override
 	public void deleteQuestion(int qno) {
-
+		template.delete("question.deleteQuestion", qno);
 	}
 
 	@Override
@@ -40,12 +40,12 @@ public class QuestionDAOImpl implements QuestionDAO {
 	}
 
 	@Override
-	public QuestionVO showQuestionDetail(String qno) {
+	public QuestionVO showQuestionDetail(int qno) {
 		return template.selectOne("question.showQuestionDetail", qno);
 	}
 
 	@Override
-	public void updateHit(String qno) {
+	public void updateHit(int qno) {
 		template.update("question.updateHit",qno);
 	}
 

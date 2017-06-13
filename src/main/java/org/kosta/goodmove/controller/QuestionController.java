@@ -45,16 +45,49 @@ public class QuestionController {
 			qvo.setIs_secret("0");
 		}
 		service.registerQuestion(qvo);
-		return "redirect:getQuestionList.do";
+		String qno = qvo.getId();
+		return "redirect:showQuestionNoHit.do?qno="+qno;
 	}
 	/**
 	 * 
 	 * @param qno
 	 * @return
 	 */
-	@RequestMapping("showQuestionDetail.do")
-	public String showQuestionDetail(String qno, Model model){
-		model.addAttribute("qvo", service.showQuestionDetail(qno));
+	
+	@RequestMapping("showQuestionNoHit.do")
+	public String showQuestionNoHit(String qno, Model model){
+		model.addAttribute("qvo", service.showQuestionNoHit(Integer.parseInt(qno)));
 		return "QandA/qaDetail.tiles";
+	}
+	@RequestMapping("showQuestionHit.do")
+	public String showQuestionDetail(String qno, Model model){
+		model.addAttribute("qvo", service.showQuestionHit(Integer.parseInt(qno)));
+		return "QandA/qaDetail.tiles";
+	}
+	@RequestMapping("updateQuestionView.do")
+	public String updateQuestionView(String qno,Model model){
+		model.addAttribute("qvo", service.showQuestionNoHit(Integer.parseInt(qno)));
+		return "QandA/qaUpdate.tiles";
+	}
+	/**
+	 * Q&A 수정
+	 * @param qno
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("updateQuestion.do")
+	public String updateQuestion(QuestionVO qvo,Model model){
+		if(qvo.getIs_secret()==null){ // 비밀글 안했을 때
+			qvo.setIs_secret("0");
+		}else{
+			qvo.setIs_secret("1");
+		}
+		service.updateQuestion(qvo);
+		return "redirect:showQuestionNoHit.do?qno="+qvo.getQno();
+	}
+	@RequestMapping("deleteQuestion.do")
+	public String deleteQuestion(String qno){
+		service.deleteQuestion(Integer.parseInt(qno));
+		return "redirect:getQuestionList.do";
 	}
 }

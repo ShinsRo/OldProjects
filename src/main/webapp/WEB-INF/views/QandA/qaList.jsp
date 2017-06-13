@@ -40,18 +40,18 @@
 					<c:choose>
 						<c:when test="${qvo.is_secret == '1' && qvo.id==mvo.id}">
 							<td><img src="${pageContext.request.contextPath}/resources/img/secret.png" style="width:20px"><a
-							href="${pageContext.request.contextPath}/showQuestionDetail.do?qno=${qvo.qno}">${qvo.title}</a></td>
+							href="${pageContext.request.contextPath}/showQuestionHit.do?qno=${qvo.qno}">${qvo.title}</a></td>
 						</c:when>
 						<c:when test="${qvo.is_secret == '1' && mvo.id == 'admin'}">
 							<td><img src="${pageContext.request.contextPath}/resources/img/secret.png" style="width:20px"><a
-							href="${pageContext.request.contextPath}/showQuestionDetail.do?qno=${qvo.qno}">${qvo.title}</a></td>
+							href="${pageContext.request.contextPath}/showQuestionHit.do?qno=${qvo.qno}">${qvo.title}</a></td>
 						</c:when>
 						<c:when test="${qvo.is_secret == '1' && qvo.id!=mvo.id}">
 							<td><img src="${pageContext.request.contextPath}/resources/img/secret.png" style="width:20px">${qvo.title}</td>
 						</c:when>
 						<c:otherwise>
 							<td> <a
-							href="${pageContext.request.contextPath}/showQuestionDetail.do?qno=${qvo.qno}">${qvo.title}</a></td>
+							href="${pageContext.request.contextPath}/showQuestionHit.do?qno=${qvo.qno}">${qvo.title}</a></td>
 						</c:otherwise>
 					</c:choose>
 					<td>${qvo.id}</td>

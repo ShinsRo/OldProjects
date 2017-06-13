@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO QUESTION(qno, title, hit, time_posted, id, content,is_secret)
 		VALUES(#{qno}, #{title}, 0, sysdate, #{id}, #{content},#{is_secret})
 	</insert>
-	<select id="showQuestionDetail" resultType="questionVO">
+	<select id="showQuestionDetail" parameterType="int" resultType="questionVO">
 		SELECT * 
 		FROM QUESTION
 		WHERE qno=#{value}
@@ -34,6 +34,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		set
 		hit=hit+1 where qno=#{value}
 	</update>
+	<update id="updateQuestion" parameterType="questionVO">
+		update QUESTION
+		set	title=#{title},content=#{content},is_secret=#{is_secret} where qno=#{qno}
+	</update>
+		<delete id="deleteQuestion">
+		delete from QUESTION where qno=#{value}
+	</delete>
 </mapper>
  
  

@@ -11,6 +11,6 @@ public interface QuestionDAO {
 	public void deleteQuestion(int qno);
 	public List<QuestionVO> getAllQuestionList(PagingBean pagingBean);
 	int getTotalQuestionCount();
-	public QuestionVO showQuestionDetail(String qno);
-	void updateHit(String qno);
+	public QuestionVO showQuestionDetail(int qno);
+	void updateHit(int qno);
 }
