@@ -13,8 +13,10 @@ import org.kosta.goodmove.model.vo.BoardListVO;
 import org.kosta.goodmove.model.vo.BoardVO;
 import org.kosta.goodmove.model.vo.CommentReplyVO;
 import org.kosta.goodmove.model.vo.CommentVO;
-import org.kosta.goodmove.model.vo.ReportVO;
 import org.kosta.goodmove.model.vo.ProductVO;
+import org.kosta.goodmove.model.vo.ReportVO;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +35,8 @@ public class AdminController {
 	private AdminService adminService;
 	@Resource
 	private BoardService boardService;
-
+	@Resource
+	private BCryptPasswordEncoder passwordEncoder;
 	/**
 	 * 관리자모드에서 지역후기 리스트 반환
 	 * 
@@ -42,6 +45,7 @@ public class AdminController {
 	 * @param model
 	 * @return
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("getCommentList_admin.do")
 	public ModelAndView getCommentListAdmin(String pageNo, String id, Model model) {
 		return new ModelAndView("admin/commentList_admin.tiles2", "lvo", commentService.getCommentList(pageNo));
@@ -52,6 +56,7 @@ public class AdminController {
 	 * 
 	 * @param cno
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("deleteCheck_admin.do")
 	public void deleteCheck(int cno) {
 		commentService.deleteComment(cno);
@@ -63,6 +68,7 @@ public class AdminController {
 	 * @param cno
 	 * @param model
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("showComment_admin.do")
 	public String showCommentAdmin(String cno, Model model) {
 		int clno = Integer.parseInt(cno);
@@ -77,6 +83,7 @@ public class AdminController {
 	 * @param cno
 	 * @return
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("deleteComment_admin.do")
 	public ModelAndView deleteBoardAdmin(int cno) {
 		commentService.deleteComment(cno);
@@ -89,6 +96,7 @@ public class AdminController {
 	 * @param cno
 	 * @return
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("commentUpdateView_admin.do")
 	public ModelAndView commentUpdateAdmin(String cno) {
 		int clno = Integer.parseInt(cno);
@@ -101,6 +109,7 @@ public class AdminController {
 	 * @param cvo
 	 * @return
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("commentUpdate_admin.do")
 	public ModelAndView commentUpdateAdmin(CommentVO cvo) {
 		commentService.updateBoard(cvo);
@@ -115,6 +124,7 @@ public class AdminController {
 	 * @param cno
 	 * @return
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("deleteCommentReply_admin.do")
 	public String deleteCommentReplyAdmin(int rno, int cno) {
 		CommentReplyVO crvo = commentService.getCommentReplyInfoByRNO(rno);
@@ -131,6 +141,7 @@ public class AdminController {
 	 * @param model
 	 * @return
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("showCommentNoHit_admin.do")
 	public String showCommentNoHitAdmin(String cno, Model model) {
 		int clno = Integer.parseInt(cno);
@@ -147,6 +158,7 @@ public class AdminController {
 	 * @param rememo
 	 * @return
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("updateCommentReply_admin.do")
 	public String updateCommentReplyAdmin(int cno, int rno, String rememo) {
 		CommentReplyVO crvo = new CommentReplyVO(rno, rememo);
@@ -161,6 +173,7 @@ public class AdminController {
 	 * @param model
 	 * @return
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("getBoardList_admin.do")
 	public String getBoardList_admin(String pageNo, Model model) {
 		BoardListVO blvo = boardService.getAllBoardList(pageNo);
@@ -175,6 +188,7 @@ public class AdminController {
 	 * @param model
 	 * @return
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("boardDetail_admin.do")
 	public String boardDetail_admin(String bno, Model model) {
 		BoardVO bvo = boardService.getBoardDetailByBno(Integer.parseInt(bno));
@@ -189,6 +203,7 @@ public class AdminController {
 	 * 
 	 * @return
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("deliveryList_admin.do")
 	public String deliveryListAdmin(Model model) {
 		model.addAttribute("NotSelectedlist", deliveryService.getNotConfirmedDeliveryList());
@@ -203,6 +218,7 @@ public class AdminController {
 	 * @param model
 	 * @return
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("getReportList_admin.do")
 	public String getReportList_admin(String category, String pageNo, Model model) {
 		if (category == null)
@@ -221,6 +237,7 @@ public class AdminController {
 	 * @param model
 	 * @return
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("getAllReportList_admin.do")
 	public String getAllReportList_admin(String category, String pageNo, Model model) {
 		model.addAttribute("lvo", adminService.getAllReportList(pageNo, category));
@@ -237,6 +254,7 @@ public class AdminController {
 	 * @param cno
 	 * @return
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("reportReply_admin.do")
 	public String reortReply(ReportVO rvo, Model model, int cno){
 		adminService.replyReport(rvo);
@@ -252,6 +270,7 @@ public class AdminController {
 	 * @param model
 	 * @return
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("reportComment_admin.do")
 	public String reportComment(ReportVO rvo, Model model){
 
@@ -268,6 +287,7 @@ public class AdminController {
 	 * @param model
 	 * @return
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("reportBoard.do")
 	public String reportBoard(ReportVO rvo, Model model) {
 		adminService.boardReport(rvo);
@@ -282,6 +302,7 @@ public class AdminController {
 	 * @param id
 	 * @return
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 @RequestMapping("confirmDelivery_admin.do")
 	public String confirmDelivery(String id) {
 		deliveryService.confirmDelivery(id);
@@ -294,6 +315,7 @@ public class AdminController {
 	 * @param bno
 	 * @return
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("boardDelete_admin.do")
 	public String boardDelete_admin(String bno) {
 		boardService.delete(bno);
@@ -310,6 +332,7 @@ public class AdminController {
 	 * @param pageNo
 	 * @return
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("deleteReport_admin.do")
 	public String deleteReport(String category, int reno, int report_no, String type, int pageNo) {
 		adminService.deleteObj(category, reno);
@@ -331,6 +354,7 @@ public class AdminController {
 	 * @param pageNo
 	 * @return
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("rejectReport_admin.do")
 	public String rejectReport(String category, int reno, int report_no, String type, int pageNo) {
 		adminService.rejectReport(report_no);
@@ -352,6 +376,7 @@ public class AdminController {
 	 * @param model
 	 * @return
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("showReport_admin.do")
 	public ModelAndView showReport_admin(String category, int reno, int report_no, String type, int pageNo) {
 		return new ModelAndView("admin/reportDitail_admin.tiles2", "show", adminService.showReport(category, reno, report_no, type, pageNo));
@@ -362,6 +387,7 @@ public class AdminController {
 	 * @param category
 	 * @return
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("CountReport_admin.do")
 	@ResponseBody
 	public int CountReport_admin(String category) {
@@ -372,6 +398,7 @@ public class AdminController {
 	 * 관리자 메인페이지에 출력될 제휴 미승인 대기자수 반환
 	 * @return
 	 */
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("CountDelivery_admin.do")
 	@ResponseBody
 	public int CountDelivery_admin() {

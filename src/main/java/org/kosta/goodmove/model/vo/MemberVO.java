@@ -13,6 +13,7 @@ public class MemberVO {
 	private String tel;
 	private String job;
 	private String enabled;
+	private String is_confirmed; 
 	public MemberVO() {
 		super();
 	}
@@ -40,8 +41,11 @@ public class MemberVO {
 		this.tel = tel;
 		this.job = job;
 	}
+	
+	
+	
 	public MemberVO(String id, String password, String name, String addr, String addr_detail, String tel, String job,
-			String enabled) {
+			String enabled, String is_confirmed) {
 		super();
 		this.id = id;
 		this.password = password;
@@ -51,7 +55,10 @@ public class MemberVO {
 		this.tel = tel;
 		this.job = job;
 		this.enabled = enabled;
+		this.is_confirmed = is_confirmed;
 	}
+
+
 	public String getId() {
 		return id;
 	}
@@ -100,11 +107,21 @@ public class MemberVO {
 	public void setenabled(String enabled) {
 		this.enabled = enabled;
 	}
+	public String getIs_confirmed() {
+		return is_confirmed;
+	}
+	public void setIs_confirmed(String is_confirmed) {
+		this.is_confirmed = is_confirmed;
+	}
+
+
 	@Override
 	public String toString() {
 		return "MemberVO [id=" + id + ", password=" + password + ", name=" + name + ", addr=" + addr + ", addr_detail="
-				+ addr_detail + ", tel=" + tel + ", job=" + job + ", enabled=" + enabled + "]";
+				+ addr_detail + ", tel=" + tel + ", job=" + job + ", enabled=" + enabled + ", is_confirmed="
+				+ is_confirmed + "]";
 	}
+	
 
 		
 }

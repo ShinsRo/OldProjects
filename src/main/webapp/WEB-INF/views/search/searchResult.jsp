@@ -1,6 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"></link>
+<!-- <script src="YourJquery source path"></script> -->
+<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	//검색 자동완성
+	$("#keyword").autocomplete({
+			source : function( request, response ){		
+				$.ajax({
+				url:"${pageContext.request.contextPath}/autoSearch.do",
+				type: "post",
+				dataType : "json",
+				data : "keyword=" + $("#keyword").val(),
+				success : function(data){
+					alert(date.length);
+				},
+				error : function(data){
+					alert("ajax 에러 발생");
+				}
+			});
+				$.getJSON("${pageContext.request.contextPath}/autoSearch.do?keyword="
+					+ $("#keyword").val(),function(data){
+					response(data);
+				});	
+		}		
+	});
+});
+</script>
 <!-- 배너 타이틀 -->
 <section id="page-breadcrumb">
 	<div class="vertical-center sun">
@@ -14,6 +43,25 @@
 						</p>
 					</div>
 				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section id="action" class="responsive">
+	<div class="vertical-center">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-2"></div>
+				<div class="col-sm-8 text-center padding wow fadeIn"
+					data-wow-duration="1000ms" data-wow-delay="600ms">
+					<form action="${pageContext.request.contextPath}/search.do" method="post" role="form">
+						<input type="text" class="search-form" id="keyword"  
+							placeholder="검색하기" size="80" name="keyword"> <i class=""></i>
+							<button type="submit" class="btn btn-info">검색</button>
+						<div id="suggest"></div>
+					</form>
+				</div>
+				<div class="col-sm-2"></div>
 			</div>
 		</div>
 	</div>

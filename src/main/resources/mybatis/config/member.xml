@@ -5,7 +5,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member"> 	
 		<sql id="selectMember">
-			SELECT ID,PASSWORD,NAME,ADDR,ADDR_DETAIL,TEL,JOB FROM GD_MEMBER
+			SELECT ID,PASSWORD,NAME,ADDR,ADDR_DETAIL,TEL,JOB,enabled,IS_CONFIRMED
+			 FROM GD_MEMBER
 		</sql>
 		<select id="findMemberById" resultType="memberVO">
 		<include refid="selectMember"></include>

@@ -3,7 +3,7 @@
 
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%>
-	<header id="header">      
+	<header id="header">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 overflow">
@@ -41,50 +41,46 @@
                             	<li><a href = "${pageContext.request.contextPath }/makeError.do">500Error Test</a></li>
                             </ul>
                             </li>
-                    <c:if test="${sessionScope.mvo.id == 'admin' }">
+                    <sec:authorize ifAnyGranted="ROLE_ADMIN">
 	                        <li><a href="${pageContext.request.contextPath }/admin.do">관리자페이지</a></li>
-                        </c:if>
+                        </sec:authorize>
                         <li class="active"><a href="${pageContext.request.contextPath}/home.do">Home</a></li>
                          <li class="dropdown"><a href="">드려요<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
                                 <li><a href="${pageContext.request.contextPath}/getBoardList.do">드려요 모아보기</a></li>
-                                <c:if test="${sessionScope.mvo != null}">       
+                                <sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DEL">       
                                 	<li><a href="${pageContext.request.contextPath}/boardRegisterView.do">드려요 작성하기</a></li>
-                                </c:if>
+                                </sec:authorize>
                             </ul>
                         </li>
                         <li class="dropdown"><a href="">여기는요<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
                                 <li><a href="${pageContext.request.contextPath}/getCommentList.do">여기는요 모아보기</a></li>
-                                <c:if test="${sessionScope.mvo != null}">       
+                                <sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DEL">       
                                 	<li><a href="${pageContext.request.contextPath}/commentRegisterView.do">여기는요 작성하기</a></li>
-                                </c:if>
+                                </sec:authorize>
                             </ul>
                         </li>
-                         <c:if test="${sessionScope.mvo != null}">       
+                         <sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">      
                         <li class="dropdown"><a href="">내 정보<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
                             	<li><a href="${pageContext.request.contextPath}/member/updates.do">회원수정</a></li>
                                 <li><a href="${pageContext.request.contextPath}/myBoardList.do">내가 올린 드려요</a></li>
-                                <li><a href="${pageContext.request.contextPath}/getCommentList.do?id=${sessionScope.mvo.id}">내가 쓴 여기는요 </a></li>
+                                <li><a href="${pageContext.request.contextPath}/getCommentList.do?id=<sec:authentication property="principal.id"/>">내가 쓴 여기는요 </a></li>
                                 <li><a href="${pageContext.request.contextPath}/getApplicationsById.do">주세요 현황</a></li>
                             </ul>
-                        </li>  
-                        </c:if>
-                         <%-- <c:if test="${sessionScope.mvo == null && sessionScope.dvo==null}"> --%>
-                         <sec:authorize ifNotGranted="ROLE_MEMBER">                     
+                        </li>
+                        </sec:authorize>  
+                         <sec:authorize ifNotGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DEL">                     
 	                        <li><a href="${pageContext.request.contextPath}/member/logins.do">로그인</a></li>
 	                        <li><a href="${pageContext.request.contextPath }/member/register_view.do">회원가입</a></li> 
                        	</sec:authorize>
-                       <%--  </c:if> --%>
-                       <sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN">
-                        <%-- <c:if test="${sessionScope.mvo != null}"> --%>
+                       <sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DEL">
 	                        <li><a href="${pageContext.request.contextPath }/member/updates.do"><sec:authentication property="principal.name"/>님 로그인</a></li>
 	                        <li><a href="${pageContext.request.contextPath }/logout.do">로그아웃</a></li>
-                        <%-- </c:if> --%>
                         </sec:authorize>
-						<c:if test="${sessionScope.dvo != null}">
-							<li class="dropdown"><a href="">${sessionScope.dvo.name}님 로그인<i class="fa fa-angle-down"></i></a>
+						<sec:authorize ifAnyGranted="ROLE_DEL">
+							<li class="dropdown"><a href=""><sec:authentication property="principal.name"/>님 로그인<i class="fa fa-angle-down"></i></a>
 								<ul role="menu" class="sub-menu">
 									<c:choose>
 										<c:when test="${sessionScope.dvo.is_confirmed == 'YES'}">
@@ -96,10 +92,10 @@
 									</c:choose>
 								</ul>
 							</li>
-						</c:if>
-						<c:if test="${sessionScope.dvo != null}">
+						</sec:authorize>
+						<sec:authorize ifAnyGranted="ROLE_DEL">
 							<li><a href="${pageContext.request.contextPath}/logout.do">로그아웃</a></li>
-						</c:if>
+						</sec:authorize>
 					<li><a href="${pageContext.request.contextPath}/member/contact.do">Contact</a></li>
                     </ul>
                 </div>

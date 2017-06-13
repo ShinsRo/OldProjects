@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
+<%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%>   
 <script type="text/javascript">
 	$(document).ready(function() {
 		$(".uplo").click(function() {
@@ -111,6 +112,7 @@
 	</div>
 </section>
 <!--배너 타이틀-->
+ <sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN">
 <section>
 	<div class="container">
 		<div class="row">
@@ -120,23 +122,23 @@
 						action="${pageContext.request.contextPath }/updateMember.do"
 						method="post">
 						<input type="text" readonly="readonly" name="id" placeholder="아이디"
-							id="id" value="${sessionScope.mvo.id }"><br> <input
+							id="id" value="<sec:authentication property="principal.id"/>"><br> <input
 							id="pass1" name="password" type="password" placeholder="비밀번호"
-							value="${sessionScope.mvo.password }" maxlength="11" /><br>
+							value="<sec:authentication property="principal.password"/>" maxlength="11" /><br>
 						<input id="pass2" type="password" name="pass2"
-							placeholder="비밀번호확인" value="${sessionScope.mvo.password }"
+							placeholder="비밀번호확인" value="<sec:authentication property="principal.password"/>"
 							maxlength="11"><br> <span id="passCheckView"></span><br>
 						<input type="text" name="name" readonly="readonly"
-							placeholder="이름" id="name" value="${sessionScope.mvo.name }"><br>
+							placeholder="이름" id="name" value="<sec:authentication property="principal.name"/>"><br>
 						<input id="addr_code" type="text" readonly="readonly"
 							class="postcodify_postcode5" placeholder="우편번호" /><br> <input
 							id="postcodify_search_button" type="button" value="검색" size="6">
 						<br /> <input id="addr" type="text" name="addr"
-							class="postcodify_address" value="${sessionScope.mvo.addr }"
+							class="postcodify_address" value="<sec:authentication property="principal.addr "/>"
 							readonly="readonly" placeholder="주소" /><br /> <input
 							id="addr_detail" type="text" name="addr_detail"
 							class="postcodify_details"
-							value="${sessionScope.mvo.addr_detail }" placeholder="상세주소" /><br>
+							value="<sec:authentication property="principal.addr_detail"/>" placeholder="상세주소" /><br>
 						<select id="tel1" name="tel1">
 							<option value="">번호</option>
 							<option value="010">010</option>
@@ -147,7 +149,7 @@
 							placeholder="전화번호" maxlength="4" size="4" /> <input class="num"
 							id="tel3" name="tel3" type="tel" placeholder="전화번호" maxlength="4"
 							size="4" /><br> <input id="job" name="job" type="text"
-							value="${sessionScope.mvo.job }" placeholder="직업" /><br>
+							value="<sec:authentication property="principal.job"/>" placeholder="직업" /><br>
 						<button id="upd" class="uplo">회원수정</button>
 						&nbsp;<a
 							href="${pageContext.request.contextPath }/member/delete.do"><input
@@ -158,3 +160,4 @@
 		</div>
 	</div>
 </section>
+</sec:authorize>
