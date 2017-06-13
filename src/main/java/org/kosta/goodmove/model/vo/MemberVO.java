@@ -12,7 +12,7 @@ public class MemberVO {
 	private String addr_detail;
 	private String tel;
 	private String job;
-	private String deletemember;
+	private String enabled;
 	public MemberVO() {
 		super();
 	}
@@ -41,7 +41,7 @@ public class MemberVO {
 		this.job = job;
 	}
 	public MemberVO(String id, String password, String name, String addr, String addr_detail, String tel, String job,
-			String deletemember) {
+			String enabled) {
 		super();
 		this.id = id;
 		this.password = password;
@@ -50,7 +50,7 @@ public class MemberVO {
 		this.addr_detail = addr_detail;
 		this.tel = tel;
 		this.job = job;
-		this.deletemember = deletemember;
+		this.enabled = enabled;
 	}
 	public String getId() {
 		return id;
@@ -94,16 +94,16 @@ public class MemberVO {
 	public void setJob(String job) {
 		this.job = job;
 	}
-	public String getDeletemember() {
-		return deletemember;
+	public String getenabled() {
+		return enabled;
 	}
-	public void setDeletemember(String deletemember) {
-		this.deletemember = deletemember;
+	public void setenabled(String enabled) {
+		this.enabled = enabled;
 	}
 	@Override
 	public String toString() {
 		return "MemberVO [id=" + id + ", password=" + password + ", name=" + name + ", addr=" + addr + ", addr_detail="
-				+ addr_detail + ", tel=" + tel + ", job=" + job + ", deletemember=" + deletemember + "]";
+				+ addr_detail + ", tel=" + tel + ", job=" + job + ", enabled=" + enabled + "]";
 	}
 
 		

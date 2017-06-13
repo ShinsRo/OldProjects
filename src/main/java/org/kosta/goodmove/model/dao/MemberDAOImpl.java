@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.kosta.goodmove.model.vo.Authority;
 import org.kosta.goodmove.model.vo.MemberVO;
 import org.kosta.goodmove.model.vo.PagingBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -78,6 +79,24 @@ public class MemberDAOImpl implements MemberDAO{
 		vo.setPassword(password);
 		template.update("member.changePass", vo);
 	}
+	/*
+	 * Security에서 인증시 사용
+	 */
+	@Override					     
+	public List<Authority> selectAuthorityById(String id) {
+		return template.selectList("member.selectAuthorityById", id);
+	}
+	
+	/*
+	 * Security를 위해 권한부여를 위해  사용
+	 */
+	@Override	
+	public void registerRole(Authority authority){
+		template.insert("member.registerRole",authority);
+	}
+	
+	
+	
 	
 	/** 
 	 * 관리자 회원관리
@@ -98,4 +117,5 @@ public class MemberDAOImpl implements MemberDAO{
 	public void restoreMember_admin(String id){
 		template.update("member.restoreMember_admin",id);
 	}
+	
 }

@@ -13,7 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</select>
 		<select id="login" resultType="memberVO" parameterType="memberVO">
  		<include refid="selectMember"></include>
- 		WHERE ID=#{id} AND PASSWORD=#{password}  AND deletemember='TRUE'
+ 		WHERE ID=#{id} AND PASSWORD=#{password}  AND enabled=1
  	</select>
  	<update id="updateMember" parameterType="memberVO">
 		UPDATE GD_MEMBER SET PASSWORD=#{password}, ADDR=#{addr}, ADDR_DETAIL=#{addr_detail}, TEL=#{tel}, Job=#{job}
@@ -33,14 +33,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT COUNT(*) FROM GD_MEMBER WHERE PASSWORD=#{value}
 	</select>
 	<update id="deleteMember" parameterType="memberVO"> 
-		UPDATE GD_MEMBER SET deletemember='FALSE' WHERE ID=#{id} AND PASSWORD=#{password}
+		UPDATE GD_MEMBER SET enabled=0 WHERE ID=#{id} AND PASSWORD=#{password}
 	</update>
 	<select id="forgotId"  resultType="memberVO" parameterType="String">
-		 SELECT ID,deletemember FROM GD_MEMBER WHERE  NAME=#{name} AND TEL=#{tel} AND deletemember='TRUE'
+		 SELECT ID,enabled FROM GD_MEMBER WHERE  NAME=#{name} AND TEL=#{tel} AND enabled=1
 	</select>
 	<select id="forgotPass" resultType="memberVO" parameterType="String">
 	<include refid="selectMember"></include>
-		WHERE ID=#{id} AND NAME=#{name} AND TEL=#{tel} AND deletemember='TRUE'
+		WHERE ID=#{id} AND NAME=#{name} AND TEL=#{tel} AND enabled=1
 	</select>
 	<update id="changePass" parameterType="memberVO">
 		UPDATE GD_MEMBER SET PASSWORD=#{password}	WHERE ID=#{id}
@@ -60,21 +60,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getcount" resultType="int" parameterType="hashMap">
 	select count(*) from visit where day=#{today}
 	</select>
-	
-	
+		<!-- Spring Security에서 권한 체크를 위해 사용 -->
+	<select id="selectAuthorityById"  resultType="authority">
+		SELECT	id,authority
+		FROM	authorities
+		WHERE	id=#{id}
+	</select>
+	<insert id="registerRole" parameterType="authority">
+		insert into authorities(id,authority) values(#{id},#{authority})
+	</insert>
 	<!-- Admin 회원관리 -->
 	<select id="getTotalMemberCount" resultType="int">
 	select count(*) from GD_MEMBER
 	</select>
 	<select id="getMemberList_admin" resultType="memberVO"
 		parameterType="pagingBean">
-		select * from (select ID, PASSWORD, NAME, ADDR, ADDR_DETAIL, TEL, JOB, DELETEMEMBER, row_number() over(order by ID desc) as rnum from
+		select * from (select ID, PASSWORD, NAME, ADDR, ADDR_DETAIL, TEL, JOB, enabled, row_number() over(order by ID desc) as rnum from
 		GD_MEMBER) where rnum between #{startRowNumber} and #{endRowNumber}
 	</select>
 	<update id="deleteMember_admin" parameterType="String"> 
-		UPDATE GD_MEMBER SET deletemember='FALSE' WHERE ID=#{value}
+		UPDATE GD_MEMBER SET enabled=0 WHERE ID=#{value}
 	</update>
 	<update id="restoreMember_admin" parameterType="String"> 
-		UPDATE GD_MEMBER SET deletemember='TRUE' WHERE ID=#{value}
+		UPDATE GD_MEMBER SET enabled=1 WHERE ID=#{value}
 	</update>
 </mapper>

@@ -1,8 +1,10 @@
 package org.kosta.goodmove.model.service;
 
+import java.util.List;
+
+import org.kosta.goodmove.model.vo.Authority;
 import org.kosta.goodmove.model.vo.MemberListVO;
 import org.kosta.goodmove.model.vo.MemberVO;
-import org.springframework.transaction.annotation.Transactional;
 
 public interface MemberService {
 
@@ -35,4 +37,6 @@ public interface MemberService {
 	void deleteMember_admin(String id);
 
 	void restoreMember_admin(String id);
+
+	List<Authority> selectAuthorityById(String id);
 }

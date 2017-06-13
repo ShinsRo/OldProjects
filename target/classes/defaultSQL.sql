@@ -16,19 +16,27 @@ DROP TABLE VISIT;
 DROP TABLE DELIVERY;
 DROP TABLE REPORT;
 DROP TABLE AUTOSEARCH;
+DROP TABLE authorities;
 -- TABLES
 -- 회원 테이블
 CREATE TABLE GD_MEMBER(
 	ID VARCHAR2(30) PRIMARY KEY,
 	NAME VARCHAR2(18) NOT NULL,
-	PASSWORD VARCHAR2(30) NOT NULL,
+	PASSWORD VARCHAR2(100) NOT NULL,
 	ADDR VARCHAR2(100) NOT NULL,
 	ADDR_DETAIL VARCHAR2(100) NOT NULL,
 	TEL VARCHAR2(100) NOT NULL,
 	JOB VARCHAR2(18) NOT NULL,
-	DELETEMEMBER VARCHAR2(100) DEFAULT 'TRUE'
+	--DELETEMEMBER VARCHAR2(100) DEFAULT 'TRUE',
+	enabled number default 1 not null 
 );
 
+create table authorities(
+	id varchar2(100) not null,
+	authority varchar(30) not null,
+	constraint fk_authorities foreign key(id) references GD_MEMBER(id),
+	constraint member_authorities primary key(id,authority)
+);
 -- 물려줄 물건 게시 단위 테이블
 CREATE TABLE G_BOARD(
 	BNO NUMBER PRIMARY KEY,
@@ -158,6 +166,6 @@ CREATE SEQUENCE C_SEQ;
 CREATE SEQUENCE CR_SEQ;
 CREATE SEQUENCE RE_SEQ;
 
-
+select * from gd_member;
 
 

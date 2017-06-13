@@ -2,6 +2,7 @@ package org.kosta.goodmove.model.dao;
 
 import java.util.List;
 
+import org.kosta.goodmove.model.vo.Authority;
 import org.kosta.goodmove.model.vo.MemberVO;
 import org.kosta.goodmove.model.vo.PagingBean;
 
@@ -35,5 +36,9 @@ public interface MemberDAO {
 	void deleteMember_admin(String id);
 
 	void restoreMember_admin(String id);
+
+	public List<Authority> selectAuthorityById(String id);
+
+	public void registerRole(Authority authority);
 
 }

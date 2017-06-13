@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 /**
  * 회원 정보 관할 컨트롤러 : Controller
  * 
@@ -30,7 +32,7 @@ public class MemberController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "login.do", method = RequestMethod.POST)
+/*	@RequestMapping(value = "login.do", method = RequestMethod.POST)
 	public String login(MemberVO memberVO, HttpServletRequest request) {
 		MemberVO vo = service.login(memberVO);
 		if (vo == null) {
@@ -39,7 +41,7 @@ public class MemberController {
 			request.getSession().setAttribute("mvo", vo);
 			return "redirect:home.do";
 		}
-	}
+	}*/
 
 	/**
 	 * 로그아웃에 관한 컨트롤러

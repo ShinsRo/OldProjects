@@ -1,32 +1,52 @@
 package org.kosta.goodmove.model.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.kosta.goodmove.model.dao.MemberDAO;
+import org.kosta.goodmove.model.vo.Authority;
 import org.kosta.goodmove.model.vo.MemberListVO;
 import org.kosta.goodmove.model.vo.MemberVO;
 import org.kosta.goodmove.model.vo.PagingBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MemberServiceImpl implements MemberService {
 	@Resource
 	private MemberDAO memberDAO;
-
+	@Resource
+	private BCryptPasswordEncoder passwordEncoder; 
+	
+	
 	@Override
 	public MemberVO login(MemberVO memberVO) {
 		return memberDAO.login(memberVO);
 	}
-
+	@Transactional
 	@Override
 	public void register(MemberVO vo) {
+		// 비밀번호를 bcrypt 알고리듬으로 암호화하여 DB에 저장한다
+        String encodedPwd = passwordEncoder.encode(vo.getPassword());
+        vo.setPassword(encodedPwd);
 		memberDAO.register(vo);
+        //회원 가입시 반드시 권한이 등록되도록 트랜잭션처리를 한다  
+		Authority authority=new Authority(vo.getId(),"ROLE_MEMBER");
+		memberDAO.registerRole(authority);
 	}
 
 	@Override
 	public int idcheck(String id) {
 		return memberDAO.idcheck(id);
 	}
+	
+	@Override
+	public List<Authority> selectAuthorityById(String id) {		
+		return memberDAO.selectAuthorityById(id);
+	}
+	
 
 	@Override
 	public MemberVO findMemberById(String id) {
