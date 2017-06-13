@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kosta.goodmove.model.vo.ApplicationVO;
+import org.kosta.goodmove.model.vo.DeliveryMatchVO;
 import org.kosta.goodmove.model.vo.DeliveryVO;
 import org.kosta.goodmove.model.vo.MemberVO;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,4 +37,6 @@ public interface DeliveryService {
 	void registerDeliveryMatch(String bno, String aid, String did);
 
 	public int countDelivery_admin();
+
+	List<DeliveryMatchVO> findDeliveryMatchByDid(String did);
 }

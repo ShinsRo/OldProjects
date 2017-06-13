@@ -3,6 +3,7 @@ package org.kosta.goodmove.model.dao;
 import java.util.List;
 
 import org.kosta.goodmove.model.vo.ApplicationVO;
+import org.kosta.goodmove.model.vo.DeliveryMatchVO;
 import org.kosta.goodmove.model.vo.DeliveryVO;
 import org.kosta.goodmove.model.vo.MemberVO;
 
@@ -33,4 +34,6 @@ public interface DeliveryDAO {
 	void confirmDelivery(String id);
 	
 	void registerDeliveryMatch(String bno,String aid,String did);
+
+	List<DeliveryMatchVO> findDeliveryMatchByDid(String did);
 }

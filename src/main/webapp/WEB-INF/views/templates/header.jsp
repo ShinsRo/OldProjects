@@ -84,6 +84,7 @@
 									<c:choose>
 										<c:when test="${sessionScope.dvo.is_confirmed == 'YES'}">
 											<li><a href="${pageContext.request.contextPath}/getAllDeliveryList.do">용달 대기 신청</a></li>
+											<li><a href="${pageContext.request.contextPath}/getDeliveryListByDid.do">나의 배송 관리</a></li>
 										</c:when>
 										<c:otherwise>
 											<li><a>제휴 승인 대기중입니다.</a></li>

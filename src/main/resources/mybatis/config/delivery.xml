@@ -65,6 +65,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="countDelivery" resultType="int">
 		select count(*) from delivery where is_confirmed='NO' and is_deleted='NO'
 	</select>
+	<select id="findDeliveryMatchByDid" parameterType="string" resultType="deliveryMatchVO">
+		SELECT bno,aid,state
+		FROM delivery_match
+		WHERE did=#{value}
+	</select>
 </mapper>
  
  

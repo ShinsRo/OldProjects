@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.kosta.goodmove.model.vo.ApplicationVO;
+import org.kosta.goodmove.model.vo.DeliveryMatchVO;
 import org.kosta.goodmove.model.vo.DeliveryVO;
 import org.kosta.goodmove.model.vo.MemberVO;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -84,5 +85,8 @@ public class DeliveryDAOImpl implements DeliveryDAO {
 		dmMap.put("did", did);
 		template.insert("delivery.registerDeliveryMatch", dmMap);
 	}
-
+	@Override
+	public List<DeliveryMatchVO> findDeliveryMatchByDid(String did){
+		return template.selectList("delivery.findDeliveryMatchByDid", did);
+	}
 }
