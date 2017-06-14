@@ -12,7 +12,13 @@
 					<div class="col-sm-12">
 						<h1 class="title">Q&amp;A</h1>
 						<p>
-							<br>Q&amp;A
+							<br> 질문 사항이 있으면 남겨주세요! 관리자가 확인 후 답변 드리겠습니다.(≖ᴗ≖✿)
+									<span style="float:right">
+		<c:if test="${sessionScope.mvo.id != null }">
+			<input  class="btn btn-info" type="button" value="글쓰기"
+				onclick="javascript:location.href='${pageContext.request.contextPath}/registerQuestionView.do'">
+		</c:if>
+	</span>
 						</p>
 					</div>
 				</div>
@@ -42,9 +48,9 @@
 							<td>
 							<c:if test="${qvo.re_lev > 1}">
 								<c:forEach begin="1" end="${qvo.re_lev}">
-								&nbsp;&nbsp; <!-- 답변글일경우 글 제목 앞에 공백을 준다. -->
+								&nbsp;&nbsp;
 								</c:forEach>
-								RE : 
+								<img class="reply_icon" src="${pageContext.request.contextPath}/resources/img/reply_icon.png" width="20">
 							</c:if>
 							<img src="${pageContext.request.contextPath}/resources/img/secret.png" style="width:20px">&nbsp;&nbsp;<a
 							href="${pageContext.request.contextPath}/showQuestionHit.do?qno=${qvo.qno}">${qvo.title}</a></td>
@@ -55,7 +61,7 @@
 								<c:forEach begin="1" end="${qvo.re_lev}">
 								&nbsp;&nbsp; <!-- 답변글일경우 글 제목 앞에 공백을 준다. -->
 								</c:forEach>
-								RE : 
+								<img class="reply_icon" src="${pageContext.request.contextPath}/resources/img/reply_icon.png" width="20">
 							</c:if>
 							<img src="${pageContext.request.contextPath}/resources/img/secret.png" style="width:20px">&nbsp;&nbsp;<a
 							href="${pageContext.request.contextPath}/showQuestionHit.do?qno=${qvo.qno}">${qvo.title}</a></td>
@@ -66,7 +72,7 @@
 								<c:forEach begin="1" end="${qvo.re_lev}">
 								&nbsp;&nbsp; <!-- 답변글일경우 글 제목 앞에 공백을 준다. -->
 								</c:forEach>
-								RE : 
+								<img class="reply_icon" src="${pageContext.request.contextPath}/resources/img/reply_icon.png" width="20"> 
 							</c:if>
 							<img src="${pageContext.request.contextPath}/resources/img/secret.png" style="width:20px">&nbsp;&nbsp;${qvo.title}</td>
 						</c:when>
@@ -75,7 +81,7 @@
 								<c:forEach begin="1" end="${qvo.re_lev}">
 								&nbsp;&nbsp; <!-- 답변글일경우 글 제목 앞에 공백을 준다. -->
 								</c:forEach>
-								RE : 
+								<img class="reply_icon" src="${pageContext.request.contextPath}/resources/img/reply_icon.png" width="20">
 							</c:if>
 							<a
 							href="${pageContext.request.contextPath}/showQuestionHit.do?qno=${qvo.qno}">${qvo.title}</a></td>
@@ -90,7 +96,6 @@
 		</tbody> 
 	</table>
 	<br></br>
-
 	<div class="portfolio-pagination">
 		<ul class="pagination">
 			<c:set var="pb" value="${requestScope.lvo.pagingBean}"></c:set>
@@ -131,10 +136,5 @@
 	</div>
 
 	<br> <br>
-	<span style="float:right">
-		<c:if test="${sessionScope.mvo.id != null }">
-			<input  class="btn btn-info" type="button" value="글쓰기"
-				onclick="javascript:location.href='${pageContext.request.contextPath}/registerQuestionView.do'">
-		</c:if>
-	</span>
+
 </div>
