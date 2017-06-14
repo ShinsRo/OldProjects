@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-1.12.4.min.js"></script>
 
 <script type="text/javascript">
@@ -51,15 +52,9 @@
 				<tr>
 				<td><input type="checkbox" name="check" id="check" value="${cvo.cno}"></td>
 					<td>${cvo.cno }</td>
-					<td><c:choose>
-							<c:when test="${sessionScope.mvo!=null}">
-								<a
-									href="${pageContext.request.contextPath}/showComment_admin.do?cno=${cvo.cno }">${cvo.title }</a>
-							</c:when>
-							<c:otherwise>
-					${cvo.title }
-					</c:otherwise>
-						</c:choose></td>
+					<td>
+						<a href="${pageContext.request.contextPath}/showComment_admin.do?cno=${cvo.cno }">${cvo.title }</a>
+					</td>
 					<td>${cvo.id }</td>
 					<td>${cvo.time_posted }</td>
 					<td>${cvo.hit }</td>
@@ -112,8 +107,8 @@
 
 	<br> <br>
 	<span style="float:right">
-		<c:if test="${sessionScope.mvo.id != null }">
+		<sec:authorize ifAnyGranted="ROLE_ADMIN">
 			<input  class="btn btn-info" type="button" id="deleteCheck" value="선택삭제">
-		</c:if>
+		</sec:authorize>
 	</span>
 </div>

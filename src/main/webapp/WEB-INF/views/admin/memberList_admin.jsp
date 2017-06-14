@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <script type="text/javascript">
 /* 	function updateMember(){
 		if(confirm("수정하시겠습니까?")){
@@ -43,12 +44,11 @@
 			<tr>
 				<th class="id">아이디</th>
 				<th class="name">이름</th>
-				<th class="password">비밀번호</th>
 				<th class="addr">주소</th>
 				<th class="addr_detail">상세주소</th>
 				<th class="tel">전화번호</th>
 				<th class="job">직업</th>
-				<th class="deletemember">활동회원여부</th>
+				<th class="enabled">활동회원여부</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -56,15 +56,22 @@
 				<tr>
 					<td><input type="hidden" id="mem_id" value="${cvo.id}">${cvo.id}</td>
 					<td>${cvo.name}</td>
-					<td>${cvo.password}</td>
 					<td>${cvo.addr }</td>
 					<td>${cvo.addr_detail}</td>
 					<td>${cvo.tel}</td>
 					<td>${cvo.job}</td>
-					<td>${cvo.deletemember}</td>
+					<c:choose>
+					<c:when test="${cvo.enabled==0}">
+					<td>탈퇴,삭제된 회원</td>
+					</c:when>
+					<c:otherwise>
+					<td>활동중인 회원</td>
+					</c:otherwise>
+					</c:choose>
+					<%-- <td>${cvo.enabled}</td> --%>
 					<td><a href="updateMember_admin.do?id=${cvo.id}">수정</a>
 					<td><a href="deleteMember_admin.do?id=${cvo.id}">삭제</a>
-					<c:if test="${cvo.deletemember ==false}">
+					<c:if test="${cvo.enabled ==0}">
 					<td><a href="restoreMember_admin.do?id=${cvo.id}">복구</a>
 					</c:if>
  				</tr>

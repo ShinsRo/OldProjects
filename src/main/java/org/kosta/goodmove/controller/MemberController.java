@@ -229,7 +229,7 @@ public class MemberController {
 	 * @param model
 	 * @return
 	 */
-	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
+	@Secured("ROLE_ADMIN")
 	@RequestMapping("getMemberList_admin.do")
 	public String getMemberList_admin(Model model, int pageNo ) {
 		model.addAttribute("lvo", service.getMemberList_admin(pageNo));
@@ -243,7 +243,7 @@ public class MemberController {
 	 * @param model
 	 * @return
 	 */
-	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
+	@Secured("ROLE_ADMIN")
 	@RequestMapping("deleteMember_admin.do")
 	public String deleteMember_admin(String id, Model model) {
 		service.deleteMember_admin(id);
@@ -258,7 +258,7 @@ public class MemberController {
 	 * @param model
 	 * @return
 	 */
-	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
+	@Secured("ROLE_ADMIN")
 	@RequestMapping("restoreMember_admin.do")
 	public String restoreMember_admin(String id, Model model){
 		service.restoreMember_admin(id);
@@ -267,7 +267,7 @@ public class MemberController {
 		System.out.println("삭제완료!");
 		return "admin/memberList_admin.tiles2";
 	}
-	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
+	@Secured("ROLE_ADMIN")
 	@RequestMapping("updateMember_admin.do")
 	public String updateMember_admin(String id, Model model) {
 		model.addAttribute("mvo", service.findMemberById(id));
@@ -282,10 +282,12 @@ public class MemberController {
 	 * @param tel3
 	 * @return
 	 */
-	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
+	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = "updateMember_admin.do", method = RequestMethod.POST)
 	public String updateMember_admin(Model model, MemberVO memberVO, String tel1, String tel2, String tel3) {
 		memberVO.setTel(tel1 + tel2 + tel3);
+		String encodePassword = passwordEncoder.encode(memberVO.getPassword());
+		memberVO.setPassword(encodePassword);
 		service.updateMember(memberVO);
 		int pageNo = 1;
 		model.addAttribute("lvo", service.getMemberList_admin(pageNo));

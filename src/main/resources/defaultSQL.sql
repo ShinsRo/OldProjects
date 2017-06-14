@@ -38,11 +38,13 @@ create table authorities(
 	constraint fk_authorities foreign key(id) references GD_MEMBER(id),
 	constraint member_authorities primary key(id,authority)
 );
-
+select * from gd_member;
+select * from loc_comment;
+select * from LOC_COMMENT_REPLY;
 --관리자 DB 주입
 INSERT INTO GD_MEMBER(ID,NAME,PASSWORD,ADDR,ADDR_DETAIL,TEL,JOB,ENABLED,IS_CONFIRMED)
 VALUES('admin','임진우','1234','경기도 광주시 회덕길','상세주소','01012341234','코스타',1,'NO');
-INSERT INTO authorities(ID,AUTHORITY) VALUES('admin','ROLE_ADMIN');
+INSERT INTO authorities(ID,AUTHORITY) VALUES('eeee','ROLE_ADMIN');
 select * from GD_MEMBER;
 select * from authorities;
 select * from LOC_COMMENT;

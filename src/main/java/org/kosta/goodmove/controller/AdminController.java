@@ -68,7 +68,7 @@ public class AdminController {
 	 * @param cno
 	 * @param model
 	 */
-	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
+	@Secured("ROLE_ADMIN")
 	@RequestMapping("showComment_admin.do")
 	public String showCommentAdmin(String cno, Model model) {
 		int clno = Integer.parseInt(cno);
@@ -109,29 +109,14 @@ public class AdminController {
 	 * @param cvo
 	 * @return
 	 */
-	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
+	@Secured("ROLE_ADMIN")
 	@RequestMapping("commentUpdate_admin.do")
-	public ModelAndView commentUpdateAdmin(CommentVO cvo) {
+	public String commentUpdateAdmin(CommentVO cvo, Model model) {
 		commentService.updateBoard(cvo);
-		return new ModelAndView("admin/commentDetail_admin.tiles2", "cvo",
-				commentService.showCommentNoHit(Integer.parseInt(cvo.getCno())));
-	}
-
-	/**
-	 * 관리자모드에서 댓글 삭제
-	 * 
-	 * @param rno
-	 * @param cno
-	 * @return
-	 */
-	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
-	@RequestMapping("deleteCommentReply_admin.do")
-	public String deleteCommentReplyAdmin(int rno, int cno) {
-		CommentReplyVO crvo = commentService.getCommentReplyInfoByRNO(rno);
-		commentService.deleteCommentReply(rno);
-		if (crvo.getParent() == 0)
-			commentService.deleteCommentReplyChild(crvo.getGno());
-		return "redirect:showCommentNoHit_admin.do?cno=" + cno;
+		int clno = Integer.parseInt(cvo.getCno());
+		model.addAttribute("cvo", commentService.showCommentNoHit(clno));
+		model.addAttribute("CommentReplyList", commentService.getAllCommentReplyList(clno));
+		return "admin/commentDetail_admin.tiles2";
 	}
 
 	/**
@@ -141,7 +126,7 @@ public class AdminController {
 	 * @param model
 	 * @return
 	 */
-	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
+	@Secured("ROLE_ADMIN")
 	@RequestMapping("showCommentNoHit_admin.do")
 	public String showCommentNoHitAdmin(String cno, Model model) {
 		int clno = Integer.parseInt(cno);
@@ -149,22 +134,77 @@ public class AdminController {
 		model.addAttribute("cvo", commentService.showCommentNoHit(Integer.parseInt(cno)));
 		return "admin/commentDetail_admin.tiles2";
 	}
+	/**
+	 * 관리자가 댓글 달기
+	 * 
+	 * @param crvo
+	 * @return
+	 */
+	@Secured("ROLE_ADMIN")
+	@RequestMapping("writeCommentReply1_admin.do")
+	public String writeCommentReply1(CommentReplyVO crvo) {
+		int rno = commentService.getNextReplyNo();
+		int gno = rno;
+		commentService.insertNewCommentReply(new CommentReplyVO(rno, crvo.getCno(), crvo.getId(), crvo.getName(),
+				crvo.getParent(), crvo.getContent(), gno, crvo.getdepth(), crvo.getOrder_no()));
+		return "redirect:showCommentNoHit_admin.do?cno=" + crvo.getCno();
+	}
+	
+	/**
+	 * 대댓글
+	 * 
+	 * @param crvo
+	 * @return
+	 */
+	@Secured("ROLE_ADMIN")
+	@RequestMapping("writeCommentReply2_admin.do")
+	public String writeCommentReply(CommentReplyVO crvo) {
+		int rno = commentService.getNextReplyNo();
+		crvo.setGno(crvo.getParent());
+		CommentReplyVO pvo = commentService.getParentInfo(crvo.getParent());
+		if (commentService.getParentsParentId(crvo.getParent()) != 0) {
+			crvo.setParent(commentService.getParentsParentId(crvo.getParent()));
+			crvo.setGno(crvo.getParent());
+		}
+		commentService.insertNewCommentReply(new CommentReplyVO(rno, crvo.getCno(), crvo.getId(), crvo.getName(),
+				crvo.getParent(), crvo.getContent(), crvo.getGno(), pvo.getdepth(), pvo.getOrder_no()));
+		return "redirect:showCommentNoHit_admin.do?cno=" + crvo.getCno();
+	}
+	
+	
+	/**
+	 * 관리자가 댓글삭제
+	 * 
+	 * @param rno
+	 * @param cno
+	 * @return
+	 */
+	@Secured("ROLE_ADMIN")
+	@RequestMapping("deleteCommentReply_admin.do")
+	public String deleteCommentReply(int rno, int cno) {
+		CommentReplyVO crvo = commentService.getCommentReplyInfoByRNO(rno);
+		commentService.deleteCommentReply(rno);
+		if (crvo.getParent() == 0)
+			commentService.deleteCommentReplyChild(crvo.getGno());
+		return "redirect:showCommentNoHit_admin.do?cno=" + cno;
+	}
 
 	/**
-	 * 관리자모드에서 댓글 업데이트
+	 * 관리자가 댓글 수정
 	 * 
 	 * @param cno
 	 * @param rno
-	 * @param rememo
+	 * @param content
 	 * @return
 	 */
-	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
+	@Secured("ROLE_ADMIN")
 	@RequestMapping("updateCommentReply_admin.do")
-	public String updateCommentReplyAdmin(int cno, int rno, String rememo) {
-		CommentReplyVO crvo = new CommentReplyVO(rno, rememo);
+	public String updateCommentReply(int cno, int rno, String content) {
+		CommentReplyVO crvo = new CommentReplyVO(rno, content);
 		commentService.updateCommentReply(crvo);
 		return "redirect:showCommentNoHit_admin.do?&cno=" + cno;
 	}
+
 
 	/**
 	 * 관리자 상품리스트 반환

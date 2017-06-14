@@ -82,10 +82,12 @@ public class CommentController {
 	 * @return 이동될 화면의 경로, 조회수를 증가하지 않고 받아온 검색결과vo
 	 */
 	@RequestMapping("commentUpdate.do")
-	public ModelAndView commentUpdate(CommentVO cvo) {
+	public String commentUpdate(CommentVO cvo,Model model) {
 		commentService.updateBoard(cvo);
-		return new ModelAndView("comment/commentDetail.tiles", "cvo",
-				commentService.showCommentNoHit(Integer.parseInt(cvo.getCno())));
+		int clno = Integer.parseInt(cvo.getCno());
+		model.addAttribute("cvo", commentService.showCommentNoHit(clno));
+		model.addAttribute("CommentReplyList", commentService.getAllCommentReplyList(clno));
+		return "comment/commentDetail.tiles";
 	}
 
 	/**
