@@ -60,8 +60,10 @@
 						<tr>
 							<td>${list.bno}</td><td>${list.pnos}</td>
 							<td id = "id">${list.id}</td><td>${list.is_done}</td>
-							<td><input type="button" id="select_delivery_btn" class="btn btn-sm btn-info" 
-							value="접수" onclick="match_Delivery(${list.bno},'${list.id}', '${mvo.id})"></td>
+							<td>
+							<input type="button" id="select_delivery_btn" class="btn btn-sm btn-info" 
+							value="접수" onclick="match_Delivery(${list.bno},'${list.id}', '${mvo.id}')">
+							</td>
 							<td><input type="button" id="select_delivery_btn" class="btn btn-sm btn-info" 
 							value="상세 정보" onclick="getDetail('${list.id}',${list.bno})"></td>
 						</tr>

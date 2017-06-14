@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%> 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%>
 <c:set var="bvo" value="${requestScope.bvo}"></c:set>
 <script>
 	$(document).ready(function(){
@@ -123,10 +124,10 @@
 		</div>
 		<div class = "row">
 			<div align = "center">
-				<c:if test="${mvo.id == 'admin' }">
+				<sec:authorize ifAnyGranted="ROLE_ADMIN">
 					<button class = "btn btn-danger"
 					onclick = "javascript:location.href='${pageContext.request.contextPath}/boardDelete_admin.do?bno=${ bvo.bno}'">삭제</button>
-				</c:if>
+				</sec:authorize>
 				<button class = "btn btn-info"
 				onclick = "javascript:location.href='${pageContext.request.contextPath}/getBoardList_admin.do'">목록</button> 
 			</div>

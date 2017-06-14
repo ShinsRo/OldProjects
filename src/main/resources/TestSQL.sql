@@ -153,3 +153,5 @@ select a.bno,a.pnos,a.is_done,a.id,a.is_selected,m.state
 		and m.state is NULL
 		
 		select * from APPLICATION
+		
+		
