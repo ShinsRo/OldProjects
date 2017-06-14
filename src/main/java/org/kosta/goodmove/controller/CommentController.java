@@ -2,7 +2,6 @@ package org.kosta.goodmove.controller;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.kosta.goodmove.model.service.CommentService;
 import org.kosta.goodmove.model.service.SearchService;
@@ -10,6 +9,7 @@ import org.kosta.goodmove.model.vo.CommentReplyVO;
 import org.kosta.goodmove.model.vo.CommentVO;
 import org.kosta.goodmove.model.vo.MemberVO;
 import org.kosta.goodmove.model.vo.SearchVO;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +28,7 @@ public class CommentController {
 	private CommentService commentService;
 	@Resource
 	private SearchService searchService;
+
 	/**
 	 * 지역후기 리스트를 받아오는 메서드
 	 * 
@@ -37,12 +38,12 @@ public class CommentController {
 	 * @return 이동될 화면의 경로
 	 */
 	@RequestMapping("getCommentList.do")
-	public String getCommentList(String pageNo, String id, Model model){
-		if(id!=null){
-			SearchVO svo = new SearchVO("comment","id",id);
+	public String getCommentList(String pageNo, String id, Model model) {
+		if (id != null) {
+			SearchVO svo = new SearchVO("comment", "id", id);
 			pageNo = "1";
-			model.addAttribute("lvo",searchService.searchComment(svo, pageNo));
-		}else{
+			model.addAttribute("lvo", searchService.searchComment(svo, pageNo));
+		} else {
 			model.addAttribute("lvo", commentService.getCommentList(pageNo));
 		}
 		return "comment/commentList.tiles";
@@ -94,19 +95,14 @@ public class CommentController {
 	 */
 	@RequestMapping("commentRegisterView.do")
 	public String commentRehisterView(HttpServletRequest request, Model model) {
-		HttpSession session = request.getSession(false);
-		if (session != null) {
-			MemberVO mvo = (MemberVO) session.getAttribute("mvo");
-			if (mvo != null) {
-				String add = mvo.getAddr();
-				if(add.lastIndexOf("길")>0){
-					model.addAttribute("add", add.substring(0,add.lastIndexOf("길")+1));
-				}else if(add.lastIndexOf("로")<0 && add.lastIndexOf("길")>0){
-					model.addAttribute("add", add.substring(0,add.lastIndexOf("로")+1));
-				}else{
-					model.addAttribute("add", add);
-				}
-			}
+		MemberVO mvo = (MemberVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String add = mvo.getAddr();
+		if (add.lastIndexOf("길") > 0) {
+			model.addAttribute("add", add.substring(0, add.lastIndexOf("길") + 1));
+		} else if (add.lastIndexOf("로") < 0 && add.lastIndexOf("길") > 0) {
+			model.addAttribute("add", add.substring(0, add.lastIndexOf("로") + 1));
+		} else {
+			model.addAttribute("add", add);
 		}
 		return "comment/commentRegister.tiles";
 	}
@@ -122,14 +118,9 @@ public class CommentController {
 	 */
 	@RequestMapping(value = "commentRegister.do", method = RequestMethod.POST)
 	public ModelAndView write(String addr, HttpServletRequest request, CommentVO cvo) {
-		HttpSession session = request.getSession(false);
-		if (session != null) {
-			MemberVO mvo = (MemberVO) session.getAttribute("mvo");
-			if (mvo != null) {
-				cvo.setId(mvo.getId());
-				cvo.setAddr(addr);
-			}
-		}
+		MemberVO mvo = (MemberVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		cvo.setId(mvo.getId());
+		cvo.setAddr(addr);
 		commentService.commentRegister(cvo);
 		return new ModelAndView("redirect:showCommentNoHit.do?cno=" + cvo.getCno());
 	}
@@ -151,6 +142,7 @@ public class CommentController {
 
 	/**
 	 * 지역후기 삭제
+	 * 
 	 * @param cno
 	 * @return
 	 */
@@ -159,8 +151,10 @@ public class CommentController {
 		commentService.deleteComment(cno);
 		return new ModelAndView("comment/commentList.tiles", "lvo", commentService.getCommentList());
 	}
+
 	/**
 	 * 댓글
+	 * 
 	 * @param crvo
 	 * @return
 	 */
@@ -168,12 +162,14 @@ public class CommentController {
 	public String writeCommentReply1(CommentReplyVO crvo) {
 		int rno = commentService.getNextReplyNo();
 		int gno = rno;
-		commentService.insertNewCommentReply(new CommentReplyVO(rno, crvo.getCno(), crvo.getId(), crvo.getName(), crvo.getParent(), crvo.getContent(), gno, crvo.getdepth(), crvo.getOrder_no()));
+		commentService.insertNewCommentReply(new CommentReplyVO(rno, crvo.getCno(), crvo.getId(), crvo.getName(),
+				crvo.getParent(), crvo.getContent(), gno, crvo.getdepth(), crvo.getOrder_no()));
 		return "redirect:showCommentNoHit.do?cno=" + crvo.getCno();
 	}
 
 	/**
 	 * 대댓글
+	 * 
 	 * @param crvo
 	 * @return
 	 */
@@ -185,13 +181,15 @@ public class CommentController {
 		if (commentService.getParentsParentId(crvo.getParent()) != 0) {
 			crvo.setParent(commentService.getParentsParentId(crvo.getParent()));
 			crvo.setGno(crvo.getParent());
-			}
-		commentService.insertNewCommentReply(new CommentReplyVO(rno, crvo.getCno(), crvo.getId(), crvo.getName(), crvo.getParent(), crvo.getContent(), crvo.getGno(), pvo.getdepth(), pvo.getOrder_no()));
+		}
+		commentService.insertNewCommentReply(new CommentReplyVO(rno, crvo.getCno(), crvo.getId(), crvo.getName(),
+				crvo.getParent(), crvo.getContent(), crvo.getGno(), pvo.getdepth(), pvo.getOrder_no()));
 		return "redirect:showCommentNoHit.do?cno=" + crvo.getCno();
 	}
 
 	/**
 	 * 댓글삭제
+	 * 
 	 * @param rno
 	 * @param cno
 	 * @return
@@ -200,13 +198,14 @@ public class CommentController {
 	public String deleteCommentReply(int rno, int cno) {
 		CommentReplyVO crvo = commentService.getCommentReplyInfoByRNO(rno);
 		commentService.deleteCommentReply(rno);
-		if(crvo.getParent()==0)
-		commentService.deleteCommentReplyChild(crvo.getGno());
+		if (crvo.getParent() == 0)
+			commentService.deleteCommentReplyChild(crvo.getGno());
 		return "redirect:showCommentNoHit.do?cno=" + cno;
 	}
 
 	/**
 	 * 댓글 수정
+	 * 
 	 * @param cno
 	 * @param rno
 	 * @param content
@@ -218,16 +217,17 @@ public class CommentController {
 		commentService.updateCommentReply(crvo);
 		return "redirect:showCommentNoHit.do?&cno=" + cno;
 	}
-	
+
 	/**
 	 * 아이디 이용하여 내가작성한 지역후기 리스트 반환
+	 * 
 	 * @param id
 	 * @param pageNo
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping("findCommentListById.do")
-	public String findCommentById(String id, String pageNo, Model model ){
+	public String findCommentById(String id, String pageNo, Model model) {
 		model.addAttribute("lvo", commentService.findCommentListById(id, pageNo));
 		return "comment/commentList.tiles";
 	}

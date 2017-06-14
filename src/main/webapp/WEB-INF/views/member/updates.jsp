@@ -112,7 +112,7 @@
 	</div>
 </section>
 <!--배너 타이틀-->
- <sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN">
+ <sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DEL">
 <section>
 	<div class="container">
 		<div class="row">
@@ -124,9 +124,9 @@
 						<input type="text" readonly="readonly" name="id" placeholder="아이디"
 							id="id" value="<sec:authentication property="principal.id"/>"><br> <input
 							id="pass1" name="password" type="password" placeholder="비밀번호"
-							value="<sec:authentication property="principal.password"/>" maxlength="11" /><br>
+							value="" maxlength="11" /><br>
 						<input id="pass2" type="password" name="pass2"
-							placeholder="비밀번호확인" value="<sec:authentication property="principal.password"/>"
+							placeholder="비밀번호확인" value=""
 							maxlength="11"><br> <span id="passCheckView"></span><br>
 						<input type="text" name="name" readonly="readonly"
 							placeholder="이름" id="name" value="<sec:authentication property="principal.name"/>"><br>
@@ -134,7 +134,7 @@
 							class="postcodify_postcode5" placeholder="우편번호" /><br> <input
 							id="postcodify_search_button" type="button" value="검색" size="6">
 						<br /> <input id="addr" type="text" name="addr"
-							class="postcodify_address" value="<sec:authentication property="principal.addr "/>"
+							class="postcodify_address" value="<sec:authentication property="principal.addr"/>"
 							readonly="readonly" placeholder="주소" /><br /> <input
 							id="addr_detail" type="text" name="addr_detail"
 							class="postcodify_details"

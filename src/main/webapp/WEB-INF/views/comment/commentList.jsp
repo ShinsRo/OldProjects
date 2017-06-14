@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/resources/_css/dropdown.css">
 <!-- 배너 타이틀 -->
@@ -21,6 +22,7 @@
 	</div>
 </section>
 <!--배너 타이틀-->
+
 <div class="container">
 	<table class="table table-hover" id="commentList">
 		<thead>
@@ -34,16 +36,18 @@
 			</tr>
 		</thead>
 		<tbody>
+		<sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
+		<sec:authentication property="principal.id" var="mvoId"/>
 			<c:forEach items="${requestScope.lvo.list}" var="cvo">
 				<tr>
 					<td>${cvo.cno }</td>
 					<td><c:choose>
-							<c:when test="${sessionScope.mvo!=null}">
+							<c:when test="${mvoId!=null}">
 								<a
 									href="${pageContext.request.contextPath}/showComment.do?cno=${cvo.cno }">${cvo.title }</a>
 							</c:when>
 							<c:otherwise>
-					${cvo.title }
+						${cvo.title }
 					</c:otherwise>
 						</c:choose></td>
 					<td>
@@ -61,7 +65,7 @@
 					<td>${cvo.addr }</td>
 				</tr>
 			</c:forEach>
-
+			</sec:authorize>
 		</tbody>
 	</table>
 	<br></br>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-1.12.4.min.js"></script>
 
 <script type="text/javascript">
@@ -40,6 +41,7 @@
 <!--배너 타이틀-->
 
 <!-- 여기는요 작성폼 -->
+<sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DEL">
 <section id="">
    <form enctype="multipart/form-data" id="write_form"
       name="boardRegForm" method="post" action="${pageContext.request.contextPath}/commentRegister.do">
@@ -54,10 +56,11 @@
             </div>
             <div class="form-group" align="center">
                <input type="text" name="writer"
-                  class="postcodify_address form-control" value="작성자&nbsp;&nbsp;${sessionScope.mvo.name}"
+                  class="postcodify_address form-control" value="작성자&nbsp;&nbsp;
+                  <sec:authentication property="principal.name"/>"
                   readonly="readonly"/>
                   <input type="text" name="addr"
-                  class="postcodify_address form-control" value="${requestScope.add}"
+                  class="postcodify_address form-control" value="${requestScope.add}" readonly="readonly"
                   />
             </div>
             <div class="form-group" align="center">
@@ -73,4 +76,5 @@
       </div>
    </form>
 </section>
+</sec:authorize>
 <!-- 여기는요 작성폼 -->
