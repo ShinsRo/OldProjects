@@ -15,6 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM
 			(
 				SELECT LEVEL as re_lev,qno,title,hit,
+				to_char(time_posted,'YYYY.MM.DD HH:mm') as
 				time_posted, id,content,is_secret,re_ref,q_parent
 				FROM QUESTION
 				START WITH q_parent=0
