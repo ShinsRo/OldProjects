@@ -43,7 +43,7 @@
                             </li>
                     <sec:authorize ifAnyGranted="ROLE_ADMIN">
 	                        <li><a href="${pageContext.request.contextPath }/admin.do">관리자페이지</a></li>
-                        </sec:authorize>
+                    </sec:authorize>
                         <li class="active"><a href="${pageContext.request.contextPath}/home.do">Home</a></li>
                          <li class="dropdown"><a href="">드려요<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">

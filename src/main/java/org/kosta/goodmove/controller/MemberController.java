@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.kosta.goodmove.model.service.MemberService;
 import org.kosta.goodmove.model.vo.MemberVO;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -115,16 +116,22 @@ public class MemberController {
 	 */
 	@RequestMapping(value = "updateMember.do", method = RequestMethod.POST)
 	public String updateMember(HttpServletRequest request, MemberVO memberVO, String tel1, String tel2, String tel3) {
-
-		HttpSession session = request.getSession(false);
-		if (session != null && session.getAttribute("mvo") != null) {
-			session.setAttribute("mvo", memberVO);
-			memberVO.setTel(tel1 + tel2 + tel3);
-			service.updateMember(memberVO);
-			return "member/update_result.tiles";
-		} else {
-			return "home.tiles";
-		}
+		// Spring Security 세션 회원정보를 반환받는다
+		MemberVO pvo = (MemberVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		System.out.println("Spring Security 세션 수정 전 회원정보:" + pvo);
+		//변경할 비밀번호를 암호화한다 
+		String encodePassword=passwordEncoder.encode(memberVO.getPassword());
+		memberVO.setPassword(encodePassword);
+		memberVO.setTel(tel1 + tel2 + tel3);
+		service.updateMember(memberVO);
+		// 수정한 회원정보로 Spring Security 세션 회원정보를 업데이트한다
+		pvo.setPassword(encodePassword);
+		pvo.setAddr(memberVO.getAddr());
+		pvo.setTel(memberVO.getTel());
+		pvo.setAddr_detail(memberVO.getAddr_detail());
+		pvo.setJob(memberVO.getJob());
+		System.out.println("Spring Security 세션 수정 후 회원정보:" + pvo);
+		return "member/update_result.tiles";
 	}
 
 	/**
@@ -149,12 +156,9 @@ public class MemberController {
 	 */
 	@RequestMapping("deleteMember.do")
 	public String deleteMember(HttpServletRequest request, String id, String password) {
-		HttpSession session = request.getSession(false);
-		service.deleteMember(id, password);
-		if (session != null) {
-			session.invalidate();
-		}
-		return "member/delete_result.tiles";
+		MemberVO pvo = (MemberVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		service.deleteMember(id, pvo.getPassword());
+		return "redirect:logout.do";
 	}
 
 	/**

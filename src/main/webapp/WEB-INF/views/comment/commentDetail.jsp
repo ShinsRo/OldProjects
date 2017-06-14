@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%>
 <script type="text/javascript">
 	function sendList(){
 		location.href= "getCommentList.do";
@@ -183,13 +184,17 @@
             </div>
             <div class="form-group" align="center">
 			<input class="btn btn-info" type="button" value="목록" onclick="sendList()" >
-			<c:if test="${requestScope.cvo.id==sessionScope.mvo.id}">
+			<sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
 			 <input class="btn btn-info" type="button" value="수정" onclick="updateComment()">
 			 <input class="btn btn-danger" type="button" value="삭제" onclick="deleteComment()">  
-			 </c:if>
-			<c:if test="${requestScope.cvo.id!=sessionScope.mvo.id}">
+			<input type="hidden" name="securityId" id="securityId" value="<sec:authentication property="principal.id"/>">
+			<sec:authentication property="principal.id" var="mvoId"/>
+			<c:if test="${requestScope.cvo.id != mvoId}">
+			<%-- <sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_DELIBERY"> --%>
 			<input class="btn btn-danger" type="button" value="신고" onclick="reportComment()">
+			<%-- </sec:authorize> --%>
 			</c:if>
+			</sec:authorize>
             </div>
          </div>
       </div>
@@ -198,15 +203,15 @@
 
 <!-- 댓글구간 -->
 <div class="container">
-	<c:if test="${sessionScope.mvo != null}">
+	<sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
 		<div class="replyList" >
 			<div class="form-group" align="center">
 				<form name="replyWriteForm" action="writeCommentReply1.do" method="post">
 					<ul class="nav navbar-nav navbar-default" id="reply_ul">
 						<li><input type="hidden" name="parent" value="0">
 						<input type="hidden" name="cno" value="${requestScope.cvo.cno}">
-						<input type="hidden" name="id" value="${sessionScope.mvo.id}">
-						<input type="hidden" name="name" value="${sessionScope.mvo.name}">
+						<input type="hidden" name="id" value="<sec:authentication property="principal.id"/>">
+						<input type="hidden" name="name" value="<sec:authentication property="principal.name"/>">
 						<input type="hidden" name="gno" value="1">
 						<input type="hidden" name="depth" value="0">
 						<input type="hidden" name="order_no" value="1">
@@ -217,8 +222,10 @@
 				</form>
 			</div>
 		</div>
-	</c:if>
+	</sec:authorize>
 	<!-- 댓글 리스트 -->
+	<sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
+	<sec:authentication property="principal.id" var="mvoId"/>
 	<div class="box_reply">
 	<div class="form-group" align="center">
 		<ul class="cmlist">
@@ -236,11 +243,11 @@
 				 		답글</a></span> 
 						<span class="cmbtn">
 						<c:choose>
-						<c:when test="${sessionScope.mvo.id==reply.id}">
+						<c:when test="${reply.id==mvoId}">
 						<a onclick="fn_replyDelete(${reply.rno },${requestScope.cvo.cno})">삭제</a>
 						<a onclick="fn_replyUpdate(${reply.rno })">수정</a>
 						</c:when>
-						<c:when test="${sessionScope.mvo.id!=reply.id}">
+						<c:when test="${reply.id !=mvoId}">
 						<a onclick="fn_replyReport()">신고</a>
 				 <!-- start modal -->
 				<div class="modal fade" id="replyReport" role="dialog">
@@ -256,7 +263,7 @@
 								<form id="app-form" name="app-form" method="post" action="${pageContext.request.contextPath}/reportReply_admin.do">
 									<div><input type="hidden" name="reno" value="${reply.rno}">
 										<input type="hidden" name="category" value="reply">
-										<input type="hidden" name="reporter" value="${sessionScope.mvo.id}">
+										<input type="hidden" name="reporter" value="<sec:authentication property="principal.id"/>">
 										<input type="hidden" name="cno" value="${requestScope.cvo.cno}">
 										작성자:${reply.id}<br><br>댓글 내용: ${reply.content}
 									</div>
@@ -288,7 +295,9 @@
 		</ul>
 	</div>
 	</div>
+	</sec:authorize>
 	<!--  댓글 수정시 나오는 부분 -->
+	<sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
 	<div id="replyDiv" style="width: 99%; display: none">
 		<form name="replyUpdateForm" action="updateCommentReply.do" method="post">
 			<input type="hidden" name="cno" value="${requestScope.cvo.cno}">
@@ -304,21 +313,22 @@
 		<form name="form3" action="writeCommentReply2.do" method="post">
 			<input type="hidden" name="cno" value="<c:out value="${requestScope.cvo.cno}"/>"> 
 			<input type="hidden" name="parent">
-			<input type="hidden" name="id" value="${sessionScope.mvo.id}">
-			<input type="hidden" name="name" value="${sessionScope.mvo.name}">
+			<input type="hidden" name="id" value="<sec:authentication property="principal.id"/>">
+			<input type="hidden" name="name" value="<sec:authentication property="principal.name"/>">
 			<textarea class="reply_field" name="content" rows="3" cols="60" maxlength="500" style="border:solid 1px #D8D8D8;
 			margin-left:10px;"></textarea>
 			<a onclick="fn_replyReplySave()">저장</a>
 			<a onclick="fn_replyReplyCancel()">취소</a>
 		</form>
 	</div>
+	</sec:authorize>
 </div>
-
 
 
 
 <!-- comment 신고modal -->
 <!-- start modal -->
+<sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_DELIBERY">
 <div class="modal fade" id="reportComment" role="dialog">
 	<div class="modal-dialog">
 		<!-- Modal content-->
@@ -332,7 +342,7 @@
 								<form id="app-form" name="app-form" method="post" action="${pageContext.request.contextPath}/reportComment_admin.do">
 									<div><input type="hidden" name="reno" value="${requestScope.cvo.cno}">
 										<input type="hidden" name="category" value="comment">
-										<input type="hidden" name="reporter" value="${sessionScope.mvo.id}">
+										<input type="hidden" name="reporter" value="<sec:authentication property="principal.id"/>">
 										작성자:${requestScope.cvo.id}<br><br>후기 내용: ${requestScope.cvo.content}
 									</div>
 									<div class="form-group">
@@ -349,4 +359,5 @@
 						</div>
 					</div>
 				</div>
+				</sec:authorize>
 				<!-- end of modal -->
