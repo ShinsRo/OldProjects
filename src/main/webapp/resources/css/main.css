@@ -10,7 +10,7 @@
   @import url(http://fonts.googleapis.com/css?family=Lato:100,300,400,700);
   @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700);
   @import url(http://fonts.googleapis.com/css?family=Noto+Sans:400,700);
-
+	
   body {
     background: #fff;
     font-family: 'Lato', sans-serif;
@@ -159,7 +159,8 @@
     background: rgba(210, 153, 72, 0.7);
   }
 
-
+	img .Image { max-width: 100%;}
+	div #ImageContainer { width: 600px; }
 /*************************
 *******Header******
 **************************/
@@ -1910,8 +1911,8 @@ span.stButton_gradient,
 }
 
 .post-comment{
-  padding-left: 70px;
-  padding-top: 36px;
+  padding-left: 5px;
+  padding-top: 15px;
   border-top: 1px solid #f1e8dd;
 }
 
@@ -1945,7 +1946,7 @@ span.stButton_gradient,
 }
 
 .parrent .media-list{
-  margin-left: 190px;
+  margin-left: 20px;
 }
 
 .parrent .post-comment{

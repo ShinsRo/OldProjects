@@ -30,4 +30,6 @@ public interface CommentService {
 	public void deleteCommentReplyChild(int gno);
 	public CommentListVO findCommentListById(String id, String pageNo);
 	public CommentReplyVO showReply(int reno);
+	public String getPicNo();
+	public void stackImg(String img_path, String picNo);
 }

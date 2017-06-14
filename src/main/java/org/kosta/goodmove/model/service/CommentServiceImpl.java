@@ -195,4 +195,14 @@ public class CommentServiceImpl implements CommentService{
 		return commentDAO.showReply(reno);
 	}
 
+	@Override
+	public String getPicNo() {
+		return commentDAO.getPicNo();
+	}
+
+	@Override
+	public void stackImg(String img_path, String picNo) {
+		commentDAO.stackImg(img_path, picNo);
+	}
+
 }
