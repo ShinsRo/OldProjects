@@ -41,12 +41,8 @@ public class QuestionController {
 		HttpSession session = request.getSession(false);
 		MemberVO mvo = (MemberVO) session.getAttribute("mvo");
 		qvo.setId(mvo.getId());
-		if(qvo.getIs_secret()==null){ // 비밀글 안했을 때
-			qvo.setIs_secret("0");
-		}
 		service.registerQuestion(qvo);
-		String qno = qvo.getId();
-		return "redirect:showQuestionNoHit.do?qno="+qno;
+		return "redirect:showQuestionNoHit.do?qno="+qvo.getQno();
 	}
 	/**
 	 * 
@@ -89,5 +85,24 @@ public class QuestionController {
 	public String deleteQuestion(String qno){
 		service.deleteQuestion(Integer.parseInt(qno));
 		return "redirect:getQuestionList.do";
+	}
+	@RequestMapping("registerAnswerView.do")
+	public String registerAnswerView(String qno,Model model){
+		model.addAttribute("qno", qno);
+		return "QandA/answerRegister.tiles";
+	}
+	@RequestMapping("registerQuestionAnswer.do")
+	public String registerAnswer(QuestionVO qvo, HttpServletRequest request,String qno){
+		HttpSession session = request.getSession(false);
+		MemberVO mvo = (MemberVO) session.getAttribute("mvo");
+		qvo.setId(mvo.getId());
+		qvo.setQ_parent(Integer.parseInt(qno)); //부모글 
+		int ref = service.getParentReRef(Integer.parseInt(qno));
+		if(qvo.getQ_parent() == 0){
+			ref = Integer.parseInt(qvo.getQno());
+		}
+		qvo.setRe_ref(ref);
+		service.registerAnswer(qvo);
+		return "redirect:showQuestionNoHit.do?qno="+qvo.getQno();
 	}
 }

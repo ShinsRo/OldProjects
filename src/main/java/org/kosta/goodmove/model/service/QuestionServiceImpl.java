@@ -16,6 +16,9 @@ public class QuestionServiceImpl implements QuestionService {
 	
 	@Override
 	public void registerQuestion(QuestionVO qvo) {
+		if(qvo.getIs_secret()==null){ // 비밀글 안했을 때
+			qvo.setIs_secret("0");
+		}
 		dao.registerQuestion(qvo);
 	}
 
@@ -58,5 +61,24 @@ public class QuestionServiceImpl implements QuestionService {
 	public void updateHit(int qno) {
 		dao.updateHit(qno);
 	}
-	
+	@Override
+	public int getNextQno(){
+		return dao.getNextQno();
+	}
+
+	@Override
+	public void registerAnswer(QuestionVO qvo) {
+		if(qvo.getIs_secret()==null){ // 비밀글 안했을 때
+			qvo.setIs_secret("0");
+		}else{
+			qvo.setIs_secret("1");
+		}
+		dao.registerAnswer(qvo);
+	}
+
+	@Override
+	public int getParentReRef(int qno) {
+		return dao.getParentReRef(qno);
+	}
+
 }

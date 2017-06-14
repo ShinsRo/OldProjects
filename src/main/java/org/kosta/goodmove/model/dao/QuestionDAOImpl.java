@@ -49,4 +49,17 @@ public class QuestionDAOImpl implements QuestionDAO {
 		template.update("question.updateHit",qno);
 	}
 
+	@Override
+	public int getNextQno() {
+		return template.selectOne("question.getNextQno");
+	}
+
+	@Override
+	public void registerAnswer(QuestionVO qvo) {
+		template.insert("question.registerAnswer", qvo);
+	}
+	@Override
+	public int getParentReRef(int qno){
+		return template.selectOne("question.getParentReRef",qno);
+	}
 }

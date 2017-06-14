@@ -39,18 +39,45 @@
 					<!-- 비밀글 -->
 					<c:choose>
 						<c:when test="${qvo.is_secret == '1' && qvo.id==mvo.id}">
-							<td><img src="${pageContext.request.contextPath}/resources/img/secret.png" style="width:20px"><a
+							<td>
+							<c:if test="${qvo.re_lev > 1}">
+								<c:forEach begin="1" end="${qvo.re_lev}">
+								&nbsp;&nbsp; <!-- 답변글일경우 글 제목 앞에 공백을 준다. -->
+								</c:forEach>
+								RE : 
+							</c:if>
+							<img src="${pageContext.request.contextPath}/resources/img/secret.png" style="width:20px">&nbsp;&nbsp;<a
 							href="${pageContext.request.contextPath}/showQuestionHit.do?qno=${qvo.qno}">${qvo.title}</a></td>
 						</c:when>
 						<c:when test="${qvo.is_secret == '1' && mvo.id == 'admin'}">
-							<td><img src="${pageContext.request.contextPath}/resources/img/secret.png" style="width:20px"><a
+							<td>
+							<c:if test="${qvo.re_lev > 1}">
+								<c:forEach begin="1" end="${qvo.re_lev}">
+								&nbsp;&nbsp; <!-- 답변글일경우 글 제목 앞에 공백을 준다. -->
+								</c:forEach>
+								RE : 
+							</c:if>
+							<img src="${pageContext.request.contextPath}/resources/img/secret.png" style="width:20px">&nbsp;&nbsp;<a
 							href="${pageContext.request.contextPath}/showQuestionHit.do?qno=${qvo.qno}">${qvo.title}</a></td>
 						</c:when>
 						<c:when test="${qvo.is_secret == '1' && qvo.id!=mvo.id}">
-							<td><img src="${pageContext.request.contextPath}/resources/img/secret.png" style="width:20px">${qvo.title}</td>
+							<td>
+							<c:if test="${qvo.re_lev > 1}">
+								<c:forEach begin="1" end="${qvo.re_lev}">
+								&nbsp;&nbsp; <!-- 답변글일경우 글 제목 앞에 공백을 준다. -->
+								</c:forEach>
+								RE : 
+							</c:if>
+							<img src="${pageContext.request.contextPath}/resources/img/secret.png" style="width:20px">&nbsp;&nbsp;${qvo.title}</td>
 						</c:when>
 						<c:otherwise>
-							<td> <a
+							<td><c:if test="${qvo.re_lev > 1}">
+								<c:forEach begin="1" end="${qvo.re_lev}">
+								&nbsp;&nbsp; <!-- 답변글일경우 글 제목 앞에 공백을 준다. -->
+								</c:forEach>
+								RE : 
+							</c:if>
+							<a
 							href="${pageContext.request.contextPath}/showQuestionHit.do?qno=${qvo.qno}">${qvo.title}</a></td>
 						</c:otherwise>
 					</c:choose>

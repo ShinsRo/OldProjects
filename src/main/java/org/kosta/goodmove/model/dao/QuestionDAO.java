@@ -13,4 +13,7 @@ public interface QuestionDAO {
 	int getTotalQuestionCount();
 	public QuestionVO showQuestionDetail(int qno);
 	void updateHit(int qno);
+	int getNextQno();
+	void registerAnswer(QuestionVO qvo);
+	int getParentReRef(int qno);
 }

@@ -49,6 +49,12 @@
 			return;
 		}
  	}
+ 	function replyAnswer() {
+ 		if(confirm("답글을 다시겠습니까?")){
+			location.href ="registerAnswerView.do?qno="+${requestScope.qvo.qno};
+			return;
+		}
+	}
 
 </script>
 
@@ -100,7 +106,7 @@
 					</c:if>
 					<c:if test="${sessionScope.mvo.id == 'admin'}">
 						<input class="btn btn-danger" type="button" value="답글"
-							onclick="alert('답글')">
+							onclick="replyAnswer()">
 					</c:if>
 				</div>
 			</div>

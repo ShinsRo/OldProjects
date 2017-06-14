@@ -12,5 +12,7 @@ public interface QuestionService {
 	QuestionVO showQuestionNoHit(int qno);
 	QuestionVO showQuestionHit(int qno);
 	void updateHit(int qno);
-
+	int getNextQno();
+	void registerAnswer(QuestionVO qvo);
+	int getParentReRef(int qno);
 }

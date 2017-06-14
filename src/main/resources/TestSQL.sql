@@ -143,3 +143,23 @@ INSERT INTO AUTOSEARCH(KEYWORD)
 VALUES ('가ㅋㅋ');
 
 select Q_SEQ.nextval from dual;
+
+INSERT INTO QUESTION(qno, title, hit, time_posted, id, content,is_secret,re_ref,q_parent)
+		VALUES(#{qno}, #{title}, 0, sysdate, #{id}, #{content},#{is_secret},#{re_ref},#{q_parent})
+		
+SELECT * FROM
+		(
+		SELECT ROWNUM AS rnum, data.*
+		FROM
+			(
+				SELECT LEVEL as re_lev,qno,title,hit,
+				time_posted, id,content,is_secret,re_ref,q_parent
+				FROM QUESTION
+				START WITH q_parent=0
+				CONNECT BY PRIOR qno=q_parent
+				ORDER SIBLINGS BY re_ref desc
+			)
+		data
+		)
+WHERE rnum>=1 and rnum<=10;
+
