@@ -1,20 +1,24 @@
 package org.kosta.goodmove.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.kosta.goodmove.model.service.BoardService;
 import org.kosta.goodmove.model.service.DeliveryService;
-import org.kosta.goodmove.model.vo.DeliveryVO;
+import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.MemberVO;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class DeliveryController {
@@ -23,58 +27,24 @@ public class DeliveryController {
 	private DeliveryService service;
 	@Resource
 	private BoardService boardService;
-	/**
-	 * 용달 사업자 로그인
-	 * @param dvo
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(value = "login_delivery.do", method = RequestMethod.POST)
-	public String login(DeliveryVO dvo, HttpServletRequest request) {
-		DeliveryVO vo = service.login(dvo);
-		if (vo == null) {
-			return "member/login_fail.tiles";
-		} else {
-			request.getSession().setAttribute("dvo", vo);
-			return "redirect:home.do";
-		}
-	}
 
 	/**
-	 * 로그아웃에 관한 컨트롤러
-	 * 
-	 * @param request
+	 * 배송기사 권한 추가
 	 * @return
 	 */
-	@RequestMapping(value = "register_delivery.do", method = RequestMethod.POST)
-	public String register(DeliveryVO dvo, String tel1, String tel2, String tel3) {
-		dvo.setTel(tel1 + tel2 + tel3);
-		service.register(dvo);
+	@Secured("ROLE_MEMBER")
+	@RequestMapping("coalition.do")
+	public String coalition(){
+		MemberVO mvo = (MemberVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		service.coalition(mvo);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
+		updatedAuthorities.add(new SimpleGrantedAuthority("ROLE_DEL")); //add your role here [e.g., new SimpleGrantedAuthority("ROLE_NEW_ROLE")]
+		Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), updatedAuthorities);
+		SecurityContextHolder.getContext().setAuthentication(newAuth);
 		return "redirect:home.do";
 	}
-	/**
-	 * 용달 사업자 로그아웃
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping("logout_delivery.do")
-	public String logout(HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		if (session != null)
-			session.invalidate();
-		return "redirect:home.do";
-	}
-	/**
-	 * 용달 테이블에 아이디 중복 확인
-	 * @param id
-	 * @return
-	 */
-	@RequestMapping("idcheckAjax_delivery.do")
-	@ResponseBody
-	public String idcheckAjax(String id) {
-		int count = service.idcheck(id);
-		return (count == 0) ? "ok" : "fail";
-	}
+
 	/**
 	 * 수락시 is_done 상태 변경
 	 * @param id
@@ -94,6 +64,10 @@ public class DeliveryController {
 	 */
 	@RequestMapping("getAllDeliveryList.do")
 	public String getAllDeliveryList(Model model) {
+		List<ApplicationVO> list = service.getAllDeliveryList();
+		for(int i=0;i<list.size();i++){
+			System.out.println(list.get(i));
+		}
 		model.addAttribute("delivery_list", service.getAllDeliveryList());
 		return "delivery/delivery_list.tiles";
 	}

@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.kosta.goodmove.model.service.BoardService;
 import org.kosta.goodmove.model.vo.ApplicationVO;
 import org.kosta.goodmove.model.vo.BoardListVO;
@@ -14,6 +16,7 @@ import org.kosta.goodmove.model.vo.BoardVO;
 import org.kosta.goodmove.model.vo.MemberVO;
 import org.kosta.goodmove.model.vo.ProductSetVO;
 import org.kosta.goodmove.model.vo.ProductVO;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,8 +58,8 @@ public class BoardController {
 	 */
 	@RequestMapping("myBoardList.do")
 	public String myBoardList(String pageNo, Model model, HttpServletRequest req) {
-		String id = ((MemberVO) req.getSession(false).getAttribute("mvo")).getId();
-		BoardListVO blvo = boardService.getMyBoardList(pageNo, id);
+		MemberVO vo = (MemberVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		BoardListVO blvo = boardService.getMyBoardList(pageNo, vo.getId());
 		model.addAttribute("blvo", blvo);
 		return "mypage/my_board.tiles";
 	}
@@ -99,7 +102,8 @@ public class BoardController {
 	@RequestMapping("boardRegister.do")
 	public String fileUpload(HttpServletRequest req, BoardVO bvo, ProductSetVO psvo) {
 		int bno = boardService.getNextBno();
-		String userId = ((MemberVO) req.getSession(false).getAttribute("mvo")).getId();
+		MemberVO vo = (MemberVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String userId = vo.getId();
 
 		bvo.setId(userId);
 		bvo.setBno(bno);
@@ -153,8 +157,8 @@ public class BoardController {
 	 */
 	@RequestMapping("registerGiveMe.do")
 	public String registerGiveMe(ApplicationVO avo, HttpServletRequest req, String writer, int bno) {
-		String userId = ((MemberVO) req.getSession(false).getAttribute("mvo")).getId();
-		// application
+		MemberVO vo = (MemberVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String userId = vo.getId();
 		avo.setPnos(avo.getPnos()+",");
 		avo.setId(userId);
 		avo.setBno(bno);
@@ -206,7 +210,8 @@ public class BoardController {
 	 */
 	@RequestMapping("getApplicationsById.do")
 	public String getApplicationsById(HttpServletRequest req, Model model) {
-		String id = ((MemberVO) req.getSession(false).getAttribute("mvo")).getId();
+		MemberVO vo = (MemberVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String id = vo.getId();
 		List<ApplicationVO> appList = boardService.getApplicationsById(id);
 		model.addAttribute("appList", appList);
 		return "mypage/my_application.tiles";

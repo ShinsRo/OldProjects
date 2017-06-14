@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%>
 <script type="text/javascript">
 	/* $(document).ready(function(){
 		$("#select_delivery_btn").click(function(){
@@ -54,12 +55,13 @@
 					</tr>
 				</thead>
 				<tbody>
+				<sec:authentication property="principal" var="mvo"/>
 					<c:forEach items="${requestScope.delivery_list}" var="list">
 						<tr>
 							<td>${list.bno}</td><td>${list.pnos}</td>
 							<td id = "id">${list.id}</td><td>${list.is_done}</td>
 							<td><input type="button" id="select_delivery_btn" class="btn btn-sm btn-info" 
-							value="접수" onclick="match_Delivery(${list.bno},'${list.id}','${sessionScope.dvo.id}')"></td>
+							value="접수" onclick="match_Delivery(${list.bno},'${list.id}', '${mvo.id})"></td>
 							<td><input type="button" id="select_delivery_btn" class="btn btn-sm btn-info" 
 							value="상세 정보" onclick="getDetail('${list.id}',${list.bno})"></td>
 						</tr>

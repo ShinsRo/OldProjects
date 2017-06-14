@@ -61,13 +61,16 @@
                                 </sec:authorize>
                             </ul>
                         </li>
-                         <sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">      
+                         <sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DEL">      
                         <li class="dropdown"><a href="">내 정보<i class="fa fa-angle-down"></i></a>
                             <ul role="menu" class="sub-menu">
                             	<li><a href="${pageContext.request.contextPath}/member/updates.do">회원수정</a></li>
                                 <li><a href="${pageContext.request.contextPath}/myBoardList.do">내가 올린 드려요</a></li>
                                 <li><a href="${pageContext.request.contextPath}/getCommentList.do?id=<sec:authentication property="principal.id"/>">내가 쓴 여기는요 </a></li>
                                 <li><a href="${pageContext.request.contextPath}/getApplicationsById.do">주세요 현황</a></li>
+                                <sec:authorize ifNotGranted="ROLE_ADMIN,ROLE_DEL"> 
+                                <li><a href="${pageContext.request.contextPath}/coalition.do">운송제휴 신청</a></li>
+                                </sec:authorize>
                             </ul>
                         </li>
                         </sec:authorize>  
@@ -75,25 +78,30 @@
 	                        <li><a href="${pageContext.request.contextPath}/member/logins.do">로그인</a></li>
 	                        <li><a href="${pageContext.request.contextPath }/member/register_view.do">회원가입</a></li> 
                        	</sec:authorize>
-                       <sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DEL">
+                       <sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN">
+                        <sec:authorize ifNotGranted="ROLE_DEL"> 
 	                        <li><a href="${pageContext.request.contextPath }/member/updates.do"><sec:authentication property="principal.name"/>님 로그인</a></li>
 	                        <li><a href="${pageContext.request.contextPath }/logout.do">로그아웃</a></li>
                         </sec:authorize>
-						<sec:authorize ifAnyGranted="ROLE_DEL">
+                        </sec:authorize>
+						<sec:authorize ifAllGranted="ROLE_DEL">
 							<li class="dropdown"><a href=""><sec:authentication property="principal.name"/>님 로그인<i class="fa fa-angle-down"></i></a>
 								<ul role="menu" class="sub-menu">
+									
+									<sec:authentication property="principal.is_confirmed" var="mvo"/>
 									<c:choose>
-										<c:when test="${sessionScope.dvo.is_confirmed == 'YES'}">
+										<c:when test="${mvo == 'YES' }">
 											<li><a href="${pageContext.request.contextPath}/getAllDeliveryList.do">용달 대기 신청</a></li>
 										</c:when>
-										<c:otherwise>
+										<c:when test="${mvo == 'READY' }">
 											<li><a>제휴 승인 대기중입니다.</a></li>
+										</c:when>
+										<c:otherwise>
 										</c:otherwise>
 									</c:choose>
+
 								</ul>
 							</li>
-						</sec:authorize>
-						<sec:authorize ifAnyGranted="ROLE_DEL">
 							<li><a href="${pageContext.request.contextPath}/logout.do">로그아웃</a></li>
 						</sec:authorize>
 					<li><a href="${pageContext.request.contextPath}/member/contact.do">Contact</a></li>

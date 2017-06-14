@@ -64,6 +64,7 @@
 </script>
 <body onload="checkCookie()">
 <section id="portfolio-information" class="padding-top">
+
        <div class="container">
            <div class="row">
                <div class="col-sm-6">
@@ -83,7 +84,9 @@
                         <h3>상품 설명</h3>
                         <p>${bvo.bcontent}</p>
                     </div>
-                    <c:if test="${sessionScope.mvo != null && sessionScope.mvo.id !=bvo.id}">  
+                    <sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN">
+						<sec:authentication property="principal.is_confirmed" var="mvo" />
+						<c:if test="${mvo.id !=bvo.id}">  
 	                    <div class="give-me-btn">
 	                    <c:choose>
 						<c:when test="${bvo.is_traded=='TRADED'}">
@@ -96,6 +99,7 @@
 						</c:choose>	
 	                    </div>
                     </c:if>
+                    </sec:authorize>
                     <!-- 주세요 신청 modal -->
                 <!-- start modal -->
 				<div class="modal fade" id="myModal" role="dialog">

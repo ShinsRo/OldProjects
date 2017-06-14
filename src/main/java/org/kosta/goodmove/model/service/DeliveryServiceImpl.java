@@ -8,7 +8,6 @@ import javax.annotation.Resource;
 
 import org.kosta.goodmove.model.dao.DeliveryDAO;
 import org.kosta.goodmove.model.vo.ApplicationVO;
-import org.kosta.goodmove.model.vo.DeliveryVO;
 import org.kosta.goodmove.model.vo.MemberVO;
 import org.springframework.stereotype.Service;
 
@@ -17,16 +16,6 @@ public class DeliveryServiceImpl implements DeliveryService {
 	
 	@Resource
 	private DeliveryDAO dao;
-
-	@Override
-	public DeliveryVO login(DeliveryVO dvo) {
-		return dao.login(dvo);
-	}
-
-	@Override
-	public void register(DeliveryVO dvo) {
-		dao.register(dvo);
-	}
 
 	@Override
 	public int idcheck(String id) {
@@ -41,11 +30,6 @@ public class DeliveryServiceImpl implements DeliveryService {
 	@Override
 	public int passwordCheck(String password) {
 		return dao.passwordCheck(password);
-	}
-
-	@Override
-	public void deleteDelivery(DeliveryVO dvo) {
-		dao.deleteDelivery(dvo);
 	}
 
 	@Override
@@ -67,7 +51,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 		return map;
 	}
 	@Override
-	public List<DeliveryVO> getNotConfirmedDeliveryList(){
+	public List<MemberVO> getNotConfirmedDeliveryList(){
 		return dao.getNotConfirmedDeliveryList();
 	}
 	@Override
@@ -83,6 +67,12 @@ public class DeliveryServiceImpl implements DeliveryService {
 	@Override
 	public int countDelivery_admin() {
 		return dao.getTotalDelivery();
+	}
+
+	@Override
+	public void coalition(MemberVO mvo) {
+		dao.coalition(mvo);
+		
 	}
 
 }

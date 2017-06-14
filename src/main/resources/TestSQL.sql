@@ -143,3 +143,13 @@ INSERT INTO AUTOSEARCH(KEYWORD)
 VALUES ('가가어여우유');
 INSERT INTO AUTOSEARCH(KEYWORD)
 VALUES ('가ㅋㅋ');
+
+insert into authorities(id, authority)  values('admin', 'ROLE_ADMIN')
+
+
+select a.bno,a.pnos,a.is_done,a.id,a.is_selected,m.state
+		from APPLICATION a,DELIVERY_MATCH m
+		where a.bno = m.bno(+) and a.id=m.aid(+) and a.is_selected='SELECTED'
+		and m.state is NULL
+		
+		select * from APPLICATION

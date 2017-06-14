@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.kosta.goodmove.model.vo.ApplicationVO;
-import org.kosta.goodmove.model.vo.DeliveryVO;
 import org.kosta.goodmove.model.vo.MemberVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -15,16 +14,6 @@ import org.springframework.stereotype.Repository;
 public class DeliveryDAOImpl implements DeliveryDAO {
 	@Resource
 	private SqlSessionTemplate template;
-
-	@Override
-	public DeliveryVO login(DeliveryVO dvo) {
-		return template.selectOne("delivery.login",dvo);
-	}
-
-	@Override
-	public void register(DeliveryVO dvo) {
-		template.insert("delivery.register", dvo);
-	}
 
 	@Override
 	public int idcheck(String id) {
@@ -39,11 +28,6 @@ public class DeliveryDAOImpl implements DeliveryDAO {
 	@Override
 	public int passwordCheck(String password) {
 		return template.selectOne("delivery.passwordCheck", password);
-	}
-
-	@Override
-	public void deleteDelivery(DeliveryVO dvo) {
-		template.delete("delivery.deleteDelivery", dvo);
 	}
 
 	@Override
@@ -68,7 +52,7 @@ public class DeliveryDAOImpl implements DeliveryDAO {
 		return template.selectOne("delivery.selectGiverByBno", bno);
 	}
 	@Override
-	public List<DeliveryVO> getNotConfirmedDeliveryList(){
+	public List<MemberVO> getNotConfirmedDeliveryList(){
 		return template.selectList("delivery.getNotConfirmedDeliveryList");
 	}
 	@Override
@@ -83,6 +67,12 @@ public class DeliveryDAOImpl implements DeliveryDAO {
 		dmMap.put("aid", aid);
 		dmMap.put("did", did);
 		template.insert("delivery.registerDeliveryMatch", dmMap);
+	}
+
+	@Override
+	public void coalition(MemberVO mvo) {
+		template.update("delivery.coalition", mvo);
+		template.update("delivery.coalition2", mvo);
 	}
 
 }

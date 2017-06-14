@@ -3,22 +3,15 @@ package org.kosta.goodmove.model.dao;
 import java.util.List;
 
 import org.kosta.goodmove.model.vo.ApplicationVO;
-import org.kosta.goodmove.model.vo.DeliveryVO;
 import org.kosta.goodmove.model.vo.MemberVO;
 
 public interface DeliveryDAO {
-
-	public DeliveryVO login(DeliveryVO dvo);
-
-	void register(DeliveryVO dvo);
 
 	int idcheck(String id);
 
 	int getTotalDelivery();
 
 	int passwordCheck(String password);
-
-	void deleteDelivery(DeliveryVO dvo);
 
 	public void convertDoneState(String id, String bno, String state);
 	
@@ -28,9 +21,11 @@ public interface DeliveryDAO {
 	
 	MemberVO selectGiverByBno(String bno);
 
-	List<DeliveryVO> getNotConfirmedDeliveryList();
+	List<MemberVO> getNotConfirmedDeliveryList();
 
 	void confirmDelivery(String id);
 	
 	void registerDeliveryMatch(String bno,String aid,String did);
+
+	public void coalition(MemberVO mvo);
 }
