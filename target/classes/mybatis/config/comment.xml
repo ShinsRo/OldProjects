@@ -37,9 +37,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			select C_SEQ.nextval from dual
 		</selectKey>
 		insert into LOC_COMMENT(CNO, TITLE, HIT, TIME_POSTED, ADDR, ID,
-		CONTENT)
+		CONTENT, PICNO)
 		VALUES(#{cno}, #{title}, 0, sysdate, #{addr}, #{id},
-		#{content})
+		#{content}, #{picno})
 	</insert>
 	<select id="search" resultType="commentVO" parameterType="hashMap">
 		select
@@ -121,48 +121,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from AUTOSEARCH WHERE KEYWORD like '%' || #{value} || '%'
 
 	</select>
+	<select id = "getPicNo" resultType="String">
+		select pic_seq.nextval from dual
+	</select>
+	<insert id="stackImg" parameterType="commentPictureVO">
+		insert into LOC_COMMENT_PICTURE(PICNO, IMG_PATH) VALUES(#{picno}, #{img_path})
+	</insert>
 </mapper>
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -229,7 +229,7 @@
 					<c:if test="${reply.depth >=1}">
 					&nbsp;&nbsp;&nbsp;&nbsp;
 					<img class="reply_icon" src="${pageContext.request.contextPath}/resources/img/reply_icon.png" width="20">
-						</c:if>${reply.id}</span>
+					</c:if>${reply.id}</span>
 						<span class="cmdate">${reply.time_posted}</span>
 						<span class="recmbtn">
 						<a onclick="fn_replyReply(${reply.rno})">
@@ -350,3 +350,4 @@
 					</div>
 				</div>
 				<!-- end of modal -->
+				

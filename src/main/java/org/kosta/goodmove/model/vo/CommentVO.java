@@ -12,10 +12,13 @@ public class CommentVO {
 	private int hit;
 	private String id;
 	private String time_posted;
+	private String picno;
 	public CommentVO() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
-	public CommentVO(String cno, String content, String addr, String title, int hit, String id, String time_posted) {
+	public CommentVO(String cno, String content, String addr, String title, int hit, String id, String time_posted,
+			String picno) {
 		super();
 		this.cno = cno;
 		this.content = content;
@@ -24,6 +27,7 @@ public class CommentVO {
 		this.hit = hit;
 		this.id = id;
 		this.time_posted = time_posted;
+		this.picno = picno;
 	}
 	public String getCno() {
 		return cno;
@@ -67,10 +71,15 @@ public class CommentVO {
 	public void setTime_posted(String time_posted) {
 		this.time_posted = time_posted;
 	}
+	public String getPicno() {
+		return picno;
+	}
+	public void setPicno(String picno) {
+		this.picno = picno;
+	}
 	@Override
 	public String toString() {
 		return "CommentVO [cno=" + cno + ", content=" + content + ", addr=" + addr + ", title=" + title + ", hit=" + hit
-				+ ", id=" + id + ", time_posted=" + time_posted + "]";
+				+ ", id=" + id + ", time_posted=" + time_posted + ", picno=" + picno + "]";
 	}
-	
 }
