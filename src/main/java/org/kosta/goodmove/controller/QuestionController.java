@@ -2,11 +2,11 @@ package org.kosta.goodmove.controller;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.kosta.goodmove.model.service.QuestionService;
 import org.kosta.goodmove.model.vo.MemberVO;
 import org.kosta.goodmove.model.vo.QuestionVO;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,8 +38,9 @@ public class QuestionController {
 	 */
 	@RequestMapping("registerQuestion.do")
 	public String registerQuestion(QuestionVO qvo, HttpServletRequest request){
-		HttpSession session = request.getSession(false);
-		MemberVO mvo = (MemberVO) session.getAttribute("mvo");
+		MemberVO mvo = (MemberVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		/*HttpSession session = request.getSession(false);
+		MemberVO mvo = (MemberVO) session.getAttribute("mvo");*/
 		qvo.setId(mvo.getId());
 		service.registerQuestion(qvo);
 		return "redirect:showQuestionNoHit.do?qno="+qvo.getQno();
@@ -93,8 +94,9 @@ public class QuestionController {
 	}
 	@RequestMapping("registerQuestionAnswer.do")
 	public String registerAnswer(QuestionVO qvo, HttpServletRequest request,String qno){
-		HttpSession session = request.getSession(false);
-		MemberVO mvo = (MemberVO) session.getAttribute("mvo");
+		MemberVO mvo = (MemberVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		/*HttpSession session = request.getSession(false);
+		MemberVO mvo = (MemberVO) session.getAttribute("mvo");*/
 		qvo.setId(mvo.getId());
 		qvo.setQ_parent(Integer.parseInt(qno)); //부모글 
 		int ref = service.getParentReRef(Integer.parseInt(qno));

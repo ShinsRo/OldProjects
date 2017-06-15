@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/resources/_css/dropdown.css">
 <!-- 배너 타이틀 -->
@@ -14,10 +15,10 @@
 						<p>
 							<br> 질문 사항이 있으면 남겨주세요! 관리자가 확인 후 답변 드리겠습니다.(≖ᴗ≖✿)
 									<span style="float:right">
-		<c:if test="${sessionScope.mvo.id != null }">
+		<sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
 			<input  class="btn btn-info" type="button" value="글쓰기"
 				onclick="javascript:location.href='${pageContext.request.contextPath}/registerQuestionView.do'">
-		</c:if>
+		</sec:authorize>
 	</span>
 						</p>
 					</div>
@@ -39,12 +40,14 @@
 			</tr>
 		</thead>
 		<tbody>
+			<sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
+			<sec:authentication property="principal.id" var="mvoId"/>
 			<c:forEach items="${requestScope.lvo.list}" var="qvo">
 				<tr>
 					<td>${qvo.qno}</td>
 					<!-- 비밀글 -->
 					<c:choose>
-						<c:when test="${qvo.is_secret == '1' && qvo.id==mvo.id}">
+						<c:when test="${qvo.is_secret == '1' && qvo.id==mvoId}">
 							<td>
 							<c:if test="${qvo.re_lev > 1}">
 								<c:forEach begin="1" end="${qvo.re_lev}">
@@ -55,7 +58,7 @@
 							<img src="${pageContext.request.contextPath}/resources/img/secret.png" style="width:20px">&nbsp;&nbsp;<a
 							href="${pageContext.request.contextPath}/showQuestionHit.do?qno=${qvo.qno}">${qvo.title}</a></td>
 						</c:when>
-						<c:when test="${qvo.is_secret == '1' && mvo.id == 'admin'}">
+						<c:when test="${qvo.is_secret == '1' && mvoId=='admin'}">
 							<td>
 							<c:if test="${qvo.re_lev > 1}">
 								<c:forEach begin="1" end="${qvo.re_lev}">
@@ -66,7 +69,7 @@
 							<img src="${pageContext.request.contextPath}/resources/img/secret.png" style="width:20px">&nbsp;&nbsp;<a
 							href="${pageContext.request.contextPath}/showQuestionHit.do?qno=${qvo.qno}">${qvo.title}</a></td>
 						</c:when>
-						<c:when test="${qvo.is_secret == '1' && qvo.id!=mvo.id}">
+						<c:when test="${qvo.is_secret == '1' && qvo.id!=mvoId}">
 							<td>
 							<c:if test="${qvo.re_lev > 1}">
 								<c:forEach begin="1" end="${qvo.re_lev}">
@@ -92,7 +95,7 @@
 					<td>${qvo.hit}</td>
 				</tr>
 			</c:forEach>
-
+			</sec:authorize>
 		</tbody> 
 	</table>
 	<br></br>

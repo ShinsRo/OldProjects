@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <script type="text/javascript">
 	function QuestionList(){
 		location.href= "getQuestionList.do";
@@ -98,16 +99,19 @@
 				<div class="form-group" align="center">
 					<input class="btn btn-info" type="button" value="목록"
 						onclick="QuestionList()">
-					<c:if test="${requestScope.qvo.id==sessionScope.mvo.id}">
+					<sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
+					<sec:authentication property="principal.id" var="mvoId"/>
+					<c:if test="${requestScope.qvo.id==mvoId}">
 						<input class="btn btn-info" type="button" value="수정"
 							onclick="updateComment()">
 						<input class="btn btn-danger" type="button" value="삭제"
 							onclick="deleteComment()">
 					</c:if>
-					<c:if test="${sessionScope.mvo.id == 'admin'}">
+					</sec:authorize>
+					<sec:authorize ifAnyGranted="ROLE_ADMIN">
 						<input class="btn btn-danger" type="button" value="답글"
 							onclick="replyAnswer()">
-					</c:if>
+					</sec:authorize>
 				</div>
 			</div>
 		</div>
