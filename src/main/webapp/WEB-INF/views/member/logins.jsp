@@ -94,7 +94,7 @@
 					<div class="col-sm-12">
 						<h1 class="title">회원 로그인</h1>
 						<p>
-							<br>일반 회원 로그인 페이지입니다
+							<br>회원 로그인 페이지입니다
 						</p>
 					</div>
 				</div>
@@ -118,17 +118,17 @@
 							placeholder="비밀번호"><br> <span id="idCheckView"></span>
 						<a href="${pageContext.request.contextPath }/member/forgotId.do">아이디찾기</a> | 
 						<a href="${pageContext.request.contextPath }/member/forgotPass.do">비밀번호찾기</a><br>
-						<input type="checkbox" id="idSaveCheck">&nbsp;&nbsp;아이디를 기억하겠습니다.<br>
+						<input type="checkbox" id="idSaveCheck">&nbsp;&nbsp;Rememeber me!<br>
 						 <button id="log" class="logc">로그인</button>
 						<p class="message">
 							Not registered? <a
 								href="${pageContext.request.contextPath}/member/registers.do">Create
 								an account</a>
 						</p>
-						<p class="message">
+						<%-- <p class="message">
 							사업자이신가요? <a
 								href="${pageContext.request.contextPath}/delivery/login.do">사업자 로그인</a>
-						</p>
+						</p> --%>
 					</form>
 				</div>
 			</div>
