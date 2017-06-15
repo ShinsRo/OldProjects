@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<link href="${pageContext.request.contextPath }/resources/css/todayShow.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath }/resources/css/recentShow.css" rel="stylesheet">
 <style>
       #jb-container {
         width: 90%;
@@ -61,7 +61,8 @@ function chkRecent(a){
 		$("#paging").show();
 	}else{
 		$("#right_zzim ul").append('<p class="noData">최근 본 상품이<br>없습니다.</p>');
-		$("#paging").hide();$("#recentCnt").text('');
+		$("#paging-wrap").hide();
+		$("#recentCnt").text('');
 	}
 	updateRecentPage(totcount, Cpage);
 }
@@ -201,15 +202,7 @@ function getCookie(cName) {
 			<td><a class="btn_next" style="cursor: pointer">▶</a></td>
 			</tr>
 		</table>
-		
-<!-- 		<span id="currentPage"></span><span id="totalPageCount"></span> -->
-		
 		</div>
-	<!-- 	<div id="paging">
-			<a class="btn_prev">◀</a>
-			<span id="currentPage"></span><span id="totalPageCount"></span>
-			<a class="btn_next" style="cursor: pointer">▶</a>
-		</div> -->
 	</div>
 </div> 
 </div>
