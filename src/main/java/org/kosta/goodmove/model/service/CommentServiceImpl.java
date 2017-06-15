@@ -215,4 +215,9 @@ public class CommentServiceImpl implements CommentService{
 		return commentDAO.findLikeById(cno, id);
 	}
 
+	@Override
+	public int getCountLikeByCno(String cno) {
+		return commentDAO.getCountLikeByCno(cno);
+	}
+
 }

@@ -217,4 +217,9 @@ public class CommentDAOImpl implements CommentDAO{
 		paramMap.put("id", id);
 		return template.selectOne("comment.findLikeById", paramMap);
 	}
+
+	@Override
+	public int getCountLikeByCno(String cno) {
+		return template.selectOne("comment.getCountLikeByCno", cno);
+	}
 }

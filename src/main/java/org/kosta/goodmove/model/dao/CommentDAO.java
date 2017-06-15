@@ -33,4 +33,5 @@ public interface CommentDAO {
 	void stackImg(String img_path, String picNo);
 	void clickLikeBtn(String cno, String id);
 	int findLikeById(String cno, String id);
+	int getCountLikeByCno(String cno);
 }

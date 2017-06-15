@@ -144,9 +144,9 @@
 	// 좋아요 기능
 	function like_btn(){
 		var id;
-		var cno;
-		alert("like 클릭");
-		$.ajax({
+		var cno = $("#cno").val();
+		alert(cno+"like 클릭");
+/* 		$.ajax({
 			type : "POST",
 			url : "${pageContext.request.contextPath}/clickLikeBtn.do",
 			data : "id=" + id,
@@ -159,7 +159,7 @@
 					checkResultId = id;
 				}
 			}//callback         
-		});//ajax
+		});//ajax */
 	}
 </script>
 <link rel="shortcut icon" href="images/ico/favicon.ico">
@@ -199,6 +199,7 @@
                          <div class="col-md-10 col-sm-10">
                             <div class="single-blog blog-details">
                                 <div class="post-content overflow">
+                                <input type="hidden" id="cno" value="${requestScope.cvo.cno}">
                                     <h2 class="post-title bold"><a href="#">${requestScope.cvo.title}</a></h2>
                                     <h3 class="post-author"><a href="#">Posted by ${requestScope.cvo.id}</a></h3>
                                     <p>
@@ -219,7 +220,7 @@
                                     <div class="post-bottom overflow">
                                         <ul class="nav navbar-nav post-nav">
                                             <li><a href="#"><i class="fa fa-tag"></i>Creative</a></li>
-                                            <li><a onclick="like_btn()"><i class="fa fa-heart"></i>Love</a></li>
+                                            <li><a onclick="like_btn()"><i class="fa fa-heart"></i>${likeCount} Love</a></li>
                                             <li><span id="ifLike"></span></li>
                                             <li><a href="#"><i class="fa fa-comments"></i>3 Comments</a></li>
                                         </ul>

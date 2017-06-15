@@ -110,7 +110,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteCommentReplyChild" parameterType="int">
 		DELETE FROM LOC_COMMENT_REPLY WHERE GNO=#{value}
 	</delete>
-
 	<select id="findCommentReplyByNo" resultType="commentReplyVO"
 		parameterType="int">
 		select * FROM LOC_COMMENT_REPLY WHERE RNO=#{value}
@@ -119,7 +118,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getAutoSearchList" parameterType="String"
 		resultType="String">
 		select * from AUTOSEARCH WHERE KEYWORD like '%' || #{value} || '%'
-
 	</select>
 	<select id = "getPicNo" resultType="String">
 		select pic_seq.nextval from duals
@@ -136,6 +134,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	<select id="findLikeById" parameterType="hashMap" resultType="int">
 		select count(*) from COMMENT_LIKE where cno=#{cno} and id=#{id}
+	</select>
+	<select id="getCountLikeByCno" parameterType="hashMap" resultType="int">
+		select count(*) from COMMENT_LIKE where cno=#{cno}
 	</select>
 </mapper>
  

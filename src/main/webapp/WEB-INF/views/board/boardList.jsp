@@ -94,25 +94,13 @@ function getCookie(cName) {
 <section id="portfolio">
 	<div class="container">
 		<div class="row">
-			<ul class="portfolio-filter text-center">
-				<li><a class="btn btn-default active" href="#" data-filter="*">All</a></li>
-				<li><a class="btn btn-default" href="#" data-filter=".branded">Branded</a></li>
-				<li><a class="btn btn-default" href="#" data-filter=".design">Design</a></li>
-				<li><a class="btn btn-default" href="#" data-filter=".folio">Folio</a></li>
-				<li><a class="btn btn-default" href="#" data-filter=".logos">Logos</a></li>
-				<li><a class="btn btn-default" href="#" data-filter=".mobile">Mobile</a></li>
-				<li><a class="btn btn-default" href="#" data-filter=".mockup">Mockup</a></li>
-			</ul>
 			<!--/#portfolio-filter-->
-			<%--${pageContext.request.contextPath }/uploadedFiles/JAVA/board${list.bno}/1.jpg --%>
 			<div class="portfolio-items">
 				<c:forEach items="${requestScope.blvo.list}" var="list">
-					<%-- <c:if test = "${list.is_deleted != 'YES'}"> --%>
 					<div class="col-xs-6 col-sm-4 col-md-3 portfolio-item branded logos">
 						<div class="portfolio-wrapper">
 							<div class="portfolio-single">
 								<div class="portfolio-thumb">
-									<%-- "${pageContext.request.contextPath }/resources/images/portfolio/1.jpg" --%>
 									<img src="${pageContext.request.contextPath}/${list.thumbPath}"
 										class="img-responsive" alt="">
 								</div>
@@ -133,7 +121,6 @@ function getCookie(cName) {
 							</div>
 						</div>
 					</div>
-					<%-- </c:if> --%>
 				</c:forEach>
 			</div><!-- portfolio -->
 		</div><!-- row -->
@@ -178,7 +165,10 @@ function getCookie(cName) {
 		</c:choose>
 	</ul>
 </div>
+<div id="rigth">
+</div>
 <!-- 오늘 본 드려요 게시물 -->
+
 <div id="rightSide">
 	<div id="right_zzim">
 		<div class="recTit">

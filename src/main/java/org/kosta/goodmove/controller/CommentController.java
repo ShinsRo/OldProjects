@@ -14,7 +14,6 @@ import org.kosta.goodmove.model.vo.MemberVO;
 import org.kosta.goodmove.model.vo.SearchVO;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -66,6 +65,7 @@ public class CommentController {
 		int clno = Integer.parseInt(cno);
 		model.addAttribute("cvo", commentService.showComment(clno));
 		model.addAttribute("CommentReplyList", commentService.getAllCommentReplyList(clno));
+		model.addAttribute("likeCount", commentService.getCountLikeByCno(cno));
 //		return "comment/commentDetail.tiles";
 		return "comment/commentDetail_blogVer.tiles";
 		}
@@ -149,6 +149,7 @@ public class CommentController {
 		int clno = Integer.parseInt(cno);
 		model.addAttribute("CommentReplyList", commentService.getAllCommentReplyList(clno));
 		model.addAttribute("cvo", commentService.showCommentNoHit(Integer.parseInt(cno)));
+		model.addAttribute("likeCount", commentService.getCountLikeByCno(cno));
 		return "comment/commentDetail_blogVer.tiles";
 	}
 
