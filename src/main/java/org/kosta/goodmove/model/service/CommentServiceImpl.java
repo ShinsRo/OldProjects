@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.kosta.goodmove.model.dao.CommentDAO;
 import org.kosta.goodmove.model.vo.CommentListVO;
+import org.kosta.goodmove.model.vo.CommentPictureVO;
 import org.kosta.goodmove.model.vo.CommentReplyVO;
 import org.kosta.goodmove.model.vo.CommentVO;
 import org.kosta.goodmove.model.vo.PagingBean;
@@ -201,8 +202,8 @@ public class CommentServiceImpl implements CommentService{
 	}
 
 	@Override
-	public void stackImg(String img_path, String picNo) {
-		commentDAO.stackImg(img_path, picNo);
+	public void stackImg(CommentPictureVO cpvo) {
+		commentDAO.stackImg(cpvo);
 	}
 
 	@Override
@@ -218,6 +219,11 @@ public class CommentServiceImpl implements CommentService{
 	@Override
 	public int getCountLikeByCno(String cno) {
 		return commentDAO.getCountLikeByCno(cno);
+	}
+	
+	@Override
+	public String getImgPath(CommentPictureVO cpvo){
+		return commentDAO.getImgPath(cpvo);
 	}
 
 	@Override

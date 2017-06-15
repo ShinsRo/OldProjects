@@ -2,6 +2,7 @@ package org.kosta.goodmove.model.dao;
 
 import java.util.List;
 
+import org.kosta.goodmove.model.vo.CommentPictureVO;
 import org.kosta.goodmove.model.vo.CommentReplyVO;
 import org.kosta.goodmove.model.vo.CommentVO;
 import org.kosta.goodmove.model.vo.PagingBean;
@@ -30,9 +31,10 @@ public interface CommentDAO {
 	int getTotalContentCountById(String id);
 	CommentReplyVO showReply(int reno);
 	String getPicNo();
-	void stackImg(String img_path, String picNo);
+	void stackImg(CommentPictureVO cpvo);
 	void clickLikeBtn(String cno, String id);
 	int findLikeById(String cno, String id);
 	int getCountLikeByCno(String cno);
 	void unclickLikeBtn(String cno,String id);
+	String getImgPath(CommentPictureVO cpvo);
 }

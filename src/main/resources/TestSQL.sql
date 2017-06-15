@@ -40,7 +40,7 @@ VALUES(CR_SEQ.NEXTVAL,1,'java','딘딘',sysdate,1,'새치기',1,1,2);
 SELECT rno,cno,id,name,TO_CHAR(TIME_POSTED,'YYYY.MM.DD HH24:MI') as time_posted,
 parent,content,gno,dept,order_no 
 FROM LOC_COMMENT_REPLY WHERE cno=1 ORDER BY GNO ASC
-
+select img_path from LOC_COMMENT_PICTURE where picno = 2 and pic_cursor = 1
 -- SELECT
 SELECT * FROM G_BOARD;
 SELECT * FROM GD_MEMBER;

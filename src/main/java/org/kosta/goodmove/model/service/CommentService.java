@@ -3,6 +3,7 @@ package org.kosta.goodmove.model.service;
 import java.util.List;
 
 import org.kosta.goodmove.model.vo.CommentListVO;
+import org.kosta.goodmove.model.vo.CommentPictureVO;
 import org.kosta.goodmove.model.vo.CommentReplyVO;
 import org.kosta.goodmove.model.vo.CommentVO;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,9 +32,10 @@ public interface CommentService {
 	public CommentListVO findCommentListById(String id, String pageNo);
 	public CommentReplyVO showReply(int reno);
 	public String getPicNo();
-	public void stackImg(String img_path, String picNo);
+	public void stackImg(CommentPictureVO cpvo);
 	void clickLikeBtn(String cno, String id);
 	int findLikeById(String cno, String id);
 	int getCountLikeByCno(String cno);
 	void unclickLikeBtn(String cno,String id);
+	public String getImgPath(CommentPictureVO cpvo);
 }
