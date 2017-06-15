@@ -290,7 +290,7 @@
 													</div>
                                             		<ul class="nav navbar-nav post-nav">
                                                         <li><a href="#"><i class="fa fa-clock-o"></i>${reply.time_posted}</a></li>
-                                                        <li><a href="#"><i class="fa fa-reply" id="like_btn"></i>Reply</a></li>
+                                                        <li><a href="fn_replyReply(${reply.rno})"><i class="fa fa-reply" id="like_btn"></i>Reply</a></li>
                                                     </ul>
                                             	</div>
                                             </div>

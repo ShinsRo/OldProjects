@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kosta.goodmove.model.service.CommentService;
 import org.kosta.goodmove.model.service.SearchService;
+import org.kosta.goodmove.model.vo.CommentPictureVO;
 import org.kosta.goodmove.model.vo.CommentReplyVO;
 import org.kosta.goodmove.model.vo.CommentVO;
 import org.kosta.goodmove.model.vo.MemberVO;
@@ -252,7 +253,8 @@ public class CommentController {
 	}
 	
 	@RequestMapping("stackImg.do")
-	public String stackImg(HttpServletRequest req,  String picno, String currPicId, MultipartFile file){
+	public String stackImg(HttpServletRequest req,  CommentPictureVO cpvo, MultipartFile file){
+		System.out.println("cpvo 인자 : " + cpvo);
 		MemberVO mvo = (MemberVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String userId = mvo.getId();
 		String uploadPath = "";
@@ -261,7 +263,7 @@ public class CommentController {
 
 				// 로컬 깃 레퍼지토리 경로
 				uploadPath = "C:\\Users\\KOSTA\\git\\GoodMoveRepository\\src\\main\\webapp\\uploadedFiles\\" + userId + "\\"
-						+ "comment" + picno + "\\";
+						+ "comment" + cpvo.getPicno() + "\\";
 				System.out.println(req.getSession().getServletContext().getRealPath("/uploadedFiles/"));
 				System.out.println("------");
 					String fileName = file.getOriginalFilename();
@@ -269,20 +271,29 @@ public class CommentController {
 
 					// 물건 리스트 초기화
 					String img_path = "uploadedFiles\\" +userId + "\\"
-							+ "comment" + picno + "\\"+ currPicId + fileSuffix;
-
+							+ "comment" + cpvo.getPicno() + "\\"+ cpvo.getPic_cursor() + fileSuffix;
+					cpvo.setImg_path(img_path);
+					
 					if (fileName.equals("") == false) {
 						try {
 							new File(uploadPath).mkdirs();
-							file.transferTo(new File(uploadPath + currPicId + fileSuffix));
+							file.transferTo(new File(uploadPath + cpvo.getPic_cursor() + fileSuffix));
 						} catch (IllegalStateException | IOException e) {
 							e.printStackTrace();
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
 					}
-					commentService.stackImg(img_path, picno);
+					commentService.stackImg(cpvo);
 		return "comment/imgSelectResult";
+	}
+	@RequestMapping("getImgPath.do")
+	@ResponseBody
+	public Object getImgPath(CommentPictureVO cpvo){
+		System.out.println("getImg : "+ cpvo);
+		String resultImg = commentService.getImgPath(cpvo);
+		System.out.println("db 참조 : " + resultImg);
+		return resultImg;
 	}
 	
 	@RequestMapping("showImgSelector.do")

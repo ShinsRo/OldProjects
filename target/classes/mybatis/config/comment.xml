@@ -120,10 +120,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from AUTOSEARCH WHERE KEYWORD like '%' || #{value} || '%'
 	</select>
 	<select id = "getPicNo" resultType="String">
-		select pic_seq.nextval from duals
+		select pic_seq.nextval from dual
 	</select>
 	<insert id="stackImg" parameterType="commentPictureVO">
-		insert into LOC_COMMENT_PICTURE(PICNO, IMG_PATH) VALUES(#{picno}, #{img_path})
+		insert into LOC_COMMENT_PICTURE(PICNO, IMG_PATH, PIC_CURSOR) VALUES(#{picno}, #{img_path}, #{pic_cursor})
 	</insert>
 	<!-- 게시글 좋아요 -->
 	<insert id="clickLikeBtn" parameterType="hashMap">
@@ -137,6 +137,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<select id="getCountLikeByCno" parameterType="hashMap" resultType="int">
 		select count(*) from COMMENT_LIKE where cno=#{cno}
+	</select>
+	<select id = "getImgPath" parameterType="commentPictureVO" resultType="String">
+		select img_path from LOC_COMMENT_PICTURE where picno = #{picno} and pic_cursor = #{pic_cursor}
 	</select>
 </mapper>
  

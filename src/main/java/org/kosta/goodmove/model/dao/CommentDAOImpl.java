@@ -197,9 +197,9 @@ public class CommentDAOImpl implements CommentDAO{
 	}
 
 	@Override
-	public void stackImg(String img_path, String picNo) {
-		System.out.println(img_path + " " + picNo);
-		template.insert("comment.stackImg", new CommentPictureVO(Integer.parseInt(picNo), img_path));
+	public void stackImg(CommentPictureVO cpvo) {
+		System.out.println(cpvo);
+		template.insert("comment.stackImg", cpvo);
 	}
 
 	@Override
@@ -222,4 +222,11 @@ public class CommentDAOImpl implements CommentDAO{
 	public int getCountLikeByCno(String cno) {
 		return template.selectOne("comment.getCountLikeByCno", cno);
 	}
+
+	@Override
+	public String getImgPath(CommentPictureVO cpvo) {
+		return template.selectOne("comment.getImgPath", cpvo);
+	}
+	
+
 }

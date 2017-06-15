@@ -10,7 +10,7 @@
 	function pictureFormFnc() {
 		var picNo = opener.commentRegForm.picno.value;
 		var currentPictureId = opener.commentRegForm.currentPicId.value;
-		document.fileForm.action="${pageContext.request.contextPath}/stackImg.do?picno="+picNo+"&currPicId="+currentPictureId;
+		document.fileForm.action="${pageContext.request.contextPath}/stackImg.do?picno="+picNo+"&pic_cursor="+currentPictureId;
 		document.fileForm.submit();
 	}
 </script>

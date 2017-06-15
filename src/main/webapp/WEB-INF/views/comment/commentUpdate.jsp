@@ -5,6 +5,7 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
+    	$("#pasteImg").hide();
     	$("#updateBtn").click(function(){ 
     		if($("#title").val()==""){
     			alert("제목을 입력하세요!");
@@ -67,11 +68,13 @@
 			<textarea name="content" id="content" rows="10" cols="100" style="width:100%; height:412px; min-width:610px; display:none;"></textarea>
 			
 			<p>
-				<input type="button" onclick = "openImgSelector();" value="사진 찾기"/>
-				<input type="button" onclick = "insertImg();" value="사진 붙이기">
-				<input type="button" onclick = "loadPrev();" value="이전 글 불러오기"/>
-				<input type="hidden" id="picno" name = "picno" value = "${cvo.picno }">
-				<input type="hidden" id="curPic" name = "currentPicId" value =1000>
+			<br>
+			<button class = "btn btn-default" onclick = "openImgSelector();">사진 찾기</button>
+			<button class = "btn btn-default" id="pasteImg" onclick = "insertImg();" >사진 붙이기</button>
+						<button class = "btn btn-default"onclick = "loadPrev();">이전 글 불러오기</button>
+			<input type="button" onclick = "loadPrev();" value="이전 글 불러오기"/>
+			<input type="hidden" id="picno" name = "picno" value = "${cvo.picno }">
+			<input type="hidden" id="pic_cursor" name = "currentPicId" value =1000>
 				<!-- 
 				<input type="button" onclick="pasteHTML('');" value="본문에 내용 넣기" />
 				<input type="button" onclick="showHTML();" value="본문 내용 가져오기" /> -->
@@ -123,12 +126,22 @@
 	
  	function insertImg() {
  		var imgURL = "";
-		imgURL += "<img src='${pageContext.request.contextPath}/uploadedFiles/";
-		imgURL += "${mvo.id}"+"/"+"comment"+$("#picno").val()+"/"+$("#curPic").val()+".jpg";
-		imgURL += "'>";
-		pasteHTML(imgURL);
+ 		var imgHTML = "";
+ 		$("#pasteImg").show();
+ 		$.ajax({
+ 			type : "POST",
+ 			url : "${pageContext.request.contextPath}/getImgPath.do",
+ 			data : "picno="+$("#picno").val() +"&pic_cursor="+$("#pic_cursor").val(),
+ 			success :  function(data) {
+ 					alert("data: "+ data);
+ 					imgURL += "${pageContext.request.contextPath}/"
+ 					imgURL += data;
+			 		imgHTML = "<img src='" + imgURL + "'>";
+					pasteHTML(imgHTML);
+ 			}
+ 		});
 		
-		$("#curPic").val($("#curPic").val()+1);
+		$("#pic_cursor").val(parseInt($("#pic_cursor").val())+1);
 	} 
  	
 	function openImgSelector(){
