@@ -192,7 +192,6 @@
     <section id="blog-details" class="padding-top">
         <div class="container">
             <div class="row">
-            
                 <div class="col-md-12 col-sm-12">
                     <div class="row">
 	                	<div class="col-md-1 col-sm-1"></div>
@@ -202,122 +201,230 @@
                                 <input type="hidden" id="cno" value="${requestScope.cvo.cno}">
                                     <h2 class="post-title bold"><a href="#">${requestScope.cvo.title}</a></h2>
                                     <h3 class="post-author"><a href="#">Posted by ${requestScope.cvo.id}</a></h3>
-                                    <p>
-                                    	${requestScope.cvo.content}
-                                    </p>
-                                    <br>
-                                    <br>
-                                    	<sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
-                                    	<sec:authentication property="principal.id" var="mvoId"/>
-                                       	<div align="center">
-											<input class="btn btn-info" type="button" value="목록" onclick="sendList()" >
+								<!-- 구글지도 검색 api-->
+
+								<script type="text/javascript">
+									$(document).ready(
+											function() {
+												$("#map").hide();
+												$("#findBtn").hide();
+												$("#mapContent").click(
+														function() {
+															$("#findBtn")
+																	.toggle();
+														});
+												$("#findRouteBtn").on("click",
+														function() {
+															$("#map").show();
+															initMap();
+														});
+											});
+								</script>
+
+								<!-- Context -->
+								<div id="Context">
+											<table class="col-md-12 padding-0">
+												<tr>
+													<td><a href="#"> <span
+															class="fa fa-map-marker fa-3x" id="mapContent"></span></a></td>
+												</tr>
+												<tr id="findBtn">
+													<td colspan="3"><input type="text" id="dest"
+														name="dest"> <input class="btn btn-info"
+														type="button" value="길찾기" id="findRouteBtn"></td>
+												</tr>
+											</table>
+										</div>
+									<div style="float: left; width: 100%; height: 300px;" id="map"></div>
+									<!-- 지오코드로 한글 검색을 통한 좌표찾기 -->
+									<script type="text/javascript">
+										function initMap() {
+											var map;
+											var geocoder = new google.maps.Geocoder();
+											var marker;
+											var infoWindow;
+											map = new google.maps.Map(document
+													.getElementById('map'), {
+												zoom : 17,
+												center : {
+													lat : 37.384974,
+													lng : 127.123432
+												}
+											});
+											var dest = $("#dest").val();
+											geocoder
+													.geocode(
+															{
+																'address' : dest
+															},
+															function(results,
+																	status) {
+																if (status === 'OK') {
+																	map
+																			.setCenter(results[0].geometry.location);
+																	marker = new google.maps.Marker(
+																			{
+																				map : map,
+																				position : results[0].geometry.location
+																			});
+
+																	infoWindow = new google.maps.InfoWindow(
+																			{
+																				content : dest
+																			});
+
+																	infoWindow
+																			.open(
+																					map,
+																					marker);
+																}
+															});
+										}
+									</script>
+									<!-- 구글api를 가져오기 위한 script -->
+									<script async defer
+										src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCvP2byenxiGWdtrFrb9Bk5Bf5J8kiCqA&callback=initMap">
+    </script>
+									<p>${requestScope.cvo.content}</p>
+									<br> <br>
+									<sec:authorize
+										ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
+										<sec:authentication property="principal.id" var="mvoId" />
+										<div align="center">
+											<input class="btn btn-info" type="button" value="목록"
+												onclick="sendList()">
 											<c:if test="${requestScope.cvo.id==mvoId}">
-											 <input class="btn btn-info" type="button" value="수정" onclick="updateComment()">
-											 <input class="btn btn-danger" type="button" value="삭제" onclick="deleteComment()">  
-											 </c:if>
-											<c:if test="${requestScope.cvo.id!=mvoId}">
-											<input class="btn btn-danger" type="button" value="신고" onclick="reportComment()">
+												<input class="btn btn-info" type="button" value="수정"
+													onclick="updateComment()">
+												<input class="btn btn-danger" type="button" value="삭제"
+													onclick="deleteComment()">
 											</c:if>
-							            </div>
-							            </sec:authorize>
-                                    <div class="post-bottom overflow">
-                                        <ul class="nav navbar-nav post-nav">
-                                            <li><a href="#"><i class="fa fa-tag"></i>Creative</a></li>
-                                            <li><a onclick="like_btn()"><i class="fa fa-heart"></i>${likeCount} Love</a></li>
-                                            <li><span id="ifLike"></span></li>
-                                            <li><a href="#"><i class="fa fa-comments"></i>3 Comments</a></li>
-                                        </ul>
-                                    </div>
-                                    <!-- 댓글 입력구간 -->
-                                    <div class="author-profile">
-                                        <div class="row">
-                                            <div class="col-sm-10">
-												<sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
-													<div class="replyList" >
+											<c:if test="${requestScope.cvo.id!=mvoId}">
+												<input class="btn btn-danger" type="button" value="신고"
+													onclick="reportComment()">
+											</c:if>
+										</div>
+									</sec:authorize>
+									<div class="post-bottom overflow">
+										<ul class="nav navbar-nav post-nav">
+											<li><a href="#"><i class="fa fa-tag"></i>Creative</a></li>
+											<li><a onclick="like_btn()"><i class="fa fa-heart"></i>${likeCount}
+													Love</a></li>
+											<li><span id="ifLike"></span></li>
+											<li><a href="#"><i class="fa fa-comments"></i>3
+													Comments</a></li>
+										</ul>
+									</div>
+									<!-- 댓글 입력구간 -->
+									<div class="author-profile">
+										<div class="row">
+											<div class="col-sm-10">
+												<sec:authorize
+													ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
+													<div class="replyList">
 														<div class="form-group" align="center">
-															<form name="replyWriteForm" action="writeCommentReply1.do" method="post">
+															<form name="replyWriteForm"
+																action="writeCommentReply1.do" method="post">
 																<ul class="nav navbar-nav navbar-default" id="reply_ul">
 																	<li><input type="hidden" name="parent" value="0">
-																	<input type="hidden" name="cno" value="${requestScope.cvo.cno}">
-																	<input type="hidden" name="id" value="<sec:authentication property="principal.id"/>">
-																	<input type="hidden" name="name" value="<sec:authentication property="principal.name"/>">
-																	<input type="hidden" name="gno" value="1">
-																	<input type="hidden" name="depth" value="0">
-																	<input type="hidden" name="order_no" value="1">
-																	<br>
-																	<br>
-																	<textarea class="reply_field" id="content" name="content" rows="3" cols="130"
-																	placeholder="댓글을 달아주세요."></textarea>
-																	<input type="button" id="writeReplyBtn" class="btn btn-sm btn-info" value="등록" onclick="fn_formSubmit()"></li>
+																		<input type="hidden" name="cno"
+																		value="${requestScope.cvo.cno}"> <input
+																		type="hidden" name="id"
+																		value="<sec:authentication property="principal.id"/>">
+																		<input type="hidden" name="name"
+																		value="<sec:authentication property="principal.name"/>">
+																		<input type="hidden" name="gno" value="1"> <input
+																		type="hidden" name="depth" value="0"> <input
+																		type="hidden" name="order_no" value="1"> <br>
+																		<br> <textarea class="reply_field" id="content"
+																			name="content" rows="3" cols="130"
+																			placeholder="댓글을 달아주세요."></textarea> <input
+																		type="button" id="writeReplyBtn"
+																		class="btn btn-sm btn-info" value="등록"
+																		onclick="fn_formSubmit()"></li>
 																	<li></li>
 																</ul>
 															</form>
 														</div>
 													</div>
 												</sec:authorize>
-                                        	</div>
-                                        </div>
-                                    </div>
-                                    <!-- 댓글 입력구간 끝 -->
-                                    <!--  -->
-                                    <sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
-                                    	<div id="replyDialog" style="width: 99%; display: none">
-											<form name="form3" action="writeCommentReply2.do" method="post">
-												<input type="hidden" name="cno" value="<c:out value="${requestScope.cvo.cno}"/>"> 
-												<input type="hidden" name="parent">
-												<input type="hidden" name="id" value="<sec:authentication property="principal.id"/>">
-												<input type="hidden" name="name" value="<sec:authentication property="principal.name"/>">
-												<textarea class="reply_field" name="content" rows="3" cols="60" maxlength="500" style="border:solid 1px #D8D8D8;
-												margin-left:10px;"></textarea>
-												<a onclick="fn_replyReplySave()">저장</a>
-												<a onclick="fn_replyReplyCancel()">취소</a>
+											</div>
+										</div>
+									</div>
+									<!-- 댓글 입력구간 끝 -->
+									<!--  -->
+									<sec:authorize
+										ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
+										<div id="replyDialog" style="width: 99%; display: none">
+											<form name="form3" action="writeCommentReply2.do"
+												method="post">
+												<input type="hidden" name="cno"
+													value="<c:out value="${requestScope.cvo.cno}"/>"> <input
+													type="hidden" name="parent"> <input type="hidden"
+													name="id"
+													value="<sec:authentication property="principal.id"/>">
+												<input type="hidden" name="name"
+													value="<sec:authentication property="principal.name"/>">
+												<textarea class="reply_field" name="content" rows="3"
+													cols="60" maxlength="500"
+													style="border: solid 1px #D8D8D8; margin-left: 10px;"></textarea>
+												<a onclick="fn_replyReplySave()">저장</a> <a
+													onclick="fn_replyReplyCancel()">취소</a>
 											</form>
 										</div>
 									</sec:authorize>
-                                   	<!-- 댓글 구간 -->
-                                    <div class="response-area">
-                                    <h2 class="bold">Comments</h2>
-                                    <ul class="media-list">
-                                    <c:forEach items="${requestScope.CommentReplyList}" var="reply">
-                                    <c:if test = "${reply.depth <1}">                                    
-                                    
-                                    	<li class="media">
-                                            <div class="post-comment">
-                                            	 <div class="media-body">
-                                                    <span><i class="fa fa-user">	</i>Posted by <a href="#">${reply.id}</a></span>
-                                					<div align="left" id="reply<c:out value="${reply.rno}"/>">
-														<c:out value="${reply.content }" />
+									<!-- 댓글 구간 -->
+									<div class="response-area">
+										<h2 class="bold">Comments</h2>
+										<ul class="media-list">
+											<c:forEach items="${requestScope.CommentReplyList}"
+												var="reply">
+												<c:if test="${reply.depth <1}">
+
+													<li class="media">
+														<div class="post-comment">
+															<div class="media-body">
+																<span><i class="fa fa-user"> </i>Posted by <a
+																	href="#">${reply.id}</a></span>
+																<div align="left"
+																	id="reply<c:out value="${reply.rno}"/>">
+																	<c:out value="${reply.content }" />
+																</div>
+																<ul class="nav navbar-nav post-nav">
+																	<li><a href="#"><i class="fa fa-clock-o"></i>${reply.time_posted}</a></li>
+																	<li><a href="#"><i class="fa fa-reply"
+																			id="like_btn"></i>Reply</a></li>
+																</ul>
+															</div>
+														</div>
+													</li>
+												</c:if>
+												<c:if test="${reply.depth >=1}">
+													<div class="parrent">
+														<ul class="media-list">
+															<li class="post-comment reply">
+																<div class="media-body">
+																	<span><i class="fa fa-user"></i>Posted by <a
+																		href="#">${reply.id}</a></span>
+																	<p>
+																		<c:out value="${reply.content }" />
+																	</p>
+																	<ul class="nav navbar-nav post-nav">
+																		<li><a href="#"><i class="fa fa-clock-o"></i>${reply.time_posted}</a></li>
+																	</ul>
+																</div>
+															</li>
+														</ul>
 													</div>
-                                            		<ul class="nav navbar-nav post-nav">
-                                                        <li><a href="#"><i class="fa fa-clock-o"></i>${reply.time_posted}</a></li>
-                                                        <li><a href="#"><i class="fa fa-reply" id="like_btn"></i>Reply</a></li>
-                                                    </ul>
-                                            	</div>
-                                            </div>
-                                         </li>
-                                    </c:if>
-                                      <c:if test="${reply.depth >=1}">                                    
-	                                      	<div class="parrent">
-	                                                <ul class="media-list">
-	                                                    <li class="post-comment reply">
-	                                                        <div class="media-body">
-	                                                            <span><i class="fa fa-user"></i>Posted by <a href="#">${reply.id}</a></span>
-	                                                            <p><c:out value="${reply.content }" /></p>
-	                                                            <ul class="nav navbar-nav post-nav">
-	                                                                <li><a href="#"><i class="fa fa-clock-o"></i>${reply.time_posted}</a></li>
-	                                                            </ul>
-	                                                        </div>
-	                                                    </li>
-	                                                </ul>
-	                                          </div>
-                                    </c:if>
-                                            
-                                    </c:forEach>
-                                   		<!-- 댓글 구간 끝-->
-                                   	</ul>                   
-                                </div><!--/Response-area-->
-                                </div>
-                            </div>
+												</c:if>
+
+											</c:forEach>
+											<!-- 댓글 구간 끝-->
+										</ul>
+									</div>
+									<!--/Response-area-->
+								</div>
+							</div>
                         </div>
                     </div>
                  </div>
