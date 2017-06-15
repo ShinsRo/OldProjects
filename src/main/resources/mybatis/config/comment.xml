@@ -138,5 +138,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getCountLikeByCno" parameterType="hashMap" resultType="int">
 		select count(*) from COMMENT_LIKE where cno=#{cno}
 	</select>
+	<!-- 제목 옆에 댓글 수 보여 줌 -->
+	<select id="getCommentReplyCount" resultType="int">
+		select count(*) from LOC_COMMENT_REPLY where cno=#{value}
+	</select>	
 </mapper>
  

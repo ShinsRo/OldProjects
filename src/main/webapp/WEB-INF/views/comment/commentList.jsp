@@ -44,7 +44,10 @@
 					<td><c:choose>
 							<c:when test="${mvoId!=null}">
 								<a
-									href="${pageContext.request.contextPath}/showComment.do?cno=${cvo.cno }">${cvo.title }</a>
+									href="${pageContext.request.contextPath}/showComment.do?cno=${cvo.cno }">${cvo.title } ${board.comment}</a>
+										<c:if test="${board.comment!= 0}">
+    								<a id="board_comment">&nbsp;${board.comment}</a>
+   									 </c:if>
 							</c:when>
 							<c:otherwise>
 						${cvo.title }

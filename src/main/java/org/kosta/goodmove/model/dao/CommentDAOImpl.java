@@ -34,7 +34,11 @@ public class CommentDAOImpl implements CommentDAO{
 	 */
 	@Override
 	public List<CommentVO> getCommentList(PagingBean pagingBean) {
-		return template.selectList("comment.getCommentList", pagingBean);
+		List<CommentVO> list=template.selectList("comment.getCommentList", pagingBean);
+		for(int i=0;i<list.size();i++){
+		list.get(i).setTitle(list.get(i).getTitle()+"("+template.selectOne("comment.getCommentReplyCount", list.get(i).getCno())+")");
+	}
+		return list;
 	}
 	/**
 	 * 지역후기의 상세 내용 조회, 반환
