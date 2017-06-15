@@ -21,7 +21,7 @@
 				<td><img src="${pageContext.request.contextPath}/resources/img/delivery_truck.png" style="width: 300px;"></td>
 			</tr>
 			<tr>
-				<td><h2><a href="${pageContext.request.contextPath}/member/registers_terms.do">가입</a></h2></td>
+				<td colspan="2"><h2><a href="${pageContext.request.contextPath}/member/registers_terms.do">회원가입</a></h2></td>
 			</tr>
 		</table>
 </div>
