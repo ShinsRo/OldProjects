@@ -13,12 +13,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from (select cno, title, hit,
 		to_char(time_posted,'YYYY.MM.DD HH:mm:ss') as
 		time_posted, addr, id,
-		content, row_number() over(order by cno desc) as rnum from
+		content, , picno, row_number() over(order by cno desc) as rnum from
 		loc_comment) where rnum between #{startRowNumber} and #{endRowNumber}
 	</select>
 	<select id="showComment" resultType="commentVO" parameterType="int">
 		select cno, title, hit, to_char(time_posted,'YYYY.MM.DD HH:mm:ss') as
-		time_posted, addr, id, content
+		time_posted, addr, id, content, picno
 		from loc_comment where cno=#{value}
 	</select>
 	<update id="updateCount" parameterType="int">
@@ -67,7 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="findCommentById" parameterType="hashMap" resultType="CommentVO">
 		select * from (select cno, title, hit, to_char(time_posted,'YYYY.MM.DD
 		HH:mm:ss') as
-		time_posted, addr, id, content, row_number() over(order
+		time_posted, addr, id, content, picno, row_number() over(order
 		by cno desc) as rnum from
 		loc_comment where id = #{id}) where rnum
 		between #{pagingBean.startRowNumber} and #{pagingBean.endRowNumber}

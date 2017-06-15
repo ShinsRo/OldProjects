@@ -2,9 +2,6 @@ package org.kosta.goodmove.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +12,6 @@ import org.kosta.goodmove.model.service.SearchService;
 import org.kosta.goodmove.model.vo.CommentReplyVO;
 import org.kosta.goodmove.model.vo.CommentVO;
 import org.kosta.goodmove.model.vo.MemberVO;
-import org.kosta.goodmove.model.vo.ProductVO;
 import org.kosta.goodmove.model.vo.SearchVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -82,7 +78,10 @@ public class CommentController {
 	@RequestMapping("commentUpdateView.do")
 	public ModelAndView commentUpdate(String cno) {
 		int clno = Integer.parseInt(cno);
-		return new ModelAndView("comment/commentUpdate.tiles", "cvo", commentService.showCommentNoHit(clno));
+		CommentVO cvo = commentService.showCommentNoHit(clno);
+		String content = cvo.getContent().replaceAll("\"", "\'");
+		cvo.setContent(content);
+		return new ModelAndView("comment/commentUpdate.tiles", "cvo", cvo);
 	}
 
 	/**

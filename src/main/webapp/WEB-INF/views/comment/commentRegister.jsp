@@ -116,10 +116,11 @@
 	
  	function insertImg() {
  		var imgURL = "";
-  		imgURL += "<div id=ImageContainer>"
+  		//imgURL += "<div id=ImageContainer>"
 		imgURL += "<img src='${pageContext.request.contextPath}/uploadedFiles/";
 		imgURL += "${mvo.id}"+"/"+"comment"+$("#picno").val()+"/"+$("#curPic").val()+".jpg";
-		imgURL += "' class=Image></div>";
+		imgURL += "'>";
+		//imgURL += "' class=Image></div>";
 		pasteHTML(imgURL);
 		
 		$("#curPic").val($("#curPic").val()+1);
@@ -130,7 +131,7 @@
 			$.getJSON("${pageContext.request.contextPath}/getPicNo.do", function(data) {
 				$("#picno").val(data);
 			});
-		}		
+		}
 		var appPopURL = "${pageContext.request.contextPath}/showImgSelector.do";
 		var PopOption = "width=470, height=160, resizable=no, scrollbars=no, status=no";
 		window.open(appPopURL,"",PopOption);
@@ -142,7 +143,6 @@
 		
 	function submitContents(elClickedObj) {
 		oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);	// 에디터의 내용이 textarea에 적용됩니다.
-		alert(document.getElementById("content").value);
 		// 에디터의 내용에 대한 값 검증은 이곳에서 document.getElementById("content").value를 이용해서 처리하면 됩니다.
 		// alert(document.getElementById("content").value);
 		try {
@@ -157,39 +157,3 @@
 		oEditors.getById["content"].setDefaultFont(sDefaultFont, nFontSize);
 	}
 </script>
-
-<!-- 여기는요 작성폼 -->
-<%-- <section id="">
-   <form enctype="multipart/form-data" id="write_form"
-      name="boardRegForm" method="post" action="${pageContext.request.contextPath}/commentRegister.do">
-      <div class="col-md-1 col-sm-1" align="center">
-      </div>
-      <div class="col-md-10 col-sm-10" align="center">
-         <div class="contact-form bottom">
-         <br>
-            <div class="form-group" align="center">
-               <input type="text" name="title" class="form-control"
-                  required="required" placeholder="제목">
-            </div>
-            <div class="form-group" align="center">
-               <input type="text" name="writer"
-                  class="postcodify_address form-control" value="작성자&nbsp;&nbsp;${sessionScope.mvo.name}"
-                  readonly="readonly"/>
-                  <input type="text" name="addr"
-                  class="postcodify_address form-control" value="${requestScope.add}"
-                  />
-            </div>
-            <div class="form-group" align="center">
-               <textarea name="content" id="content" required="required"
-                  class="form-control" rows="15" placeholder="글을 작성해주세요."></textarea>
-            </div>
-            <div class="form-group" align="center">
-
-                     <input class="btn btn-submit" type="button" id="writeBtn" value="등록" >
-                     <input class="btn btn-submit" type="button" id="resetBtn"  value="리셋" >    
-            </div>
-         </div>
-      </div>
-   </form> 
-</section>--%>
-<!-- 여기는요 작성폼 -->
