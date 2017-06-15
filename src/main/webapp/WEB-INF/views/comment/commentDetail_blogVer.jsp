@@ -177,13 +177,6 @@
 	                	<div class="col-md-1 col-sm-1"></div>
                          <div class="col-md-10 col-sm-10">
                             <div class="single-blog blog-details">
-                            <!-- 이미지 썸네일 -->
-<!--                                 <div class="post-thumb">
-                                    <a href="#"><img src="images/blog/7.jpg" class="img-responsive" alt=""></a>
-                                    <div class="post-overlay">
-                                        <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
-                                    </div>
-                                </div> -->
                                 <div class="post-content overflow">
                                     <h2 class="post-title bold"><a href="#">${requestScope.cvo.title}</a></h2>
                                     <h3 class="post-author"><a href="#">Posted by ${requestScope.cvo.id}</a></h3>
@@ -232,7 +225,6 @@
 																	<input type="button" id="writeReplyBtn" class="btn btn-sm btn-info" value="등록" onclick="fn_formSubmit()"></li>
 																	<li></li>
 																</ul>
-																
 															</form>
 														</div>
 													</div>
@@ -241,7 +233,19 @@
                                         </div>
                                     </div>
                                     <!-- 댓글 입력구간 끝 -->
-                                    
+                                    <!--  -->
+                                    	<div id="replyDialog" style="width: 99%; display: none">
+											<form name="form3" action="writeCommentReply2.do" method="post">
+												<input type="hidden" name="cno" value="<c:out value="${requestScope.cvo.cno}"/>"> 
+												<input type="hidden" name="parent">
+												<input type="hidden" name="id" value="${sessionScope.mvo.id}">
+												<input type="hidden" name="name" value="${sessionScope.mvo.name}">
+												<textarea class="reply_field" name="content" rows="3" cols="60" maxlength="500" style="border:solid 1px #D8D8D8;
+												margin-left:10px;"></textarea>
+												<a onclick="fn_replyReplySave()">저장</a>
+												<a onclick="fn_replyReplyCancel()">취소</a>
+											</form>
+										</div>
                                    	<!-- 댓글 구간 -->
                                     <div class="response-area">
                                     <h2 class="bold">Comments</h2>
@@ -282,25 +286,7 @@
                                             
                                     </c:forEach>
                                    		<!-- 댓글 구간 끝-->
-                                   		<!-- 댓글 구간 ex-->
-                                        <li class="media">
-                                            <div class="post-comment">
-                                                사진 태그                                                  
-														<a class="pull-left" href="#">
-                                                            <img class="media-object" src="images/blogdetails/3.png" alt="">
-                                                        </a> 
-                                                
-                                                <div class="media-body">
-                                                    <span><i class="fa fa-user"></i>Posted by <a href="#">Endure</a></span>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliq Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.</p>
-                                                    <ul class="nav navbar-nav post-nav">
-                                                        <li><a href="#"><i class="fa fa-clock-o"></i>February 11,2014</a></li>
-                                                        <li><a href="#"><i class="fa fa-reply"></i>Reply</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-		                                    <!-- 댓글 구간 끝-->
-                                    </ul>                   
+                                   	</ul>                   
                                 </div><!--/Response-area-->
                                 </div>
                             </div>
