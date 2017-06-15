@@ -207,16 +207,19 @@
                                     </p>
                                     <br>
                                     <br>
+                                    	<sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
+                                    	<sec:authentication property="principal.id" var="mvoId"/>
                                        	<div align="center">
 											<input class="btn btn-info" type="button" value="목록" onclick="sendList()" >
-											<c:if test="${requestScope.cvo.id==sessionScope.mvo.id}">
+											<c:if test="${requestScope.cvo.id==mvoId}">
 											 <input class="btn btn-info" type="button" value="수정" onclick="updateComment()">
 											 <input class="btn btn-danger" type="button" value="삭제" onclick="deleteComment()">  
 											 </c:if>
-											<c:if test="${requestScope.cvo.id!=sessionScope.mvo.id}">
+											<c:if test="${requestScope.cvo.id!=mvoId}">
 											<input class="btn btn-danger" type="button" value="신고" onclick="reportComment()">
 											</c:if>
 							            </div>
+							            </sec:authorize>
                                     <div class="post-bottom overflow">
                                         <ul class="nav navbar-nav post-nav">
                                             <li><a href="#"><i class="fa fa-tag"></i>Creative</a></li>
@@ -229,15 +232,15 @@
                                     <div class="author-profile">
                                         <div class="row">
                                             <div class="col-sm-10">
-												<c:if test="${sessionScope.mvo != null}">
+												<sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
 													<div class="replyList" >
 														<div class="form-group" align="center">
 															<form name="replyWriteForm" action="writeCommentReply1.do" method="post">
 																<ul class="nav navbar-nav navbar-default" id="reply_ul">
 																	<li><input type="hidden" name="parent" value="0">
 																	<input type="hidden" name="cno" value="${requestScope.cvo.cno}">
-																	<input type="hidden" name="id" value="${sessionScope.mvo.id}">
-																	<input type="hidden" name="name" value="${sessionScope.mvo.name}">
+																	<input type="hidden" name="id" value="<sec:authentication property="principal.id"/>">
+																	<input type="hidden" name="name" value="<sec:authentication property="principal.name"/>">
 																	<input type="hidden" name="gno" value="1">
 																	<input type="hidden" name="depth" value="0">
 																	<input type="hidden" name="order_no" value="1">
@@ -251,24 +254,26 @@
 															</form>
 														</div>
 													</div>
-												</c:if>
+												</sec:authorize>
                                         	</div>
                                         </div>
                                     </div>
                                     <!-- 댓글 입력구간 끝 -->
                                     <!--  -->
+                                    <sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
                                     	<div id="replyDialog" style="width: 99%; display: none">
 											<form name="form3" action="writeCommentReply2.do" method="post">
 												<input type="hidden" name="cno" value="<c:out value="${requestScope.cvo.cno}"/>"> 
 												<input type="hidden" name="parent">
-												<input type="hidden" name="id" value="${sessionScope.mvo.id}">
-												<input type="hidden" name="name" value="${sessionScope.mvo.name}">
+												<input type="hidden" name="id" value="<sec:authentication property="principal.id"/>">
+												<input type="hidden" name="name" value="<sec:authentication property="principal.name"/>">
 												<textarea class="reply_field" name="content" rows="3" cols="60" maxlength="500" style="border:solid 1px #D8D8D8;
 												margin-left:10px;"></textarea>
 												<a onclick="fn_replyReplySave()">저장</a>
 												<a onclick="fn_replyReplyCancel()">취소</a>
 											</form>
 										</div>
+									</sec:authorize>
                                    	<!-- 댓글 구간 -->
                                     <div class="response-area">
                                     <h2 class="bold">Comments</h2>

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
-
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
@@ -42,6 +42,7 @@
 <!--배너 타이틀-->
 
 <!-- 여기는요 수정폼 -->
+<sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
 <section id="">
    <form enctype="multipart/form-data" id="update_form"
       name="boardRegForm" method="post" action="${pageContext.request.contextPath}/updateQuestion.do">
@@ -66,7 +67,7 @@
             <div class="form-group" align="center">
             <input type="hidden" name="qno" value="${qvo.qno}">
                <input type="text" name="writer"
-                  class="postcodify_address form-control" value="작성자&nbsp;&nbsp;${sessionScope.mvo.name}"
+                  class="postcodify_address form-control" value="작성자&nbsp;&nbsp;<sec:authentication property="principal.id"/>"
                   readonly="readonly"/>
             </div>
             <div class="form-group" align="center">
@@ -80,6 +81,7 @@
       </div>
    </form>
 </section>
+</sec:authorize>
 <!-- 여기는요 수정폼 -->
 
 
