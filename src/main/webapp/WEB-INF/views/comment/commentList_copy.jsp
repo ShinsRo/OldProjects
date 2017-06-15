@@ -36,17 +36,20 @@
 			</tr>
 		</thead>
 		<tbody>
+		<sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
+		<sec:authentication property="principal.id" var="mvoId"/>
 			<c:forEach items="${requestScope.lvo.list}" var="cvo">
 				<tr>
 					<td>${cvo.cno }</td>
-					<td>
-							<sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
+					<td><c:choose>
+							<c:when test="${mvoId!=null}">
 								<a
 									href="${pageContext.request.contextPath}/showComment.do?cno=${cvo.cno }">${cvo.title }</a>
-							</sec:authorize>
-							<sec:authorize ifNotGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
+							</c:when>
+							<c:otherwise>
 						${cvo.title }
-						</sec:authorize></td>
+					</c:otherwise>
+						</c:choose></td>
 					<td>
 				<ul class = "nav navbar-nav navbar-left">
 					<li class="dropdown">${cvo.id }<i class="fa fa-angle-down"></i>
@@ -62,6 +65,7 @@
 					<td>${cvo.addr }</td>
 				</tr>
 			</c:forEach>
+			</sec:authorize>
 		</tbody>
 	</table>
 	<br></br>
@@ -107,9 +111,9 @@
 
 	<br> <br>
 	<span style="float:right">
-		<sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
+		<c:if test="${sessionScope.mvo.id != null }">
 			<input  class="btn btn-info" type="button" value="글쓰기"
 				onclick="javascript:location.href='${pageContext.request.contextPath}/commentRegisterView.do'">
-		</sec:authorize>
+		</c:if>
 	</span>
 </div>
