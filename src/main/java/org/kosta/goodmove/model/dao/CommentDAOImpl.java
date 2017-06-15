@@ -201,4 +201,20 @@ public class CommentDAOImpl implements CommentDAO{
 		System.out.println(img_path + " " + picNo);
 		template.insert("comment.stackImg", new CommentPictureVO(Integer.parseInt(picNo), img_path));
 	}
+
+	@Override
+	public void clickLikeBtn(String cno, String id) {
+		HashMap<String, String> paramMap = new HashMap<>();
+		paramMap.put("cno", cno);
+		paramMap.put("id", id);
+		template.insert("comment.clickLikeBtn", paramMap);
+	}
+
+	@Override
+	public int findLikeById(String cno, String id) {
+		HashMap<String, String> paramMap = new HashMap<>();
+		paramMap.put("cno", cno);
+		paramMap.put("id", id);
+		return template.selectOne("comment.findLikeById", paramMap);
+	}
 }

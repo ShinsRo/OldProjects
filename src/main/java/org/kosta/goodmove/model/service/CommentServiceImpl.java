@@ -205,4 +205,14 @@ public class CommentServiceImpl implements CommentService{
 		commentDAO.stackImg(img_path, picNo);
 	}
 
+	@Override
+	public void clickLikeBtn(String cno, String id) {
+		commentDAO.clickLikeBtn(cno, id);
+	}
+
+	@Override
+	public int findLikeById(String cno, String id) {
+		return commentDAO.findLikeById(cno, id);
+	}
+
 }

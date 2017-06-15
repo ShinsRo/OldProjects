@@ -14,6 +14,7 @@ import org.kosta.goodmove.model.vo.MemberVO;
 import org.kosta.goodmove.model.vo.SearchVO;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -287,4 +288,23 @@ public class CommentController {
 	public String showImgSelector(){
 		return "comment/imgSelectPopUp";
 	}
+	/**
+	 * 좋아요 버튼 클릭시
+	 * 테이블에 insert
+	 * @return
+	 */
+	@RequestMapping("clickLikeBtn.do")
+	@ResponseBody
+	public String clickLikeBtn(String cno,String id){
+		System.out.println("좋아요>.<~");
+		int count = commentService.findLikeById(cno, id);
+		if(count==0){ // 좋아요 안눌렀으면
+			commentService.clickLikeBtn(cno, id);// db insert
+		}else{ // 좋아요 이미 누름
+			
+		}
+		return (count == 0) ? "ok" : "fail";
+	}
+	
+	
 }

@@ -13,7 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from (select cno, title, hit,
 		to_char(time_posted,'YYYY.MM.DD HH:mm:ss') as
 		time_posted, addr, id,
-		content, , picno, row_number() over(order by cno desc) as rnum from
+		content, picno, row_number() over(order by cno desc) as rnum from
 		loc_comment) where rnum between #{startRowNumber} and #{endRowNumber}
 	</select>
 	<select id="showComment" resultType="commentVO" parameterType="int">
@@ -122,10 +122,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	</select>
 	<select id = "getPicNo" resultType="String">
-		select pic_seq.nextval from dual
+		select pic_seq.nextval from duals
 	</select>
 	<insert id="stackImg" parameterType="commentPictureVO">
 		insert into LOC_COMMENT_PICTURE(PICNO, IMG_PATH) VALUES(#{picno}, #{img_path})
 	</insert>
+	<!-- 게시글 좋아요 -->
+	<insert id="clickLikeBtn" parameterType="hashMap">
+		<selectKey keyProperty="lno" resultType="int" order="BEFORE">
+			select CL_SEQ.nextval from dual
+		</selectKey>
+		insert into COMMENT_LIKE(lno,cno,id) values(#{lno},#{cno},#{id})
+	</insert>
+	<select id="findLikeById" parameterType="hashMap" resultType="int">
+		select count(*) from COMMENT_LIKE where cno=#{cno} and id=#{id}
+	</select>
 </mapper>
  

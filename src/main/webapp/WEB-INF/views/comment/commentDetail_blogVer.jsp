@@ -141,6 +141,26 @@
 	    form.action="writeCommentReply2.do";
 	    form.submit();    
 	}
+	// 좋아요 기능
+	function like_btn(){
+		var id;
+		var cno;
+		alert("like 클릭");
+		$.ajax({
+			type : "POST",
+			url : "${pageContext.request.contextPath}/clickLikeBtn.do",
+			data : "id=" + id,
+			success : function(data) {
+				if (data == "fail") {
+					$("#ifLike").html(id+ " 눌렀다고").css("color","red");
+					checkResultId = "";
+				} else {
+					$("#ifLike").html(id+ " 좋아요 고마워!").css("color","blue");
+					checkResultId = id;
+				}
+			}//callback         
+		});//ajax
+	}
 </script>
 <link rel="shortcut icon" href="images/ico/favicon.ico">
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="${pageContext.request.contextPath}/resources/images/ico/apple-touch-icon-144-precomposed.png">
@@ -199,7 +219,8 @@
                                     <div class="post-bottom overflow">
                                         <ul class="nav navbar-nav post-nav">
                                             <li><a href="#"><i class="fa fa-tag"></i>Creative</a></li>
-                                            <li><a href="#"><i class="fa fa-heart"></i>32 Love</a></li>
+                                            <li><a onclick="like_btn()"><i class="fa fa-heart"></i>Love</a></li>
+                                            <li><span id="ifLike"></span></li>
                                             <li><a href="#"><i class="fa fa-comments"></i>3 Comments</a></li>
                                         </ul>
                                     </div>
@@ -263,7 +284,7 @@
 													</div>
                                             		<ul class="nav navbar-nav post-nav">
                                                         <li><a href="#"><i class="fa fa-clock-o"></i>${reply.time_posted}</a></li>
-                                                        <li><a onclick="fn_replyReply(${reply.rno})"><i class="fa fa-reply"></i>Reply</a></li>
+                                                        <li><a href="#"><i class="fa fa-reply" id="like_btn"></i>Reply</a></li>
                                                     </ul>
                                             	</div>
                                             </div>
