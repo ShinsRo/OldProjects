@@ -45,7 +45,7 @@ public class BoardController {
 	public String boardList(String pageNo, Model model) {
 		BoardListVO blvo = boardService.getAllBoardList(pageNo);
 		model.addAttribute("blvo", blvo);
-		return "board/boardList.tiles";
+		return "board/boardList_copy.tiles";
 	}
 
 	/**

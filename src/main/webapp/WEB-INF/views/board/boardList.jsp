@@ -165,7 +165,7 @@ function getCookie(cName) {
 		</c:choose>
 	</ul>
 </div>
-<div id="rigth">
+<div id="right">
 </div>
 <!-- 오늘 본 드려요 게시물 -->
 

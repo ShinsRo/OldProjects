@@ -1,15 +1,8 @@
 #rightSide {
-	position: absolute;
-	top: 547px;
-	left: 50%;
-	margin: 0 0 0 510px;
+
 }
 
 #rightSide #right_zzim {
-	position: fixed;
-	top: 80px;
-	left: 50%;
-	margin-left: 550px;
 	border: 1px solid #B0B5BD;
 	width: 114px;
 	height: 543px;
@@ -22,19 +15,20 @@
 #rightSide #right_zzim  div.recTit {
 	line-height: 1.5em;
 	padding: 5px;
-	color: white;
-	background-color: #505A69;
+	color: blue;
 }
 
 #right_zzim #recentCnt {
 	color: yellow;
 }
 
-#rightSide #right_zzim ul {
+#rightSide #right_zzim ul#right-ul {
 	min-height: 495px;
-	padding:0px;
+	padding:0px !important;
 }
-
+#ul#right-ul{
+	padding:0px !important;
+}
 #rightSide #right_zzim  li {
 	text-align: center;
 	padding: 5px;
@@ -43,9 +37,9 @@
 
 #rightSide #right_zzim ul li img {
 	border: 1px solid #ccc;
-	width : 100%;
-	height: 23%;
+	max-width : 100px;
 	max-height: 90px;
+	overflow: hidden;
 }
 
 #right_zzim .detail {
@@ -75,29 +69,34 @@
 	text-indent: -9000px;
 }
 
-#right_zzim  #currentPage {
+/* #right_zzim  #currentPage {
 	position: absolute;
-	top: 510px;
-	left:45px;
+	top: 800px;
 	color: #505A69;
 	font-weight: bold
 }
 
 #right_zzim  #totalPageCount {
 	position: absolute;
-	top: 510px;
+	top: 800px;
 	color: #CBC8D2;
 	font-weight: bold
 }
-
+ */
 .noData {
 	color: #ccc;
 	text-align: center;
 	margin-top: 223px;
 }
 
+#paging-wrap {
+	position: absolute;
+	top:800px;
+	margin: 0 auto;
 }
+/* 
 #paging {
+	float:right;
 	display:inline;
 	position: relative;
 	line-height: 1em;
@@ -119,4 +118,4 @@
 	width: 13px;
 	height: 11px;
 	display: inline-block;
-}
+} */

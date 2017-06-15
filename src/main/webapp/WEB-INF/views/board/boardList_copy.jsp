@@ -2,6 +2,26 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link href="${pageContext.request.contextPath }/resources/css/todayShow.css" rel="stylesheet">
+<style>
+      #jb-container {
+        width: 90%;
+        margin: 0px auto;
+        padding: 20px;
+      }
+      #jb-content {
+        width: 90%;
+        height:100%;
+        padding: 20px;
+        margin-bottom: 20px;
+        float: left;
+      }
+      #jb-sidebar {
+        width: 10%;
+        height:100%;
+        padding: 5px;
+        float: right;
+      }
+    </style>
 <script>
 
 var Cpage;   // 현재 페이지 
@@ -35,7 +55,7 @@ function chkRecent(a){
 			if(thisItem){
 				var itemId = thisItem.split(':')[0];
 				var itemImg = thisItem.split(':')[1];
-				$("#right_zzim ul").append('<li><a href="boardDetail.do?bno='+itemId+'">'+itemId+'번 게시물</a><img src="${pageContext.request.contextPath}/'+itemImg+'"></li>'); 
+				$("#right_zzim ul").append('<li><a href="boardDetail.do?bno='+itemId+'">'+itemId+'번 게시물</a><img style="overflow: hidden; width:100px;" src="${pageContext.request.contextPath}/'+itemImg+'"></li>'); 
 			}//if(thisItem)
 		}//for
 		$("#paging").show();
@@ -76,6 +96,7 @@ function getCookie(cName) {
     return unescape(cValue);
 }
 </script>
+<div>
 <section id="page-breadcrumb">
         <div class="vertical-center sun">
              <div class="container">
@@ -90,8 +111,8 @@ function getCookie(cName) {
             </div>
         </div>
    </section>
-    <!--/#action-->
-<section id="portfolio">
+<div id="jb-content">
+	<section id="portfolio">
 	<div class="container">
 		<div class="row">
 			<!--/#portfolio-filter-->
@@ -127,7 +148,6 @@ function getCookie(cName) {
 		
 	</div><!-- container -->
 </section>
-<!-- pg -->
 <div class="portfolio-pagination">
 	<ul class="pagination">
 		<c:set var="pb" value="${requestScope.blvo.pagingBean}"></c:set>
@@ -165,21 +185,33 @@ function getCookie(cName) {
 		</c:choose>
 	</ul>
 </div>
-<div id="rigth">
 </div>
-<!-- 오늘 본 드려요 게시물 -->
-
-<div id="rightSide">
+<div id="jb-sidebar">
 	<div id="right_zzim">
 		<div class="recTit">
 			최근 본 드려요 <span id=recentCnt></span>
 		</div>
-		<ul></ul>
-		<!-- 본 상품이 뿌려질 부분  -->
-		<div id="paging">
+		<ul style="padding:10px"></ul>
+		<div id="paging-wrap">
+		<table>
+			<tr>
+			<td><a class="btn_prev">◀</a></td>
+			<td><span id="currentPage"></span></td>
+			<td><span id="totalPageCount"></span></td>
+			<td><a class="btn_next" style="cursor: pointer">▶</a></td>
+			</tr>
+		</table>
+		
+<!-- 		<span id="currentPage"></span><span id="totalPageCount"></span> -->
+		
+		</div>
+	<!-- 	<div id="paging">
 			<a class="btn_prev">◀</a>
 			<span id="currentPage"></span><span id="totalPageCount"></span>
 			<a class="btn_next" style="cursor: pointer">▶</a>
-		</div>
+		</div> -->
 	</div>
 </div> 
+</div>
+</body>
+</html>
