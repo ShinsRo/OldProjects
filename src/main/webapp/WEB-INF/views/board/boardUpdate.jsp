@@ -24,11 +24,9 @@
 	$(function() {
 		//서울시 주소 검색 팝업 제이쿼리
 		$("#postcodify_search_button").postcodifyPopUp();
-		
 		//상품 추가 폼 html 초기화
 		productRegFormHtml = $("#singleProductRegFormHtml").html();
 		 $("#singleProductRegFormHtml").html("");
-		 
 /* 		//상품 추가 폼 html div영역 추가
 		$("#productFormView").prepend("<div id = 'product'"+ productCnt + ">");
 		$("#productFormView").append("</div>");

@@ -224,9 +224,9 @@ public class BoardController {
 	}
 	@RequestMapping("boardUpdate.do")
 	public String  boardUpdate(BoardVO bvo, ProductSetVO psvo, BoardUpdateParamDTO param){
-		
 		String[] deletedProductArr = param.getDeleteStack().split(",");
 		int prevProductCnt = boardService.getProductCnt(bvo.getBno());
+
 		// 실제 운영시에 사용할 서버 업로드 경로
 		// uploadPath =
 		// req.getSession().getServletContext().getRealPath("/resources/upload/");
@@ -234,14 +234,10 @@ public class BoardController {
 		// 로컬 깃 레퍼지토리 경로
 		uploadPath = "C:\\Users\\KOSTA\\git\\GoodMoveRepository\\src\\main\\webapp\\uploadedFiles\\" + bvo.getId() + "\\"
 				+ "board" + bvo.getBno() + "\\";
-
 		bvo.setpList(new ArrayList<ProductVO>());
-		
 		List<MultipartFile> list = psvo.getFile();
-		
 		int leavedProductCnt = prevProductCnt - deletedProductArr.length;
 		int newProductCnt =  psvo.getPtitle().size() - leavedProductCnt;
-		
 		list.add(param.getCorFile().remove(0));
 		int j = newProductCnt;
 		for (int i = 0; i < psvo.getPtitle().size(); i++) {
@@ -253,7 +249,6 @@ public class BoardController {
 				nPno = boardService.getNextPno();
 			else
 				nPno = Integer.parseInt(param.getPno().remove(0));
-			
 			// 물건 리스트 초기화
 			ProductVO tempPVO = new ProductVO();
 			tempPVO.setPno(nPno);

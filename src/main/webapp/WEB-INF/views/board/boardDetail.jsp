@@ -86,7 +86,7 @@
                         <p>${bvo.bcontent}</p>
                     </div>
                     <sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN">
-						<sec:authentication property="principal.is_confirmed" var="mvo" />
+						<sec:authentication property="principal" var="mvo" />
 						<c:if test="${mvo.id !=bvo.id}">  
 	                    <div class="give-me-btn">
 	                    <c:choose>
