@@ -2,6 +2,8 @@ package org.kosta.goodmove.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -296,16 +298,25 @@ public class CommentController {
 	 */
 	@RequestMapping("clickLikeBtn.do")
 	@ResponseBody
-	public String clickLikeBtn(String cno,String id){
-		System.out.println("좋아요>.<~");
+	public Map<String, String> clickLikeBtn(String cno,String id){
 		int count = commentService.findLikeById(cno, id);
+		Map<String, String> result = new HashMap<>();
 		if(count==0){ // 좋아요 안눌렀으면
 			commentService.clickLikeBtn(cno, id);// db insert
+			result.put("count", Integer.toString(commentService.getCountLikeByCno(cno)));
+			result.put("status", "ok");
 		}else{ // 좋아요 이미 누름
-			
+			commentService.unclickLikeBtn(cno, id);
+			result.put("count", Integer.toString(commentService.getCountLikeByCno(cno)));
+			result.put("status", "fail");
 		}
+		return result;
+	}
+	@RequestMapping("checkClickLike.do")
+	@ResponseBody
+	public String checkClickLike(String cno,String id){
+		int count = commentService.findLikeById(cno, id);
+		System.out.println(count);
 		return (count == 0) ? "ok" : "fail";
 	}
-	
-	
 }

@@ -143,24 +143,41 @@
 	}
 	// 좋아요 기능
 	function like_btn(){
-		var id;
+		var id = $("#userid").val();
 		var cno = $("#cno").val();
-		alert(cno+"like 클릭");
-/* 		$.ajax({
+ 		$.ajax({
 			type : "POST",
 			url : "${pageContext.request.contextPath}/clickLikeBtn.do",
-			data : "id=" + id,
+			data : "id=" + id+"&cno="+cno,
 			success : function(data) {
-				if (data == "fail") {
-					$("#ifLike").html(id+ " 눌렀다고").css("color","red");
-					checkResultId = "";
-				} else {
-					$("#ifLike").html(id+ " 좋아요 고마워!").css("color","blue");
-					checkResultId = id;
+				if(data.status == "ok"){
+					$("#like-heart").css("color","red");
+					$("#likeCount").text(data.count);
+				}else{
+					$("#like-heart").css("color","#0099AE");
+					$("#likeCount").text(data.count);
 				}
+				
 			}//callback         
-		});//ajax */
+		});//ajax 
 	}
+	$(document).ready(function(){
+		var id = $("#userid").val();
+		var cno = $("#cno").val();
+		$.ajax({
+			type : "POST",
+			url : "${pageContext.request.contextPath}/checkClickLike.do",
+			data : "id=" + id+"&cno="+cno,
+			success : function(data) {
+				if(data == "ok"){
+					$("#like-heart").css("color","#0099AE");
+				}else{
+					$("#like-heart").css("color","red");
+				}
+				
+			}//callback         
+		});//ajax 
+	});
 </script>
 <link rel="shortcut icon" href="images/ico/favicon.ico">
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="${pageContext.request.contextPath}/resources/images/ico/apple-touch-icon-144-precomposed.png">
@@ -223,7 +240,7 @@
                                     <div class="post-bottom overflow">
                                         <ul class="nav navbar-nav post-nav">
                                             <li><a href="#"><i class="fa fa-tag"></i>Creative</a></li>
-                                            <li><a onclick="like_btn()"><i class="fa fa-heart"></i>${likeCount} Love</a></li>
+                                            <li><a onclick="like_btn()"><i id="like-heart" class="fa fa-heart"></i><span id="likeCount" >${likeCount}</span> Love</a></li>
                                             <li><span id="ifLike"></span></li>
                                             <li><a href="#"><i class="fa fa-comments"></i>3 Comments</a></li>
                                         </ul>
@@ -239,7 +256,7 @@
 																<ul class="nav navbar-nav navbar-default" id="reply_ul">
 																	<li><input type="hidden" name="parent" value="0">
 																	<input type="hidden" name="cno" value="${requestScope.cvo.cno}">
-																	<input type="hidden" name="id" value="<sec:authentication property="principal.id"/>">
+																	<input type="hidden" id="userid" name="id" value="<sec:authentication property="principal.id"/>">
 																	<input type="hidden" name="name" value="<sec:authentication property="principal.name"/>">
 																	<input type="hidden" name="gno" value="1">
 																	<input type="hidden" name="depth" value="0">

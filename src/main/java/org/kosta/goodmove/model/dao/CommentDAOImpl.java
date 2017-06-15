@@ -222,4 +222,12 @@ public class CommentDAOImpl implements CommentDAO{
 	public int getCountLikeByCno(String cno) {
 		return template.selectOne("comment.getCountLikeByCno", cno);
 	}
+
+	@Override
+	public void unclickLikeBtn(String cno, String id) {
+		HashMap<String, String> paramMap = new HashMap<>();
+		paramMap.put("cno", cno);
+		paramMap.put("id", id);
+		template.delete("comment.unclickLikeBtn", paramMap);
+	}
 }

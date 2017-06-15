@@ -127,10 +127,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	<!-- 게시글 좋아요 -->
 	<insert id="clickLikeBtn" parameterType="hashMap">
-		<selectKey keyProperty="lno" resultType="int" order="BEFORE">
-			select CL_SEQ.nextval from dual
-		</selectKey>
-		insert into COMMENT_LIKE(lno,cno,id) values(#{lno},#{cno},#{id})
+		insert into COMMENT_LIKE(cno,id) values(#{cno},#{id})
 	</insert>
 	<select id="findLikeById" parameterType="hashMap" resultType="int">
 		select count(*) from COMMENT_LIKE where cno=#{cno} and id=#{id}
@@ -138,5 +135,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getCountLikeByCno" parameterType="hashMap" resultType="int">
 		select count(*) from COMMENT_LIKE where cno=#{cno}
 	</select>
+	<delete id="unclickLikeBtn" parameterType="hashMap">
+		delete from COMMENT_LIKE where cno=#{cno} and id=#{id}
+	</delete>
 </mapper>
  

@@ -35,4 +35,5 @@ public interface CommentService {
 	void clickLikeBtn(String cno, String id);
 	int findLikeById(String cno, String id);
 	int getCountLikeByCno(String cno);
+	void unclickLikeBtn(String cno,String id);
 }

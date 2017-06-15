@@ -220,4 +220,9 @@ public class CommentServiceImpl implements CommentService{
 		return commentDAO.getCountLikeByCno(cno);
 	}
 
+	@Override
+	public void unclickLikeBtn(String cno, String id) {
+		commentDAO.unclickLikeBtn(cno, id);
+	}
+
 }

@@ -77,7 +77,6 @@ public class MemberAuthenticationProvider implements AuthenticationProvider{
 		 * 여기까지 왔으면 인증 완료 - Authentication객체 생성해서 리턴
 		 ***************************************/
 		Authentication auth = new UsernamePasswordAuthenticationToken(member, password, authorities);
-		System.out.println("로그인 OK~"+auth);
 		return auth;		
 	}
 
