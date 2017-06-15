@@ -53,6 +53,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="countDelivery" resultType="int">
 		select count(*) from gd_member where is_confirmed='NO' and enabled=1
 	</select>
+	<select id="findDeliveryMatchByDid" parameterType="string" resultType="deliveryMatchVO">
+		SELECT bno,aid,state
+		FROM delivery_match
+		WHERE did=#{value}
+	</select>
 </mapper>
  
  

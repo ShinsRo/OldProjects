@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.kosta.goodmove.model.dao.DeliveryDAO;
 import org.kosta.goodmove.model.vo.ApplicationVO;
+import org.kosta.goodmove.model.vo.DeliveryMatchVO;
 import org.kosta.goodmove.model.vo.MemberVO;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +68,10 @@ public class DeliveryServiceImpl implements DeliveryService {
 	@Override
 	public int countDelivery_admin() {
 		return dao.getTotalDelivery();
+	}
+	@Override
+	public List<DeliveryMatchVO> findDeliveryMatchByDid(String did){
+		return dao.findDeliveryMatchByDid(did);
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.kosta.goodmove.model.vo.CommentPictureVO;
 import org.kosta.goodmove.model.vo.CommentReplyVO;
 import org.kosta.goodmove.model.vo.CommentVO;
 import org.kosta.goodmove.model.vo.PagingBean;
@@ -188,5 +189,16 @@ public class CommentDAOImpl implements CommentDAO{
 	@Override
 	public CommentReplyVO showReply(int reno) {
 		return template.selectOne("comment.findCommentReplyByNo", reno);
+	}
+
+	@Override
+	public String getPicNo() {
+		return template.selectOne("comment.getPicNo");
+	}
+
+	@Override
+	public void stackImg(String img_path, String picNo) {
+		System.out.println(img_path + " " + picNo);
+		template.insert("comment.stackImg", new CommentPictureVO(Integer.parseInt(picNo), img_path));
 	}
 }

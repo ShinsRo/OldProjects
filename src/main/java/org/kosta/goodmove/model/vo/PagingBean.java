@@ -17,7 +17,7 @@ public class PagingBean {
 	/**
 	 * 페이지당 게시물수
 	 */
-	private int contentNumberPerPage = 5;
+	private int contentNumberPerPage = 10;
 	/**
 	 * 페이지 그룹당 페이지수
 	 */

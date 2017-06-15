@@ -1,5 +1,8 @@
 package org.kosta.goodmove.controller;
 
+import java.io.File;
+import java.io.IOException;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 /**
  * 후기 정보 관할 컨트롤러 : Controller
  * @author AreadyDoneTeam
@@ -60,8 +65,9 @@ public class CommentController {
 		int clno = Integer.parseInt(cno);
 		model.addAttribute("cvo", commentService.showComment(clno));
 		model.addAttribute("CommentReplyList", commentService.getAllCommentReplyList(clno));
-		return "comment/commentDetail.tiles";
-	}
+//		return "comment/commentDetail.tiles";
+		return "comment/commentDetail_blogVer.tiles";
+		}
 
 	/**
 	 * 지역후기 수정 화면으로 이동
@@ -72,7 +78,10 @@ public class CommentController {
 	@RequestMapping("commentUpdateView.do")
 	public ModelAndView commentUpdate(String cno) {
 		int clno = Integer.parseInt(cno);
-		return new ModelAndView("comment/commentUpdate.tiles", "cvo", commentService.showCommentNoHit(clno));
+		CommentVO cvo = commentService.showCommentNoHit(clno);
+		String content = cvo.getContent().replaceAll("\"", "\'");
+		cvo.setContent(content);
+		return new ModelAndView("comment/commentUpdate.tiles", "cvo", cvo);
 	}
 
 	/**
@@ -82,12 +91,12 @@ public class CommentController {
 	 * @return 이동될 화면의 경로, 조회수를 증가하지 않고 받아온 검색결과vo
 	 */
 	@RequestMapping("commentUpdate.do")
-	public String commentUpdate(CommentVO cvo,Model model) {
+	public String commentUpdate(CommentVO cvo, Model model) {
 		commentService.updateBoard(cvo);
 		int clno = Integer.parseInt(cvo.getCno());
 		model.addAttribute("cvo", commentService.showCommentNoHit(clno));
 		model.addAttribute("CommentReplyList", commentService.getAllCommentReplyList(clno));
-		return "comment/commentDetail.tiles";
+		return "comment/commentDetail_blogVer.tiles";
 	}
 
 	/**
@@ -139,7 +148,7 @@ public class CommentController {
 		int clno = Integer.parseInt(cno);
 		model.addAttribute("CommentReplyList", commentService.getAllCommentReplyList(clno));
 		model.addAttribute("cvo", commentService.showCommentNoHit(Integer.parseInt(cno)));
-		return "comment/commentDetail.tiles";
+		return "comment/commentDetail_blogVer.tiles";
 	}
 
 	/**
@@ -232,5 +241,50 @@ public class CommentController {
 	public String findCommentById(String id, String pageNo, Model model) {
 		model.addAttribute("lvo", commentService.findCommentListById(id, pageNo));
 		return "comment/commentList.tiles";
+	}
+	
+	@RequestMapping("getPicNo.do")
+	@ResponseBody
+	public String getPicNo(){
+		return commentService.getPicNo();
+	}
+	
+	@RequestMapping("stackImg.do")
+	public String stackImg(HttpServletRequest req,  String picno, String currPicId, MultipartFile file){
+		MemberVO mvo = (MemberVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String userId = mvo.getId();
+		String uploadPath = "";
+		// uploadPath =
+				// req.getSession().getServletContext().getRealPath("/resources/uploadedFiles/");
+
+				// 로컬 깃 레퍼지토리 경로
+				uploadPath = "C:\\Users\\KOSTA\\git\\GoodMoveRepository\\src\\main\\webapp\\uploadedFiles\\" + userId + "\\"
+						+ "comment" + picno + "\\";
+				System.out.println(req.getSession().getServletContext().getRealPath("/uploadedFiles/"));
+				System.out.println("------");
+					String fileName = file.getOriginalFilename();
+					String fileSuffix = fileName.substring(fileName.lastIndexOf('.'));
+
+					// 물건 리스트 초기화
+					String img_path = "uploadedFiles\\" +userId + "\\"
+							+ "comment" + picno + "\\"+ currPicId + fileSuffix;
+
+					if (fileName.equals("") == false) {
+						try {
+							new File(uploadPath).mkdirs();
+							file.transferTo(new File(uploadPath + currPicId + fileSuffix));
+						} catch (IllegalStateException | IOException e) {
+							e.printStackTrace();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					commentService.stackImg(img_path, picno);
+		return "comment/imgSelectResult";
+	}
+	
+	@RequestMapping("showImgSelector.do")
+	public String showImgSelector(){
+		return "comment/imgSelectPopUp";
 	}
 }

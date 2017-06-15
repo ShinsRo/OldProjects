@@ -71,6 +71,21 @@ public class DeliveryController {
 		model.addAttribute("delivery_list", service.getAllDeliveryList());
 		return "delivery/delivery_list.tiles";
 	}
+	/////////////////////////////////////////////////////////
+	//시큐리티관련 수정필요!
+	/**
+	 * 용달 아이디별로 자신의 용달 매칭 내역 보기
+	 * @param did
+	 * @param model
+	 * @return
+	 */
+/*	@RequestMapping("getDeliveryListByDid.do")
+	public String getDeliveryListByDid(Model model,HttpServletRequest req){
+		String did = ((DeliveryVO) req.getSession(false).getAttribute("dvo")).getId();
+		model.addAttribute("my_list", service.findDeliveryMatchByDid(did));
+		return "delivery/my_delivery_list.tiles";
+	}*/
+	//////////////////////////////////////////////////////////
 	/**
 	 * 용달 신청한 신청자,기부자 상세 정보 보여주기
 	 * @param id

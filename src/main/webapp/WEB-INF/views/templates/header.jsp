@@ -92,6 +92,7 @@
 									<c:choose>
 										<c:when test="${mvo == 'YES' }">
 											<li><a href="${pageContext.request.contextPath}/getAllDeliveryList.do">용달 대기 신청</a></li>
+											<li><a href="${pageContext.request.contextPath}/getDeliveryListByDid.do">나의 배송 관리</a></li>
 										</c:when>
 										<c:when test="${mvo == 'READY' }">
 											<li><a>제휴 승인 대기중입니다.</a></li>
@@ -104,6 +105,7 @@
 							</li>
 							<li><a href="${pageContext.request.contextPath}/logout.do">로그아웃</a></li>
 						</sec:authorize>
+					<li><a href="${pageContext.request.contextPath}/getQuestionList.do">Q&amp;A</a></li>
 					<li><a href="${pageContext.request.contextPath}/member/contact.do">Contact</a></li>
                     </ul>
                 </div>

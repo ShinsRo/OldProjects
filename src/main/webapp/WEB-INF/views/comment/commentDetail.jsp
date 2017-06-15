@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <script type="text/javascript">
 	function sendList(){
 		location.href= "getCommentList.do";
@@ -236,7 +236,7 @@
 					<c:if test="${reply.depth >=1}">
 					&nbsp;&nbsp;&nbsp;&nbsp;
 					<img class="reply_icon" src="${pageContext.request.contextPath}/resources/img/reply_icon.png" width="20">
-						</c:if>${reply.id}</span>
+					</c:if>${reply.id}</span>
 						<span class="cmdate">${reply.time_posted}</span>
 						<span class="recmbtn">
 						<a onclick="fn_replyReply(${reply.rno})">
@@ -296,6 +296,7 @@
 	</div>
 	</div>
 	</sec:authorize>
+	
 	<!--  댓글 수정시 나오는 부분 -->
 	<sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
 	<div id="replyDiv" style="width: 99%; display: none">

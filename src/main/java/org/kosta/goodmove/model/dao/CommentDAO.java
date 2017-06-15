@@ -29,4 +29,6 @@ public interface CommentDAO {
 	List<CommentVO> findCommentById(String id, PagingBean pb);
 	int getTotalContentCountById(String id);
 	CommentReplyVO showReply(int reno);
+	String getPicNo();
+	void stackImg(String img_path, String picNo);
 }

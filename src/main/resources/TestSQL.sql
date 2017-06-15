@@ -52,6 +52,7 @@ SELECT * FROM DELIVERY;
 select * from DELIVERY_MATCH;
 select * from APPLICATION;
 select * from G_BOARD;
+select * from question;
 
 -- TEST COMMENT
 insert into LOC_COMMENT(CNO, TITLE, HIT, TIME_POSTED, ADDR, ID, CONTENT) VALUES(C_SEQ.nextval, 'test1', '0', sysdate, '경기도 성남시 분당구', 'java', '내용');
@@ -90,12 +91,10 @@ VALUES(CR_SEQ.NEXTVAL,1,'java','딘딘',sysdate,0,'삼빠3',3,0,1);
 INSERT INTO LOC_COMMENT_REPLY(RNO, CNO, ID, NAME,TIME_POSTED, PARENT, CONTENT, GNO, DEPT, ORDER_NO)
 VALUES(CR_SEQ.NEXTVAL,1,'java','딘딘',sysdate,1,'새치기',1,1,2);
 
-<<<<<<< HEAD
 SELECT rno,cno,id,name,TO_CHAR(TIME_POSTED,'YYYY.MM.DD HH24:MI') as time_posted,
 parent,content,gno,dept,order_no 
 FROM LOC_COMMENT_REPLY WHERE cno=1 ORDER BY GNO ASC
 
-=======
 
 -- delivery matching
 select * from application 
@@ -155,3 +154,24 @@ select a.bno,a.pnos,a.is_done,a.id,a.is_selected,m.state
 		select * from APPLICATION
 		
 		
+select Q_SEQ.nextval from dual;
+
+INSERT INTO QUESTION(qno, title, hit, time_posted, id, content,is_secret,re_ref,q_parent)
+		VALUES(#{qno}, #{title}, 0, sysdate, #{id}, #{content},#{is_secret},#{re_ref},#{q_parent})
+		
+SELECT * FROM
+		(
+		SELECT ROWNUM AS rnum, data.*
+		FROM
+			(
+				SELECT LEVEL as re_lev,qno,title,hit,
+				time_posted, id,content,is_secret,re_ref,q_parent
+				FROM QUESTION
+				START WITH q_parent=0
+				CONNECT BY PRIOR qno=q_parent
+				ORDER SIBLINGS BY re_ref desc
+			)
+		data
+		)
+WHERE rnum>=1 and rnum<=10;
+

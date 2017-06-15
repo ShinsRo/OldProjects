@@ -13,12 +13,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from (select cno, title, hit,
 		to_char(time_posted,'YYYY.MM.DD HH:mm:ss') as
 		time_posted, addr, id,
-		content, row_number() over(order by cno desc) as rnum from
+		content, , picno, row_number() over(order by cno desc) as rnum from
 		loc_comment) where rnum between #{startRowNumber} and #{endRowNumber}
 	</select>
 	<select id="showComment" resultType="commentVO" parameterType="int">
 		select cno, title, hit, to_char(time_posted,'YYYY.MM.DD HH:mm:ss') as
-		time_posted, addr, id, content
+		time_posted, addr, id, content, picno
 		from loc_comment where cno=#{value}
 	</select>
 	<update id="updateCount" parameterType="int">
@@ -37,9 +37,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			select C_SEQ.nextval from dual
 		</selectKey>
 		insert into LOC_COMMENT(CNO, TITLE, HIT, TIME_POSTED, ADDR, ID,
-		CONTENT)
+		CONTENT, PICNO)
 		VALUES(#{cno}, #{title}, 0, sysdate, #{addr}, #{id},
-		#{content})
+		#{content}, #{picno})
 	</insert>
 	<select id="search" resultType="commentVO" parameterType="hashMap">
 		select
@@ -67,7 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="findCommentById" parameterType="hashMap" resultType="CommentVO">
 		select * from (select cno, title, hit, to_char(time_posted,'YYYY.MM.DD
 		HH:mm:ss') as
-		time_posted, addr, id, content, row_number() over(order
+		time_posted, addr, id, content, picno, row_number() over(order
 		by cno desc) as rnum from
 		loc_comment where id = #{id}) where rnum
 		between #{pagingBean.startRowNumber} and #{pagingBean.endRowNumber}
@@ -121,48 +121,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from AUTOSEARCH WHERE KEYWORD like '%' || #{value} || '%'
 
 	</select>
+	<select id = "getPicNo" resultType="String">
+		select pic_seq.nextval from dual
+	</select>
+	<insert id="stackImg" parameterType="commentPictureVO">
+		insert into LOC_COMMENT_PICTURE(PICNO, IMG_PATH) VALUES(#{picno}, #{img_path})
+	</insert>
 </mapper>
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
