@@ -141,5 +141,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id = "getImgPath" parameterType="commentPictureVO" resultType="String">
 		select img_path from LOC_COMMENT_PICTURE where picno = #{picno} and pic_cursor = #{pic_cursor}
 	</select>
+	<!-- 제목 옆에 댓글 수 보여 줌 -->
+	<select id="getCommentReplyCount" resultType="int">
+		select count(*) from LOC_COMMENT_REPLY where cno=#{value}
+	</select>	
 </mapper>
  
