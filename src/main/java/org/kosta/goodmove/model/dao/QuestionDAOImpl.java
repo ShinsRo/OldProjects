@@ -1,6 +1,5 @@
 package org.kosta.goodmove.model.dao;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
