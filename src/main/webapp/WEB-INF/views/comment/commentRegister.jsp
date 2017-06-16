@@ -68,8 +68,8 @@
 			
 			<p>
 			<br>
-			<button class = "btn btn-default" onclick = "openImgSelector();">사진 찾기</button>
-			<button class = "btn btn-default" id="pasteImg" onclick = "insertImg();" >사진 붙이기</button>
+			<input type =button class = "btn btn-default" onclick = "openImgSelector();" value = "사진 찾기">
+			<input type =button class = "btn btn-default" id="pasteImg" onclick = "insertImg();" value="사진 붙이기">
 			<input type="hidden" id="picno" name = "picno" value = "0">
 			<input type="hidden" id="pic_cursor" name = "currentPicId" value =1>
 			<!-- 

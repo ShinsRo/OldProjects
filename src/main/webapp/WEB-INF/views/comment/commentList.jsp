@@ -44,11 +44,7 @@
 								<a href="${pageContext.request.contextPath}/showComment.do?cno=${cvo.cno }">${cvo.title }</a>
 							</sec:authorize>
 							<sec:authorize ifNotGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
-								<a href="${pageContext.request.contextPath}/showComment.do?cno=${cvo.cno }">${cvo.title } ${board.comment}</a>
-							<c:if test="${board.comment!= 0}">
-								<a id="board_comment">&nbsp;${board.comment}</a>
-							</c:if>
-						${cvo.title }
+								<a href="${pageContext.request.contextPath}/showComment.do?cno=${cvo.cno }">${cvo.title }</a>
 						</sec:authorize></td>
 					<td>
 				<ul class = "nav navbar-nav navbar-left">
