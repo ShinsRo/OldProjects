@@ -1,6 +1,5 @@
 package org.kosta.goodmove.model.dao;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -62,5 +61,10 @@ public class QuestionDAOImpl implements QuestionDAO {
 	@Override
 	public int getParentReRef(int qno){
 		return template.selectOne("question.getParentReRef",qno);
+	}
+
+	@Override
+	public int pwdVerification(String password) {
+		return template.selectOne("question.pwdVerification", password);
 	}
 }
