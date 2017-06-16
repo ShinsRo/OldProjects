@@ -16,7 +16,12 @@ public class QuestionController {
 
 	@Resource
 	private QuestionService service;
-	
+	/**
+	 * Q&A list 이동
+	 * @param pageNo
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("getQuestionList.do")
 	public String getQuestionList(String pageNo, Model model){
 		model.addAttribute("lvo", service.getQuestionList(pageNo));
@@ -46,21 +51,33 @@ public class QuestionController {
 		return "redirect:showQuestionNoHit.do?qno="+qvo.getQno();
 	}
 	/**
-	 * 
+	 * 조회수 증가하지 않는 디테일
 	 * @param qno
+	 * @param model
 	 * @return
 	 */
-	
 	@RequestMapping("showQuestionNoHit.do")
 	public String showQuestionNoHit(String qno, Model model){
 		model.addAttribute("qvo", service.showQuestionNoHit(Integer.parseInt(qno)));
 		return "QandA/qaDetail.tiles";
 	}
+	/**
+	 * 조회수 증가하는 디테일
+	 * @param qno
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("showQuestionHit.do")
 	public String showQuestionDetail(String qno, Model model){
 		model.addAttribute("qvo", service.showQuestionHit(Integer.parseInt(qno)));
 		return "QandA/qaDetail.tiles";
 	}
+	/**
+	 * 수정 페이지 이동하는 컨트롤러
+	 * @param qno
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("updateQuestionView.do")
 	public String updateQuestionView(String qno,Model model){
 		model.addAttribute("qvo", service.showQuestionNoHit(Integer.parseInt(qno)));
@@ -82,16 +99,34 @@ public class QuestionController {
 		service.updateQuestion(qvo);
 		return "redirect:showQuestionNoHit.do?qno="+qvo.getQno();
 	}
+	/**
+	 * 큐에이 삭제
+	 * @param qno
+	 * @return
+	 */
 	@RequestMapping("deleteQuestion.do")
 	public String deleteQuestion(String qno){
 		service.deleteQuestion(Integer.parseInt(qno));
 		return "redirect:getQuestionList.do";
 	}
+	/**
+	 * 답글 달기로 이동
+	 * @param qno
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("registerAnswerView.do")
 	public String registerAnswerView(String qno,Model model){
 		model.addAttribute("qno", qno);
 		return "QandA/answerRegister.tiles";
 	}
+	/**
+	 * 관리자가 답글 달기
+	 * @param qvo
+	 * @param request
+	 * @param qno
+	 * @return
+	 */
 	@RequestMapping("registerQuestionAnswer.do")
 	public String registerAnswer(QuestionVO qvo, HttpServletRequest request,String qno){
 		MemberVO mvo = (MemberVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -107,4 +142,5 @@ public class QuestionController {
 		service.registerAnswer(qvo);
 		return "redirect:showQuestionNoHit.do?qno="+qvo.getQno();
 	}
+	
 }

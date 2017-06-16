@@ -81,5 +81,10 @@ public class QuestionServiceImpl implements QuestionService {
 		return dao.getParentReRef(qno);
 	}
 
+	@Override
+	public int pwdVerification(String password) {
+		return dao.pwdVerification(password);
+	}
+
 
 }
