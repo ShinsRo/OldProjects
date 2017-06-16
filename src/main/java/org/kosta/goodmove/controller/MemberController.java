@@ -202,9 +202,8 @@ public class MemberController {
 		if (vo == null) {
 			return "member/login_fail.tiles";
 		} else {
-			HttpSession session = request.getSession();
 			request.setAttribute("id", id);
-			session.setAttribute("pass", vo.getPassword());
+			request.setAttribute("pass", vo.getPassword());
 			return "member/changePass.tiles";
 		}
 	}
@@ -220,8 +219,9 @@ public class MemberController {
 	@RequestMapping("changePass.do")
 	public String chagePass(HttpServletRequest request, String id, String password) {
 		System.out.println(id + password);
-		service.changePass(id, password);
-		return "member/changePass_result.tiles";
+		String encodePassword=passwordEncoder.encode(password);
+		service.changePass(id, encodePassword);
+		return "member/changePass_result.tiles"; 	
 	}
 	/**
 	 * 관리자 페이지에서 멤버 리스트 보기
