@@ -52,7 +52,7 @@
          <div class="contact-form bottom">
          <br>
             <div class="form-group" align="center">
-               <input type="text" name="title" class="form-control"
+               <input type="text" id="title" name="title" class="form-control"
                   required="required" placeholder="제목"  value="${cvo.title }">
             </div>
             <div class="form-group" align="center">

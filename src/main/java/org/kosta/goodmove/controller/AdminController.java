@@ -74,7 +74,7 @@ public class AdminController  {
 		int clno = Integer.parseInt(cno);
 		model.addAttribute("cvo", commentService.showComment(clno));
 		model.addAttribute("CommentReplyList", commentService.getAllCommentReplyList(clno));
-		return "admin/commentDetail_admin.tiles2";
+		return "admin/commentDetail_admin_blogVer.tiles2";
 	}
 
 	/**
