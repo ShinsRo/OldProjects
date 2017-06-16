@@ -79,4 +79,6 @@ public interface BoardDAO {
 	List<BoardVO> boardListById(String id, BoardPagingBean bpb);
 	
 	int getTotalContentCountById(String id);
+	
+	void updateBoardHit(int bno);
 }

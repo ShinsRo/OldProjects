@@ -27,12 +27,12 @@
 	<table class="table table-hover" id="commentList">
 		<thead>
 			<tr>
-				<th class="no">NO</th>
-				<th class="name">제목</th>
-				<th class="date">아이디</th>
-				<th class="hit">작성일</th>
-				<th class="addr">조회수</th>
-				<th class="title">지역</th>
+				<th class="no" width="5%">NO</th>
+				<th class="name" width="30%">제목</th>
+				<th class="date" width="10%">아이디</th>
+				<th class="hit" width="20%">작성일</th>
+				<th class="addr" width="10%">조회수</th>
+				<th class="title" width="25%">지역</th>
 			</tr>
 		</thead>
 		<tbody>

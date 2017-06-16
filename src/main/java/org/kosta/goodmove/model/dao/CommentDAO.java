@@ -37,4 +37,5 @@ public interface CommentDAO {
 	int getCountLikeByCno(String cno);
 	void unclickLikeBtn(String cno,String id);
 	String getImgPath(CommentPictureVO cpvo);
+	int getCommentReplyCount(String cno);
 }

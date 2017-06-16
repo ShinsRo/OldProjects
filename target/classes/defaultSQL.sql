@@ -43,11 +43,6 @@ create table authorities(
 	constraint member_authorities primary key(id,authority)
 );
 
---관리자 DB 주입
-INSERT INTO GD_MEMBER(ID,NAME,PASSWORD,ADDR,ADDR_DETAIL,TEL,JOB,ENABLED,IS_CONFIRMED)
-VALUES('admin','임진우','1234','경기도 광주시 회덕길','상세주소','01012341234','코스타',1,'NO');
-INSERT INTO authorities(ID,AUTHORITY) VALUES('admin','ROLE_ADMIN');
-
 -- 물려줄 물건 게시 단위 테이블
 CREATE TABLE G_BOARD(
 	BNO NUMBER PRIMARY KEY,

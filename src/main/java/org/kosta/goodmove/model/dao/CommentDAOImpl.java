@@ -238,4 +238,9 @@ public class CommentDAOImpl implements CommentDAO{
 	public String getImgPath(CommentPictureVO cpvo) {
 		return template.selectOne("comment.getImgPath", cpvo);
 	}
+
+	@Override
+	public int getCommentReplyCount(String cno) {
+		return template.selectOne("comment.getCommentReplyCount", cno);
+	}
 }

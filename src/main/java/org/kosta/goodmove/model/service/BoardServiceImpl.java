@@ -239,4 +239,9 @@ public class BoardServiceImpl implements BoardService {
 				Integer.parseInt(pageNo));
 		return new BoardListVO(boardDAO.boardListById(id, bpb),bpb);
 	}
+
+	@Override
+	public void updateBoardHit(int bno) {
+		boardDAO.updateBoardHit(bno);
+	}
 }

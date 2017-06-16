@@ -69,6 +69,7 @@ public class CommentController {
 		model.addAttribute("cvo", commentService.showComment(clno));
 		model.addAttribute("CommentReplyList", commentService.getAllCommentReplyList(clno));
 		model.addAttribute("likeCount", commentService.getCountLikeByCno(cno));
+		model.addAttribute("commentCount", commentService.getCommentReplyCount(cno));
 //		return "comment/commentDetail.tiles";
 		return "comment/commentDetail_blogVer.tiles";
 		}
@@ -153,6 +154,7 @@ public class CommentController {
 		model.addAttribute("CommentReplyList", commentService.getAllCommentReplyList(clno));
 		model.addAttribute("cvo", commentService.showCommentNoHit(Integer.parseInt(cno)));
 		model.addAttribute("likeCount", commentService.getCountLikeByCno(cno));
+		model.addAttribute("commentCount", commentService.getCommentReplyCount(cno));
 		return "comment/commentDetail_blogVer.tiles";
 	}
 

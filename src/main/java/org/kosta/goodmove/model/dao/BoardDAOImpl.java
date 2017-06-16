@@ -250,4 +250,9 @@ public class BoardDAOImpl implements BoardDAO {
 	public void productDelete(String pno) {
 		template.delete("board.productDelete", pno);
 	}
+
+	@Override
+	public void updateBoardHit(int bno) {
+		template.update("board.updateBoardHit", bno);
+	}
 }

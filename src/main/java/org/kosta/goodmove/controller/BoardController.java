@@ -71,8 +71,18 @@ public class BoardController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping("boardDetail.do")
-	public String boardDetail(String bno, Model model) {
+	@RequestMapping("boardDetailNoHit.do")
+	public String boardDetailNoHit(String bno, Model model) {
+		BoardVO bvo = boardService.getBoardDetailByBno(Integer.parseInt(bno));
+		List<ProductVO> plist = boardService.getProductImgByBno(Integer.parseInt(bno));
+		model.addAttribute("bvo", bvo);
+		model.addAttribute("plist", plist);
+		System.out.println(bvo.getIs_traded());
+		return "board/boardDetail.tiles";
+	}
+	@RequestMapping("boardDetailHit.do")
+	public String boardDetailHit(String bno, Model model) {
+		boardService.updateBoardHit(Integer.parseInt(bno));
 		BoardVO bvo = boardService.getBoardDetailByBno(Integer.parseInt(bno));
 		List<ProductVO> plist = boardService.getProductImgByBno(Integer.parseInt(bno));
 		model.addAttribute("bvo", bvo);
@@ -147,7 +157,7 @@ public class BoardController {
 		bvo.setThumbPath(bvo.getpList().get(0).getImg_path());
 
 		boardService.boardRegister(bvo, psvo);
-		return "redirect:boardDetail.do?bno=" + bvo.getBno();
+		return "redirect:boardDetailNoHit.do?bno=" + bvo.getBno();
 	}
 
 	/**
@@ -270,7 +280,7 @@ public class BoardController {
 		// Board Thumb nail 저장
 		bvo.setThumbPath(bvo.getpList().get(0).getImg_path());
 		boardService.boardUpdate(bvo, psvo, newProductCnt, deletedProductArr);
-		return "redirect:boardDetail.do?bno=" + bvo.getBno();
+		return "redirect:boardDetailNoHit?bno=" + bvo.getBno();
 	}
 	/**
 	 * 아이디를 통해 내가올린드려요 페이지로 이동하기

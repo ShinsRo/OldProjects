@@ -26,7 +26,7 @@ CREATE SEQUENCE RE_SEQ;
 -- 멤버 TEST SQL
 INSERT INTO GD_MEMBER(ID,NAME,PASSWORD,ADDR,ADDR_DETAIL,TEL,JOB,ENABLED,IS_CONFIRMED)
 VALUES('java','임진우','1234','경기도 광주시 회덕길','상세주소','01012341234','코스타',1,'NO');
-INSERT INTO authorities(ID,AUTHORITY) VALUES('java','ROLE_MEMBER');
+INSERT INTO authorities(ID,AUTHORITY) VALUES('admin','ROLE_ADMIN');
 -- 댓글 TEST SQL
 INSERT INTO LOC_COMMENT_REPLY(RNO, CNO, ID, NAME,TIME_POSTED, PARENT, CONTENT, GNO, DEPT, ORDER_NO)
 VALUES(CR_SEQ.NEXTVAL,1,'java','딘딘',sysdate,0,'일빠1',1,0,1);
@@ -53,6 +53,7 @@ select * from DELIVERY_MATCH;
 select * from APPLICATION;
 select * from G_BOARD;
 select * from question;
+select * from authorities;
 
 -- TEST COMMENT
 insert into LOC_COMMENT(CNO, TITLE, HIT, TIME_POSTED, ADDR, ID, CONTENT) VALUES(C_SEQ.nextval, 'test1', '0', sysdate, '경기도 성남시 분당구', 'java', '내용');

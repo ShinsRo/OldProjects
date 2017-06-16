@@ -4,9 +4,9 @@
 <link href="${pageContext.request.contextPath }/resources/css/recentShow.css" rel="stylesheet">
 <style>
       #jb-container {
-        width: 90%;
+        width: 100%;
         margin: 0px auto;
-        padding: 20px;
+        min-heigth :600px ;
       }
       #jb-content {
         width: 90%;
@@ -97,114 +97,119 @@ function getCookie(cName) {
     return unescape(cValue);
 }
 </script>
-<div>
 <section id="page-breadcrumb">
-        <div class="vertical-center sun">
-             <div class="container">
-                <div class="row">
-                    <div class="action">
-                        <div class="col-sm-12">
-                            <h1 class="title">드려요</h1>
-                            <p>안쓰는 물건을 필요한 사람들에게 나누어 주세요!</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-   </section>
-<div id="jb-content">
-	<section id="portfolio">
-	<div class="container">
-		<div class="row">
-			<!--/#portfolio-filter-->
-			<div class="portfolio-items">
-				<c:forEach items="${requestScope.blvo.list}" var="list">
-					<div class="col-xs-6 col-sm-4 col-md-3 portfolio-item branded logos">
-						<div class="portfolio-wrapper">
-							<div class="portfolio-single">
-								<div class="portfolio-thumb">
-									<img src="${pageContext.request.contextPath}/${list.thumbPath}"
-										class="img-responsive" alt="">
-								</div>
-								<div class="portfolio-view">
-									<ul class="nav nav-pills">
-										<li><a
-											href="${pageContext.request.contextPath}/boardDetail.do?bno=${list.bno}"><i
-												class="fa fa-link"></i></a></li>
-										<li><a
-											href="${pageContext.request.contextPath}/${list.thumbPath}"
-											data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
-									</ul>
-								</div>
-							</div>
-							<div class="portfolio-info">
-								<h2 style="text-overflow: ellipsis; overflow: hidden;">${list.title}</h2>
-								<h3>${list.addr}</h3>
-							</div>
-						</div>
+	<div class="vertical-center sun">
+		<div class="container">
+			<div class="row">
+				<div class="action">
+					<div class="col-sm-12">
+						<h1 class="title">드려요</h1>
+						<p>안쓰는 물건을 필요한 사람들에게 나누어 주세요!</p>
 					</div>
-				</c:forEach>
-			</div><!-- portfolio -->
-		</div><!-- row -->
-		
-	</div><!-- container -->
-</section>
-<div class="portfolio-pagination">
-	<ul class="pagination">
-		<c:set var="pb" value="${requestScope.blvo.pagingBean}"></c:set>
-		<c:choose>
-			<c:when test="${pb.previousPageGroup}">
-				<li><a
-					href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${pb.startPageOfPageGroup-1}">left</a></li>
-			</c:when>
-			<c:otherwise>
-				<li></li>
-			</c:otherwise>
-		</c:choose>
-
-		<c:forEach var="i" begin="${pb.startPageOfPageGroup}"
-			end="${pb.endPageOfPageGroup}">
-			<c:choose>
-				<c:when test="${pb.nowPage!=i}">
-					<li><a
-						href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${i}">${i}</a></li>
-				</c:when>
-				<c:otherwise>
-					<li class="active"><a href="#">${i}</a></li>
-				</c:otherwise>
-			</c:choose>
-		</c:forEach>
-
-		<c:choose>
-			<c:when test="${pb.nextPageGroup}">
-				<li><a
-					href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${pb.endPageOfPageGroup+1}">right</a></li>
-			</c:when>
-			<c:otherwise>
-				<li></li>
-			</c:otherwise>
-		</c:choose>
-	</ul>
-</div>
-</div>
-<div id="jb-sidebar">
-	<div id="right_zzim">
-		<div class="recTit">
-			최근 본 드려요 <span id=recentCnt></span>
-		</div>
-		<ul style="padding:10px"></ul>
-		<div id="paging-wrap">
-		<table>
-			<tr>
-			<td><a class="btn_prev">◀</a></td>
-			<td><span id="currentPage"></span></td>
-			<td><span id="totalPageCount"></span></td>
-			<td><a class="btn_next" style="cursor: pointer">▶</a></td>
-			</tr>
-		</table>
+				</div>
+			</div>
 		</div>
 	</div>
-</div> 
+</section>
+<div id="jb-container">
+	<div id="jb-content">
+		<section id="portfolio">
+			<div class="container">
+				<div class="row">
+					<!--/#portfolio-filter-->
+					<div class="portfolio-items">
+						<c:forEach items="${requestScope.blvo.list}" var="list">
+							<div
+								class="col-xs-6 col-sm-4 col-md-3 portfolio-item branded logos">
+								<div class="portfolio-wrapper">
+									<div class="portfolio-single">
+										<div class="portfolio-thumb">
+											<img
+												src="${pageContext.request.contextPath}/${list.thumbPath}"
+												class="img-responsive" alt="">
+										</div>
+										<div class="portfolio-view">
+											<ul class="nav nav-pills">
+												<li><a
+													href="${pageContext.request.contextPath}/boardDetailHit.do?bno=${list.bno}"><i
+														class="fa fa-link"></i></a></li>
+												<li><a
+													href="${pageContext.request.contextPath}/${list.thumbPath}"
+													data-lightbox="example-set"><i class="fa fa-eye"></i></a></li>
+											</ul>
+										</div>
+									</div>
+									<div class="portfolio-info">
+										<h2 style="text-overflow: ellipsis; overflow: hidden;">${list.title}</h2>
+										<h3>${list.addr}</h3>
+									</div>
+								</div>
+							</div>
+						</c:forEach>
+					</div>
+					<!-- portfolio -->
+				</div>
+				<!-- row -->
+
+			</div>
+			<!-- container -->
+		</section>
+		<div class="portfolio-pagination">
+			<ul class="pagination">
+				<c:set var="pb" value="${requestScope.blvo.pagingBean}"></c:set>
+				<c:choose>
+					<c:when test="${pb.previousPageGroup}">
+						<li><a
+							href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${pb.startPageOfPageGroup-1}">left</a></li>
+					</c:when>
+					<c:otherwise>
+						<li></li>
+					</c:otherwise>
+				</c:choose>
+
+				<c:forEach var="i" begin="${pb.startPageOfPageGroup}"
+					end="${pb.endPageOfPageGroup}">
+					<c:choose>
+						<c:when test="${pb.nowPage!=i}">
+							<li><a
+								href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${i}">${i}</a></li>
+						</c:when>
+						<c:otherwise>
+							<li class="active"><a href="#">${i}</a></li>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+
+				<c:choose>
+					<c:when test="${pb.nextPageGroup}">
+						<li><a
+							href="${pageContext.request.contextPath}/getBoardList.do?pageNo=${pb.endPageOfPageGroup+1}">right</a></li>
+					</c:when>
+					<c:otherwise>
+						<li></li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+		</div>
+	</div>
+	<div id="jb-sidebar">
+		<div id="right_zzim">
+			<div class="recTit">
+				최근 본 드려요 <span id=recentCnt></span>
+			</div>
+			<ul style="padding: 10px"></ul>
+			<div id="paging-wrap">
+				<table>
+					<tr>
+						<td><a class="btn_prev">◀</a></td>
+						<td><span id="currentPage"></span></td>
+						<td><span id="totalPageCount"></span></td>
+						<td><a class="btn_next" style="cursor: pointer">▶</a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>
 </body>
 </html>

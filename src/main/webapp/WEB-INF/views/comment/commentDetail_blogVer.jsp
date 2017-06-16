@@ -322,7 +322,7 @@
                                             <li><a href="#"><i class="fa fa-tag"></i>Creative</a></li>
                                             <li><a onclick="like_btn()"><i id="like-heart" class="fa fa-heart"></i><span id="likeCount" >${likeCount}</span> Love</a></li>
                                             <li><span id="ifLike"></span></li>
-                                            <li><a href="#"><i class="fa fa-comments"></i>3 Comments</a></li>
+                                            <li><a href="#"><i class="fa fa-comments"></i>${commentCount} Comments</a></li>
                                         </ul>
                                     </div>
                                     <!-- 댓글 입력구간 -->

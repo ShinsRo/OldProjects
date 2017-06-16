@@ -56,4 +56,6 @@ public interface BoardService {
 	public void boardUpdate(BoardVO bvo, ProductSetVO psvo, int newProductCnt, String[] deletedProductArr);
 
 	public BoardListVO boardListById(String id, String pageNo);
+	
+	void updateBoardHit(int bno);
 }
