@@ -9,6 +9,13 @@
 			return false;
 		};
 	}
+	function revocation_fn(id){
+		if(confirm(id+" 용달회원을 계약 해지하시겠습니까?")){
+			location.href="revocationContract_admin.do?id="+id;
+		}else{
+			return false;
+		};
+	}
 </script>
 <div class="container">
 	<table class="table table-hover">
@@ -19,6 +26,7 @@
 				<th>전화번호</th>
 				<th>승인여부</th>
 				<th>승인</th>
+				<th>용달해지</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -28,7 +36,16 @@
 					<td>${delivery.name}</td>
 					<td>${delivery.tel}</td>
 					<td>${delivery.is_confirmed}</td>
-					<td><input type="button" id="confirm-btn" class="btn btn-info" value="승인" onclick="confirm_fn('${delivery.id}')"></td>
+					<td>
+					<c:if test="${delivery.is_confirmed=='READY'}">
+					<input type="button" id="confirm-btn" class="btn btn-info" value="승인" onclick="confirm_fn('${delivery.id}')">
+					</c:if>
+					</td>
+					<td>
+					<c:if test="${delivery.is_confirmed=='YES'}">
+					<input type="button" id="confirm-btn" class="btn btn-info" value="사업자해지" onclick="revocation_fn('${delivery.id}')">
+					</c:if>
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>

@@ -37,9 +37,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id = "getNotConfirmedDeliveryList" resultType="memberVO">
 		select * from gd_member where is_confirmed='READY' and enabled=1
 	</select>
+	<!-- delivery_list로 회원이 사업자신청한사람과 사업자인사람들을 보여준다. -->
+	<select id="getDeliveryListAndNotConfirmed" resultType="memberVO">
+	select * from (select * from gd_member where enabled=1) 
+	where is_confirmed='READY' or is_confirmed='YES'
+	</select>
 	<update id="confirmDelivery" parameterType="string">
 		update gd_member set is_confirmed='YES' where id=#{value}
 	</update>
+	<update id="revocationContract" parameterType="String">
+		update gd_member set is_confirmed='NO' where id=#{value}
+	</update>
+	<delete id="deleteContract" parameterType="String">
+		delete from authorities where id=#{value} and authority='ROLE_DEL'
+	</delete>
 	<select id="selectRecieverById" parameterType="string" resultType="memberVO">
 		select id,name,addr,addr_detail,tel from GD_MEMBER where id=#{value}
 	</select>

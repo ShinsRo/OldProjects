@@ -57,10 +57,20 @@ public class DeliveryDAOImpl implements DeliveryDAO {
 		return template.selectList("delivery.getNotConfirmedDeliveryList");
 	}
 	@Override
+	public List<MemberVO> getDeliveryListAndNotConfirmed(){
+		return template.selectList("delivery.getDeliveryListAndNotConfirmed");
+	}
+	
+	@Override
 	public void confirmDelivery(String id){
 		template.update("delivery.confirmDelivery", id);
 	}
-
+	
+	@Override
+	public void revocationContract(String id) {
+		template.update("delivery.revocationContract", id);
+		template.delete("delivery.deleteContract", id);
+	}
 	@Override
 	public void registerDeliveryMatch(String bno, String aid, String did) {
 		HashMap<String, String> dmMap = new HashMap<>();
@@ -80,4 +90,6 @@ public class DeliveryDAOImpl implements DeliveryDAO {
 	public List<DeliveryMatchVO> findDeliveryMatchByDid(String did){
 		return template.selectList("delivery.findDeliveryMatchByDid", did);
 	}
+
+
 }

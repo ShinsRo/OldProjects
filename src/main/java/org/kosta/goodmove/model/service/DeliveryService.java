@@ -33,4 +33,8 @@ public interface DeliveryService {
 
 	public void coalition(MemberVO mvo);
 	List<DeliveryMatchVO> findDeliveryMatchByDid(String did);
+
+	List<MemberVO> getDeliveryListAndNotConfirmed();
+
+	void revocationContract(String id);
 }

@@ -56,8 +56,18 @@ public class DeliveryServiceImpl implements DeliveryService {
 		return dao.getNotConfirmedDeliveryList();
 	}
 	@Override
+	public List<MemberVO> getDeliveryListAndNotConfirmed(){
+		return dao.getDeliveryListAndNotConfirmed();
+	}
+	
+	@Override
 	public void confirmDelivery(String id){
 		dao.confirmDelivery(id);
+	}
+	@Override
+	public void revocationContract(String id) {
+		dao.revocationContract(id);
+		
 	}
 
 	@Override
@@ -79,5 +89,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 		dao.coalition(mvo);
 		
 	}
+
+
 
 }
