@@ -231,4 +231,9 @@ public class CommentServiceImpl implements CommentService{
 		commentDAO.unclickLikeBtn(cno, id);
 	}
 
+	@Override
+	public int getCommentReplyCount(String cno) {
+		return commentDAO.getCommentReplyCount(cno);
+	}
+
 }

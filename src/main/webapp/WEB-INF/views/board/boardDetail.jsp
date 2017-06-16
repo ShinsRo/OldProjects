@@ -76,8 +76,9 @@
                     <div class="project-name overflow">
                         <h2 class="bold">${bvo.title}</h2>
                         <ul class="nav navbar-nav navbar-default">
-                            <li><i class="fa fa-clock-o"></i>${bvo.time_posted}</li>
-                            <li><img width="12" height="14" src="${pageContext.request.contextPath}/resources/images/portfolio-details/addr-icon.png" class="addr-icon">${bvo.addr}</li>
+                            <li><i class="fa fa-clock-o"></i>&nbsp;${bvo.time_posted}</li>
+                            <li style="margin-left: 10px;"><img width="12" height="14" src="${pageContext.request.contextPath}/resources/images/portfolio-details/addr-icon.png" class="addr-icon">&nbsp;${bvo.addr}</li>
+                        	<li style="margin-left: 10px;"><img width="12" height="14" src="${pageContext.request.contextPath}/resources/images/portfolio-details/eye.png" class="addr-icon">&nbsp;${bvo.hit}</li>
                         </ul><br>
                         <h3>작성자: <a href="${pageContext.request.contextPath}/BoardListById.do?id=${bvo.id }&pageNo=1">${bvo.id}</a></h3>
                     </div>
@@ -197,9 +198,10 @@
 </section>
 </body>
 <!--/#related-work-->
-
 <!-- 상품 신고modal -->
 <!-- start modal -->
+<sec:authorize ifAnyGranted="ROLE_DELIVERY,ROLE_MEMBER,ROLE_ADMIN">
+<sec:authentication property="principal" var="mvo" />
 <div class="modal fade" id="reportBoard" role="dialog">
 	<div class="modal-dialog">
 		<!-- Modal content-->
@@ -213,7 +215,7 @@
 								<form id="report-form" name="report-form" method="post" action="${pageContext.request.contextPath}/reportBoard.do">
 									<div><input type="hidden" name="reno" value="${requestScope.bvo.bno}">
 										<input type="hidden" name="category" value="board">
-										<input type="hidden" name="reporter" value="${sessionScope.mvo.id}">
+										<input type="hidden" name="reporter" value="${mvo.id}">
 										작성자:${requestScope.bvo.id}<br><br>상품 내용: ${requestScope.bvo.bcontent}
 									</div>
 									<div class="form-group">
@@ -231,3 +233,4 @@
 					</div>
 				</div>
 			<!-- end of modal -->
+			</sec:authorize>
