@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.kosta.goodmove.model.vo.BoardListVO;
 import org.kosta.goodmove.model.vo.CommentListVO;
-import org.kosta.goodmove.model.vo.MemberVO;
 import org.kosta.goodmove.model.vo.SearchVO;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +17,7 @@ public interface SearchService {
 
 	int count(SearchVO searchVO);
 
-	int countday(MemberVO mvo, String info);
+	int countday(String id, String info);
 
 	List<String> getAutoSearchList(String keyword);
 

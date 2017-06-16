@@ -15,6 +15,7 @@ import org.kosta.goodmove.model.service.MemberService;
 import org.kosta.goodmove.model.service.SearchService;
 import org.kosta.goodmove.model.vo.MemberVO;
 import org.kosta.goodmove.model.vo.SearchVO;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -77,8 +78,12 @@ public class SearchController {
 	@RequestMapping("getCountToDay.do")
 	@ResponseBody
 	public int getCountToDay(HttpServletRequest request) throws UnknownHostException {
-		MemberVO mvo = (MemberVO) request.getSession().getAttribute("mvo");
-		return searchService.countday(mvo, InetAddress.getLocalHost().toString());
+		if(SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")){
+			return searchService.countday("", InetAddress.getLocalHost().toString());
+		}else{
+		MemberVO mvo = (MemberVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			return searchService.countday(mvo.getId(), InetAddress.getLocalHost().toString());
+		}
 	}
 
 	/**
