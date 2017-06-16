@@ -31,6 +31,6 @@
 <div align="center">
   <h1>비밀번호 변경되었습니다</h1> <br>
    <a href="${pageContext.request.contextPath}/home.do">
-   <input type="button" value="확인" onclick="pageOut()"></a>
+   <input type="button" value="확인" id="resBtn" onclick="pageOut()"></a>
 </div>
 </body>

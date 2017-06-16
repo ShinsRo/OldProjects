@@ -169,6 +169,9 @@
 						$(".ids").keyup(function() {
 		                     $(this).val($(this).val().replace(/[^a-z0-9]/g, ""));
 		                  });   
+						$(".pass").keyup(function() {
+		                     $(this).val($(this).val().replace(/[^A-Za-z0-9]/g, ""));
+		                  });  
 					});//ready
 </script>
 <link rel="stylesheet" type="text/css"
@@ -208,11 +211,13 @@
 					<form action="${pageContext.request.contextPath }/register.do"
 						autocomplete="on" method="post" id="regForm">
 						<input id="id" name="id" type="text" class="ids" placeholder="아이디"  maxlength="11"/><br>
+						<span style="color: grey;">아이디는 4~10 영문+숫자허용(대문자 및 한글불가)</span><br>
 						<span id="idCheckView"></span><br> <input id="pass1"
-							name="password" type="password" placeholder="비밀번호" maxlength="10" /><br>
-						<input id="pass2" type="password" name="pass2"
-							placeholder="비밀번호확인" maxlength="10"><br> <span
-							id="passCheckView"></span><br> <input id="name" name="name"
+							class="pass" name="password" type="password" placeholder="비밀번호" maxlength="10" /><br>
+							<span style="color: grey;">비밀번호는 특수문자+대소문자+숫자허용(한글불가)</span><br>
+						  <br><input id="pass2" class="pass" type="password" name="pass2"
+							placeholder="비밀번호확인" maxlength="10"><br> 
+							<span id="passCheckView"></span><br> <input id="name" name="name"
 							type="text" placeholder="이름" /><br> <input id="addr_code"
 							type="text" name="addrcode" readonly="readonly"
 							class="postcodify_postcode5" placeholder="우편번호" /><br>

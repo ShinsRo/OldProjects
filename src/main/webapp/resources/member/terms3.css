@@ -51,7 +51,9 @@
   background: #43A047;
 }  */
 .btnn{
-	margin-left: 40px;
+	 width: 450px;
+	 max-width:100%;
+     margin: 0 auto; 
 }
 /* div.butn{
 font-family: "Roboto", sans-serif;

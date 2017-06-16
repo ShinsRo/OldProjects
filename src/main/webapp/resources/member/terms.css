@@ -16,6 +16,7 @@
   text-transform: uppercase;
   outline: 0;
   background: #4CAF50;
+  max-width:100%;
   width: 100%;
   border: 0;
   margin-left: 47%;
@@ -52,6 +53,7 @@ input[type=button]:hover,.focus {
   outline: 0;
   background: #4CAF50;
   width: 100px;
+  max-width:100%;
   border: 0;
   padding: 30px;
   color: #FFFFFF;
@@ -68,6 +70,7 @@ input[type=button]:hover,.focus {
   outline: 0;
   background: #DBD8D8;
   width: 100px;
+  max-width:100%;
   border: 0;
   padding: 30px;
   color: #FFFFFF;
@@ -83,6 +86,7 @@ input[type=button]:hover,.focus {
   outline: 0;
   background: #DBD8D8;
   width: 100px;
+  max-width:100%;
   border: 0;
   padding: 30px;
   color: #FFFFFF;
@@ -96,7 +100,9 @@ input[type=button]:hover,.focus {
   background: #43A047;
 }  */
 .btnn{
-	margin-left: 34%;
+	 width: 450px;
+	 max-width:100%;
+     margin: 0 auto; 
 }
 .allcheck{
 	margin-left: 80%;
