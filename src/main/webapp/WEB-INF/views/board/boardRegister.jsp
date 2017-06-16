@@ -77,7 +77,7 @@
 						class="btn btn-sm btn-info">검색</button>
 					<input type="text" name="addr"
 						class="postcodify_address form-control" value=""
-						readonly="readonly" placeholder="주소" />
+						readonly="readonly" required="required" placeholder="주소" />
 				</div>
 				<div class="form-group">
 					<textarea name="bcontent" id="content" required="required"

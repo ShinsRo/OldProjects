@@ -44,7 +44,7 @@
 								<a href="${pageContext.request.contextPath}/showComment.do?cno=${cvo.cno }">${cvo.title }</a>
 							</sec:authorize>
 							<sec:authorize ifNotGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
-								<a href="${pageContext.request.contextPath}/showComment.do?cno=${cvo.cno }">${cvo.title }</a>
+								${cvo.title }
 						</sec:authorize></td>
 					<td>
 				<ul class = "nav navbar-nav navbar-left">
