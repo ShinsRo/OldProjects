@@ -70,6 +70,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getParentReRef" parameterType="int" resultType="int">
 		select re_ref from question where qno=#{value}
 	</select>
+	<select id="pwdVerification" parameterType="String" resultType="int">
+		select count(*) from QUESTION q,GD_MEMBER m
+		where q.id = m.id and m.password=#{value}
+	</select>
 </mapper>
  
  

@@ -198,9 +198,10 @@
 </section>
 </body>
 <!--/#related-work-->
-
 <!-- 상품 신고modal -->
 <!-- start modal -->
+<sec:authorize ifAnyGranted="ROLE_DELIVERY,ROLE_MEMBER,ROLE_ADMIN">
+<sec:authentication property="principal" var="mvo" />
 <div class="modal fade" id="reportBoard" role="dialog">
 	<div class="modal-dialog">
 		<!-- Modal content-->
@@ -214,7 +215,7 @@
 								<form id="report-form" name="report-form" method="post" action="${pageContext.request.contextPath}/reportBoard.do">
 									<div><input type="hidden" name="reno" value="${requestScope.bvo.bno}">
 										<input type="hidden" name="category" value="board">
-										<input type="hidden" name="reporter" value="${sessionScope.mvo.id}">
+										<input type="hidden" name="reporter" value="${mvo.id}">
 										작성자:${requestScope.bvo.id}<br><br>상품 내용: ${requestScope.bvo.bcontent}
 									</div>
 									<div class="form-group">
@@ -232,3 +233,4 @@
 					</div>
 				</div>
 			<!-- end of modal -->
+			</sec:authorize>

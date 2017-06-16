@@ -15,4 +15,5 @@ public interface QuestionService {
 	int getNextQno();
 	void registerAnswer(QuestionVO qvo);
 	int getParentReRef(int qno);
+	int pwdVerification(String password);
 }

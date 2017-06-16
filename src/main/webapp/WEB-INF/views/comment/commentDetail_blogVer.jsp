@@ -363,6 +363,16 @@
                                     <!-- 댓글 입력구간 끝 -->
                                     <!--  -->
                                     <sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
+											<div id="replyDiv" style="width: 99%; display: none">
+												<form name="replyUpdateForm" action="updateCommentReply.do" method="post">
+													<input type="hidden" name="cno" value="${requestScope.cvo.cno}">
+													 <input type="hidden" name="rno">
+													<textarea class="reply_field" name="content" rows="3" cols="60" style="border:solid 1px #D8D8D8;
+													maxlength="500"></textarea>
+													<a onclick="fn_replyUpdateSave()">저장</a>
+													<a onclick="fn_replyUpdateCancel()">취소</a>
+												</form>
+											</div>
 
                                     	<div id="replyDialog" style="width: 99%; display: none">
 											<form name="form3" action="writeCommentReply2.do" method="post">
@@ -381,9 +391,10 @@
                                     <div class="response-area">
                                     <h2 class="bold">Comments</h2>
                                     <ul class="media-list">
+                                    <sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
+                                    <sec:authentication property="principal.id" var="mvoId" />
                                     <c:forEach items="${requestScope.CommentReplyList}" var="reply">
                                     <c:if test = "${reply.depth <1}">                                    
-                                    
                                     	<li class="media">
                                             <div class="post-comment">
                                             	 <div class="media-body">
@@ -394,8 +405,13 @@
                                             		<ul class="nav navbar-nav post-nav">
                                                         <li><a href="#"><i class="fa fa-clock-o"></i>${reply.time_posted}</a></li>
                                                         <li><a onclick="fn_replyReply(${reply.rno})"><i class="fa fa-reply"></i>Reply</a></li>
-	                                                    <li><a><i class="fa fa-pencil">수정</i></a></li>
-	                                                    <li><a><i class="fa fa-times">삭제</i></a></li>
+                                                        <c:if test="${requestScope.cvo.id!=mvoId}">
+	                                                    <li><a onclick="fn_replyReport()"><i class="fa fa-pencil">신고</i></a></li>
+	                                                    </c:if>
+	                                                    <c:if test="${requestScope.cvo.id==mvoId}">
+		                                                    <li><a onclick="fn_replyUpdate(${reply.rno})"><i class="fa fa-pencil">수정</i></a></li>
+		                                                    <li><a onclick="fn_replyDelete(${reply.rno},${cvo.cno })"><i class="fa fa-times">삭제</i></a></li>
+	                                                    </c:if>
                                                     </ul>
                                             	</div>
                                             </div>
@@ -419,6 +435,7 @@
                                     </c:if>
                                             
                                     </c:forEach>
+                                    </sec:authorize>
                                    		<!-- 댓글 구간 끝-->
                                    	</ul>                   
                                 </div><!--/Response-area-->
