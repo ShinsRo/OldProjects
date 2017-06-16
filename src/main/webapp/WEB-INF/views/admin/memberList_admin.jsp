@@ -2,24 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
-<script type="text/javascript">
-/* 	function updateMember(){
-		if(confirm("수정하시겠습니까?")){
-			location.href="updateMember_admin.do";
-		}else{
-			return false;
-		}
-	}
-	function deleteMember(id){
-		if(confirm("삭제하시겠습니까?")){
-			alert($("#mem_id").val());
-			location.href="deleteMember_admin.do?id="+$("#mem_id").val();
-		}else{
-			return false;
-		}
-	} */
-</script>
-
 <!-- 배너 타이틀 -->
 <section id="page-breadcrumb">
 	<div class="vertical-center sun">

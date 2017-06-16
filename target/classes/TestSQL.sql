@@ -175,3 +175,6 @@ SELECT * FROM
 		)
 WHERE rnum>=1 and rnum<=10;
 
+
+
+delete from authorities where id='gggg' and authority='ROLE_DEL';

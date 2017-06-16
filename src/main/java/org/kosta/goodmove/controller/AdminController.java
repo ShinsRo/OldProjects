@@ -246,9 +246,11 @@ public class AdminController  {
 	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("deliveryList_admin.do")
 	public String deliveryListAdmin(Model model) {
-		model.addAttribute("NotSelectedlist", deliveryService.getNotConfirmedDeliveryList());
+		//model.addAttribute("NotSelectedlist", deliveryService.getNotConfirmedDeliveryList());
+		model.addAttribute("NotSelectedlist", deliveryService.getDeliveryListAndNotConfirmed());
 		return "admin/deliveryList_admin.tiles2";
 	}
+	
 
 	/**
 	 * 처리 완료되지 않은 신고내역 반환
@@ -346,6 +348,13 @@ public class AdminController  {
 @RequestMapping("confirmDelivery_admin.do")
 	public String confirmDelivery(String id) {
 		deliveryService.confirmDelivery(id);
+		return "redirect:deliveryList_admin.do";
+	}
+	
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
+	@RequestMapping("revocationContract_admin.do")
+	public String revocationContract_admin(String id){
+		deliveryService.revocationContract(id);
 		return "redirect:deliveryList_admin.do";
 	}
 
