@@ -56,7 +56,6 @@ public class CommentController {
 		}
 		return "comment/commentList.tiles";
 	}
-
 	/**
 	 * 지역후기의 상세내용
 	 * 
