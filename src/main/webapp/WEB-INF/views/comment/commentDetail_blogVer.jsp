@@ -315,6 +315,10 @@
                                     <input class="btn btn-danger" type="button" value="삭제"
                                        onclick="deleteComment()">
                                  </c:if>
+                                 <c:if test= "${requestScope.cvo.id != mvoId }">
+                                 	<input class="btn btn-danger" type = "button" value ="신고"
+                                 		onclick="reportComment()">
+                                 </c:if>
                                  </div>
                                  </sec:authorize>
                                     <div class="post-bottom overflow">
@@ -322,7 +326,7 @@
                                             <li><a href="#"><i class="fa fa-tag"></i>Creative</a></li>
                                             <li><a onclick="like_btn()"><i id="like-heart" class="fa fa-heart"></i><span id="likeCount" >${likeCount}</span> Love</a></li>
                                             <li><span id="ifLike"></span></li>
-                                            <li><a href="#"><i class="fa fa-comments"></i>3 Comments</a></li>
+                                            <li><a href="#"><i class="fa fa-comments"></i>${commentCount} Comments</a></li>
                                         </ul>
                                     </div>
                                     <!-- 댓글 입력구간 -->
@@ -359,6 +363,7 @@
                                     <!-- 댓글 입력구간 끝 -->
                                     <!--  -->
                                     <sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
+
                                     	<div id="replyDialog" style="width: 99%; display: none">
 											<form name="form3" action="writeCommentReply2.do" method="post">
 												<input type="hidden" name="cno" value="<c:out value="${requestScope.cvo.cno}"/>"> 
@@ -388,7 +393,9 @@
 													</div>
                                             		<ul class="nav navbar-nav post-nav">
                                                         <li><a href="#"><i class="fa fa-clock-o"></i>${reply.time_posted}</a></li>
-                                                        <li><a onclick="fn_replyReply(${reply.rno})"><i class="fa fa-reply" id="like_btn"></i>Reply</a></li>
+                                                        <li><a onclick="fn_replyReply(${reply.rno})"><i class="fa fa-reply"></i>Reply</a></li>
+	                                                    <li><a><i class="fa fa-pencil">수정</i></a></li>
+	                                                    <li><a><i class="fa fa-times">삭제</i></a></li>
                                                     </ul>
                                             	</div>
                                             </div>
@@ -400,6 +407,7 @@
 	                                                    <li class="post-comment reply">
 	                                                        <div class="media-body">
 	                                                            <span><i class="fa fa-user"></i>Posted by <a href="#">${reply.id}</a></span>
+	                                                            
 	                                                            <p><c:out value="${reply.content }" /></p>
 	                                                            <ul class="nav navbar-nav post-nav">
 	                                                                <li><a href="#"><i class="fa fa-clock-o"></i>${reply.time_posted}</a></li>
@@ -422,7 +430,8 @@
             </div>
         </div>
     </section>
-
+<sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
+<sec:authentication property="principal.id" var="mvoId" />
 <!-- comment 신고modal -->
 <!-- start modal -->
 <div class="modal fade" id="reportComment" role="dialog">
@@ -433,12 +442,12 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 						<h4 class="modal-title">신고하기</h4>
 							</div>
-							<div class="contact-form bottom">
+							<div class="contact-form bottom">                                    	
 							<form id="app-form" name="app-form" method="post" action="${pageContext.request.contextPath}/reportComment_admin.do"></form>
 								<form id="app-form" name="app-form" method="post" action="${pageContext.request.contextPath}/reportComment_admin.do">
 									<div><input type="hidden" name="reno" value="${requestScope.cvo.cno}">
 										<input type="hidden" name="category" value="comment">
-										<input type="hidden" name="reporter" value="${sessionScope.mvo.id}">
+										<input type="hidden" name="reporter" value="${mvoId}">
 										작성자:${requestScope.cvo.id}<br><br>후기 내용: ${requestScope.cvo.content}
 									</div>
 									<div class="form-group">
@@ -456,3 +465,4 @@
 					</div>
 				</div>
 				<!-- end of modal -->
+</sec:authorize>

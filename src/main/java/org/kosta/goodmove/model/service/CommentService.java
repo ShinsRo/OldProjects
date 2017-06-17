@@ -38,4 +38,5 @@ public interface CommentService {
 	int getCountLikeByCno(String cno);
 	void unclickLikeBtn(String cno,String id);
 	public String getImgPath(CommentPictureVO cpvo);
+	public int getCommentReplyCount(String cno);
 }

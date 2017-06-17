@@ -189,6 +189,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="productDelete">
 		DELETE FROM G_PRODUCT WHERE PNO = #{value}
 	</delete>
+	<update id="updateBoardHit" parameterType="int">
+		update G_BOARD
+		set
+		hit=hit+1 where bno=#{value}
+	</update>
 </mapper>
 
 

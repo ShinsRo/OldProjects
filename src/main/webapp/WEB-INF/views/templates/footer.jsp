@@ -3,7 +3,7 @@
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <footer id="footer">
         <div class="container">
-            <div class="row">
+            <div class="row"  style="width: 1113px;">
                   <div class="col-sm-4 text-center padding wow fadeIn" data-wow-duration="1500ms" data-wow-delay="600ms">
                     <div class="single-service">
                         <h3>Team AreadyDone</h3>
@@ -23,7 +23,7 @@
                         <h3>버려질 물건을 이웃에게 전달해보세요.</h3>
                         <br>
                             
-                        	매년 이사로 인해 000ton의 물건들이<br>
+                        	매년 이사로 인해 하루 20,000ton의 물건들이<br>
                         	불타거나, 땅 속에 묻힙니다. <br>
 							
 						
