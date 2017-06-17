@@ -83,7 +83,7 @@
                         <h3>작성자: <a href="${pageContext.request.contextPath}/BoardListById.do?id=${bvo.id }&pageNo=1">${bvo.id}</a></h3>
                     </div>
                     <div class="project-info overflow">
-                        <h3>상품 설명</h3>
+                        <h3>물려줄 물건 설명</h3>
                         <p>${bvo.bcontent}</p>
                     </div>
                     <sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN">
@@ -92,7 +92,7 @@
 	                    <div class="give-me-btn">
 	                    <c:choose>
 						<c:when test="${bvo.is_traded=='TRADED'}">
-						이미 거래된 상품입니다.
+						이미 전달된 물건입니다.
 						</c:when>
 						<c:otherwise>
 	                        <a href="#" class="btn btn-common uppercase" id="give-me">주세요 신청</a>
@@ -116,7 +116,7 @@
 							<form id="app-form" name="app-form" method="post" action="${pageContext.request.contextPath}/registerGiveMe.do"></form>
 								<form id="app-form" name="app-form" method="post" action="${pageContext.request.contextPath}/registerGiveMe.do">
 									<div><input type="hidden" id="bno" name="bno" value="${bvo.bno}">
-										글번호:${bvo.bno}&nbsp;&nbsp;글 제목: ${bvo.title}
+										글 번호:${bvo.bno}&nbsp;&nbsp;글 제목: ${bvo.title}
 									</div>
 									<div class="kind-of-product">
 										<p>주세요 신청 할 상품을 선택해주세요! ლ(╹◡╹ლ)๑</p>
@@ -133,7 +133,7 @@
 									</div> 
 									<div class="form-group">
 										<input type="hidden" name="writer" value="${bvo.id}">
-										<p>상품 등록자가 신청사유 검토 후 물건을 드릴게요! (◕‿◕✿)</p>
+										<p>물품 등록자가 신청사유 검토 후 물건을 드릴게요! (◕‿◕✿)</p>
 										<textarea name="reason" id="reason" required="required" class="form-control" rows="8" 
 										placeholder="신청 사유를 적어주세요."></textarea>
 									</div>
@@ -155,7 +155,7 @@
 <section id="related-work" class="padding-top padding-bottom">
 	<div class="container">
 		<div class="row">
-			<h1 class="title text-center">등록한 상품 사진</h1>
+			<h1 class="title text-center">등록한 물건 사진</h1>
 			<c:forEach items="${requestScope.plist}" var="imgList">
 				<div class="col-sm-4">
 					<div class="portfolio-wrapper">

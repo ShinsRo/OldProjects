@@ -37,6 +37,20 @@ VALUES(CR_SEQ.NEXTVAL,1,'java','딘딘',sysdate,0,'삼빠3',3,0,1);
 INSERT INTO LOC_COMMENT_REPLY(RNO, CNO, ID, NAME,TIME_POSTED, PARENT, CONTENT, GNO, DEPT, ORDER_NO)
 VALUES(CR_SEQ.NEXTVAL,1,'java','딘딘',sysdate,1,'새치기',1,1,2);
 
+
+		select * from (select cno, title, hit,
+		to_char(time_posted,'YYYY.MM.DD HH:mm:ss') as
+		time_posted, addr, id,
+		content, picno, row_number() over(order by cno desc) as rnum,
+		(select count(rno) from LOC_COMMENT_REPLY lr where lr.cno = lc.cno) as reply_cnt 
+		from
+		loc_comment lc) where rnum between 1 and 5
+select * from (select cno, title, hit, to_char(time_posted,'YYYY.MM.DD
+		HH:mm:ss') as
+		time_posted, addr, id, content, picno, row_number() over(order
+		by cno desc) as rnum, 
+		(select count(rno) from LOC_COMMENT_REPLY lr where lr.cno = lc.cno) as reply_cnt 
+		from loc_comment lc where id = 'test') where rnum between 1 and 5
 SELECT rno,cno,id,name,TO_CHAR(TIME_POSTED,'YYYY.MM.DD HH24:MI') as time_posted,
 parent,content,gno,dept,order_no 
 FROM LOC_COMMENT_REPLY WHERE cno=1 ORDER BY GNO ASC

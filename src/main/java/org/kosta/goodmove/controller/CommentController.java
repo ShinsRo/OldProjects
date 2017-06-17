@@ -268,7 +268,6 @@ public class CommentController {
 				uploadPath = "C:\\Users\\KOSTA\\git\\GoodMoveRepository\\src\\main\\webapp\\uploadedFiles\\" + userId + "\\"
 						+ "comment" + cpvo.getPicno() + "\\";
 				System.out.println(req.getSession().getServletContext().getRealPath("/uploadedFiles/"));
-				System.out.println("------");
 					String fileName = file.getOriginalFilename();
 					String fileSuffix = fileName.substring(fileName.lastIndexOf('.'));
 
