@@ -257,7 +257,6 @@ public class CommentController {
 	
 	@RequestMapping("stackImg.do")
 	public String stackImg(HttpServletRequest req,  CommentPictureVO cpvo, MultipartFile file){
-		System.out.println("cpvo 인자 : " + cpvo);
 		MemberVO mvo = (MemberVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String userId = mvo.getId();
 		String uploadPath = "";

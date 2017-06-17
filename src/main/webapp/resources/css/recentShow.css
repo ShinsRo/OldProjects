@@ -35,8 +35,8 @@
 
 #rightSide #right_zzim ul li img {
 	border: 1px solid #ccc;
-	max-width : 100px;
-	max-height: 90px;
+	height: 100px;
+	width : 100px;
 	overflow: hidden;
 }
 

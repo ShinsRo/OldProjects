@@ -30,7 +30,6 @@ CREATE TABLE GD_MEMBER(
 	ADDR_DETAIL VARCHAR2(100) NOT NULL,
 	TEL VARCHAR2(100) NOT NULL,
 	JOB VARCHAR2(18) NOT NULL,
-	--DELETEMEMBER VARCHAR2(100) DEFAULT 'TRUE',
 	enabled number default 1, 
 	IS_CONFIRMED VARCHAR2(100) DEFAULT 'NO'
 );
@@ -43,10 +42,12 @@ create table authorities(
 );
 
 --관리자 DB 주입
+INSERT INTO GD_MEMBER VALUES('java', '어드민', '1234', '서울', '백룡', '01011111111', '')
 INSERT INTO authorities(ID,AUTHORITY) VALUES('admin','ROLE_ADMIN');
-
+Update GD_MEMBER set name = '관리자' where id = 'admin'
 select * from gd_member;
 select * from authorities;
+select * from APPLICATION
 -- 물려줄 물건 게시 단위 테이블
 CREATE TABLE G_BOARD(
 	BNO NUMBER PRIMARY KEY,

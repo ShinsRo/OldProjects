@@ -119,12 +119,11 @@ public class BoardController {
 		bvo.setBno(bno);
 
 		// 실제 운영시에 사용할 서버 업로드 경로
-		// uploadPath =
-		// req.getSession().getServletContext().getRealPath("/resources/upload/");
-
+		uploadPath = req.getSession().getServletContext().getRealPath("/uploadedFiles/");
+		uploadPath +=  userId + "\\" + "board" + bno + "\\";
 		// 로컬 깃 레퍼지토리 경로
-		uploadPath = "C:\\Users\\KOSTA\\git\\GoodMoveRepository\\src\\main\\webapp\\uploadedFiles\\" + userId + "\\"
-				+ "board" + bno + "\\";
+/*		uploadPath = "C:\\Users\\KOSTA\\git\\GoodMoveRepository\\src\\main\\webapp\\uploadedFiles\\" + userId + "\\"
+				+ "board" + bno + "\\";*/
 
 		bvo.setpList(new ArrayList<ProductVO>());
 
@@ -233,17 +232,19 @@ public class BoardController {
 		return "board/boardUpdate.tiles";
 	}
 	@RequestMapping("boardUpdate.do")
-	public String  boardUpdate(BoardVO bvo, ProductSetVO psvo, BoardUpdateParamDTO param){
+	public String  boardUpdate(HttpServletRequest req, BoardVO bvo, ProductSetVO psvo, BoardUpdateParamDTO param){
 		String[] deletedProductArr = param.getDeleteStack().split(",");
 		int prevProductCnt = boardService.getProductCnt(bvo.getBno());
 
 		// 실제 운영시에 사용할 서버 업로드 경로
-		// uploadPath =
-		// req.getSession().getServletContext().getRealPath("/resources/upload/");
-
+		uploadPath = req.getSession().getServletContext().getRealPath("/uploadedFiles/");
+		uploadPath +=  bvo.getId()  + "\\" + "board" + bvo.getBno() + "\\";
+		
 		// 로컬 깃 레퍼지토리 경로
-		uploadPath = "C:\\Users\\KOSTA\\git\\GoodMoveRepository\\src\\main\\webapp\\uploadedFiles\\" + bvo.getId() + "\\"
+/*		uploadPath = "C:\\Users\\KOSTA\\git\\GoodMoveRepository\\src\\main\\webapp\\uploadedFiles\\" + bvo.getId() + "\\"
 				+ "board" + bvo.getBno() + "\\";
+				*/
+		
 		bvo.setpList(new ArrayList<ProductVO>());
 		List<MultipartFile> list = psvo.getFile();
 		int leavedProductCnt = prevProductCnt - deletedProductArr.length;
