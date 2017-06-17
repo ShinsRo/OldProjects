@@ -35,9 +35,6 @@ public class CommentDAOImpl implements CommentDAO{
 	@Override
 	public List<CommentVO> getCommentList(PagingBean pagingBean) {
 		List<CommentVO> list=template.selectList("comment.getCommentList", pagingBean);
-		for(int i=0;i<list.size();i++){
-		list.get(i).setTitle(list.get(i).getTitle()+"("+template.selectOne("comment.getCommentReplyCount", list.get(i).getCno())+")");
-	}
 		return list;
 	}
 	/**
