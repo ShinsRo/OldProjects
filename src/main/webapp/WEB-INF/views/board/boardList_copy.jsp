@@ -55,7 +55,7 @@ function chkRecent(a){
 			if(thisItem){
 				var itemId = thisItem.split(':')[0];
 				var itemImg = thisItem.split(':')[1];
-				$("#right_zzim ul").append('<li><a href="boardDetail.do?bno='+itemId+'">'+itemId+'번 게시물</a><img style="overflow: hidden; width:100px;" src="${pageContext.request.contextPath}/'+itemImg+'"></li>'); 
+				$("#right_zzim ul").append('<li><a href="boardDetailHit.do?bno='+itemId+'">'+itemId+'번 게시물</a><img style="overflow: hidden; width:100px;" src="${pageContext.request.contextPath}/'+itemImg+'"></li>'); 
 			}//if(thisItem)
 		}//for
 		$("#paging").show();

@@ -41,10 +41,11 @@
 					<td>${cvo.cno }</td>
 					<td>
 							<sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
-								<a href="${pageContext.request.contextPath}/showComment.do?cno=${cvo.cno }">${cvo.title } (${cvo.reply_cnt})</a>
-							</sec:authorize>
+								<a href="${pageContext.request.contextPath}/showComment.do?cno=${cvo.cno }">${cvo.title }&nbsp;&nbsp;<i class="fa fa-comments"></i>
+								&nbsp;${cvo.reply_cnt}</a>
+							</sec:authorize> 
 							<sec:authorize ifNotGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
-								${cvo.title } (${cvo.reply_cnt})
+								${cvo.title }&nbsp;&nbsp;<i class="fa fa-comments"></i>&nbsp;${cvo.reply_cnt}
 						</sec:authorize></td>
 					<td>
 				<ul class = "nav navbar-nav navbar-left">
