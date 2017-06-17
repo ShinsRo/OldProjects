@@ -176,5 +176,7 @@ SELECT * FROM
 		)
 WHERE rnum>=1 and rnum<=10;
 
+
 select count(*) from;
+
 

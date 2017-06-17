@@ -11,7 +11,6 @@ import org.kosta.goodmove.model.dao.SearchDAO;
 import org.kosta.goodmove.model.vo.BoardListVO;
 import org.kosta.goodmove.model.vo.BoardPagingBean;
 import org.kosta.goodmove.model.vo.CommentListVO;
-import org.kosta.goodmove.model.vo.MemberVO;
 import org.kosta.goodmove.model.vo.PagingBean;
 import org.kosta.goodmove.model.vo.SearchVO;
 import org.springframework.stereotype.Service;
@@ -66,15 +65,10 @@ public class SearchServiceImpl implements SearchService {
 	 * 방문자수 반환
 	 */
 	@Override
-	public int countday(MemberVO mvo, String info) {
+	public int countday(String id, String info) {
 		String info2 = null;
-		if (mvo != null) {
-			int i = info.lastIndexOf("/");
-			info2 = mvo.getId() + info.substring(i);
-		} else {
-			int i = info.lastIndexOf("/");
-			info2 = info.substring(i);
-		}
+		int i = info.lastIndexOf("/");
+		info2 = id+info.substring(i);
 		return searchDAO.countday(info2);
 	}
 

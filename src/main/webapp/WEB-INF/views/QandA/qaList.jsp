@@ -29,6 +29,7 @@
 </section>
 <!--배너 타이틀-->
 <div class="container">
+
    <table class="table table-hover" id="commentList">
       <thead>
          <tr>
@@ -40,8 +41,8 @@
          </tr>
       </thead>
       <tbody>
-         <sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
-         <sec:authentication property="principal.id" var="mvoId"/>
+       
+         <sec:authentication property="principal" var="mvo"/>
          <c:forEach items="${requestScope.lvo.list}" var="qvo">
             <tr>
                <td>${qvo.qno}</td>
@@ -60,16 +61,16 @@
                         <img class="reply_icon" src="${pageContext.request.contextPath}/resources/img/reply_icon.png" width="20">
                     </c:if>
 	               <c:choose>
-                  <c:when test="${mvoId=='admin'}">
+                  <c:when test="${mvo.id=='admin'}">
                      <a href="${pageContext.request.contextPath}/showQuestionHit.do?qno=${qvo.qno}">${qvo.title}</a>
                   </c:when>
                   <c:when test="${qvo.is_secret == '0'}">
                      <a href="${pageContext.request.contextPath}/showQuestionHit.do?qno=${qvo.qno}">${qvo.title}</a>
                   </c:when>
-                  <c:when test="${qvo.id=='admin' && mvoId==prevId}">
+                  <c:when test="${qvo.id=='admin' && mvo.id==prevId}">
                      <a href="${pageContext.request.contextPath}/showQuestionHit.do?qno=${qvo.qno}">${qvo.title}</a>
                   </c:when>
-                  <c:when test="${qvo.is_secret == '1' && qvo.id == mvoId}">
+                  <c:when test="${qvo.is_secret == '1' && qvo.id == mvo.id}">
                      <a href="${pageContext.request.contextPath}/showQuestionHit.do?qno=${qvo.qno}">${qvo.title}</a>
                   </c:when>
                    <c:otherwise>
@@ -82,13 +83,14 @@
                <td>${qvo.hit}</td>
             </tr>
          </c:forEach>
-         </sec:authorize>
+         
       </tbody> 
    </table>
    <br></br>
    <div class="portfolio-pagination">
       <ul class="pagination">
          <c:set var="pb" value="${requestScope.lvo.pagingBean}"></c:set>
+
 
          <c:choose>
             <c:when test="${pb.previousPageGroup}">

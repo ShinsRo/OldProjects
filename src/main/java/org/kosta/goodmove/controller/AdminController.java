@@ -74,7 +74,7 @@ public class AdminController  {
 		int clno = Integer.parseInt(cno);
 		model.addAttribute("cvo", commentService.showComment(clno));
 		model.addAttribute("CommentReplyList", commentService.getAllCommentReplyList(clno));
-		return "admin/commentDetail_admin.tiles2";
+		return "admin/commentDetail_admin_blogVer.tiles2";
 	}
 
 	/**
@@ -246,9 +246,11 @@ public class AdminController  {
 	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
 	@RequestMapping("deliveryList_admin.do")
 	public String deliveryListAdmin(Model model) {
-		model.addAttribute("NotSelectedlist", deliveryService.getNotConfirmedDeliveryList());
+		//model.addAttribute("NotSelectedlist", deliveryService.getNotConfirmedDeliveryList());
+		model.addAttribute("NotSelectedlist", deliveryService.getDeliveryListAndNotConfirmed());
 		return "admin/deliveryList_admin.tiles2";
 	}
+	
 
 	/**
 	 * 처리 완료되지 않은 신고내역 반환
@@ -300,7 +302,7 @@ public class AdminController  {
 		adminService.replyReport(rvo);
 		model.addAttribute("CommentReplyList", commentService.getAllCommentReplyList(cno));
 		model.addAttribute("cvo", commentService.showCommentNoHit(cno));
-		return "comment/commentDetail.tiles";
+		return "comment/commentDetail_blogVer.tiles";
 	}
 	
 	/**
@@ -317,7 +319,7 @@ public class AdminController  {
 		adminService.commentReport(rvo);
 		model.addAttribute("CommentReplyList", commentService.getAllCommentReplyList(rvo.getReno()));
 		model.addAttribute("cvo", commentService.showCommentNoHit(rvo.getReno()));
-		return "comment/commentDetail.tiles";
+		return "comment/commentDetail_blogVer.tiles";
 	}
 
 	/**
@@ -346,6 +348,13 @@ public class AdminController  {
 @RequestMapping("confirmDelivery_admin.do")
 	public String confirmDelivery(String id) {
 		deliveryService.confirmDelivery(id);
+		return "redirect:deliveryList_admin.do";
+	}
+	
+	@Secured({"ROLE_MEMBER","ROLE_ADMIN"})
+	@RequestMapping("revocationContract_admin.do")
+	public String revocationContract_admin(String id){
+		deliveryService.revocationContract(id);
 		return "redirect:deliveryList_admin.do";
 	}
 
