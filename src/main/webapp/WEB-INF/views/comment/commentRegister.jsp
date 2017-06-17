@@ -123,11 +123,12 @@
 		sHTML = imgHTML;
 		oEditors.getById["content"].exec("PASTE_HTML", [sHTML]);
 	}
-	
+	function showPasteBtn() {
+    	$("#pasteImg").show();
+	}
  	function insertImg() {
  		var imgURL = "";
  		var imgHTML = "";
- 		$("#pasteImg").show();
  		$.ajax({
  			type : "POST",
  			url : "${pageContext.request.contextPath}/getImgPath.do",
@@ -140,7 +141,7 @@
 					pasteHTML(imgHTML);
  			}
  		});
-		
+ 		$("#pasteImg").hide();
 		$("#pic_cursor").val(parseInt($("#pic_cursor").val())+1);
 	} 
  	

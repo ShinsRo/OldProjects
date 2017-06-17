@@ -10,6 +10,7 @@
 	<script type="text/javascript">
 		alert("사진이 선택되었습니다. 게시하기 위해 사진 붙이기를 눌러주세요.");
 		this.close();
+		window.opener.showPasteBtn();
 		window.opener.focus();
 	</script>
 </body>

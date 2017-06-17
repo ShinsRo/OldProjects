@@ -72,7 +72,6 @@
 			<input type =button class = "btn btn-default" onclick = "openImgSelector();" value = "사진 찾기">
 			<input type =button class = "btn btn-default" id="pasteImg" onclick = "insertImg();" value="사진 붙이기">
 			<input type =button class = "btn btn-default" onclick = "loadPrev();" value="이전 글 불러오기">
-			<input type="button" class = "btn btn-default" onclick = "loadPrev();" value="이전 글 불러오기"/>
 			<input type="hidden" id="picno" name = "picno" value = "${cvo.picno }">
 			<input type="hidden" id="pic_cursor" name = "currentPicId" value =1000>
 				<!-- 
@@ -123,11 +122,12 @@
 		sHTML = imgHTML;
 		oEditors.getById["content"].exec("PASTE_HTML", [sHTML]);
 	}
-	
+	function showPasteBtn() {
+    	$("#pasteImg").show();
+	}
  	function insertImg() {
  		var imgURL = "";
  		var imgHTML = "";
- 		$("#pasteImg").show();
  		$.ajax({
  			type : "POST",
  			url : "${pageContext.request.contextPath}/getImgPath.do",
@@ -141,6 +141,7 @@
  			}
  		});
 		
+ 		$("#pasteImg").hide();
 		$("#pic_cursor").val(parseInt($("#pic_cursor").val())+1);
 	} 
  	

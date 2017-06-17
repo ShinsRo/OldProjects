@@ -261,13 +261,11 @@ public class CommentController {
 		MemberVO mvo = (MemberVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String userId = mvo.getId();
 		String uploadPath = "";
-		// uploadPath =
-				// req.getSession().getServletContext().getRealPath("/resources/uploadedFiles/");
-
+		 uploadPath =  req.getSession().getServletContext().getRealPath("/uploadedFiles/");
+		 uploadPath += userId + "\\" + "comment" + cpvo.getPicno() + "\\";
 				// 로컬 깃 레퍼지토리 경로
-				uploadPath = "C:\\Users\\KOSTA\\git\\GoodMoveRepository\\src\\main\\webapp\\uploadedFiles\\" + userId + "\\"
-						+ "comment" + cpvo.getPicno() + "\\";
-				System.out.println(req.getSession().getServletContext().getRealPath("/uploadedFiles/"));
+/*				uploadPath = "C:\\Users\\KOSTA\\git\\GoodMoveRepository\\src\\main\\webapp\\uploadedFiles\\" + userId + "\\"
+						+ "comment" + cpvo.getPicno() + "\\";*/
 					String fileName = file.getOriginalFilename();
 					String fileSuffix = fileName.substring(fileName.lastIndexOf('.'));
 
@@ -292,9 +290,7 @@ public class CommentController {
 	@RequestMapping("getImgPath.do")
 	@ResponseBody
 	public Object getImgPath(CommentPictureVO cpvo){
-		System.out.println("getImg : "+ cpvo);
 		String resultImg = commentService.getImgPath(cpvo);
-		System.out.println("db 참조 : " + resultImg);
 		return resultImg;
 	}
 	
