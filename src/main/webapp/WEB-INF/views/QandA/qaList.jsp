@@ -40,14 +40,14 @@
 			</tr>
 		</thead>
 		<tbody>
-			<sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DELIBERY">
-			<sec:authentication property="principal.id" var="mvoId"/>
+
+			<sec:authentication property="principal" var="mvo"/>
 			<c:forEach items="${requestScope.lvo.list}" var="qvo">
 				<tr>
 					<td>${qvo.qno}</td>
 					<!-- 비밀글 -->
 					<c:choose>
-						<c:when test="${qvo.is_secret == '1' && qvo.id==mvoId}">
+						<c:when test="${qvo.is_secret == '1' && qvo.id==mvo}">
 							<td>
 							<c:if test="${qvo.re_lev > 1}">
 								<c:forEach begin="1" end="${qvo.re_lev}">
@@ -58,7 +58,7 @@
 							<img src="${pageContext.request.contextPath}/resources/img/secret.png" style="width:20px">&nbsp;&nbsp;<a
 							href="${pageContext.request.contextPath}/showQuestionHit.do?qno=${qvo.qno}">${qvo.title}</a></td>
 						</c:when>
-						<c:when test="${qvo.is_secret == '1' && mvoId=='admin'}">
+						<c:when test="${qvo.is_secret == '1' && mvo=='admin'}">
 							<td>
 							<c:if test="${qvo.re_lev > 1}">
 								<c:forEach begin="1" end="${qvo.re_lev}">
@@ -69,7 +69,7 @@
 							<img src="${pageContext.request.contextPath}/resources/img/secret.png" style="width:20px">&nbsp;&nbsp;<a
 							href="${pageContext.request.contextPath}/showQuestionHit.do?qno=${qvo.qno}">${qvo.title}</a></td>
 						</c:when>
-						<c:when test="${qvo.is_secret == '1' && qvo.id!=mvoId}">
+						<c:when test="${qvo.is_secret == '1' && qvo.id!=mvo}">
 							<td>
 							<c:if test="${qvo.re_lev > 1}">
 								<c:forEach begin="1" end="${qvo.re_lev}">
@@ -95,7 +95,7 @@
 					<td>${qvo.hit}</td>
 				</tr>
 			</c:forEach>
-			</sec:authorize>
+		
 		</tbody> 
 	</table>
 	<br></br>
