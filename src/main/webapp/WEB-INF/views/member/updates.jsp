@@ -31,10 +31,6 @@
 				alert("이름을 입력하세요");
 				return false;
 			}
-			/* else if($("#addr_code").val().trim()==""){
-			   alert("우편번호를 검색해주세요");
-			   return false;
-			} */
 			else if ($("#addr").val().trim() == "") {
 				alert("주소를 입력하세요");
 				return false;

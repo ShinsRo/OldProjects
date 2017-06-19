@@ -1,7 +1,11 @@
 package org.kosta.goodmove.model.vo;
 
 import java.io.Serializable;
-
+/**
+ * 
+ * @author KOSTA
+ *
+ */
 public class Authority implements Serializable {
 	private static final long serialVersionUID = 5188280555844223102L;
 	private String id;

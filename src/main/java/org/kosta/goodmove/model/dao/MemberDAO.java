@@ -19,8 +19,6 @@ public interface MemberDAO {
 
 	void updateMember(MemberVO memberVO);
 
-	int passwordCheck(String password);
-
 	void deleteMember(String id, String password);
 
 	public MemberVO forgotId(String name, String tel);

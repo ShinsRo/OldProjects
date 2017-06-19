@@ -45,11 +45,6 @@ public class MemberDAOImpl implements MemberDAO{
 	}
 
 	@Override
-	public int passwordCheck(String password) {
-		return template.selectOne("member.passwordCheck", password);
-	}
- 
-	@Override
 	public void deleteMember(String id, String password) {
 		MemberVO vo=new MemberVO(id,password);
 		template.update("member.deleteMember", vo);
@@ -95,9 +90,6 @@ public class MemberDAOImpl implements MemberDAO{
 		template.insert("member.registerRole",authority);
 	}
 	
-	
-	
-	
 	/** 
 	 * 관리자 회원관리
 	 */
@@ -117,5 +109,4 @@ public class MemberDAOImpl implements MemberDAO{
 	public void restoreMember_admin(String id){
 		template.update("member.restoreMember_admin",id);
 	}
-	
 }

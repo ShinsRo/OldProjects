@@ -35,33 +35,10 @@ public class MemberController {
 	 * @param request
 	 * @return
 	 */
-/*	@RequestMapping(value = "login.do", method = RequestMethod.POST)
-	public String login(MemberVO memberVO, HttpServletRequest request) {
-		MemberVO vo = service.login(memberVO);
-		if (vo == null) {
-			return "member/login_fail.tiles";
-		} else {
-			request.getSession().setAttribute("mvo", vo);
-			return "redirect:home.do";
-		}
-	}*/
 	@RequestMapping("login_fail.do")
     public String loginFail(){
     	return "member/login_fail.tiles";
     }
-	/**
-	 * 로그아웃에 관한 컨트롤러
-	 * 
-	 * @param request
-	 * @return
-	 */
-/*	@RequestMapping("logout.do")
-	public String logout(HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		if (session != null)
-			session.invalidate();
-		return "redirect:home.do";
-	}*/
 
 	/**
 	 * 회원가입에 관한 컨트롤러: tel을 데이터에 넘겨주기 위해 vo.setTel에 tel3개의 이름을 담아줌
@@ -118,7 +95,6 @@ public class MemberController {
 	public String updateMember(HttpServletRequest request, MemberVO memberVO, String tel1, String tel2, String tel3) {
 		// Spring Security 세션 회원정보를 반환받는다
 		MemberVO pvo = (MemberVO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		System.out.println("Spring Security 세션 수정 전 회원정보:" + pvo);
 		//변경할 비밀번호를 암호화한다 
 		String encodePassword=passwordEncoder.encode(memberVO.getPassword());
 		memberVO.setPassword(encodePassword);
@@ -130,20 +106,7 @@ public class MemberController {
 		pvo.setTel(memberVO.getTel());
 		pvo.setAddr_detail(memberVO.getAddr_detail());
 		pvo.setJob(memberVO.getJob());
-		System.out.println("Spring Security 세션 수정 후 회원정보:" + pvo);
 		return "member/update_result.tiles";
-	}
-
-	/**
-	 * 비밀번호 체크를 하기위한 컨트롤러
-	 * 
-	 * @param password
-	 * @return
-	 */
-	@RequestMapping("passwordCheck.do")
-	public String passwordCheck(String password) {
-		int trim = service.passwordCheck(password);
-		return (trim == 0) ? "ok" : "fail";
 	}
 
 	/**
@@ -152,7 +115,7 @@ public class MemberController {
 	 * @param request
 	 * @param id
 	 * @param password
-	 * @return
+	 * @return 
 	 */
 	@RequestMapping("deleteMember.do")
 	public String deleteMember(HttpServletRequest request, String id, String password) {
@@ -175,7 +138,6 @@ public class MemberController {
 	public String forgotId(HttpServletRequest request, String name, String tel1, String tel2, String tel3) {
 		System.out.println(name + tel1 + tel2 + tel3);
 		MemberVO vo = service.forgotId(name, tel1 + tel2 + tel3);
-		/* HttpSession session=request.getSession(); */
 		if (vo == null) {
 			return "member/login_fail.tiles";
 		} else {
@@ -218,7 +180,6 @@ public class MemberController {
 	 */
 	@RequestMapping("changePass.do")
 	public String chagePass(HttpServletRequest request, String id, String password) {
-		System.out.println(id + password);
 		String encodePassword=passwordEncoder.encode(password);
 		service.changePass(id, encodePassword);
 		return "member/changePass_result.tiles"; 	
@@ -249,7 +210,6 @@ public class MemberController {
 		service.deleteMember_admin(id);
 		int pageNo = 1;
 		model.addAttribute("lvo", service.getMemberList_admin(pageNo));
-		System.out.println("삭제완료!");
 		return "admin/memberList_admin.tiles2";
 	}
 	/**
@@ -264,9 +224,19 @@ public class MemberController {
 		service.restoreMember_admin(id);
 		int pageNo = 1;
 		model.addAttribute("lvo", service.getMemberList_admin(pageNo));
-		System.out.println("삭제완료!");
 		return "admin/memberList_admin.tiles2";
 	}
+	
+/*	ListVO<Member>
+	ListVO<Board>*/
+	
+	/**
+	 * 
+	 * 관리자가 아이디를 통해 회원을 조회한다.
+	 * @param id
+	 * @param model
+	 * @return
+	 */
 	@Secured("ROLE_ADMIN")
 	@RequestMapping("updateMember_admin.do")
 	public String updateMember_admin(String id, Model model) {

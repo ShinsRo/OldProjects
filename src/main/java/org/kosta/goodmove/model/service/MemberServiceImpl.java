@@ -18,13 +18,13 @@ public class MemberServiceImpl implements MemberService {
 	@Resource
 	private MemberDAO memberDAO;
 	@Resource
-	private BCryptPasswordEncoder passwordEncoder; 
-	
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Override
 	public MemberVO login(MemberVO memberVO) {
 		return memberDAO.login(memberVO);
 	}
+	
 	@Transactional
 	@Override
 	public void register(MemberVO vo) {
@@ -88,9 +88,6 @@ public class MemberServiceImpl implements MemberService {
 		memberDAO.changePass(id, password);
 	}
 	
-	/**
-	 * 관리자 회원관리
-	 */
 	@Override
 	public int getTotalMemberCount(){
 		return memberDAO.getTotalMemberCount();
