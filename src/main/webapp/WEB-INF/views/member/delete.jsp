@@ -35,22 +35,10 @@
 				}
 			});//click
 		});//ready
-		
-/* 		function passwordChecking() {
-			if ($("#SecurityPassword").val() == $("#pass1").val()) {
-				alert("탈퇴되었습니다!");
-				return true;
-			} else {
-				alert("비밀번호가 일치하지 않습니다.");
-				return false;
-			}
-		} */
-
 	</script>
 </head>
 <body>
 	<!-- 배너 타이틀 -->
-
 <section id="page-breadcrumb">
 	<div class="vertical-center sun">
 		<div class="container">

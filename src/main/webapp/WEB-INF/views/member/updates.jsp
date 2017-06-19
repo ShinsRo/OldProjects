@@ -40,12 +40,9 @@
 			} else if ($("#tel1").val() == "") {
 				alert("번호를 선택해주세요.");
 				return false;
-			}
-
-			else if ($("#tel2").val().trim() == "") {
+			}else if ($("#tel2").val().trim() == "") {
 				alert("중간번호 4자리를 입력하세요");
 				return false;
-
 			} else if ($("#tel3").val().trim() == "") {
 				alert("뒷번호 4자리를 입력하세요");
 				return false;
@@ -53,7 +50,6 @@
 				alert("직업을 입력해주세요");
 				return false;
 			}
-
 			else {
 				var result = confirm("수정하시겠습니까?");
 				if (result) {
@@ -69,7 +65,6 @@
 				}
 			}
 		});
-
 		$(function() {
 			$("#postcodify_search_button").postcodifyPopUp();
 		});
@@ -81,7 +76,6 @@
 			} else {
 				$("#passCheckView").html("비밀번호 동일합니다").css("color", "blue");
 			}
-
 		});//keyup  */ 
 		$(".num").keyup(function() {
 			$(this).val($(this).val().replace(/[^0-9]/g, ""));

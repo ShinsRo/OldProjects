@@ -226,10 +226,6 @@ public class MemberController {
 		model.addAttribute("lvo", service.getMemberList_admin(pageNo));
 		return "admin/memberList_admin.tiles2";
 	}
-	
-/*	ListVO<Member>
-	ListVO<Board>*/
-	
 	/**
 	 * 
 	 * 관리자가 아이디를 통해 회원을 조회한다.

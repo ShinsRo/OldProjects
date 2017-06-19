@@ -8,41 +8,48 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			SELECT ID,PASSWORD,NAME,ADDR,ADDR_DETAIL,TEL,JOB,enabled,IS_CONFIRMED
 			 FROM GD_MEMBER
 		</sql>
+		<!-- 아이디를 통한 멤버조회 -->
 		<select id="findMemberById" resultType="memberVO">
 		<include refid="selectMember"></include>
 		WHERE ID=#{value}
 		</select>
+		<!-- 로그인 관련 -->
 		<select id="login" resultType="memberVO" parameterType="memberVO">
  		<include refid="selectMember"></include>
  		WHERE ID=#{id} AND PASSWORD=#{password}  AND enabled=1
  	</select>
+ 	<!-- 회원수정 관련 -->
  	<update id="updateMember" parameterType="memberVO">
 		UPDATE GD_MEMBER SET PASSWORD=#{password}, ADDR=#{addr}, ADDR_DETAIL=#{addr_detail}, TEL=#{tel}, Job=#{job}
 		WHERE ID=#{id}
 	</update>
+	<!-- 회원수 조회 -->
 	<select id="getMemberCount" resultType="int">
  		SELECT COUNT(*) FROM GD_MEMBER
  	</select>
+ 	<!-- 회원가입 관련 -->
 	<insert id="register" parameterType="memberVO">
 		INSERT INTO GD_MEMBER(ID,PASSWORD,NAME,ADDR,ADDR_DETAIL,TEL,JOB)
 		VALUES(#{id},#{password},#{name},#{addr},#{addr_detail},#{tel},#{job})
 	</insert>
+	<!-- 아이디 체크 -->
 	<select id="idcheck" resultType="int">
 		SELECT COUNT(*) FROM GD_MEMBER WHERE ID=#{value}
 	</select>
-	<select id="passwordCheck" resultType="int">
-		SELECT COUNT(*) FROM GD_MEMBER WHERE PASSWORD=#{value}
-	</select>
+	<!-- 회원탈퇴 관련 -->
 	<update id="deleteMember" parameterType="memberVO"> 
 		UPDATE GD_MEMBER SET enabled=0 WHERE ID=#{id} AND PASSWORD=#{password}
 	</update>
+	<!-- 아이디 찾기부분 -->
 	<select id="forgotId"  resultType="memberVO" parameterType="String">
 		 SELECT ID,enabled FROM GD_MEMBER WHERE  NAME=#{name} AND TEL=#{tel} AND enabled=1
 	</select>
+	<!-- 비밀번호 찾기 부분 -->
 	<select id="forgotPass" resultType="memberVO" parameterType="String">
 	<include refid="selectMember"></include>
 		WHERE ID=#{id} AND NAME=#{name} AND TEL=#{tel} AND enabled=1
 	</select>
+	<!-- 비밀번호 찾기를 통한 비밀번호 변경부분 -->
 	<update id="changePass" parameterType="memberVO">
 		UPDATE GD_MEMBER SET PASSWORD=#{password}	WHERE ID=#{id}
 	</update>

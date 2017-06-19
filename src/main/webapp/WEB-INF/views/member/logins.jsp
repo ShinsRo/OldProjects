@@ -125,10 +125,6 @@
 								href="${pageContext.request.contextPath}/member/registers.do">Create
 								an account</a>
 						</p>
-						<%-- <p class="message">
-							사업자이신가요? <a
-								href="${pageContext.request.contextPath}/delivery/login.do">사업자 로그인</a>
-						</p> --%>
 					</form>
 				</div>
 			</div>

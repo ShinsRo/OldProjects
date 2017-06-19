@@ -38,7 +38,6 @@
 		});
 	}
 </script>
-
 <body onload="initialize()">
 	<section id="page-breadcrumb">
 		<div class="vertical-center sun">
@@ -74,7 +73,6 @@
             </div>
         </div>
     </section> <!--/#map-section-->     
-  
 </body>
 <script
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1SyVOKczvIO35hWM0-IiLGeEna0uqAvQ&callback=initMap"
