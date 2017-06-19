@@ -24,8 +24,6 @@ public interface MemberService {
 
 	public MemberVO forgotPass(String id,String name, String tel);
 	
-	int passwordCheck(String password);
-	
 	void deleteMember(String id,String password);
 	
 	public void changePass(String id,String password);

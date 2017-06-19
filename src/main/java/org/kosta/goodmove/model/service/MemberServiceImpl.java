@@ -63,11 +63,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int passwordCheck(String password) {
-		return memberDAO.passwordCheck(password);
-	}
-
-	@Override
 	public void deleteMember(String id, String password) {
 		memberDAO.deleteMember(id, password);
 
