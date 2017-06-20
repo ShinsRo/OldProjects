@@ -41,7 +41,7 @@
          </tr>
       </thead>
       <tbody>
-       
+        <sec:authorize ifAnyGranted="ROLE_MEMBER, ROLE_DEL, ROLE_ADMIN">
          <sec:authentication property="principal" var="mvo"/>
          <c:forEach items="${requestScope.lvo.list}" var="qvo">
             <tr>
@@ -52,15 +52,15 @@
                         &nbsp;&nbsp;<!-- 답변글일경우 글 제목 앞에 공백을 준다. -->
                         </c:forEach>
                         <c:if test="${qvo.is_secret == '1'}">
-                        	<img src="${pageContext.request.contextPath}/resources/img/secret.png" style="width:20px">&nbsp;&nbsp;
+                           <img src="${pageContext.request.contextPath}/resources/img/secret.png" style="width:20px">&nbsp;&nbsp;
                         </c:if>
-                	<c:if test="${qvo.re_lev == 1}">
-                		<c:set var="prevId" value="${qvo.id}"></c:set>
-                	</c:if>
-                	<c:if test="${qvo.re_lev > 1}">
+                   <c:if test="${qvo.re_lev == 1}">
+                      <c:set var="prevId" value="${qvo.id}"></c:set>
+                   </c:if>
+                   <c:if test="${qvo.re_lev > 1}">
                         <img class="reply_icon" src="${pageContext.request.contextPath}/resources/img/reply_icon.png" width="20">
                     </c:if>
-	               <c:choose>
+                  <c:choose>
                   <c:when test="${mvo.id=='admin'}">
                      <a href="${pageContext.request.contextPath}/showQuestionHit.do?qno=${qvo.qno}">${qvo.title}</a>
                   </c:when>
@@ -83,6 +83,42 @@
                <td>${qvo.hit}</td>
             </tr>
          </c:forEach>
+         </sec:authorize>
+         
+         <sec:authorize ifNotGranted="ROLE_MEMBER, ROLE_DEL, ROLE_ADMIN">   
+         <c:forEach items="${requestScope.lvo.list}" var="qvo">
+            <tr>
+               <td>${qvo.qno}</td>
+               <!-- 비밀글 -->
+                <td>
+                        <c:forEach begin="2" end="${qvo.re_lev}">
+                        &nbsp;&nbsp;<!-- 답변글일경우 글 제목 앞에 공백을 준다. -->
+                        </c:forEach>
+                        <c:if test="${qvo.is_secret == '1'}">
+                           <img src="${pageContext.request.contextPath}/resources/img/secret.png" style="width:20px">&nbsp;&nbsp;
+                        </c:if>
+                   <c:if test="${qvo.re_lev == 1}">
+                      <c:set var="prevId" value="${qvo.id}"></c:set>
+                   </c:if>
+                   <c:if test="${qvo.re_lev > 1}">
+                        <img class="reply_icon" src="${pageContext.request.contextPath}/resources/img/reply_icon.png" width="20">
+                    </c:if>
+                  <c:choose>
+
+                  <c:when test="${qvo.is_secret == '0'}">
+                     <a href="${pageContext.request.contextPath}/showQuestionHit.do?qno=${qvo.qno}">${qvo.title}</a>
+                  </c:when>
+                   <c:otherwise>
+                        ${qvo.title}
+                  </c:otherwise>
+               </c:choose>
+                </td>
+               <td>${qvo.id}</td>
+               <td>${qvo.time_posted }</td>
+               <td>${qvo.hit}</td>
+            </tr>
+         </c:forEach>
+         </sec:authorize>
          
       </tbody> 
    </table>

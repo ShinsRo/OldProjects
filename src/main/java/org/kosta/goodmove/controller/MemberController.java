@@ -2,7 +2,6 @@ package org.kosta.goodmove.controller;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.kosta.goodmove.model.service.MemberService;
 import org.kosta.goodmove.model.vo.MemberVO;
