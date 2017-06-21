@@ -101,10 +101,10 @@ public class MemberVO {
 	public void setJob(String job) {
 		this.job = job;
 	}
-	public String getenabled() {
+	public String getEnabled() {
 		return enabled;
 	}
-	public void setenabled(String enabled) {
+	public void setEnabled(String enabled) {
 		this.enabled = enabled;
 	}
 	public String getIs_confirmed() {

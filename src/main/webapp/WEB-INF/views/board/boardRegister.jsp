@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<!-- 서울시 주소` API 로딩 -->
+<!-- 서울시 주소 API 로딩 -->
 <script type="text/javascript"
 	src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
 <script type="text/javascript">
@@ -25,6 +25,7 @@
 				alert("더 이상 물건을 올릴 수 없습니다.");
 				return;
 			}
+		//상품 추가 시
 			productCnt++;
 			var productRegFormHtmlTemp =
 				"<div id = 'product'>" + productRegFormHtml + "</div>";

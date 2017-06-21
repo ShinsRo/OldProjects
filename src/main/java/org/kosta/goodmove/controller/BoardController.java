@@ -121,9 +121,6 @@ public class BoardController {
 		// 실제 운영시에 사용할 서버 업로드 경로
 		uploadPath = req.getSession().getServletContext().getRealPath("/uploadedFiles/");
 		uploadPath +=  userId + "\\" + "board" + bno + "\\";
-		// 로컬 깃 레퍼지토리 경로
-/*		uploadPath = "C:\\Users\\KOSTA\\git\\GoodMoveRepository\\src\\main\\webapp\\uploadedFiles\\" + userId + "\\"
-				+ "board" + bno + "\\";*/
 
 		bvo.setpList(new ArrayList<ProductVO>());
 
@@ -173,7 +170,7 @@ public class BoardController {
 		avo.setBno(bno);
 		if (boardService.isGiveMeChecked(avo).equals("ok")) {
 			boardService.registerApplication(avo);
-			return "redirect:boardDetail.do?bno=" + bno;
+			return "redirect:boardDetailNoHit.do?bno=" + bno;
 		} else {
 			return "board/giveMe_fail.tiles";
 		}
