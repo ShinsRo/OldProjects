@@ -11,7 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<!-- 아이디를 통한 멤버조회 -->
 		<select id="findMemberById" resultType="memberVO">
 		<include refid="selectMember"></include>
-		WHERE ID=#{value}
+		WHERE ID=#{value} and enabled=1
 		</select>
 		<!-- 로그인 관련 -->
 		<select id="login" resultType="memberVO" parameterType="memberVO">
@@ -25,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	<!-- 회원수 조회 -->
 	<select id="getMemberCount" resultType="int">
- 		SELECT COUNT(*) FROM GD_MEMBER
+ 		SELECT COUNT(*) FROM GD_MEMBER where enabled=1
  	</select>
  	<!-- 회원가입 관련 -->
 	<insert id="register" parameterType="memberVO">
