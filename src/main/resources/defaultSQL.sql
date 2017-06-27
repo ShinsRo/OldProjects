@@ -42,7 +42,7 @@ create table authorities(
 );
 
 --관리자 DB 주입
-INSERT INTO GD_MEMBER VALUES('java', '어드민', '1234', '서울', '백룡', '01011111111', '')
+INSERT INTO GD_MEMBER VALUES('admin', '어드민', '1234', '서울', '백룡', '01011111111', '');
 INSERT INTO authorities(ID,AUTHORITY) VALUES('admin','ROLE_ADMIN');
 Update GD_MEMBER set name = '관리자' where id = 'admin'
 select * from gd_member;

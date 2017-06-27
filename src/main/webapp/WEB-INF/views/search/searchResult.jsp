@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="sec"  uri="http://www.springframework.org/security/tags"%>
 <script src="//code.jquery.com/jquery.min.js"></script>
 <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"></link>
 <!-- <script src="YourJquery source path"></script> -->
@@ -37,23 +38,14 @@ $(document).ready(function(){
 			<div class="row">
 				<div class="action">
 					<div class="col-sm-12">
-						<h1 class="title">검색</h1>
-						<p>
-							<br>다양한 검색어로 찾으세요
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-<section id="action" class="responsive">
-	<div class="vertical-center">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-2"></div>
-				<div class="col-sm-8 text-center padding wow fadeIn"
-					data-wow-duration="1000ms" data-wow-delay="600ms">
+						<div class="col-sm-4">
+							<h1 class="title">검색</h1>
+							<p>
+								<br>다양한 검색어로 찾으세요
+							</p>
+						</div>
+						<div class="col-sm-8 text-center padding wow fadeIn"
+						data-wow-duration="1000ms" data-wow-delay="600ms">
 					<form action="${pageContext.request.contextPath}/search.do" method="post" role="form">
 						<input type="text" class="search-form" id="keyword"  
 							placeholder="검색하기" size="80" name="keyword"> <i class=""></i>
@@ -61,7 +53,8 @@ $(document).ready(function(){
 						<div id="suggest"></div>
 					</form>
 				</div>
-				<div class="col-sm-2"></div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -170,13 +163,13 @@ $(document).ready(function(){
 					</div>
 				</div>
 			</div>
-
 			<c:choose>
 				<c:when test="${requestScope.search.mcategory=='board'}">
+					<div class="col-md-9 col-sm-9">
 					<!-- board -->
 					<c:forEach items="${requestScope.search.search.list}" var="list">
 						<div
-							class="col-xs-6 col-sm-4 col-md-3 portfolio-item branded logos">
+							class="col-xs-6 col-sm-4 col-md-4 portfolio-item branded logos">
 							<div class="portfolio-wrapper">
 								<div class="portfolio-single">
 									<div class="portfolio-thumb">
@@ -188,7 +181,7 @@ $(document).ready(function(){
 									<div class="portfolio-view">
 										<ul class="nav nav-pills">
 											<li><a
-												href="${pageContext.request.contextPath}/boardDetail.do?bno=${list.bno}"><i
+												href="${pageContext.request.contextPath}/boardDetailHit.do?bno=${list.bno}"><i
 													class="fa fa-link"></i></a></li>
 											<li><a
 												href="${pageContext.request.contextPath}/${list.thumbPath}"
@@ -204,6 +197,7 @@ $(document).ready(function(){
 						</div>
 					</c:forEach>
 					<!-- board -->
+					</div>
 				</c:when>
 				<c:otherwise>
 					<!-- comment -->
@@ -225,15 +219,14 @@ $(document).ready(function(){
 										<tr>
 											<td>${cvo.cno }</td>
 											<td>${cvo.addr }</td>
-											<td><c:choose>
-													<c:when test="${sessionScope.mvo!=null}">
-														<a
-															href="${pageContext.request.contextPath}/showComment.do?cno=${cvo.cno }">${cvo.title }</a>
-													</c:when>
-													<c:otherwise>
-														${cvo.title }
-													</c:otherwise>
-												</c:choose></td>
+											<td>
+						                         <sec:authorize ifNotGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DEL">            
+						                         	${cvo.title }         
+						                       	</sec:authorize>
+						                       	<sec:authorize ifAnyGranted="ROLE_MEMBER,ROLE_ADMIN,ROLE_DEL">            
+													<a href="${pageContext.request.contextPath}/showComment.do?cno=${cvo.cno }">${cvo.title }</a>
+						                       	</sec:authorize>
+											</td>
 											<td>${cvo.id }</td>
 											<td>${cvo.time_posted }</td>
 											<td>${cvo.hit }</td>
