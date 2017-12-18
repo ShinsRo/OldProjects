@@ -316,8 +316,8 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <h3 class="m-t-0 header-title">본문</h3>
-                                            <p class="text-muted m-b-30">
-                                                이번 시간에는 프리시퀸스 도메인에서의 그래픽적 표현을 살펴보겠습니다.
+                                            <p class="text-muted m-b-30" id="script">
+                                                
                                             </p>
                                             <div class="clearfix"></div>
                                         </div>
@@ -351,7 +351,6 @@
         <!-- END wrapper -->
 
 
-
         <!-- jQuery  -->
         <script src="${pageContext.servletContext.contextPath}/frontAssets/js/jquery.min.js"></script>
         <script src="${pageContext.servletContext.contextPath}/frontAssets/js/popper.min.js"></script>
@@ -359,6 +358,19 @@
         <script src="${pageContext.servletContext.contextPath}/frontAssets/js/metisMenu.min.js"></script>
         <script src="${pageContext.servletContext.contextPath}/frontAssets/js/waves.js"></script>
         <script src="${pageContext.servletContext.contextPath}/frontAssets/js/jquery.slimscroll.js"></script>
+
+		<!-- Ajax -->
+		<script type="text/javascript">
+			$(document).ready(function(){
+				getContent();
+			});
+			function getContent(){
+				$.getJSON("getScripts.do?name=${name}&number=${number}", function(data){
+					$("#script").html(data.content);
+				});
+				setTimeout("getContent()", 2000);
+			}
+		</script>
 
         <!-- App js -->
         <script src="${pageContext.servletContext.contextPath}/frontAssets/js/jquery.core.js"></script>

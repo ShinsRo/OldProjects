@@ -21,12 +21,10 @@ public class VoiceFileRecoder {
 		this.path = contextPath + "\\" + owner;
 	}
 	
-	public String recodeAndRead(String sentence) {
-		FileReader fr = null;
+	public String recode(String sentence) {
 		FileWriter fw = null;
-		
-		BufferedReader br = null;
 		BufferedWriter bw = null;
+		
 
 		char[] cbuf = new String().toCharArray() ;
 		try {
@@ -37,7 +35,7 @@ public class VoiceFileRecoder {
 					file.createNewFile();
 				}
 			}else {
-				file.mkdir();
+				file.mkdirs();
 				file = new File(path + "\\" + fileNo);
 				file.createNewFile();
 			}
@@ -45,14 +43,9 @@ public class VoiceFileRecoder {
 			fw = new FileWriter(file, true);
 			bw = new BufferedWriter(fw);
 			
-			fr = new FileReader(file);
-			br = new BufferedReader(fr);
-			
 			bw.write(sentence);
 			bw.flush();
-			
-			br.read(cbuf);
-			
+						
 			bw.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -62,9 +55,24 @@ public class VoiceFileRecoder {
 		return cbuf.toString();
 	}
 	
-	public String read(String owner, String fileNo) {
+	public String read(String name, String number) {
+		FileReader fr = null;
+		BufferedReader br = null;
+		File file = new File(path + "\\" + number);
+		String data = "";
+		String allString = "";
 		
-		return null;
+		try {
+			fr = new FileReader(file);
+			br = new BufferedReader(fr);
+			while((data = br.readLine()) != null) {
+				allString += data;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return allString;
 	}
 	
 	@Override

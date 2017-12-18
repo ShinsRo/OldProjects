@@ -15,7 +15,7 @@
 <!-- 
 <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
 	<property name="driverClass" value="org.mariadb.jdbc.Driver"/>
-	<property name="url" value="jdbc:mariadb://192.168.0.6:3306/bt"/>
+	<property name="url" value="jdbc:mariadb://sejonghacker.iptime.org:3306/bt"/>
 	<property name="username" value="remoteController"/>
 	<property name="password" value="botum"/>
 </bean> 
