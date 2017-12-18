@@ -20,11 +20,6 @@ public class VoiceFileRecoder {
 		this.owner = owner;
 		this.path = contextPath + "\\" + owner;
 	}
-
-	private boolean mkFile() {
-
-		return false;
-	}
 	
 	public String recodeAndRead(String sentence) {
 		FileReader fr = null;

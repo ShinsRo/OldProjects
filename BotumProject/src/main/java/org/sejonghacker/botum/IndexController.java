@@ -23,7 +23,7 @@ public class IndexController {
 	 * 
 	 * @return 메인 인덱스 페이지
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "home.do", method = RequestMethod.GET)
 	public String home(Model m) {
 		TestVO testVO = testService.getOne(1);
 		System.out.println(testVO);
