@@ -5,6 +5,9 @@
   작성자 : 김승신
   버전 : 0.0
 -->
+
+토의에 도움도 될 겸 프로젝트 환경을 제안해보려고 만들어보았어요. 부담없이 읽어보셨으면 합니다.
+
 ## 환경
 | 영역 | 적용환경 | 비고 |
 | :------------- | :------------- | :------------- |
@@ -13,7 +16,7 @@
 | JDK   | JDK  | jdk1.8.0_171  |
 | 서버 프레임워크   | spring boot 2.0.2  <br> | devPort : 8888 <br> port : |
 | 의존성   | maven  |    |
-| 뷰 프레임워크   | vueJs <br> vutifyJs 1.0.18 | devPort : 8080 |
+| 뷰 프레임워크   | vueJs <br> { vutifyJs 1.0.18 } | devPort : 8080 |
 | 형상관리   | git  |  https://github.com/orgs/MidasChallenge2018/ |
 | 공용 자료실   | Google Drive  |   |
 
