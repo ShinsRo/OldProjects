@@ -1,5 +1,4 @@
-package com.midas2018.root._demo.domain;
-
+package com.midas2018.root.model;
 
 public class DemoUserVO {
     private String id;

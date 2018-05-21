@@ -1,20 +1,15 @@
-package com.midas2018.root._demo;
+package com.midas2018.root.repository;
 
-import com.midas2018.root._demo.domain.DemoUserVO;
+import com.midas2018.root.model.DemoUserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 @Mapper
 public interface DemoUserMapper {
 
     @Select("SELECT * FROM DEMO WHERE id = #{id}")
-    DemoUserVO findUserById(@Param("id") String id);
-
-    @Select("SELECT * FROM DEMO")
-    List<DemoUserVO> getUserList();
+    DemoUserVO selectUserById(@Param("id") String id);
 }
