@@ -1,6 +1,6 @@
 # frontend
 
-> 2018 midas Challenge Project
+> 2018 Midas Challenge Project
 
 ## Build Setup
 
