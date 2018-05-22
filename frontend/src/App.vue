@@ -1,4 +1,3 @@
-
 <template>
   <v-app>
     <v-navigation-drawer v-model="sidebar" app>
@@ -60,4 +59,3 @@
     }
   }
 </script>
-view rawApp.vue hosted with ❤ by GitHub
