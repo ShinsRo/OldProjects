@@ -1,11 +1,16 @@
 package com.midas2018.root.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.midas2018.root.model.DemoUserVO;
+import com.midas2018.root.model.ResultContainer;
 import com.midas2018.root.model.User;
 import com.midas2018.root.service.DemoService;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
@@ -27,9 +32,9 @@ public class DemoUserController {
         return email;
     }
 
-    @RequestMapping(value="/getUserById", method=RequestMethod.GET)
-    public User getUserById(@RequestParam long id) {
-        return demoService.getUserById(id);
+    @GetMapping("/getUserById")
+    public ResultContainer<User> getUserById(@RequestParam long id) {
+        return new ResultContainer<>(demoService.getUserById(id));
     }
 
 
