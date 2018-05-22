@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,8 +14,9 @@ import com.midas2018.root.model.User;
 import com.midas2018.root.service.DemoService;
 import com.midas2018.root.support.Constant;
 
-@RestController(Constant.API_URI)
+@RestController
 @CrossOrigin
+@RequestMapping(Constant.API_URI)
 public class DemoUserController {
 
     @Autowired

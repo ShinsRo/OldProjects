@@ -3,9 +3,7 @@ package com.midas2018.root.controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.midas2018.root.support.Constant;
-
-@RestController(Constant.API_URI)
+@RestController
 public class IndexController {
 
     @GetMapping(value = "/")
