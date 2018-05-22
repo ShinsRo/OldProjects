@@ -11,8 +11,9 @@ import com.midas2018.root.model.DemoUserVO;
 import com.midas2018.root.model.ResultContainer;
 import com.midas2018.root.model.User;
 import com.midas2018.root.service.DemoService;
+import com.midas2018.root.support.Constant;
 
-@RestController
+@RestController(Constant.API_URI)
 @CrossOrigin
 public class DemoUserController {
 
@@ -32,10 +33,8 @@ public class DemoUserController {
         return email;
     }
 
-    @GetMapping("/getUserById")
+    @GetMapping("/user/getUserById")
     public ResultContainer<User> getUserById(@RequestParam long id) {
         return new ResultContainer<>(demoService.getUserById(id));
     }
-
-
 }
