@@ -5,10 +5,9 @@ import router from '@/router'
 import axios from 'axios'
 import Form from 'form-data'
 
-Vue.use(Vuex)
+import Constants from '../common/js/constants'
 
-/* back-end devServer URL */
-const BackEndServerURL = 'http://localhost:8888'
+Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
@@ -35,12 +34,12 @@ export const store = new Vuex.Store({
 
       bodyFormData.append('email', payload.email)
       bodyFormData.append('password', payload.password)
+      bodyFormData.append('name', payload.name)
       console.log(bodyFormData)
       axios({
         method: 'post',
-        url: BackEndServerURL + '/userRegister.do',
+        url: Constants.MEMBER_API_URL_PATH + '/userRegister',
         data: bodyFormData,
-        /* 사진 등 파일 전송용 헤더 */
         config: {headers: {'Content-Type': 'multipart/form-data'}}
       }).then((response) => {
         commit('setUser', response.email)
