@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Constants from './constants';
 
 const USER_API_URL_PATH = '/api/user';
