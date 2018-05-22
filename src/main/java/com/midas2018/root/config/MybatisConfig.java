@@ -21,6 +21,7 @@ public class MybatisConfig {
         sqlSessionFactoryBean.setConfiguration(configuration);
         sqlSessionFactoryBean.setMapperLocations(new Resource[] {
                 new ClassPathResource("mapper/DemoUserMapper.xml"),
+                new ClassPathResource("mapper/MemberMapper.xml")
                 });
         return sqlSessionFactoryBean.getObject();
     }
