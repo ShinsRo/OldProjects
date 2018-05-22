@@ -1,7 +1,6 @@
 package com.midas2018.root.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +14,6 @@ import com.midas2018.root.service.DemoService;
 import com.midas2018.root.support.Constant;
 
 @RestController
-@CrossOrigin
 @RequestMapping(Constant.API_URI)
 public class DemoUserController {
 
