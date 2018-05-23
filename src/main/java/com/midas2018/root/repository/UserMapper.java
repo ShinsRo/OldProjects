@@ -1,19 +1,18 @@
 package com.midas2018.root.repository;
 
-import com.midas2018.root.model.Member;
-import org.apache.ibatis.annotations.Insert;
+import com.midas2018.root.model.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 @Mapper
-public interface MemberMapper {
+public interface UserMapper {
 
     @Select(value = "SELECT * FROM member WHERE email = #{email}")
-    Member findUserByEmail(@Param("email") String email);
+    User findUserByEmail(@Param("email") String email);
 
-    void memberRegister(Member member);
+    void userRegister(User user);
 
     @Select(value = "SELECT COUNT(*) FROM member WHERE email = #{email}")
-    int isExistEmail(@Param("email") String email);
+    int isThereEmail(@Param("email") String email);
 }

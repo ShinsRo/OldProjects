@@ -14,9 +14,9 @@ class MemberApi {
     })
   }
 
-  static isExist(email) {
+  static isThere(email) {
     return $.get({
-      url: `${MEMBER_API_URL_PATH}/isExistEmail?email=${email}`,
+      url: `${MEMBER_API_URL_PATH}/isThereEmail?email=${email}`,
       timeOut: 1000
     })
   }

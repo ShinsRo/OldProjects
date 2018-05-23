@@ -27,6 +27,14 @@ export const store = new Vuex.Store({
       state.loading = payload
     }
   },
+  getters: {
+    getSessionAttribute (state) {
+      return state.user
+    },
+    isAuthenticated (state) {
+      return state.user !== null && state.user !== undefined
+    }
+  },
   actions: {
     userSignUp ({commit}, payload) {
       commit('setLoading', true)
@@ -35,20 +43,51 @@ export const store = new Vuex.Store({
       bodyFormData.append('email', payload.email)
       bodyFormData.append('password', payload.password)
       bodyFormData.append('name', payload.name)
-      console.log(bodyFormData)
       axios({
         method: 'post',
-        url: Constants.MEMBER_API_URL_PATH + '/userRegister',
+        url: Constants.USER_API_URL_PATH + '/userRegister',
         data: bodyFormData,
         config: {headers: {'Content-Type': 'multipart/form-data'}}
       }).then((response) => {
-        commit('setUser', response.email)
+        commit('setUser', response.data.data.user)
         commit('setLoading', false)
+        commit('setError', null)
         router.push('/home')
       }).catch((error) => {
         commit('setError', error.message)
         commit('setLoading', false)
       })
+    },
+    userSignIn ({commit}, payload) {
+      let bodyFormData = new Form()
+
+      bodyFormData.append('email', payload.email)
+      bodyFormData.append('password', payload.password)
+      axios({
+        method: 'post',
+        url: Constants.USER_API_URL_PATH + '/userSignin',
+        data: bodyFormData,
+        config: {headers: {'Content-Type': 'multipart/form-data'}}
+      }).then((response) => {
+        console.log(response.data.data.user)
+        if (response.data.data.user === undefined) {
+          throw new Error('존재하지 않는 이메일입니다.')
+        } else if (!response.data.data.isValid) {
+          throw new Error('비밀번호가 일치하지 않습니다.')
+        }
+
+        commit('setUser', response.data.data.user)
+        commit('setLoading', false)
+        commit('setError', null)
+        router.push('/home')
+      }).catch((error) => {
+        commit('setError', error.message)
+        commit('setLoading', false)
+      })
+    },
+    userSignOut ({commit}) {
+      commit('setUser', null)
+      router.push('/')
     }
   }
 })

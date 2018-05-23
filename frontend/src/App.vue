@@ -11,6 +11,12 @@
           </v-list-tile-action>
           <v-list-tile-content>{{ item.title }}</v-list-tile-content>
         </v-list-tile>
+        <v-list-tile v-if="isAuthenticated" @click= "userSignOut">
+          <v-list-tile-action>
+            <v-icon>exit_to_app</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>Sign Out</v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
 
@@ -34,6 +40,10 @@
           <v-icon left dark>{{ item.icon }}</v-icon>
           {{ item.title }}
         </v-btn>
+        <v-btn flat v-if="isAuthenticated" @click="userSignOut">
+          <v-icon>exit_to_app</v-icon>
+          Sign Out
+        </v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -45,16 +55,49 @@
 </template>
 
 <script>
+  /*
+  App.vue computed 속성 명세
+  computed 기능은 다음과 같습니다.
+  1. getSessionAttribute :User
+    세션 정보를 {email: "xxx@xxx.xxx", password: "", name: "xxx"} 형식으로 불러옵니다.
+
+  2. isAuthenticated :Bool
+    현재 세션 정보가 유효한 지 검사합니다.
+
+  3. menuItems : Object[]
+    nav의 메뉴바 정보를 불러옵니다.
+  ****************/
+
   export default {
     data () {
       return {
         appTitle: 'Midas App',
-        sidebar: false,
-        menuItems: [
-          { title: 'Home', path: '/home', icon: 'home' },
-          { title: 'Sign Up', path: '/signup', icon: 'face' },
-          { title: 'Sign In', path: '/signin', icon: 'lock_open' }
-        ]
+        sidebar: false
+      }
+    },
+    methods: {
+      userSignOut () {
+        this.$store.dispatch('userSignOut')
+      }
+    },
+    computed: {
+      getSessionAttribute () {
+        return this.$store.getters.getSessionAttribute
+      },
+      isAuthenticated () {
+        return this.$store.getters.isAuthenticated
+      },
+      menuItems () {
+        if (this.isAuthenticated) {
+          return [
+            {title: 'Home', path: '/home', icon: 'home'}
+          ]
+        } else {
+          return [
+            {title: 'Sign Up', path: '/signup', icon: 'face'},
+            {title: 'Sign In', path: '/signin', icon: 'lock_open'}
+          ]
+        }
       }
     }
   }

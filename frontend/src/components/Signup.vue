@@ -59,7 +59,6 @@
 <script>
 /* eslint-disable */
 import * as toastr from 'toastr';
-import MemberApi from '../common/js/member-api';
 import router from '@/router'
 
   export default {
@@ -74,7 +73,7 @@ import router from '@/router'
     },
     computed: {
       comparePasswords () {
-        return this.password === this.passwordConfirm ? true : 'Passwords don\'t match'
+        return this.password === this.passwordConfirm ? true : '비밀번호가 일치하지 않습니다.'
       },
       error () {
         return this.$store.state.error
@@ -103,24 +102,5 @@ import router from '@/router'
         }
       }
     }
-      // userSignUp () {
-      //   if (this.comparePasswords !== true) {
-      //     return
-      //   }
-      //   MemberApi.userResiger({
-      //     email: this.email,
-      //     name: this.name,
-      //     password: this.password
-      //   }).then((res) => {
-      //     console.log(`res : ${res.data}`);
-      //
-      //     if(res.code >= 400) {
-      //       throw new Error(res.message);
-      //     }
-      //     else {
-      //       router.push('/home')
-      //     }
-      //   })
-      // }
   }
 </script>

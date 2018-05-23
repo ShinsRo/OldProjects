@@ -18,6 +18,7 @@
                 label="Email"
                 id="email"
                 type="email"
+                v-model="email"
                 required></v-text-field>
             </v-flex>
             <v-flex>
@@ -26,6 +27,7 @@
                 label="Password"
                 id="password"
                 type="password"
+                v-model="password"
                 required></v-text-field>
             </v-flex>
             <v-flex class="text-xs-center" mt-5>
