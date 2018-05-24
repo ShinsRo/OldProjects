@@ -34,11 +34,9 @@ public class UserController {
 
     @PostMapping(value = "/userRegister")
     public ResultContainer<User> userRegister(User user) throws UserAlreadyExistsException {
-        ResultContainer<User> temp = new ResultContainer<>(
+        return new ResultContainer<>(
                 userService.userRegister(user)
         );
-        System.out.println(temp);
-        return temp;
     }
 
     @PostMapping(value = "/userSignin")
