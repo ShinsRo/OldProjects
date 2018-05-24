@@ -24,9 +24,11 @@ public class ResultContainer<T> {
         return code.getCode();
     }
 
+    public void setCode(ExceptionCode code) { this.code = code; }
     public String getMessage() {
         return StringUtils.isBlank(message) ? code.getMessage() : message;
     }
 
+    public void setMessage(String message) { this.message = message; }
 }
 

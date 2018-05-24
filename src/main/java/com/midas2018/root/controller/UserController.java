@@ -1,5 +1,6 @@
 package com.midas2018.root.controller;
 
+import com.midas2018.root.exceptions.UserAlreadyExistsException;
 import com.midas2018.root.model.User;
 import com.midas2018.root.model.ResultContainer;
 import com.midas2018.root.service.UserService;
@@ -32,7 +33,7 @@ public class UserController {
     }
 
     @PostMapping(value ="/userRegister")
-    public ResultContainer<User> userRegister(User user){
+    public ResultContainer<User> userRegister(User user) throws UserAlreadyExistsException {
         return new ResultContainer<>(
                 userService.userRegister(user)
         );

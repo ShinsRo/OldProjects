@@ -1,5 +1,6 @@
 package com.midas2018.root.service;
 
+import com.midas2018.root.exceptions.UserAlreadyExistsException;
 import com.midas2018.root.model.User;
 import com.midas2018.root.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,12 @@ public class UserService {
         return userRepository.findUserByEmail(email);
     }
 
-    public User userRegister(User user) {
+    public User userRegister(User user) throws UserAlreadyExistsException {
+        boolean isThereSameOne = this.isThereEmail(user.getEmail());
+        if(isThereSameOne) throw new UserAlreadyExistsException();
         userRepository.userRegister(user);
-        User result = userRepository.findUserByEmail(user.getEmail());
-        result.setPassword("");
-        return result;
+        user.setPassword("");
+        return user;
     }
 
     public Boolean isThereEmail(String email) {
