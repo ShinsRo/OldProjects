@@ -18,7 +18,7 @@
                     <v-text-field
                     name="email"
                     label="Email"
-                    id="email"
+                    id="sign-in-email"
                     type="email"
                     v-model="email"
                     required></v-text-field>
@@ -27,7 +27,7 @@
                     <v-text-field
                     name="password"
                     label="Password"
-                    id="password"
+                    id="sign-in-password"
                     type="password"
                     v-model="password"
                     required></v-text-field>
@@ -73,9 +73,11 @@ export default {
   methods: {
     userSignIn () {
       this.$store.dispatch('userSignIn', { email: this.email, password: this.password })
-      this.email = ''
-      this.password = ''
-      this.show = false
+      if (this.$store.state.error === null) {
+        this.email = ''
+        this.password = ''
+        this.show = false
+      }
     }
   },
   watch: {

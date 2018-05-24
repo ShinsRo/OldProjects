@@ -102,11 +102,13 @@ import router from '@/router'
           return
         }
         this.$store.dispatch('userSignUp', { email: this.email, password: this.password, name: this.name})
-        this.email = ''
-        this.password = ''
-        this.passwordConfirm = ''
-        this.name = 'unknown'
-        this.show = false
+        if (this.$store.state.error === null) {
+          this.email = ''
+          this.password = ''
+          this.passwordConfirm = ''
+          this.name = 'unknown'
+          this.show = false
+        }
       }
     },
     watch: {
