@@ -8,11 +8,11 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface UserMapper {
 
-    @Select(value = "SELECT * FROM member WHERE email = #{email}")
+    @Select(value = "SELECT * FROM user WHERE email = #{email}")
     User findUserByEmail(@Param("email") String email);
 
     void userRegister(User user);
 
-    @Select(value = "SELECT COUNT(*) FROM member WHERE email = #{email}")
+    @Select(value = "SELECT COUNT(*) FROM user WHERE email = #{email}")
     int isThereEmail(@Param("email") String email);
 }

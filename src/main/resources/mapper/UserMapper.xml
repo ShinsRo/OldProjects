@@ -5,7 +5,7 @@
 
     <insert id="userRegister" parameterType="com.midas2018.root.model.User">
         INSERT INTO
-        member(email, password, name)
+        user(email, password, name)
         value(#{email}, #{password}, #{name})
     </insert>
 
