@@ -12,12 +12,13 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     appTitle: 'Midas App',
-    user: null,
+    user: (sessionStorage.getItem('user')) ? sessionStorage.getItem('user') : null,
     error: null,
     loading: false
   },
   mutations: {
     setUser (state, payload) {
+      sessionStorage.setItem('user', JSON.stringify(payload))
       state.user = payload
     },
     setError (state, payload) {
@@ -54,7 +55,7 @@ export const store = new Vuex.Store({
         commit('setError', null)
         router.push('/home')
       }).catch((error) => {
-        commit('setError', error.message)
+        commit('setError', error.response.data.message)
         commit('setLoading', false)
       })
     },
