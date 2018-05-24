@@ -12,7 +12,7 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     appTitle: 'Midas App',
-    user: (sessionStorage.getItem('user')) ? sessionStorage.getItem('user') : null,
+    user: JSON.parse(sessionStorage.getItem('user')),
     error: null,
     loading: false
   },
@@ -70,7 +70,6 @@ export const store = new Vuex.Store({
         data: bodyFormData,
         config: {headers: {'Content-Type': 'multipart/form-data'}}
       }).then((response) => {
-        console.log(response.data.data.user)
         if (response.data.data.user === undefined) {
           throw new Error('존재하지 않는 이메일입니다.')
         } else if (!response.data.data.isValid) {
@@ -88,6 +87,7 @@ export const store = new Vuex.Store({
     },
     userSignOut ({commit}) {
       commit('setUser', null)
+      sessionStorage.setItem('user', null)
       router.push('/')
     }
   }

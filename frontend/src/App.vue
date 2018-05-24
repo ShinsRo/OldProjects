@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <!-- 왼쪽 사이드 바 -->
     <v-navigation-drawer v-model="sidebar" app>
       <v-list>
         <v-list-tile
@@ -11,6 +12,7 @@
           </v-list-tile-action>
           <v-list-tile-content>{{ item.title }}</v-list-tile-content>
         </v-list-tile>
+        <!-- 로그인 중 메뉴 -->
         <v-list-tile v-if="isAuthenticated" @click= "userSignOut">
           <v-list-tile-action>
             <v-icon>exit_to_app</v-icon>
@@ -20,7 +22,8 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-toolbar app>
+    <!-- 상단 툴 바 -->
+    <v-toolbar right app>
       <span class="hidden-sm-and-up">
         <v-toolbar-side-icon @click="sidebar = !sidebar">
         </v-toolbar-side-icon>
@@ -31,6 +34,7 @@
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
+      <!-- 메뉴 -->
       <v-toolbar-items class="hidden-xs-only">
         <v-btn
           flat
@@ -40,8 +44,9 @@
           <v-icon left dark>{{ item.icon }}</v-icon>
           {{ item.title }}
         </v-btn>
+        <!-- 로그인 중 메뉴 -->
         <v-btn flat v-if="isAuthenticated" @click="userSignOut">
-          <v-icon>exit_to_app</v-icon>
+          <v-icon left>exit_to_app</v-icon>
           Sign Out
         </v-btn>
       </v-toolbar-items>
