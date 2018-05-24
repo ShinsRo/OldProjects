@@ -50,7 +50,8 @@ export const store = new Vuex.Store({
         data: bodyFormData,
         config: {headers: {'Content-Type': 'multipart/form-data'}}
       }).then((response) => {
-        commit('setUser', response.data.data.user)
+        console.log(response.data.data)
+        commit('setUser', response.data.data)
         commit('setLoading', false)
         commit('setError', null)
         router.push('/home')
@@ -70,12 +71,6 @@ export const store = new Vuex.Store({
         data: bodyFormData,
         config: {headers: {'Content-Type': 'multipart/form-data'}}
       }).then((response) => {
-        if (response.data.data.user === undefined) {
-          throw new Error('존재하지 않는 이메일입니다.')
-        } else if (!response.data.data.isValid) {
-          throw new Error('비밀번호가 일치하지 않습니다.')
-        }
-
         commit('setUser', response.data.data.user)
         commit('setLoading', false)
         commit('setError', null)

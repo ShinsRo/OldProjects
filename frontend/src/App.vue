@@ -23,7 +23,7 @@
     </v-navigation-drawer>
 
     <!-- 상단 툴 바 -->
-    <v-toolbar right app>
+    <v-toolbar app>
       <span class="hidden-sm-and-up">
         <v-toolbar-side-icon @click="sidebar = !sidebar">
         </v-toolbar-side-icon>
@@ -32,6 +32,14 @@
         <router-link to="/" tag="span" style="cursor: pointer">
           {{ appTitle }}
         </router-link>
+        <v-btn @click.stop="showSignUpDialog=true">
+          test SignUp modal
+        </v-btn>
+        <v-btn @click.stop="showSignInDialog=true">
+          test SignIn modal
+        </v-btn>
+        <SignUpDialog :visible="showSignUpDialog" @close="showSignUpDialog=false"></SignUpDialog>
+        <SignInDialog :visible="showSignInDialog" @close="showSignInDialog=false"></SignInDialog>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <!-- 메뉴 -->
@@ -60,6 +68,8 @@
 </template>
 
 <script>
+  import SignUpDialog from './components/SignUpDialog'
+  import SignInDialog from './components/SignInDialog'
   /*
   App.vue computed 속성 명세
   computed 기능은 다음과 같습니다.
@@ -72,13 +82,18 @@
   3. menuItems : Object[]
     nav의 메뉴바 정보를 불러옵니다.
   ****************/
-
   export default {
     data () {
       return {
         appTitle: 'Midas App',
-        sidebar: false
+        sidebar: false,
+        showSignUpDialog: false,
+        showSignInDialog: false
       }
+    },
+    components: {
+      SignUpDialog,
+      SignInDialog
     },
     methods: {
       userSignOut () {

@@ -19,6 +19,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
         ResultContainer<Object> rc = new ResultContainer<>(null);
         rc.setCode(ExceptionCode.INTERNAL_SERVER_ERROR);
         rc.setMessage(e.getMessage());
+        System.out.println("exception 일어남" + rc);
         return new ResponseEntity<>(rc, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
