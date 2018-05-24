@@ -10,9 +10,6 @@
         <v-flex xs12 sm6 offset-sm3 mt-3>
           <form @submit.prevent="userSignUp" :disabled="loading">
             <v-layout column>
-              <v-alert type="error" dismissible v-model="alert">
-                {{ error }}
-              </v-alert>
               <v-flex>
                 <v-text-field
                 name="email"
@@ -101,14 +98,20 @@ import router from '@/router'
         if (this.comparePasswords !== true) {
           return
         }
-        this.$store.dispatch('userSignUp', { email: this.email, password: this.password, name: this.name})
-        if (this.$store.state.error === null) {
-          this.email = ''
-          this.password = ''
-          this.passwordConfirm = ''
-          this.name = 'unknown'
-          this.show = false
-        }
+        this.$store.state.usingModal = true
+        this.$store.dispatch('userSignUp', {
+          email: this.email,
+          password: this.password,
+          name: this.name
+        }).then((resolv) => {
+            this.email = ''
+            this.password = ''
+            this.passwordConfirm = ''
+            this.name = 'unknown'
+            this.show = false
+        }).catch((refus) => {
+
+        })
       }
     },
     watch: {

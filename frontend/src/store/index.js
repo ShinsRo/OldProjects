@@ -14,7 +14,8 @@ export const store = new Vuex.Store({
     appTitle: 'Midas App',
     user: JSON.parse(sessionStorage.getItem('user')),
     error: null,
-    loading: false
+    loading: false,
+    usingModal: false
   },
   mutations: {
     setUser (state, payload) {
@@ -22,6 +23,7 @@ export const store = new Vuex.Store({
       state.user = payload
     },
     setError (state, payload) {
+      if (payload !== null && state.usingModal) alert(payload)
       state.error = payload
     },
     setLoading (state, payload) {
@@ -54,9 +56,11 @@ export const store = new Vuex.Store({
         commit('setLoading', false)
         commit('setError', null)
         router.push('/home')
+        return 'secess'
       }).catch((error) => {
         commit('setError', error.response.data.message)
         commit('setLoading', false)
+        return 'fail'
       })
     },
     userSignIn ({commit}, payload) {
