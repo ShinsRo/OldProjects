@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.midas2018.root.repository.BoardMapper">
+
+  <insert id="insertBoard" parameterType="map">
+    INSERT INTO board ( title, content, userId )
+    VALUES ( #{title}, #{content}, #{userId} )
+  </insert>
+
+  <select id="selectBoard" parameterType="map" resultType="com.midas2018.root.model.BoardVO">
+    SELECT *
+    FROM
+      board
+    WHERE
+      boardNo = #{boardNo};
+  </select>
+
+  <select id="selectAllBoard" resultType="com.midas2018.root.model.BoardVO">
+    SELECT *
+    FROM
+      board
+  </select>
+
+
+</mapper>
