@@ -16,7 +16,8 @@
 </template>
 
 <script>
-import Lottie from './lottie.vue';
+/* eslint-disable */
+import Lottie from './LottieContainer.vue';
 import * as animationData from '../assets/rainOnCloud.json';
 export default {
   name: 'app',
