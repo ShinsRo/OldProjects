@@ -12,7 +12,7 @@
           </v-list-tile-action>
           <v-list-tile-content>{{ item.title }}</v-list-tile-content>
         </v-list-tile>
-        <!-- 로그인 중 메뉴 -->
+        <!-- 로그아웃 메뉴 -->
         <v-list-tile v-if="isAuthenticated" @click= "userSignOut">
           <v-list-tile-action>
             <v-icon>exit_to_app</v-icon>
@@ -44,19 +44,27 @@
       <v-spacer></v-spacer>
       <!-- 메뉴 -->
       <v-toolbar-items class="hidden-xs-only">
-        <v-btn
-          flat
+        <v-menu offset-y
           v-for="item in menuItems"
           :key="item.title"
           :to="item.path">
-          <v-icon left dark>{{ item.icon }}</v-icon>
-          {{ item.title }}
-        </v-btn>
-        <!-- 로그인 중 메뉴 -->
-        <v-btn flat v-if="isAuthenticated" @click="userSignOut">
-          <v-icon left>exit_to_app</v-icon>
-          Sign Out
-        </v-btn>
+          <v-btn slot="activator" flat>
+            <v-icon left dark>{{ item.icon }}</v-icon>
+            <v-flex>{{ item.title }}</v-flex>
+          </v-btn>
+          <v-list
+            v-if="item.dropDown"
+            v-for="dropDownItem in item.dropDownMenu"
+            :key="dropDownItem.title"
+            :to="dropDownItem.path">
+            <v-list-tile>{{ dropDownItem.title }}</v-list-tile>
+          </v-list>
+        </v-menu>
+        <!-- 로그아웃 메뉴 -->
+          <v-btn flat v-if="isAuthenticated" @click="userSignOut">
+            <v-icon left>exit_to_app</v-icon>
+            Sign Out
+          </v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
@@ -81,6 +89,8 @@
 
   3. menuItems : Object[]
     nav의 메뉴바 정보를 불러옵니다.
+    dropDown 항목이 트루면 하위 항목이 존재합니다.
+    폴트면 하위 항목은 없습니다.
   ****************/
   export default {
     data () {
@@ -110,12 +120,30 @@
       menuItems () {
         if (this.isAuthenticated) {
           return [
-            {title: 'Home', path: '/home', icon: 'home'}
+            {
+              title: 'Dropdown',
+              icon: 'home',
+              dropDown: true,
+              dropDownMenu: [
+                {title: 'item1', path: '/home', icon: 'home'},
+                {title: 'item2', path: '/home', icon: 'home'}
+              ]
+            },
+            {title: 'Home', path: '/home', icon: 'home', dropDown: false}
           ]
         } else {
           return [
-            {title: 'Sign Up', path: '/signup', icon: 'face'},
-            {title: 'Sign In', path: '/signin', icon: 'lock_open'}
+            {
+              title: 'Dropdown4',
+              icon: 'home',
+              dropDown: true,
+              dropDownMenu: [
+                {title: 'item1', path: '/home', icon: 'home'},
+                {title: 'item2', path: '/home', icon: 'home'}
+              ]
+            },
+            {title: 'Sign Up', path: '/signup', icon: 'face', dropDown: false},
+            {title: 'Sign In', path: '/signin', icon: 'lock_open', dropDown: false}
           ]
         }
       }
