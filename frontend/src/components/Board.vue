@@ -17,10 +17,10 @@
         </template>
         <template slot="items" slot-scope="props">
           <td hidden>{{ props.item.boardNo }}</td>
-          <td class="text-xs-center" v-on:click="selectOne(props.item.boardNo)">{{ props.item.boardNo }}</td>
+          <td class="text-xs-center" v-on:click="selectOne(props.item)">{{ props.item.boardNo }}</td>
           <td class="text-xs-center" v-on:click="selectOne(props.item)">{{ props.item.title }}</td>
-          <td class="text-xs-center" v-on:click="selectOne(props.item.boardNo)">{{ props.item.userId }}</td>
-          <td class="text-xs-center" v-on:click="selectOne(props.item.boardNo)">{{ props.item.registerDate }}</td>
+          <td class="text-xs-center" v-on:click="selectOne(props.item)">{{ props.item.userId }}</td>
+          <td class="text-xs-center" v-on:click="selectOne(props.item)">{{ props.item.registerDate }}</td>
         </template>
       </v-data-table>
       <div class="text-xs-center pt-2">
@@ -61,7 +61,7 @@
         this.$router.push({
           name: 'boardRead',
           params: {
-            propBoard : board
+            propBoard: board
           }
         });
       },

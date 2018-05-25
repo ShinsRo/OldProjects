@@ -25,4 +25,12 @@ public class BoardService {
         return boardRepository.selectAllBoard();
     }
 
+    public int deleteBoard(int boardNo) {
+        return boardRepository.deleteBoard(boardNo);
+    }
+
+    public int updateBoard(BoardVO boardVO){
+        return boardRepository.updateBoard(boardVO);
+    }
+
 }

@@ -2,16 +2,14 @@ package com.midas2018.root.controller;
 
 import com.midas2018.root.model.BoardVO;
 import com.midas2018.root.service.BoardService;
+import com.midas2018.root.support.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
-@Controller
+@RestController
+@RequestMapping(Constant.BOARD_API_URL)
 public class BoardController {
     @Autowired
     private BoardService boardService;
@@ -20,6 +18,12 @@ public class BoardController {
     public int insertBoard(@RequestBody BoardVO boardVO){
         System.out.println("insertBoard");
         return boardService.insertBoard(boardVO);
+    }
+
+    @PostMapping(value = "/updateBoard")
+    public int updateBoard(@RequestBody BoardVO boardVO){
+        System.out.println("updateBoard");
+        return boardService.updateBoard(boardVO);
     }
 
     @GetMapping(value = "/selectBoard")
@@ -32,5 +36,11 @@ public class BoardController {
     public ArrayList<BoardVO> selectBoard(){
         System.out.println("selectAllBoard");
         return boardService.selectAllBoard();
+    }
+
+    @GetMapping(value = "/deleteBoard")
+    public int deleteBoard(@RequestParam int boardNo){
+        System.out.println("deleteBoard");
+        return boardService.deleteBoard(boardNo);
     }
 }

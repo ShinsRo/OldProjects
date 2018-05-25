@@ -9,6 +9,7 @@
 
 
 <script>
+/* eslint-disable */
 import * as toastr from 'toastr';
 import DemoApi from '../../common/js/demo-api';
 

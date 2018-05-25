@@ -4,8 +4,8 @@
 <mapper namespace="com.midas2018.root.repository.BoardMapper">
 
   <insert id="insertBoard" parameterType="map">
-    INSERT INTO board ( title, content, userId )
-    VALUES ( #{title}, #{content}, #{userId} )
+    INSERT INTO board ( title, content, userId, registerDate )
+    VALUES ( #{title}, #{content}, #{userId}, now() )
   </insert>
 
   <select id="selectBoard" parameterType="map" resultType="com.midas2018.root.model.BoardVO">
@@ -20,7 +20,22 @@
     SELECT *
     FROM
       board
+    ORDER BY boardNo DESC;
   </select>
 
+  <update id="updateBoard" parameterType="map">
+    UPDATE
+      board
+    SET title = #{title}, content = #{content}
+    WHERE boardNo = #{boardNo}
+  </update>
+
+  <delete id="deleteBoard" parameterType="map">
+    DELETE
+    FROM
+      board
+    WHERE
+      boardNo = #{boardNo};
+  </delete>
 
 </mapper>

@@ -8,6 +8,9 @@
     <v-flex xs12 sm6 offset-sm3 mt-3>
       <form @submit.prevent="userSignUp" :disabled="loading">
         <v-layout column>
+          <v-alert type="error" dismissible v-model="alert">
+            {{ error }}
+          </v-alert>
           <v-flex>
             <v-text-field
             name="email"
@@ -36,6 +39,14 @@
             :rules="[comparePasswords]"
             required></v-text-field>
           </v-flex>
+          <v-flex>
+            <v-text-field
+              name="name"
+              label="Name"
+              id="name"
+              v-model="name"
+              ></v-text-field>
+          </v-flex>
           <v-flex class="text-xs-center" mt-5>
             <v-btn color="primary" type="submit">Sign Up</v-btn>
           </v-flex>
@@ -46,17 +57,29 @@
 </template>
 
 <script>
+/* eslint-disable */
+import * as toastr from 'toastr';
+import router from '@/router'
+
   export default {
     data () {
       return {
         email: '',
+        name: 'unknown',
         password: '',
-        passwordConfirm: ''
+        passwordConfirm: '',
+        alert: false
       }
     },
     computed: {
       comparePasswords () {
         return this.password === this.passwordConfirm ? true : '비밀번호가 일치하지 않습니다.'
+      },
+      error () {
+        return this.$store.state.error
+      },
+      loading () {
+        return this.$store.state.loading
       }
     },
     methods: {
@@ -64,7 +87,19 @@
         if (this.comparePasswords !== true) {
           return
         }
-        this.$store.dispatch('userSignUp', { email: this.email, password: this.password })
+        this.$store.dispatch('userSignUp', { email: this.email, password: this.password, name: this.name})
+      }
+    },
+    watch: {
+      error (value) {
+        if (value) {
+          this.alert = 'error'
+        }
+      },
+      alert (value) {
+        if (!value) {
+          this.$store.commit('setError', null)
+        }
       }
     }
   }

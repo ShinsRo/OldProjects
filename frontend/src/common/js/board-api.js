@@ -14,6 +14,13 @@ class BoardApi {
     });
   }
 
+  static updateBoard(board){
+    return $.post({
+      url: `${BOARD_API_URL_PATH}/updateBoard`,
+      data: JSON.stringify(board),
+      headers: Constants.JSON_HEADERS
+    });
+  }
   static selectBoard(boardNo) {
     return $.get({
       url: `${BOARD_API_URL_PATH}/selectBoard?boardNo=${boardNo}`,
