@@ -79,9 +79,6 @@ export const store = new Vuex.Store({
         if (user === undefined) {
           throw new Error('존재하지 않는 이메일입니다.')
         }
-        commit('setUser', user)
-        commit('setLoading', false)
-        commit('setError', null)
         if (user.status === 'USER') user.auth = 0
         else if (user.status === 'SUB_ADMIN') user.auth = 1
         else if (user.status === 'ADMIN') user.auth = 2
@@ -95,6 +92,9 @@ export const store = new Vuex.Store({
             break
           default : throw new Error('알 수 없는 사용자')
         }
+        commit('setUser', user)
+        commit('setLoading', false)
+        commit('setError', null)
       }).catch((error) => {
         commit('setError', error.message)
         commit('setLoading', false)

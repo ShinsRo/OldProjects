@@ -22,8 +22,8 @@
       </v-flex>
       <v-flex v-for="i in 20" :key="`4${i}`" mt-5 pr-2>
         <v-card>
-          <v-card-media src="../../assets/testimg.jpg" height="100px" width="100px">
-          </v-card-media>
+          <img src="@/assets/testimg.jpg" height="108px" width="192px">
+          </img>
           <v-card-title primary-title>
             <div>
               <h3 class="headline mb-0">Menu one</h3>
@@ -33,7 +33,7 @@
           <v-card-actions>
             <!-- user 조작 버튼 -->
             <v-flex class="text-xs-right" v-if="isAuthenticated === 0">
-              <v-icon @click="" medium style="cursor: pointer">add_shopping_cart</v-icon>
+              <v-icon @click="snackbar = true" medium style="cursor: pointer">add_shopping_cart</v-icon>
             </v-flex>
             <!-- admin 조작 버튼 -->
             <v-flex class="text-xs-right" v-if="isAuthenticated === 1 || isAuthenticated === 2">
@@ -42,12 +42,23 @@
             </v-flex>
             <!-- public 조작 버튼 -->
             <v-flex class="text-xs-right" v-if="isAuthenticated === 9">
-              <v-icon @click="" medium style="cursor: pointer">add_shopping_cart</v-icon>
+              <v-icon @click="" medium style="cursor: pointer">public</v-icon>
             </v-flex>
           </v-card-actions>
         </v-card>
       </v-flex>
     </v-layout>
+    <!-- snackbar -->
+  <v-snackbar
+    :timeout="timeout"
+    :top="true"
+    :multi-line="mode === 'multi-line'"
+    :vertical="mode === 'vertical'"
+    v-model="snackbar"
+  >
+  {{ text }}
+  <v-btn flat color="pink" @click.native="snackbar = false">Close</v-btn>
+  </v-snackbar>
   </v-container>
 </template>
 
@@ -58,7 +69,11 @@ import AddMenuDialog from '../admin/AddMenuDialog'
   export default {
     data () {
       return {
-        showAddMenuDialog: false
+        showAddMenuDialog: false,
+        snackbar: false,
+        mode: '',
+        timeout: 1000,
+        text: '주문이 추가 되었습니다.'
       }
     },
     components: {
