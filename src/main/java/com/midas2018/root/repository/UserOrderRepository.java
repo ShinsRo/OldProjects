@@ -12,12 +12,27 @@ public class UserOrderRepository {
     @Autowired
     private UserOrderMapper userOrderMapper;
 
-    public List<UserOrderVO> selectUserOrderList() {
-        return userOrderMapper.selectUserOrderList();
+    public List<UserOrderVO> getUserOrderLisAll() {
+        return userOrderMapper.getUserOrderLisAll();
+    }
+    public List<UserOrderVO> selectUserOrderListNotCompleteAll() {
+        return userOrderMapper.selectUserOrderListNotCompleteAll();
+    }
+
+    public List<UserOrderVO> selectUserOrderListByUserId(int userId) {
+        return userOrderMapper.selectUserOrderListByUserId(userId);
     }
 
     public void insertUserOder(UserOrderVO userOrderVO) {
         userOrderMapper.insertUserOrder(userOrderVO);
+    }
+
+    public void updateUserOrder(UserOrderVO userOrderVO) {
+        userOrderMapper.updateUserOrderByUserId(userOrderVO);
+    }
+
+    public void deleteUserOrder(UserOrderVO userOrderVO) {
+        userOrderMapper.deleteUserOrderByUserId(userOrderVO);
     }
 
 }

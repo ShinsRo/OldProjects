@@ -6,7 +6,7 @@ package com.midas2018.root.model;
 public enum OrderStatus implements ValueEnum {
     WAITING(0),   //대기
     MAKING(1),    //만드는중
-    COMPLELTE(2); //완료
+    COMPLETE(2); //완료
 
     int value = 0;
 

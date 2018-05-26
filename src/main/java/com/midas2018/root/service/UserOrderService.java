@@ -1,11 +1,11 @@
 package com.midas2018.root.service;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.midas2018.root.model.OrderStatus;
 import com.midas2018.root.model.UserOrderVO;
 import com.midas2018.root.repository.UserOrderRepository;
 
@@ -15,21 +15,27 @@ public class UserOrderService {
     @Autowired
     private UserOrderRepository userOrderRepository;
 
-    public List<UserOrderVO> getUserOrderList() {
-        return userOrderRepository.selectUserOrderList();
+    public List<UserOrderVO> getUserOrderLisAll() {
+        return userOrderRepository.getUserOrderLisAll();
+    }
+    public List<UserOrderVO> getUserOrderListNotCompleteAll() {
+        return userOrderRepository.selectUserOrderListNotCompleteAll();
     }
 
-    public void insertUserOder(UserOrderVO userOrderVO) throws IOException {
-        userOrderRepository.insertUserOder(userOrderVO);
+    public List<UserOrderVO> getUserOrderListByUserId(int userId) {
+        return userOrderRepository.selectUserOrderListByUserId(userId);
+    }
 
-//        ObjectMapper objectMapper = new ObjectMapper();
-//
-//        userOrderRepository.insertUserOrder(UserOrderVO.builder().content(userOrderRequest.getContent())
-//                                                      .status(OrderStatus.WAITING)
-//                                                      .totalPrice(userOrderRequest.getTotalPrice())
-//                                                      .cafeMenuList(objectMapper.readValue(
-//                                                              userOrderRequest.getCafeMenuList(),
-//                                                              CafeMenuAndOptionsList.class))
-//                                                      .build());
+    public void insertUserOder(UserOrderVO userOrderVO) {
+        userOrderRepository.insertUserOder(userOrderVO);
+    }
+
+    public void updateUserOrder(UserOrderVO userOrderVO) {
+        userOrderRepository.updateUserOrder(userOrderVO);
+    }
+
+    public void deleteUserOrder(UserOrderVO userOrderVO) {
+        userOrderVO.setStatus(OrderStatus.COMPLETE);
+        userOrderRepository.deleteUserOrder(userOrderVO);
     }
 }
