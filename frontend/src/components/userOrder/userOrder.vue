@@ -74,8 +74,7 @@ export default {
         toastr.error(error.message, 'Oops!');
       })
     }
-  }
-  ,
+  },
   created() {
     this.getUserOrderList();
   }

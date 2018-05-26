@@ -5,13 +5,17 @@ import BootstrapVue from 'bootstrap-vue'
 import App from './App'
 import router from './router'
 import {store} from './store'
+import * as moment from 'moment';
 
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 
 Vue.use(Vuetify)
 Vue.use(BootstrapVue)
-
+Vue.filter('convertDateTime', function (value) {
+  if (!value) return ''
+  return moment(value).format("A hh:mm, DD MMM");
+})
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

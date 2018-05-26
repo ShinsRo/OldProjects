@@ -1,5 +1,7 @@
 package com.midas2018.root.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,5 +38,18 @@ public class UserService {
 
     public UserStatus getUserStatusByUserId(String userAuth) {
         return userRepository.selectUserStatusByUserId(Integer.valueOf(userAuth));
+    }
+
+    public List<UserVO> getUserListAll() {
+        return userRepository.selectUserListAll();
+    }
+
+    public void updateUser(UserVO user) {
+        userRepository.updateUser(user);
+    }
+
+    public void deleteUser(UserVO user) {
+        user.setStatus(UserStatus.DELETE);
+        userRepository.deleteUser(user);
     }
 }
