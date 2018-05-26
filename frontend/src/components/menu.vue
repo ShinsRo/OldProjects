@@ -12,7 +12,7 @@
         <v-text-field v-model="menu.imageURL" box></v-text-field>
       </v-flex>
       <div>
-        <v-btn v-on:click="insertMenu" color="prim  ary">Submit</v-btn>
+        <v-btn v-on:click="insertMenu" color="primary">Submit</v-btn>
       </div>
     </div>
   </v-container>
@@ -34,7 +34,6 @@
           name:'',
           price:'',
           content:'',
-          option:'',
           status:'',
           imageURL:''
         }

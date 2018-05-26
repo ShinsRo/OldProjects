@@ -7,7 +7,7 @@ import lombok.Data;
  */
 @Data
 public class OptionVO {
-    int name;
+    String name;
     int count;
     int price;
 }
