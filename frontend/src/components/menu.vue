@@ -7,7 +7,6 @@
         <v-text-field v-model="menu.price" box></v-text-field>
         <v-text-field v-model="menu.content" box></v-text-field>
         <v-text-field v-model="menu.category" box></v-text-field>
-        <v-text-field v-model="menu.option" box></v-text-field>
         <v-text-field v-model="menu.status" box ></v-text-field>
         <v-text-field v-model="menu.imageURL" box></v-text-field>
       </v-flex>
@@ -28,14 +27,16 @@
     comments: {
       menuApi,
     },
+
     data() {
       return {
         menu:{
-          name:'',
-          price:'',
-          content:'',
-          status:'',
-          imageURL:''
+          name: '',
+          price: '',
+          content: '',
+          category: '',
+          status: '',
+          imageURL: ''
         }
       }
     },

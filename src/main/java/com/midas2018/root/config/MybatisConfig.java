@@ -12,7 +12,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 import com.midas2018.root.model.CafeMenuStatus;
-import com.midas2018.root.model.CategoryVO;
+import com.midas2018.root.model.CategoryStatus;
 import com.midas2018.root.model.OptionData;
 import com.midas2018.root.model.OrderStatus;
 import com.midas2018.root.model.UserStatus;
@@ -40,7 +40,7 @@ public class MybatisConfig {
         typeHandlerRegistry.register(UserStatus.class, ValueEnumTypeHandler.class);
         typeHandlerRegistry.register(CafeMenuStatus.class, ValueEnumTypeHandler.class);
         typeHandlerRegistry.register(OrderStatus.class, ValueEnumTypeHandler.class);
-        typeHandlerRegistry.register(CategoryVO.class, CategoryVOTypeHandler.class);
+        typeHandlerRegistry.register(CategoryStatus.class, ValueEnumTypeHandler.class);
         typeHandlerRegistry.register(OptionData.class, OptionDataTypeHandler.class);
 
         sqlSessionFactoryBean.setConfiguration(configuration);

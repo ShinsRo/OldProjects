@@ -9,10 +9,9 @@
      , price
      , content
      , category
-     , option
      , created_time
      , updated_time
-     ,  status
+     , status
      , image_url
     )
     VALUES (
@@ -20,7 +19,6 @@
     , #{price}
     , #{content}
     , #{category}
-    , #{option}
     , now()
     , now()
     , #{status.value}
@@ -36,7 +34,6 @@
       , price = #{price}
       , content = #{content}
       , category = #{category}
-      , option = #{option}
       , updated_time = now()
       , status = #{status}
       , image_url = #{imageURL}
