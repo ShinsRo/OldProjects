@@ -19,8 +19,8 @@ public class UserOrderRepository {
         return userOrderMapper.selectUserOrderListNotCompleteAll();
     }
 
-    public List<UserOrderVO> selectUserOrderListByUserId(int userId) {
-        return userOrderMapper.selectUserOrderListByUserId(userId);
+    public List<UserOrderVO> selectUserOrderListBookingByUserId(int userId) {
+        return userOrderMapper.selectUserOrderListBookingByUserId(userId);
     }
 
     public void insertUserOder(UserOrderVO userOrderVO) {
@@ -31,7 +31,7 @@ public class UserOrderRepository {
         userOrderMapper.updateUserOrderByUserId(userOrderVO);
     }
 
-    public void deleteUserOrder(UserOrderVO userOrderVO) {
+    public void deleteUserOrderByUserId(UserOrderVO userOrderVO) {
         userOrderMapper.deleteUserOrderByUserId(userOrderVO);
     }
 

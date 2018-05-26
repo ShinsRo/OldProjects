@@ -29,13 +29,14 @@
       status = 0 OR status = 1
   </select>
 
-  <select id="selectUserOrderListByUserId" resultType="com.midas2018.root.model.UserOrderVO" parameterType="map">
+  <select id="selectUserOrderListBookingByUserId" resultType="com.midas2018.root.model.UserOrderVO" parameterType="map">
     SELECT
       <include refid="UserOrderVOColumns" />
     FROM
       user_order
     WHERE
       user_id = #{userId}
+    AND (status = 0 OR status = 1)
   </select>
 
   <insert id="insertUserOrder" parameterType="map">
@@ -73,7 +74,7 @@
       user_id = #{userId}
   </update>
 
-  <update id="deleteUserOrdeByUserIdr" parameterType="map">
+  <update id="deleteUserOrderByUserId" parameterType="map">
     UPDATE
       user_order
     SET
@@ -82,6 +83,7 @@
       , deleted_time = NOW()
     WHERE
       user_id = #{userId}
+      AND id = #{id}
   </update>
 
 

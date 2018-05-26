@@ -30,6 +30,15 @@ class UserApi {
     });
   }
 
+  static signin(user) {
+    console.log(JSON.stringify(user));
+    return $.post({
+      url: `${USER_URL_PATH}/signin`,
+      data: JSON.stringify(user),
+      headers: Constants.JSON_HEADERS
+    });
+  }
+
   static deleteUser(user) {
     console.log(JSON.stringify(user));
     return $.post({

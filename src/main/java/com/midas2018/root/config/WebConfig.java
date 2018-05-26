@@ -10,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.midas2018.root.support.interceptor.CorsInterceptor;
 import com.midas2018.root.support.interceptor.HttpReqFilterInterceptor;
 import com.midas2018.root.support.interceptor.HttpReqLoggingInterceptor;
 import com.midas2018.root.support.json.MappingJacksonHttpMessageConverter;
@@ -24,10 +25,14 @@ public class WebConfig implements WebMvcConfigurer {
     @Autowired
     private HttpReqFilterInterceptor httpReqFilterInterceptor;
 
+    @Autowired
+    private CorsInterceptor corsInterceptor;
+
     /* Interceptor */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(httpReqLoggingInterceptor);
+        registry.addInterceptor(corsInterceptor);
 //        registry.addInterceptor(httpReqFilterInterceptor)
 //                .addPathPatterns("/api/admin/**")
 //                .excludePathPatterns("/api/admin/signup")
