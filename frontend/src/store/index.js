@@ -11,7 +11,7 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    appTitle: 'Midas App',
+    appTitle: 'Midas Cafe',
     user: JSON.parse(sessionStorage.getItem('user')),
     error: null,
     loading: false,
@@ -49,7 +49,7 @@ export const store = new Vuex.Store({
       bodyFormData.append('phoneNumber', payload.phoneNumber)
       axios({
         method: 'post',
-        url: Constants.USER_API_URL_PATH + '/userRegister',
+        url: Constants.USER_API_URL_PATH + '/register',
         data: bodyFormData,
         config: {headers: {'Content-Type': 'multipart/form-data'}}
       }).then((response) => {
@@ -71,7 +71,7 @@ export const store = new Vuex.Store({
       bodyFormData.append('password', payload.password)
       axios({
         method: 'post',
-        url: Constants.USER_API_URL_PATH + '/userSignin',
+        url: Constants.USER_API_URL_PATH + '/signin',
         data: bodyFormData,
         config: {headers: {'Content-Type': 'multipart/form-data'}}
       }).then((response) => {
