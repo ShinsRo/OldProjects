@@ -1,13 +1,13 @@
 package com.midas2018.root.service;
 
-import com.midas2018.root.exceptions.UserAlreadyExistsException;
-import com.midas2018.root.model.User;
-import com.midas2018.root.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.midas2018.root.exceptions.UserAlreadyExistsException;
+import com.midas2018.root.model.User;
+import com.midas2018.root.model.UserStatus;
+import com.midas2018.root.model.UserVO;
+import com.midas2018.root.repository.UserRepository;
 
 @Service
 public class UserService {
@@ -31,19 +31,24 @@ public class UserService {
         return (userRepository.isThereEmail(email) > 0)? true : false;
     }
 
-    public Map<String, Object> userSignin(User user) {
-        Map<String, Object> sessionAndValidity = new HashMap<>();
-        boolean isValid = false;
-        User foundUser = null;
-        if (isThereEmail(user.getEmail())) {
-            foundUser = userRepository.findUserByEmail(user.getEmail());
-            if (foundUser != null)
-                isValid = foundUser.getPassword().equals(user.getPassword());
-            foundUser.setPassword("");
-            sessionAndValidity.put("user", foundUser);
-        }
+    public UserVO userSignin(UserVO user) {
+        return userRepository.signin(user.getEmail(), user.getPassword());
+//        Map<String, Object> sessionAndValidity = new HashMap<>();
+//        boolean isValid = false;
+//        User foundUser = null;
+//        if (isThereEmail(user.getEmail())) {
+//            foundUser = userRepository.findUserByEmail(user.getEmail());
+//            if (foundUser != null)
+//                isValid = foundUser.getPassword().equals(user.getPassword());
+//            foundUser.setPassword("");
+//            sessionAndValidity.put("user", foundUser);
+//        }
+//
+//        sessionAndValidity.put("isValid", isValid);
+//        return sessionAndValidity;
+    }
 
-        sessionAndValidity.put("isValid", isValid);
-        return sessionAndValidity;
+    public UserStatus getUserStatusByUserId(String userAuth) {
+        return userRepository.selectUserStatusByUserId(Integer.valueOf(userAuth));
     }
 }
