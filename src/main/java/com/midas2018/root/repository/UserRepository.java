@@ -7,6 +7,8 @@ import com.midas2018.root.model.User;
 import com.midas2018.root.model.UserStatus;
 import com.midas2018.root.model.UserVO;
 
+import java.util.List;
+
 @Repository
 public class UserRepository {
     @Autowired
@@ -31,4 +33,6 @@ public class UserRepository {
     public UserVO signin(String email, String password) {
         return userMapper.signin(email, password);
     }
+
+    public List<UserVO> getUserList(int from, int to) {  return userMapper.getUserList(from, to); }
 }

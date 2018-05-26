@@ -98,21 +98,23 @@
         menuApi.selectMenu(this.menu.id).then((res) => {
           console.log(`res : ${res}`);
           console.log(res);
-
           if (res.code >= 400) {
             throw new Error(res.message);
           }
 
           //this.$router.push('menu');
 
+
+          return res;
         }).fail((error) => {
           toastr.error(error.message, 'Oops!');
+          return error;
         })
       },
       selectAll() {
         menuApi.selectAll().then((res) => {
           console.log(`res : ${res}`);
-          console.log(res);
+          console.log('123' + res);
 
           if (res.code >= 400) {
             throw new Error(res.message);

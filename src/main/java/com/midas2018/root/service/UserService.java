@@ -9,6 +9,8 @@ import com.midas2018.root.model.UserStatus;
 import com.midas2018.root.model.UserVO;
 import com.midas2018.root.repository.UserRepository;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -36,5 +38,12 @@ public class UserService {
 
     public UserStatus getUserStatusByUserId(String userAuth) {
         return userRepository.selectUserStatusByUserId(Integer.valueOf(userAuth));
+    }
+
+    public List<UserVO> getUserList(int pageNo) {
+        int from = (pageNo-1)*5,
+                to = (pageNo)*5;
+
+        return userRepository.getUserList(from, to);
     }
 }

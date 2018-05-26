@@ -6,6 +6,7 @@
       </v-flex>
       <v-flex xs12 class="text-xs-center" mt-3>
         <p>you can select here</p>
+        <v-btn @click.stop="getUserList">asd</v-btn>
       </v-flex>
     </v-layout>
   </v-container>
@@ -15,15 +16,24 @@
 /* eslint-disable */
   export default {
     data () {
-      return ""
+      return {
+        pageNo: 1
+      }
     },
-    created: {
-
-    },
-
-    methods: {
-
+    computed: {
+      getUserList (pageNo) {
+        let payload = {
+          url: 'http://localhost:8888/api/admin/getUserList',
+          params: {
+            pageNo: pageNo
+          }
+        }
+        this.$store.dispatch('commonGET', payload).then((response) => {
+          console.log('in vue : ' + response)
+        }).catch((error) => {
+          console.log('in vue error : ' + error);
+        })
+      }
     }
-
   }
 </script>

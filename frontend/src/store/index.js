@@ -15,7 +15,8 @@ export const store = new Vuex.Store({
     user: JSON.parse(sessionStorage.getItem('user')),
     error: null,
     loading: false,
-    usingModal: false
+    usingModal: false,
+    userCart: []
   },
   mutations: {
     setUser (state, payload) {
@@ -24,10 +25,13 @@ export const store = new Vuex.Store({
     },
     setError (state, payload) {
       if (payload !== null && state.usingModal) alert(payload)
-      state.error = payload
+      state.error = payloa
     },
     setLoading (state, payload) {
       state.loading = payload
+    },
+    cartAppend (state, payload) {
+      state.userCart.push(payload)
     }
   },
   getters: {
@@ -36,9 +40,31 @@ export const store = new Vuex.Store({
     },
     isAuthenticated (state) {
       return (state.user !== null && state.user !== undefined) ? state.user.auth : 9
+    },
+    getCart (state) {
+      return state.userCart
     }
   },
   actions: {
+    addToCart ({commit}, payload) {
+      commit('cartAppend', payload)
+    },
+    commonGET ({commit}, payload) {
+      commit('setLoading', true)
+      console.log('common : ' + this.state.user.email)
+      axios.get(payload.url, payload.param, {headers: {'auto': this.state.user.email}}).then((response) => {
+        console.log(response.data)
+        commit('setLoading', false)
+        return response.data
+      }).catch((error) => {
+        console.log('store : error' + error.response.data)
+        commit('setError', error.response.data.message)
+        commit('setLoading', false)
+        return error.response.data
+      })
+      commit('setLoading', false)
+    },
+    /* 이하 유저 */
     userSignUp ({commit}, payload) {
       commit('setLoading', true)
       let bodyFormData = new Form()
@@ -59,6 +85,7 @@ export const store = new Vuex.Store({
         router.push('/home')
         return 'success'
       }).catch((error) => {
+        commit('setError', error.response.data.message)
         commit('setError', error.response.data.message)
         commit('setLoading', false)
         return 'fail'
