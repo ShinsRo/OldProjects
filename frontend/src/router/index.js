@@ -6,6 +6,8 @@ const routerOptions = [
   { path: '/board', component: 'Board' },
   { path: '/boardwrite', component: 'BoardWrite' },
   { path: '/boardread', name: 'boardRead', component: 'BoardRead', props: true },
+  { path: '/menu', name: 'menuInsert', component: 'menu', props: true },
+  { path: '/boardread', name: 'boardRead', component: 'BoardRead', props: true },
   /**************/
   /* public path */
   { path: '/', component: 'public/Landing' },

@@ -24,24 +24,13 @@ public class UserService {
         if (userVO != null) {
             throw new UserAlreadyExistsException();
         }
+        user.setStatus(UserStatus.USER);
         userRepository.signup(user);
         return user;
     }
+
     public UserVO userSignin(UserVO user) {
         return userRepository.signin(user.getEmail(), user.getPassword());
-//        Map<String, Object> sessionAndValidity = new HashMap<>();
-//        boolean isValid = false;
-//        User foundUser = null;
-//        if (isThereEmail(user.getEmail())) {
-//            foundUser = userRepository.findUserByEmail(user.getEmail());
-//            if (foundUser != null)
-//                isValid = foundUser.getPassword().equals(user.getPassword());
-//            foundUser.setPassword("");
-//            sessionAndValidity.put("user", foundUser);
-//        }
-//
-//        sessionAndValidity.put("isValid", isValid);
-//        return sessionAndValidity;
     }
 
     public UserStatus getUserStatusByUserId(String userAuth) {

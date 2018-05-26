@@ -18,7 +18,7 @@
   <insert id="signup" parameterType="com.midas2018.root.model.User">
         INSERT INTO
         user(id, name, email, password, department, sub_department, phone_number, status, created_time, updated_time)
-        value(#{id}, #{name}, #{email}, #{password}, #{department}, #{subDepartment}, #{phoneNumber}, #{status}, #{NOW()}, #{NOW()})
+        value(#{id}, #{name}, #{email}, #{password}, #{department}, #{subDepartment}, #{phoneNumber}, #{status}, NOW(), NOW())
     </insert>
 
   <select id="selectUserStatusByUserId" parameterType="map" resultType="com.midas2018.root.model.UserStatus">

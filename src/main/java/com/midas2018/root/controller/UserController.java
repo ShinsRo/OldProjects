@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResultContainer<UserVO> userRegister(UserVO user) throws UserAlreadyExistsException {
+    public ResultContainer<UserVO> userSignup(UserVO user) throws UserAlreadyExistsException {
         return new ResultContainer<>(
                 userService.signup(user)
         );
