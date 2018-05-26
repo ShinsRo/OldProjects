@@ -122,7 +122,7 @@
             },
             {title: 'Home', path: '/home', icon: 'home', dropDown: false}
           ]
-        } else  if (this.isAuthenticated === '1' || this.isAuthenticated === '9') {
+        } else  if (this.isAuthenticated === '1' || this.isAuthenticated === '2') {
           return [
             {title: 'Menu List', path: '/MenuList', icon: 'list', dropDown: false},
             {title: 'User Management', path: '/Management', icon: 'list', dropDown: false}
