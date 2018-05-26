@@ -11,12 +11,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+import com.midas2018.root.model.CafeMenuAndOptions;
+import com.midas2018.root.model.CafeMenuAndOptionsList;
 import com.midas2018.root.model.CafeMenuStatus;
 import com.midas2018.root.model.CategoryVO;
 import com.midas2018.root.model.OptionData;
 import com.midas2018.root.model.OrderStatus;
 import com.midas2018.root.model.UserStatus;
 import com.midas2018.root.model.UserVO;
+import com.midas2018.root.support.typehandler.CafeMenuAndOptionsListTypeHandler;
+import com.midas2018.root.support.typehandler.CafeMenuAndOptionsTypeHandler;
 import com.midas2018.root.support.typehandler.CategoryVOTypeHandler;
 import com.midas2018.root.support.typehandler.DateLongTypeHandler;
 import com.midas2018.root.support.typehandler.OptionDataTypeHandler;
@@ -42,10 +46,13 @@ public class MybatisConfig {
         typeHandlerRegistry.register(OrderStatus.class, ValueEnumTypeHandler.class);
         typeHandlerRegistry.register(CategoryVO.class, CategoryVOTypeHandler.class);
         typeHandlerRegistry.register(OptionData.class, OptionDataTypeHandler.class);
+        typeHandlerRegistry.register(CafeMenuAndOptions.class, CafeMenuAndOptionsTypeHandler.class);
+        typeHandlerRegistry.register(CafeMenuAndOptionsList.class, CafeMenuAndOptionsListTypeHandler.class);
 
         sqlSessionFactoryBean.setConfiguration(configuration);
         sqlSessionFactoryBean.setMapperLocations(new Resource[] {
                 new ClassPathResource("mapper/DemoUserMapper.xml"),
+                new ClassPathResource("mapper/UserOrderMapper.xml"),
                 new ClassPathResource("mapper/BoardMapper.xml"),
                 new ClassPathResource("mapper/UserMapper.xml")
                 });
