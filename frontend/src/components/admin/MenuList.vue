@@ -16,7 +16,7 @@
         <v-icon>add</v-icon>
       </v-btn>
     </v-card-text>
-      <v-flex v-for="i in 20" :key="`4${i}`" mt-5 pr-2>
+      <v-flex v-for="i in 1" :key="`4${i}`" mt-5 pr-2>
         <v-card>
           <v-card-media src="../../assets/testimg.jpg" height="100px" width="100px">
           </v-card-media>

@@ -116,21 +116,14 @@
       menuItems () {
         if (this.isAuthenticated === 0) {
           return [
-            {
-              title: 'Dropdown',
-              icon: 'home',
-              dropDown: true,
-              dropDownMenu: [
-                {title: 'item1', path: '/home', icon: 'home'},
-                {title: 'item2', path: '/home', icon: 'home'}
-              ]
-            },
+            {title: 'Menu List', path: '/MenuList', icon: 'list', dropDown: false},
             {title: 'Home', path: '/home', icon: 'home', dropDown: false}
           ]
         } else  if (this.isAuthenticated === 1 || this.isAuthenticated === 2) {
           return [
             {title: 'Menu List', path: '/MenuList', icon: 'list', dropDown: false},
-            {title: 'User Management', path: '/Management', icon: 'list', dropDown: false}
+            {title: 'User Management', path: '/Management', icon: 'list', dropDown: false},
+            {title: 'Home', path: '/home', icon: 'home', dropDown: false}
             // {
             //   title: '회원관리',
             //   icon: 'home',
@@ -143,7 +136,7 @@
             // },
           ]
         }
-        else {
+        else if (this.isAuthenticated === 9) {
           return [
             // {
             //   title: 'Dropdown4',
@@ -156,7 +149,8 @@
             // },
             {title: 'Menu List', path: '/MenuList', icon: 'list', dropDown: false},
             {title: 'Sign Up', path: '/signup', icon: 'face', dropDown: false},
-            {title: 'Sign In', path: '/signin', icon: 'lock_open', dropDown: false}
+            {title: 'Sign In', path: '/signin', icon: 'lock_open', dropDown: false},
+            {title: 'Home', path: '/', icon: 'home', dropDown: false}
           ]
         }
       }
