@@ -21,11 +21,9 @@ public class BoardRepository {
     public ArrayList<BoardVO> selectAllBoard(){
         return boardMapper.selectAllBoard();
     }
-
     public int deleteBoard(int boardNo){
         return boardMapper.deleteBoard(boardNo);
     }
-
     public int updateBoard(BoardVO boardVO){
         return boardMapper.updateBoard(boardVO);
     }
