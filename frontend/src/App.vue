@@ -12,8 +12,9 @@
           </v-list-tile-action>
           <v-list-tile-content>{{ item.title }}</v-list-tile-content>
         </v-list-tile>
+      </v-list-tile>
         <!-- 로그아웃 메뉴 -->
-        <v-list-tile v-if="isAuthenticated" @click= "userSignOut">
+        <v-list-tile v-if="isAuthenticated == 0" @click= "userSignOut">
           <v-list-tile-action>
             <v-icon>exit_to_app</v-icon>
           </v-list-tile-action>
@@ -32,6 +33,17 @@
         <router-link to="/" tag="span" style="cursor: pointer">
           {{ appTitle }}
         </router-link>
+        <!-- 모달 주석 -->
+        <!--
+        <v-btn @click.stop="showSignUpDialog=true">
+                  test SignUp modal
+                </v-btn>
+        <v-btn @click.stop="showSignInDialog=true">
+          test SignIn modal
+        </v-btn>
+        <SignUpDialog :visible="showSignUpDialog" @close="showSignUpDialog=false"></SignUpDialog>
+        <SignInDialog :visible="showSignInDialog" @close="showSignInDialog=false"></SignInDialog>
+      -->
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
@@ -54,8 +66,8 @@
 </template>
 
 <script>
-  import SignUpDialog from './components/SignUpDialog'
-  import SignInDialog from './components/SignInDialog'
+  import SignUpDialog from './components/public/SignUpDialog'
+  import SignInDialog from './components/public/SignInDialog'
   /*
   App.vue computed 속성 명세
   computed 기능은 다음과 같습니다.
@@ -73,7 +85,7 @@
   export default {
     data () {
       return {
-        appTitle: 'Midas App',
+        appTitle: 'Midas Cafe',
         sidebar: false,
         showSignUpDialog: false,
         showSignInDialog: false
@@ -120,6 +132,7 @@
                 {title: 'item2', path: '/home', icon: 'home'}
               ]
             },
+            {title: 'Menu', path: '/MenuList', icon: 'face', dropDown: false},
             {title: 'Sign Up', path: '/signup', icon: 'face', dropDown: false},
             {title: 'Sign In', path: '/signin', icon: 'lock_open', dropDown: false}
           ]
