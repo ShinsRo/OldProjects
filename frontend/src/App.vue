@@ -14,7 +14,7 @@
         </v-list-tile>
       </v-list-tile>
         <!-- 로그아웃 메뉴 -->
-        <v-list-tile v-if="isAuthenticated" @click= "userSignOut">
+        <v-list-tile v-if="isAuthenticated === 0" @click= "userSignOut">
           <v-list-tile-action>
             <v-icon>exit_to_app</v-icon>
           </v-list-tile-action>
@@ -55,9 +55,14 @@
           <v-icon left dark>{{ item.icon }}</v-icon>
           {{ item.title }}
         </v-btn>
+        <v-btn
+        flat v-if="isAuthenticated !== 9"
+        @click="userSignOut">
+          <v-icon left dark>exit_to_app</v-icon>
+            Sign Out
+        </v-btn>
       </v-toolbar-items>
     </v-toolbar>
-
     <v-content>
       <router-view></router-view>
     </v-content>
@@ -66,6 +71,7 @@
 </template>
 
 <script>
+/* eslint-disable */
   import SignUpDialog from './components/public/SignUpDialog'
   import SignInDialog from './components/public/SignInDialog'
   /*
@@ -108,7 +114,7 @@
         return this.$store.getters.isAuthenticated
       },
       menuItems () {
-        if (this.isAuthenticated == '0') {
+        if (this.isAuthenticated === 0) {
           return [
             {
               title: 'Dropdown',
@@ -121,21 +127,34 @@
             },
             {title: 'Home', path: '/home', icon: 'home', dropDown: false}
           ]
-        } else  if (this.isAuthenticated == '1') {
-
+        } else  if (this.isAuthenticated === 1 || this.isAuthenticated === 2) {
+          return [
+            {title: 'Menu List', path: '/MenuList', icon: 'list', dropDown: false},
+            {title: 'User Management', path: '/Management', icon: 'list', dropDown: false}
+            // {
+            //   title: '회원관리',
+            //   icon: 'home',
+            //   path: '/home',
+            //   dropDown: true,
+            //   dropDownMenu: [
+            //     {title: 'item1', path: '/home', icon: 'home'},
+            //     {title: 'item2', path: '/home', icon: 'home'}
+            //   ]
+            // },
+          ]
         }
         else {
           return [
-            {
-              title: 'Dropdown4',
-              icon: 'home',
-              dropDown: true,
-              dropDownMenu: [
-                {title: 'item1', path: '/home', icon: 'home'},
-                {title: 'item2', path: '/home', icon: 'home'}
-              ]
-            },
-            {title: 'Menu', path: '/MenuList', icon: 'face', dropDown: false},
+            // {
+            //   title: 'Dropdown4',
+            //   icon: 'home',
+            //   dropDown: true,
+            //   dropDownMenu: [
+            //     {title: 'item1', path: '/home', icon: 'home'},
+            //     {title: 'item2', path: '/home', icon: 'home'}
+            //   ]
+            // },
+            {title: 'Menu List', path: '/MenuList', icon: 'list', dropDown: false},
             {title: 'Sign Up', path: '/signup', icon: 'face', dropDown: false},
             {title: 'Sign In', path: '/signin', icon: 'lock_open', dropDown: false}
           ]

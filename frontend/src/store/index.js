@@ -35,7 +35,7 @@ export const store = new Vuex.Store({
       return state.user
     },
     isAuthenticated (state) {
-      return (state.user !== null && state.user !== undefined) ? state.user.auth : '9'
+      return (state.user !== null && state.user !== undefined) ? state.user.auth : 9
     }
   },
   actions: {
@@ -75,14 +75,17 @@ export const store = new Vuex.Store({
         data: bodyFormData,
         config: {headers: {'Content-Type': 'multipart/form-data'}}
       }).then((response) => {
-        const user = response.data.data.userVO
+        const user = response.data.data
         if (user === undefined) {
           throw new Error('존재하지 않는 이메일입니다.')
         }
         commit('setUser', user)
         commit('setLoading', false)
         commit('setError', null)
-        switch (Number(user.auth)) {
+        if (user.status === 'USER') user.auth = 0
+        else if (user.status === 'SUB_ADMIN') user.auth = 1
+        else if (user.status === 'ADMIN') user.auth = 2
+        switch (user.auth) {
           case 0:
             router.push('/home')
             break
