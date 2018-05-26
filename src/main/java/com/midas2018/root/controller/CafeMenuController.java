@@ -6,9 +6,7 @@ import com.midas2018.root.support.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping(Constant.Menu_API_URL)
@@ -22,13 +20,24 @@ public class CafeMenuController {
         System.out.println("insertMenu/" + cafeMenuVO);
         return cafeMenuService.insertMenu(cafeMenuVO);
     }
-    public int updateMenu(CafeMenuVO cafeMenuVO){
+    @PostMapping(value = "/updateMenu")
+    public int updateMenu(@RequestBody CafeMenuVO cafeMenuVO){
+        System.out.println("updateMenu/" + cafeMenuVO);
         return cafeMenuService.updateMenu(cafeMenuVO);
     }
+    @GetMapping(value = "/deleteMenu")
+    public int deleteMenu(@RequestParam int id){
+        System.out.println("deleteMenu/" + id);
+        return cafeMenuService.deleteMenu(id);
+    }
+    @GetMapping(value = "/selectMenu")
     public CafeMenuVO selectMenu(@RequestParam int id){
+        System.out.println("selectMenu/" + id);
         return cafeMenuService.selectMenu(id);
     }
+    @GetMapping(value = "/selectAll")
     public ArrayList<CafeMenuVO> selectAllMenu(){
+        System.out.println("selectAll/");
         return cafeMenuService.selectAllMenu();
     }
 

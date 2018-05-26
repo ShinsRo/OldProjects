@@ -46,7 +46,7 @@
           cafe_menu
         SET
             deleted_time = now()
-          , status = #{status}
+          , status = 1
         WHERE
           id = #{id}
     </update>

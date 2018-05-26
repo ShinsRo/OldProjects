@@ -12,6 +12,10 @@
       </v-flex>
       <div>
         <v-btn v-on:click="insertMenu" color="primary">Submit</v-btn>
+        <v-btn v-on:click="updateMenu" color="primary">update</v-btn>
+        <v-btn v-on:click="deleteMenu" color="primary">delete</v-btn>
+        <v-btn v-on:click="selectMenu" color="primary">select</v-btn>
+        <v-btn v-on:click="selectAll" color="primary">selectAll</v-btn>
       </div>
     </div>
   </v-container>
@@ -31,6 +35,7 @@
     data() {
       return {
         menu:{
+          id:3,
           name: '',
           price: '',
           content: '',
@@ -45,6 +50,69 @@
         console.log(this.menu);
         menuApi.insertMenu(this.menu).then((res) => {
           console.log(`res : ${res}`);
+
+          if (res.code >= 400) {
+            throw new Error(res.message);
+          }
+
+          //this.$router.push('menu');
+
+        }).fail((error) => {
+          toastr.error(error.message, 'Oops!');
+        })
+      },
+
+      updateMenu() {
+        console.log(this.menu);
+        menuApi.updateMenu(this.menu).then((res) => {
+          console.log(`res : ${res}`);
+
+          if (res.code >= 400) {
+            throw new Error(res.message);
+          }
+
+          //this.$router.push('menu');
+
+        }).fail((error) => {
+          toastr.error(error.message, 'Oops!');
+        })
+      },
+      deleteMenu() {
+        console.log(this.menu.id);
+        menuApi.deleteMenu(this.menu.id).then((res) => {
+          console.log(`res : ${res}`);
+          console.log(res);
+
+          if (res.code >= 400) {
+            throw new Error(res.message);
+          }
+
+          //this.$router.push('menu');
+
+        }).fail((error) => {
+          toastr.error(error.message, 'Oops!');
+        })
+      },
+      selectMenu() {
+        console.log(this.menu.id);
+        menuApi.selectMenu(this.menu.id).then((res) => {
+          console.log(`res : ${res}`);
+          console.log(res);
+
+          if (res.code >= 400) {
+            throw new Error(res.message);
+          }
+
+          //this.$router.push('menu');
+
+        }).fail((error) => {
+          toastr.error(error.message, 'Oops!');
+        })
+      },
+      selectAll() {
+        menuApi.selectAll().then((res) => {
+          console.log(`res : ${res}`);
+          console.log(res);
 
           if (res.code >= 400) {
             throw new Error(res.message);
