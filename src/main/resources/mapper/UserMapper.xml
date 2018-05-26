@@ -29,7 +29,14 @@
         WHERE
           id = #{id}
     </select>
-
+  <select id="selectUserListAll" resultType="com.midas2018.root.model.UserVO">
+    SELECT
+     <include refid="UserVOColumns" />
+    FROM
+      user
+    ORDER BY
+      created_time DESC;
+  </select>
   <select id="signin" parameterType="map" resultType="com.midas2018.root.model.UserVO">
         SELECT
           <include refid="UserVOColumns" />
@@ -47,4 +54,30 @@
           user
         WHERE email = #{email}
     </select>
+
+    <update id="updateUser" parameterType="map">
+      UPDATE
+        user
+      SET
+        name = #{name}
+        , email = #{email}
+        , phone_number = #{phoneNumber}
+        , status = #{status}
+        , updated_time = NOW()
+      WHERE
+        id = #{id}
+    </update>
+
+    <update id="deleteUser" parameterType="map">
+      UPDATE
+        user
+      SET
+        status = #{status}
+        , updated_time = NOW()
+        , deleted_time = NOW()
+      WHERE
+        id = #{id}
+    </update>
+
+
 </mapper>

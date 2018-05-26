@@ -68,10 +68,8 @@
 
 <script>
 /* eslint-disable */
-import * as toastr from 'toastr';
-import router from '@/router'
 
-  export default {
+export default {
     data () {
       return {
         email: '',
@@ -100,7 +98,7 @@ import router from '@/router'
           let tokened = Number(temp.charAt(i))
           if(isNaN(tokened)) return '유효하지 않은 값 ' + temp.charAt(i) + '가 포함되었습니다.'
         }
-        let returnVal = (this.phoneNumber.length != 12) ? true : '유효하지 않은 휴대전화 번호입니다.'
+        let returnVal = (this.phoneNumber.length == 12) ? true : '유효하지 않은 휴대전화 번호입니다.'
         return returnVal
       }
     },
@@ -109,7 +107,7 @@ import router from '@/router'
         if (this.comparePasswords !== true) {
           return
         }
-        this.$store.dispatch('userSignUp', { email: this.email, password: this.password, name: this.name})
+        this.$store.dispatch('userSignUp', { email: this.email, password: this.password, name: this.name, phoneNumber: this.phoneNumber})
       }
     },
     watch: {

@@ -46,6 +46,7 @@ export const store = new Vuex.Store({
       bodyFormData.append('email', payload.email)
       bodyFormData.append('password', payload.password)
       bodyFormData.append('name', payload.name)
+      console.log(payload.phoneNumber);
       bodyFormData.append('phoneNumber', payload.phoneNumber)
       axios({
         method: 'post',

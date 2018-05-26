@@ -1,5 +1,7 @@
 package com.midas2018.root.repository;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +18,10 @@ public class UserRepository {
         return userMapper.findUserByEmail(email);
     }
 
+    public List<UserVO> selectUserListAll() {
+        return userMapper.selectUserListAll();
+    }
+
     public void signup(UserVO user) {
         userMapper.signup(user);
     }
@@ -30,5 +36,13 @@ public class UserRepository {
 
     public UserVO signin(String email, String password) {
         return userMapper.signin(email, password);
+    }
+
+    public void updateUser(UserVO user) {
+        userMapper.updateUser(user);
+    }
+
+    public void deleteUser(UserVO user) {
+        userMapper.deleteUser(user);
     }
 }
