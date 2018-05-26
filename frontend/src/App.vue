@@ -14,7 +14,7 @@
         </v-list-tile>
       </v-list-tile>
         <!-- 로그아웃 메뉴 -->
-        <v-list-tile v-if="isAuthenticated == 0" @click= "userSignOut">
+        <v-list-tile v-if="isAuthenticated" @click= "userSignOut">
           <v-list-tile-action>
             <v-icon>exit_to_app</v-icon>
           </v-list-tile-action>
@@ -108,7 +108,7 @@
         return this.$store.getters.isAuthenticated
       },
       menuItems () {
-        if (this.isAuthenticated) {
+        if (this.isAuthenticated == '0') {
           return [
             {
               title: 'Dropdown',
@@ -121,7 +121,10 @@
             },
             {title: 'Home', path: '/home', icon: 'home', dropDown: false}
           ]
-        } else {
+        } else  if (this.isAuthenticated == '1') {
+
+        }
+        else {
           return [
             {
               title: 'Dropdown4',
