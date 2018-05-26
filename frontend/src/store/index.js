@@ -49,7 +49,7 @@ export const store = new Vuex.Store({
       bodyFormData.append('phoneNumber', payload.phoneNumber)
       axios({
         method: 'post',
-        url: Constants.USER_API_URL_PATH + '/register',
+        url: Constants.USER_API_URL_PATH + '/signup',
         data: bodyFormData,
         config: {headers: {'Content-Type': 'multipart/form-data'}}
       }).then((response) => {
@@ -57,7 +57,7 @@ export const store = new Vuex.Store({
         commit('setLoading', false)
         commit('setError', null)
         router.push('/home')
-        return 'secess'
+        return 'success'
       }).catch((error) => {
         commit('setError', error.response.data.message)
         commit('setLoading', false)
