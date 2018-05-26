@@ -24,6 +24,7 @@ public class UserService {
         if (userVO != null) {
             throw new UserAlreadyExistsException();
         }
+        user.setStatus(UserStatus.USER);
         userRepository.signup(user);
         return user;
     }

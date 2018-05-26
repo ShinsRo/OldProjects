@@ -13,8 +13,9 @@ public class UserVO {
     private String password;
     private String department;
     private String subDepartment;
-    private UserStatus status;
+    private String phoneNumber;
     private Long createdTime;
     private Long deletedTime;
     private Long updatedTime;
+    private UserStatus status;
 }
