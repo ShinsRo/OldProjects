@@ -9,6 +9,7 @@ class Constants {
   }
   static SERVER_URL_PATH = 'http://localhost:8888'
   static USER_API_URL_PATH = 'http://localhost:8888/api/user'
+  static ADMIN_API_URL_PATH = 'http://localhost:8888/api/admin'
 }
 
 export default Constants

@@ -18,6 +18,7 @@
           <v-list-tile-action>
             <v-icon>exit_to_app</v-icon>
           </v-list-tile-action>
+
           <v-list-tile-content>Sign Out</v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -72,8 +73,8 @@
 
 <script>
 /* eslint-disable */
-  import SignUpDialog from './components/public/SignUpDialog'
-  import SignInDialog from './components/public/SignInDialog'
+  //import SignUpDialog from './components/public/SignUpDialog'
+  //import SignInDialog from './components/public/SignInDialog'
   /*
   App.vue computed 속성 명세
   computed 기능은 다음과 같습니다.
@@ -98,8 +99,8 @@
       }
     },
     components: {
-      SignUpDialog,
-      SignInDialog
+      //SignUpDialog,
+      //SignInDialog
     },
     methods: {
       userSignOut () {
@@ -117,12 +118,13 @@
         if (this.isAuthenticated === 0) {
           return [
             {title: 'Menu List', path: '/MenuList', icon: 'list', dropDown: false},
+            {title: 'Cart', path: '/user/cart', icon: 'list', dropDown: false},
             {title: 'Home', path: '/home', icon: 'home', dropDown: false}
           ]
         } else  if (this.isAuthenticated === 1 || this.isAuthenticated === 2) {
           return [
             {title: 'Menu List', path: '/MenuList', icon: 'list', dropDown: false},
-            {title: 'User Management', path: '/Management', icon: 'list', dropDown: false},
+            {title: 'User Management', path: '/admin/userManagement', icon: 'list', dropDown: false},
             {title: 'Home', path: '/home', icon: 'home', dropDown: false}
             // {
             //   title: '회원관리',
