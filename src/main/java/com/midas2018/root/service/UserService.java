@@ -21,7 +21,7 @@ public class UserService {
 
     public UserVO signup(UserVO user) throws UserAlreadyExistsException {
         UserVO userVO = userRepository.selectUserByEmail(user.getEmail());
-        if (userVO == null) {
+        if (userVO != null) {
             throw new UserAlreadyExistsException();
         }
         userRepository.signup(user);
