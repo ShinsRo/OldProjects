@@ -24,7 +24,10 @@ public class UserService {
         if (userVO != null) {
             throw new UserAlreadyExistsException();
         }
+<<<<<<< Updated upstream
         user.setStatus(UserStatus.USER);
+=======
+>>>>>>> Stashed changes
         userRepository.signup(user);
         return user;
     }
