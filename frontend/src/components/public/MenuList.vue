@@ -23,7 +23,6 @@
       <v-flex v-for="i in 20" :key="`4${i}`" mt-5 pr-2>
         <v-card>
           <img src="@/assets/testimg.jpg" height="108px" width="192px">
-          </img>
           <v-card-title primary-title>
             <div>
               <h3 class="headline mb-0">Menu one</h3>
@@ -66,7 +65,7 @@
 /* eslint-disable */
 import AddMenuDialog from '../admin/AddMenuDialog'
 
-  export default {
+export default {
     data () {
       return {
         showAddMenuDialog: false,

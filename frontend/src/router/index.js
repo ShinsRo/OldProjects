@@ -20,8 +20,8 @@ const routerOptions = [
   { path: '/admin/orderList', component: 'admin/OrderList' },
   { path: '/admin/userManagement', component: 'admin/UserManagement' },
   /* user path */
-  { path: '/user/orderList', component: 'user/OrderList' },
-  { path: '/home', component: 'user/Home' }
+  { path: '/orderList', component: 'userOrder/userOrder' },
+  { path: '/home', component: 'user/Home' },
 ]
 
 const routes = routerOptions.map(route => {

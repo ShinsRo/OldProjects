@@ -34,7 +34,7 @@ public class HttpReqFilterInterceptor extends HandlerInterceptorAdapter {
 
     private boolean isAdmin(HttpServletRequest request) {
 //        request.getS
-        log.debug("{}", request.getHeader("auth"));
+        log.info("{}", request.getHeader("auth"));
 
         String userAuth = request.getHeader("auth");
         if (Objects.isNull(userAuth)) {

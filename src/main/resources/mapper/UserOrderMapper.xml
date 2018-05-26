@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.midas2018.root.repository.UserOrderMapper">
+       <sql id="UserOrderVOColumns">
+          user_order.id
+        ,	user_order.cafe_menu_list
+        , user_order.total_price
+        ,	user_order.content
+        ,	user_order.status
+        ,	user_order.deleted_time
+        ,	user_order.created_time
+        ,	user_order.updated_time
+        , user_order.user_id
+      </sql>
+  <select id="getUserOrderLisAll" resultType="com.midas2018.root.model.UserOrderVO">
+    SELECT
+      <include refid="UserOrderVOColumns" />
+    FROM
+      user_order
+  </select>
+
+  <select id="selectUserOrderListNotCompleteAll" resultType="com.midas2018.root.model.UserOrderVO">
+    SELECT
+      <include refid="UserOrderVOColumns" />
+    FROM
+      user_order
+    WHERE
+      status = 0 OR status = 1
+  </select>
+
+  <select id="selectUserOrderListByUserId" resultType="com.midas2018.root.model.UserOrderVO" parameterType="map">
+    SELECT
+      <include refid="UserOrderVOColumns" />
+    FROM
+      user_order
+    WHERE
+      user_id = #{userId}
+  </select>
+
+  <insert id="insertUserOrder" parameterType="map">
+    INSERT INTO
+      user_order(
+        cafe_menu_list
+        , total_price
+        , content
+        , status
+        , user_id
+        , created_time
+        , updated_time
+      )
+      VALUES(
+        #{cafeMenuList}
+        , #{totalPrice}
+        , #{content}
+        , #{status}
+        , #{userId}
+        , NOW()
+        , NOW()
+      )
+  </insert>
+
+  <update id="updateUserOrderByUserId" parameterType="map">
+    UPDATE
+      user_order
+    SET
+      cafe_menu_list = #{cafeMenuList}
+        , total_price = #{totalPrice}
+        , content = #{content}
+        , status = #{status}
+        , updated_time = NOW()
+    WHERE
+      user_id = #{userId}
+  </update>
+
+  <update id="deleteUserOrdeByUserIdr" parameterType="map">
+    UPDATE
+      user_order
+    SET
+      status = #{status}
+      , updated_time = NOW()
+      , deleted_time = NOW()
+    WHERE
+      user_id = #{userId}
+  </update>
+
+
+</mapper>
