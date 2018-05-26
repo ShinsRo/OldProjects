@@ -3,10 +3,10 @@ import Router from 'vue-router'
 
 const routerOptions = [
   // { path: '/demo', component: 'demo/Demo' },
-  // { path: '/board', component: 'Board' },
-  // { path: '/boardwrite', component: 'BoardWrite' },
-  // { path: '/boardread', name: 'boardRead', component: 'BoardRead', props: true },
-   { path: '/menu', name: 'menuInsert', component: 'menu', props: true },
+  { path: '/board', component: 'Board' },
+  { path: '/boardwrite', component: 'BoardWrite' },
+  { path: '/boardread', name: 'boardRead', component: 'BoardRead', props: true },
+  { path: '/menu', name: 'menuInsert', component: 'menu', props: true },
   // { path: '/boardread', name: 'boardRead', component: 'BoardRead', props: true },
   /**************/
   /* public path */
@@ -17,6 +17,7 @@ const routerOptions = [
   /* admin path */
   { path: '/admin/home', component: 'admin/Home' },
   { path: '/admin/menuList', component: 'admin/MenuList' },
+  { path: '/admin/orderList', component: 'admin/OrderList' },
   { path: '/admin/userManagement', component: 'admin/UserManagement' },
   /* user path */
   { path: '/user/orderList', component: 'user/OrderList' },
