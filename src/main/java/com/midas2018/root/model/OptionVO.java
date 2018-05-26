@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OptionVO {
-    int name;
+    String name;
     int count;
     int price;
 }

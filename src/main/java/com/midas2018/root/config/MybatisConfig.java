@@ -14,7 +14,7 @@ import org.springframework.core.io.Resource;
 import com.midas2018.root.model.CafeMenuAndOptions;
 import com.midas2018.root.model.CafeMenuAndOptionsList;
 import com.midas2018.root.model.CafeMenuStatus;
-import com.midas2018.root.model.CategoryVO;
+import com.midas2018.root.model.CategoryStatus;
 import com.midas2018.root.model.OptionData;
 import com.midas2018.root.model.OrderStatus;
 import com.midas2018.root.model.UserStatus;
@@ -44,7 +44,7 @@ public class MybatisConfig {
         typeHandlerRegistry.register(UserStatus.class, ValueEnumTypeHandler.class);
         typeHandlerRegistry.register(CafeMenuStatus.class, ValueEnumTypeHandler.class);
         typeHandlerRegistry.register(OrderStatus.class, ValueEnumTypeHandler.class);
-        typeHandlerRegistry.register(CategoryVO.class, CategoryVOTypeHandler.class);
+        typeHandlerRegistry.register(CategoryStatus.class, ValueEnumTypeHandler.class);
         typeHandlerRegistry.register(OptionData.class, OptionDataTypeHandler.class);
         typeHandlerRegistry.register(CafeMenuAndOptions.class, CafeMenuAndOptionsTypeHandler.class);
         typeHandlerRegistry.register(CafeMenuAndOptionsList.class, CafeMenuAndOptionsListTypeHandler.class);
@@ -54,7 +54,8 @@ public class MybatisConfig {
                 new ClassPathResource("mapper/DemoUserMapper.xml"),
                 new ClassPathResource("mapper/UserOrderMapper.xml"),
                 new ClassPathResource("mapper/BoardMapper.xml"),
-                new ClassPathResource("mapper/UserMapper.xml")
+                new ClassPathResource("mapper/UserMapper.xml"),
+                new ClassPathResource("mapper/CafeMenuMapper.xml")
                 });
         return sqlSessionFactoryBean.getObject();
     }

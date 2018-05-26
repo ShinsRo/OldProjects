@@ -1,7 +1,6 @@
 package com.midas2018.root.controller;
 
-import com.midas2018.root.model.CafeMenuBean;
-import com.midas2018.root.model.CafeMenuVO;
+import com.midas2018.root.model.*;
 import com.midas2018.root.service.CafeMenuService;
 import com.midas2018.root.support.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,18 +16,28 @@ public class CafeMenuController {
     private CafeMenuService cafeMenuService;
 
     @PostMapping(value = "/insertMenu")
-    public int insertMenu(@RequestBody CafeMenuBean cafeMenuBean){
-        System.out.println("insertMenu/" + cafeMenuBean);
-        return 1;
-        //return cafeMenuService.insertMenu(cafeMenuVO);
+    public int insertMenu(@RequestBody CafeMenuVO cafeMenuVO){
+        System.out.println("insertMenu/" + cafeMenuVO);
+        return cafeMenuService.insertMenu(cafeMenuVO);
     }
-    public int updateMenu(CafeMenuVO cafeMenuVO){
+    @PostMapping(value = "/updateMenu")
+    public int updateMenu(@RequestBody CafeMenuVO cafeMenuVO){
+        System.out.println("updateMenu/" + cafeMenuVO);
         return cafeMenuService.updateMenu(cafeMenuVO);
     }
+    @GetMapping(value = "/deleteMenu")
+    public int deleteMenu(@RequestParam int id){
+        System.out.println("deleteMenu/" + id);
+        return cafeMenuService.deleteMenu(id);
+    }
+    @GetMapping(value = "/selectMenu")
     public CafeMenuVO selectMenu(@RequestParam int id){
+        System.out.println("selectMenu/" + id);
         return cafeMenuService.selectMenu(id);
     }
+    @GetMapping(value = "/selectAll")
     public ArrayList<CafeMenuVO> selectAllMenu(){
+        System.out.println("selectAll/");
         return cafeMenuService.selectAllMenu();
     }
 
