@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserOrderVO {
     private Integer id;                 //pk
+    private Integer userId;
     private CafeMenuAndOptionsList cafeMenuList;    //메뉴 list
     private String totalPrice;      //총 가격
     private String content;         //추가요구사항
