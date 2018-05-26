@@ -4,40 +4,12 @@
       <v-container fluid>
         <v-layout row wrap>
           <v-flex xs12 class="text-xs-center" mt-5>
-            <h1>메뉴를 추가해주세요.</h1>
+            <h1>Add your menu</h1>
           </v-flex>
         </v-layout>
         <v-flex xs12 sm6 offset-sm3 mt-3>
           <form @submit.prevent="userSignUp" :disabled="loading">
             <v-layout column>
-              <v-flex>
-                <v-text-field
-                name="email"
-                label="Email"
-                id="email"
-                type="email"
-                v-model="email"
-                required></v-text-field>
-              </v-flex>
-              <v-flex>
-                <v-text-field
-                name="password"
-                label="Password"
-                id="password"
-                type="password"
-                v-model="password"
-                required></v-text-field>
-              </v-flex>
-              <v-flex>
-                <v-text-field
-                name="confirmPassword"
-                label="confirmPassword"
-                id="confirmPassword"
-                type="password"
-                v-model="passwordConfirm"
-                :rules="[comparePasswords]"
-                required></v-text-field>
-              </v-flex>
               <v-flex>
                 <v-text-field
                 name="name"
@@ -47,7 +19,7 @@
                 ></v-text-field>
               </v-flex>
               <v-flex class="text-xs-center" mt-5 mb-5>
-                <v-btn color="primary" type="submit">Sign Up</v-btn>
+                <v-btn color="primary" type="submit">Add It</v-btn>
                 <v-btn color="primary" @click.stop="show=false">Close</v-btn>
               </v-flex>
             </v-layout>
@@ -82,9 +54,6 @@ import router from '@/router'
         set (value) {
           this.$emit('close')
         }
-      },
-      comparePasswords () {
-        return this.password === this.passwordConfirm ? true : '비밀번호가 일치하지 않습니다.'
       },
       error () {
         return this.$store.state.error
