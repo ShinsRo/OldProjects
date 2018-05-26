@@ -30,7 +30,8 @@ public class UserService {
     }
 
     public UserVO userSignin(UserVO user) {
-        return userRepository.signin(user.getEmail(), user.getPassword());
+        UserVO userVO = userRepository.signin(user.getEmail(), user.getPassword());
+        return userVO;
     }
 
     public UserStatus getUserStatusByUserId(String userAuth) {

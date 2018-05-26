@@ -13,11 +13,13 @@ import org.springframework.core.io.Resource;
 
 import com.midas2018.root.model.CafeMenuStatus;
 import com.midas2018.root.model.CategoryVO;
+import com.midas2018.root.model.OptionData;
 import com.midas2018.root.model.OrderStatus;
 import com.midas2018.root.model.UserStatus;
 import com.midas2018.root.model.UserVO;
 import com.midas2018.root.support.typehandler.CategoryVOTypeHandler;
 import com.midas2018.root.support.typehandler.DateLongTypeHandler;
+import com.midas2018.root.support.typehandler.OptionDataTypeHandler;
 import com.midas2018.root.support.typehandler.ValueEnumTypeHandler;
 
 @Configuration
@@ -39,6 +41,7 @@ public class MybatisConfig {
         typeHandlerRegistry.register(CafeMenuStatus.class, ValueEnumTypeHandler.class);
         typeHandlerRegistry.register(OrderStatus.class, ValueEnumTypeHandler.class);
         typeHandlerRegistry.register(CategoryVO.class, CategoryVOTypeHandler.class);
+        typeHandlerRegistry.register(OptionData.class, OptionDataTypeHandler.class);
 
         sqlSessionFactoryBean.setConfiguration(configuration);
         sqlSessionFactoryBean.setMapperLocations(new Resource[] {
