@@ -75,7 +75,7 @@ export const store = new Vuex.Store({
         data: bodyFormData,
         config: {headers: {'Content-Type': 'multipart/form-data'}}
       }).then((response) => {
-        const user = response.data.data.userVO
+        const user = response.data.data
         if (user === undefined) {
           throw new Error('존재하지 않는 이메일입니다.')
         }
