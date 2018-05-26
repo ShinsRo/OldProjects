@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-layout row wrap>
       <v-flex xs12 class="text-xs-center" mt-5>
-        <h1>Welcome to Midas App</h1>
+        <h1>Welcome to Midas Cafe !</h1>
       </v-flex>
       <v-flex xs12 class="text-xs-center">
         <lottie :options="defaultOptions" :height="800" :width="800" v-on:animCreated="handleAnimation"/>
@@ -17,8 +17,8 @@
 
 <script>
 /* eslint-disable */
-import Lottie from './LottieContainer.vue';
-import * as animationData from '../assets/rainOnCloud.json';
+import Lottie from '../utils/LottieContainer.vue';
+import * as animationData from '../../assets/rainOnCloud.json';
 export default {
   name: 'app',
   components: {

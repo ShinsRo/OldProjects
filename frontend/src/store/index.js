@@ -11,7 +11,7 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    appTitle: 'Midas App',
+    appTitle: 'Midas Cafe',
     user: JSON.parse(sessionStorage.getItem('user')),
     error: null,
     loading: false,
@@ -35,7 +35,7 @@ export const store = new Vuex.Store({
       return state.user
     },
     isAuthenticated (state) {
-      return state.user !== null && state.user !== undefined
+      return (state.user !== null && state.user !== undefined) ? state.user.auth : '9'
     }
   },
   actions: {
@@ -46,9 +46,10 @@ export const store = new Vuex.Store({
       bodyFormData.append('email', payload.email)
       bodyFormData.append('password', payload.password)
       bodyFormData.append('name', payload.name)
+      bodyFormData.append('phoneNumber', payload.phoneNumber)
       axios({
         method: 'post',
-        url: Constants.USER_API_URL_PATH + '/userRegister',
+        url: Constants.USER_API_URL_PATH + '/signup',
         data: bodyFormData,
         config: {headers: {'Content-Type': 'multipart/form-data'}}
       }).then((response) => {
@@ -56,7 +57,7 @@ export const store = new Vuex.Store({
         commit('setLoading', false)
         commit('setError', null)
         router.push('/home')
-        return 'secess'
+        return 'success'
       }).catch((error) => {
         commit('setError', error.response.data.message)
         commit('setLoading', false)
@@ -70,19 +71,27 @@ export const store = new Vuex.Store({
       bodyFormData.append('password', payload.password)
       axios({
         method: 'post',
-        url: Constants.USER_API_URL_PATH + '/userSignin',
+        url: Constants.USER_API_URL_PATH + '/signin',
         data: bodyFormData,
         config: {headers: {'Content-Type': 'multipart/form-data'}}
       }).then((response) => {
-        if (response.data.data.user === undefined) {
+        const user = response.data.data.userVO
+        if (user === undefined) {
           throw new Error('존재하지 않는 이메일입니다.')
-        } else if (!response.data.data.isValid) {
-          throw new Error('비밀번호가 일치하지 않습니다.')
         }
-        commit('setUser', response.data.data.user)
+        commit('setUser', user)
         commit('setLoading', false)
         commit('setError', null)
-        router.push('/home')
+        switch (Number(user.auth)) {
+          case 0:
+            router.push('/home')
+            break
+          case 1:
+          case 2:
+            router.push('/admin/home')
+            break
+          default : throw new Error('알 수 없는 사용자')
+        }
       }).catch((error) => {
         commit('setError', error.message)
         commit('setLoading', false)

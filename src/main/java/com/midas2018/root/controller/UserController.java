@@ -1,14 +1,19 @@
 package com.midas2018.root.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.midas2018.root.exceptions.UserAlreadyExistsException;
-import com.midas2018.root.model.User;
 import com.midas2018.root.model.ResultContainer;
+import com.midas2018.root.model.User;
+import com.midas2018.root.model.UserVO;
 import com.midas2018.root.service.UserService;
 import com.midas2018.root.support.Constant;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -25,22 +30,15 @@ public class UserController {
         );
     }
 
-    @GetMapping(value = "/isThereEmail")
-    public ResultContainer<Boolean> isThereEmail(@RequestParam String email) {
+    @PostMapping("/signup")
+    public ResultContainer<UserVO> userRegister(UserVO user) throws UserAlreadyExistsException {
         return new ResultContainer<>(
-                userService.isThereEmail(email)
+                userService.signup(user)
         );
     }
 
-    @PostMapping(value = "/userRegister")
-    public ResultContainer<User> userRegister(User user) throws UserAlreadyExistsException {
-        return new ResultContainer<>(
-                userService.userRegister(user)
-        );
-    }
-
-    @PostMapping(value = "/userSignin")
-    public ResultContainer<Map<String, Object>> userSignin(User user) {
+    @PostMapping("/signin")
+    public ResultContainer<UserVO> userSignin(UserVO user) {
         return new ResultContainer<>(
                 userService.userSignin(user)
         );
