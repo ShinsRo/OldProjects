@@ -16,12 +16,12 @@ public class UserRepository {
         return userMapper.findUserByEmail(email);
     }
 
-    public void userRegister(User user) {
-        userMapper.userRegister(user);
+    public void signup(UserVO user) {
+        userMapper.signup(user);
     }
 
-    public int isThereEmail(String email) {
-        return userMapper.isThereEmail(email);
+    public UserVO selectUserByEmail(String email) {
+        return userMapper.selectUserByEmail(email);
     }
 
     public UserStatus selectUserStatusByUserId(int userId) {

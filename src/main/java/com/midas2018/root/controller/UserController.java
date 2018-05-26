@@ -30,25 +30,19 @@ public class UserController {
         );
     }
 
-    @GetMapping(value = "/isThereEmail")
-    public ResultContainer<Boolean> isThereEmail(@RequestParam String email) {
+    @PostMapping("/signup")
+    public ResultContainer<UserVO> userRegister(UserVO user) throws UserAlreadyExistsException {
         return new ResultContainer<>(
-                userService.isThereEmail(email)
+                userService.signup(user)
         );
     }
 
-    @PostMapping(value = "/userRegister")
-    public ResultContainer<User> userRegister(User user) throws UserAlreadyExistsException {
-        return new ResultContainer<>(
-                userService.userRegister(user)
-        );
-    }
-
-    @PostMapping(value = "/userSignin")
+    @PostMapping("/signin")
     public ResultContainer<UserVO> userSignin(UserVO user) {
         return new ResultContainer<>(
                 userService.userSignin(user)
         );
     }
+
 
 }

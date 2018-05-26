@@ -14,10 +14,9 @@ public interface UserMapper {
     @Select(value = "SELECT * FROM user WHERE email = #{email}")
     User findUserByEmail(@Param("email") String email);
 
-    void userRegister(User user);
+    void signup(UserVO user);
 
-    @Select(value = "SELECT COUNT(*) FROM user WHERE email = #{email}")
-    int isThereEmail(@Param("email") String email);
+    UserVO selectUserByEmail(@Param("email") String email);
 
     UserStatus selectUserStatusByUserId(@Param("Id") int id);
 
