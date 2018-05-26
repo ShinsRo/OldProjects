@@ -14,6 +14,7 @@ const routerOptions = [
   { path: '/menuList', component: 'public/MenuList' },
   /* admin path */
   { path: '/admin/home', component: 'admin/home' },
+  { path: '/admin/menuList', component: 'admin/MenuList' },
   /* user path */
   { path: '/home', component: 'user/Home' }
 ]
