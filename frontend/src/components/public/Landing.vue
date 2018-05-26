@@ -17,8 +17,8 @@
 
 <script>
 /* eslint-disable */
-import Lottie from './LottieContainer.vue';
-import * as animationData from '../assets/rainOnCloud.json';
+import Lottie from '../utils/LottieContainer.vue';
+import * as animationData from '../../assets/rainOnCloud.json';
 export default {
   name: 'app',
   components: {

@@ -2,15 +2,20 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 const routerOptions = [
-  { path: '/', component: 'Landing' },
-  { path: '/signin', component: 'Signin' },
-  { path: '/signup', component: 'Signup' },
-  { path: '/home', component: 'Home' },
   { path: '/demo', component: 'demo/Demo' },
   { path: '/board', component: 'Board' },
   { path: '/boardwrite', component: 'BoardWrite' },
-  { path: '/boardread', name: 'boardRead', component: 'BoardRead', props: true }
-
+  { path: '/boardread', name: 'boardRead', component: 'BoardRead', props: true },
+  /**************/
+  /* public path */
+  { path: '/', component: 'public/Landing' },
+  { path: '/signin', component: 'public/Signin' },
+  { path: '/signup', component: 'public/Signup' },
+  { path: '/menuList', component: 'public/MenuList' },
+  /* admin path */
+  { path: '/admin/home', component: 'admin/home' },
+  /* user path */
+  { path: '/home', component: 'user/Home' }
 ]
 
 const routes = routerOptions.map(route => {
