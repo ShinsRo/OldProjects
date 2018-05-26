@@ -19,18 +19,14 @@ public class UserService {
         return userRepository.findUserByEmail(email);
     }
 
-    public User userRegister(User user) throws UserAlreadyExistsException {
-        boolean isThereSameOne = this.isThereEmail(user.getEmail());
-        if(isThereSameOne) throw new UserAlreadyExistsException();
-        userRepository.userRegister(user);
-        user.setPassword("");
+    public UserVO signup(UserVO user) throws UserAlreadyExistsException {
+        UserVO userVO = userRepository.selectUserByEmail(user.getEmail());
+        if (userVO == null) {
+            throw new UserAlreadyExistsException();
+        }
+        userRepository.signup(user);
         return user;
     }
-
-    public Boolean isThereEmail(String email) {
-        return (userRepository.isThereEmail(email) > 0)? true : false;
-    }
-
     public UserVO userSignin(UserVO user) {
         return userRepository.signin(user.getEmail(), user.getPassword());
 //        Map<String, Object> sessionAndValidity = new HashMap<>();
