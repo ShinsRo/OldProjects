@@ -32,9 +32,9 @@ public class UserOrderController {
         return new ResultContainer<>(userOrderService.getUserOrderListNotCompleteAll());
     }
 
-    @GetMapping("/getUserOrderListByUserId")
-    public ResultContainer<List<UserOrderVO>> getUserOrderListByUserId(@RequestParam("userId") Integer userId) {
-        return new ResultContainer<>(userOrderService.getUserOrderListByUserId(userId));
+    @GetMapping("/getUserOrderListBookingByUserId")
+    public ResultContainer<List<UserOrderVO>> getUserOrderListBookingByUserId(@RequestParam("userId") Integer userId) {
+        return new ResultContainer<>(userOrderService.getUserOrderListBookingByUserId(userId));
     }
 
     @PostMapping("insertUserOrder")
@@ -47,9 +47,9 @@ public class UserOrderController {
         userOrderService.updateUserOrder(userOrderVO);
     }
 
-    @PostMapping("deleteUserOrder")
-    public void deleteUserOrder(@RequestBody UserOrderVO userOrderVO) {
-        userOrderService.deleteUserOrder(userOrderVO);
+    @PostMapping("deleteUserOrderByUserId")
+    public void deleteUserOrderByUserId(@RequestBody UserOrderVO userOrderVO) {
+        userOrderService.deleteUserOrderByUserId(userOrderVO);
     }
 
 

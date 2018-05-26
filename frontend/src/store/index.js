@@ -19,6 +19,7 @@ export const store = new Vuex.Store({
   },
   mutations: {
     setUser (state, payload) {
+      console.log(payload);
       sessionStorage.setItem('user', JSON.stringify(payload))
       state.user = payload
     },
@@ -46,7 +47,6 @@ export const store = new Vuex.Store({
       bodyFormData.append('email', payload.email)
       bodyFormData.append('password', payload.password)
       bodyFormData.append('name', payload.name)
-      console.log(payload.phoneNumber);
       bodyFormData.append('phoneNumber', payload.phoneNumber)
       axios({
         method: 'post',
@@ -74,7 +74,7 @@ export const store = new Vuex.Store({
         method: 'post',
         url: Constants.USER_API_URL_PATH + '/signin',
         data: bodyFormData,
-        config: {headers: {'Content-Type': 'multipart/form-data'}}
+        config: {headers: {'Content-Type': 'application/json; charset=UTF-8'}}
       }).then((response) => {
         const user = response.data.data
         if (user === undefined) {

@@ -14,7 +14,7 @@ public interface UserOrderMapper {
 
     List<UserOrderVO> selectUserOrderListNotCompleteAll();
 
-    List<UserOrderVO> selectUserOrderListByUserId(@Param("userId") int userId);
+    List<UserOrderVO> selectUserOrderListBookingByUserId(@Param("userId") int userId);
 
     void insertUserOrder(UserOrderVO userOrderVO);
 

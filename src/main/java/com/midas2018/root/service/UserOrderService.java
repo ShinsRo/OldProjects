@@ -22,8 +22,9 @@ public class UserOrderService {
         return userOrderRepository.selectUserOrderListNotCompleteAll();
     }
 
-    public List<UserOrderVO> getUserOrderListByUserId(int userId) {
-        return userOrderRepository.selectUserOrderListByUserId(userId);
+    public List<UserOrderVO> getUserOrderListBookingByUserId(int userId) {
+        List<UserOrderVO> userOrderVOList = userOrderRepository.selectUserOrderListBookingByUserId(userId);
+        return userOrderVOList;
     }
 
     public void insertUserOder(UserOrderVO userOrderVO) {
@@ -34,8 +35,8 @@ public class UserOrderService {
         userOrderRepository.updateUserOrder(userOrderVO);
     }
 
-    public void deleteUserOrder(UserOrderVO userOrderVO) {
+    public void deleteUserOrderByUserId(UserOrderVO userOrderVO) {
         userOrderVO.setStatus(OrderStatus.COMPLETE);
-        userOrderRepository.deleteUserOrder(userOrderVO);
+        userOrderRepository.deleteUserOrderByUserId(userOrderVO);
     }
 }

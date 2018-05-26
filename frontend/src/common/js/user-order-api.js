@@ -26,6 +26,20 @@ class UserOrderApi {
     });
   }
 
+  static getUserOrderListBookingByUserId(userId) {
+    return $.get({
+      url: `${USER_ORDER_URL_PATH}/getUserOrderListBookingByUserId?userId=${userId}`,
+    });
+  }
+
+  static deleteUserOrder(userOrderVO) {
+    return $.post({
+      url: `${USER_ORDER_URL_PATH}/deleteUserOrderByUserId`,
+      data: JSON.stringify(userOrderVO),
+      headers: Constants.JSON_HEADERS
+    });
+  }
+
 }
 
 export default UserOrderApi;

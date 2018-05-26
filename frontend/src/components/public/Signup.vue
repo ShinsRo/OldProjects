@@ -6,7 +6,7 @@
       </v-flex>
     </v-layout>
     <v-flex xs12 sm6 offset-sm3 mt-3>
-      <form @submit.prevent="userSignUp" :disabled="loading">
+      <!--<form @submit.prevent="userSignUp" :disabled="loading">-->
         <v-layout column>
           <v-alert type="error" dismissible v-model="alert">
             {{ error }}
@@ -58,16 +58,18 @@
               ></v-text-field>
           </v-flex>
           <v-flex class="text-xs-center" mt-5>
-            <v-btn color="primary" type="submit">Sign Up</v-btn>
+            <v-btn color="primary" @click="insertUser">Sign Up</v-btn>
           </v-flex>
         </v-layout>
-      </form>
+      <!--</form>-->
     </v-flex>
   </v-container>
 </template>
 
 <script>
 /* eslint-disable */
+import UserApi from '../../common/js/user-api';
+import router from '@/router'
 
 export default {
     data () {
@@ -108,6 +110,29 @@ export default {
           return
         }
         this.$store.dispatch('userSignUp', { email: this.email, password: this.password, name: this.name, phoneNumber: this.phoneNumber})
+      },
+      insertUser() {
+        const user = {email: this.email, password: this.password, name: this.name, phoneNumber: this.phoneNumber};
+        UserApi.insertUser(user).then((res) => {
+          if (res.code >= 400) {
+            throw new Error();
+          }
+          const user = res.data;
+          if (user.status === 'USER') user.auth = 0
+          else if (user.status === 'SUB_ADMIN') user.auth = 1
+          else if (user.status === 'ADMIN') user.auth = 2
+          this.$store.commit('setUser', user);
+          switch (user.auth) {
+            case 0:
+              router.push('/home')
+              break
+            case 1:
+            case 2:
+              router.push('/admin/home')
+              break
+            default : throw new Error('알 수 없는 사용자')
+          }
+        })
       }
     },
     watch: {
