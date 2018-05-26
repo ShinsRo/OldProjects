@@ -10,6 +10,7 @@ import com.midas2018.root.model.User;
 import com.midas2018.root.model.UserStatus;
 import com.midas2018.root.model.UserVO;
 import com.midas2018.root.repository.UserRepository;
+import com.midas2018.root.support.security.SecurityUtils;
 
 @Service
 public class UserService {
@@ -27,12 +28,13 @@ public class UserService {
             throw new UserAlreadyExistsException();
         }
         user.setStatus(UserStatus.USER);
+        user.setPassword(SecurityUtils.encryptMD5AndSHA256(user.getPassword()));
         userRepository.signup(user);
         return user;
     }
 
     public UserVO userSignin(UserVO user) {
-        UserVO userVO = userRepository.signin(user.getEmail(), user.getPassword());
+        UserVO userVO = userRepository.signin(user.getEmail(), SecurityUtils.encryptMD5AndSHA256(user.getPassword()));
         return userVO;
     }
 

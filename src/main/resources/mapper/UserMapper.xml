@@ -45,6 +45,7 @@
         WHERE
           email = #{email}
         AND password = #{password}
+        AND status != 3
     </select>
 
     <select id="selectUserByEmail" parameterType="map" resultType="com.midas2018.root.model.UserVO">
