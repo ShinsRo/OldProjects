@@ -35,7 +35,7 @@ export const store = new Vuex.Store({
       return state.user
     },
     isAuthenticated (state) {
-      return (state.user !== null && state.user !== undefined) ? state.user.auth : '9'
+      return (state.user !== null && state.user !== undefined) ? state.user.auth : 9
     }
   },
   actions: {
@@ -82,11 +82,9 @@ export const store = new Vuex.Store({
         commit('setUser', user)
         commit('setLoading', false)
         commit('setError', null)
-        console.log(user.status)
         if (user.status === 'USER') user.auth = 0
-        else if (user.status === 'ADMIN') user.auth = 1
-        else if (user.status === 'SUPER_ADMIN') user.auth = 2
-        console.log(user.auth)
+        else if (user.status === 'SUB_ADMIN') user.auth = 1
+        else if (user.status === 'ADMIN') user.auth = 2
         switch (user.auth) {
           case 0:
             router.push('/home')

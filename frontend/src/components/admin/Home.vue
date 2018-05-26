@@ -15,15 +15,9 @@
 /* eslint-disable */
   export default {
     data () {
-      return ""
+      return {
+        data: "sample"
+      }
     },
-    created: {
-
-    },
-
-    methods: {
-
-    }
-
   }
 </script>
