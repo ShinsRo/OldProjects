@@ -32,39 +32,17 @@
         <router-link to="/" tag="span" style="cursor: pointer">
           {{ appTitle }}
         </router-link>
-        <v-btn @click.stop="showSignUpDialog=true">
-          test SignUp modal
-        </v-btn>
-        <v-btn @click.stop="showSignInDialog=true">
-          test SignIn modal
-        </v-btn>
-        <SignUpDialog :visible="showSignUpDialog" @close="showSignUpDialog=false"></SignUpDialog>
-        <SignInDialog :visible="showSignInDialog" @close="showSignInDialog=false"></SignInDialog>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <!-- 메뉴 -->
       <v-toolbar-items class="hidden-xs-only">
-        <v-menu offset-y
+        <v-btn
+          flat
           v-for="item in menuItems"
           :key="item.title"
           :to="item.path">
-          <v-btn slot="activator" flat>
-            <v-icon left dark>{{ item.icon }}</v-icon>
-            <v-flex>{{ item.title }}</v-flex>
-          </v-btn>
-          <v-list
-            v-if="item.dropDown"
-            v-for="dropDownItem in item.dropDownMenu"
-            :key="dropDownItem.title"
-            :to="dropDownItem.path">
-            <v-list-tile>{{ dropDownItem.title }}</v-list-tile>
-          </v-list>
-        </v-menu>
-        <!-- 로그아웃 메뉴 -->
-          <v-btn flat v-if="isAuthenticated" @click="userSignOut">
-            <v-icon left>exit_to_app</v-icon>
-            Sign Out
-          </v-btn>
+          <v-icon left dark>{{ item.icon }}</v-icon>
+          {{ item.title }}
+        </v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
