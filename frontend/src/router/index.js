@@ -9,7 +9,8 @@ const routerOptions = [
   { path: '/demo', component: 'demo/Demo' },
   { path: '/board', component: 'Board' },
   { path: '/boardwrite', component: 'BoardWrite' },
-  { path: '/boardread', name: 'boardRead', component: 'BoardRead', props: true }
+  { path: '/boardread', name: 'boardRead', component: 'BoardRead', props: true },
+  { path: '/menu', name: 'menuInsert', component: 'menu', props: true }
 
 ]
 
