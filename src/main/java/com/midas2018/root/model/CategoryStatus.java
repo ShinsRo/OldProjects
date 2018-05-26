@@ -4,9 +4,9 @@ package com.midas2018.root.model;
  * 카테고리
  */
 public enum CategoryStatus implements ValueEnum {
-    COFFEE(0),   //대기
-    NONCOFFEE(1),    //만드는중
-    ETC(2); //완료
+    COFFEE(0),
+    NONCOFFEE(1),
+    ETC(2);
 
     int value = 0;
 

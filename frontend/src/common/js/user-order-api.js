@@ -20,6 +20,11 @@ class UserOrderApi {
       url: `${USER_ORDER_URL_PATH}/getUserOrderList`,
     });
   }
+  static getUserOrderLisAll() {
+    return $.get({
+      url: `${USER_ORDER_URL_PATH}/getUserOrderLisAll`,
+    });
+  }
 
 }
 

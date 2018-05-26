@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <div>
+      <button v-on:click="modify"> modify </button>
       <v-flex xs12 class="text-xs-center" mt-5 >
         <h1>Order List</h1>
       </v-flex>
@@ -13,19 +14,24 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.name" label="Dessert name"></v-text-field>
+                  <v-flex v-for="orders in orderList.cafeMenuList">
+                    <v-flex v-for="order in orders">
+                      {{order.optionList}}
+                    </v-flex>
+                    </v-flex>
+                  <v-text-field v-model="orderList" :disabled="isDisabled" label="no"> {{}}</v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.calories" label="Calories"></v-text-field>
+                  <v-text-field v-model="orderList" :disabled="isDisabled" label="order">{{ editedItem.no }}</v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
+                  <v-text-field v-model="editedItem.order" :disabled="isDisabled" label="Fat (g)"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
+                  <v-text-field v-model="editedItem" :disabled="isDisabled" label="Carbs (g)"></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.protein" label="Protein (g)"></v-text-field>
+                  <v-text-field v-model="editedItem" :disabled="isDisabled" label="Protein (g)"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -39,18 +45,19 @@
       </v-dialog>
       <v-data-table
         :headers="headers"
-        :items="desserts"
+        :items="list"
         :search="search"
         :pagination.sync="pagination"
         hide-actions
         class="elevation-1"
       >
         <template slot="items" slot-scope="props">
-          <td>{{ props.item.name }}</td>
-          <td class="text-xs-right">{{ props.item.calories }}</td>
-          <td class="text-xs-right">{{ props.item.fat }}</td>
-          <td class="text-xs-right">{{ props.item.carbs }}</td>
-          <td class="text-xs-right">{{ props.item.protein }}</td>
+          <td>{{ props.item.id }}</td>
+          <td>{{ props.item.totalPrice }}</td>
+          <td>{{ props.item.userId }}</td>
+          <td>{{ props.item.content }}</td>
+          <td>{{ props.item.createdTime }}</td>
+          <td>{{ props.item.status }}</td>
           <td class="justify-center layout px-0">
             <v-btn icon class="mx-0" @click="editItem(props.item)">
               <v-icon color="teal">edit</v-icon>
@@ -72,42 +79,43 @@
 </template>
 
 <script>
+  /* eslint-disable */
+  import * as toastr from 'toastr';
+  import UserOrderApi from '../../common/js/user-order-api';
+
   export default {
+    comments:{
+      UserOrderApi,
+    },
     data: () => ({
+      isDisabled: true,
       pagination: {},
+      search:'',
       selected: [],
       dialog: false,
+      lists:[[1,2,3],[2,3,4]],
+      another_list:[[213,123, {hello:'sdf'}], 12, 123],
       headers: [
-        { text: 'no', value: 'calories' },
+        { text: 'no', value: 'no' },
         { text: 'order', value: 'order' },
-        { text: 'price', value: 'pricie' },
         { text: 'userName', value: 'userName' },
+        { text: 'content', value: 'content' },
         { text: 'datetime', value: 'datetime' },
-        { text: 'state', value: 'status' }
+        { text: 'state', value: 'status' },
+        { text: '', value: '' }
       ],
       list: [],
+      orderList:[],
       editedIndex: -1,
       editedItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0
+        no: '',
+        order: {},
       },
       defaultItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0
-      }
+        no: 0,
+        order: {},
+      },
     }),
-
-    computed: {
-      formTitle () {
-        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-      }
-    },
 
     watch: {
       dialog (val) {
@@ -116,94 +124,46 @@
     },
 
     created () {
+      console.log('created');
+      this.getAllOrders();
       this.initialize()
     },
 
     methods: {
       initialize () {
-        this.desserts = [
-          {
-            name: 'Frozen Yogurt',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0
-          },
-          {
-            name: 'Ice cream sandwich',
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3
-          },
-          {
-            name: 'Eclair',
-            calories: 262,
-            fat: 16.0,
-            carbs: 23,
-            protein: 6.0
-          },
-          {
-            name: 'Cupcake',
-            calories: 305,
-            fat: 3.7,
-            carbs: 67,
-            protein: 4.3
-          },
-          {
-            name: 'Gingerbread',
-            calories: 356,
-            fat: 16.0,
-            carbs: 49,
-            protein: 3.9
-          },
-          {
-            name: 'Jelly bean',
-            calories: 375,
-            fat: 0.0,
-            carbs: 94,
-            protein: 0.0
-          },
-          {
-            name: 'Lollipop',
-            calories: 392,
-            fat: 0.2,
-            carbs: 98,
-            protein: 0
-          },
-          {
-            name: 'Honeycomb',
-            calories: 408,
-            fat: 3.2,
-            carbs: 87,
-            protein: 6.5
-          },
-          {
-            name: 'Donut',
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9
-          },
-          {
-            name: 'KitKat',
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7
-          }
-        ]
+        this.list = []
       },
+      getAllOrders: function() {
+        UserOrderApi.getUserOrderLisAll().then((res) => {
+          console.log(`res : ${res}`);
 
+          if (res.code >= 400) {
+            throw new Error(res.message);
+          }
+          console.log(res.data);
+
+          this.list = res.data;
+
+        }).fail((error) => {
+          toastr.error(error.message, 'Oops!');
+        })
+      },
+      modify: function() {
+        console.log(this.lists)
+        this.lists[0].splice(2,2,3)
+        console.log(this.lists)
+      },
       editItem (item) {
-        this.editedIndex = this.desserts.indexOf(item)
-        this.editedItem = Object.assign({}, item)
+        this.orderList = item.cafeMenuList;
+        this.editedIndex = this.list.indexOf(item)
+        this.orderList = Object.assign({}, item)
         this.dialog = true
+
       },
 
       deleteItem (item) {
-        const index = this.desserts.indexOf(item)
-        confirm('Are you sure you want to delete this item?') && this.desserts.splice(index, 1)
+        const index = this.list.indexOf(item)
+        confirm('Did you finish this order?') && this.list.splice(index, 1)
       },
 
       close () {
@@ -216,9 +176,9 @@
 
       save () {
         if (this.editedIndex > -1) {
-          Object.assign(this.desserts[this.editedIndex], this.editedItem)
+          Object.assign(this.list[this.editedIndex], this.editedItem)
         } else {
-          this.desserts.push(this.editedItem)
+          this.list.push(this.editedItem)
         }
         this.close()
       }

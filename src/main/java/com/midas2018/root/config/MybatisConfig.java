@@ -2,6 +2,7 @@ package com.midas2018.root.config;
 
 import javax.sql.DataSource;
 
+import com.midas2018.root.model.*;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.TypeAliasRegistry;
 import org.apache.ibatis.type.TypeHandlerRegistry;
@@ -11,14 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
-import com.midas2018.root.model.CafeMenuAndOptions;
-import com.midas2018.root.model.CafeMenuAndOptionsList;
-import com.midas2018.root.model.CafeMenuStatus;
-import com.midas2018.root.model.CategoryStatus;
-import com.midas2018.root.model.OptionData;
-import com.midas2018.root.model.OrderStatus;
-import com.midas2018.root.model.UserStatus;
-import com.midas2018.root.model.UserVO;
 import com.midas2018.root.support.typehandler.CafeMenuAndOptionsListTypeHandler;
 import com.midas2018.root.support.typehandler.CafeMenuAndOptionsTypeHandler;
 import com.midas2018.root.support.typehandler.CategoryVOTypeHandler;
@@ -45,6 +38,7 @@ public class MybatisConfig {
         typeHandlerRegistry.register(CafeMenuStatus.class, ValueEnumTypeHandler.class);
         typeHandlerRegistry.register(OrderStatus.class, ValueEnumTypeHandler.class);
         typeHandlerRegistry.register(CategoryStatus.class, ValueEnumTypeHandler.class);
+        typeHandlerRegistry.register(OptionStatus.class, ValueEnumTypeHandler.class);
         typeHandlerRegistry.register(OptionData.class, OptionDataTypeHandler.class);
         typeHandlerRegistry.register(CafeMenuAndOptions.class, CafeMenuAndOptionsTypeHandler.class);
         typeHandlerRegistry.register(CafeMenuAndOptionsList.class, CafeMenuAndOptionsListTypeHandler.class);
