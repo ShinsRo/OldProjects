@@ -1,8 +1,11 @@
 package com.midas2018.root.repository;
 
-import com.midas2018.root.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.midas2018.root.model.User;
+import com.midas2018.root.model.UserStatus;
+import com.midas2018.root.model.UserVO;
 
 @Repository
 public class UserRepository {
@@ -19,5 +22,13 @@ public class UserRepository {
 
     public int isThereEmail(String email) {
         return userMapper.isThereEmail(email);
+    }
+
+    public UserStatus selectUserStatusByUserId(int userId) {
+        return userMapper.selectUserStatusByUserId(userId);
+    }
+
+    public UserVO signin(String email, String password) {
+        return userMapper.signin(email, password);
     }
 }
