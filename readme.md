@@ -13,13 +13,13 @@ IntelliJ랑 스프링 부트가 익숙하지 않아 미숙한 부분이 많습�
 | 영역 | 적용환경 | 비고 |
 | :------------- | :------------- | :------------- |
 | IDE   | IntelliJ |   |
-| 데이터베이스 | mySQL 8.0.11 <br> myBatis <br>  | MySQL Connector/ODBC 8.0.11 (예비) <br> [임시 설정] <br> user : midas <br> password : challenge <br> database : midas <br> port : 3306 |
+| 데이터베이스 | mySQL 8.0.11 <br> myBatis <br>  | MySQL Connector/ODBC 8.0.11 (예비) <br> [임시 설정] <br> user :  <br> password :  <br> database :  <br> port :  |
 | JDK   | JDK  | jdk1.8.0_171  |
-| 서버 프레임워크   | spring boot 2.0.2  <br> | devPort : 8888 <br> port : |
+| 서버 프레임워크   | spring boot 2.0.2  <br> | devPort :  <br> port : |
 | 의존성   | maven  |    |
-| 뷰 프레임워크   | vueJs <br> { vutifyJs 1.0.18 } | devPort : 8080 |
+| 뷰 프레임워크   | vueJs <br> { vutifyJs 1.0.18 } | devPort :  |
 | 형상관리   | git  |  https://github.com/orgs/MidasChallenge2018/ |
-| 공용 자료실   | Google Drive  | https://drive.google.com/open?id=1Jf3QmbvPREdtm1B6ImHDRl9D1lQRE6Y7 |
+| 공용 자료실   | Google Drive  |  |
 
 ---
 
