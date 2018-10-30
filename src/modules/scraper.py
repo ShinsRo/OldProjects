@@ -28,8 +28,6 @@ class Scraper:
             self.exportExcel()
         except:
             pass
-        else:
-            pass
         finally:
             pass
 
@@ -37,6 +35,7 @@ class Scraper:
         print('state :' + self.state)
 
     ####################################
+
     def exportExcel(self):
         print('excel exported')
 
