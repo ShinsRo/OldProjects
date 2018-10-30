@@ -36,9 +36,9 @@ class Scraper:
         self.state = "waiting"
         print('state :' + self.state)
 
+    ####################################
     def exportExcel(self):
         print('excel exported')
-    ####################################
 
 
 class PaperEntity:
