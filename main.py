@@ -1,2 +1,3 @@
-import src.modules.scraper as scraper
+from src.modules.scraper import Scraper
 
+sp = Scraper()
