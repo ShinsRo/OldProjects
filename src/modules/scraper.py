@@ -23,7 +23,22 @@ class Scraper():
         self.logState(state="0001", stateMSG="SID : %s"%self.SID)
         self.logState(state="0002", stateMSG="jsessionid : %s"%self.jsessionid)
 
-        self.logState(state="0100", stateMSG="watting for running")
+
+        self.logState(state="0003", stateMSG="작업을 위해 WOS 페이지에 접근 중입니다.")
+
+        actionURL = self.baseUrl
+        action = "/WOS_AdvancedSearch_input.do"
+        param = ""
+        param += "?SID=" + self.SID
+        param += "&product=WOS"
+        param += "&search_mode=AdvancedSearch"
+        
+        actionURL += action
+        actionURL += param
+
+        self.browser.open(actionURL)
+
+        self.logState(state="0200", stateMSG="질의를 시작할 수 있습니다.")
 
         # # 테스트용
         # self.SID = "E6iQIWCw3PkqehegemT"
@@ -37,15 +52,38 @@ class Scraper():
         wordsLen = len(words)
         if packSize <= 0 or packSize > wordsLen: packSize = wordsLen
 
-        queryList = [words[idx*packSize:(idx+1)*packSize] for idx in range(wordsLen//packSize)]
+        queryList = [words[chunkIdx: chunkIdx + packSize] for chunkIdx in range(0, wordsLen, packSize)]
 
         for idx, query in enumerate(queryList):
             queryList[idx] = "%s=(\"%s\")"%(gubun, "\" OR \"".join(query))
 
-        return queryList
+        return (queryList, words)
 
-    def exportExcel(self, data, path):
-        print('excel exported')
+    def queryProcess(self, browser, words):
+        search_form = browser.get_form(id="WOS_AdvancedSearch_input_form")
+        search_form['value(input1)'] = query
+
+        browser.submit_form(search_form)
+        historyResults = browser.select('div.historyResults')
+        
+        for idx, his in enumerate(historyResults):
+            rsCnt = his.a.text
+            rsCnt = rsCnt.replace(",","")
+            rsCnt = int(rsCnt)
+
+            if rsCnt >= 10000:
+                self.logState(state="1150", stateMSG="결과가 10000개를 넘을 수 없으므로, 쿼리를 분할합니다.")
+                wordsLen = len(words)
+                lHisRs = queryProcess(browser, words[:wordsLen//2 + 1])
+                rHisRs = queryProcess(browser, words[wordsLen//2 + 1:])
+                
+                historyResults = lHisRs + rHisRs
+
+        return historyResults
+
+    def exportExcel(self, data, processId, outputLocationPath):
+        with open(processId + "_excel_rs.xls", "wb") as rsFile:
+                rsFile.write(data)
 
     def logState(self, state, stateMSG):
         self.state = state
@@ -54,36 +92,38 @@ class Scraper():
 
     # Run method
     ####################################
-    def run(self, startDate, endDate, gubun, filePath):
+    def run(self, startDate, endDate, gubun, inputFilePath, outputLocationPath, defaultQueryPackSize):
         # 테스트 데이터
         # startDate = "201001"
         # endDate = "201001"
         # gubun = "TI" 
-        # filePath = "C:\\Users\\F\\Desktop\\papers\\sju-paper-scraper-app\\src\\modules\\"
+        # inputFilePath = "C:\\Users\\F\\Desktop\\papers\\sju-paper-scraper-app\\src\\modules\\"
+        # outputLocationPath="C:\\Users\\F\\Desktop\\papers\\sju-paper-scraper-app\\src\\modules\\"
 
         # 단계 1/6 :
         ##############################################
+        self.logState(state="1001", stateMSG="WOS AdvancedSearch를 시작합니다.")
         browser = self.browser
 
-        self.logState(state="1001", stateMSG="Run WOS AdvancedSearch")
-        actionURL = self.baseUrl
-        action = "/WOS_AdvancedSearch_input.do"
-        param = ""
-        param += "?SID=" + self.SID
-        param += "&product=WOS"
-        param += "&search_mode=AdvancedSearch"
+        # actionURL = self.baseUrl
+        # action = "/WOS_AdvancedSearch_input.do"
+        # param = ""
+        # param += "?SID=" + self.SID
+        # param += "&product=WOS"
+        # param += "&search_mode=AdvancedSearch"
         
-        actionURL += action
-        actionURL += param
+        # actionURL += action
+        # actionURL += param
 
-        self.logState(state="1002", stateMSG="Making Query")
-        queryList = self.makeQueryFromFile(filePath, 0, gubun)
+        # browser.open(actionURL)
 
-        browser.open(actionURL)
+        self.logState(state="1002", stateMSG="쿼리를 만듭니다.")
+        queryList, words = self.makeQueryFromFile(inputFilePath, defaultQueryPackSize, gubun)
+
         queryListLen = len(queryList)
         for idx, query in enumerate(queryList):
             # self.logState(state="1010", stateMSG="Query : %s"%query)
-            self.logState(state="1010", stateMSG="packaging queries %d/%d"%(idx+1, queryListLen))
+            self.logState(state="1100", stateMSG="쿼리를 시작합니다. %d/%d"%(idx+1, queryListLen))
             
             search_form = browser.get_form(id="WOS_AdvancedSearch_input_form")
             search_form['value(input1)'] = query
@@ -94,29 +134,21 @@ class Scraper():
         
         historyResultsLen = len(historyResults)        
         for idx,his in enumerate(historyResults):
-            # fd = open("test.html", "a")
-            self.logState(state="1020", stateMSG="Execute a query package %d/%d"%(idx+1, historyResultsLen))
+            self.logState(state="1200", stateMSG="쿼리 팩키지를 실행합니다. %d/%d"%(idx+1, historyResultsLen))
 
-            print(his.a["href"])
             browser.follow_link(his.a)
 
             reportLink = browser.select("a.citation-report-summary-link")
             browser.follow_link(reportLink[0])
 
-            citeJSON = browser.find(id='raw_tc_data').text
-            citeJSON = citeJSON.replace("{", "{\"").replace("}", "\"}").replace("=", "\"=\"").replace(", ","\", \"")
-            citeJSON = citeJSON.replace("=", ":")
-
-            # print(json.loads(citeJSON))
-
-            UA_output_input_form = browser.get_form(id='summary_records_form')
-            qid = UA_output_input_form['qid'].value
-            filters = UA_output_input_form['filters'].value
-            sortBy = UA_output_input_form['sortBy'].value
-            timeSpan = UA_output_input_form['timeSpan'].value
-            endYear = UA_output_input_form['endYear'].value
-            startYear = UA_output_input_form['startYear'].value
-            rurl = UA_output_input_form['rurl'].value
+            summary_records_form = browser.get_form(id='summary_records_form')
+            qid = summary_records_form['qid'].value
+            filters = summary_records_form['filters'].value
+            sortBy = summary_records_form['sortBy'].value
+            timeSpan = summary_records_form['timeSpan'].value
+            endYear = summary_records_form['endYear'].value
+            startYear = summary_records_form['startYear'].value
+            rurl = summary_records_form['rurl'].value
 
             CRTitle = browser.select("div.CRnewpageTitle")[0]
             totalMarked = CRTitle.span.string.replace(",", "")
@@ -126,8 +158,8 @@ class Scraper():
             mark_to = totalMarked
             mark_from = "1"
 
-            piChart = ""
-            toChart = ""
+            piChart = summary_records_form['piChart'].value
+            toChart = summary_records_form['piChart'].value
 
             makeExcelURL = "http://apps.webofknowledge.com/OutboundService.do?"
             makeExcelParam = ""
@@ -211,15 +243,16 @@ class Scraper():
             ExcelActionURL += ExcelAction
             ExcelActionURL += ExcelParam
 
-            print(ExcelActionURL)
-            
             res = requests.get(ExcelActionURL)
-            print(type(res))
-            print(type(res.content))
-            print(type(res.text))
             excel = res.content
+            resStr = res.text
 
-            with open("_excel_rs.xls", "wb") as rsFile:
+            notFound = []
+            for word in words:
+                if resStr.find(word) == -1:
+                    notFound.append(word)
+
+            with open(str(idx) + "_excel_rs.xls", "wb") as rsFile:
                 rsFile.write(res.content)
 
     ####################################
