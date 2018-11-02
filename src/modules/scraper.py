@@ -1,5 +1,6 @@
 from robobrowser import RoboBrowser
 from bs4 import BeautifulSoup
+import urllib
 import json
 import re 
 import requests
@@ -106,10 +107,8 @@ class Scraper():
             citeJSON = citeJSON.replace("{", "{\"").replace("}", "\"}").replace("=", "\"=\"").replace(", ","\", \"")
             citeJSON = citeJSON.replace("=", ":")
 
-            print(json.loads(citeJSON))
+            # print(json.loads(citeJSON))
 
-
-            #####################################################################
             UA_output_input_form = browser.get_form(id='summary_records_form')
             qid = UA_output_input_form['qid'].value
             filters = UA_output_input_form['filters'].value
@@ -118,10 +117,12 @@ class Scraper():
             endYear = UA_output_input_form['endYear'].value
             startYear = UA_output_input_form['startYear'].value
             rurl = UA_output_input_form['rurl'].value
-            
 
             CRTitle = browser.select("div.CRnewpageTitle")[0]
             totalMarked = CRTitle.span.string.replace(",", "")
+
+            int(totalMarked) / 500
+
             mark_to = totalMarked
             mark_from = "1"
 
@@ -207,19 +208,19 @@ class Scraper():
             ExcelParam += "&fileOpt=xls"
             ExcelParam += "&UserIDForSaveToRID=null"
 
-            # print(ExcelParam)
-
             ExcelActionURL += ExcelAction
             ExcelActionURL += ExcelParam
 
             print(ExcelActionURL)
             
             res = requests.get(ExcelActionURL)
-            print(res)
-            excel = res.text
-            print(excel)
-            f = open("_excel_rs.xls", "w")
-            f.write(excel)
+            print(type(res))
+            print(type(res.content))
+            print(type(res.text))
+            excel = res.content
+
+            with open("_excel_rs.xls", "wb") as rsFile:
+                rsFile.write(res.content)
 
     ####################################
 
