@@ -102,80 +102,124 @@ class Scraper():
             reportLink = browser.select("a.citation-report-summary-link")
             browser.follow_link(reportLink[0])
 
-            citeJSON = str((browser.find(id='raw_tc_data').string).encode('utf-8'))
-            print(type(citeJSON))
-            citeJSON = (""+citeJSON).replace("{", "{\"").replace("}", "\"}").replace("=", "\"=\""),replace(",","\",")
+            citeJSON = browser.find(id='raw_tc_data').text
+            citeJSON = citeJSON.replace("{", "{\"").replace("}", "\"}").replace("=", "\"=\"").replace(", ","\", \"")
+            citeJSON = citeJSON.replace("=", ":")
+
             print(json.loads(citeJSON))
 
 
             #####################################################################
-            # UA_output_input_form = browser.get_form(id='summary_records_form')
-            # qid = UA_output_input_form['qid'].value
-            # filters = UA_output_input_form['filters'].value
-            # sortBy = UA_output_input_form['sortBy'].value
-            # timeSpan = UA_output_input_form['timeSpan'].value
-            # endYear = UA_output_input_form['endYear'].value
-            # startYear = UA_output_input_form['startYear'].value
-            # rurl = UA_output_input_form['rurl'].value
-
-            # # print(soup.find(id='raw_tc_data'))
+            UA_output_input_form = browser.get_form(id='summary_records_form')
+            qid = UA_output_input_form['qid'].value
+            filters = UA_output_input_form['filters'].value
+            sortBy = UA_output_input_form['sortBy'].value
+            timeSpan = UA_output_input_form['timeSpan'].value
+            endYear = UA_output_input_form['endYear'].value
+            startYear = UA_output_input_form['startYear'].value
+            rurl = UA_output_input_form['rurl'].value
             
-            # print(browser.find(id=''))
 
-            # for f in browser.find_all('form'):
-            #     if f['action'] == "https://apps.webofknowledge.com/OutboundService.do?action=go&save_options=csv&":
-            #         print("========")
-            #         print(f)
-            #         file_form = f
-            # # print(browser.select('div#saveDiv'))
-            # # print(browser.find(id='saveDiv'))
-            # file_form.submit_form()
+            CRTitle = browser.select("div.CRnewpageTitle")[0]
+            totalMarked = CRTitle.span.string.replace(",", "")
+            mark_to = totalMarked
+            mark_from = "1"
+
+            piChart = ""
+            toChart = ""
+
+            makeExcelURL = "http://apps.webofknowledge.com/OutboundService.do?"
+            makeExcelParam = ""
+            makeExcelParam += "action=go"
+            makeExcelParam += "&save_options=xls"
+
+            makeExcelURL += makeExcelParam
+
+            browser.session.post(makeExcelURL, data={
+                "selectedIds": "",
+                "displayCitedRefs":"",
+                "displayTimesCited":"",
+                "displayUsageInfo":"true",
+                "viewType":"summary",
+                "product":"WOS",
+                "rurl":rurl,
+                "mark_id":"WOS",
+                "colName":"WOS",
+                "search_mode":"CitationReport",
+                "view_name":"WOS-CitationReport-summary",
+                "sortBy": sortBy,
+                "mode":"OpenOutputService",
+                "qid":qid,
+                "SID":self.SID,
+                "format":"crsaveToFile",
+                "mark_to":mark_to,
+                "mark_from":mark_from,
+                "queryNatural":"",
+                "count_new_items_marked":"0",
+                "use_two_ets":"false",
+                "IncitesEntitled":"no",
+                "value(record_select_type)":"range",
+                "markFrom":mark_from,
+                "markTo":mark_to,
+                "action":"recalulate",
+                "start_year_val":"1900",
+                "end_year_val":"2019",
+                "viewAbstractUrl":"",
+                "LinksAreAllowedRightClick": "full_record.do",
+                "filters":filters,
+                "timeSpan": timeSpan,
+                "db_editions": "",
+                "additional_qoutput_params": "cr_qid="+qid,
+                "print_opt":"Html",
+                "include_mark_from_in_url":"true",
+                "endYear":endYear,
+                "startYear":startYear,
+                "piChart":piChart,
+                "toChart":toChart,
+                "fields":"DUMMY_VALUE"
+            })
 
 
-            # ExcelActionURL = "https://ets.webofknowledge.com"
-            # ExcelAction = "/ETS/ets.do?"
+            ExcelActionURL = "https://ets.webofknowledge.com"
+            ExcelAction = "/ETS/ets.do?"
 
-            # CRTitle = browser.select("div.CRnewpageTitle")[0]
-            # totalMarked = CRTitle.span.string.replace(",", "")
-            # mark_to = totalMarked
-            # # summary_navigation = browser.get_form(id='summary_navigation')
-            # # print(summary_navigation.parsed)
-
+            # summary_navigation = browser.get_form(id='summary_navigation')
+            # print(summary_navigation.parsed)
             
-            # ExcelParam = "mark_from=1"
-            # ExcelParam += "&product=UA"
-            # ExcelParam += "&colName=WOS"
-            # ExcelParam += "&displayUsageInfo=true"
-            # ExcelParam += "&parentQid=" + qid
-            # ExcelParam += "&rurl=" + requests.utils.quote(rurl)
-            # ExcelParam += "&startYear=" + startYear
-            # ExcelParam += "&mark_to=" + mark_to
-            # ExcelParam += "&filters=" + requests.utils.quote(filters)
-            # ExcelParam += "&qid=" + str(int(qid)+1)
-            # ExcelParam += "&endYear=" + endYear
-            # ExcelParam += "&SID=" + self.SID
-            # ExcelParam += "&totalMarked=" + totalMarked
-            # ExcelParam += "&action=crsaveToFile"
-            # ExcelParam += "&timeSpan=" + requests.utils.quote(timeSpan)
-            # ExcelParam += "&sortBy=" + sortBy
-            # ExcelParam += "&displayTimesCited=false"
-            # ExcelParam += "&displayCitedRefs=true"
-            # ExcelParam += "&fileOpt=xls"
-            # ExcelParam += "&UserIDForSaveToRID=null"
+            ExcelParam = "mark_from=1"
+            ExcelParam += "&product=UA"
+            ExcelParam += "&colName=WOS"
+            ExcelParam += "&displayUsageInfo=true"
+            ExcelParam += "&parentQid=" + qid
+            ExcelParam += "&rurl=" + requests.utils.quote(rurl)
+            ExcelParam += "&startYear=" + startYear
+            ExcelParam += "&mark_to=" + mark_to
+            ExcelParam += "&filters=" + requests.utils.quote(filters)
+            ExcelParam += "&qid=" + str(int(qid)+1)
+            ExcelParam += "&endYear=" + endYear
+            ExcelParam += "&SID=" + self.SID
+            ExcelParam += "&totalMarked=" + totalMarked
+            ExcelParam += "&action=crsaveToFile"
+            ExcelParam += "&timeSpan=" + requests.utils.quote(timeSpan)
+            ExcelParam += "&sortBy=" + sortBy
+            ExcelParam += "&displayTimesCited=false"
+            ExcelParam += "&displayCitedRefs=true"
+            ExcelParam += "&fileOpt=xls"
+            ExcelParam += "&UserIDForSaveToRID=null"
 
-            # # print(ExcelParam)
+            # print(ExcelParam)
 
-            # ExcelActionURL += ExcelAction
-            # ExcelActionURL += ExcelParam
+            ExcelActionURL += ExcelAction
+            ExcelActionURL += ExcelParam
 
-            # print(ExcelActionURL)
+            print(ExcelActionURL)
             
-            # res = requests.get(ExcelActionURL)
-            # print(res)
-            # excel = res.text
-            # print(excel)
-            # f = open("_excel_rs.xls", "w")
-            # f.write(excel)
+            res = requests.get(ExcelActionURL)
+            print(res)
+            excel = res.text
+            print(excel)
+            f = open("_excel_rs.xls", "w")
+            f.write(excel)
 
     ####################################
 
