@@ -1,9 +1,13 @@
-# class PaperEntity:
-#     def __init__(self, doi, title, cited, issn, journal, author, date):
-#         self.doi = doi
-#         self.title = title
-#         self.cited = cited
-#         self.issn = issn
-#         self.journal = journal
-#         self.author = author
-#         self.date = date
+class ResponseEntity:
+    def __init__(self, resCode, rsMsg, payload): 
+        self.resCode = resCode
+        self.rsMsg = rsMsg
+        self.payload = payload
+
+    def returnResponse(self):
+        res = {
+            code = self.resCode,
+            msg = self.rsMsg,
+            payload = self.payload
+        }
+        return res

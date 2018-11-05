@@ -249,9 +249,14 @@ class Scraper():
         procs = []
         for idx, his in enumerate(historyResults):
             totalMarked = his.a.text.replace(",", "")
+
             if int(totalMarked) >= 10000:
-                print("쿼리 결과가 10000개 이상입니다. 회당 쿼리 갯수를 조절해 주세요.")                
-                return -1
+                responseToUI = ResponseEntity(
+                    resCode=400, 
+                    rsMsg="쿼리 결과가 10000개 이상입니다. 회당 쿼리 갯수를 조절해 주세요.",
+                    payload={"qeury":words, "result":"", "totalMarked":totalMarked})
+
+                return responseToUI.returnResponse()
 
             self.logState(state="1200", stateMSG="쿼리 결과의 엑셀 데이터를 가져옵니다. %d/%d"%(idx+1, historyResultsLen))
             
@@ -281,4 +286,10 @@ class Scraper():
         self.browser = RoboBrowser(history=True, parser="lxml")
         self.browser.open(self.baseUrl)
 
-        return
+        responseToUI = ResponseEntity(
+            resCode=200, 
+            rsMsg="데이터를 성공적으로 전송했습니다.",
+            payload={"qeury":words, "result":""}
+            )
+
+        return responseToUI.returnResponse()
