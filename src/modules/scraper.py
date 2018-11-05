@@ -176,7 +176,7 @@ class Scraper():
         ExcelParam += "&displayCitedRefs=true"
         ExcelParam += "&fileOpt=xls"
         ExcelParam += "&UserIDForSaveToRID=null"
-        ExcelParam = "&mark_from=" + mark_from
+        ExcelParam += "&mark_from=" + mark_from
         ExcelParam += "&mark_to=" + mark_to
 
         ExcelActionURL += ExcelParam
@@ -224,7 +224,12 @@ class Scraper():
                 self.logState(
                     state="0000", 
                     stateMSG="%s개의 레코드 중 %d부터 레코드를 가져옵니다."%(totalMarked, mark))
-                resStr += self.getWOSExcel(idx, his, str(mark), str(mark + 500 - 1), totalMarked)
+                p = Process(
+                    target=self.getWOSExcel,
+                    args=(idx, his, str(mark), str(mark + 500 - 1), totalMarked)
+                )
+
+                p.start()
         
         # words 에 따라 검색해서 없는 결과를 추출해야함.
         for idx, word in enumerate(notFound):
