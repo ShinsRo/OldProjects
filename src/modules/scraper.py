@@ -1,6 +1,7 @@
 from robobrowser import RoboBrowser
 from bs4 import BeautifulSoup
 from multiprocessing import Process, current_process
+from models import ResponseEntity
 import urllib
 import json
 import re 
