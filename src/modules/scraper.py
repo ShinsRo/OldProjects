@@ -1,7 +1,6 @@
 from robobrowser import RoboBrowser
 from bs4 import BeautifulSoup
 from multiprocessing import Process, current_process
-from models import ResponseEntity
 import urllib
 import json
 import re 
@@ -11,6 +10,20 @@ import sys
 import pandas as pd
 import os
 import copy
+
+class ResponseEntity:
+    def __init__(self, resCode, rsMsg, payload): 
+        self.resCode = resCode
+        self.rsMsg = rsMsg
+        self.payload = payload
+
+    def returnResponse(self):
+        res = {
+            code : self.resCode,
+            msg : self.rsMsg,
+            payload : self.payload
+        }
+        return res
 
 class WosProcess():
     def __init__(self, SID, jsessionid, baseUrl):
