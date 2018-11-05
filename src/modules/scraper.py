@@ -8,11 +8,13 @@ import requests
 import time
 import sys
 import pandas as pd
+import os
 
 class WosProcess():
-    def __init__(self, SID, baseUrl):
+    def __init__(self, SID, jsessionid, baseUrl):
         self.SID = SID
         self.baseUrl = baseUrl
+        self.jsessionid = jsessionid
     
     def getWOSExcel(self, idx, his, mark_from, mark_to, totalMarked):
         browser = RoboBrowser(history=True, parser="lxml")
@@ -327,15 +329,17 @@ class Scraper():
             for mark in range(1, int(totalMarked), 500):
                 self.logState(
                     state="0000", 
-                    stateMSG="%s개의 레코드 중 %d부터 레코드를 가져옵니다."%(totalMarked, mark))
+                    stateMSG="%s개의 레코드 중 %d번 레코드부터 레코드를 가져옵니다."%(totalMarked, mark))
+                
+                processClass = WosProcess(self.SID, self.jsessionid, self.baseUrl)
+                processClass.getWOSExcel(idx, his, str(mark), str(mark + 500 - 1), totalMarked)
+                # processClass = WosProcess(self.baseUrl, self.SID)
+                # proc = Process(
+                #     target=processClass.getWOSExcel,
+                #     args=(idx, his, str(mark), str(mark + 500 - 1), totalMarked)
+                # )
 
-                processClass = WosProcess(self.baseUrl, self.SID)
-                proc = Process(
-                    target=processClass.getWOSExcel,
-                    args=(idx, his, str(mark), str(mark + 500 - 1), totalMarked)
-                )
-
-                proc.start()
+                # proc.start()
         
         # words 에 따라 검색해서 없는 결과를 추출해야함.
         for idx, word in enumerate(notFound):
