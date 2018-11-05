@@ -19,9 +19,9 @@ class ResponseEntity:
 
     def returnResponse(self):
         res = {
-            code : self.resCode,
-            msg : self.rsMsg,
-            payload : self.payload
+            "code" : self.resCode,
+            "msg" : self.rsMsg,
+            "payload" : self.payload
         }
         return res
 
