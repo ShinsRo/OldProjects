@@ -14,8 +14,8 @@ if __name__=='__main__':
         wos = WosUserInterface()
     except Exception as e:
         print("WosInterface를 초기화하는데에 실패했습니다. 접속 ip가 유효한 지 확인해주세요.")
-        return
-    
+        sys.exit()
+
     print("해당 프로그램은 alpha 버전입니다.")
 
     while(True):
