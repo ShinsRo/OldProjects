@@ -3,7 +3,7 @@ from context import ResponseEntity
 
 if __name__=='__main__':
     wos = WosUserInterface()
-    
+    results = ""
     try:
         results = wos.run(
             startYear="1945", 
@@ -20,8 +20,8 @@ if __name__=='__main__':
             wos.getStateObject().getErrMSG(), 
             wos.getStateObject().getState())
     finally:
+        print(results)
         pass
     
-    print(results)
 
     
