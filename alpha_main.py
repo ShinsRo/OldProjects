@@ -1,6 +1,10 @@
 import os
 import sys
 from multiprocessing import Process, Queue, Manager
+
+# src 경로 등록
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
+
 from src.wos_as_interface import WosUserInterface
 
 if __name__=='__main__':
