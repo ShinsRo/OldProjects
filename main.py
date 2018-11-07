@@ -1,6 +1,12 @@
 import requests
+import os
 import sys
-from src.modules.scraper import Scraper
+
+# src 경로
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
+
+from wos_as_interface import WosUserInterface
+
 """
 TS= 주제 
 TI= 제목 
@@ -38,14 +44,16 @@ PMID= PubMed ID
     질의마다 run을 실행하는 형태로 구성하세요.
 
     경로가 demo 1이랑 다르니 테스트 데이터 실험할 때 주의하세요.
+
+    에러 처리가 아직 미흡
 """
 if __name__ == "__main__":
-    sp = Scraper()
+    sp = WosUserInterface()
 
     sp.run(
         startDate="201801", 
         endDate="201901", 
         gubun="TI", 
-        inputFilePath="C:\\Users\\siotman\\Desktop\\Projects\\sju-paper-scraper-app\\src\\modules\\testData\\files\\top20.csv",
-        outputLocationPath="C:\\Users\\siotman\\Desktop\\Projects\\sju-paper-scraper-app\\src\\modules\\",
+        inputFilePath="C:\\Users\\siotman\\Desktop\\Projects\\sju-paper-scraper-app\\testData\\files\\top20.csv",
+        outputLocationPath="C:\\Users\\siotman\\Desktop\\Projects\\sju-paper-scraper-app\\",
         defaultQueryPackSize=0)
