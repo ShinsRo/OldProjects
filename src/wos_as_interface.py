@@ -113,10 +113,10 @@ class WosUserInterface():
         for idx, word in enumerate(notFound):
             notFound[idx][1] = ( -1 == resStr.find(word[0]) )
 
-        with open(outputLocationPath + "failed.txt", "w+") as failedListFile:
-            for word in notFound:
-                if word[1] == True:
-                    failedListFile.write(word[0] + " => search results : none\n")
+        # with open(outputLocationPath + "failed.txt", "w+") as failedListFile:
+        #     for word in notFound:
+        #         if word[1] == True:
+        #             failedListFile.write(word[0] + " => search results : none\n")
 
         
 

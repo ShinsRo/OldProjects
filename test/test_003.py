@@ -9,8 +9,10 @@ if __name__=='__main__':
             startYear="1945", 
             endYear="2018", 
             gubun="TI", 
-            inputFilePath="C:\\Users\\siotman\\Desktop\\Projects\\sju-paper-scraper-app\\testData\\files\\top20.csv",
-            outputLocationPath="C:\\Users\\siotman\\Desktop\\Projects\\sju-paper-scraper-app\\",
+            # inputFilePath="C:\\Users\\siotman\\Desktop\\Projects\\sju-paper-scraper-app\\testData\\files\\top20.csv",
+            # outputLocationPath="C:\\Users\\siotman\\Desktop\\Projects\\sju-paper-scraper-app\\",
+            inputFilePath="C:\\Users\\F\\Desktop\\Projects\\sju-paper-scraper-app\\testData\\files\\top20.csv",
+            outputLocationPath="C:\\Users\\F\\Desktop\\Projects\\sju-paper-scraper-app\\",
             defaultQueryPackSize=0
         )
     except Exception as e:
