@@ -51,8 +51,8 @@ if __name__ == "__main__":
     sp = WosUserInterface()
 
     sp.run(
-        startDate="201801", 
-        endDate="201901", 
+        startYear="1945", 
+        endYear="2018",
         gubun="TI", 
         inputFilePath="C:\\Users\\siotman\\Desktop\\Projects\\sju-paper-scraper-app\\testData\\files\\top20.csv",
         outputLocationPath="C:\\Users\\siotman\\Desktop\\Projects\\sju-paper-scraper-app\\",

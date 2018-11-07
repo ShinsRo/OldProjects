@@ -3,8 +3,8 @@ from context import WosUserInterface
 if __name__=='__main__':
     srap = WosUserInterface()
     srap.run(
-        startDate="201801", 
-        endDate="201901", 
+        startYear="2018", 
+        endYear="2019", 
         gubun="TI", 
         inputFilePath="C:\\Users\\siotman\\Desktop\\Projects\\sju-paper-scraper-app\\testData\\files\\top20.csv",
         outputLocationPath="C:\\Users\\siotman\\Desktop\\Projects\\sju-paper-scraper-app\\",

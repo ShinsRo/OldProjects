@@ -1,16 +1,15 @@
-from multiprocessing import current_process, Queue
+from multiprocessing import current_process
 from robobrowser import RoboBrowser
 import requests
 
 class WosProcess():
-    def __init__(self, SID, jsessionid, baseUrl, resultQueue):
+    def __init__(self, SID, jsessionid, baseUrl):
         self.SID = SID
         self.baseUrl = baseUrl
         self.jsessionid = jsessionid
         self.processData = ""
-        # self.resultQueue = resultQueue
 
-    def getWOSExcelProcess(self, idx, url, totalMarked, mark):
+    def getWOSExcelProcess(self, idx, url, totalMarked, mark, returnDict):
         self.procName = current_process().name
         procName = self.procName
 
@@ -134,5 +133,6 @@ class WosProcess():
             rsFile.close()
 
         print(procName, "프로세스 종료")
+        returnDict[procName] = resStr
         # self.resultQueue.put((resStr))
         return
