@@ -77,9 +77,7 @@ class MyFrame(Frame):
         label = Label(frame_period, text="   ex) 2012 ~ 2017")
         label.pack(side=LEFT)
 
-        def checkYear():
-            self.gubun=str(RadioVariety_1.get())
-            label_status.config(text=" 선택된 옵션 : " + str(RadioVariety_1.get()))
+
 
         # -------------------------파일 경로 프레임--------------------------
         #filePathPrame1 : input
@@ -89,28 +87,34 @@ class MyFrame(Frame):
             #self.inputFilePath = filedialog.askdirectory()
             self.inputFilePath=filedialog.askopenfilename(initialdir="C:/", title="choose your file")
             #entryinput_path.setvar(str(self.inputFilePath))
+            label_checkInputPath.config(text= self.inputFilePath)
             print("입력 파일 경로 : ", self.inputFilePath)
 
         def selectoutputpath():
             self.outputLocationPath = filedialog.askdirectory()
             #entryoutput_path.setvar(str(self.outputLocationPath))
+            label_checkOutputPath.config(text=self.outputLocationPath)
             print("다운받을 폴더 경로 :",self.outputLocationPath)
 
         filepathFrame1 = Frame(self)
         filepathFrame1.pack(fill=X)
 
-        # 인풋 파일 경로
+        # 인풋 파일 경로---------------------------------------------------------------------------------------------------
         input_path = Label(filepathFrame1, text="입력 파일 경로", width=20)
         input_path.pack(side=LEFT, padx=20, pady=10)
-
+        '''
         entryinput_path = Entry(filepathFrame1, width=50)
         entryinput_path.pack(side=LEFT, padx=0)
+        '''
+        label_checkInputPath = Label(filepathFrame1, text="",background="white",width=50)
+        label_checkInputPath.pack(side=LEFT)
+
 
         # 파일경로찾기 버튼
         btninputSearch = Button(filepathFrame1, text="...", width=3,state="normal" ,command=selectinputpath)
         btninputSearch.pack(side=RIGHT, padx=10, pady=10)
 
-        # 아웃풋 파일 경로
+        # 아웃풋 파일 경로----------------------------------------------------------------------------------------------------
 
         filepathFrame2 = Frame(self)
         filepathFrame2.pack(fill=X)
@@ -118,8 +122,13 @@ class MyFrame(Frame):
         output_path = Label(filepathFrame2, text="다운받을 폴더 경로", width=20)
         output_path.pack(side=LEFT, padx=20, pady=10)
 
+        '''
         entryoutput_path = Entry(filepathFrame2, width=50)
         entryoutput_path.pack(side=LEFT, padx=0, )
+        '''
+
+        label_checkOutputPath = Label(filepathFrame2, text="",background="white" , width=50)
+        label_checkOutputPath.pack(side=LEFT)
 
         # entryoutput_path.insert(0,self.outputLocationPath)
         # 파일경로찾기 버튼
