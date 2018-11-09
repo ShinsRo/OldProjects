@@ -9,7 +9,7 @@ class WosProcess():
         self.jsessionid = jsessionid
         self.processData = ""
 
-    def getWOSExcelProcess(self, idx, url, totalMarked, mark, returnDict):
+    def getWOSExcelProcess(self, idx, url, totalMarked, mark, outputLocationPath, returnDict):
         self.procName = current_process().name
         procName = self.procName
 
@@ -127,8 +127,8 @@ class WosProcess():
         res = requests.get(ExcelActionURL)
         resStr = res.text
 
-        ofileName = "{0}{1}_excel_rs.xls".format(self.procName, idx)
-        with open(ofileName, "wb") as rsFile:
+        ofileName = "/{0}{1}_excel_rs.xls".format(self.procName, idx)
+        with open(outputLocationPath + ofileName, "wb") as rsFile:
             rsFile.write(res.content)
             rsFile.close()
 

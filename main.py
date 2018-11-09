@@ -1,59 +1,233 @@
-import requests
 import os
 import sys
 
-# src 경로
+from tkinter import *
+from tkinter.ttk import *
+from tkinter import filedialog
+
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
 
 from wos_as_interface import WosUserInterface
 
-"""
-TS= 주제 
-TI= 제목 
-AU= 저자 [색인] 
-AI= 저자 식별자 
-GP= 그룹 저자 [색인] 
-ED= 에디터 
-SO= 저널명 [색인] 
-DO= DOI 
-PY= 출판 연도 
-AD= 연구기관명 및 주소 
-OG= 확장된 연구기관명 [색인] 
-OO= 기관 
-SG= 부서 
-SA= 거리 주소 
-CI= 구/군/시 
-PS= 시/도 
-CU= 국가/지역 
-ZP= 우편 번호 
-FO= 연구비 지원 기관 
-FG= 선정 번호 
-FT= 보조금 정보 
-SU= 연구 분야 
-WC= Web of Science 범주 
-IS= ISSN/ISBN 
-UT= 식별 번호 
-PMID= PubMed ID 
+class MyFrame(Frame):
+    def __init__(self, master):
+        Frame.__init__(self, master)
 
-1. 옵션이 많은데 TI, AU, SO, DO 정도만 받아도 충분할 것 같습니다.
+        self.master = master
+        self.master.title("논문 정보 조회 프로그램")
+        self.pack(fill=BOTH, expand=True)
 
-2. defaultQueryPackSize 는 한 번에 질의할 양을 규정합니다.
+        # --------------변수-----------
+        self.startYear = None
+        self.endYear = None
+        self.gubun = None
+        self.inputFilePath = None
+        self.outputLocationPath = None
+        self.defaultQueryPackSize = 0
+        self.wos = None
 
-3. 사용 시 주의 : 
-    Scraper 객체는 한 번만 생성하고,
-    질의마다 run을 실행하는 형태로 구성하세요.
+        self.entryStartYear=Entry()
+        self.entryEndYear=Entry()
 
-    경로가 demo 1이랑 다르니 테스트 데이터 실험할 때 주의하세요.
+        # --------------------------옵션 프레임------------------------------
 
-    에러 처리가 아직 미흡
-"""
-if __name__ == "__main__":
-    sp = WosUserInterface()
+        frame_searchopt = Frame(self)
+        frame_searchopt.pack(fill=X)
 
-    sp.run(
-        startYear="1945", 
-        endYear="2018",
-        gubun="TI", 
-        inputFilePath="C:\\Users\\siotman\\Desktop\\Projects\\sju-paper-scraper-app\\testData\\files\\top20.csv",
-        outputLocationPath="C:\\Users\\siotman\\Desktop\\Projects\\sju-paper-scraper-app\\",
-        defaultQueryPackSize=0)
+        RadioVariety_1 = StringVar()
+
+        def checkRadioButton():
+            self.gubun=str(RadioVariety_1.get())
+            label_status.config(text=" 선택된 옵션 : " + str(RadioVariety_1.get()))
+
+        label = Label(frame_searchopt, text="검색 옵션",width=20)
+        label.pack(side=LEFT, padx=20, pady=10)
+
+        radio1 = Radiobutton(frame_searchopt, text="논문명", value="TI", variable=RadioVariety_1, command=checkRadioButton)
+        radio1.pack(side=LEFT, padx=0)
+
+        radio2 = Radiobutton(frame_searchopt, text="저자", value="AU", variable=RadioVariety_1, command=checkRadioButton)
+        radio2.pack(side=LEFT, padx=10)
+
+        radio3 = Radiobutton(frame_searchopt, text="DOI", value="DO", variable=RadioVariety_1, command=checkRadioButton)
+        radio3.pack(side=LEFT, padx=10)
+
+        label_status = Label(frame_searchopt, text="")
+        label_status.pack(side=LEFT)
+
+        # --------------------------기간 조회 프레임------------------------------
+
+        frame_period = Frame(self)
+        frame_period.pack(fill=X)
+
+        label = Label(frame_period, text="조회 기간",width=20)
+        label.pack(side=LEFT, padx=20, pady=10)
+
+        self.entryStartYear = Entry(frame_period, width=10)
+        self.entryStartYear.pack(side=LEFT, padx=0)
+        #self.startYear = entryStartYear.get()
+
+        label = Label(frame_period, text=" ~ ")
+        label.pack(side=LEFT)
+
+        self.entryEndYear = Entry(frame_period, width=10)
+        self.entryEndYear.pack(side=LEFT, padx=0)
+        #self.endYear = entryEndYear.get()
+
+        label = Label(frame_period, text="   ex) 2012 ~ 2017")
+        label.pack(side=LEFT)
+
+        def checkYear():
+            self.gubun=str(RadioVariety_1.get())
+            label_status.config(text=" 선택된 옵션 : " + str(RadioVariety_1.get()))
+
+        # -------------------------파일 경로 프레임--------------------------
+        #filePathPrame1 : input
+        #fildPathPrame2 : output
+
+        def selectinputpath():
+            #self.inputFilePath = filedialog.askdirectory()
+            self.inputFilePath=filedialog.askopenfilename(initialdir="C:/", title="choose your file")
+            #entryinput_path.setvar(str(self.inputFilePath))
+            print("입력 파일 경로 : ", self.inputFilePath)
+
+        def selectoutputpath():
+            self.outputLocationPath = filedialog.askdirectory()
+            #entryoutput_path.setvar(str(self.outputLocationPath))
+            print("다운받을 폴더 경로 :",self.outputLocationPath)
+
+        filepathFrame1 = Frame(self)
+        filepathFrame1.pack(fill=X)
+
+        # 인풋 파일 경로
+        input_path = Label(filepathFrame1, text="입력 파일 경로", width=20)
+        input_path.pack(side=LEFT, padx=20, pady=10)
+
+        entryinput_path = Entry(filepathFrame1, width=50)
+        entryinput_path.pack(side=LEFT, padx=0)
+
+        # 파일경로찾기 버튼
+        btninputSearch = Button(filepathFrame1, text="...", width=3,state="normal" ,command=selectinputpath)
+        btninputSearch.pack(side=RIGHT, padx=10, pady=10)
+
+        # 아웃풋 파일 경로
+
+        filepathFrame2 = Frame(self)
+        filepathFrame2.pack(fill=X)
+
+        output_path = Label(filepathFrame2, text="다운받을 폴더 경로", width=20)
+        output_path.pack(side=LEFT, padx=20, pady=10)
+
+        entryoutput_path = Entry(filepathFrame2, width=50)
+        entryoutput_path.pack(side=LEFT, padx=0, )
+
+        # entryoutput_path.insert(0,self.outputLocationPath)
+        # 파일경로찾기 버튼
+
+        # btnoutputSearch = Button(filepathFrame2, text="...", command=selectinputpath(self.outputLocationPath), width=3)
+        btnoutputSearch = Button(filepathFrame2, text="...", width=3,state="normal",command=selectoutputpath)
+        btnoutputSearch.pack(side=RIGHT, padx=10, pady=10)
+
+        '''
+        #검색 옵션
+        frame_searchOpt = Frame(self)
+        frame_searchOpt.pack(fill=X)
+
+        values = ['논문명','저자','DOI']
+
+        #combobox = Combobox(frame_searchOpt,width=15, height=10, values=values,exportselection=False, postcommand=self.inputPaperName())
+        combobox = Combobox(frame_searchOpt, width=15, height=10, values=values, exportselection=False)
+        combobox.pack(side=LEFT, padx=20, pady=10)
+        combobox.set("검색 옵션")
+        '''
+
+
+        # 실행 버튼
+        frame4 = Frame(self)
+        frame4.pack(fill=X)
+        btnExecute = Button(frame4, text="실행" ,command=self.execute)
+        btnExecute.pack(side=RIGHT, padx=20, pady=10)
+
+    def execute(self):
+        self.startYear = self.entryStartYear.get()
+        self.endYear = self.entryEndYear.get()
+        print("---------------input--------------")
+        print("구분 : ",self.gubun)
+        print("조회 기간 : ",self.startYear ," ~ " , self.endYear)
+        print("입력 파일 경로 : ", self.inputFilePath)
+        print("다운받을 폴더 경로 : ",self.outputLocationPath)
+        print("----------------------------------")
+
+        startYear = self.startYear
+        endYear = self.endYear
+        gubun = self.gubun
+        inputFilePath = self.inputFilePath
+        outputLocationPath = self.outputLocationPath
+
+        try:
+            if len(startYear) != 4 or len(endYear) != 4:
+                print("입력 형식이 올바르지 않습니다.")
+                raise Exception()
+
+            if not 1900 <= int(startYear) <= 2018:
+                print("년도는 1900과 금년 사이여야 합니다.")
+                raise Exception()
+
+            if not 1900 <= int(endYear) <= 2018:
+                print("년도는 1900과 금년 사이여야 합니다.")
+                raise Exception()
+
+            if not int(startYear) <= int(endYear):
+                print("검색 기간이 올바르지 않습니다.")
+                raise Exception()
+            if gubun != "TI" and gubun != "AU" and gubun != "DO":
+                print("%s는 유효하지 않은 구분입니다." % (gubun))
+                raise Exception()
+
+            if not os.path.exists(inputFilePath):
+                print("인풋 파일의 경로가 존재하지 않습니다.")
+                raise Exception()
+
+            if not os.path.isdir(outputLocationPath):
+                print("아웃풋 디렉토리의 경로가 존재하지 않거나 디렉토리가 아닙니다.")
+                raise Exception()
+
+        except Exception as e:
+            print(e)
+            return
+
+        if self.wos == None: self.wos = WosUserInterface()
+
+        self.wos.run(
+            startYear=self.startYear,
+            endYear=self.endYear,
+            gubun=self.gubun,
+            inputFilePath=self.inputFilePath,
+            outputLocationPath=self.outputLocationPath,
+            defaultQueryPackSize=self.defaultQueryPackSize
+        )
+
+        self.refreshWOS()
+
+    def refreshWOS(self):
+        self.wos = WosUserInterface(
+            SID=self.wos.SID,
+            jsessionid=self.wos.jsessionid)
+
+    def close(master):
+        master.quit()
+        master.destroy()
+
+
+def main():
+    root = Tk()
+    root.geometry("600x300")
+    MyFrame(root)
+    root.mainloop()
+    # input form 전달
+
+    # radio button .get 이랑, 검색어, start year이랑 end year
+
+
+if __name__ == '__main__':
+    main()

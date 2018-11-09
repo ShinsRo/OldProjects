@@ -108,7 +108,7 @@ class WosUserInterface():
                 url = self.baseUrl + his.a["href"]
                 job = Process(
                     target=processClass.getWOSExcelProcess,
-                    args=(idx, url, totalMarked, mark, returnDict)
+                    args=(idx, url, totalMarked, mark, outputLocationPath, returnDict)
                 )
                 jobs.append(job)
                 job.start()
