@@ -6,6 +6,6 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../s
 
 from wos_as_interface import WosUserInterface
 from supports.state import State
+from supports.constant import *
 from core.processes import WosProcess
 from models.entities import ResponseEntity
-from constants._CONSTANT import *

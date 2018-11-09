@@ -25,7 +25,7 @@ class _STATE:
         self.WAIT_INPUT = "입력을 기다립니다."
         self.WAIT_PROCESS = "처리를 기다립니다."
         
-STATE = _STATE()
+STATE_MSG = _STATE()
 
 class _ERR_GEN:
     """
@@ -36,9 +36,7 @@ class _ERR_GEN:
         self.INVALID_INPUT = "올바르지 않는 입력입니다."
         self.MSG003 = ""
         self.MSG004 = ""
-ERR_GEN = _ERR_GEN()
-
-
+ERR_GEN_MSG = _ERR_GEN()
 
 class _ERR_FIL:
     """
@@ -47,7 +45,7 @@ class _ERR_FIL:
     def __init__(self):
         self.INVALID_PATH = "파일 경로가 올바르지 않습니다."
         self.FILE_NOT_FOUND = "파일이 존재하지 않습니다."
-ERR_FIL = _ERR_FIL()
+ERR_FIL_MSG = _ERR_FIL()
 
 class _ERR_QRY:
     """
@@ -55,7 +53,7 @@ class _ERR_QRY:
     def __init__(self):
         self.MAXIMUM = "10000"
         self.TO_MANY = "쿼리 결과가 %s개 이상입니다. 회당 쿼리 갯수를 조절해주세요."%self.MAXIMUM
-ERR_QRY = _ERR_QRY()
+ERR_QRY_MSG = _ERR_QRY()
 
 class _ERR_HTP:
     """
@@ -63,4 +61,4 @@ class _ERR_HTP:
     def __init__(self):
         self.CONNECT = "인터넷 연결에 실패했습니다."
         self.GET = ""
-ERR_HTP = _ERR_HTP()
+ERR_HTP_MSG = _ERR_HTP()
