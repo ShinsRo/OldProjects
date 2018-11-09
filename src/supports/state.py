@@ -1,8 +1,11 @@
+import logging
+
 class State:
-    def __init__(self):
+    def __init__(self, newLoggerName):
         self.state = "init"
         self.stateMSG = ""
         self.errMSG = ""
+        self.newLoggerName = newLoggerName
     
     def getState(self):
         return self.state, self.stateMSG
@@ -19,8 +22,10 @@ class State:
 
     def printState(self):
         print('[state %s] %s'%(self.state, self.stateMSG))
+        msg = '[state %s] %s'%(self.state, self.stateMSG)
+        logging.getLogger(self.newLoggerName).info(msg)
 
     def printAndSetState(self, state, stateMSG):
-        self.setState(state, stateMSG)
-        self.printState()
+            self.setState(state, stateMSG)
+            self.printState()
 

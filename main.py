@@ -5,9 +5,39 @@ from tkinter import *
 from tkinter.ttk import *
 from tkinter import filedialog
 
+import time
+import threading
+import logging
+
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
 
 from wos_as_interface import WosUserInterface
+
+try:
+    import tkinter.scrolledtext as ScrolledText
+except ImportError:
+    import ScrolledText
+
+class TextHandler(logging.Handler):
+    # This class allows you to log to a Tkinter Text or ScrolledText widget
+    # Adapted from Moshe Kaplan: https://gist.github.com/moshekaplan/c425f861de7bbf28ef06
+
+    def __init__(self, text):
+        # run the regular Handler __init__
+        logging.Handler.__init__(self)
+        # Store a reference to the Text it will log to
+        self.text = text
+
+    def emit(self, record):
+        msg = self.format(record)
+        def append():
+            self.text.configure(state='normal')
+            self.text.insert(END, msg + '\n')
+            self.text.configure(state='disabled')
+            # Autoscroll to the bottom
+            self.text.yview(END)
+        # This is necessary because we can't modify the Text from other threads
+        self.text.after(0, append)
 
 class MyFrame(Frame):
     def __init__(self, master):
@@ -16,6 +46,7 @@ class MyFrame(Frame):
         self.master = master
         self.master.title("논문 정보 조회 프로그램")
         self.pack(fill=BOTH, expand=True)
+        #self.build_gui()
 
         # --------------변수-----------
         self.startYear = None
@@ -24,10 +55,13 @@ class MyFrame(Frame):
         self.inputFilePath = None
         self.outputLocationPath = None
         self.defaultQueryPackSize = 0
+        self.newLoggerName = 0
         self.wos = None
 
         self.entryStartYear=Entry()
         self.entryEndYear=Entry()
+
+
 
         # --------------------------옵션 프레임------------------------------
 
@@ -157,6 +191,7 @@ class MyFrame(Frame):
         btnExecute = Button(frame4, text="실행" ,command=self.execute)
         btnExecute.pack(side=RIGHT, padx=20, pady=10)
 
+
     def execute(self):
         self.startYear = self.entryStartYear.get()
         self.endYear = self.entryEndYear.get()
@@ -205,20 +240,50 @@ class MyFrame(Frame):
             print(e)
             return
 
-        if self.wos == None: self.wos = WosUserInterface()
+        # if self.wos == None: self.wos = WosUserInterface()
+        #
+        # self.wos.run(
+        #     startYear=self.startYear,
+        #     endYear=self.endYear,
+        #     gubun=self.gubun,
+        #     inputFilePath=self.inputFilePath,
+        #     outputLocationPath=self.outputLocationPath,
+        #     defaultQueryPackSize=self.defaultQueryPackSize
+        # )
 
-        self.wos.run(
-            startYear=self.startYear,
-            endYear=self.endYear,
-            gubun=self.gubun,
-            inputFilePath=self.inputFilePath,
-            outputLocationPath=self.outputLocationPath,
-            defaultQueryPackSize=self.defaultQueryPackSize
-        )
+        root = Tk()
+        root.geometry("600x300")
+        myGUI(root, str(self.newLoggerName))
+        
+        t1 = threading.Thread(target=self.runWOS, args=[
+            self.startYear,
+            self.endYear,
+            self.gubun,
+            self.inputFilePath,
+            self.outputLocationPath,
+            self.defaultQueryPackSize,
+            str(self.newLoggerName)
+        ])
+        self.newLoggerName += 1
+        t1.start()
+
+        root.mainloop()
+        t1.join()
         """
             수정
         """
         self.refreshWOS()
+
+    def runWOS(self, startYear, endYear, gubun, inputFilePath, outputLocationPath, defaultQueryPackSize, newLoggerName):
+        wos = WosUserInterface(newLoggerName=newLoggerName)
+        wos.run(
+            startYear=startYear,
+            endYear=endYear,
+            gubun=gubun,
+            inputFilePath=inputFilePath,
+            outputLocationPath=outputLocationPath,
+            defaultQueryPackSize=defaultQueryPackSize
+        )
 
     def refreshWOS(self):
         self.wos = WosUserInterface(
@@ -230,11 +295,79 @@ class MyFrame(Frame):
         master.destroy()
 
 
+class myGUI(Frame):
+
+    # This class defines the graphical user interface
+
+    def __init__(self, parent, name):
+        Frame.__init__(self, parent)
+        self.root = parent
+        self.name = name
+        self.build_gui()
+
+    def build_gui(self):
+        # Build GUI
+        self.root.title('TEST')
+        self.root.option_add('*tearOff', 'FALSE')
+        self.grid(column=0, row=1, sticky='ew')
+        self.grid_columnconfigure(0, weight=1, uniform='a')
+        self.grid_columnconfigure(1, weight=1, uniform='a')
+        self.grid_columnconfigure(2, weight=1, uniform='a')
+        self.grid_columnconfigure(3, weight=1, uniform='a')
+
+        # Add text widget to display logging info
+        st = ScrolledText.ScrolledText(self, state='disabled')
+        st.configure(font='TkFixedFont')
+        st.grid(column=0, row=1, sticky='w', columnspan=4)
+
+        # Create textLogger
+        text_handler = TextHandler(st)
+
+        # Logging configuration
+        logging.basicConfig(filename='test.log',
+                            level=logging.INFO,
+                            format='%(asctime)s - %(levelname)s - %(message)s')
+
+        # Add the handler to logger
+        logger = logging.getLogger(self.name)
+        logger.addHandler(text_handler)
+
+
+
+class TextHandler(logging.Handler):
+    # This class allows you to log to a Tkinter Text or ScrolledText widget
+    # Adapted from Moshe Kaplan: https://gist.github.com/moshekaplan/c425f861de7bbf28ef06
+
+    def __init__(self, text):
+        # run the regular Handler __init__
+        logging.Handler.__init__(self)
+        # Store a reference to the Text it will log to
+        self.text = text
+
+    def emit(self, record):
+        msg = self.format(record)
+        def append():
+            self.text.configure(state='normal')
+            self.text.insert(END, msg + '\n')
+            self.text.configure(state='disabled')
+            # Autoscroll to the bottom
+            self.text.yview(END)
+        # This is necessary because we can't modify the Text from other threads
+        self.text.after(0, append)
+
 def main():
     root = Tk()
     root.geometry("600x300")
     MyFrame(root)
+
+
+    #t1 = threading.Thread(target=worker, args=[])
+    #t1.start()
+
+
+
     root.mainloop()
+    #t1.join()
     # input form 전달
 
     # radio button .get 이랑, 검색어, start year이랑 end year

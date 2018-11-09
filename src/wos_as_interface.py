@@ -1,17 +1,18 @@
 from dependencies import *
 
 class WosUserInterface():
-    def __init__(self, SID=None, jsessionid=None):
+    def __init__(self, SID=None, jsessionid=None, newLoggerName=None):
         """
         __init__
             세션 검증에 필요한 SID값과 jsessionid 값을 얻습니다.
             브라우저를 초기화하고 WOS의 AdvancedSearch 서비스에 접속합니다.
             run 메서드를 대기합니다.
         """
+
         if SID==None or jsessionid==None:
             self.RSNO = 0
             self.baseUrl = "http://apps.webofknowledge.com"
-            self.state = State()
+            self.state = State(newLoggerName)
             self.state.printAndSetState(state="0000", stateMSG="SID와 jsessionid 값을 얻습니다.")
 
             self.browser = RoboBrowser(history=True, parser="lxml")
@@ -24,7 +25,7 @@ class WosUserInterface():
             self.state.printAndSetState(state="0002", stateMSG="jsessionid : %s"%self.jsessionid)
             self.state.printAndSetState(state="0200", stateMSG="질의를 시작할 수 있습니다.")
         else:
-            self.state = State()
+            self.state = State(newLoggerName)
             self.state.printAndSetState(state="0000", stateMSG="기존 세션 값으로 인터페이스를 초기화합니다.")
             self.SID = SID
             self.jsessionid = jsessionid
