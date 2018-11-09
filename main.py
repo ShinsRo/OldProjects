@@ -206,7 +206,9 @@ class MyFrame(Frame):
             outputLocationPath=self.outputLocationPath,
             defaultQueryPackSize=self.defaultQueryPackSize
         )
-
+        """
+            수정
+        """
         self.refreshWOS()
 
     def refreshWOS(self):
