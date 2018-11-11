@@ -80,6 +80,7 @@ class WosUserInterface():
 
         jobs = []
         processes = []
+        # processManager = psm
         processManager = Manager()
         returnDict = processManager.dict()
         for idx, his in enumerate(historyResults):
@@ -115,7 +116,7 @@ class WosUserInterface():
                 url = self.baseUrl + his.a["href"]
                 job = Process(
                     target=processClass.getWOSExcelProcess,
-                    args=(jdx*10 + idx, url, totalMarked, mark, outputLocationPath, returnDict, self.loggerID)
+                    args=((jdx*10 + idx), url, totalMarked, mark, outputLocationPath, returnDict, self.loggerID)
                 )
                 jdx += 1
                 jobs.append(job)
@@ -137,8 +138,8 @@ class WosUserInterface():
         notFoundList = []
         resString = " ".join(resPD[header])
         for word in words:
-            if not bool(re.search(word, resString)):
-                notFoundList.add(word)
+            if not bool(re.search(word, resString, re.IGNORECASE)):
+                notFoundList.append(word)
 
         notFoundDF = pd.DataFrame({
             header: notFoundList

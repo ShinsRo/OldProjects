@@ -14,7 +14,7 @@ class WosProcess():
     def getWOSExcelProcess(self, idx, url, totalMarked, mark, outputLocationPath, returnDict, loggerID):
         self.procName = current_process().name
         procName = self.procName
-
+        print("왜 이러는거야")
         browser = RoboBrowser(history=True, parser="lxml")
 
         browser.open(url)

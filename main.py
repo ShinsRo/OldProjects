@@ -10,6 +10,7 @@ from tkinter import messagebox
 import time
 import threading
 import logging
+import multiprocessing
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
 
@@ -42,7 +43,7 @@ class MainFrame(Frame):
         self.master = master
         self.master.title("논문 정보 조회 프로그램")
         self.pack(fill=BOTH, expand=True)
-
+        
         # --------------변수-----------
         self.startYear = None
         self.endYear = None
@@ -219,10 +220,10 @@ class MainFrame(Frame):
         root.geometry("600x300")
 
         self.nextLoggerID = os.path.basename(inputFilePath)
-        self.processingID = ".%032x"%random.getrandbits(128)
-        self.nextLoggerID += self.processingID
+        self.processingID = "%032x"%random.getrandbits(128)
+        self.nextLoggerID += "." + self.processingID
         StateFrame(root, self.nextLoggerID)
-        print()        
+
         t1 = threading.Thread(target=self.runWOS, args=[
             self.startYear,
             self.endYear,
@@ -240,6 +241,7 @@ class MainFrame(Frame):
         self.refreshWOS()
 
     def runWOS(self, startYear, endYear, gubun, inputFilePath, outputLocationPath, defaultQueryPackSize, nextLoggerID):
+
         wos = WosUserInterface(loggerID=nextLoggerID)
         wos.run(
             startYear=startYear,
@@ -287,7 +289,8 @@ class StateFrame(Frame):
         text_handler = TextHandler(st)
 
         # Logging configuration
-        logging.basicConfig(filename='test.log',
+        handler = logging.FileHandler(filename="log.log", mode="w", encoding="utf-8")
+        logging.basicConfig(handlers=[handler],
                             level=logging.INFO,
                             format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -295,11 +298,11 @@ class StateFrame(Frame):
         logger = logging.getLogger(self.name)
         logger.addHandler(text_handler)
 
-def main():
+if __name__ == '__main__':
     root = Tk()
     root.geometry("600x300")
+    # psm = multiprocessing.Manager()
+    # print(psm)
+    # MainFrame(root, psm)
     MainFrame(root)
     root.mainloop()
-
-if __name__ == '__main__':
-    main()
