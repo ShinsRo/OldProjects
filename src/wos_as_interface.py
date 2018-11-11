@@ -1,4 +1,5 @@
 from dependencies import *
+import threading
 
 class WosUserInterface():
     def __init__(self, SID=None, jsessionid=None, loggerID=None):
@@ -78,11 +79,16 @@ class WosUserInterface():
         historyResults = browser.select('div.historyResults')
         historyResultsLen = len(historyResults)  
 
-        jobs = []
-        processes = []
-        # processManager = psm
-        processManager = Manager()
-        returnDict = processManager.dict()
+        # jobs = []
+        # processes = []
+        # # processManager = psm
+        # processManager = Manager()
+        # returnDict = processManager.dict()
+        threads = []
+        threadClasses = []
+        returnDict = {}
+        # print(returnDict)
+        # print(id(returnDict))
         for idx, his in enumerate(historyResults):
             totalMarked = his.a.text.replace(",", "")
 
@@ -109,20 +115,28 @@ class WosUserInterface():
                 state.printAndSetState(
                     state="1300", 
                     stateMSG="%s개의 레코드 중 %d번 레코드부터 레코드를 가져옵니다."%(totalMarked, mark))
-                
-                processClass = WosProcess(self.SID, self.jsessionid, self.baseUrl)
-                processes.append(processClass)
+                threadClass = WosProcess(self.SID, self.jsessionid, self.baseUrl)
+                threadClasses.append(threadClass)
+                # processClass = WosProcess(self.SID, self.jsessionid, self.baseUrl)
+                # processes.append(processClass)
 
                 url = self.baseUrl + his.a["href"]
-                job = Process(
-                    target=processClass.getWOSExcelProcess,
+                # job = Process(
+                #     target=processClass.getWOSExcelProcess,
+                #     args=((jdx*10 + idx), url, totalMarked, mark, outputLocationPath, returnDict, self.loggerID)
+                # )
+                # jobs.append(job)
+                # job.start()
+                thread = threading.Thread(
+                    target=threadClass.getWOSExcelProcess,
                     args=((jdx*10 + idx), url, totalMarked, mark, outputLocationPath, returnDict, self.loggerID)
                 )
+                threads.append(thread)
                 jdx += 1
-                jobs.append(job)
-                job.start()
+                thread.start()
 
-        for job in jobs: job.join()
+        # for job in jobs: job.join()
+        for thread in threads: thread.join()
         
         resPD = pd.concat(returnDict.values())
         state.printAndSetState(

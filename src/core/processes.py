@@ -1,6 +1,7 @@
-from multiprocessing import current_process
+# from multiprocessing import current_process
 from robobrowser import RoboBrowser
 import pandas as pd
+import threading
 import requests
 import os
 
@@ -12,9 +13,12 @@ class WosProcess():
         self.processData = ""
 
     def getWOSExcelProcess(self, idx, url, totalMarked, mark, outputLocationPath, returnDict, loggerID):
-        self.procName = current_process().name
+        # self.procName = current_process().name
+        self.procName = threading.get_ident()
         procName = self.procName
-        print("왜 이러는거야")
+
+        print(returnDict)
+        print(id(returnDict))
         browser = RoboBrowser(history=True, parser="lxml")
 
         browser.open(url)
