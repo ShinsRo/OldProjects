@@ -1,6 +1,8 @@
 from multiprocessing import current_process
 from robobrowser import RoboBrowser
+import pandas as pd
 import requests
+import os
 
 class WosProcess():
     def __init__(self, SID, jsessionid, baseUrl):
@@ -9,7 +11,7 @@ class WosProcess():
         self.jsessionid = jsessionid
         self.processData = ""
 
-    def getWOSExcelProcess(self, idx, url, totalMarked, mark, outputLocationPath, returnDict):
+    def getWOSExcelProcess(self, idx, url, totalMarked, mark, outputLocationPath, returnDict, loggerID):
         self.procName = current_process().name
         procName = self.procName
 
@@ -17,10 +19,8 @@ class WosProcess():
 
         browser.open(url)
         reportLink = browser.select("a.citation-report-summary-link")
-        # print(reportLink)
 
         browser.follow_link(reportLink[0])
-        # print(browser.get_form(id='summary_records_form'))
 
         summary_records_form = browser.get_form(id='summary_records_form')
         qid = summary_records_form['qid'].value
@@ -125,14 +125,19 @@ class WosProcess():
         ExcelActionURL += ExcelParam
 
         res = requests.get(ExcelActionURL)
-        resStr = res.text
+        # resStr = res.text
+        # resStr.encode(encoding="utf-8")
 
-        ofileName = "/{0}{1}_excel_rs.xls".format(self.procName, idx)
-        with open(outputLocationPath + ofileName, "wb") as rsFile:
+        ofileName = "{0}_검색결과_{1}.xls".format(loggerID.split('.')[0], idx)
+        while(os.path.exists(outputLocationPath + "/" + ofileName)):
+            ofileName = "_" + ofileName
+
+        with open(outputLocationPath + "/" + ofileName, "wb") as rsFile:
             rsFile.write(res.content)
             rsFile.close()
-
+        resPD = pd.read_excel(outputLocationPath + "/" + ofileName, header=26)
+        os.remove(outputLocationPath + "/" + ofileName)
+        
         print(procName, "프로세스 종료")
-        returnDict[procName] = resStr
-        # self.resultQueue.put((resStr))
+        returnDict[procName] = resPD
         return

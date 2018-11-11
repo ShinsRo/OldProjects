@@ -3,6 +3,8 @@ import sys
 import time
 import requests
 import pandas as pd
+import xlwt
+import re
 
 from bs4 import BeautifulSoup
 from robobrowser import RoboBrowser

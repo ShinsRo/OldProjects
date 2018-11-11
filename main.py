@@ -1,9 +1,11 @@
 import os
 import sys
+import random
 
 from tkinter import *
 from tkinter.ttk import *
 from tkinter import filedialog
+from tkinter import messagebox
 
 import time
 import threading
@@ -12,20 +14,15 @@ import logging
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
 
 from wos_as_interface import WosUserInterface
-
 try:
     import tkinter.scrolledtext as ScrolledText
 except ImportError:
     import ScrolledText
 
 class TextHandler(logging.Handler):
-    # This class allows you to log to a Tkinter Text or ScrolledText widget
-    # Adapted from Moshe Kaplan: https://gist.github.com/moshekaplan/c425f861de7bbf28ef06
 
     def __init__(self, text):
-        # run the regular Handler __init__
         logging.Handler.__init__(self)
-        # Store a reference to the Text it will log to
         self.text = text
 
     def emit(self, record):
@@ -34,19 +31,17 @@ class TextHandler(logging.Handler):
             self.text.configure(state='normal')
             self.text.insert(END, msg + '\n')
             self.text.configure(state='disabled')
-            # Autoscroll to the bottom
             self.text.yview(END)
-        # This is necessary because we can't modify the Text from other threads
+
         self.text.after(0, append)
 
-class MyFrame(Frame):
+class MainFrame(Frame):
     def __init__(self, master):
         Frame.__init__(self, master)
 
         self.master = master
         self.master.title("논문 정보 조회 프로그램")
         self.pack(fill=BOTH, expand=True)
-        #self.build_gui()
 
         # --------------변수-----------
         self.startYear = None
@@ -55,16 +50,14 @@ class MyFrame(Frame):
         self.inputFilePath = None
         self.outputLocationPath = None
         self.defaultQueryPackSize = 0
-        self.newLoggerName = 0
+        self.nextLoggerID = 0
+        self.processingID = ""
         self.wos = None
 
         self.entryStartYear=Entry()
         self.entryEndYear=Entry()
 
-
-
         # --------------------------옵션 프레임------------------------------
-
         frame_searchopt = Frame(self)
         frame_searchopt.pack(fill=X)
 
@@ -111,22 +104,17 @@ class MyFrame(Frame):
         label = Label(frame_period, text="   ex) 2012 ~ 2017")
         label.pack(side=LEFT)
 
-
-
         # -------------------------파일 경로 프레임--------------------------
         #filePathPrame1 : input
         #fildPathPrame2 : output
 
         def selectinputpath():
-            #self.inputFilePath = filedialog.askdirectory()
             self.inputFilePath=filedialog.askopenfilename(initialdir="C:/", title="choose your file")
-            #entryinput_path.setvar(str(self.inputFilePath))
             label_checkInputPath.config(text= self.inputFilePath)
             print("입력 파일 경로 : ", self.inputFilePath)
 
         def selectoutputpath():
             self.outputLocationPath = filedialog.askdirectory()
-            #entryoutput_path.setvar(str(self.outputLocationPath))
             label_checkOutputPath.config(text=self.outputLocationPath)
             print("다운받을 폴더 경로 :",self.outputLocationPath)
 
@@ -136,53 +124,26 @@ class MyFrame(Frame):
         # 인풋 파일 경로---------------------------------------------------------------------------------------------------
         input_path = Label(filepathFrame1, text="입력 파일 경로", width=20)
         input_path.pack(side=LEFT, padx=20, pady=10)
-        '''
-        entryinput_path = Entry(filepathFrame1, width=50)
-        entryinput_path.pack(side=LEFT, padx=0)
-        '''
+
         label_checkInputPath = Label(filepathFrame1, text="",background="white",width=50)
         label_checkInputPath.pack(side=LEFT)
-
 
         # 파일경로찾기 버튼
         btninputSearch = Button(filepathFrame1, text="...", width=3,state="normal" ,command=selectinputpath)
         btninputSearch.pack(side=RIGHT, padx=10, pady=10)
 
         # 아웃풋 파일 경로----------------------------------------------------------------------------------------------------
-
         filepathFrame2 = Frame(self)
         filepathFrame2.pack(fill=X)
 
         output_path = Label(filepathFrame2, text="다운받을 폴더 경로", width=20)
         output_path.pack(side=LEFT, padx=20, pady=10)
 
-        '''
-        entryoutput_path = Entry(filepathFrame2, width=50)
-        entryoutput_path.pack(side=LEFT, padx=0, )
-        '''
-
         label_checkOutputPath = Label(filepathFrame2, text="",background="white" , width=50)
         label_checkOutputPath.pack(side=LEFT)
 
-        # entryoutput_path.insert(0,self.outputLocationPath)
-        # 파일경로찾기 버튼
-
-        # btnoutputSearch = Button(filepathFrame2, text="...", command=selectinputpath(self.outputLocationPath), width=3)
         btnoutputSearch = Button(filepathFrame2, text="...", width=3,state="normal",command=selectoutputpath)
         btnoutputSearch.pack(side=RIGHT, padx=10, pady=10)
-
-        '''
-        #검색 옵션
-        frame_searchOpt = Frame(self)
-        frame_searchOpt.pack(fill=X)
-
-        values = ['논문명','저자','DOI']
-
-        #combobox = Combobox(frame_searchOpt,width=15, height=10, values=values,exportselection=False, postcommand=self.inputPaperName())
-        combobox = Combobox(frame_searchOpt, width=15, height=10, values=values, exportselection=False)
-        combobox.pack(side=LEFT, padx=20, pady=10)
-        combobox.set("검색 옵션")
-        '''
 
 
         # 실행 버튼
@@ -207,54 +168,61 @@ class MyFrame(Frame):
         gubun = self.gubun
         inputFilePath = self.inputFilePath
         outputLocationPath = self.outputLocationPath
-
+        errMSG = ""
         try:
             if len(startYear) != 4 or len(endYear) != 4:
-                print("입력 형식이 올바르지 않습니다.")
+                errMSG = "입력 형식이 올바르지 않습니다."
+                print(errMSG)
                 raise Exception()
 
             if not 1900 <= int(startYear) <= 2018:
-                print("년도는 1900과 금년 사이여야 합니다.")
+                errMSG = "년도는 1900과 금년 사이여야 합니다."
+                print(errMSG)
                 raise Exception()
 
             if not 1900 <= int(endYear) <= 2018:
-                print("년도는 1900과 금년 사이여야 합니다.")
+                errMSG = "년도는 1900과 금년 사이여야 합니다."
+                print(errMSG)
                 raise Exception()
 
             if not int(startYear) <= int(endYear):
-                print("검색 기간이 올바르지 않습니다.")
+                errMSG = "검색 기간이 올바르지 않습니다."
+                print(errMSG)
                 raise Exception()
             if gubun != "TI" and gubun != "AU" and gubun != "DO":
-                print("%s는 유효하지 않은 구분입니다." % (gubun))
+                errMSG = "%s는 유효하지 않은 구분입니다." % (gubun)
+                print(errMSG)
                 raise Exception()
 
             if not os.path.exists(inputFilePath):
-                print("인풋 파일의 경로가 존재하지 않습니다.")
+                errMSG = "인풋 파일의 경로가 존재하지 않습니다."
+                print(errMSG)
                 raise Exception()
 
             if not os.path.isdir(outputLocationPath):
-                print("아웃풋 디렉토리의 경로가 존재하지 않거나 디렉토리가 아닙니다.")
+                errMSG = "아웃풋 디렉토리의 경로가 존재하지 않거나 디렉토리가 아닙니다."
+                print(errMSG)
+                raise Exception()
+
+            fname, ext = os.path.splitext(inputFilePath)
+            if not (ext == '.csv' or ext == ".xls" or ext == ".xlsx"):
+                errMSG = "인풋 파일의 형식이 올바르지 않습니다."
+                print(errMSG)
                 raise Exception()
 
         except Exception as e:
+            messagebox.showinfo("Error", errMSG)
             print(e)
             return
 
-        # if self.wos == None: self.wos = WosUserInterface()
-        #
-        # self.wos.run(
-        #     startYear=self.startYear,
-        #     endYear=self.endYear,
-        #     gubun=self.gubun,
-        #     inputFilePath=self.inputFilePath,
-        #     outputLocationPath=self.outputLocationPath,
-        #     defaultQueryPackSize=self.defaultQueryPackSize
-        # )
-
         root = Tk()
         root.geometry("600x300")
-        myGUI(root, str(self.newLoggerName))
-        
+
+        self.nextLoggerID = os.path.basename(inputFilePath)
+        self.processingID = ".%032x"%random.getrandbits(128)
+        self.nextLoggerID += self.processingID
+        StateFrame(root, self.nextLoggerID)
+        print()        
         t1 = threading.Thread(target=self.runWOS, args=[
             self.startYear,
             self.endYear,
@@ -262,20 +230,17 @@ class MyFrame(Frame):
             self.inputFilePath,
             self.outputLocationPath,
             self.defaultQueryPackSize,
-            str(self.newLoggerName)
+            self.nextLoggerID
         ])
-        self.newLoggerName += 1
         t1.start()
 
         root.mainloop()
         t1.join()
-        """
-            수정
-        """
+        
         self.refreshWOS()
 
-    def runWOS(self, startYear, endYear, gubun, inputFilePath, outputLocationPath, defaultQueryPackSize, newLoggerName):
-        wos = WosUserInterface(newLoggerName=newLoggerName)
+    def runWOS(self, startYear, endYear, gubun, inputFilePath, outputLocationPath, defaultQueryPackSize, nextLoggerID):
+        wos = WosUserInterface(loggerID=nextLoggerID)
         wos.run(
             startYear=startYear,
             endYear=endYear,
@@ -295,9 +260,7 @@ class MyFrame(Frame):
         master.destroy()
 
 
-class myGUI(Frame):
-
-    # This class defines the graphical user interface
+class StateFrame(Frame):
 
     def __init__(self, parent, name):
         Frame.__init__(self, parent)
@@ -307,7 +270,7 @@ class myGUI(Frame):
 
     def build_gui(self):
         # Build GUI
-        self.root.title('TEST')
+        self.root.title('%s 파일 처리 상태'%".".join(self.name.split('.')[:1]))
         self.root.option_add('*tearOff', 'FALSE')
         self.grid(column=0, row=1, sticky='ew')
         self.grid_columnconfigure(0, weight=1, uniform='a')
@@ -332,46 +295,11 @@ class myGUI(Frame):
         logger = logging.getLogger(self.name)
         logger.addHandler(text_handler)
 
-
-
-class TextHandler(logging.Handler):
-    # This class allows you to log to a Tkinter Text or ScrolledText widget
-    # Adapted from Moshe Kaplan: https://gist.github.com/moshekaplan/c425f861de7bbf28ef06
-
-    def __init__(self, text):
-        # run the regular Handler __init__
-        logging.Handler.__init__(self)
-        # Store a reference to the Text it will log to
-        self.text = text
-
-    def emit(self, record):
-        msg = self.format(record)
-        def append():
-            self.text.configure(state='normal')
-            self.text.insert(END, msg + '\n')
-            self.text.configure(state='disabled')
-            # Autoscroll to the bottom
-            self.text.yview(END)
-        # This is necessary because we can't modify the Text from other threads
-        self.text.after(0, append)
-
 def main():
     root = Tk()
     root.geometry("600x300")
-    MyFrame(root)
-
-
-    #t1 = threading.Thread(target=worker, args=[])
-    #t1.start()
-
-
-
+    MainFrame(root)
     root.mainloop()
-    #t1.join()
-    # input form 전달
-
-    # radio button .get 이랑, 검색어, start year이랑 end year
-
 
 if __name__ == '__main__':
     main()

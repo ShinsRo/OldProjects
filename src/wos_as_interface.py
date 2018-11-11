@@ -1,19 +1,19 @@
 from dependencies import *
 
 class WosUserInterface():
-    def __init__(self, SID=None, jsessionid=None, newLoggerName=None):
+    def __init__(self, SID=None, jsessionid=None, loggerID=None):
         """
         __init__
             세션 검증에 필요한 SID값과 jsessionid 값을 얻습니다.
             브라우저를 초기화하고 WOS의 AdvancedSearch 서비스에 접속합니다.
             run 메서드를 대기합니다.
         """
-
+        self.loggerID = loggerID
         if SID==None or jsessionid==None:
             self.RSNO = 0
             self.baseUrl = "http://apps.webofknowledge.com"
-            self.state = State(newLoggerName)
-            self.state.printAndSetState(state="0000", stateMSG="SID와 jsessionid 값을 얻습니다.")
+            self.state = State(loggerID)
+            self.state.printAndSetState(state="0000", stateMSG="SID와 jsessionid 값을 얻습니다. 이 작업은 다소 시간이 소요됩니다.")
 
             self.browser = RoboBrowser(history=True, parser="lxml")
             self.browser.open(self.baseUrl)
@@ -25,7 +25,7 @@ class WosUserInterface():
             self.state.printAndSetState(state="0002", stateMSG="jsessionid : %s"%self.jsessionid)
             self.state.printAndSetState(state="0200", stateMSG="질의를 시작할 수 있습니다.")
         else:
-            self.state = State(newLoggerName)
+            self.state = State(loggerID)
             self.state.printAndSetState(state="0000", stateMSG="기존 세션 값으로 인터페이스를 초기화합니다.")
             self.SID = SID
             self.jsessionid = jsessionid
@@ -39,6 +39,7 @@ class WosUserInterface():
     def run(self, startYear, endYear, gubun, inputFilePath, outputLocationPath, defaultQueryPackSize):
         state = self.state
         browser = self.browser
+
         state.printAndSetState(
             state="1001", 
             stateMSG="WOS AdvancedSearch를 시작합니다.")
@@ -89,15 +90,20 @@ class WosUserInterface():
                     resCode=400, 
                     rsMsg="쿼리 결과가 10000개 이상입니다. 회당 쿼리 갯수를 조절해 주세요.",
                     payload={"qeury":words, "result":"", "totalMarked":totalMarked})
-                state.setErrMSG(errMSG="쿼리 결과가 10000개 이상입니다. 회당 쿼리 갯수를 조절해 주세요.")
+                errMSG="쿼리 결과가 10000개 이상입니다. 회당 쿼리 갯수를 조절해 주세요."
+                state.setErrMSG(errMSG=errMSG)
                 # raise 익셉션 정의 필요
 
+                state.printAndSetState(
+                    state="-100",
+                    stateMSG=errMSG
+                )
                 return responseToUI.returnResponse()
 
             state.printAndSetState(
                 state="1200", 
                 stateMSG="쿼리 결과의 엑셀 데이터를 가져옵니다. %d/%d"%(idx+1, historyResultsLen))
-            
+            jdx = 1
             for mark in range(1, int(totalMarked), 500):
                 state.printAndSetState(
                     state="1300", 
@@ -109,42 +115,75 @@ class WosUserInterface():
                 url = self.baseUrl + his.a["href"]
                 job = Process(
                     target=processClass.getWOSExcelProcess,
-                    args=(idx, url, totalMarked, mark, outputLocationPath, returnDict)
+                    args=(jdx*10 + idx, url, totalMarked, mark, outputLocationPath, returnDict, self.loggerID)
                 )
+                jdx += 1
                 jobs.append(job)
                 job.start()
 
         for job in jobs: job.join()
         
-        resStr = " ".join(returnDict.values())
-        notFound = list(map(lambda x: [x, False], words))
+        resPD = pd.concat(returnDict.values())
+        state.printAndSetState(
+            state="1400", 
+            stateMSG="검색에 실패한 항목을 조사합니다.")
 
-        for idx, word in enumerate(notFound):
-            notFound[idx][1] = ( -1 == resStr.find(word[0]) )
-
-        # with open(outputLocationPath + "failed.txt", "w+") as failedListFile:
-        #     for word in notFound:
-        #         if word[1] == True:
-        #             failedListFile.write(word[0] + " => search results : none\n")
-
+        header = ""
+        if gubun == "TI": header = "Title"
+        elif gubun == "AU": header = "Authors"
+        elif gubun == "DO": header = "DOI"
+        else: pass
         
+        notFoundList = []
+        resString = " ".join(resPD[header])
+        for word in words:
+            if not bool(re.search(word, resString)):
+                notFoundList.add(word)
+
+        notFoundDF = pd.DataFrame({
+            header: notFoundList
+        })
+
+        temp = self.loggerID.split('.')[0] + "_all_succeed.xls"
+        successResultFile = outputLocationPath + "/" + temp
+        while(os.path.exists(successResultFile)):
+            temp = "_" + temp
+            successResultFile = outputLocationPath + "/" + temp
+
+        excelWriter = pd.ExcelWriter(successResultFile)
+        resPD.to_excel(excelWriter, '전체 검색 결과')
+        excelWriter.save()
+
+        temp = self.loggerID.split('.')[0] + "_failed.xls"
+        failedResultFile = outputLocationPath + "/" + temp
+        while(os.path.exists(failedResultFile)):
+            temp = "_" + temp
+            failedResultFile = outputLocationPath + "/" + temp
+
+        excelWriter = pd.ExcelWriter(failedResultFile)
+        notFoundDF.to_excel(excelWriter, '전체 검색 실패 결과')
+        excelWriter.save()
 
         responseToUI = ResponseEntity(
             resCode=200, 
-            rsMsg="데이터를 성공적으로 전송했습니다.",
+            rsMsg="데이터를 성공적으로 처리했습니다.",
             payload={
                 "qeury":words, 
                 "resultFilePath":outputLocationPath, 
-                "notFound":[word[0] for word in notFound if word[1]],
+                "notFoundList": notFoundList,
                 "state":self.state
                 }
             )
         
         state.printAndSetState(
-            state="21000",
-            stateMSG="작업 완료"
-            )
-        return responseToUI.returnResponse()
+            state="2000",
+            stateMSG="데이터를 성공적으로 처리했습니다."
+        )
+        state.printAndSetState(
+            state="2000",
+            stateMSG="검색결과가 없는 항목은 \n %s 파일을 참조하십시오."%(failedResultFile)
+        )
+        return 
 
     def makeQueryFromFile(self, path, packSize, gubun):
         """
@@ -169,7 +208,10 @@ class WosUserInterface():
         elif ext == ".txt":
             pass
         else:
-            pass
+            raise Exception()
+        "".strip()
+        for idx, word in enumerate(words):
+            words[idx] = word.strip()
 
         wordsLen = len(words)
         if packSize <= 0 or packSize > wordsLen: packSize = wordsLen
