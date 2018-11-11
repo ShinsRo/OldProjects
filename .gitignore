@@ -1,5 +1,10 @@
 __pycache__/
 .vscode/
+output/
+build/
+dist/
+main.exe
+.idea/
 
 # Created by https://www.gitignore.io/api/pycharm
 # Edit at https://www.gitignore.io/?templates=pycharm

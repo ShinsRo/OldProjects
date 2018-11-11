@@ -3,17 +3,11 @@
 block_cipher = None
 
 
-a = Analysis(['alpha_main.py'],
+a = Analysis(['C:/Users/siotman/Desktop/Projects/sju-paper-scraper-app/main.py'],
              pathex=['C:\\Users\\siotman\\Desktop\\Projects\\sju-paper-scraper-app'],
              binaries=[],
              datas=[],
-             hiddenimports=[
-                 "requests",
-                 "pandas",
-                 "bs4",
-                 "robobrowser",
-                 "multiprocessing"
-                 ],
+             hiddenimports=['requests', 'pandas', 'bs4', 'robobrowser', 'multiprocessing', 'xlwt'],
              hookspath=[],
              runtime_hooks=[],
              excludes=[],
@@ -25,14 +19,18 @@ pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
 exe = EXE(pyz,
           a.scripts,
-          a.binaries,
-          a.zipfiles,
-          a.datas,
           [],
-          name='alpha_main',
+          exclude_binaries=True,
+          name='main',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
           upx=True,
-          runtime_tmpdir=None,
-          console=True )
+          console=False )
+coll = COLLECT(exe,
+               a.binaries,
+               a.zipfiles,
+               a.datas,
+               strip=False,
+               upx=True,
+               name='main')
