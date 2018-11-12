@@ -12,17 +12,22 @@ class WosProcess():
         self.jsessionid = jsessionid
         self.processData = ""
 
-    def getWOSExcelProcess(self, idx, url, totalMarked, mark, outputLocationPath, returnDict, loggerID):
-        # self.procName = current_process().name
+    def getWOSExcelProcess(self, idx, url, totalMarked, mark, outputLocationPath, returnDict, loggerID, state):
         self.procName = threading.get_ident()
         procName = self.procName
 
-        print(returnDict)
-        print(id(returnDict))
+        state.printAndSetState(
+            state="2000", 
+            stateMSG="[Thread-%s] 브라우저를 초기화 합니다."%self.procName)
+
         browser = RoboBrowser(history=True, parser="lxml")
 
         browser.open(url)
         reportLink = browser.select("a.citation-report-summary-link")
+
+        state.printAndSetState(
+            state="2001", 
+            stateMSG="[Thread-%s] 요약 보고서를 가져오는 중입니다."%self.procName)
 
         browser.follow_link(reportLink[0])
 
@@ -35,13 +40,12 @@ class WosProcess():
         startYear = summary_records_form['startYear'].value
         rurl = summary_records_form['rurl'].value
 
+        returnDict.setQid(int(qid))
         mark_from = str(mark)
         if mark + 499 > int(totalMarked):
             mark_to = totalMarked
         else:
             mark_to = str(mark + 499)
-        # mark_from = "1"
-        # mark_to = totalMarked
 
         piChart = summary_records_form['piChart'].value
         toChart = summary_records_form['piChart'].value
@@ -52,6 +56,10 @@ class WosProcess():
         makeExcelParam += "&save_options=xls"
 
         makeExcelURL += makeExcelParam
+
+        state.printAndSetState(
+            state="2002", 
+            stateMSG="[Thread-%s] %s레코드부터 %s 레코드까지의 데이터 제작을 요청합니다."%(self.procName, mark_from, mark_to))
 
         browser.session.post(makeExcelURL, data={
             "selectedIds": "",
@@ -97,14 +105,14 @@ class WosProcess():
             "fields":"DUMMY_VALUE"
         })
 
+        state.printAndSetState(
+            state="2003", 
+            stateMSG="[Thread-%s] %s부터 %s까지의 엑셀 데이터를 다운로드 받습니다."%(self.procName, mark_from, mark_to))
 
         ExcelActionURL = "https://ets.webofknowledge.com"
         ExcelAction = "/ETS/ets.do?"
-
-        # summary_navigation = browser.get_form(id='summary_navigation')
-        # print(summary_navigation.parsed)
         
-        ExcelParam = "mark_from=1"
+        ExcelParam = "mark_from=" + mark_from
         ExcelParam += "&product=UA"
         ExcelParam += "&colName=WOS"
         ExcelParam += "&displayUsageInfo=true"
@@ -113,7 +121,7 @@ class WosProcess():
         ExcelParam += "&startYear=" + startYear
         ExcelParam += "&mark_to=" + mark_to
         ExcelParam += "&filters=" + requests.utils.quote(filters)
-        ExcelParam += "&qid=" + str(int(qid)+1)
+        ExcelParam += "&qid=" + str(returnDict.countAndGetQid())
         ExcelParam += "&endYear=" + endYear
         ExcelParam += "&SID=" + self.SID
         ExcelParam += "&totalMarked=" + totalMarked
@@ -129,10 +137,13 @@ class WosProcess():
         ExcelActionURL += ExcelParam
 
         res = requests.get(ExcelActionURL)
-        # resStr = res.text
-        # resStr.encode(encoding="utf-8")
+        
+        state.printAndSetState(
+            state="2004", 
+            stateMSG="[Thread-%s] 검색 결과를 묶습니다."%self.procName)
 
-        ofileName = "{0}_검색결과_{1}.xls".format(loggerID.split('.')[0], idx)
+        ofileName = "{0}_검색결과_{1}.xls".format(self.procName, idx)
+
         while(os.path.exists(outputLocationPath + "/" + ofileName)):
             ofileName = "_" + ofileName
 
@@ -142,6 +153,9 @@ class WosProcess():
         resPD = pd.read_excel(outputLocationPath + "/" + ofileName, header=26)
         os.remove(outputLocationPath + "/" + ofileName)
         
-        print(procName, "프로세스 종료")
-        returnDict[procName] = resPD
+        returnDict[self.procName] = resPD
+
+        state.printAndSetState(
+            state="2200", 
+            stateMSG="[Thread-%s] 스레드를 종료합니다."%self.procName)
         return

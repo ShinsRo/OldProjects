@@ -13,4 +13,5 @@ from multiprocessing import Process, Queue, Manager
 from supports.constant import *
 from supports.state import State
 from models.entities import ResponseEntity
+from models.locking_dict import LockingDict
 from core.processes import WosProcess

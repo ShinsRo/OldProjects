@@ -301,8 +301,5 @@ class StateFrame(Frame):
 if __name__ == '__main__':
     root = Tk()
     root.geometry("600x300")
-    # psm = multiprocessing.Manager()
-    # print(psm)
-    # MainFrame(root, psm)
     MainFrame(root)
     root.mainloop()

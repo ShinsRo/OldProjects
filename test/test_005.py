@@ -1,5 +1,6 @@
 from context import *
 import pandas as pd
+import re
 # from constant import *
 
 """
@@ -7,6 +8,8 @@ import pandas as pd
 """
 
 if __name__=='__main__':
-    aa = pd.read_excel("C:\\Users\\siotman\\Desktop\\input_검색결과_0.xls", header=26)
-    
-    print(aa[:, 0])
+    header = "Title"
+    resPD = {"Title":["AS@#%@///$$%D,AS[]-=D", "AAA \\bb^!b CC*&^%$#C", "A<>Ac!@%^&*@*)D..D"]}
+    temp = " ".join(map(lambda x: x.lower().replace(" ", ""), resPD[header]))
+    parse = re.sub("([;/<>,.!@#$%^&*()_+=-]|\[|\]|\\\\)", "", temp)
+    print(parse)

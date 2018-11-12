@@ -72,6 +72,8 @@ class WosUserInterface():
                 stateMSG="쿼리 히스토리를 만들고 있습니다. %d/%d"%(idx+1, queryListLen))
 
             WOS_AdvancedSearch_input_form['value(input1)'] = query
+            WOS_AdvancedSearch_input_form['range'] = "CUSTOM"
+            # WOS_AdvancedSearch_input_form['period'].value = "Year Range"
             WOS_AdvancedSearch_input_form['startYear'] = startYear
             WOS_AdvancedSearch_input_form['endYear'] = endYear
             browser.submit_form(WOS_AdvancedSearch_input_form)
@@ -79,16 +81,9 @@ class WosUserInterface():
         historyResults = browser.select('div.historyResults')
         historyResultsLen = len(historyResults)  
 
-        # jobs = []
-        # processes = []
-        # # processManager = psm
-        # processManager = Manager()
-        # returnDict = processManager.dict()
         threads = []
         threadClasses = []
-        returnDict = {}
-        # print(returnDict)
-        # print(id(returnDict))
+        returnDict = LockingDict(lock=threading.RLock())
         for idx, his in enumerate(historyResults):
             totalMarked = his.a.text.replace(",", "")
 
@@ -117,19 +112,11 @@ class WosUserInterface():
                     stateMSG="%s개의 레코드 중 %d번 레코드부터 레코드를 가져옵니다."%(totalMarked, mark))
                 threadClass = WosProcess(self.SID, self.jsessionid, self.baseUrl)
                 threadClasses.append(threadClass)
-                # processClass = WosProcess(self.SID, self.jsessionid, self.baseUrl)
-                # processes.append(processClass)
 
                 url = self.baseUrl + his.a["href"]
-                # job = Process(
-                #     target=processClass.getWOSExcelProcess,
-                #     args=((jdx*10 + idx), url, totalMarked, mark, outputLocationPath, returnDict, self.loggerID)
-                # )
-                # jobs.append(job)
-                # job.start()
                 thread = threading.Thread(
                     target=threadClass.getWOSExcelProcess,
-                    args=((jdx*10 + idx), url, totalMarked, mark, outputLocationPath, returnDict, self.loggerID)
+                    args=((jdx*10 + idx), url, totalMarked, mark, outputLocationPath, returnDict, self.loggerID, state)
                 )
                 threads.append(thread)
                 jdx += 1
@@ -137,10 +124,22 @@ class WosUserInterface():
 
         # for job in jobs: job.join()
         for thread in threads: thread.join()
-        
-        resPD = pd.concat(returnDict.values())
+            
         state.printAndSetState(
             state="1400", 
+            stateMSG="모든 스레드가 종료되었습니다. 모든 검색결과를 합칩니다.")
+
+        del returnDict['qid']
+        resPD = pd.concat(returnDict.values(), sort=True)
+
+        temp = self.loggerID.split('.')[0] + "_all_succeed.xls"
+        successResultFile = outputLocationPath + "/" + temp
+        while(os.path.exists(successResultFile)):
+            temp = "_" + temp
+            successResultFile = outputLocationPath + "/" + temp
+
+        state.printAndSetState(
+            state="1401", 
             stateMSG="검색에 실패한 항목을 조사합니다.")
 
         header = ""
@@ -150,21 +149,17 @@ class WosUserInterface():
         else: pass
         
         notFoundList = []
-        resString = " ".join(resPD[header])
+        temp = " ".join(map(lambda x: x.lower().replace(" ", ""), resPD[header]))
+        parse = re.sub("([;/<>,.!@#$%^&*()_+=-]|\[|\]|\\\\)", "", temp)
         for word in words:
-            if not bool(re.search(word, resString, re.IGNORECASE)):
+            tempWord = re.sub("([;/<>,.!@#$%^&*()_+=-]|\[|\]|\\\\)", "", word.replace(" ", "").lower())
+            
+            if not re.search(tempWord, parse):
                 notFoundList.append(word)
 
         notFoundDF = pd.DataFrame({
             header: notFoundList
         })
-
-        temp = self.loggerID.split('.')[0] + "_all_succeed.xls"
-        successResultFile = outputLocationPath + "/" + temp
-        while(os.path.exists(successResultFile)):
-            temp = "_" + temp
-            successResultFile = outputLocationPath + "/" + temp
-
         excelWriter = pd.ExcelWriter(successResultFile)
         resPD.to_excel(excelWriter, '전체 검색 결과')
         excelWriter.save()
