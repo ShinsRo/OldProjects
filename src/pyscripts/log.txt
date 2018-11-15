@@ -1,0 +1,187 @@
+2018-11-14 21:46:29,655 - INFO - sleeping
+2018-11-14 21:46:31,655 - INFO - wake
+2018-11-14 21:46:31,655 - INFO - done
+2018-11-14 21:46:37,217 - INFO - sleeping
+2018-11-14 21:46:39,221 - INFO - wake
+2018-11-14 21:46:39,221 - INFO - done
+2018-11-14 21:46:54,733 - INFO - sleeping
+2018-11-14 21:46:56,747 - INFO - wake
+2018-11-14 21:46:56,747 - INFO - done
+2018-11-14 21:48:24,367 - INFO - sleeping
+2018-11-14 21:48:26,378 - INFO - wake
+2018-11-14 21:48:26,378 - INFO - done
+2018-11-14 21:48:30,093 - INFO - sleeping
+2018-11-14 21:48:32,108 - INFO - wake
+2018-11-14 21:48:32,108 - INFO - done
+2018-11-14 21:49:41,923 - INFO - sleeping
+2018-11-14 21:49:43,925 - INFO - wake
+2018-11-14 21:49:43,925 - INFO - done
+2018-11-14 21:49:58,714 - INFO - sleeping
+2018-11-14 21:50:00,726 - INFO - wake
+2018-11-14 21:50:00,726 - INFO - done
+2018-11-14 21:50:09,943 - INFO - sleeping
+2018-11-14 21:50:11,957 - INFO - wake
+2018-11-14 21:50:11,957 - INFO - done
+2018-11-14 21:50:25,342 - INFO - sleeping
+2018-11-14 21:50:27,354 - INFO - wake
+2018-11-14 21:50:27,354 - INFO - done
+2018-11-14 21:50:40,779 - INFO - sleeping
+2018-11-14 21:50:42,781 - INFO - wake
+2018-11-14 21:50:42,781 - INFO - done
+2018-11-14 21:50:52,394 - INFO - sleeping
+2018-11-14 21:50:54,403 - INFO - wake
+2018-11-14 21:50:54,403 - INFO - done
+2018-11-14 21:50:56,759 - INFO - sleeping
+2018-11-14 21:50:58,769 - INFO - wake
+2018-11-14 21:50:58,769 - INFO - done
+2018-11-14 21:51:01,543 - INFO - sleeping
+2018-11-14 21:51:03,558 - INFO - wake
+2018-11-14 21:51:03,558 - INFO - done
+2018-11-14 21:52:04,246 - INFO - sleeping
+2018-11-14 21:52:06,257 - INFO - wake
+2018-11-14 21:52:06,257 - INFO - done
+2018-11-14 21:52:08,090 - INFO - sleeping
+2018-11-14 21:52:10,097 - INFO - wake
+2018-11-14 21:52:10,097 - INFO - done
+2018-11-14 21:52:21,445 - INFO - sleeping
+2018-11-14 21:52:23,454 - INFO - wake
+2018-11-14 21:52:23,454 - INFO - done
+2018-11-14 21:53:25,185 - INFO - sleeping
+2018-11-14 21:53:27,195 - INFO - wake
+2018-11-14 21:53:27,195 - INFO - done
+2018-11-14 21:53:34,342 - INFO - sleeping
+2018-11-14 21:53:36,346 - INFO - wake
+2018-11-14 21:53:36,346 - INFO - done
+2018-11-14 21:54:19,568 - INFO - sleeping
+2018-11-14 21:54:21,582 - INFO - wake
+2018-11-14 21:54:21,582 - INFO - done
+2018-11-14 21:56:24,378 - INFO - sleeping
+2018-11-14 21:56:26,380 - INFO - wake
+2018-11-14 21:56:26,380 - INFO - done
+2018-11-14 21:56:29,443 - INFO - sleeping
+2018-11-14 21:56:31,458 - INFO - wake
+2018-11-14 21:56:31,458 - INFO - done
+2018-11-14 21:57:40,951 - INFO - sleeping
+2018-11-14 21:57:42,959 - INFO - wake
+2018-11-14 21:57:42,959 - INFO - done
+2018-11-14 22:00:11,636 - INFO - sleeping
+2018-11-14 22:00:13,636 - INFO - wake
+2018-11-14 22:00:13,636 - INFO - done
+2018-11-14 22:00:27,663 - INFO - sleeping
+2018-11-14 22:00:29,663 - INFO - wake
+2018-11-14 22:00:29,663 - INFO - done
+2018-11-14 22:01:50,726 - INFO - sleeping
+2018-11-14 22:01:52,727 - INFO - wake
+2018-11-14 22:01:52,727 - INFO - done
+2018-11-14 22:02:12,629 - INFO - sleeping
+2018-11-14 22:02:14,630 - INFO - wake
+2018-11-14 22:02:14,630 - INFO - done
+2018-11-14 22:02:59,969 - INFO - sleeping
+2018-11-14 22:03:01,970 - INFO - wake
+2018-11-14 22:03:01,970 - INFO - done
+2018-11-14 22:03:02,740 - INFO - sleeping
+2018-11-14 22:03:04,740 - INFO - wake
+2018-11-14 22:03:04,740 - INFO - done
+2018-11-14 22:05:00,381 - INFO - sleeping
+2018-11-14 22:05:02,381 - INFO - wake
+2018-11-14 22:05:02,381 - INFO - done
+2018-11-14 22:05:03,168 - INFO - sleeping
+2018-11-14 22:05:05,169 - INFO - wake
+2018-11-14 22:05:05,169 - INFO - done
+2018-11-14 22:05:05,928 - INFO - sleeping
+2018-11-14 22:05:07,928 - INFO - wake
+2018-11-14 22:05:07,928 - INFO - done
+2018-11-14 22:05:15,316 - INFO - sleeping
+2018-11-14 22:05:17,318 - INFO - wake
+2018-11-14 22:05:17,318 - INFO - done
+2018-11-14 22:06:51,263 - INFO - sleeping
+2018-11-14 22:06:53,263 - INFO - wake
+2018-11-14 22:06:53,263 - INFO - done
+2018-11-14 22:08:36,613 - INFO - sleeping
+2018-11-14 22:08:38,613 - INFO - wake
+2018-11-14 22:08:38,613 - INFO - done
+2018-11-14 22:08:46,632 - INFO - sleeping
+2018-11-14 22:08:48,633 - INFO - wake
+2018-11-14 22:08:48,633 - INFO - done
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{wake}
+lineout:{done}
+lineout:{sleeping}
+lineout:{@한글입력스}
+lineout:{wake}
+lineout:{done}
