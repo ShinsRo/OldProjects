@@ -265,32 +265,3 @@ class TextHandler(logging.Handler):
 
         self.text.after(0, append)
 
-
-if __name__ == "__main__":
-    # Logging configuration
-    spath = sys.path[0]
-    handler = logging.FileHandler(filename=spath + "/.log", mode="a", encoding="utf-8")
-    # log_fh = open(spath + "/.log", "w", encoding="utf-8")
-    streamHandler = logging.StreamHandler()
-    logging.basicConfig(handlers=[handler, streamHandler],
-                        level=logging.INFO,
-                        format='lineout:{%(message)s}')
-                        # format='%(asctime)s - %(levelname)s - %(message)s')
-
-    logger = logging.getLogger()
-    msg = 'sleeping'
-    logger.info(msg)
-    logger.info('@한글입력스')
-    time.sleep(6)
-    msg = 'wake'
-    logger.info(msg)
-    # baseUrl = "http://apps.webofknowledge.com"
-    # browser = RoboBrowser(history=True, parser="lxml")
-    # res = browser.open(baseUrl)
-    
-    # SID = browser.session.cookies['SID'].replace("\"", "")
-    # jsessionid = browser.session.cookies['JSESSIONID']
-
-    msg = 'done'
-    logger.info(msg)
-    # print('done')

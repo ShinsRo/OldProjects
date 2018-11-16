@@ -1,0 +1,450 @@
+time:2018-11-15 14:40:18,353&lineout:b'{"name": "citationSearch", "command": "log", "msg": "init Browser"}'
+time:2018-11-15 14:40:18,355&lineout:b'{"name": "citationSearch", "command": "log", "msg": "init Done"}'
+time:2018-11-15 14:40:18,355&lineout:b'{"name": "citationSearch", "command": "loading", "msg": "All Done"}'
+time:2018-11-15 14:41:06,126&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 14:41:06,126&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 14:41:06,126&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 14:47:04,460&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 14:47:04,462&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 14:47:04,462&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 15:34:28,204&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 15:34:28,205&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 15:34:28,205&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 15:36:22,512&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 15:36:22,513&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 15:36:22,513&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 15:37:15,794&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 15:37:15,795&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 15:37:15,795&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 15:44:47,403&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 15:44:47,404&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 15:44:47,404&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 15:45:13,942&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 15:45:13,944&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 15:45:13,944&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 15:45:55,074&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 15:45:55,074&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 15:45:55,075&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 15:48:10,139&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 15:48:10,139&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 15:48:10,140&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 15:49:02,952&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 15:49:02,952&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 15:49:02,952&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 15:50:18,163&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 15:50:18,164&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 15:50:18,165&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 15:51:50,816&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 15:51:50,816&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 15:51:50,817&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 15:52:51,339&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 15:52:51,340&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 15:52:51,340&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 15:53:47,887&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 15:53:47,888&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 15:53:47,888&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 15:55:20,029&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 15:55:20,029&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 15:55:20,030&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 15:55:48,359&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 15:55:48,360&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 15:55:48,366&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 15:58:06,431&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 15:58:06,432&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 15:58:06,432&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 15:58:22,031&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 15:58:22,032&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 15:58:22,033&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 16:00:19,908&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 16:00:19,908&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 16:00:19,909&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 16:12:42,904&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 16:12:42,905&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 16:12:42,905&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 16:13:40,655&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 16:13:40,657&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 16:13:40,657&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 16:13:55,066&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 16:13:55,067&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 16:13:55,067&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 16:14:26,253&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 16:14:26,256&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 16:14:26,257&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 16:14:32,571&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 16:14:32,574&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 16:14:32,574&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 16:14:38,383&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 16:14:38,385&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 16:14:38,385&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 16:16:37,409&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 16:16:37,411&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 16:16:37,411&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 16:17:16,988&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}
+time:2018-11-15 16:17:16,988&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}
+time:2018-11-15 16:17:16,989&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}
+time:2018-11-15 16:19:10,273&lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:19:10,273&lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:19:10,273&lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:21:03,140@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:21:03,140@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:21:03,140@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:21:51,634@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:21:51,636@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:21:51,636@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:22:43,539@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:22:43,539@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:22:43,539@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:23:17,741@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:23:17,743@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:23:17,743@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:24:01,795@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:24:01,795@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:24:01,796@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:24:15,946@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:24:15,947@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:24:15,948@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:24:57,758@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:24:57,759@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:24:57,759@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:25:08,903@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:25:08,907@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:25:08,907@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:26:12,311@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:26:12,314@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:26:12,314@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:26:30,874@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:26:30,877@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:26:30,877@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:27:29,371@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:27:29,372@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:27:29,372@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:28:25,497@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:28:25,498@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:28:25,498@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:28:41,197@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:28:41,198@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:28:41,198@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:30:38,528@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:30:38,528@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:30:38,528@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:30:51,696@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:30:51,700@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:30:51,702@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:31:23,947@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:31:23,951@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:31:23,951@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:31:47,603@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:31:47,604@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:31:47,604@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:33:50,054@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:33:50,055@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:33:50,055@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:33:50,055@lineout:{"name": "citationSearch", "command": "log", "msg": "dasddas"}&
+time:2018-11-15 16:33:58,327@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:33:58,328@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:33:58,328@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:33:58,328@lineout:{"name": "citationSearch", "command": "log", "msg": "dasddas"}&
+time:2018-11-15 16:34:14,018@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:34:14,022@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:34:14,022@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:34:14,022@lineout:{"name": "citationSearch", "command": "log", "msg": "dasddas"}&
+time:2018-11-15 16:34:14,023@lineout:{"name": "citationSearch", "command": "log", "msg": "dasddas"}&
+time:2018-11-15 16:34:14,023@lineout:{"name": "citationSearch", "command": "log", "msg": "dasddas"}&
+time:2018-11-15 16:34:14,023@lineout:{"name": "citationSearch", "command": "log", "msg": "dasddas"}&
+time:2018-11-15 16:34:14,023@lineout:{"name": "citationSearch", "command": "log", "msg": "dasddas"}&
+time:2018-11-15 16:34:48,741@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:34:48,743@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:34:48,744@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:34:48,744@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 16:34:48,745@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 16:34:48,745@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 16:34:48,746@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 16:34:48,746@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 16:36:55,031@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:36:55,033@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:36:55,033@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:36:55,035@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 16:36:55,036@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 16:36:55,036@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 16:36:55,036@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 16:36:55,036@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 16:37:55,155@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:37:55,156@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:37:55,156@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:37:55,156@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 16:37:55,156@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 16:37:55,157@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 16:37:55,157@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 16:37:55,157@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 16:38:42,974@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:38:42,975@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:38:42,975@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:38:42,975@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 16:38:42,975@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 16:38:42,977@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 16:38:42,977@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 16:38:42,977@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 16:39:04,563@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:39:04,563@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:39:04,564@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:39:04,564@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 16:39:04,564@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 16:39:04,564@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 16:39:04,564@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 16:39:04,565@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 16:41:56,450@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:41:56,451@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:41:56,454@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:41:56,454@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 16:41:56,455@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 16:41:56,455@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 16:41:56,455@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 16:41:56,455@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 16:43:56,751@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:43:56,751@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:43:56,751@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:43:56,751@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 16:43:56,751@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 16:43:56,752@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 16:43:56,752@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 16:43:56,755@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 16:44:06,025@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:44:06,028@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:44:06,030@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:44:06,031@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 16:44:06,031@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 16:44:06,031@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 16:44:06,031@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 16:44:06,031@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 16:45:52,407@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:45:52,407@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:45:52,407@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:45:52,407@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 16:45:52,407@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 16:45:52,407@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 16:45:52,407@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 16:45:52,411@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 16:46:49,852@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:46:49,855@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:46:49,855@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:46:49,855@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 16:46:49,855@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 16:46:49,856@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 16:46:49,856@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 16:46:49,857@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 16:47:52,295@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:47:52,295@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:47:52,295@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:47:52,296@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 16:47:52,297@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 16:47:52,298@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 16:47:52,298@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 16:47:52,298@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 16:48:03,332@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:48:03,334@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:48:03,335@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:48:03,336@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 16:48:03,336@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 16:48:03,336@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 16:48:03,336@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 16:48:03,336@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 16:48:05,284@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:48:05,286@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:48:05,286@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:48:05,286@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 16:48:05,287@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 16:48:05,287@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 16:48:05,288@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 16:48:05,288@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 16:48:40,875@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:48:40,878@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:48:42,882@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:48:42,883@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 16:48:42,887@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 16:48:42,887@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 16:48:42,890@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 16:48:42,891@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 16:48:49,666@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:48:49,667@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:48:51,668@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:48:51,668@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 16:48:51,671@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 16:48:51,672@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 16:48:51,673@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 16:48:51,674@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 16:49:49,956@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:49:49,957@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:49:51,959@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:49:51,960@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 16:49:51,960@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 16:49:51,964@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 16:49:51,965@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 16:49:51,965@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 16:59:24,224@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:59:24,225@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:59:26,233@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:59:26,233@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 16:59:26,234@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 16:59:26,235@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 16:59:26,236@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 16:59:26,236@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 16:59:33,050@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:59:33,053@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:59:35,055@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:59:35,055@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 16:59:35,055@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 16:59:35,056@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 16:59:35,057@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 16:59:35,057@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 16:59:36,934@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:59:36,938@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:59:38,938@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:59:38,939@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 16:59:38,940@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 16:59:38,940@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 16:59:38,940@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 16:59:38,940@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 16:59:51,310@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 16:59:51,314@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 16:59:53,314@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 16:59:53,314@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 16:59:53,317@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 16:59:53,319@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 16:59:53,323@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 16:59:53,325@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 17:07:00,443@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 17:07:00,445@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 17:07:02,449@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 17:07:02,449@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 17:07:02,450@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 17:07:02,451@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 17:07:02,451@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 17:07:02,452@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 17:07:04,643@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 17:07:04,644@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 17:07:06,646@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 17:07:06,647@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 17:07:06,647@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 17:07:06,648@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 17:07:06,650@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 17:07:06,652@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 17:07:08,874@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 17:07:08,878@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 17:07:10,879@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 17:07:10,880@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 17:07:10,881@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 17:07:10,887@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 17:07:10,887@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 17:07:10,889@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 17:07:12,480@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 17:07:12,481@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 17:07:14,481@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 17:07:14,481@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 17:07:14,489@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 17:07:14,490@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 17:07:14,491@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 17:07:14,491@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 17:15:34,065@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 17:15:34,066@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 17:15:36,066@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 17:15:36,066@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 17:15:36,066@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 17:15:36,067@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 17:15:36,067@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 17:15:36,067@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 17:15:58,249@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 17:15:58,250@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 17:16:00,251@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 17:16:00,251@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 17:16:00,251@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 17:16:00,251@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 17:16:00,252@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 17:16:00,252@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 17:16:03,527@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 17:16:03,528@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 17:16:05,533@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 17:16:05,534@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 17:16:05,535@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 17:16:05,536@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 17:16:05,536@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 17:16:05,536@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 17:16:55,763@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 17:16:55,764@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 17:16:57,764@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 17:16:57,764@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 17:16:57,769@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 17:16:57,772@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 17:16:57,772@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 17:16:57,773@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 17:17:22,085@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 17:17:22,086@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 17:17:24,087@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 17:17:24,087@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 17:17:24,088@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 17:17:24,088@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 17:17:24,088@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 17:17:24,089@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 17:24:56,004@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 17:24:56,006@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 17:24:58,007@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 17:24:58,007@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 17:24:58,008@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 17:24:58,009@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 17:24:58,009@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 17:24:58,009@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 17:27:24,260@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 17:27:24,260@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 17:27:26,261@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 17:27:26,263@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 17:27:26,265@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 17:27:26,268@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 17:27:26,269@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 17:27:26,270@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 17:29:00,947@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 17:29:00,948@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 17:29:02,948@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 17:29:02,948@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 17:29:02,948@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 17:29:02,949@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 17:29:02,949@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 17:29:02,949@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 17:29:30,910@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 17:29:30,910@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 17:29:32,910@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 17:29:32,910@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 17:29:32,910@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 17:29:32,911@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 17:29:32,911@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 17:29:32,911@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 17:30:44,035@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 17:30:44,035@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 17:30:46,035@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 17:30:46,035@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 17:30:46,036@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 17:30:46,036@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 17:30:46,037@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 17:30:46,037@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 17:31:24,285@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 17:31:24,286@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 17:31:26,287@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 17:31:26,287@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 17:31:26,287@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 17:31:26,288@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 17:31:26,288@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 17:31:26,288@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 17:32:03,828@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 17:32:03,829@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 17:32:05,830@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 17:32:05,830@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 17:32:05,830@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 17:32:05,831@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 17:32:05,831@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 17:32:05,832@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
+time:2018-11-15 18:19:13,956@lineout:{"name": "citationSearch", "command": "log", "msg": "init Browser"}&
+time:2018-11-15 18:19:13,957@lineout:{"name": "citationSearch", "command": "log", "msg": "init Done"}&
+time:2018-11-15 18:19:15,957@lineout:{"name": "citationSearch", "command": "loading", "msg": "All Done"}&
+time:2018-11-15 18:19:15,957@lineout:{"name": "citationSearch", "command": "log", "msg": "1"}&
+time:2018-11-15 18:19:15,958@lineout:{"name": "citationSearch", "command": "log", "msg": "2"}&
+time:2018-11-15 18:19:15,959@lineout:{"name": "citationSearch", "command": "log", "msg": "3"}&
+time:2018-11-15 18:19:15,959@lineout:{"name": "citationSearch", "command": "log", "msg": "4"}&
+time:2018-11-15 18:19:15,960@lineout:{"name": "citationSearch", "command": "log", "msg": "5"}&
