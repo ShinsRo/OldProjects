@@ -62,7 +62,7 @@ class SingleSearch():
         if len(aTagArr_record) > 1:
             sres.print(command='err', msg='검색 결과가 하나 이상입니다.')
             for aTag in aTagArr_record:
-                sres.print(command='err', msg='검색 결과 : %s'%(aTag.text))
+                sres.print(command='err', msg='검색 결과 : %s'%(aTag.text.replace('\n', '')))
             return
 
         sres.print(command='log', msg='논문 상세 정보 창에 접근합니다.')

@@ -753,3 +753,31 @@ time:2018-11-16 18:37:48,022@lineout:{'name': 'citationSearch', 'command': 'log'
 time:2018-11-16 18:37:48,023@lineout:{'name': 'citationSearch', 'command': 'res', 'loading': 'loading', 'res': True}&
 time:2018-11-16 18:37:48,024@lineout:{'name': 'citationSearch', 'command': 'log', 'msg': '다음 지시를 기다립니다.'}&
 time:2018-11-16 18:37:48,025@lineout:{'name': 'citationSearch', 'command': 'res', 'loading': 'loading', 'res': False}&
+time:2018-11-16 18:43:32,053@lineout:{'name': 'citationSearch', 'command': 'res', 'loading': 'loading', 'res': True}&
+time:2018-11-16 18:43:32,055@lineout:{'name': 'citationSearch', 'command': 'log', 'msg': '단일 인용정보 조회 서비스를 초기화합니다. 2~3분 정도의 시간이 소요됩니다.'}&
+time:2018-11-16 18:44:18,545@lineout:{'name': 'citationSearch', 'command': 'log', 'msg': 'SID : C3LBCvDCUqFcdZSB6hQ'}&
+time:2018-11-16 18:44:18,551@lineout:{'name': 'citationSearch', 'command': 'log', 'msg': 'jsessionid : 07DE40233B5A929838D2510B5C1B0CF0'}&
+time:2018-11-16 18:44:18,555@lineout:{'name': 'citationSearch', 'command': 'log', 'msg': 'WOS GeneralSearch를 엽니다.'}&
+time:2018-11-16 18:44:29,004@lineout:{'name': 'citationSearch', 'command': 'log', 'msg': '초기화가 완료되었습니다.'}&
+time:2018-11-16 18:44:29,008@lineout:{'name': 'citationSearch', 'command': 'res', 'loading': 'loading', 'res': False}&
+time:2018-11-16 18:44:29,010@lineout:{'name': 'citationSearch', 'command': 'log', 'msg': '다음 지시를 기다립니다.'}&
+time:2018-11-16 18:44:29,015@lineout:{'name': 'citationSearch', 'command': 'res', 'loading': 'loading', 'res': False}&
+time:2018-11-16 18:46:50,770@lineout:{'name': 'citationSearch', 'command': 'res', 'loading': 'loading', 'res': True}&
+time:2018-11-16 18:46:50,772@lineout:{'name': 'citationSearch', 'command': 'log', 'msg': '시작합니다.'}&
+time:2018-11-16 18:46:53,208@lineout:{'name': 'citationSearch', 'command': 'log', 'msg': '검색어 : CONSTRUCTION OF AN ASD+ EXPRESSION'}&
+time:2018-11-16 18:47:17,611@lineout:{'name': 'citationSearch', 'command': 'err', 'msg': '검색 결과가 하나 이상입니다.'}&
+time:2018-11-16 18:47:17,619@lineout:{'name': 'citationSearch', 'command': 'err', 'msg': '검색 결과 : \nBrief Report: An Evaluation of an Instructional Package for Teaching Sentence Construction to Students with ASD\n\n'}&
+time:2018-11-16 18:47:17,622@lineout:{'name': 'citationSearch', 'command': 'err', 'msg': '검색 결과 : \n\nConstruction of an inactivated typhoid vaccine candidate expressing Escherichia coli heat-labile enterotoxin B subunit and evaluation of its immunogenicity in a murine model\n'}&
+time:2018-11-16 18:47:17,624@lineout:{'name': 'citationSearch', 'command': 'err', 'msg': '검색 결과 : \nA novel approach for construction of an inactivated typhoid vaccine candidate that effectively augments both humoral and cellular immune responses\n'}&
+time:2018-11-16 18:47:17,626@lineout:{'name': 'citationSearch', 'command': 'err', 'msg': '검색 결과 : \nAttenuated Salmonella Typhimurium delivery of a novel DNA vaccine induces immune responses and provides protection against duck enteritis virus\n'}&
+time:2018-11-16 18:47:17,629@lineout:{'name': 'citationSearch', 'command': 'err', 'msg': '검색 결과 : \nSlowing Translation between Protein Domains by Increasing Affinity between mRNAs and the Ribosomal Anti-Shine Dalgarno Sequence Improves Solubility\n'}&
+time:2018-11-16 18:47:17,631@lineout:{'name': 'citationSearch', 'command': 'err', 'msg': '검색 결과 : \nLcrV Delivered via Type III Secretion System of Live Attenuated Yersinia pseudotuberculosis Enhances Immunogenicity against Pneumonic Plague\n'}&
+time:2018-11-16 18:47:17,633@lineout:{'name': 'citationSearch', 'command': 'err', 'msg': '검색 결과 : \n\nAsd-based balanced-lethal system in attenuated Edwardsiella tarda to express a heterologous antigen for a multivalent bacterial vaccine\n'}&
+time:2018-11-16 18:47:17,635@lineout:{'name': 'citationSearch', 'command': 'err', 'msg': '검색 결과 : \n\nConstruction of an artificial recombinant bicistronic plasmid DNA vaccine against porcine rotavirus\n'}&
+time:2018-11-16 18:47:17,638@lineout:{'name': 'citationSearch', 'command': 'err', 'msg': '검색 결과 : \n\nConstruction and characterization of recombinant attenuated Salmonella typhimurium expressing the babA2/ureI fusion gene of Helicobacter pylori\n'}&
+time:2018-11-16 18:47:17,640@lineout:{'name': 'citationSearch', 'command': 'err', 'msg': '검색 결과 : \nProtection of olive flounder (Paralichthys olivaceus) against Edwardsiella tarda infection by oral administration of auxotrophic mutant E. tarda (Delta alr Delta asd E. tarda)\n'}&
+time:2018-11-16 18:47:17,642@lineout:{'name': 'citationSearch', 'command': 'log', 'msg': '한 쿼리가 완료되었습니다. cnt = 1'}&
+time:2018-11-16 18:47:17,645@lineout:{'name': 'citationSearch', 'command': 'res', 'loading': 'loading', 'res': True}&
+time:2018-11-16 18:47:17,647@lineout:{'name': 'citationSearch', 'command': 'res', 'loading': 'loading', 'res': True}&
+time:2018-11-16 18:47:17,649@lineout:{'name': 'citationSearch', 'command': 'log', 'msg': '다음 지시를 기다립니다.'}&
+time:2018-11-16 18:47:17,651@lineout:{'name': 'citationSearch', 'command': 'res', 'loading': 'loading', 'res': False}&
