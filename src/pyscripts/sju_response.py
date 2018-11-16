@@ -1,7 +1,7 @@
 import logging
 import sys
 import json
-
+import urllib
 class SJUresponse():
     def __init__(self, name):
         # Logging configuration
@@ -14,8 +14,14 @@ class SJUresponse():
                             level=logging.INFO,
                             format='time:%(asctime)s@lineout:%(message)s&')
 
-        self.stdout = logging.getLogger()
+        self.stdout = logging.getLogger(name)
 
-    def print(self, command, msg):
-        res = {'name':self.name, 'command':command, 'msg': msg}
-        self.stdout.info(json.dumps(res))
+    def print(self, command, msg=None, target=None, res=None):
+        if command == 'res':
+            res = {'name':self.name, 'command':command, target:target, 'res': res}
+        elif command == 'log' or command == 'err':
+            # res = {'name':self.name, 'command':command, 'msg': urllib.parse.quote(msg)}
+            res = {'name':self.name, 'command':command, 'msg': msg}
+        
+        # res = json.dumps(res)
+        self.stdout.info(res)
