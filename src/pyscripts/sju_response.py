@@ -18,10 +18,10 @@ class SJUresponse():
 
     def print(self, command, msg=None, target=None, res=None):
         if command == 'res':
-            res = {'name':self.name, 'command':command, target:target, 'res': res}
+            res = {'name':self.name, 'command':command, 'target':target, 'res': res}
         elif command == 'log' or command == 'err':
-            # res = {'name':self.name, 'command':command, 'msg': urllib.parse.quote(msg)}
-            res = {'name':self.name, 'command':command, 'msg': msg}
+            res = {'name':self.name, 'command':command, 'msg': urllib.parse.quote(msg)}
+            # res = {'name':self.name, 'command':command, 'msg': msg}
         
-        # res = json.dumps(res)
+        res = json.dumps(res)
         self.stdout.info(res)

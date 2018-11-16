@@ -62,7 +62,8 @@ class SingleSearch():
         if len(aTagArr_record) > 1:
             sres.print(command='err', msg='검색 결과가 하나 이상입니다.')
             for aTag in aTagArr_record:
-                sres.print(command='err', msg='검색 결과 : %s'%(aTag.text.replace('\n', '')))
+                sres.print(command='err', msg='%s'%(aTag.text.replace('\n', '')))
+            sres.print(command='err', msg='검색 결과 값이 하나인 정보만 유효합니다.')
             return
 
         sres.print(command='log', msg='논문 상세 정보 창에 접근합니다.')
@@ -167,6 +168,7 @@ class SingleSearch():
             'jcr' : jcr,
         }
         
+        sres.print(command='log', msg='해당 논문의 정보 검색을 완료했습니다.')
         sres.print(command='res', target='paperData', res=paperData)
         if not cnt_link:
             sres.print(command='err', msg='논문을 인용한 논문이 없으므로 검색을 종료합니다.')
@@ -295,6 +297,7 @@ class SingleSearch():
         for idx, title in enumerate(citingTitle):
             citingArticles[title] = citingAuthors[idx]
         
+        sres.print(command='log', msg='인용 중인 논문 정보를 가져왔습니다.')
         sres.print(command='res', target='citingArticles', res=citingArticles)
 
         sres.print(command='log', msg='브라우저를 초기화합니다.')
