@@ -10,6 +10,7 @@ from robobrowser import RoboBrowser
 import xlrd
 import json
 import re
+import bs4
 
 class SingleSearch():
     def __init__(self, sres):
@@ -140,6 +141,8 @@ class SingleSearch():
         language = ''
         reprint = ''
         authors = []
+        fr_authors = []
+        fr_addresses = []
         for fr_field in browser.select('p.FR_field'):
             if fr_field.text.find('Document Type:') != -1:
                 docType = fr_field.text.split(':')[1]
@@ -161,10 +164,30 @@ class SingleSearch():
                 reprint = fr_field.text.split(':')[1].replace('\n', '').strip()
 
             if fr_field.text.find('By:') != -1:
-                temp_field = fr_field.text.replace('\n', '')
-                for au in temp_field.split(';'):
-                    temp = re.sub(r'.*\((.+)\).*', r'\g<1>', au)
-                    if temp and len(temp) > 4: authors += [temp]
+                fr_authors = fr_field
+            if fr_field.text.find('Addresses:') != -1:
+                if fr_field.text.find('E-mail') != -1:
+                    continue
+                fr_addresses = fr_field.nextSibling
+                
+        addresses = {}
+        #저자, 연구기관
+        fconts = fr_authors.select('a')
+        targetAuthor = ''
+        tauthorAddress = []
+        for con in fconts:
+            isSub = con.get('href').find('javascript') != -1
+            if not isSub:
+                if targetAuthor != '':
+                    addresses[targetAuthor] = tauthorAddress
+                tauthorAddress = []
+                targetAuthor =  con.contents[0]
+                authors += [targetAuthor]
+            else:
+                addressId = re.sub(r'.+\'(.+)\'.+', r'\1', con.get('href'))
+                temp = fr_addresses.find('a', id=addressId)
+                if temp != None:
+                    tauthorAddress += [temp.contents[0]]
 
         if reprint == '':
             reprint = 'none'
@@ -173,6 +196,7 @@ class SingleSearch():
             'id' : random.getrandbits(32),
             # 'authors' : correction_form_inputs_by_name['00N70000002C0wa'].split(';'),
             'authors' : authors,
+            'addresses' : addresses,
             'authorsCnt' : str(len(correction_form_inputs_by_name['00N70000002C0wa'].split(';')) - 1),
             'doi' : correction_form_inputs_by_name['00N70000002n88A'],
             'volume' : correction_form_inputs_by_name['00N70000002Bdnt'],
@@ -193,6 +217,7 @@ class SingleSearch():
             'reprint' : reprint,
             'jcr' : jcr,
             'citingArticles' : [],
+            'issn' : ISSN,
         }
         paperData['ivp'] = [paperData['issue'], paperData['volume'], paperData['pages']]      
         sres.print(command='log', msg='해당 논문의 정보 검색을 완료했습니다.')
@@ -364,7 +389,6 @@ if __name__ == "__main__":
         sres.print(command='log', msg='다음 지시를 기다립니다.')
         sres.print(command='res', target='loading', res=False)
         query = input().strip()
-        # print(query)
         startYear = input().strip()
         endYear = input().strip()
 
@@ -393,7 +417,7 @@ if __name__ == "__main__":
             singleSearch.generalSearch(query=query, startYear=startYear, endYear=endYear)
         except Exception as e:
             sres.print(command='sysErr', msg='심각한 오류')
-            sres.print(command='sysErr', msg=e)
+            sres.print(command='errObj', msg=e)
             cnt = 0
         sres.print(command='log', msg='한 쿼리가 완료되었습니다. cnt = %d'%cnt)
         sres.print(command='res', target='loading', res=True)

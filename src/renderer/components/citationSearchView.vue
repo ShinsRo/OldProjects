@@ -61,15 +61,21 @@
           <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
           <template slot="items" slot-scope="props">
             <tr @click="props.expanded = !props.expanded">
-              <td >{{ (props.item.title.length > 16)? `${props.item.title.slice(0, 15)}...` : props.item.title }}</td>
-              <td v-html="props.item.authors.join([separator = '<br>'])"></td>
-              <td >{{ props.item.reprint }}</td>
+              <td >{{ (props.item.title.length > 10)? `${props.item.title.slice(0, 10)}...` : props.item.title }}</td>
+              <td >{{ props.item.firstAuthor }}</td>
+              <td >{{ props.item.reprint.replace(/\(.+\)/, '') }}</td>
+              <td v-html="
+                `${props.item.authors
+                        .slice(0, 3)
+                        .join([separator = '<br>'])}
+                        ${(props.item.authorsCnt>3)? '<br>...':''}`">
+              </td>
               <td >{{ props.item.docType }}</td>
-              <td v-html="props.item.ivp.join([separator = '<br>'])"></td>
               <td >{{ props.item.publishedMonth }}</td>
               <td v-html="props.item.publisher[0]"></td>
               <td >{{ props.item.timesCited }}</td>
               <td v-html="props.item.capedGrades.join([separator = '<br>'])"></td>
+              <td v-html="props.item.ivp.join([separator = '<br>'])"></td>
               <td >{{ props.item.language }}</td>
             </tr>
           </template>
@@ -142,8 +148,9 @@ export default {
           value: 'title',
           width: '20px',
         },
-        { text: '저자 목록', align: 'left', value: 'authors', width: '30px' },
+        { text: '제1저자', align: 'left', value: 'firstAuthor', width: '30px' },
         { text: '교신저자', align: 'left', value: 'reprint', width: '30px' },
+        { text: '저자 목록', align: 'left', value: 'authors', width: '30px' },
         { text: '발행분류', align: 'left', value: 'docType', width: '10px' },
         { text: '권/호, 페이지', align: 'left', value: 'ivp', width: '5px' },
         // { text: '호', align: 'left', value: 'volume', width: '1px' },
@@ -158,8 +165,9 @@ export default {
         {
           id: '123123',
           title: 'sadkjdsfalkdsajflksadkjdsfalkdsajflksadkjdsfalkdsajflksadkjdsfalkdsajflk',
-          authors: ['sadkjdsfalkdsajflk', 'Kasd, DD', 'Asdfasfasdfaf, D, RQWE'],
-          authorsCnt: 'sadkjdsfalkdsajflksdfajl;aksdf',
+          authors: ['sadkjdsfalkdsajflk', 'Kasd, DD'],
+          firstAuthor: 'who',
+          authorsCnt: '10',
           doi: '3',
           capedGrades: ['SICE', 'SCI'],
           volume: '4',
@@ -203,34 +211,17 @@ export default {
     cmd.stderr.setDefaultEncoding('utf-8');
 
     cmd.stderr.on('data', (data) => {
+      this.log += `개발전용 : ${data.toString()}<br>${this.log}`;
       console.log(`cmd stderr: ${data.toString()}`);
       const output = data.toString().replace(/\n/ig, '').split('#&');
       console.log(output);
       let time = '';
       let resJSON = '';
-      // const rawFile = new XMLHttpRequest();
-      // rawFile.onreadystatechange = () => {
-      //   if (rawFile.readyState === 4) {
-      //     if (rawFile.status === 200 || rawFile.status === 0) {
-      //       const allText = rawFile.responseText;
-      //       resJSON = JSON.parse(allText).res;
-      //     }
-      //   }
-      // };
       for (let i = 0; i < output.length; i += 1) {
         if (!output[i].match(rInFormat) || !output[i]) break;
         time = RegExp.$1;
         console.log(resJSON);
         resJSON = JSON.parse(RegExp.$2);
-
-        // if (resJSON.command === 'tooLong') {
-        //   // rawFile.open('GET', resJSON.path, false);
-        //   // rawFile.send(null);
-        //   const resFileUrl = new URL(`file://${resJSON.path}`);
-        //   const temp = fs.readFileSync(resFileUrl, 'r');
-        //   resJSON = JSON.parse(temp);
-        //   fs.unlinkSync(resFileUrl);
-        // }
         // 모듈로부터의 결과
         switch (resJSON.command) {
           case 'err':
@@ -268,6 +259,7 @@ export default {
 
     this.loading = true;
     this.executer.stdin.write('python src/pyscripts/citationSearch.py\n');
+    // this.executer.stdin.write('src/pyscripts/citationSearch.exe\n');
   },
   methods: {
     logFlush() {
