@@ -265,3 +265,11 @@ class TextHandler(logging.Handler):
 
         self.text.after(0, append)
 
+if __name__ == "__main__":
+    fr_field = "(Green, Dido)[ 1 ] ; Charman, T (Charman, Tony)[ 2 ] ; Pickles, A (Pickles, Andrew)[ 3 ] ; Chandler, S (Chandler, Susie)[ 2 ] ; Loucas, T (Loucas, Tom)[ 4 ] ; Simonoff, E (Simonoff, Emily)[ 5 ] ; Baird, G (Baird, Gillian)"
+    author = []
+    for au in fr_field.split(';'):
+        author += [re.sub(r'.*\((.+)\).*', r'\g<1>', au)]
+
+        
+    print(author)

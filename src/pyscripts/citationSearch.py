@@ -1,4 +1,5 @@
 import logging
+import random
 import os
 import sys
 import time
@@ -44,8 +45,8 @@ class SingleSearch():
 
         sres.print('log', msg='시작합니다.')
         WOS_GeneralSearch_input_form = browser.get_form('WOS_GeneralSearch_input_form')
-
         WOS_GeneralSearch_input_form['value(input1)'] = query
+        WOS_GeneralSearch_input_form['value(select1)'] = 'TI'
         WOS_GeneralSearch_input_form['startYear'] = startYear
         WOS_GeneralSearch_input_form['endYear'] = endYear
         WOS_GeneralSearch_input_form['range'] = 'CUSTOM'
@@ -55,30 +56,44 @@ class SingleSearch():
 
         aTagArr_record = browser.select('a.snowplow-full-record')
 
+
+        stepFlag = True
         if not aTagArr_record:
             sres.print(command='err', msg='결과가 없습니다.')
-            return
-
-        if len(aTagArr_record) > 1:
+            stepFlag = False
+        elif len(aTagArr_record) > 1:
             sres.print(command='err', msg='검색 결과가 하나 이상입니다.')
             for aTag in aTagArr_record:
                 sres.print(command='err', msg='%s'%(aTag.text.replace('\n', '')))
-            sres.print(command='err', msg='검색 결과 값이 하나인 정보만 유효합니다.')
+            sres.print(command='err', msg='가장 비슷한 검색 결과로 정보를 가져옵니다.')
+
+        if not stepFlag:
+            sres.print(command='log', msg='브라우저를 초기화합니다.')
+            param = '?product=WOS'
+            param += '&search_mode=GeneralSearch'
+            param += '&preferencesSaved='
+            param += '&SID=' + self.SID
+            self.browser.open(self.baseUrl + '/WOS_GeneralSearch_input.do' + param)
             return
 
         sres.print(command='log', msg='논문 상세 정보 창에 접근합니다.')
         browser.follow_link(aTagArr_record[0])
 
+        # 논문 제목
+        title = aTagArr_record[0].text.replace('\n', '')
         # ISSN
         ISSN = browser.select('p.sameLine')[0]
         ISSN = ISSN.find_all('value')[0].text
 
         # 등급
         grades = []
+        capedGrades = []
         box_label = browser.select('span.box-label')
         for label in box_label:
             if label.text.find('- ') != -1:
-                grades += [label.text.replace('- ', '')]
+                temp = label.text.replace('- ', '')
+                grades += [temp]
+                capedGrades += [re.sub(r'[ a-z]+', r'', temp)]
 
         # 임팩트 팩토
         Impact_Factor_table = browser.select('table.Impact_Factor_table')[0]
@@ -124,6 +139,7 @@ class SingleSearch():
         publisher = ''
         language = ''
         reprint = ''
+        authors = []
         for fr_field in browser.select('p.FR_field'):
             if fr_field.text.find('Document Type:') != -1:
                 docType = fr_field.text.split(':')[1]
@@ -136,18 +152,27 @@ class SingleSearch():
 
             if fr_field.text.find('Publisher ') != -1:
                 publisher = ' '.join(fr_field.text.split(' ')[1:])
+                publisher = publisher.split(',')
 
             if fr_field.text.find('Language:') != -1:
                 language = fr_field.text.split(':')[1]
                 
             if fr_field.text.find('Reprint Address:') != -1:
-                reprint = fr_field.text.split(':')[1]
+                reprint = fr_field.text.split(':')[1].replace('\n', '').strip()
+
+            if fr_field.text.find('By:') != -1:
+                temp_field = fr_field.text.replace('\n', '')
+                for au in temp_field.split(';'):
+                    temp = re.sub(r'.*\((.+)\).*', r'\g<1>', au)
+                    if temp and len(temp) > 4: authors += [temp]
 
         if reprint == '':
             reprint = 'none'
 
         paperData = {
-            'authors' : correction_form_inputs_by_name['00N70000002C0wa'],
+            'id' : random.getrandbits(32),
+            # 'authors' : correction_form_inputs_by_name['00N70000002C0wa'].split(';'),
+            'authors' : authors,
             'authorsCnt' : str(len(correction_form_inputs_by_name['00N70000002C0wa'].split(';')) - 1),
             'doi' : correction_form_inputs_by_name['00N70000002n88A'],
             'volume' : correction_form_inputs_by_name['00N70000002Bdnt'],
@@ -156,25 +181,38 @@ class SingleSearch():
             'published' : correction_form_inputs_by_name['00N70000002BdnY'],
             'publishedMonth' : publishedMonth,
             'publisher' : publisher,
-            'title' : correction_form_inputs_by_name['00N70000002BdnX'],
-            'issue' : correction_form_inputs_by_name['00N70000002C0wa'],
+            # 'title' : correction_form_inputs_by_name['00N70000002BdnX'],
+            'title' : title,
             'impact_factor' : impact_factor,
             'timesCited' : timesCited,
             'grades' : grades,
+            'capedGrades' : capedGrades,
             'docType' : docType,
             'researchAreas' : researchAreas,
             'language' : language,
             'reprint' : reprint,
             'jcr' : jcr,
+            'citingArticles' : [],
         }
-        
+        paperData['ivp'] = [paperData['issue'], paperData['volume'], paperData['pages']]      
         sres.print(command='log', msg='해당 논문의 정보 검색을 완료했습니다.')
         sres.print(command='res', target='paperData', res=paperData)
+        
+        stepFlag = True
         if not cnt_link:
             sres.print(command='err', msg='논문을 인용한 논문이 없으므로 검색을 종료합니다.')
-            return
-        if int(timesCited) > 500 :
+            stepFlag = False
+        elif int(timesCited) > 500 :
             sres.print(command='err', msg='해당 논물을 인용한 논문이 500개를 초과하여 검색을 종료합니다.')
+            stepFlag = False
+
+        if not stepFlag:
+            sres.print(command='log', msg='브라우저를 초기화합니다.')
+            param = '?product=WOS'
+            param += '&search_mode=GeneralSearch'
+            param += '&preferencesSaved='
+            param += '&SID=' + self.SID
+            self.browser.open(self.baseUrl + '/WOS_GeneralSearch_input.do' + param)
             return
 
         sres.print(command='log', msg='인용 중인 논문 정보 페이지를 가져옵니다.')
@@ -290,12 +328,13 @@ class SingleSearch():
             rsFile.write(res.content)
             rsFile.close()
         resPD = pd.read_excel(outputLocationPath + "/" + ofileName, header=26)
-        citingTitle = resPD['Title']
-        citingAuthors = resPD['Authors']
+        citingTitle = resPD['Title'].values.tolist()
+        citingAuthors = resPD['Authors'].values.tolist()
 
-        citingArticles = {}
+        citingArticles = {'id': paperData['id'], 'titles': [], 'authors': []}
         for idx, title in enumerate(citingTitle):
-            citingArticles[title] = citingAuthors[idx]
+            citingArticles['titles'] += [citingTitle[idx]]
+            citingArticles['authors'] += [citingAuthors[idx]]
         
         sres.print(command='log', msg='인용 중인 논문 정보를 가져왔습니다.')
         sres.print(command='res', target='citingArticles', res=citingArticles)
@@ -314,7 +353,12 @@ if __name__ == "__main__":
     while(True):
         sres.print(command='res', target='loading', res=True)
         if cnt == 0:
-            singleSearch = SingleSearch(sres)
+            try:
+                singleSearch = SingleSearch(sres)
+            except Exception as e:
+                sres.print(command='sysErr', msg='연결에 실패했습니다.')
+                sres.print(command='sysErr', msg='인터넷 연결이나 접속한 장소가 유효한 지 확인해주세요.')
+                sres.print(command='sysErr', msg='혹은 일시적 현상일 수 있으니 잠시 후 다시 접속해주세요.')
         cnt = (cnt+1)%200
         
         sres.print(command='log', msg='다음 지시를 기다립니다.')
@@ -345,11 +389,11 @@ if __name__ == "__main__":
         except Exception as e:
             sres.print(command='log', msg=errMSG)
             continue
-        # try:
-        # except Exception as e:
-        #     print(e)
-        
-        singleSearch.generalSearch(query=query, startYear=startYear, endYear=endYear)
+        try:
+            singleSearch.generalSearch(query=query, startYear=startYear, endYear=endYear)
+        except Exception as e:
+            sres.print(command='sysErr', msg='심각한 오류')
+            sres.print(command='sysErr', msg=e)
+            cnt = 0
         sres.print(command='log', msg='한 쿼리가 완료되었습니다. cnt = %d'%cnt)
         sres.print(command='res', target='loading', res=True)
-    
