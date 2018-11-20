@@ -84,14 +84,24 @@
           </v-alert>
           <template slot="expand" slot-scope="props">
             <table style="border:1px solid #FFFFFF; margin: 20px; width: 25%">
-              <tr v-for="(value, key) in props.item.impact_factor" :key="value+key">
+              <tr v-for="(value, key, index) in props.item.impact_factor" :key="index">
                 <td style="border:1px solid #FFFFFF;">{{key}}</td>
                 <td style="border:1px solid #FFFFFF;">{{value}}</td>
               </tr>
             </table>
             <table style="border:1px solid #FFFFFF; margin: 20px;">
-              <tr v-for="row in props.item.jcr" :key="row">
+              <tr v-for="(row, index) in props.item.jcr" :key="index">
                 <td v-for="col in row" :key="col" style="border:1px solid #FFFFFF;">{{col}}</td>
+              </tr>
+            </table>
+            <table style="border:1px solid #FFFFFF; margin: 20px; width: 100%">
+              <tr>
+                <td style="border:1px solid #FFFFFF;">이 논문의 저자 목록</td>
+                <td style="border:1px solid #FFFFFF;">연구기관</td>
+              </tr>
+              <tr v-for="(key, value, index) in props.item.addresses" :key="index">
+                <td style="border:1px solid #FFFFFF;">{{ key }}</td>
+                <td style="border:1px solid #FFFFFF;">{{ value }}</td>
               </tr>
             </table>
             <table style="border:1px solid #FFFFFF; margin: 20px; width: 100%">
@@ -99,7 +109,7 @@
                 <td style="border:1px solid #FFFFFF;">이 논문을 인용하는 논문</td>
                 <td style="border:1px solid #FFFFFF;">논문 저자 목록</td>
               </tr>
-              <tr v-for="(title, index) in props.item.citingArticles.titles" :key="title">
+              <tr v-for="(title, index) in props.item.citingArticles.titles" :key="index">
                 <td style="border:1px solid #FFFFFF;">{{title}}</td>
                 <td style="border:1px solid #FFFFFF;">{{props.item.citingArticles.authors[index]}}</td>
               </tr>
@@ -131,7 +141,7 @@ export default {
     return {
       pymsg: 'not yet',
       state: 'ready',
-      loading: false,
+      loading: true,
       // executer: spawn('cmd.exe'),
       executer: spawn('cmd.exe'),
       log: '',
