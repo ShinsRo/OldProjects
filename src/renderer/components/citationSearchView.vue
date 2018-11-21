@@ -62,7 +62,6 @@
           <template slot="items" slot-scope="props">
             <tr @click="props.expanded = !props.expanded">
               <td >{{ (props.item.title.length > 10)? `${props.item.title.slice(0, 10)}...` : props.item.title }}</td>
-              <td >{{ props.item.firstAuthor }}</td>
               <td >{{ props.item.reprint.replace(/\(.+\)/, '') }}</td>
               <td v-html="
                 `${props.item.authors
@@ -83,6 +82,7 @@
             Your search for "{{ listSearch }}" found no results.
           </v-alert>
           <template slot="expand" slot-scope="props">
+            <h2 style="margin: 20px">논문 제목 : {{ props.item.title }}</h2>
             <table style="border:1px solid #FFFFFF; margin: 20px; width: 25%">
               <tr v-for="(value, key, index) in props.item.impact_factor" :key="index">
                 <td style="border:1px solid #FFFFFF;">{{key}}</td>
@@ -99,9 +99,9 @@
                 <td style="border:1px solid #FFFFFF;">이 논문의 저자 목록</td>
                 <td style="border:1px solid #FFFFFF;">연구기관</td>
               </tr>
-              <tr v-for="(key, value, index) in props.item.addresses" :key="index">
+              <tr v-for="(value, key, index) in props.item.addresses" :key="index">
                 <td style="border:1px solid #FFFFFF;">{{ key }}</td>
-                <td style="border:1px solid #FFFFFF;">{{ value }}</td>
+                <td v-html="value.join([separator = '<br>'])" style="border:1px solid #FFFFFF;"></td>
               </tr>
             </table>
             <table style="border:1px solid #FFFFFF; margin: 20px; width: 100%">
@@ -109,7 +109,13 @@
                 <td style="border:1px solid #FFFFFF;">이 논문을 인용하는 논문</td>
                 <td style="border:1px solid #FFFFFF;">논문 저자 목록</td>
               </tr>
-              <tr v-for="(title, index) in props.item.citingArticles.titles" :key="index">
+              <tr v-if="props.item.citingArticles.titles.length > 10">
+                <td>인용한 논문이 너무 많습니다. 엑셀파일을 확인해 주세요.</td><td></td>
+              </tr>
+              <tr
+              v-if="props.item.citingArticles.titles.length <= 10"
+              v-for="(title, index) in props.item.citingArticles.titles" :key="index"
+              >
                 <td style="border:1px solid #FFFFFF;">{{title}}</td>
                 <td style="border:1px solid #FFFFFF;">{{props.item.citingArticles.authors[index]}}</td>
               </tr>
@@ -158,7 +164,6 @@ export default {
           value: 'title',
           width: '20px',
         },
-        { text: '제1저자', align: 'left', value: 'firstAuthor', width: '30px' },
         { text: '교신저자', align: 'left', value: 'reprint', width: '30px' },
         { text: '저자 목록', align: 'left', value: 'authors', width: '30px' },
         { text: '발행분류', align: 'left', value: 'docType', width: '10px' },

@@ -23,10 +23,10 @@ class SJUresponse():
         if command == 'res':
             returnRes = {'name':self.name, 'command':command, 'target':target, 'res': res}
         elif command == 'log' or command == 'err' or command == 'sysErr':
+            # returnRes = {'name':self.name, 'command':command, 'msg': msg}
             returnRes = {'name':self.name, 'command':command, 'msg': urllib.parse.quote(msg)}
         elif command == 'errObj':
             returnRes = {'name':self.name, 'command':command, 'msg':msg}
-            # res = {'name':self.name, 'command':command, 'msg': msg}
         
         returnJSON = json.dumps(returnRes, allow_nan=False)
         # if len(returnJSON) > 8000 :

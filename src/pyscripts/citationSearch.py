@@ -11,10 +11,12 @@ import xlrd
 import json
 import re
 import bs4
+import concurrent.futures
 
 class SingleSearch():
     def __init__(self, sres):
         sres.print(command='log', msg='단일 인용정보 조회 서비스를 초기화합니다. 2~3분 정도의 시간이 소요됩니다.')
+        self.searchCnt = 0
         self.sres = sres
         self.browser = RoboBrowser(history=True, parser='lxml')
         self.baseUrl = "http://apps.webofknowledge.com"
@@ -54,9 +56,9 @@ class SingleSearch():
 
         sres.print('log', msg='검색어 : %s'%(query))
         browser.submit_form(WOS_GeneralSearch_input_form)
+        self.searchCnt += 1
 
         aTagArr_record = browser.select('a.snowplow-full-record')
-
 
         stepFlag = True
         if not aTagArr_record:
@@ -82,6 +84,7 @@ class SingleSearch():
 
         # 논문 제목
         title = aTagArr_record[0].text.replace('\n', '')
+
         # ISSN
         ISSN = browser.select('p.sameLine')[0]
         ISSN = ISSN.find_all('value')[0].text
@@ -106,6 +109,7 @@ class SingleSearch():
 
             for idx, th in enumerate(ths):
                 impact_factor[th.text.strip()] = tds[idx].text.strip()
+            
         else:
             impact_factor = {}
         
@@ -190,12 +194,13 @@ class SingleSearch():
                     tauthorAddress += [temp.contents[0]]
 
         if reprint == '':
-            reprint = 'none'
+            reprint = 'None'
 
         paperData = {
             'id' : random.getrandbits(32),
             # 'authors' : correction_form_inputs_by_name['00N70000002C0wa'].split(';'),
             'authors' : authors,
+            'firstAuthor': authors[0],
             'addresses' : addresses,
             'authorsCnt' : str(len(correction_form_inputs_by_name['00N70000002C0wa'].split(';')) - 1),
             'doi' : correction_form_inputs_by_name['00N70000002n88A'],
@@ -208,6 +213,7 @@ class SingleSearch():
             # 'title' : correction_form_inputs_by_name['00N70000002BdnX'],
             'title' : title,
             'impact_factor' : impact_factor,
+            'prevYearIF' : 'None',
             'timesCited' : timesCited,
             'grades' : grades,
             'capedGrades' : capedGrades,
@@ -219,7 +225,14 @@ class SingleSearch():
             'citingArticles' : [],
             'issn' : ISSN,
         }
-        paperData['ivp'] = [paperData['issue'], paperData['volume'], paperData['pages']]      
+        paperData['ivp'] = [paperData['issue'], paperData['volume'], paperData['pages']]
+        paperData['citingArticles'] = {'id': paperData['id'], 'titles': [], 'authors': []}
+
+        # 전년도 임팩트 팩토
+        prevYear = str(int(paperData['published']) - 1)
+        if prevYear in impact_factor.keys():
+            paperData['prevYearIF'] = impact_factor[prevYear]
+
         sres.print(command='log', msg='해당 논문의 정보 검색을 완료했습니다.')
         sres.print(command='res', target='paperData', res=paperData)
         
@@ -238,7 +251,7 @@ class SingleSearch():
             param += '&preferencesSaved='
             param += '&SID=' + self.SID
             self.browser.open(self.baseUrl + '/WOS_GeneralSearch_input.do' + param)
-            return
+            return paperData
 
         sres.print(command='log', msg='인용 중인 논문 정보 페이지를 가져옵니다.')
         browser.follow_link(cnt_link)
@@ -343,7 +356,7 @@ class SingleSearch():
 
         res = requests.get(ExcelActionURL)
 
-        ofileName = "{0}__인용논문검색결과.xls".format(paperData['title'])
+        ofileName = "인용논문검색결과_{0}.xls".format(paperData['title'])
 
         outputLocationPath = os.path.join(os.environ["HOMEPATH"], "Desktop")
         while(os.path.exists(outputLocationPath + "/" + ofileName)):
@@ -372,9 +385,23 @@ class SingleSearch():
         self.browser.open(self.baseUrl + '/WOS_GeneralSearch_input.do' + param)
 
 if __name__ == "__main__":
+    # WosPool = []
+    # with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+    #     sres = sju_response.SJUresponse('MultiCitationSearch')
+    #     future_wos = {executor.submit(SingleSearch, sres): no for no in range(record_length)}
+    #     for future in concurrent.futures.as_completed(future_wos):
+    #         no = future_wos[future]
+    #         try:
+    #             wos = future.result()
+    #             WosPool.append({'wos':wos, 'future':future})
+    #         except Exception as e:
+    #             print(e)
+    #         else:
+    #             print('future Wos %d번 생성완료'%no)
+    
+    #SingleSearch
     cnt = 0
-    sres = sju_response.SJUresponse('citationSearch')
-
+    sres = sju_response.SJUresponse('SingleCitationSearch')
     while(True):
         sres.print(command='res', target='loading', res=True)
         if cnt == 0:
@@ -392,7 +419,7 @@ if __name__ == "__main__":
         startYear = input().strip()
         endYear = input().strip()
 
-        errMSG = ''
+        errMSG = '알 수 없는 오류입니다.'
         try:
             if len(startYear) != 4 or len(endYear) != 4:
                 errMSG = "입력 형식이 올바르지 않습니다."
