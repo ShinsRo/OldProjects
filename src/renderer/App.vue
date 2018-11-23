@@ -70,47 +70,201 @@
       <v-content>
         <v-container fluid fill-height>
           <v-slide-y-transition mode="out-in">
-            <router-view></router-view>
+            <router-view 
+            :loading="loading"
+            :resList="resList"
+            :cResList="cResList"
+            :mResList="mResList"
+            :executer="executer"
+            :log="log"
+            v-on:stdin="stdinAll"
+            ></router-view>
           </v-slide-y-transition>
+      <!-- END content -->
         </v-container>
       </v-content>
-      <!-- END content -->
-      
+      <v-content>
+        <v-container fluid fill-height>
+          <v-flex xs12>
+            <h3>진행 로그</h3><br>
+            <v-card style="height:250px; overflow-y: scroll">
+              <v-card-title>
+                <span v-html="log"></span>
+              </v-card-title>
+            </v-card>
+          </v-flex>
+        </v-container>
       <v-footer :fixed="fixed" app>
         <v-spacer></v-spacer>
         <span>&copy; 2018 Sejong Univ.</span>
         <v-spacer></v-spacer>
       </v-footer>
+
+      </v-content>
     </v-app>
   </div>
 </template>
 
 <script>
   import { remote } from 'electron';
+  import { spawn } from 'child_process';
 
   export default {
     name: 'sejong-wos',
     data: () => ({
+      log: '',
+      executer: '',
       clipped: true,
       drawer: true,
       fixed: false,
       items: [
         { icon: 'info', title: '가이드', to: '/' },
-        { icon: 'search', title: '논문 검색', to: '/commonSearch' },
-        { icon: 'format_quote', title: '피인용 횟수/논문 검색', to: '/citationSearch' },
+        { icon: 'search', title: '상세 단일 검색', to: '/citationSearch' },
+        { icon: 'format_quote', title: '상세 엑셀 검색', to: '/citationSearchMulti' },
+        { icon: 'description', title: '일반 엑셀 검색', to: '/commonSearchMulti' },
       ],
       miniVariant: true,
-      // right: true,
-      // rightDrawer: false,
       title: '세종대학교 논문 정보 검색 시스템',
+      loading: true,
+      cResList: [
+        {
+          Title: 'example',
+          Authors: ['저자, A', '저자, B'],
+          'Source Title': 'LWT-FOOD SCIENCE AND TECHNOLOGY',
+          'Publication Date': 'NOV 2014',
+          Volume: '59',
+          Issue: '1',
+          'Beginning Page': '115',
+          'Ending Page': '121',
+          ivp: ['1/59', '115-121'],
+          DOI: '10.1016/j.lwt.2014.04.058',
+          'Total Citations': '71',
+        },
+      ],
+      mResList: [
+        {},
+      ],
+      resList: [
+        {
+          id: 102020,
+          title: 'example',
+          authors: ['저자, A', '저자, B'],
+          firstAuthor: '저자, A',
+          authorsCnt: '2',
+          addresses: {
+            '저자, A': ['[1] 연구기관 A', '[2] 연구기관 B'],
+            '저자, B': ['[1] 연구기관 A'],
+          },
+          doi: '000011',
+          capedGrades: ['SCIE', 'SCI'],
+          volume: '4',
+          issue: '5',
+          pages: '333-1414',
+          ivp: ['4/5', '333-1414'],
+          published: '',
+          publishedMonth: 'NOV 2020',
+          publisher: ['Sejong Docs.'],
+          impact_factor: { 2017: '2.111', '5 year': '1.442' },
+          timesCited: '2',
+          grades: ['asdasd', 'asdasdasdasdasdasd'],
+          docType: 'Article',
+          researchAreas: '',
+          language: 'English',
+          reprint: '저자, A',
+          jcr: [
+            ['JCR® Category', 'Rank in Category', 'Quartile in Category'],
+            ['BIOCHEMISTRY & MOLECULAR BIOLOGY', '1 of 293', 'Q1'],
+            ['CELL BIOLOGY', '2 of 190', 'Q1'],
+            ['MEDICINE, RESEARCH & EXPERIMENTAL', '1 of 133', 'Q1'],
+          ],
+          citingArticles: {
+            id: 102020,
+            titles: ['논문 A', '논문 B'],
+            authors: ['저자, C; 저자, D; 저자, E;', '저자, F; 저자, G;'],
+          },
+        },
+      ],
     }),
     methods: {
+      stdinAll: (payload) => {
+        console.log('stdinALL');
+        console.log(payload);
+        console.log(payload.scope.loading);
+        if (payload.scope.loading) {
+          return;
+        }
+        for (let idx = 0; idx < payload.inputs.length; idx += 1) {
+          payload.scope.executer.stdin.write(`${payload.inputs[idx]}\n`);
+        }
+      },
       winClose: () => {
         window.close();
       },
       winMinimize: () => {
         remote.BrowserWindow.getFocusedWindow().minimize();
       },
+    },
+    mounted() {
+      const rInFormat = /time:(.+)#@lineout:(.+)/gm;
+      if (this.executer === '') {
+        this.loading = true;
+        const cmd = spawn('cmd.exe');
+        cmd.stdin.setDefaultEncoding('utf-8');
+        cmd.stdout.setDefaultEncoding('utf-8');
+        cmd.stderr.setDefaultEncoding('utf-8');
+
+        // cmd.stdout.on('data', (data) => {
+        //   console.log(`cmd stdout: ${data.toString()}`);
+        // });
+        cmd.stderr.on('data', (data) => {
+          // this.log += `개발전용 : ${data.toString()}<br>${this.log}`;
+          console.log(`cmd stderr: ${data.toString()}`);
+          const output = data.toString().replace(/\n/ig, '').split('#&');
+          console.log(output);
+          let time = '';
+          let resJSON = '';
+
+          for (let i = 0; i < output.length; i += 1) {
+            if (!output[i].match(rInFormat) || !output[i]) break;
+            time = RegExp.$1;
+            resJSON = JSON.parse(RegExp.$2);
+            // 모듈로부터의 결과
+            switch (resJSON.command) {
+              // 단일 검색 모듈 명령어.
+              case 'res':
+                if (resJSON.target === 'loading') {
+                  this.loading = resJSON.res;
+                } else if (resJSON.target === 'paperData') {
+                  this.resList.push(resJSON.res);
+                } else if (resJSON.target === 'citingArticles') {
+                  for (let ii = 0; ii < this.resList.length; ii += 1) {
+                    console.log(resJSON.res.id);
+                    if (this.resList[ii].id === resJSON.res.id) {
+                      this.resList[ii].citingArticles = resJSON.res;
+                      break;
+                    }
+                  }
+                } else {
+                  this.log = `${time} : ${JSON.stringify(resJSON.res)}<br>${this.log}`;
+                }
+                break;
+              case 'err':
+              case 'log':
+              case 'sysErr':
+              default:
+                this.log = `${time} : ${decodeURIComponent(resJSON.msg)}<br>${this.log}`;
+                break;
+            }
+          }
+        });
+
+        cmd.on('close', (code) => {
+          console.log(`cmd child process exited with code ${code.toString()}`);
+          this.executer = '';
+        });
+        this.executer = cmd;
+        this.executer.stdin.write('python src/pyscripts/dispatcher.py\n');
+      }
     },
   };
 </script>

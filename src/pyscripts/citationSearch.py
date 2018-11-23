@@ -1,4 +1,3 @@
-import logging
 import random
 import os
 import sys
@@ -12,10 +11,10 @@ import json
 import re
 import bs4
 import concurrent.futures
+import threading
 
 class SingleSearch():
     def __init__(self, sres):
-        sres.print(command='log', msg='단일 인용정보 조회 서비스를 초기화합니다. 2~3분 정도의 시간이 소요됩니다.')
         self.searchCnt = 0
         self.sres = sres
         self.browser = RoboBrowser(history=True, parser='lxml')
@@ -25,10 +24,28 @@ class SingleSearch():
         self.SID = self.browser.session.cookies['SID'].replace("\"", "")
         self.jsessionid = self.browser.session.cookies['JSESSIONID']
 
-        sres.print(command='log', msg='SID : %s'%(self.SID))
-        sres.print(command='log', msg='jsessionid : %s'%(self.jsessionid))
-        sres.print(command='log', msg='WOS GeneralSearch를 엽니다.')
+        param = '?product=WOS'
+        param += '&search_mode=GeneralSearch'
+        param += '&preferencesSaved='
+        param += '&SID=' + self.SID
+        self.browser.open(self.baseUrl + '/WOS_GeneralSearch_input.do' + param)
 
+    def backToGeneralSearch(self):
+        sres = self.sres
+
+        if self.searchCnt % 200 == 0:
+            self.browser = RoboBrowser(history=True, parser='lxml')
+            self.baseUrl = "http://apps.webofknowledge.com"
+            self.browser.open(self.baseUrl)
+
+            self.SID = self.browser.session.cookies['SID'].replace("\"", "")
+            self.jsessionid = self.browser.session.cookies['JSESSIONID']
+
+            sres.print(command='log', msg='SID : %s'%(self.SID))
+            sres.print(command='log', msg='jsessionid : %s'%(self.jsessionid))
+            sres.print(command='log', msg='WOS GeneralSearch를 엽니다.')
+
+        sres.print(command='log', msg='브라우저를 초기화합니다.')
         param = '?product=WOS'
         param += '&search_mode=GeneralSearch'
         param += '&preferencesSaved='
@@ -38,7 +55,7 @@ class SingleSearch():
         sres.print(command='log', msg='초기화가 완료되었습니다.')
         sres.print(command='res', target='loading', res=False)
 
-    def generalSearch(self, query, startYear, endYear):
+    def generalSearch(self, query, startYear, endYear, gubun):
         sres = self.sres
         browser = self.browser
         baseUrl = self.baseUrl
@@ -46,10 +63,10 @@ class SingleSearch():
         jsessionid = self.jsessionid
         sres.print(command='res', target='loading', res=True)
 
-        sres.print('log', msg='시작합니다.')
+        sres.print('log', msg='단일 조회를 시작합니다.')
         WOS_GeneralSearch_input_form = browser.get_form('WOS_GeneralSearch_input_form')
         WOS_GeneralSearch_input_form['value(input1)'] = query
-        WOS_GeneralSearch_input_form['value(select1)'] = 'TI'
+        WOS_GeneralSearch_input_form['value(select1)'] = gubun
         WOS_GeneralSearch_input_form['startYear'] = startYear
         WOS_GeneralSearch_input_form['endYear'] = endYear
         WOS_GeneralSearch_input_form['range'] = 'CUSTOM'
@@ -66,17 +83,12 @@ class SingleSearch():
             stepFlag = False
         elif len(aTagArr_record) > 1:
             sres.print(command='err', msg='검색 결과가 하나 이상입니다.')
-            for aTag in aTagArr_record:
-                sres.print(command='err', msg='%s'%(aTag.text.replace('\n', '')))
+            # for aTag in aTagArr_record:
+            #     sres.print(command='err', msg='%s'%(aTag.text.replace('\n', '')))
             sres.print(command='err', msg='가장 비슷한 검색 결과로 정보를 가져옵니다.')
 
         if not stepFlag:
-            sres.print(command='log', msg='브라우저를 초기화합니다.')
-            param = '?product=WOS'
-            param += '&search_mode=GeneralSearch'
-            param += '&preferencesSaved='
-            param += '&SID=' + self.SID
-            self.browser.open(self.baseUrl + '/WOS_GeneralSearch_input.do' + param)
+            self.backToGeneralSearch()
             return
 
         sres.print(command='log', msg='논문 상세 정보 창에 접근합니다.')
@@ -86,8 +98,11 @@ class SingleSearch():
         title = aTagArr_record[0].text.replace('\n', '')
 
         # ISSN
-        ISSN = browser.select('p.sameLine')[0]
-        ISSN = ISSN.find_all('value')[0].text
+
+        ISSN = browser.select('p.sameLine')
+        if not ISSN:
+            ISSN = ISSN.find_all('value')[0].text
+        else: ISSN = ''
 
         # 등급
         grades = []
@@ -100,10 +115,10 @@ class SingleSearch():
                 capedGrades += [re.sub(r'[ a-z]+', r'', temp)]
 
         # 임팩트 팩토
-        Impact_Factor_table = browser.select('table.Impact_Factor_table')[0]
+        Impact_Factor_table = browser.select('table.Impact_Factor_table')
         impact_factor = {}
-        if Impact_Factor_table:
-            trs = Impact_Factor_table.find_all('tr')
+        if len(Impact_Factor_table) > 0:
+            trs = Impact_Factor_table[0].find_all('tr')
             tds = trs[0].find_all('td')
             ths = trs[1].find_all('th')
 
@@ -114,14 +129,17 @@ class SingleSearch():
             impact_factor = {}
         
         # JCR 랭크
-        JCR_Category_table = browser.select('table.JCR_Category_table')[0]
+        JCR_Category_table = browser.select('table.JCR_Category_table')
         jcr_headers = []
         jcr = []
-        trs = JCR_Category_table.find_all('tr')
-        if trs:
-            jcr.append([x.text.strip() for x in trs[0].find_all('th')])
-            for tr in trs[1:]:
-                jcr.append([x.text.strip() for x in tr.find_all('td')])
+        trs = []
+        if len(JCR_Category_table) > 0: 
+            JCR_Category_table = JCR_Category_table[0]
+            trs = JCR_Category_table.find_all('tr')
+            if trs:
+                jcr.append([x.text.strip() for x in trs[0].find_all('th')])
+                for tr in trs[1:]:
+                    jcr.append([x.text.strip() for x in tr.find_all('td')])
 
         # 인용 횟수 및 링크
         cnt_link = browser.select('a.snowplow-citation-network-times-cited-count-link')
@@ -225,7 +243,7 @@ class SingleSearch():
             'citingArticles' : [],
             'issn' : ISSN,
         }
-        paperData['ivp'] = [paperData['issue'], paperData['volume'], paperData['pages']]
+        paperData['ivp'] = ['%s/%s'%(paperData['issue'], paperData['volume']), paperData['pages']]
         paperData['citingArticles'] = {'id': paperData['id'], 'titles': [], 'authors': []}
 
         # 전년도 임팩트 팩토
@@ -355,8 +373,12 @@ class SingleSearch():
         ExcelActionURL += ExcelParam
 
         res = requests.get(ExcelActionURL)
+        if res.text.find("<html>") > 0 or res.text.find("Error report</title>") > 0:
+            sres.print(command='err', msg='WOS 서버에서 에러를 보내왔습니다.')
+            self.backToGeneralSearch()
+            return paperData
 
-        ofileName = "인용논문검색결과_{0}.xls".format(paperData['title'])
+        ofileName = "인용중인논문_ID{0}.xls".format(paperData['id'])
 
         outputLocationPath = os.path.join(os.environ["HOMEPATH"], "Desktop")
         while(os.path.exists(outputLocationPath + "/" + ofileName)):
@@ -371,80 +393,60 @@ class SingleSearch():
 
         citingArticles = {'id': paperData['id'], 'titles': [], 'authors': []}
         for idx, title in enumerate(citingTitle):
+            if citingTitle[idx] == None or citingTitle[idx] == 'null': continue
             citingArticles['titles'] += [citingTitle[idx]]
             citingArticles['authors'] += [citingAuthors[idx]]
         
         sres.print(command='log', msg='인용 중인 논문 정보를 가져왔습니다.')
         sres.print(command='res', target='citingArticles', res=citingArticles)
-
-        sres.print(command='log', msg='브라우저를 초기화합니다.')
-        param = '?product=WOS'
-        param += '&search_mode=GeneralSearch'
-        param += '&preferencesSaved='
-        param += '&SID=' + self.SID
-        self.browser.open(self.baseUrl + '/WOS_GeneralSearch_input.do' + param)
-
-if __name__ == "__main__":
-    # WosPool = []
-    # with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
-    #     sres = sju_response.SJUresponse('MultiCitationSearch')
-    #     future_wos = {executor.submit(SingleSearch, sres): no for no in range(record_length)}
-    #     for future in concurrent.futures.as_completed(future_wos):
-    #         no = future_wos[future]
-    #         try:
-    #             wos = future.result()
-    #             WosPool.append({'wos':wos, 'future':future})
-    #         except Exception as e:
-    #             print(e)
-    #         else:
-    #             print('future Wos %d번 생성완료'%no)
-    
-    #SingleSearch
-    cnt = 0
-    sres = sju_response.SJUresponse('SingleCitationSearch')
-    while(True):
-        sres.print(command='res', target='loading', res=True)
-        if cnt == 0:
-            try:
-                singleSearch = SingleSearch(sres)
-            except Exception as e:
-                sres.print(command='sysErr', msg='연결에 실패했습니다.')
-                sres.print(command='sysErr', msg='인터넷 연결이나 접속한 장소가 유효한 지 확인해주세요.')
-                sres.print(command='sysErr', msg='혹은 일시적 현상일 수 있으니 잠시 후 다시 접속해주세요.')
-        cnt = (cnt+1)%200
         
-        sres.print(command='log', msg='다음 지시를 기다립니다.')
-        sres.print(command='res', target='loading', res=False)
-        query = input().strip()
-        startYear = input().strip()
-        endYear = input().strip()
+        self.backToGeneralSearch()
 
-        errMSG = '알 수 없는 오류입니다.'
-        try:
-            if len(startYear) != 4 or len(endYear) != 4:
-                errMSG = "입력 형식이 올바르지 않습니다."
-                raise Exception()
+class MultiSearch():
+    def __init__(self, sres):
+        WosPool = []
+        threadAmount = 10
+        self.threadAmount = threadAmount
+        self.sres = sres
+        with concurrent.futures.ThreadPoolExecutor(max_workers=threadAmount) as executor:
+            sres = sju_response.SJUresponse('MultiCitationSearch')
+            future_wos = {executor.submit(SingleSearch, sres): no for no in range(threadAmount)}
+            for future in concurrent.futures.as_completed(future_wos):
+                no = future_wos[future]
+                try:
+                    wos = future.result()
+                    WosPool.append({'wos':wos, 'future':future, 'working': False})
+                except Exception as e:
+                    print(e)
+                else:
+                    sres.print(command='log', msg='future Wos Pool %d번 생성완료'%(no))
 
-            if not 1900 <= int(startYear) <= 2018:
-                errMSG = "년도는 1900과 금년 사이여야 합니다."
-                raise Exception()
+        self.WosPool = WosPool
 
-            if not 1900 <= int(endYear) <= 2018:
-                errMSG = "년도는 1900과 금년 사이여야 합니다."
-                raise Exception()
-
-            if not int(startYear) <= int(endYear):
-                errMSG = "검색 기간이 올바르지 않습니다."
-                raise Exception()
-
-        except Exception as e:
-            sres.print(command='log', msg=errMSG)
-            continue
-        try:
-            singleSearch.generalSearch(query=query, startYear=startYear, endYear=endYear)
-        except Exception as e:
-            sres.print(command='sysErr', msg='심각한 오류')
-            sres.print(command='errObj', msg=e)
-            cnt = 0
-        sres.print(command='log', msg='한 쿼리가 완료되었습니다. cnt = %d'%cnt)
+    def getIdleWos(self):
+        for wosContainer in self.WosPool:
+            if not wosContainer['working']:
+                wosContainer['working'] = True
+                return wosContainer
+            
+    def generalSearch(self, path, startYear, endYear, gubun):
+        threadAmount = self.threadAmount
+        WosPool = self.WosPool
+        sres = self.sres
         sres.print(command='res', target='loading', res=True)
+        sres.print('log', msg='다중 조회를 시작합니다.')
+        sres.print('log', msg='%s에서 인풋을 읽습니다.'%path)
+        
+        querys = ['asd', 'bbb', 'zxcasfas', 'cccccccc', 'cc']
+        with concurrent.futures.ThreadPoolExecutor(max_workers=threadAmount) as executor:
+            future_wos = {
+                executor.submit(self.getIdleWos['wos'].generalSearch, qry, startYear, endYear, gubun): qry for qry in querys}
+            for future in concurrent.futures.as_completed(future_wos):
+                qry = future_wos[future]
+                try:
+                    paperData = future.result()
+                except Exception as e:
+                    print(e)
+                else:
+                    print('%s 쿼리 완료'%qry)
+                    print(paperData)

@@ -86,9 +86,6 @@ export default {
       // shell.send('pleeeeeese');
     },
   },
-  beforeDestroy() {
-    this.executer.stdin.end();
-  },
 };
 
 </script>

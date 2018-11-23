@@ -27,11 +27,11 @@
     </v-flex>
     <v-flex xs2 class="text-xs-center">
       <v-btn
-        @click="search"
+        @click="stdin"
         slot="activator"
-        v-if="true"
+        v-if="!loading"
       >
-        LOAD
+        불러오기
       </v-btn>
       <v-flex v-if="loading">
         <pulse-loader :loading="loading" :color="'#5bc0de'" :size="'20px'"></pulse-loader>
@@ -82,14 +82,20 @@
             Your search for "{{ listSearch }}" found no results.
           </v-alert>
           <template slot="expand" slot-scope="props">
-            <h2 style="margin: 20px">논문 제목 : {{ props.item.title }}</h2>
-            <table style="border:1px solid #FFFFFF; margin: 20px; width: 25%">
+            <h2 style="margin: 20px"><v-icon v-html="'assignment'"></v-icon> : {{ props.item.title }}</h2>
+            <!-- IF 테이블 -->
+            <table 
+            v-if="Object.keys(props.item.impact_factor).length"
+            style="border:1px solid #FFFFFF; margin: 20px; width: 25%">
               <tr v-for="(value, key, index) in props.item.impact_factor" :key="index">
                 <td style="border:1px solid #FFFFFF;">{{key}}</td>
                 <td style="border:1px solid #FFFFFF;">{{value}}</td>
               </tr>
             </table>
-            <table style="border:1px solid #FFFFFF; margin: 20px;">
+            <!-- JCR 테이블 -->
+            <table 
+            v-if="props.item.jcr.length"
+            style="border:1px solid #FFFFFF; margin: 20px;">
               <tr v-for="(row, index) in props.item.jcr" :key="index">
                 <td v-for="col in row" :key="col" style="border:1px solid #FFFFFF;">{{col}}</td>
               </tr>
@@ -99,12 +105,18 @@
                 <td style="border:1px solid #FFFFFF;">이 논문의 저자 목록</td>
                 <td style="border:1px solid #FFFFFF;">연구기관</td>
               </tr>
-              <tr v-for="(value, key, index) in props.item.addresses" :key="index">
+              <tr 
+              v-if="props.item.addresses"
+              v-for="(value, key, index) in props.item.addresses" :key="index">
                 <td style="border:1px solid #FFFFFF;">{{ key }}</td>
                 <td v-html="value.join([separator = '<br>'])" style="border:1px solid #FFFFFF;"></td>
               </tr>
             </table>
+            <!-- 인용 테이블 -->
             <table style="border:1px solid #FFFFFF; margin: 20px; width: 100%">
+              <tr>
+                <td style="border:1px solid #FFFFFF;">파일 ID : {{props.item.citingArticles.id}}</td>
+              </tr>
               <tr>
                 <td style="border:1px solid #FFFFFF;">이 논문을 인용하는 논문</td>
                 <td style="border:1px solid #FFFFFF;">논문 저자 목록</td>
@@ -125,33 +137,16 @@
       </v-card>
     </v-flex>
     <!-- END 결과표 -->
-    <v-flex xs12 mb12>
-      <br>
-      <h3>진행 로그</h3><br>
-      <v-card style="height:250px; overflow-y: scroll">
-        <v-card-title>
-          <span v-html="log"></span>
-        </v-card-title>
-      </v-card>
-    </v-flex>
   </v-layout>
 </template>
 
 <script>
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
-import { spawn } from 'child_process';
-// import { fs } from 'fs';
 
 export default {
+  props: ['resList', 'loading', 'executer', 'log'],
   data() {
     return {
-      pymsg: 'not yet',
-      state: 'ready',
-      loading: true,
-      // executer: spawn('cmd.exe'),
-      executer: spawn('cmd.exe'),
-      log: '',
-      gubun: 0,
       query: '',
       startYear: '',
       endYear: '',
@@ -167,131 +162,30 @@ export default {
         { text: '교신저자', align: 'left', value: 'reprint', width: '30px' },
         { text: '저자 목록', align: 'left', value: 'authors', width: '30px' },
         { text: '발행분류', align: 'left', value: 'docType', width: '10px' },
-        { text: '권/호, 페이지', align: 'left', value: 'ivp', width: '5px' },
-        // { text: '호', align: 'left', value: 'volume', width: '1px' },
         { text: '발행년월', align: 'left', value: 'publishedMonth', width: '5px' },
         { text: '발행처', align: 'left', value: 'publisher', width: '20px' },
         { text: '피인용', align: 'left', value: 'timesCited', width: '5px' },
-        // { text: '등급', align: 'left', value: 'grades', width: '20px' },
         { text: '등급', align: 'left', value: 'capedGrades', width: '20px' },
+        { text: '권/호, 페이지', align: 'left', value: 'ivp', width: '5px' },
         { text: '언어', align: 'left', value: 'language', width: '10px' },
-      ],
-      resList: [
-        {
-          id: '123123',
-          title: 'sadkjdsfalkdsajflksadkjdsfalkdsajflksadkjdsfalkdsajflksadkjdsfalkdsajflk',
-          authors: ['sadkjdsfalkdsajflk', 'Kasd, DD'],
-          firstAuthor: 'who',
-          authorsCnt: '10',
-          doi: '3',
-          capedGrades: ['SICE', 'SCI'],
-          volume: '4',
-          issue: '5',
-          pages: '333-1414',
-          ivp: ['4', '5', '333-1414'],
-          published: '',
-          publishedMonth: 'nov 2020',
-          publisher: ['asdasd', 'asdasdasdasdasdasd'],
-          impact_factor: { 2017: '2.111', '5 year': '1.442' },
-          timesCited: '2',
-          grades: ['asdasd', 'asdasdasdasdasdasd'],
-          docType: 'Article',
-          researchAreas: '',
-          language: '',
-          reprint: '',
-          jcr: [
-            ['JCR® Category', 'Rank in Category', 'Quartile in Category'],
-            ['BIOCHEMISTRY & MOLECULAR BIOLOGY', '1 of 293', 'Q1'],
-            ['CELL BIOLOGY', '2 of 190', 'Q1'],
-            ['MEDICINE, RESEARCH & EXPERIMENTAL', '1 of 133', 'Q1'],
-          ],
-          citingArticles: {
-            id: 102020,
-            titles: ['asdasdasdasdaas', 'asdasdasdasdasd'],
-            authors: ['ASDSAD DD; asdasdasd; asdasd;', 'ADADA asdasd; asdasd'],
-          },
-        },
       ],
     };
   },
   components: {
     PulseLoader,
   },
-  created() {
-    const rInFormat = /time:(.+)#@lineout:(.+)/gm;
-    const cmd = this.executer;
-
-    cmd.stdin.setDefaultEncoding('utf-8');
-    cmd.stdout.setDefaultEncoding('utf-8');
-    cmd.stderr.setDefaultEncoding('utf-8');
-
-    cmd.stderr.on('data', (data) => {
-      this.log += `개발전용 : ${data.toString()}<br>${this.log}`;
-      console.log(`cmd stderr: ${data.toString()}`);
-      const output = data.toString().replace(/\n/ig, '').split('#&');
-      console.log(output);
-      let time = '';
-      let resJSON = '';
-      for (let i = 0; i < output.length; i += 1) {
-        if (!output[i].match(rInFormat) || !output[i]) break;
-        time = RegExp.$1;
-        console.log(resJSON);
-        resJSON = JSON.parse(RegExp.$2);
-        // 모듈로부터의 결과
-        switch (resJSON.command) {
-          case 'err':
-          case 'log':
-          case 'sysErr':
-            this.log = `${time} : ${decodeURIComponent(resJSON.msg)}<br>${this.log}`;
-            break;
-          case 'res':
-            if (resJSON.target === 'loading') {
-              this.loading = resJSON.res;
-            } else if (resJSON.target === 'paperData') {
-              this.resList.push(resJSON.res);
-            } else if (resJSON.target === 'citingArticles') {
-              for (let ii = 0; ii < this.resList.length; ii += 1) {
-                console.log(resJSON.res.id);
-                if (this.resList[ii].id === resJSON.res.id) {
-                  this.resList[ii].citingArticles = resJSON.res;
-                  break;
-                }
-              }
-            } else {
-              this.log = `${time} : ${JSON.stringify(resJSON.res)}<br>${this.log}`;
-            }
-            break;
-          default:
-            this.log = `${time} : ${decodeURIComponent(resJSON.msg)}<br>${this.log}`;
-            break;
-        }
-      }
-    });
-
-    cmd.on('close', (code) => {
-      console.log(`cmd child process exited with code ${code.toString()}`);
-    });
-
-    this.loading = true;
-    this.executer.stdin.write('python src/pyscripts/citationSearch.py\n');
-    // this.executer.stdin.write('src/pyscripts/citationSearch.exe\n');
-  },
   methods: {
     logFlush() {
       this.log = '';
     },
-    search() {
-      const cmd = this.executer;
-
-      cmd.stdin.setDefaultEncoding('utf-8');
-      console.log(`${this.query}`);
-      this.executer.stdin.write(`${this.query}\n`);
-      this.executer.stdin.write(`${this.startYear}\n`);
-      this.executer.stdin.write(`${this.endYear}\n`);
+    stdin() {
+      console.log('stdin func');
+      const payload = {
+        scope: this,
+        inputs: ['singleCitationSearch', this.query, this.startYear, this.endYear],
+      };
+      this.$emit('stdin', payload);
     },
-  },
-  beforeDestroy() {
-    this.executer.stdin.end();
   },
 };
 

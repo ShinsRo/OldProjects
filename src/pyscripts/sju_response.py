@@ -19,7 +19,8 @@ class SJUresponse():
 
     def print(self, command, msg=None, target=None, res=None):
         # spath = self.spath
-
+        if self.name == 'MultiCitationSearch':
+            pass
         if command == 'res':
             returnRes = {'name':self.name, 'command':command, 'target':target, 'res': res}
         elif command == 'log' or command == 'err' or command == 'sysErr':
@@ -28,22 +29,13 @@ class SJUresponse():
         elif command == 'errObj':
             returnRes = {'name':self.name, 'command':command, 'msg':msg}
         
-        returnJSON = json.dumps(returnRes, allow_nan=False)
-        # if len(returnJSON) > 8000 :
-        #     del returnRes['res']
-        #     returnRes['command'] = 'tooLong'
+        try:
+            returnJSON = json.dumps(returnRes, allow_nan=False)
+            self.stdout.info(returnJSON)
+        except Exception as e:
+            returnJSON = json.dumps({'command':'sysErr', msg:'통신 JSON 제작에 실패했습니다.'})
+            self.stdout.info(returnJSON)
+            returnJSON = json.dumps({'command':'sysErr', msg:str(e)})
+            self.stdout.info(returnJSON)
 
-        #     cnt = 0
-        #     tempFileName = 'temp%d.log'%(cnt)
-        #     returnRes['path'] = spath + '/' +tempFileName
-        #     while(os.path.exists(returnRes['path'])) :
-        #         cnt += 1
-        #         tempFileName = 'temp%d.log'%(cnt)
-        #         returnRes['path'] = spath + '/' +tempFileName
-            
-        #     returnJSON = json.dumps(returnJSON)             
-        #     with open(returnRes['path'], 'w') as returnFile:
-        #         returnFile.write(returnJSON)
-        #         returnFile.close()
-
-        self.stdout.info(returnJSON)
+        # print(returnRes)
