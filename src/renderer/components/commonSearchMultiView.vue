@@ -2,12 +2,12 @@
   <v-layout row wrap>
     <!-- 옵션 컨테이너 -->
     <v-flex xs6>
-      <v-text-field
+      <!-- <v-text-field
         label="검색하실 내용을 입력하세요."
         placeholder=""
         outline
-        v-model="query"
-      ></v-text-field>
+        v-model=""
+      ></v-text-field> -->
     </v-flex>
     <v-flex xs2>
       <v-text-field
@@ -91,9 +91,10 @@ export default {
   props: ['cResList', 'loading', 'executer', 'log'],
   data() {
     return {
-      query: '',
-      startYear: '',
-      endYear: '',
+      startYear: '2010',
+      endYear: '2018',
+      gubun: 'TI',
+      inputFilePath: 'C:\\input.csv',
       listSearch: '',
       resHeaders: [
         {
@@ -123,7 +124,7 @@ export default {
       console.log('stdin func');
       const payload = {
         scope: this,
-        inputs: ['singleCitationSearch', this.query, this.startYear, this.endYear],
+        inputs: ['multiCommonSearch', this.startYear, this.endYear, this.gubun, this.inputFilePath],
       };
       this.$emit('stdin', payload);
     },

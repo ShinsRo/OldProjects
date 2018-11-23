@@ -399,7 +399,7 @@ class SingleSearch():
         
         sres.print(command='log', msg='인용 중인 논문 정보를 가져왔습니다.')
         sres.print(command='res', target='citingArticles', res=citingArticles)
-        
+
         self.backToGeneralSearch()
 
 class MultiSearch():

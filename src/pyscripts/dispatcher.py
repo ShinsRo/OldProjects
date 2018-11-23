@@ -1,4 +1,5 @@
 import citationSearch
+import commonSearch
 import sju_response
 import concurrent.futures
 
@@ -7,13 +8,15 @@ if __name__ == "__main__":
     dsres.print(command='res', target='loading', res=True)
     dsres.print(command='log', msg='dispatcher를 준비합니다.')
 
-    singleSearchObj = None
-    multiSearchObj = None
+    singleCitationSearchObj = None
+    multiCitationSearchObj = None
+    multiCommonSearchObj = None
     # 서비스 초기화
     try:
         serviceList = [
             { 'name': 'SingleCitationSearch', 'init': citationSearch.SingleSearch}, 
-            { 'name': 'MultiCitationSearchMain', 'init': citationSearch.MultiSearch}
+            { 'name': 'MultiCitationSearch', 'init': citationSearch.MultiSearch},
+            { 'name': 'MultiCommonSearch', 'init': commonSearch.MultiSearch},
         ]
         
         dsres.print(command='log', msg='기반 서비스를 초기화합니다. 이 작업은 2~3분이 소요됩니다.')
@@ -28,13 +31,16 @@ if __name__ == "__main__":
                 try:
                     tempObj = future.result()
                     if name_done == 'SingleCitationSearch': 
-                        singleSearchObj = tempObj
-                        dsres.print(command='log', msg='SID : %s'%(singleSearchObj.SID))
-                        dsres.print(command='log', msg='jsessionid : %s'%(singleSearchObj.jsessionid))
-                        dsres.print(command='log', msg='단일 인용 검색 서비스 초기화가 완료되었습니다.')
-                    elif name_done == 'MultiCitationSearchMain':
-                        multiSearchObj = tempObj
-                        dsres.print(command='log', msg='다중 인용 검색 서비스 초기화가 완료되었습니다.')
+                        singleCitationSearchObj = tempObj
+                        dsres.print(command='log', msg='SID : %s'%(singleCitationSearchObj.SID))
+                        dsres.print(command='log', msg='jsessionid : %s'%(singleCitationSearchObj.jsessionid))
+                        dsres.print(command='log', msg='단일 상세 검색 서비스 초기화가 완료되었습니다.')
+                    elif name_done == 'MultiCitationSearch':
+                        multiCitationSearchObj = tempObj
+                        dsres.print(command='log', msg='다중 상세 검색 서비스 초기화가 완료되었습니다.')
+                    elif name_done == 'MultiCommonSearch':
+                        multiCommonSearchObj = tempObj
+                        dsres.print(command='log', msg='다중 일반 검색 서비스 초기화가 완료되었습니다.')
                         
                 except Exception as e:
                     print(e)
@@ -56,7 +62,7 @@ if __name__ == "__main__":
         # 검색 서비스 종류
         serviceName = input().strip()
 
-        # 단일 인용 상세 검색
+        # 단일 상세 검색
         if serviceName == 'singleCitationSearch':
             query = input().strip()
             startYear = input().strip()
@@ -84,20 +90,31 @@ if __name__ == "__main__":
                 dsres.print(command='log', msg=errMSG)
                 continue
             try:
-                singleSearchObj.generalSearch(query=query, startYear=startYear, endYear=endYear, gubun='TI')
+                singleCitationSearchObj.generalSearch(query=query, startYear=startYear, endYear=endYear, gubun='TI')
             except Exception as e:
                 dsres.print(command='sysErr', msg='심각한 오류')
                 dsres.print(command='errObj', msg=str(e))
             
             dsres.print(command='log', msg='단일 검색을 마쳤습니다.')
 
-        # 다중 인용 상세 검색
+        # 다중 상세 검색
         elif serviceName == 'multiCitationSearch':
             dsres.print(command='err', msg='미구현')
         
-        # 일반 Advanced 검색
-        elif serviceName == 'commonAdvancedSearch':
-            dsres.print(command='err', msg='미구현')
+        # 다중 일반 검색
+        elif serviceName == 'multiCommonSearch':
+            startYear = input().strip()
+            endYear = input().strip()
+            gubun = input().strip()
+            inputFilePath = input().strip()
+
+            multiCommonSearchObj.generalSearch(
+                startYear = startYear,
+                endYear = endYear,
+                gubun = gubun,
+                inputFilePath = inputFilePath
+            )
+            dsres.print(command='log', msg='일반 엑셀 검색이 완료되었습니다.')
 
         # 알 수 없는 서비스 네임
         else:

@@ -1,6 +1,6 @@
 <template>
   <v-layout row wrap>
-    아직 추가되지 않은 페이지... 얼른해야되는디
+    해당 기능은 아직 이슈를 해결 중입니다.
   </v-layout>
 </template>
 
