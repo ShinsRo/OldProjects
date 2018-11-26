@@ -71,7 +71,7 @@
           <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
           <template slot="items" slot-scope="props">
             <tr @click="props.expanded = !props.expanded">
-              <td >{{ (props.item.title.length > 10)? `${props.item.title.slice(0, 10)}...` : props.item.title }}</td>
+              <td >{{ (props.item.title.length > 8)? `${props.item.title.slice(0, 10)}...` : props.item.title }}</td>
               <td >{{ props.item.reprint.replace(/\(.+\)/, '') }}</td>
               <td v-html="
                 `${props.item.authors
