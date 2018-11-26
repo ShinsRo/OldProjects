@@ -74,6 +74,7 @@
             :loading="loading"
             :resList="resList"
             :cResList="cResList"
+            :notFoundList="notFoundList"
             :mResList="mResList"
             :executer="executer"
             :log="log"
@@ -126,8 +127,10 @@
       miniVariant: true,
       title: '세종대학교 논문 정보 검색 시스템',
       loading: true,
+      notFoundList: [],
       cResList: [
         {
+          id: 102020,
           Title: 'example',
           Authors: ['저자, A', '저자, B'],
           'Source Title': 'LWT-FOOD SCIENCE AND TECHNOLOGY',
@@ -218,9 +221,13 @@
         // });
         cmd.stderr.on('data', (data) => {
           // this.log += `개발전용 : ${data.toString()}<br>${this.log}`;
-          console.log(`cmd stderr: ${data.toString()}`);
+          // console.log(`cmd stderr: ${data.toString()}`);
           const output = data.toString().replace(/\n/ig, '').split('#&');
-          console.log(output);
+          try {
+            console.log(decodeURIComponent(output));
+          } catch (e) {
+            console.log(output);
+          }
           let time = '';
           let resJSON = '';
 
@@ -246,6 +253,12 @@
                   }
                 } else {
                   this.log = `${time} : ${JSON.stringify(resJSON.res)}<br>${this.log}`;
+                }
+                break;
+              case 'cres':
+                if (resJSON.target === 'result') {
+                  this.cResList = resJSON.res.cResList;
+                  this.notFoundList = resJSON.res.notFoundList;
                 }
                 break;
               case 'err':
