@@ -67,35 +67,14 @@ if __name__ == "__main__":
             query = input().strip()
             startYear = input().strip()
             endYear = input().strip()
-
-            errMSG = '알 수 없는 오류입니다.'
-            try:
-                if len(startYear) != 4 or len(endYear) != 4:
-                    errMSG = "입력 형식이 올바르지 않습니다."
-                    raise Exception()
-
-                if not 1900 <= int(startYear) <= 2018:
-                    errMSG = "년도는 1900과 금년 사이여야 합니다."
-                    raise Exception()
-
-                if not 1900 <= int(endYear) <= 2018:
-                    errMSG = "년도는 1900과 금년 사이여야 합니다."
-                    raise Exception()
-
-                if not int(startYear) <= int(endYear):
-                    errMSG = "검색 기간이 올바르지 않습니다."
-                    raise Exception()
-
-            except Exception as e:
-                dsres.print(command='log', msg=errMSG)
-                continue
+            
             try:
                 singleCitationSearchObj.generalSearch(query=query, startYear=startYear, endYear=endYear, gubun='TI')
             except Exception as e:
                 dsres.print(command='sysErr', msg='심각한 오류')
                 dsres.print(command='errObj', msg=str(e))
-            
-            dsres.print(command='log', msg='단일 검색을 마쳤습니다.')
+            else:
+                dsres.print(command='log', msg='단일 검색을 마쳤습니다.')
 
         # 다중 상세 검색
         elif serviceName == 'multiCitationSearch':
@@ -107,19 +86,23 @@ if __name__ == "__main__":
             endYear = input().strip()
             gubun = input().strip()
             inputFilePath = input().strip()
+            defaultQueryPackSize = input().strip()
 
-            multiCommonSearchObj.generalSearch(
-                startYear = startYear,
-                endYear = endYear,
-                gubun = gubun,
-                inputFilePath = inputFilePath
-            )
-            dsres.print(command='log', msg='일반 엑셀 검색이 완료되었습니다.')
+            try:
+                multiCommonSearchObj.generalSearch(
+                    startYear = startYear,
+                    endYear = endYear,
+                    gubun = gubun,
+                    inputFilePath = inputFilePath,
+                    defaultQueryPackSize = 0
+                )
+            except Exception as e:
+                dsres.print(command='sysErr', msg='다중 일반 검색 중 오류가 발생했습니다.')
+            else:
+                dsres.print(command='log', msg='일반 엑셀 검색이 완료되었습니다.')
 
         # 알 수 없는 서비스 네임
         else:
             dsres.print(command='sysErr', msg='알 수 없는 서비스 접근')
 
         dsres.print(command='res', target='loading', res=True)
-
-            
