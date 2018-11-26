@@ -109,7 +109,7 @@
 <script>
   import { remote } from 'electron';
   import { spawn } from 'child_process';
-
+  // import path from 'path';
   export default {
     name: 'sejong-wos',
     data: () => ({
@@ -208,16 +208,16 @@
       },
     },
     mounted() {
-      // alert('path test');
-      // const http = new XMLHttpRequest();
-      // http.open('HEAD', '../assets/logo.png', false);
-      // http.send();
-      // alert(http.status);
-      // alert(__dirname);
       const rInFormat = /time:(.+)#@lineout:(.+)/gm;
       if (this.executer === '') {
         this.loading = true;
         const cmd = spawn('cmd.exe');
+        // 빌드 전용 spawn
+        // const cmd = spawn(`${path.dirname(process.execPath)}/dispatcher.exe`);
+        // alert(path.dirname(process.execPath).slice(0, 50));
+        // alert(path.dirname(process.execPath).slice(50, 100));
+        // alert(path.dirname(process.execPath).slice(100, 50));
+        // alert(process.execPath);
         cmd.stdin.setDefaultEncoding('utf-8');
         cmd.stdout.setDefaultEncoding('utf-8');
         cmd.stderr.setDefaultEncoding('utf-8');
@@ -282,6 +282,7 @@
           this.executer = '';
         });
         this.executer = cmd;
+        // 빌드 시 주석 필수
         this.executer.stdin.write('python src/pyscripts/dispatcher.py\n');
       }
     },
