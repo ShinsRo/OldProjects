@@ -208,6 +208,12 @@
       },
     },
     mounted() {
+      // alert('path test');
+      // const http = new XMLHttpRequest();
+      // http.open('HEAD', '../assets/logo.png', false);
+      // http.send();
+      // alert(http.status);
+      // alert(__dirname);
       const rInFormat = /time:(.+)#@lineout:(.+)/gm;
       if (this.executer === '') {
         this.loading = true;
@@ -216,9 +222,9 @@
         cmd.stdout.setDefaultEncoding('utf-8');
         cmd.stderr.setDefaultEncoding('utf-8');
 
-        // cmd.stdout.on('data', (data) => {
-        //   console.log(`cmd stdout: ${data.toString()}`);
-        // });
+        cmd.stdout.on('data', (data) => {
+          console.log(`cmd stdout: ${data.toString()}`);
+        });
         cmd.stderr.on('data', (data) => {
           // this.log += `개발전용 : ${data.toString()}<br>${this.log}`;
           // console.log(`cmd stderr: ${data.toString()}`);
