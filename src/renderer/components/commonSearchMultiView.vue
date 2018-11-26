@@ -199,6 +199,7 @@ export default {
         errObj.show = true;
         return;
       }
+      errObj.show = false;
       const payload = {
         scope: this,
         inputs: ['multiCommonSearch', this.startYear, this.endYear, this.gubunsId[this.gubun], this.inputFilePath, 0],

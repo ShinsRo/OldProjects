@@ -224,6 +224,7 @@ export default {
         errObj.show = true;
         return;
       }
+      errObj.show = false;
       const payload = {
         scope: this,
         inputs: ['singleCitationSearch', this.query, this.startYear, this.endYear],
