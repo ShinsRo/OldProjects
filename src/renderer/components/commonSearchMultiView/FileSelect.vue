@@ -8,7 +8,7 @@
             <!-- We can't use a normal button element here, as it would become the target of the label. -->
             <div class="select-button">
             <!-- Display the filename if a file has been selected. -->
-                <v-flex>Select File</v-flex>
+                <v-flex>파일선택</v-flex>
             </div>
             <!-- Now, the file input that we hide. -->
             <input type="file" @change="handleFileChange"/>
