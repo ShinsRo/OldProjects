@@ -38,6 +38,16 @@
       </v-flex>
     </v-flex>
     <!-- END 옵션 컨테이너 -->
+    <!-- 인풋 에러 얼럿 -->
+    <v-flex xs12>
+      <v-alert
+      :value="errObj.show"
+      type="error"
+      >
+        {{ errObj.msg }}
+      </v-alert>
+    </v-flex>
+    <!-- END 인풋 에러 얼럿 -->
     <!-- 결과표 -->
     <v-flex xs12>
       <v-card>
@@ -147,6 +157,11 @@ export default {
   props: ['resList', 'loading', 'executer', 'log'],
   data() {
     return {
+      errObj: {
+        show: false,
+        code: 200,
+        msg: '입력 값이 잘못되었습니다',
+      },
       query: '',
       startYear: '',
       endYear: '',
@@ -179,7 +194,36 @@ export default {
       this.log = '';
     },
     stdin() {
-      console.log('stdin func');
+      // 인풋값 체크
+      const errObj = this.errObj;
+      try {
+        this.startYear.trim();
+        const intSY = parseInt(this.startYear, 10);
+        const intEY = parseInt(this.endYear, 10);
+        const intNY = parseInt((new Date()).getFullYear(), 10);
+        if (!this.startYear || this.startYear.length !== 4) {
+          errObj.code = 100;
+          errObj.msg = '시작년도를 확인해주세요.';
+        } else if (!this.endYear || this.endYear.length !== 4) {
+          errObj.code = 101;
+          errObj.msg = '끝 년도를 확인해주세요.';
+        } else if (
+          !(intSY >= 1900 && intSY <= intNY) ||
+          !(intEY >= 1900 && intEY <= intNY)
+        ) {
+          errObj.code = 102;
+          errObj.msg = '년도는 1900년에서 금년 + 1 사이여야 합니다.';
+        } else if (intSY > intEY) {
+          errObj.code = 103;
+          errObj.msg = '시작년도가 끝 년도보다 최근일 수 없습니다.';
+        } else {
+          errObj.code = false;
+        }
+        if (errObj.code) { throw errObj; }
+      } catch (e) {
+        errObj.show = true;
+        return;
+      }
       const payload = {
         scope: this,
         inputs: ['singleCitationSearch', this.query, this.startYear, this.endYear],

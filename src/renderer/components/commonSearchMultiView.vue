@@ -49,6 +49,16 @@
       <pulse-loader :loading="loading" :color="'#5bc0de'" :size="'20px'"></pulse-loader>
     </v-flex>
     <!-- END 옵션 컨테이너 -->
+    <!-- 인풋 에러 얼럿 -->
+    <v-flex xs12>
+      <v-alert
+      :value="errObj.show"
+      type="error"
+      >
+        {{ errObj.msg }}
+      </v-alert>
+    </v-flex>
+    <!-- END 인풋 에러 얼럿 -->
     <!-- 결과표 -->
     <v-flex xs12>
       <v-card>
@@ -111,6 +121,11 @@ export default {
   props: ['cResList', 'notFoundList', 'loading', 'executer', 'log'],
   data() {
     return {
+      errObj: {
+        show: false,
+        code: 200,
+        msg: '입력 값이 잘못되었습니다',
+      },
       startYear: '2010',
       endYear: '2018',
       gubun: '논문제목',
@@ -151,10 +166,7 @@ export default {
     },
     stdin() {
       // 인풋값 체크
-      const errObj = {
-        code: 200,
-        msg: '입력 값이 잘못되었습니다',
-      };
+      const errObj = this.errObj;
       try {
         this.startYear.trim();
         const intSY = parseInt(this.startYear, 10);
@@ -184,7 +196,7 @@ export default {
         }
         if (errObj.code) { throw errObj; }
       } catch (e) {
-        alert(errObj.msg);
+        errObj.show = true;
         return;
       }
       const payload = {
