@@ -18,10 +18,9 @@ class SJUresponse():
         self.stdout = logging.getLogger(name)
 
     def print(self, command, msg=None, target=None, res=None):
-        # spath = self.spath
         if self.name == 'MultiCitationSearch':
             pass
-        if command == 'res':
+        if command == 'res' or command == 'cres':
             returnRes = {'name':self.name, 'command':command, 'target':target, 'res': res}
         elif command == 'log' or command == 'err' or command == 'sysErr':
             # returnRes = {'name':self.name, 'command':command, 'msg': msg}
@@ -33,9 +32,10 @@ class SJUresponse():
             returnJSON = json.dumps(returnRes, allow_nan=False)
             self.stdout.info(returnJSON)
         except Exception as e:
-            returnJSON = json.dumps({'command':'sysErr', msg:'통신 JSON 제작에 실패했습니다.'})
+            msg = '통신 JSON 제작에 실패했습니다.'
+            returnJSON = json.dumps({'command':'sysErr', 'msg':urllib.parse.quote(msg)})
             self.stdout.info(returnJSON)
-            returnJSON = json.dumps({'command':'sysErr', msg:str(e)})
+            returnJSON = json.dumps({'command':'sysErr', 'msg':str(e)})
             self.stdout.info(returnJSON)
 
         # print(returnRes)
