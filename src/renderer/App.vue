@@ -259,6 +259,9 @@
         cmd.stdout.setDefaultEncoding('utf-8');
         cmd.stderr.setDefaultEncoding('utf-8');
 
+        cmd.stdin.on('data', (data) => {
+          console.log(`cmd stdin: ${data.toString()}`);
+        });
         cmd.stdout.on('data', (data) => {
           console.log(`cmd stdout: ${data.toString()}`);
         });

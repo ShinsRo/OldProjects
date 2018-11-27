@@ -3,6 +3,8 @@ import os
 import sys
 import json
 import urllib
+import traceback
+
 class SJUresponse():
     def __init__(self, name):
         self.name = name
@@ -26,8 +28,8 @@ class SJUresponse():
             # returnRes = {'name':self.name, 'command':command, 'msg': msg}
             returnRes = {'name':self.name, 'command':command, 'msg': urllib.parse.quote(msg)}
         elif command == 'errObj':
-            returnRes = {'name':self.name, 'command':command, 'msg':str(msg.__traceback__)}
-        
+            returnRes = {'name':self.name, 'command':command, 'msg':str(msg)}   
+            traceback.print_tb(msg.__traceback__) 
         try:
             returnJSON = json.dumps(returnRes, allow_nan=False)
             self.stdout.info(returnJSON)
