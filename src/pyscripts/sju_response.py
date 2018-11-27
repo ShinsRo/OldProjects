@@ -20,13 +20,13 @@ class SJUresponse():
     def print(self, command, msg=None, target=None, res=None):
         if self.name == 'MultiCitationSearch':
             pass
-        if command == 'res' or command == 'cres':
+        if command == 'res' or command == 'cres' or command == 'mres':
             returnRes = {'name':self.name, 'command':command, 'target':target, 'res': res}
         elif command == 'log' or command == 'err' or command == 'sysErr':
             # returnRes = {'name':self.name, 'command':command, 'msg': msg}
             returnRes = {'name':self.name, 'command':command, 'msg': urllib.parse.quote(msg)}
         elif command == 'errObj':
-            returnRes = {'name':self.name, 'command':command, 'msg':msg}
+            returnRes = {'name':self.name, 'command':command, 'msg':str(msg.__traceback__)}
         
         try:
             returnJSON = json.dumps(returnRes, allow_nan=False)

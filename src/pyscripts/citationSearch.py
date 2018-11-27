@@ -55,7 +55,7 @@ class SingleSearch():
         sres.print(command='log', msg='초기화가 완료되었습니다.')
         sres.print(command='res', target='loading', res=False)
 
-    def generalSearch(self, query, startYear, endYear, gubun):
+    def generalSearch(self, query, startYear, endYear, gubun, resName):
         sres = self.sres
         browser = self.browser
         baseUrl = self.baseUrl
@@ -79,7 +79,7 @@ class SingleSearch():
 
         stepFlag = True
         if not aTagArr_record:
-            sres.print(command='err', msg='결과가 없습니다.')
+            sres.print(command='err', msg='%s의 결과가 없습니다.'%query)
             stepFlag = False
         elif len(aTagArr_record) > 1:
             sres.print(command='err', msg='검색 결과가 하나 이상입니다.')
@@ -252,7 +252,7 @@ class SingleSearch():
             paperData['prevYearIF'] = impact_factor[prevYear]
 
         sres.print(command='log', msg='해당 논문의 정보 검색을 완료했습니다.')
-        sres.print(command='res', target='paperData', res=paperData)
+        sres.print(command=resName, target='paperData', res=paperData)
         
         stepFlag = True
         if not cnt_link:
@@ -378,9 +378,13 @@ class SingleSearch():
             self.backToGeneralSearch()
             return paperData
 
+        directory = os.path.join(os.environ["HOMEPATH"], "Desktop/인용중인논문들")
         ofileName = "인용중인논문_ID{0}.xls".format(paperData['id'])
+        outputLocationPath = directory
 
-        outputLocationPath = os.path.join(os.environ["HOMEPATH"], "Desktop")
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
         while(os.path.exists(outputLocationPath + "/" + ofileName)):
             ofileName = "_" + ofileName
 
@@ -398,7 +402,7 @@ class SingleSearch():
             citingArticles['authors'] += [citingAuthors[idx]]
         
         sres.print(command='log', msg='인용 중인 논문 정보를 가져왔습니다.')
-        sres.print(command='res', target='citingArticles', res=citingArticles)
+        sres.print(command=resName, target='citingArticles', res=citingArticles)
 
         self.backToGeneralSearch()
 
@@ -406,6 +410,7 @@ class MultiSearch():
     def __init__(self, sres):
         WosPool = []
         threadAmount = 10
+        self.lock = threading.Lock()
         self.threadAmount = threadAmount
         self.sres = sres
         with concurrent.futures.ThreadPoolExecutor(max_workers=threadAmount) as executor:
@@ -415,38 +420,100 @@ class MultiSearch():
                 no = future_wos[future]
                 try:
                     wos = future.result()
-                    WosPool.append({'wos':wos, 'future':future, 'working': False})
+                    WosPool.append({'wos':wos, 'no':no, 'lock': threading.Lock()})
                 except Exception as e:
                     print(e)
                 else:
-                    sres.print(command='log', msg='future Wos Pool %d번 생성완료'%(no))
+                    sres.print(command='log', msg='Wos Pool %d번 생성완료'%(no))
 
         self.WosPool = WosPool
 
-    def getIdleWos(self):
-        for wosContainer in self.WosPool:
-            if not wosContainer['working']:
-                wosContainer['working'] = True
-                return wosContainer
+    def getIdleWosAndRun(self, qry, startYear, endYear, gubun):
+        worker = ''
+        with self.lock:
+            for wosContainer in self.WosPool:
+                if not wosContainer['lock'].locked():
+                    with wosContainer['lock']:
+                        try:
+                            self.sres.print(command='log', msg='Wos Pool에서 %d번 객체를 받았습니다.'%wosContainer['no'])
+                            worker = wosContainer
+                        except Exception as e:
+                            self.sres.print(command='err', msg='Wos Pool %d번을 받는 과정에서 에러.'%wosContainer['no'])
+                        else:
+                            self.lock.release()
+                            sres = worker['wos'].sres
+                            try:
+                                sres.print(command='log', msg='[%d번 객체] 검색을 시작합니다.'%wosContainer['no'])
+                                res = worker['wos'].generalSearch(qry, startYear, endYear, gubun, 'mres')
+                            except Exception as e:
+                                sres.print(command='err', msg='[%d번 객체] 검색 도중 오류를 일으켰습니다.'%wosContainer['no'])
+                            else:
+                                sres.print(command='log', msg='[%d번 객체] 검색을 완료했습니다.'%wosContainer['no'])
+                    break
             
-    def generalSearch(self, path, startYear, endYear, gubun):
+            if worker == '':
+                self.sres.print(command='log', msg='모든 Wos Pool이 바쁩니다.')
+                sres = sju_response.SJUresponse('MultiCitationSearch')
+                wos = SingleSearch(sres)
+                no = len(self.WosPool)
+                self.WosPool.append({'wos':wos, 'no':no, 'lock': threading.Lock()})
+                return False
+
+       
+        # finally:
+        #     if worker['lock'].locked(): worker['lock'].release()
+        
+        return res
+
+    def getQueryListFromFile(self, path):
+        fname, ext = os.path.splitext(path)
+        if ext == ".csv":
+            df = pd.read_csv(path, header=0)
+            queryList = df.values[:, 0]
+        elif ext == ".xls" or ext == ".xlsx":
+            df = pd.read_excel(path, header=0)
+            queryList = df.values[:, 0]
+        else:
+            raise Exception()
+
+        for idx, qry in enumerate(queryList):
+            queryList[idx] = qry.strip()
+
+        return queryList
+            
+    def generalSearch(self, startYear, endYear, gubun, path):
         threadAmount = self.threadAmount
         WosPool = self.WosPool
         sres = self.sres
         sres.print(command='res', target='loading', res=True)
-        sres.print('log', msg='다중 조회를 시작합니다.')
+        sres.print('log', msg='상세 엑셀 검색을 시작합니다.')
         sres.print('log', msg='%s에서 인풋을 읽습니다.'%path)
-        
-        querys = ['asd', 'bbb', 'zxcasfas', 'cccccccc', 'cc']
+
+        queryList = []
+        try:
+            queryList = self.getQueryListFromFile(path)
+        except Exception as e:
+            pass
+
         with concurrent.futures.ThreadPoolExecutor(max_workers=threadAmount) as executor:
             future_wos = {
-                executor.submit(self.getIdleWos['wos'].generalSearch, qry, startYear, endYear, gubun): qry for qry in querys}
+                executor.submit(
+                    self.getIdleWosAndRun,
+                    qry, 
+                    startYear, 
+                    endYear, 
+                    gubun): qry for qry in queryList}
             for future in concurrent.futures.as_completed(future_wos):
                 qry = future_wos[future]
                 try:
                     paperData = future.result()
                 except Exception as e:
-                    print(e)
-                else:
-                    print('%s 쿼리 완료'%qry)
-                    print(paperData)
+                    sres.print(command='errObj', msg=e)
+                    sres.print(command='err', msg='상세 엑셀 검색 중 치명적인 오류가 발생했습니다.')
+                # else:
+                #     sres.print(command='mres', target='mPaperData', msg=paperData)
+
+if __name__ == "__main__":
+    sres = sju_response.SJUresponse('test')
+    ml = MultiSearch(sres)
+    ml.generalSearch('2010', '2018', 'TI', 'C:\\input.csv')

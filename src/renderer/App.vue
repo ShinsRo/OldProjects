@@ -145,7 +145,44 @@
         },
       ],
       mResList: [
-        {},
+        {
+          id: 102020,
+          title: 'example',
+          authors: ['저자, A', '저자, B'],
+          firstAuthor: '저자, A',
+          authorsCnt: '2',
+          addresses: {
+            '저자, A': ['[1] 연구기관 A', '[2] 연구기관 B'],
+            '저자, B': ['[1] 연구기관 A'],
+          },
+          doi: '000011',
+          capedGrades: ['SCIE', 'SCI'],
+          volume: '4',
+          issue: '5',
+          pages: '333-1414',
+          ivp: ['4/5', '333-1414'],
+          published: '',
+          publishedMonth: 'NOV 2020',
+          publisher: ['Sejong Docs.'],
+          impact_factor: { 2017: '2.111', '5 year': '1.442' },
+          timesCited: '2',
+          grades: ['asdasd', 'asdasdasdasdasdasd'],
+          docType: 'Article',
+          researchAreas: '',
+          language: 'English',
+          reprint: '저자, A',
+          jcr: [
+            ['JCR® Category', 'Rank in Category', 'Quartile in Category'],
+            ['BIOCHEMISTRY & MOLECULAR BIOLOGY', '1 of 293', 'Q1'],
+            ['CELL BIOLOGY', '2 of 190', 'Q1'],
+            ['MEDICINE, RESEARCH & EXPERIMENTAL', '1 of 133', 'Q1'],
+          ],
+          citingArticles: {
+            id: 102020,
+            titles: ['논문 A', '논문 B'],
+            authors: ['저자, C; 저자, D; 저자, E;', '저자, F; 저자, G;'],
+          },
+        },
       ],
       resList: [
         {
@@ -261,6 +298,23 @@
                   this.log = `${time} : ${JSON.stringify(resJSON.res)}<br>${this.log}`;
                 }
                 break;
+              case 'mres':
+                if (resJSON.target === 'loading') {
+                  this.loading = resJSON.res;
+                } else if (resJSON.target === 'paperData') {
+                  this.mResList.push(resJSON.res);
+                } else if (resJSON.target === 'citingArticles') {
+                  for (let ii = 0; ii < this.mResList.length; ii += 1) {
+                    console.log(resJSON.res.id);
+                    if (this.mResList[ii].id === resJSON.res.id) {
+                      this.mResList[ii].citingArticles = resJSON.res;
+                      break;
+                    }
+                  }
+                } else {
+                  this.log = `${time} : ${JSON.stringify(resJSON.res)}<br>${this.log}`;
+                }
+                break;
               case 'cres':
                 if (resJSON.target === 'result') {
                   this.cResList = resJSON.res.cResList;
@@ -284,6 +338,13 @@
         this.executer = cmd;
         // 빌드 시 주석 필수
         this.executer.stdin.write('python src/pyscripts/dispatcher.py\n');
+      }
+    },
+    destroyed() {
+      if (this.executer !== '') {
+        console.log(this.executer);
+        this.executer.stdin.pause();
+        this.executer.kill();
       }
     },
   };

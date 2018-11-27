@@ -61,6 +61,7 @@ if __name__ == "__main__":
 
         # 검색 서비스 종류
         serviceName = input().strip()
+        dsres.print(command='res', target='loading', res=True)
 
         # 단일 상세 검색
         if serviceName == 'singleCitationSearch':
@@ -69,7 +70,14 @@ if __name__ == "__main__":
             endYear = input().strip()
             
             try:
-                singleCitationSearchObj.generalSearch(query=query, startYear=startYear, endYear=endYear, gubun='TI')
+                singleCitationSearchObj.generalSearch(
+                    query=query, 
+                    startYear=startYear, 
+                    endYear=endYear, 
+                    gubun='TI',
+                    resName='res',
+                )
+            
             except Exception as e:
                 dsres.print(command='sysErr', msg='심각한 오류')
                 dsres.print(command='errObj', msg=str(e))
@@ -78,7 +86,24 @@ if __name__ == "__main__":
 
         # 다중 상세 검색
         elif serviceName == 'multiCitationSearch':
-            dsres.print(command='err', msg='미구현')
+            startYear = input().strip()
+            endYear = input().strip()
+            gubun = input().strip()
+            path = input().strip()
+
+            try:
+                multiCitationSearchObj.generalSearch(
+                    startYear=startYear,
+                    endYear=endYear,
+                    gubun=gubun,
+                    path=path
+                )
+            except Exception as e:
+                dsres.print(command='sysErr', msg='상세 엑셀 검색 중 오류가 발생했습니다.')
+            else:
+                dsres.print(command='log', msg='상세 엑셀 검색이 완료되었습니다.')
+
+            
         
         # 다중 일반 검색
         elif serviceName == 'multiCommonSearch':
@@ -97,12 +122,10 @@ if __name__ == "__main__":
                     defaultQueryPackSize = 0
                 )
             except Exception as e:
-                dsres.print(command='sysErr', msg='다중 일반 검색 중 오류가 발생했습니다.')
+                dsres.print(command='sysErr', msg='일반 엑셀 검색 중 오류가 발생했습니다.')
             else:
                 dsres.print(command='log', msg='일반 엑셀 검색이 완료되었습니다.')
 
         # 알 수 없는 서비스 네임
         else:
             dsres.print(command='sysErr', msg='알 수 없는 서비스 접근')
-
-        dsres.print(command='res', target='loading', res=True)
