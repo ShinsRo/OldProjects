@@ -227,8 +227,9 @@ class MultiSearch():
         WOS_AdvancedSearch_input_form = browser.get_form(id="WOS_AdvancedSearch_input_form")
         try:
             queryList, words = self.makeQueryFromFile(inputFilePath, defaultQueryPackSize, gubun)
-        except Exception as :
+        except Exception as e:
             sres.print(command='err', msg='파일을 읽는 중 오류가 발생했습니다.')
+            sres.print(command='errObj', msg=e)
             return
 
         self.searchCnt += 1
