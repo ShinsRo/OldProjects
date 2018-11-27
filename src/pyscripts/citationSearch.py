@@ -440,7 +440,7 @@ class MultiSearch():
                         except Exception as e:
                             self.sres.print(command='err', msg='Wos Pool %d번을 받는 과정에서 에러.'%wosContainer['no'])
                         else:
-                            self.lock.release()
+                            if self.lock.locked(): self.lock.release()
                             sres = worker['wos'].sres
                             try:
                                 sres.print(command='log', msg='[%d번 객체] 검색을 시작합니다.'%wosContainer['no'])
@@ -449,7 +449,8 @@ class MultiSearch():
                                 sres.print(command='err', msg='[%d번 객체] 검색 도중 오류를 일으켰습니다.'%wosContainer['no'])
                             else:
                                 sres.print(command='log', msg='[%d번 객체] 검색을 완료했습니다.'%wosContainer['no'])
-                    break
+                        finally:
+                            break
             
             if worker == '':
                 self.sres.print(command='log', msg='모든 Wos Pool이 바쁩니다.')
