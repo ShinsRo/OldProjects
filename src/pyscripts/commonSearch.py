@@ -53,7 +53,6 @@ class MultiSearch():
         self.browser.open(self.baseUrl + '/WOS_AdvancedSearch_input.do' + param)
 
         sres.print(command='log', msg='초기화가 완료되었습니다.')
-        sres.print(command='res', target='loading', res=False)
 
     def makeQueryFromFile(self, path, packSize, gubun):
         fname, ext = os.path.splitext(path)
@@ -223,13 +222,17 @@ class MultiSearch():
         SID = self.SID
         jsessionid = self.jsessionid
 
-        sres.print(command='res', target='loading', res=True)
         sres.print('log', msg='단일 조회를 시작합니다.')
-        self.searchCnt += 1
 
         WOS_AdvancedSearch_input_form = browser.get_form(id="WOS_AdvancedSearch_input_form")
-        queryList, words = self.makeQueryFromFile(inputFilePath, defaultQueryPackSize, gubun)
+        try:
+            queryList, words = self.makeQueryFromFile(inputFilePath, defaultQueryPackSize, gubun)
+        except Exception as :
+            sres.print(command='err', msg='파일을 읽는 중 오류가 발생했습니다.')
+            return
 
+        self.searchCnt += 1
+        
         queryListLen = len(queryList)
         for idx, query in enumerate(queryList):
             sres.print(
