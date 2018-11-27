@@ -409,7 +409,7 @@ class SingleSearch():
 class MultiSearch():
     def __init__(self, sres):
         WosPool = []
-        threadAmount = 10
+        threadAmount = 20
         self.lock = threading.Lock()
         self.threadAmount = threadAmount
         self.sres = sres
@@ -430,39 +430,36 @@ class MultiSearch():
 
     def getIdleWosAndRun(self, qry, startYear, endYear, gubun):
         worker = ''
-        with self.lock:
-            for wosContainer in self.WosPool:
-                if not wosContainer['lock'].locked():
-                    with wosContainer['lock']:
+        self.lock.acquire()
+        for wosContainer in self.WosPool:
+            if not wosContainer['lock'].locked():
+                with wosContainer['lock']:
+                    try:
+                        self.sres.print(command='log', msg='Wos Pool에서 %d번 객체를 받았습니다.'%wosContainer['no'])
+                        worker = wosContainer
+                    except Exception as e:
+                        self.sres.print(command='err', msg='Wos Pool %d번을 받는 과정에서 에러.'%wosContainer['no'])
+                        self.lock.release()
+                    else:
+                        self.lock.release()
+                        sres = worker['wos'].sres
                         try:
-                            self.sres.print(command='log', msg='Wos Pool에서 %d번 객체를 받았습니다.'%wosContainer['no'])
-                            worker = wosContainer
+                            sres.print(command='log', msg='[%d번 객체] 검색을 시작합니다.'%wosContainer['no'])
+                            res = worker['wos'].generalSearch(qry, startYear, endYear, gubun, 'mres')
                         except Exception as e:
-                            self.sres.print(command='err', msg='Wos Pool %d번을 받는 과정에서 에러.'%wosContainer['no'])
+                            sres.print(command='err', msg='[%d번 객체] 검색 도중 오류를 일으켰습니다.'%wosContainer['no'])
                         else:
-                            if self.lock.locked(): self.lock.release()
-                            sres = worker['wos'].sres
-                            try:
-                                sres.print(command='log', msg='[%d번 객체] 검색을 시작합니다.'%wosContainer['no'])
-                                res = worker['wos'].generalSearch(qry, startYear, endYear, gubun, 'mres')
-                            except Exception as e:
-                                sres.print(command='err', msg='[%d번 객체] 검색 도중 오류를 일으켰습니다.'%wosContainer['no'])
-                            else:
-                                sres.print(command='log', msg='[%d번 객체] 검색을 완료했습니다.'%wosContainer['no'])
-                        finally:
-                            break
-            
-            if worker == '':
-                self.sres.print(command='log', msg='모든 Wos Pool이 바쁩니다.')
-                sres = sju_response.SJUresponse('MultiCitationSearch')
-                wos = SingleSearch(sres)
-                no = len(self.WosPool)
-                self.WosPool.append({'wos':wos, 'no':no, 'lock': threading.Lock()})
-                return False
-
-       
-        # finally:
-        #     if worker['lock'].locked(): worker['lock'].release()
+                            sres.print(command='log', msg='[%d번 객체] 검색을 완료했습니다.'%wosContainer['no'])
+                    finally:
+                        break
+        
+        if worker == '':
+            self.sres.print(command='log', msg='모든 Wos Pool이 바쁩니다.')
+            sres = sju_response.SJUresponse('MultiCitationSearch')
+            wos = SingleSearch(sres)
+            no = len(self.WosPool)
+            self.WosPool.append({'wos':wos, 'no':no, 'lock': threading.Lock()})
+            return False
         
         return res
 
