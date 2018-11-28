@@ -322,7 +322,7 @@ class MultiSearch():
             cResList[idx]['id'] = '%d'%random.getrandbits(16)
             cResList[idx]['DOI'] = row['DOI']
             cResList[idx]['Title'] = row['Title']
-            cResList[idx]['Authors'] = row['Authors'].split(';')[:-1]
+            cResList[idx]['Authors'] = row['Authors'].split(';')
             cResList[idx]['Source Title'] = row['Source Title']
             cResList[idx]['Total Citations'] = str(row['Total Citations'])
             cResList[idx]['Publication Date'] = row['Publication Date']
