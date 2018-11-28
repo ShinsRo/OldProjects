@@ -511,7 +511,7 @@ class MultiSearch():
                 # else:
                 #     sres.print(command='mres', target='mPaperData', msg=paperData)
 
-if __name__ == "__main__":
-    sres = sju_response.SJUresponse('test')
-    ml = MultiSearch(sres)
-    ml.generalSearch('2010', '2018', 'TI', 'C:\\input.csv')
+# if __name__ == "__main__":
+#     sres = sju_response.SJUresponse('test')
+#     ml = MultiSearch(sres)
+#     ml.generalSearch('2010', '2018', 'TI', 'C:\\input.csv')
