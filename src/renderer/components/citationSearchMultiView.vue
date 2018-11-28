@@ -243,11 +243,11 @@ export default {
           errObj.code = 103;
           errObj.msg = '시작년도가 끝 년도보다 최근일 수 없습니다.';
         } else {
+          this.inputFilePath = this.file.path;
           errObj.code = false;
         }
         if (errObj.code) { throw errObj; }
       } catch (e) {
-        this.inputFilePath = this.file.path;
         errObj.show = true;
         return;
       }
