@@ -247,6 +247,7 @@ export default {
         }
         if (errObj.code) { throw errObj; }
       } catch (e) {
+        this.inputFilePath = this.file.path;
         errObj.show = true;
         return;
       }
