@@ -227,9 +227,6 @@
     }),
     methods: {
       stdinAll: (payload) => {
-        console.log('stdinALL');
-        console.log(payload);
-        console.log(payload.scope.loading);
         if (payload.scope.loading) {
           return;
         }
@@ -245,29 +242,23 @@
       },
     },
     mounted() {
-      const rInFormat = /time:(.+)#@lineout:(.+)/gm;
       if (this.executer === '') {
+        const rInFormat = /time:(.+)#@lineout:(.+)/gm;
         this.loading = true;
         const cmd = spawn('cmd.exe');
         // 빌드 전용 spawn
         // const cmd = spawn(`${path.dirname(process.execPath)}/dispatcher.exe`);
-        // alert(path.dirname(process.execPath).slice(0, 50));
-        // alert(path.dirname(process.execPath).slice(50, 100));
-        // alert(path.dirname(process.execPath).slice(100, 50));
-        // alert(process.execPath);
         cmd.stdin.setDefaultEncoding('utf-8');
         cmd.stdout.setDefaultEncoding('utf-8');
         cmd.stderr.setDefaultEncoding('utf-8');
 
-        cmd.stdin.on('data', (data) => {
-          console.log(`cmd stdin: ${data.toString()}`);
-        });
-        cmd.stdout.on('data', (data) => {
-          console.log(`cmd stdout: ${data.toString()}`);
-        });
+        // cmd.stdin.on('data', (data) => {
+        //   console.log(`cmd stdin: ${data.toString()}`);
+        // });
+        // cmd.stdout.on('data', (data) => {
+        //   console.log(`cmd stdout: ${data.toString()}`);
+        // });
         cmd.stderr.on('data', (data) => {
-          // this.log += `개발전용 : ${data.toString()}<br>${this.log}`;
-          // console.log(`cmd stderr: ${data.toString()}`);
           const output = data.toString().replace(/\n/ig, '').split('#&');
           try {
             console.log(decodeURIComponent(output));
@@ -308,7 +299,6 @@
                   this.mResList.push(resJSON.res);
                 } else if (resJSON.target === 'citingArticles') {
                   for (let ii = 0; ii < this.mResList.length; ii += 1) {
-                    console.log(resJSON.res.id);
                     if (this.mResList[ii].id === resJSON.res.id) {
                       this.mResList[ii].citingArticles = resJSON.res;
                       break;
@@ -345,7 +335,6 @@
     },
     destroyed() {
       if (this.executer !== '') {
-        console.log(this.executer);
         this.executer.stdin.pause();
         this.executer.kill();
       }
