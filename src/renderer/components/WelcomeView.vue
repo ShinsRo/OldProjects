@@ -45,30 +45,45 @@
     </v-flex>
         <v-flex xs10 class="mt-3">
       <v-card>
-        <v-card-title class="headline">기능별 가이드</v-card-title>
+        <v-card-title class="headline">기능별 주석</v-card-title>
         <v-divider></v-divider>
         <v-card-text>
-          <h3 class='mb-3'>1. 상세 단일 검색</h3>
+          <h3 class='mb-3 mt-3'>1. 상세 단일 검색</h3>
           <img class='logo' src="~@/assets/guide1_1.png" alt='그림1-1'>
-          <p>
-            설명설명
-          </p>
-          <h3 class='mb-3'>2. 상세 엑셀 검색</h3>
+          <p>[1] : 검색할 논문 제목 필드 : 2자 이상</p>
+          <p>[2], [3] : 연도 - 1900 ~ 금년 사이</p>
+          <p>[4] : 검색 시작 버튼</p>
+          <img class='logo' src="~@/assets/guide1_2.png" alt='그림1-2'>
+          <p>해당 논문 행을 클릭 시 하단으로 펼쳐진 상세 정보를 볼 수 있습니다.</p>
+          <p>[5] : 해당 논문 제목</p>
+          <p>[6] : 연도별 Impact Factor - 없을 시 나타나지 않음</p>
+          <p>[7] : JCR 카테고리별 랭킹과 Quartile - 없을 시 나타나지 않음</p>
+          <p>[8] : 저자별 소속 연구기관들 - 없을 시 나타나지 않음</p>
+          <p>[9] : 저장된 파일 아이디 - 바탕화면의 '인용중인논문들' 폴더 내 저장됨</p>
+          <p>[10] : 이 논문을 인용하는 논문과 그 저자. 10개 이상이면 나타나지 않음</p>
+          <v-divider></v-divider>
+          <h3 class='mb-3 mt-3'>2. 상세 엑셀 검색</h3>
           <img class='logo' src="~@/assets/guide2_1.png" alt='그림2-1'>
-          <p>
-            설명설명
-          </p>
-          <h3 class='mb-3'>3. 일반 엑셀 검색</h3>
+          <p>[1] : 검색어의 구분 - 논문제목, DOI : 논문 하나를 특정할 수 있는 검색어</p>
+          <p>[2] : 파일 선택 - csv, xls, xlsx의 파일만 허용됨. 양식은 아래 참조</p>
+          <p>[3] : 연도 - 1900 ~ 금년 사이</p>
+          <p>[4] : 검색 시작 버튼</p>
+          <v-divider></v-divider>
+          <h3 class='mb-3 mt-3'>3. 일반 엑셀 검색</h3>
           <img class='logo' src="~@/assets/guide3_1.png" alt='그림3-1'>
+          <p>[1 ~ 4] : 상세 엑셀 검색과 상동</p>
+          <img class='logo' src="~@/assets/guide3_2.png" alt='그림3-2'>
+          <p>[5] : 해당 논문 제목</p>
+          <p>[6] : 해당 논문의 저자 목록</p>
           <p>
             설명설명
           </p>
         </v-card-text>
       </v-card>
     </v-flex>
-    <v-flex xs10 class="mt-4">
+    <!-- <v-flex xs10 class="mt-4">
       <system-information></system-information>
-    </v-flex>
+    </v-flex> -->
     <!-- <v-flex xs10 class="mt-4">
       <v-card>
         <v-card-title class="headline">Docs</v-card-title>
