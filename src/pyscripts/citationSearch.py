@@ -4,6 +4,7 @@ import sys
 import time
 import sju_response
 import pandas as pd
+import numpy as np
 import requests
 from robobrowser import RoboBrowser
 import xlrd
@@ -53,7 +54,6 @@ class SingleSearch():
         self.browser.open(self.baseUrl + '/WOS_GeneralSearch_input.do' + param)
         
         sres.print(command='log', msg='초기화가 완료되었습니다.')
-        sres.print(command='res', target='loading', res=False)
 
     def generalSearch(self, query, startYear, endYear, gubun, resName):
         sres = self.sres
@@ -61,17 +61,19 @@ class SingleSearch():
         baseUrl = self.baseUrl
         SID = self.SID
         jsessionid = self.jsessionid
-        sres.print(command='res', target='loading', res=True)
+        pAuthors = query[1]
 
         sres.print('log', msg='단일 조회를 시작합니다.')
         WOS_GeneralSearch_input_form = browser.get_form('WOS_GeneralSearch_input_form')
-        WOS_GeneralSearch_input_form['value(input1)'] = query
+        WOS_GeneralSearch_input_form['value(input1)'] = query[0]
         WOS_GeneralSearch_input_form['value(select1)'] = gubun
         WOS_GeneralSearch_input_form['startYear'] = startYear
         WOS_GeneralSearch_input_form['endYear'] = endYear
         WOS_GeneralSearch_input_form['range'] = 'CUSTOM'
+        WOS_GeneralSearch_input_form['period'].options.append('Year Range')
+        WOS_GeneralSearch_input_form['period'] = 'Year Range'
 
-        sres.print('log', msg='검색어 : %s'%(query))
+        sres.print('log', msg='검색어 : %s'%(query[0]))
         browser.submit_form(WOS_GeneralSearch_input_form)
         self.searchCnt += 1
 
@@ -79,10 +81,12 @@ class SingleSearch():
 
         stepFlag = True
         if not aTagArr_record:
-            sres.print(command='err', msg='%s의 결과가 없습니다.'%query)
+            sres.print(command='err', msg='%s의 결과가 없습니다.'%query[0])
+            sres.print(command=resName, target='errQuery', res={'query': query, 'msg': '검색결과가 없습니다.'})
             stepFlag = False
         elif len(aTagArr_record) > 1:
             sres.print(command='err', msg='검색 결과가 하나 이상입니다.')
+            sres.print(command=resName, target='errQuery', res={'query': query, 'msg': '검색 결과가 하나 이상입니다. 위 결과는 가장 첫번째 결과입니다.'})
             # for aTag in aTagArr_record:
             #     sres.print(command='err', msg='%s'%(aTag.text.replace('\n', '')))
             sres.print(command='err', msg='가장 비슷한 검색 결과로 정보를 가져옵니다.')
@@ -100,8 +104,8 @@ class SingleSearch():
         # ISSN
 
         ISSN = browser.select('p.sameLine')
-        if not ISSN:
-            ISSN = ISSN.find_all('value')[0].text
+        if ISSN:
+            ISSN = ISSN[0].value.contents[0]
         else: ISSN = ''
 
         # 등급
@@ -132,6 +136,8 @@ class SingleSearch():
         JCR_Category_table = browser.select('table.JCR_Category_table')
         jcr_headers = []
         jcr = []
+        ranks = []
+        goodRank = ''
         trs = []
         if len(JCR_Category_table) > 0: 
             JCR_Category_table = JCR_Category_table[0]
@@ -139,7 +145,13 @@ class SingleSearch():
             if trs:
                 jcr.append([x.text.strip() for x in trs[0].find_all('th')])
                 for tr in trs[1:]:
-                    jcr.append([x.text.strip() for x in tr.find_all('td')])
+                    temp = [x.text.strip() for x in tr.find_all('td')]
+                    jcr.append(temp)
+                    jrank, jall = map(int, temp[1].split(' of '))
+                    temp.append(round(jrank/jall  * 100, 2))
+                    ranks.append(temp)
+        
+            goodRank = max(ranks, key=lambda x: -x[-1])[-1]
 
         # 인용 횟수 및 링크
         cnt_link = browser.select('a.snowplow-citation-network-times-cited-count-link')
@@ -211,6 +223,8 @@ class SingleSearch():
                 if temp != None:
                     tauthorAddress += [temp.contents[0]]
 
+        if targetAuthor != '':
+                    addresses[targetAuthor] = tauthorAddress
         if reprint == '':
             reprint = 'None'
 
@@ -232,6 +246,7 @@ class SingleSearch():
             'title' : title,
             'impact_factor' : impact_factor,
             'prevYearIF' : 'None',
+            'goodRank' : goodRank,
             'timesCited' : timesCited,
             'grades' : grades,
             'capedGrades' : capedGrades,
@@ -244,7 +259,7 @@ class SingleSearch():
             'issn' : ISSN,
         }
         paperData['ivp'] = ['%s/%s'%(paperData['issue'], paperData['volume']), paperData['pages']]
-        paperData['citingArticles'] = {'id': paperData['id'], 'titles': [], 'authors': []}
+        paperData['citingArticles'] = {'id': paperData['id'], 'titles': [], 'authors': [], 'isSelf': []}
 
         # 전년도 임팩트 팩토
         prevYear = str(int(paperData['published']) - 1)
@@ -257,9 +272,11 @@ class SingleSearch():
         stepFlag = True
         if not cnt_link:
             sres.print(command='err', msg='논문을 인용한 논문이 없으므로 검색을 종료합니다.')
+            # sres.print(command=resName, target='errQuery', res={'query': query, 'msg': '논문을 인용한 논문이 없습니다.'})
             stepFlag = False
         elif int(timesCited) > 500 :
-            sres.print(command='err', msg='해당 논물을 인용한 논문이 500개를 초과하여 검색을 종료합니다.')
+            sres.print(command='err', msg='해당 논문을 인용한 논문이 500개를 초과하여 검색을 종료합니다.')
+            sres.print(command=resName, target='errQuery', res={'query': query, 'msg': '해당 논문을 인용한 논문이 500개를 초과하였습니다.'})
             stepFlag = False
 
         if not stepFlag:
@@ -375,6 +392,7 @@ class SingleSearch():
         res = requests.get(ExcelActionURL)
         if res.text.find("<html>") > 0 or res.text.find("Error report</title>") > 0:
             sres.print(command='err', msg='WOS 서버에서 에러를 보내왔습니다.')
+            sres.print(command=resName, target='errQuery', res={'query': query, 'msg': '인용중 논문 검색 중 WOS 서버에서 에러를 보내왔습니다.'})
             self.backToGeneralSearch()
             return paperData
 
@@ -394,12 +412,29 @@ class SingleSearch():
         resPD = pd.read_excel(outputLocationPath + "/" + ofileName, header=26)
         citingTitle = resPD['Title'].values.tolist()
         citingAuthors = resPD['Authors'].values.tolist()
-
-        citingArticles = {'id': paperData['id'], 'titles': [], 'authors': []}
+        
+        if pAuthors != '':
+            pAuthors = list(map(lambda x: x.replace(' ', ''), pAuthors.split(';')))
+        
+        citingArticles = {'id': paperData['id'], 'selfCitation': 0, 'othersCitation': 0, 'titles': [], 'authors': [], 'isSelf': []}
         for idx, title in enumerate(citingTitle):
             if citingTitle[idx] == None or citingTitle[idx] == 'null': continue
             citingArticles['titles'] += [citingTitle[idx]]
             citingArticles['authors'] += [citingAuthors[idx]]
+            if pAuthors != '':
+                found = False
+                temp = citingAuthors[idx].replace(' ', '')
+                for pa in pAuthors:
+                    if re.search(pa, temp, flags=re.IGNORECASE):
+                        found = True
+                        citingArticles['selfCitation'] += 1
+                        citingArticles['isSelf'] += ['Self']
+                if not found:
+                    citingArticles['othersCitation'] += 1
+                    citingArticles['isSelf'] += ['Others\'']
+
+            else:
+                citingArticles['isSelf'] += ['-']
         
         sres.print(command='log', msg='인용 중인 논문 정보를 가져왔습니다.')
         sres.print(command=resName, target='citingArticles', res=citingArticles)
@@ -467,15 +502,18 @@ class MultiSearch():
         fname, ext = os.path.splitext(path)
         if ext == ".csv":
             df = pd.read_csv(path, header=0)
-            queryList = df.values[:, 0]
+            queryList = df.values[:].tolist()
         elif ext == ".xls" or ext == ".xlsx":
             df = pd.read_excel(path, header=0)
-            queryList = df.values[:, 0]
+            queryList = df.values[:].tolist()
         else:
             raise Exception()
 
         for idx, qry in enumerate(queryList):
-            queryList[idx] = qry.strip()
+            if len(qry) == 1:
+                queryList[idx] = (qry[0], '')
+            else:
+                queryList[idx] = (qry[0], '' if type(qry[1]) == type(np.nan) else qry[1])
 
         return queryList
             
@@ -483,7 +521,6 @@ class MultiSearch():
         threadAmount = self.threadAmount
         WosPool = self.WosPool
         sres = self.sres
-        sres.print(command='res', target='loading', res=True)
         sres.print('log', msg='상세 엑셀 검색을 시작합니다.')
         sres.print('log', msg='%s에서 인풋을 읽습니다.'%path)
 
@@ -491,8 +528,10 @@ class MultiSearch():
         try:
             queryList = self.getQueryListFromFile(path)
         except Exception as e:
-            pass
-
+            sres.print(command='err', msg='인풋을 읽는 중 오류가 발생했습니다.')
+            sres.print(command='errObj', msg=e)
+            return
+        
         with concurrent.futures.ThreadPoolExecutor(max_workers=threadAmount) as executor:
             future_wos = {
                 executor.submit(
@@ -511,7 +550,38 @@ class MultiSearch():
                 # else:
                 #     sres.print(command='mres', target='mPaperData', msg=paperData)
 
+if __name__ == "__main__":
+    sres = sju_response.SJUresponse('test')
+    ml = MultiSearch(sres)
+    ml.generalSearch('2010', '2018', 'TI', 
+    'C:/Users/F/Desktop/sejong-wos_Setup1.03/input.csv')
+
 # if __name__ == "__main__":
-#     sres = sju_response.SJUresponse('test')
-#     ml = MultiSearch(sres)
-#     ml.generalSearch('2010', '2018', 'TI', 'C:\\input.csv')
+#     sres = sju_response.SJUresponse('singleTest')
+#     sl = SingleSearch(sres)
+#     sl.generalSearch(
+#         ('The first urea-based ionic liquid-stabilized magnetic nanoparticles: an efficient catalyst for the synthesis of bis(indolyl)methanes and pyrano[2,3-d]pyrimidinone derivatives', 'Zolfigol'),
+#         '2010',
+#         '2018',
+#         'TI',
+#         'res'
+#     )
+
+# if __name__ == "__main__":
+#     path = 'C:/Users/F/Downloads/input.csv'
+#     fname, ext = os.path.splitext(path)
+#     if ext == ".csv":
+#         df = pd.read_csv(path, header=0)
+#         queryList = df.values[:, 0]
+#         pAuthorList = df.values[:, 1]
+#     elif ext == ".xls" or ext == ".xlsx":
+#         df = pd.read_excel(path, header=0)
+#         queryList = df.values[:, 0]
+#         pAuthorList = df.values[:, 1]
+#     else:
+#         raise Exception()
+
+#     for idx, qry in enumerate(queryList):
+#         queryList[idx] = (qry.strip(), pAuthorList[idx])
+
+#     print(queryList)
