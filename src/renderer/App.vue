@@ -72,10 +72,12 @@
           <v-slide-y-transition mode="out-in">
             <router-view 
             :loading="loading"
+            :errQuery="errQuery"
             :resList="resList"
-            :cResList="cResList"
-            :notFoundList="notFoundList"
+            :mErrQuery="mErrQuery"
             :mResList="mResList"
+            :cErrQuery="cErrQuery"
+            :cResList="cResList"
             :executer="executer"
             :log="log"
             v-on:stdin="stdinAll"
@@ -127,7 +129,7 @@
       miniVariant: true,
       title: '세종대학교 논문 정보 검색 시스템',
       loading: true,
-      notFoundList: [],
+      cErrQuery: [],
       cResList: [
         {
           id: 102020,
@@ -143,6 +145,12 @@
           DOI: '10.1016/j.lwt.2014.04.058',
           'Total Citations': '71',
         },
+      ],
+      mErrQuery: [
+        // {
+        //   query: 'example2',
+        //   msg: '검색결과가 없습니다.',
+        // },
       ],
       mResList: [
         {
@@ -171,11 +179,14 @@
           researchAreas: '',
           language: 'English',
           reprint: '저자, A',
+          goodRank: '0.34',
+          prevYearIF: '2.111',
+          issn: 'issn-0000',
           jcr: [
-            ['JCR® Category', 'Rank in Category', 'Quartile in Category'],
-            ['BIOCHEMISTRY & MOLECULAR BIOLOGY', '1 of 293', 'Q1'],
-            ['CELL BIOLOGY', '2 of 190', 'Q1'],
-            ['MEDICINE, RESEARCH & EXPERIMENTAL', '1 of 133', 'Q1'],
+            ['JCR® Category', 'Rank in Category', 'Quartile in Category', 'Percentage'],
+            ['BIOCHEMISTRY & MOLECULAR BIOLOGY', '1 of 293', 'Q1', '0.34'],
+            ['CELL BIOLOGY', '2 of 190', 'Q1', '1.05'],
+            ['MEDICINE, RESEARCH & EXPERIMENTAL', '1 of 133', 'Q1', '0.75'],
           ],
           citingArticles: {
             id: 102020,
@@ -183,6 +194,12 @@
             authors: ['저자, C; 저자, D; 저자, E;', '저자, F; 저자, G;'],
           },
         },
+      ],
+      errQuery: [
+        // {
+        //   query: 'example2',
+        //   msg: '검색결과가 없습니다.',
+        // },
       ],
       resList: [
         {
@@ -211,11 +228,14 @@
           researchAreas: '',
           language: 'English',
           reprint: '저자, A',
+          goodRank: '0.34',
+          prevYearIF: '2.111',
+          issn: 'issn-0000',
           jcr: [
-            ['JCR® Category', 'Rank in Category', 'Quartile in Category'],
-            ['BIOCHEMISTRY & MOLECULAR BIOLOGY', '1 of 293', 'Q1'],
-            ['CELL BIOLOGY', '2 of 190', 'Q1'],
-            ['MEDICINE, RESEARCH & EXPERIMENTAL', '1 of 133', 'Q1'],
+            ['JCR® Category', 'Rank in Category', 'Quartile in Category', 'Percentage'],
+            ['BIOCHEMISTRY & MOLECULAR BIOLOGY', '1 of 293', 'Q1', '0.34'],
+            ['CELL BIOLOGY', '2 of 190', 'Q1', '1.05'],
+            ['MEDICINE, RESEARCH & EXPERIMENTAL', '1 of 133', 'Q1', '0.75'],
           ],
           citingArticles: {
             id: 102020,
@@ -279,7 +299,7 @@
                 if (resJSON.target === 'loading') {
                   this.loading = resJSON.res;
                 } else if (resJSON.target === 'paperData') {
-                  this.resList.push(resJSON.res);
+                  this.resList.unshift(resJSON.res);
                 } else if (resJSON.target === 'citingArticles') {
                   for (let ii = 0; ii < this.resList.length; ii += 1) {
                     console.log(resJSON.res.id);
@@ -288,6 +308,8 @@
                       break;
                     }
                   }
+                } else if (resJSON.target === 'errQuery') {
+                  this.errQuery.unshift(resJSON.res);
                 } else {
                   this.log = `${time} : ${JSON.stringify(resJSON.res)}<br>${this.log}`;
                 }
@@ -296,7 +318,7 @@
                 if (resJSON.target === 'loading') {
                   this.loading = resJSON.res;
                 } else if (resJSON.target === 'paperData') {
-                  this.mResList.push(resJSON.res);
+                  this.mResList.unshift(resJSON.res);
                 } else if (resJSON.target === 'citingArticles') {
                   for (let ii = 0; ii < this.mResList.length; ii += 1) {
                     if (this.mResList[ii].id === resJSON.res.id) {
@@ -304,6 +326,8 @@
                       break;
                     }
                   }
+                } else if (resJSON.target === 'errQuery') {
+                  this.mErrQuery.unshift(resJSON.res);
                 } else {
                   this.log = `${time} : ${JSON.stringify(resJSON.res)}<br>${this.log}`;
                 }
@@ -311,7 +335,7 @@
               case 'cres':
                 if (resJSON.target === 'result') {
                   this.cResList = resJSON.res.cResList;
-                  this.notFoundList = resJSON.res.notFoundList;
+                  this.cNotFoundList = resJSON.res.notFoundList;
                 }
                 break;
               case 'err':
