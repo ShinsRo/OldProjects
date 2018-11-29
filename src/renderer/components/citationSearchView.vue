@@ -35,11 +35,19 @@
         slot="activator"
         v-if="!loading"
       >
-        불러오기
+        검색
       </v-btn>
       <v-flex v-if="loading">
         <pulse-loader :loading="loading" :color="'#5bc0de'" :size="'20px'"></pulse-loader>
       </v-flex>
+    </v-flex>
+    <v-flex>
+      <v-text-field
+        label="기준 저자의 WOS 상 이름"
+        placeholder="해당 이름을 세미콜론으로 구분해주세요. ex) Sejong, Kim; SJ, Kim"
+        outline
+        v-model="pAuthors"
+      ></v-text-field>
     </v-flex>
     <!-- END 옵션 컨테이너 -->
     <!-- 인풋 에러 얼럿 -->
@@ -66,6 +74,9 @@
             hide-details
           ></v-text-field>
         </v-card-title>
+        <v-btn>
+            엑셀로 저장하기
+        </v-btn>
         <v-data-table
           :headers="resHeaders"
           :items="resList"
@@ -75,6 +86,7 @@
           <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
           <template slot="items" slot-scope="props">
             <tr @click="props.expanded = !props.expanded">
+              <td >{{ resList.indexOf(props.item) }}</td>
               <td >{{ (props.item.title.length > 8)? `${props.item.title.slice(0, 10)}...` : props.item.title }}</td>
               <td >{{ props.item.reprint.replace(/\(.+\)/, '') }}</td>
               <td v-html="
@@ -85,9 +97,12 @@
               </td>
               <td >{{ props.item.docType }}</td>
               <td >{{ props.item.publishedMonth }}</td>
-              <td v-html="props.item.publisher[0]"></td>
-              <td >{{ props.item.timesCited }}</td>
               <td v-html="props.item.capedGrades.join([separator = '<br>'])"></td>
+              <td >{{ props.item.goodRank }}</td>
+              <td >{{ props.item.prevYearIF }}</td>
+              <td >{{ props.item.timesCited }}</td>
+              <td v-html="props.item.publisher[0]"></td>
+              <td >{{ props.item.issn }}</td>
               <td v-html="props.item.ivp.join([separator = '<br>'])"></td>
               <td >{{ props.item.language }}</td>
             </tr>
@@ -129,19 +144,29 @@
             <!-- 인용 테이블 -->
             <table style="border:1px solid #FFFFFF; margin: 20px; width: 100%">
               <tr>
-                <td style="border:1px solid #FFFFFF;">파일 ID : {{props.item.citingArticles.id}}</td>
+                <td style="border:1px solid #FFFFFF;">
+                  파일 ID : {{props.item.citingArticles.id}}
+                </td>
+                <td style="border:1px solid #FFFFFF;">
+                  자기인용 횟수 : {{props.item.citingArticles.selfCitation}}, 
+                  타인인용 횟수 : {{props.item.citingArticles.othersCitation}}
+                </td>
               </tr>
               <tr>
+                <td style="border:1px solid #FFFFFF;">인용 분류</td>
                 <td style="border:1px solid #FFFFFF;">이 논문을 인용하는 논문</td>
                 <td style="border:1px solid #FFFFFF;">논문 저자 목록</td>
               </tr>
-              <tr v-if="props.item.citingArticles.titles.length > 10">
+              <!-- <tr 
+              v-if="props.item.citingArticles.titles.length > 10"
+              >
                 <td>인용한 논문이 너무 많습니다. 엑셀파일을 확인해 주세요.</td><td></td>
-              </tr>
-              <tr
               v-if="props.item.citingArticles.titles.length <= 10"
+              </tr> -->
+              <tr
               v-for="(title, index) in props.item.citingArticles.titles" :key="index"
               >
+                <td style="border:1px solid #FFFFFF;">{{props.item.citingArticles.isSelf[index]}}</td>
                 <td style="border:1px solid #FFFFFF;">{{title}}</td>
                 <td style="border:1px solid #FFFFFF;">{{props.item.citingArticles.authors[index]}}</td>
               </tr>
@@ -151,6 +176,27 @@
       </v-card>
     </v-flex>
     <!-- END 결과표 -->
+    <!-- 검색 실패표 -->
+    <v-flex>
+      <v-card class='mt-3'>
+        <v-card-title>
+          검색어 에러 메세지
+          <v-spacer></v-spacer>
+        </v-card-title>
+        <v-data-table
+          :headers="errQueryHeaders"
+          :items="errQuery"
+        >
+          <template slot="items" slot-scope="props">
+            <tr>
+              <td v-html="`검색어 : ${ props.item.query[0] }<br> 기준저자 : ${ props.item.query[1] }`"></td>
+              <td >{{ props.item.msg }}</td>
+            </tr>
+          </template>
+        </v-data-table>
+      </v-card>
+    </v-flex>
+    <!-- END 검색 실패표 -->
   </v-layout>
 </template>
 
@@ -158,7 +204,7 @@
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 
 export default {
-  props: ['resList', 'loading', 'executer', 'log'],
+  props: ['resList', 'errQuery', 'loading', 'executer', 'log'],
   data() {
     return {
       errObj: {
@@ -167,26 +213,29 @@ export default {
         msg: '입력 값이 잘못되었습니다',
       },
       query: '',
+      pAuthors: '',
       startYear: '',
       endYear: '',
       listSearch: '',
       resHeaders: [
-        {
-          text: '제목',
-          align: 'left',
-          sortable: true,
-          value: 'title',
-          width: '20px',
-        },
+        { text: '연번', align: 'left', value: 'resList.indexOf(props.item)', width: '5px' },
+        { text: '제목', align: 'left', value: 'title', width: '20px' },
         { text: '교신저자', align: 'left', value: 'reprint', width: '30px' },
         { text: '저자 목록', align: 'left', value: 'authors', width: '30px' },
         { text: '발행분류', align: 'left', value: 'docType', width: '10px' },
         { text: '발행년월', align: 'left', value: 'publishedMonth', width: '5px' },
-        { text: '발행처', align: 'left', value: 'publisher', width: '20px' },
-        { text: '피인용', align: 'left', value: 'timesCited', width: '5px' },
         { text: '등급', align: 'left', value: 'capedGrades', width: '20px' },
+        { text: '백분율', align: 'left', value: 'goodRank', width: '5px' },
+        { text: 'IF', align: 'left', value: 'prevYearIF', width: '5px' },
+        { text: '피인용', align: 'left', value: 'timesCited', width: '5px' },
+        { text: '발행처', align: 'left', value: 'publisher', width: '20px' },
+        { text: 'ISSN', align: 'left', value: 'issn', width: '5px' },
         { text: '권/호, 페이지', align: 'left', value: 'ivp', width: '5px' },
         { text: '언어', align: 'left', value: 'language', width: '10px' },
+      ],
+      errQueryHeaders: [
+        { text: '검색어', align: 'left', value: 'query', width: '20px' },
+        { text: '메세지', align: 'left', value: 'msg', width: '20px' },
       ],
     };
   },
@@ -231,7 +280,7 @@ export default {
       errObj.show = false;
       const payload = {
         scope: this,
-        inputs: ['singleCitationSearch', this.query, this.startYear, this.endYear],
+        inputs: ['singleCitationSearch', this.query, this.startYear, this.endYear, this.pAuthors],
       };
       this.$emit('stdin', payload);
     },

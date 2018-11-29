@@ -48,7 +48,7 @@
         slot="activator"
         v-if="!loading"
       >
-        불러오기
+        검색
       </v-btn>
       <pulse-loader :loading="loading" :color="'#5bc0de'" :size="'20px'"></pulse-loader>
     </v-flex>
