@@ -4,6 +4,7 @@ import sju_response
 import concurrent.futures
 import datetime
 import os
+import traceback
 
 def inputValidation(dsres, serviceName):
     dsres.print(command='log', msg='인풋 값을 검증합니다.')
@@ -15,15 +16,17 @@ def inputValidation(dsres, serviceName):
         query = input().strip()
         startYear = input().strip()
         endYear = input().strip()
+        pAuthors = input().strip()
 
         if not len(query) > 2: raise Exception('쿼리의 길이가 너무 짧습니다.')
         if not 1900 <= int(startYear) <= now.year: raise Exception('시작년도가 올바르지 않습니다.')
         if not 1900 <= int(endYear) <= now.year: raise Exception('끝 년도가 올바르지 않습니다.')
         if not int(startYear) <= int(endYear): raise Exception('검색 기간이 올바르지 않습니다.')
+        # if not pAuthors: raise Exception('---')
         returnDict['query'] = query 
         returnDict['startYear'] = startYear 
         returnDict['endYear'] = endYear 
-
+        returnDict['pAuthors'] = pAuthors
     # 다중 상세 검색
     elif serviceName == 'multiCitationSearch':
         startYear = input().strip()
@@ -110,7 +113,8 @@ if __name__ == "__main__":
                         dsres.print(command='log', msg='다중 일반 검색 서비스 초기화가 완료되었습니다.')
                         
                 except Exception as e:
-                    print(e)
+                    dsres.print(command='sysErr', msg='초기화 중 오류가 발생했습니다.')
+                    dsres.print(command='errObj', msg=e)
                 else:
                     dsres.print(command='log', msg='%s 초기화 완료'%name_done)
     
@@ -124,81 +128,88 @@ if __name__ == "__main__":
 
     dsres.print(command='log', msg='dispatcher가 준비되었습니다.')
     while(True):
+        # 반복 전역 예외 처리
         dsres.print(command='res', target='loading', res=False)
-
-        # 검색 서비스 종류
-        serviceName = input().strip()
-        dsres.print(command='res', target='loading', res=True)
-        
-        inputs = ''
         try:
-            inputs = inputValidation(dsres, serviceName)
+
+            # 검색 서비스 종류
+            serviceName = input().strip()
+            dsres.print(command='res', target='loading', res=True)
+            
+            inputs = ''
+            try:
+                inputs = inputValidation(dsres, serviceName)
+            except Exception as e:
+                dsres.print(command='sysErr', msg='인풋 값이 유효하지 않습니다.')
+                dsres.print(command='errObj', msg=e)
+                continue
+
+            # 단일 상세 검색
+            if serviceName == 'singleCitationSearch':
+                query = inputs['query']
+                startYear = inputs['startYear']
+                endYear = inputs['endYear']
+                pAuthors = inputs['pAuthors']
+
+                try:
+                    singleCitationSearchObj.generalSearch(
+                        query=(query, pAuthors), 
+                        startYear=startYear, 
+                        endYear=endYear, 
+                        gubun='TI',
+                        resName='res',
+                    )
+                
+                except Exception as e:
+                    dsres.print(command='sysErr', msg='심각한 오류')
+                    dsres.print(command='errObj', msg=e)
+                else:
+                    dsres.print(command='log', msg='단일 검색을 마쳤습니다.')
+
+            # 다중 상세 검색
+            elif serviceName == 'multiCitationSearch':
+                startYear = inputs['startYear']
+                endYear = inputs['endYear']
+                gubun = inputs['gubun']
+                path = inputs['path']
+
+                try:
+                    multiCitationSearchObj.generalSearch(
+                        startYear=startYear,
+                        endYear=endYear,
+                        gubun=gubun,
+                        path=path
+                    )
+                except Exception as e:
+                    dsres.print(command='sysErr', msg='상세 엑셀 검색 중 오류가 발생했습니다.')
+                else:
+                    dsres.print(command='log', msg='상세 엑셀 검색이 완료되었습니다.')
+
+            # 다중 일반 검색
+            elif serviceName == 'multiCommonSearch':
+                startYear = inputs['startYear']
+                endYear = inputs['endYear']
+                gubun = inputs['gubun']
+                inputFilePath = inputs['inputFilePath']
+                defaultQueryPackSize = inputs['defaultQueryPackSize']
+
+                try:
+                    multiCommonSearchObj.generalSearch(
+                        startYear = startYear,
+                        endYear = endYear,
+                        gubun = gubun,
+                        inputFilePath = inputFilePath,
+                        defaultQueryPackSize = 0
+                    )
+                except Exception as e:
+                    dsres.print(command='sysErr', msg='일반 엑셀 검색 중 오류가 발생했습니다.')
+                else:
+                    dsres.print(command='log', msg='일반 엑셀 검색이 완료되었습니다.')
+
+            # 알 수 없는 서비스 네임
+            else:
+                dsres.print(command='sysErr', msg='알 수 없는 서비스 접근')
+        
         except Exception as e:
-            dsres.print(command='err', msg='인풋 값이 유효하지 않습니다.')
-            dsres.print(command='err', msg=str(e))
+            traceback.print_tb(e.__traceback__) 
             continue
-
-        # 단일 상세 검색
-        if serviceName == 'singleCitationSearch':
-            query = inputs['query']
-            startYear = inputs['startYear']
-            endYear = inputs['endYear']
-            
-            try:
-                singleCitationSearchObj.generalSearch(
-                    query=query, 
-                    startYear=startYear, 
-                    endYear=endYear, 
-                    gubun='TI',
-                    resName='res',
-                )
-            
-            except Exception as e:
-                dsres.print(command='sysErr', msg='심각한 오류')
-                dsres.print(command='errObj', msg=str(e))
-            else:
-                dsres.print(command='log', msg='단일 검색을 마쳤습니다.')
-
-        # 다중 상세 검색
-        elif serviceName == 'multiCitationSearch':
-            startYear = inputs['startYear']
-            endYear = inputs['endYear']
-            gubun = inputs['gubun']
-            path = inputs['path']
-
-            try:
-                multiCitationSearchObj.generalSearch(
-                    startYear=startYear,
-                    endYear=endYear,
-                    gubun=gubun,
-                    path=path
-                )
-            except Exception as e:
-                dsres.print(command='sysErr', msg='상세 엑셀 검색 중 오류가 발생했습니다.')
-            else:
-                dsres.print(command='log', msg='상세 엑셀 검색이 완료되었습니다.')
-
-        # 다중 일반 검색
-        elif serviceName == 'multiCommonSearch':
-            startYear = inputs['startYear']
-            endYear = inputs['endYear']
-            gubun = inputs['gubun']
-            inputFilePath = inputs['inputFilePath']
-            defaultQueryPackSize = inputs['defaultQueryPackSize']
-
-            try:
-                multiCommonSearchObj.generalSearch(
-                    startYear = startYear,
-                    endYear = endYear,
-                    gubun = gubun,
-                    inputFilePath = inputFilePath,
-                    defaultQueryPackSize = 0
-                )
-            except Exception as e:
-                dsres.print(command='sysErr', msg='일반 엑셀 검색 중 오류가 발생했습니다.')
-            else:
-                dsres.print(command='log', msg='일반 엑셀 검색이 완료되었습니다.')
-
-        # 알 수 없는 서비스 네임
-        else:
-            dsres.print(command='sysErr', msg='알 수 없는 서비스 접근')
