@@ -3,6 +3,7 @@ import commonSearch
 import sju_response
 import concurrent.futures
 import datetime
+import sys
 import os
 import traceback
 
@@ -119,9 +120,7 @@ if __name__ == "__main__":
                     dsres.print(command='log', msg='%s 초기화 완료'%name_done)
     
     except Exception as e:
-        dsres.print(command='sysErr', msg='연결에 실패했습니다.')
-        dsres.print(command='sysErr', msg='인터넷 연결이나 접속한 장소가 유효한 지 확인해주세요.')
-        dsres.print(command='sysErr', msg='혹은 일시적 현상일 수 있으니 잠시 후 다시 접속해주세요.')
+        dsres.print(command='sysErr', msg='연결에 실패했습니다. 인터넷 연결이나 접속한 장소가 유효한 지 확인해주세요. 혹은 일시적 현상일 수 있으니 잠시 후 다시 접속해주세요.')
         dsres.print(command='log', msg='dispatcher를 종료합니다.')
         dsres.print(command='errObj', msg=e)
         exit(2000)
@@ -131,7 +130,7 @@ if __name__ == "__main__":
         # 반복 전역 예외 처리
         dsres.print(command='res', target='loading', res=False)
         try:
-
+            
             # 검색 서비스 종류
             serviceName = input().strip()
             dsres.print(command='res', target='loading', res=True)
@@ -209,7 +208,10 @@ if __name__ == "__main__":
             # 알 수 없는 서비스 네임
             else:
                 dsres.print(command='sysErr', msg='알 수 없는 서비스 접근')
-        
+        except EOFError as eof:
+            dsres.print(command='sysErr', msg='dispatcher와의 연결이 해제되었습니다. 프로그램을 다시 시작해주세요.')
+            sys.exit(1)
         except Exception as e:
+            dsres.print(command='sysErr', msg='알 수 없는 오류가 발생했습니다.')
             traceback.print_tb(e.__traceback__) 
             continue
