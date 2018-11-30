@@ -74,19 +74,25 @@
             hide-details
           ></v-text-field>
         </v-card-title>
-        <v-btn>
-            엑셀로 저장하기
-        </v-btn>
+        <excel-downloader
+          :resList="resList"
+          :errQuery="errQuery"
+          :loading="loading"
+        ></excel-downloader>
         <v-data-table
           :headers="resHeaders"
           :items="resList"
           :search="listSearch"
           :loading="loading"
+          :pagination.sync="pagination"
         >
           <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
           <template slot="items" slot-scope="props">
             <tr @click="props.expanded = !props.expanded">
-              <td >{{ resList.indexOf(props.item) }}</td>
+              <td >
+                <v-icon @click="deleteRow(props.item.index)">delete</v-icon>
+              </td>
+              <td >{{ props.item.index }}</td>
               <td >{{ (props.item.title.length > 8)? `${props.item.title.slice(0, 10)}...` : props.item.title }}</td>
               <td >{{ props.item.reprint.replace(/\(.+\)/, '') }}</td>
               <td v-html="
@@ -202,6 +208,7 @@
 
 <script>
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
+import ExcelDownloader from './ExcelDownloader/ExcelDownloader';
 
 export default {
   props: ['resList', 'errQuery', 'loading', 'executer', 'log'],
@@ -217,8 +224,13 @@ export default {
       startYear: '',
       endYear: '',
       listSearch: '',
+      pagination: {
+        sortBy: 'index',
+        descending: true,
+      },
       resHeaders: [
-        { text: '연번', align: 'left', value: 'resList.indexOf(props.item)', width: '5px' },
+        { text: '행삭제', align: 'left', value: '__icon', width: '5px', sortable: false },
+        { text: '번호', align: 'left', value: 'index', width: '5px' },
         { text: '제목', align: 'left', value: 'title', width: '20px' },
         { text: '교신저자', align: 'left', value: 'reprint', width: '30px' },
         { text: '저자 목록', align: 'left', value: 'authors', width: '30px' },
@@ -241,10 +253,22 @@ export default {
   },
   components: {
     PulseLoader,
+    ExcelDownloader,
   },
   methods: {
     logFlush() {
       this.log = '';
+    },
+    deleteRow(index) {
+      for (let ii = 0; ii < this.resList.length; ii += 1) {
+        if (this.resList[ii].index === index) {
+          index = ii;
+          break;
+        }
+      }
+      if (confirm('정말 행을 삭제합니까?')) {
+        this.resList.splice(index, 1);
+      }
     },
     stdin() {
       // 인풋값 체크

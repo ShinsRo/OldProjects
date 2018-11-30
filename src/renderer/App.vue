@@ -65,9 +65,19 @@
         
       </v-toolbar>
       <!-- END 헤더 라인 정의 -->
-
       <!-- content -->
       <v-content>
+        <!-- sysErr alert -->
+        <v-flex xs12>
+          <v-alert
+          v-model="errAlert.show"
+          dismissible
+          type="error"
+          >
+            {{ decodeURIComponent(errAlert.msg) }}
+          </v-alert> 
+        </v-flex>
+        <!-- END sysErr alert -->
         <v-container fluid fill-height>
           <v-slide-y-transition mode="out-in">
             <router-view 
@@ -115,16 +125,24 @@
   export default {
     name: 'sejong-wos',
     data: () => ({
+      errAlert: {
+        show: false,
+        msg: '',
+      },
       log: '',
       executer: '',
       clipped: true,
       drawer: true,
       fixed: false,
+      resIndex: 0,
+      mResIndex: 0,
       items: [
         { icon: 'info', title: '가이드', to: '/' },
         { icon: 'search', title: '상세 단일 검색', to: '/citationSearch' },
         { icon: 'format_quote', title: '상세 엑셀 검색', to: '/citationSearchMulti' },
+        { icon: 'person', title: '저자로 검색', to: '/citationSearchByAuthor' },
         { icon: 'description', title: '일반 엑셀 검색', to: '/commonSearchMulti' },
+        { icon: 'test', title: '테스트', to: '/TEST' },
       ],
       miniVariant: true,
       title: '세종대학교 논문 정보 검색 시스템',
@@ -155,6 +173,7 @@
       mResList: [
         {
           id: 102020,
+          index: 0,
           title: 'example',
           authors: ['저자, A', '저자, B'],
           firstAuthor: '저자, A',
@@ -192,6 +211,9 @@
             id: 102020,
             titles: ['논문 A', '논문 B'],
             authors: ['저자, C; 저자, D; 저자, E;', '저자, F; 저자, G;'],
+            isSelf: ['Self', 'Others'],
+            selfCitation: 1,
+            othersCitation: 1,
           },
         },
       ],
@@ -204,6 +226,7 @@
       resList: [
         {
           id: 102020,
+          index: 0,
           title: 'example',
           authors: ['저자, A', '저자, B'],
           firstAuthor: '저자, A',
@@ -240,7 +263,10 @@
           citingArticles: {
             id: 102020,
             titles: ['논문 A', '논문 B'],
-            authors: ['저자, C; 저자, D; 저자, E;', '저자, F; 저자, G;'],
+            authors: ['저자, A; 저자, D; 저자, E;', '저자, F; 저자, G;'],
+            isSelf: ['Self', 'Others'],
+            selfCitation: 1,
+            othersCitation: 1,
           },
         },
       ],
@@ -272,12 +298,12 @@
         cmd.stdout.setDefaultEncoding('utf-8');
         cmd.stderr.setDefaultEncoding('utf-8');
 
-        // cmd.stdin.on('data', (data) => {
-        //   console.log(`cmd stdin: ${data.toString()}`);
-        // });
-        // cmd.stdout.on('data', (data) => {
-        //   console.log(`cmd stdout: ${data.toString()}`);
-        // });
+        cmd.stdin.on('data', (data) => {
+          console.log(`cmd stdin: ${data.toString()}`);
+        });
+        cmd.stdout.on('data', (data) => {
+          console.log(`cmd stdout: ${data.toString()}`);
+        });
         cmd.stderr.on('data', (data) => {
           const output = data.toString().replace(/\n/ig, '').split('#&');
           try {
@@ -299,7 +325,9 @@
                 if (resJSON.target === 'loading') {
                   this.loading = resJSON.res;
                 } else if (resJSON.target === 'paperData') {
-                  this.resList.unshift(resJSON.res);
+                  this.resIndex += 1;
+                  resJSON.res.index = this.resIndex;
+                  this.resList.push(resJSON.res);
                 } else if (resJSON.target === 'citingArticles') {
                   for (let ii = 0; ii < this.resList.length; ii += 1) {
                     console.log(resJSON.res.id);
@@ -309,7 +337,7 @@
                     }
                   }
                 } else if (resJSON.target === 'errQuery') {
-                  this.errQuery.unshift(resJSON.res);
+                  this.errQuery.push(resJSON.res);
                 } else {
                   this.log = `${time} : ${JSON.stringify(resJSON.res)}<br>${this.log}`;
                 }
@@ -318,7 +346,9 @@
                 if (resJSON.target === 'loading') {
                   this.loading = resJSON.res;
                 } else if (resJSON.target === 'paperData') {
-                  this.mResList.unshift(resJSON.res);
+                  this.mResIndex += 1;
+                  resJSON.res.index = this.mResIndex;
+                  this.mResList.push(resJSON.res);
                 } else if (resJSON.target === 'citingArticles') {
                   for (let ii = 0; ii < this.mResList.length; ii += 1) {
                     if (this.mResList[ii].id === resJSON.res.id) {
@@ -338,9 +368,12 @@
                   this.cNotFoundList = resJSON.res.notFoundList;
                 }
                 break;
+              case 'sysErr':
+                this.errAlert.msg = resJSON.msg;
+                this.errAlert.show = true;
+                break;
               case 'err':
               case 'log':
-              case 'sysErr':
               default:
                 this.log = `${time} : ${decodeURIComponent(resJSON.msg)}<br>${this.log}`;
                 break;

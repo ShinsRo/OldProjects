@@ -26,6 +26,16 @@ export default new Router({
       component: require('@/components/commonSearchMultiView').default,
     },
     {
+      path: '/citationSearchByAuthor',
+      name: 'citationSearchByAuthor',
+      component: require('@/components/citationSearchByAuthorView').default,
+    },
+    {
+      path: '/TEST',
+      name: 'TEST',
+      component: require('@/components/TEST').default,
+    },
+    {
       path: '*',
       redirect: '/',
     },
