@@ -259,7 +259,7 @@ class SingleSearch():
             'issn' : ISSN,
         }
         paperData['ivp'] = ['%s/%s'%(paperData['issue'], paperData['volume']), paperData['pages']]
-        paperData['citingArticles'] = {'id': paperData['id'], 'titles': [], 'authors': [], 'isSelf': []}
+        citingArticles = {'id': paperData['id'], 'selfCitation': 0, 'othersCitation': 0, 'titles': [], 'authors': [], 'isSelf': []}
 
         # 전년도 임팩트 팩토
         prevYear = str(int(paperData['published']) - 1)
