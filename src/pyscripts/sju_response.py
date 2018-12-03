@@ -16,9 +16,10 @@ class SJUresponse():
         self.stdout = logging.getLogger(name)
 
     def print(self, command, msg=None, target=None, res=None):
+        retrunRes = ''
         # if self.name == 'MultiCitationSearch':
         #     pass
-        if command == 'res' or command == 'cres' or command == 'mres':
+        if command == 'res' or command == 'cres' or command == 'mres' or command == 'ares':
             returnRes = {'name':self.name, 'command':command, 'target':target, 'res': res}
         elif command == 'log' or command == 'err' or command == 'sysErr':
             # returnRes = {'name':self.name, 'command':command, 'msg': msg}

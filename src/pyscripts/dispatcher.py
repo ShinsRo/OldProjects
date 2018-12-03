@@ -12,13 +12,16 @@ def inputValidation(dsres, serviceName):
     now = datetime.datetime.now()
     returnDict = {}
     
-    # 단일 상세 검색
-    if serviceName == 'singleCitationSearch':
+    # 단일 상세 검색 및 저자명 검색
+    if serviceName == 'singleCitationSearch' or serviceName == 'citationSearchByAuthor':
         query = input().strip()
         startYear = input().strip()
         endYear = input().strip()
         pAuthors = input().strip()
-
+        if serviceName == 'citationSearchByAuthor': 
+            organization = input().strip()
+            returnDict['organization'] = organization
+        
         if not len(query) > 2: raise Exception('쿼리의 길이가 너무 짧습니다.')
         if not 1900 <= int(startYear) <= now.year: raise Exception('시작년도가 올바르지 않습니다.')
         if not 1900 <= int(endYear) <= now.year: raise Exception('끝 년도가 올바르지 않습니다.')
@@ -81,13 +84,15 @@ if __name__ == "__main__":
     singleCitationSearchObj = None
     multiCitationSearchObj = None
     multiCommonSearchObj = None
+    oneByOneSearchObj = None
 
     # 서비스 초기화
     try:
         serviceList = [
-            { 'name': 'SingleCitationSearch', 'init': citationSearch.SingleSearch}, 
-            { 'name': 'MultiCitationSearch', 'init': citationSearch.MultiSearch},
-            { 'name': 'MultiCommonSearch', 'init': commonSearch.MultiSearch},
+            { 'name': 'SingleCitationSearch', 'init': citationSearch.SingleSearch }, 
+            { 'name': 'MultiCitationSearch', 'init': citationSearch.MultiSearch },
+            { 'name': 'oneByOneSearch', 'init': citationSearch.OneByOneSearch },
+            { 'name': 'MultiCommonSearch', 'init': commonSearch.MultiSearch },
         ]
         
         dsres.print(command='log', msg='기반 서비스를 초기화합니다. 이 작업은 2~3분이 소요됩니다.')
@@ -112,7 +117,10 @@ if __name__ == "__main__":
                     elif name_done == 'MultiCommonSearch':
                         multiCommonSearchObj = tempObj
                         dsres.print(command='log', msg='다중 일반 검색 서비스 초기화가 완료되었습니다.')
-                        
+                    elif name_done == 'oneByOneSearch':
+                        oneByOneSearchObj = tempObj
+                        dsres.print(command='log', msg='저자명 기준 검색 서비스 초기화가 완료되었습니다.')
+                         
                 except Exception as e:
                     dsres.print(command='sysErr', msg='초기화 중 오류가 발생했습니다.')
                     dsres.print(command='errObj', msg=e)
@@ -205,6 +213,27 @@ if __name__ == "__main__":
                 else:
                     dsres.print(command='log', msg='일반 엑셀 검색이 완료되었습니다.')
 
+            # 저자명 기준 검색
+            if serviceName == 'citationSearchByAuthor':
+                query = inputs['query']
+                startYear = inputs['startYear']
+                endYear = inputs['endYear']
+                pAuthors = inputs['pAuthors']
+                organization = inputs['organization']
+                try:
+                    oneByOneSearchObj.generalSearch(
+                        query=(query, pAuthors, organization),
+                        startYear=startYear,
+                        endYear=endYear, 
+                        gubun='AU',
+                        resName='ares',
+                    )
+                
+                except Exception as e:
+                    dsres.print(command='sysErr', msg='심각한 오류')
+                    dsres.print(command='errObj', msg=e)
+                else:
+                    dsres.print(command='log', msg='저자명 검색을 마쳤습니다.')
             # 알 수 없는 서비스 네임
             else:
                 dsres.print(command='sysErr', msg='알 수 없는 서비스 접근')
