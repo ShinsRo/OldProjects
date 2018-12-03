@@ -217,13 +217,14 @@ class SingleSearch():
                 if targetAuthor != '':
                     addresses[targetAuthor] = tauthorAddress
                 tauthorAddress = []
-                targetAuthor =  con.contents[0]
+                targetAuthor =  con.text
                 authors += [targetAuthor]
             else:
                 addressId = re.sub(r'.+\'(.+)\'.+', r'\1', con.get('href'))
                 temp = fr_addresses.find('a', id=addressId)
                 if temp != None:
-                    tauthorAddress += [temp.contents[0]]
+                    # tauthorAddress += [temp.contents[0]]
+                    tauthorAddress += [temp.text]
 
         if targetAuthor != '':
                     addresses[targetAuthor] = tauthorAddress
@@ -724,7 +725,7 @@ class OneByOneSearch():
                 addressId = re.sub(r'.+\'(.+)\'.+', r'\1', con.get('href'))
                 temp = fr_addresses.find('a', id=addressId)
                 if temp != None:
-                    tauthorAddress += [temp.contents[0]]
+                    tauthorAddress += [temp.text]
 
         if targetAuthor != '':
                     addresses[targetAuthor] = tauthorAddress
