@@ -51,7 +51,7 @@
     </v-flex>
     <v-flex>
       <v-text-field
-        label="저자의 소속 기관명"
+        label="같이 검색할 소속 기관명"
         placeholder="입력값이 없으면 해당 필드는 조건에서 제외됩니다."
         outline
         v-model="organizaion"
