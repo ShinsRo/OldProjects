@@ -293,6 +293,12 @@ class SingleSearch():
             return paperData
 
         sres.print(command='log', msg='인용 중인 논문 정보 페이지를 가져옵니다.')
+        # if int(timesCited) < 51:
+        #     sres.print(command='log', msg='인용 중인 논문 정보가 50개 이하이므로, 각각 파싱합니다.')
+
+        #     self.backToGeneralSearch()
+        #     return paperData
+
         browser.follow_link(cnt_link)
         reportLink = browser.select("a.citation-report-summary-link")[0]
         browser.follow_link(reportLink)
@@ -603,7 +609,8 @@ class OneByOneSearch():
         browser.open(self.baseUrl + aTagArr_record['href'])
 
         # 논문 제목
-        title = aTagArr_record.text.replace('\n', '')
+        # title = aTagArr_record.text.replace('\n', '')
+        title = browser.select('div.title')[0].text
 
         # ISSN
         ISSN = browser.select('p.sameLine')
@@ -990,40 +997,40 @@ class OneByOneSearch():
             self.backToGeneralSearch()
             return
 
+        qid = browser.get_form(id='refine_form')['parentQid'].value
         hitCount = int(hitCount.contents[0].replace(',', ''), base=10)
-        # 50개 보기로 변경
-        if hitCount > 10:
-            refine_form = browser.get_form(id='refine_form')
-            to50url = 'http://apps.webofknowledge.com/summary.do'            
-            param = '?product=WOS'
-            param += '&parentProduct=WOS'
-            param += '&search_mode=GeneralSearch'
-            param += '&qid=' + refine_form['parentQid'].value
-            param += '&SID=' + self.SID
-            param += '&action=changePageSize'
-            param += '&pageSize=50'
 
-            browser.open(to50url + param)
-
-            # 페이징 필요
-            aTagArr_record = browser.select('a.snowplow-full-record')
+        full_record_actionUrl = '/full_record.do'
+        param = '?product=WOS'
+        param += '&search_mode=GeneralSearch'
+        param += '&qid=' + qid
+        param += '&SID=' + self.SID
+        param += '&page='
+        param += '&doc='        
+        docParam = 1
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=50) as exceutor:
+            
             future_detail = {
-                exceutor.submit(self.followDetailLink, a, query, resName): a for a in aTagArr_record
+                exceutor.submit(
+                    self.followDetailLink, 
+                    bs4.Tag(name='a', attrs={'href': '%s%s%d'%(full_record_actionUrl, param, docParam)}), 
+                    query, 
+                    resName
+                ): docParam for docParam in range(1, hitCount)
             }
             for future in concurrent.futures.as_completed(future_detail):
-                target_a = future_detail[future]
+                docParam = future_detail[future]
 
                 try:
                     singlePaperData = future.result()
                 except Exception as e:
-                    sres.print(command=resName, target='errQuery', res={'query': query, 'msg':'%s 검색 중 에러가 발생.'%(target_a.text)})
+                    sres.print(command=resName, target='errQuery', res={'query': query, 'msg':'%d번 레코드 검색 중 에러가 발생.'%(docParam)})
                     sres.print(command='errObj', msg=e)
                 else:
-                    sres.print(command='log', msg='%s 상세 검색 완료.'%(target_a.text))
+                    sres.print(command='log', msg='%d 상세 검색 완료.'%(docParam))
         
-        sres.print(command='log', msg='%s 검색이 완료되었습니다.'%(target_a.text))
+        sres.print(command='log', msg='%d까지 검색이 완료되었습니다.'%(docParam))
         self.backToGeneralSearch()
 
 if __name__ == "__main__":
