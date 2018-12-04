@@ -11,7 +11,7 @@
                 <v-flex>파일선택</v-flex>
             </div>
             <!-- Now, the file input that we hide. -->
-            <input type="file" @change="handleFileChange"/>
+            <input type="file" @change="handleFileChange" multiple/>
         </label>
     </v-btn>
 </template>
@@ -20,20 +20,26 @@
 export default {
   props: {
     // Using value here allows us to be v-model compatible.
-    value: File,
+    value: FileList,
   },
   methods: {
     handleFileChange(e) {
-      const tFile = e.target.files[0];
-      const fname = tFile.name;
-      const ext = fname.slice(fname.lastIndexOf('.') + 1).toLowerCase();
-      if (ext !== 'xlsx' && ext !== 'xls' && ext !== 'csv') {
-        alert('파일 형식이 올바르지 않습니다.');
-        this.$emit('input', null);
-        return;
+      let tFiles = e.target.files;
+      let fname = '';
+      let ext = '';
+      for (let ii = 0; ii < tFiles.length; ii += 1) {
+        fname = tFiles[ii].name;
+        ext = fname.slice(fname.lastIndexOf('.') + 1).toLowerCase();
+        if (ext !== 'xlsx' && ext !== 'xls') {
+          // alert('형식이 올바르지 않은 파일이 포함되어있습니다.');
+          // this.$emit('input', null);
+          // return;
+          tFiles = tFiles.splice(ii, 1);
+          ii -= 1;
+        }
       }
       // Whenever the file changes, emit the 'input' event with the file data.
-      this.$emit('input', tFile);
+      this.$emit('input', tFiles);
     },
   },
 };

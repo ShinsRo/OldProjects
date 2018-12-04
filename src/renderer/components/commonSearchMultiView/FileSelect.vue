@@ -24,8 +24,16 @@ export default {
   },
   methods: {
     handleFileChange(e) {
+      const tFile = e.target.files[0];
+      const fname = tFile.name;
+      const ext = fname.slice(fname.lastIndexOf('.') + 1).toLowerCase();
+      if (ext !== 'xlsx' && ext !== 'xls' && ext !== 'csv') {
+        alert('파일 형식이 올바르지 않습니다.');
+        this.$emit('input', null);
+        return;
+      }
       // Whenever the file changes, emit the 'input' event with the file data.
-      this.$emit('input', e.target.files[0]);
+      this.$emit('input', tFile);
     },
   },
 };

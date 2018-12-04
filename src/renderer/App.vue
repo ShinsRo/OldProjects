@@ -145,7 +145,7 @@
         { icon: 'format_quote', title: '상세 엑셀 검색', to: '/citationSearchMulti' },
         { icon: 'person', title: '저자로 검색', to: '/citationSearchByAuthor' },
         { icon: 'description', title: '일반 엑셀 검색', to: '/commonSearchMulti' },
-        { icon: 'test', title: '테스트', to: '/TEST' },
+        { icon: 'library_books', title: '엑셀 취합', to: '/excelIntegration' },
       ],
       miniVariant: true,
       title: '세종대학교 논문 정보 검색 시스템',

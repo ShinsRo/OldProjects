@@ -31,10 +31,15 @@ export default new Router({
       component: require('@/components/citationSearchByAuthorView').default,
     },
     {
-      path: '/TEST',
-      name: 'TEST',
-      component: require('@/components/TEST').default,
+      path: '/excelIntegration',
+      name: 'excelIntegration',
+      component: require('@/components/excelIntegrationView').default,
     },
+    // {
+    //   path: '/TEST',
+    //   name: 'TEST',
+    //   component: require('@/components/TEST').default,
+    // },
     {
       path: '*',
       redirect: '/',
