@@ -236,7 +236,8 @@ if __name__ == "__main__":
                     dsres.print(command='log', msg='저자명 검색을 마쳤습니다.')
             # 알 수 없는 서비스 네임
             else:
-                dsres.print(command='sysErr', msg='알 수 없는 서비스 접근')
+                print(serviceName)
+                # dsres.print(command='sysErr', msg='알 수 없는 서비스 접근')
         except EOFError as eof:
             dsres.print(command='sysErr', msg='dispatcher와의 연결이 해제되었습니다. 프로그램을 다시 시작해주세요.')
             sys.exit(1)
