@@ -35,4 +35,24 @@ class SJUresponse():
             returnJSON = json.dumps({'command':'sysErr', 'msg':urllib.parse.quote(msg)})
             self.stdout.info(returnJSON)
 
-        # print(returnRes)
+        # # 디버깅용
+        # print("==============================")
+        # print(
+        #     'command=',
+        #     command,
+        # )
+        # print(
+        #     'msg=',
+        #     msg,
+        # )
+        # print(
+        #     'target=',
+        #     target,
+        # )
+        # if command == 'errObj':
+        #     traceback.print_tb(msg.__traceback__)
+        # print(
+        #     'res=',
+        #     target,
+        # )
+        # print("==============================")

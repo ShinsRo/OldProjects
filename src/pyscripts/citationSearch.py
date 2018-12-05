@@ -8,6 +8,7 @@ import numpy as np
 import requests
 from robobrowser import RoboBrowser
 from robobrowser.forms.fields import Input
+from urllib3 import request
 import xlrd
 import json
 import re
@@ -16,7 +17,14 @@ import concurrent.futures
 import threading
 
 class SingleSearch():
+    """
+        단일 상세 검색 객체
+    """
     def __init__(self, sres):
+        """
+            단일 상세 검색 객체 초기화 및 브라우저 세션 초기화
+            sres : UI 통신, 로깅 객체
+        """
         self.searchCnt = 0
         self.sres = sres
         self.browser = RoboBrowser(history=True, parser='lxml')
@@ -33,6 +41,9 @@ class SingleSearch():
         self.browser.open(self.baseUrl + '/WOS_GeneralSearch_input.do' + param)
 
     def backToGeneralSearch(self):
+        """
+            세션 파괴 및 재초기화
+        """
         sres = self.sres
 
         if self.searchCnt % 200 == 0:
@@ -55,6 +66,55 @@ class SingleSearch():
         self.browser.open(self.baseUrl + '/WOS_GeneralSearch_input.do' + param)
         
         sres.print(command='log', msg='초기화가 완료되었습니다.')
+
+    def getCitingArticleDetail(self, url, query):
+        browser = RoboBrowser(history=True, parser='lxml')
+        browser.open(url)
+
+        title = browser.select('div.title')[0].text
+
+        reprint = ''
+        authors = []
+        fr_authors = []
+        fr_addresses = []
+        for fr_field in browser.select('p.FR_field'):
+            if fr_field.text.find('By:') != -1:
+                fr_authors = fr_field
+            if fr_field.text.find('Addresses:') != -1:
+                if fr_field.text.find('E-mail') != -1:
+                    continue
+                fr_addresses = fr_field.nextSibling
+                
+        addresses = {}
+        #저자, 연구기관
+        fconts = fr_authors.select('a')
+        fr_authors_text = fr_authors.text.replace('\n', '')
+        targetAuthor = ''
+        tauthorAddress = []
+        for con in fconts:
+            isSub = con.get('href').find('javascript') != -1
+            if not isSub:
+                if targetAuthor != '':
+                    addresses[targetAuthor] = tauthorAddress
+                tauthorAddress = []
+                targetAuthor = con.text
+                authors += [targetAuthor]
+            else:
+                addressId = re.sub(r'.+\'(.+)\'.+', r'\1', con.get('href'))
+                temp = fr_addresses.find('a', id=addressId)
+                if temp != None:
+                    tauthorAddress += [temp.text]
+
+        if targetAuthor != '':
+                    addresses[targetAuthor] = tauthorAddress
+
+        single_citing_data = {
+            'title': title,
+            'authors': " ".join(authors),
+            'tauthorAddress': tauthorAddress,
+            'fr_authors_text': fr_authors_text,
+        }
+        return single_citing_data
 
     def generalSearch(self, query, startYear, endYear, gubun, resName):
         sres = self.sres
@@ -292,14 +352,72 @@ class SingleSearch():
             self.browser.open(self.baseUrl + '/WOS_GeneralSearch_input.do' + param)
             return paperData
 
+        citingArticles = {'id': paperData['id'], 'selfCitation': 0, 'othersCitation': 0, 'titles': [], 'fr_authors_text': [], 'authors': [], 'isSelf': []}
         sres.print(command='log', msg='인용 중인 논문 정보 페이지를 가져옵니다.')
-        # if int(timesCited) < 51:
-        #     sres.print(command='log', msg='인용 중인 논문 정보가 50개 이하이므로, 각각 파싱합니다.')
 
-        #     self.backToGeneralSearch()
-        #     return paperData
-
+        # 사이팅 리포트 페이지 접속
         browser.follow_link(cnt_link)
+
+        # 인용하는 논문이 적을 경우 인용 보고서를 제작하지 않고 바로 파싱한다.
+        # [1] 인용 논문 스레딩 조회 
+        if int(timesCited) < 11:
+        # if int(timesCited) > 0:
+            refine_form = browser.get_form(id='refine_form')
+            qid = refine_form['parentQid'].value
+
+            citing_record_url = 'http://apps.webofknowledge.com/full_record.do'
+            citing_param = '?product=WOS'
+            citing_param += '&search_mode=CitingArticles'
+            citing_param += '&qid=' + qid
+            citing_param += '&SID=' + self.browser.session.cookies['SID'].replace("\"", "")
+            citing_param += '&page='
+            citing_param += '&doc='
+
+            # 인용 중인 논문별 퓨쳐 객체 생성 및 실행
+            with concurrent.futures.ThreadPoolExecutor(max_workers=10) as exceutor:
+                future_citing = {
+                    exceutor.submit(
+                        self.getCitingArticleDetail,
+                        citing_record_url + citing_param + str(citing_doc),
+                        query,
+                    ): citing_doc for citing_doc in range(1, int(timesCited) + 1)
+                }
+                for future in concurrent.futures.as_completed(future_citing):
+                    citing_doc = future_citing[future]
+                    try:
+                        single_citing_data = future.result()
+                    except Exception as e:
+                        sres.print(command=resName, target='errQuery', res={'query': query, 'msg':'인용한 논문 중 %d번 레코드 검색 중 에러가 발생.'%(citing_doc)})
+                        sres.print(command='errObj', msg=e)
+                    else:
+                        citingArticles['titles'] += [single_citing_data['title']]
+                        citingArticles['authors'] += [single_citing_data['authors']]
+                        citingArticles['fr_authors_text'] += [single_citing_data['fr_authors_text']]
+
+            # 모든 인용 중 논문 조회 완료, 자기인용, 타인인용 검색
+            if pAuthors != '':
+                pAuthors = list(map(lambda x: x.replace(' ', ''), pAuthors.split(';')))
+
+                for idx, testString in enumerate(citingArticles['fr_authors_text']):
+                    found = False
+                    for pa in pAuthors:
+                        if re.search(pa, testString, flags=re.IGNORECASE):
+                            found = True
+                            citingArticles['selfCitation'] += 1
+                            citingArticles['isSelf'] += ['Self']
+                    if not found:
+                        citingArticles['othersCitation'] += 1
+                        citingArticles['isSelf'] += ['Others\'']        
+
+            sres.print(command='log', msg='인용 중인 논문 정보를 가져왔습니다.')
+            sres.print(command=resName, target='citingArticles', res=citingArticles)
+
+            paperData['citingArticles'] = citingArticles
+
+            self.backToGeneralSearch()
+            return paperData
+
+        # [2] 인용 논문 엑셀 다운로딩 조회
         reportLink = browser.select("a.citation-report-summary-link")[0]
         browser.follow_link(reportLink)
         
@@ -455,7 +573,7 @@ class SingleSearch():
 class MultiSearch():
     def __init__(self, sres):
         WosPool = []
-        threadAmount = 20
+        threadAmount = 16
         self.lock = threading.Lock()
         self.threadAmount = threadAmount
         self.sres = sres
@@ -494,8 +612,10 @@ class MultiSearch():
                             res = worker['wos'].generalSearch(qry, startYear, endYear, gubun, 'mres')
                         except Exception as e:
                             sres.print(command='err', msg='[%d번 객체] 검색 도중 오류를 일으켰습니다.'%wosContainer['no'])
+                            sres.print(command='errObj', msg=e)
                         else:
                             sres.print(command='log', msg='[%d번 객체] 검색을 완료했습니다.'%wosContainer['no'])
+                            return True
                     finally:
                         break
         
@@ -507,26 +627,42 @@ class MultiSearch():
             self.WosPool.append({'wos':wos, 'no':no, 'lock': threading.Lock()})
             return False
         
-        return res
+        return
 
     def getQueryListFromFile(self, path):
         fname, ext = os.path.splitext(path)
-        if ext == ".csv":
-            df = pd.read_csv(path, header=0)
-            queryList = df.values[:].tolist()
-        elif ext == ".xls" or ext == ".xlsx":
-            df = pd.read_excel(path, header=0)
-            queryList = df.values[:].tolist()
-        else:
-            raise Exception()
-
-        for idx, qry in enumerate(queryList):
-            if len(qry) == 1:
-                queryList[idx] = (qry[0], '')
+        encodings = ['utf-8', 'cp949', 'euc-kr']
+        for decodeCodec in encodings:
+            try:
+                if ext == ".csv":
+                    df = pd.read_csv(path, header=0, encoding=decodeCodec)
+                    queryList = df.values[:].tolist()
+                elif ext == ".xls" or ext == ".xlsx":
+                    df = pd.read_excel(path, header=0, encoding=decodeCodec)
+                    queryList = df.values[:].tolist()
+                else:
+                    raise Exception()
+            except UnicodeDecodeError as e:
+                pass
+                # traceback.print_tb(e.__traceback__) 
             else:
-                queryList[idx] = (qry[0], '' if type(qry[1]) == type(np.nan) else qry[1])
+                break
 
-        return queryList
+        returnQueryList = []
+        for idx, qry in enumerate(queryList):
+            if type(qry[0]) == type(np.nan) or not qry[0]:
+                continue
+            else :
+                if (len(qry[0]) < 3) or qry[0].strip() == '':
+                    continue
+
+                if len(qry) == 1:
+                    queryList[idx] = (qry[0], '')
+                else:
+                    queryList[idx] = (qry[0], '' if type(qry[1]) == type(np.nan) else qry[1])
+                returnQueryList += [queryList[idx]]
+
+        return returnQueryList
             
     def generalSearch(self, startYear, endYear, gubun, path):
         threadAmount = self.threadAmount
@@ -602,7 +738,56 @@ class OneByOneSearch():
         
         sres.print(command='log', msg='초기화가 완료되었습니다.')
 
-    def followDetailLink(self, aTagArr_record, query, resName):
+    def getCitingArticleDetail(self, url, query):
+        browser = RoboBrowser(history=True, parser='lxml')
+        browser.open(url)
+
+        title = browser.select('div.title')[0].text
+
+        reprint = ''
+        authors = []
+        fr_authors = []
+        fr_addresses = []
+        for fr_field in browser.select('p.FR_field'):
+            if fr_field.text.find('By:') != -1:
+                fr_authors = fr_field
+            if fr_field.text.find('Addresses:') != -1:
+                if fr_field.text.find('E-mail') != -1:
+                    continue
+                fr_addresses = fr_field.nextSibling
+                
+        addresses = {}
+        #저자, 연구기관
+        fconts = fr_authors.select('a')
+        fr_authors_text = fr_authors.text.replace('\n', '')
+        targetAuthor = ''
+        tauthorAddress = []
+        for con in fconts:
+            isSub = con.get('href').find('javascript') != -1
+            if not isSub:
+                if targetAuthor != '':
+                    addresses[targetAuthor] = tauthorAddress
+                tauthorAddress = []
+                targetAuthor = con.text
+                authors += [targetAuthor]
+            else:
+                addressId = re.sub(r'.+\'(.+)\'.+', r'\1', con.get('href'))
+                temp = fr_addresses.find('a', id=addressId)
+                if temp != None:
+                    tauthorAddress += [temp.text]
+
+        if targetAuthor != '':
+                    addresses[targetAuthor] = tauthorAddress
+
+        single_citing_data = {
+            'title': title,
+            'authors': " ".join(authors),
+            'tauthorAddress': tauthorAddress,
+            'fr_authors_text': fr_authors_text,
+        }
+        return single_citing_data
+
+    def followDetailLink(self, aTagArr_record, query, resName, docNum):
         sres = self.sres
         pAuthors = query[1]
         browser = RoboBrowser(history=True, parser='lxml')
@@ -771,31 +956,96 @@ class OneByOneSearch():
             'issn' : ISSN,
         }
         paperData['ivp'] = ['%s/%s'%(paperData['issue'], paperData['volume']), paperData['pages']]
-        citingArticles = {'id': paperData['id'], 'selfCitation': 0, 'othersCitation': 0, 'titles': [], 'authors': [], 'isSelf': []}
 
         # 전년도 임팩트 팩토
         prevYear = str(int(paperData['published']) - 1)
         if prevYear in impact_factor.keys():
             paperData['prevYearIF'] = impact_factor[prevYear]
 
-        sres.print(command='log', msg='해당 논문의 정보 검색을 완료했습니다.')
+        sres.print(command='log', msg='%d번 해당 논문의 정보 검색을 완료했습니다.'%docNum)
         sres.print(command=resName, target='paperData', res=paperData)
         
         stepFlag = True
         if not cnt_link:
-            sres.print(command='log', msg='논문을 인용한 논문이 없으므로 검색을 종료합니다.')
+            sres.print(command='log', msg='%d번 논문을 인용한 논문이 없으므로 검색을 종료합니다.'%docNum)
             # sres.print(command=resName, target='errQuery', res={'query': query, 'msg': '논문을 인용한 논문이 없습니다.'})
             stepFlag = False
         elif int(timesCited) > 500 :
-            sres.print(command='err', msg='해당 논문을 인용한 논문이 500개를 초과하여 검색을 종료합니다.')
-            sres.print(command=resName, target='errQuery', res={'query': query, 'msg': '해당 논문을 인용한 논문이 500개를 초과하였습니다.'})
+            sres.print(command='err', msg='%d번 해당 논문을 인용한 논문이 500개를 초과하여 검색을 종료합니다.'%docNum)
+            sres.print(command=resName, target='errQuery', res={'query': query, 'msg': '%d번 해당 논문을 인용한 논문이 500개를 초과하였습니다.'%docNum})
             stepFlag = False
 
         if not stepFlag:
             return paperData
 
-        sres.print(command='log', msg='인용 중인 논문 정보 페이지를 가져옵니다.')
+        citingArticles = {'id': paperData['id'], 'selfCitation': 0, 'othersCitation': 0, 'titles': [], 'fr_authors_text': [], 'authors': [], 'isSelf': []}
+        sres.print(command='log', msg='%d번 논문을 인용 중인 논문 정보 페이지를 가져옵니다.'%docNum)
+
+        # 사이팅 리포트 페이지 접속
         browser.follow_link(cnt_link)
+
+        # 인용하는 논문이 적을 경우 인용 보고서를 제작하지 않고 바로 파싱한다.
+        # [1] 인용 논문 스레딩 조회 
+        if int(timesCited) < 11:
+        # if int(timesCited) > 0:
+            refine_form = browser.get_form(id='refine_form')
+            qid = refine_form['parentQid'].value
+
+            citing_record_url = 'http://apps.webofknowledge.com/full_record.do'
+            citing_param = '?product=WOS'
+            citing_param += '&search_mode=CitingArticles'
+            citing_param += '&search_mode=CitingArticles'
+            citing_param += '&qid=' + qid
+            citing_param += '&SID=' + self.browser.session.cookies['SID'].replace("\"", "")
+            citing_param += '&page='
+            citing_param += '&doc='
+
+            # 인용 중인 논문별 퓨쳐 객체 생성 및 실행 [저자 기준]
+            with concurrent.futures.ThreadPoolExecutor(max_workers=10) as exceutor:
+                future_citing = {
+                    exceutor.submit(
+                        self.getCitingArticleDetail,
+                        citing_record_url + citing_param + str(citing_doc),
+                        query,
+                    ): citing_doc for citing_doc in range(1, int(timesCited) + 1)
+                }
+                for future in concurrent.futures.as_completed(future_citing):
+                    citing_doc = future_citing[future]
+
+                    try:
+                        single_citing_data = future.result()
+                        if not single_citing_data:
+                            print('citing_doc %d 연결 실패'%citing_doc)
+                            continue
+                        
+                        citingArticles['titles'] += [single_citing_data['title']]
+                        citingArticles['authors'] += [single_citing_data['authors']]
+                        citingArticles['fr_authors_text'] += [single_citing_data['fr_authors_text']]
+                    except Exception as e:
+                        sres.print(command=resName, target='errQuery', res={'query': query, 'msg':'인용한 논문 중 %d번 레코드 검색 중 에러가 발생.'%(citing_doc)})
+                        sres.print(command='errObj', msg=e)
+
+            # 모든 인용 중 논문 조회 완료, 자기인용, 타인인용 검색
+            if pAuthors != '':
+                pAuthors = list(map(lambda x: x.replace(' ', ''), pAuthors.split(';')))
+
+                for idx, testString in enumerate(citingArticles['fr_authors_text']):
+                    found = False
+                    for pa in pAuthors:
+                        if re.search(pa, testString, flags=re.IGNORECASE):
+                            found = True
+                            citingArticles['selfCitation'] += 1
+                            citingArticles['isSelf'] += ['Self']
+                    if not found:
+                        citingArticles['othersCitation'] += 1
+                        citingArticles['isSelf'] += ['Others\'']        
+
+            sres.print(command='log', msg='%d 번을 인용 중인 논문 정보를 가져왔습니다.'%docNum)
+            sres.print(command=resName, target='citingArticles', res=citingArticles)
+            paperData['citingArticles'] = citingArticles
+            return paperData
+
+        # [2] 인용 논문 엑셀 다운로딩 조회
         reportLink = browser.select("a.citation-report-summary-link")[0]
         browser.follow_link(reportLink)
         
@@ -821,7 +1071,8 @@ class OneByOneSearch():
 
         makeExcelURL += makeExcelParam
 
-        sres.print(command='log', msg='%s부터 %s레코드까지 데이터 제작을 요청합니다.'%(mark_from, mark_to))
+        # 엑셀 데이터 제작 요청
+        sres.print(command='log', msg='%d번 논문을 인용한 %s부터 %s레코드까지 데이터 제작을 요청합니다.'%(docNum, mark_from, mark_to))
         browser.session.post(makeExcelURL, data={
             "selectedIds": "",
             "displayCitedRefs":"",
@@ -866,7 +1117,8 @@ class OneByOneSearch():
             "fields":"DUMMY_VALUE"
         })
 
-        sres.print(command='log', msg='%s부터 %s레코드까지 엑셀을 다운로드 받습니다.'%(mark_from, mark_to))
+        # 엑셀 데이터 다운로드
+        sres.print(command='log', msg='%d번 논문을 인용한 %s부터 %s레코드까지 엑셀을 다운로드 받습니다.'%(docNum, mark_from, mark_to))
 
         ExcelActionURL = "https://ets.webofknowledge.com"
         ExcelAction = "/ETS/ets.do?"
@@ -898,7 +1150,7 @@ class OneByOneSearch():
         res = requests.get(ExcelActionURL)
         if res.text.find("<html>") > 0 or res.text.find("Error report</title>") > 0:
             sres.print(command='err', msg='WOS 서버에서 에러를 보내왔습니다.')
-            sres.print(command=resName, target='errQuery', res={'query': query, 'msg': '인용중 논문 검색 중 WOS 서버에서 에러를 보내왔습니다.'})
+            sres.print(command=resName, target='errQuery', res={'query': query, 'msg': '%d번을 인용한 논문 검색 중 WOS 서버에서 에러를 보내왔습니다.'%docNum})
             self.backToGeneralSearch()
             return paperData
 
@@ -906,6 +1158,7 @@ class OneByOneSearch():
         ofileName = "인용중인논문_ID{0}.xls".format(paperData['id'])
         outputLocationPath = directory
 
+        # 엑셀 데이터 로컬 저장
         if not os.path.exists(directory):
             os.makedirs(directory)
 
@@ -919,6 +1172,7 @@ class OneByOneSearch():
         citingTitle = resPD['Title'].values.tolist()
         citingAuthors = resPD['Authors'].values.tolist()
         
+        # 엑셀 데이터로부터 자기인용, 타인인용 판별
         if pAuthors != '':
             pAuthors = list(map(lambda x: x.replace(' ', ''), pAuthors.split(';')))
         
@@ -943,7 +1197,7 @@ class OneByOneSearch():
             else:
                 citingArticles['isSelf'] += ['-']
         
-        sres.print(command='log', msg='인용 중인 논문 정보를 가져왔습니다.')
+        sres.print(command='log', msg='%d번 논문을 인용 중인 논문 정보를 가져왔습니다.'%docNum)
         sres.print(command=resName, target='citingArticles', res=citingArticles)
         paperData['citingArticles'] = citingArticles
         return paperData
@@ -955,7 +1209,10 @@ class OneByOneSearch():
         SID = self.SID
         jsessionid = self.jsessionid
         pAuthors = query[1]
+
+        # 저자명 검색 로직 시작
         sres.print('log', msg='저자명 검색을 시작합니다.')
+
         WOS_GeneralSearch_input_form = browser.get_form('WOS_GeneralSearch_input_form')
         WOS_GeneralSearch_input_form['value(input1)'] = query[0]
         WOS_GeneralSearch_input_form['value(select1)'] = gubun
@@ -964,6 +1221,8 @@ class OneByOneSearch():
         WOS_GeneralSearch_input_form['range'] = 'CUSTOM'
         WOS_GeneralSearch_input_form['period'].options.append('Year Range')
         WOS_GeneralSearch_input_form['period'] = 'Year Range'
+
+        # 저자명 검색에서 같이 검색할 연구기관이 있는 경우
         if query[2] != '':
             WOS_GeneralSearch_input_form['formUpdated'] = 'true'
             WOS_GeneralSearch_input_form['limitStatus'] = 'expanded'
@@ -984,6 +1243,7 @@ class OneByOneSearch():
         browser.submit_form(WOS_GeneralSearch_input_form)
         self.searchCnt += 1
 
+        # 검색 결과 페이지 응답 받음, full_record조회 준비
         aTagArr_record = browser.select('a.snowplow-full-record')
         hitCount = browser.find('span', id='trueFinalResultCount')
 
@@ -1009,14 +1269,16 @@ class OneByOneSearch():
         param += '&doc='        
         docParam = 1
 
-        with concurrent.futures.ThreadPoolExecutor(max_workers=50) as exceutor:
+        # 각 레코드에 대한 future객체 생성 및 실행
+        with concurrent.futures.ThreadPoolExecutor(max_workers=16) as exceutor:
             
             future_detail = {
                 exceutor.submit(
                     self.followDetailLink, 
                     bs4.Tag(name='a', attrs={'href': '%s%s%d'%(full_record_actionUrl, param, docParam)}), 
                     query, 
-                    resName
+                    resName,
+                    docParam,
                 ): docParam for docParam in range(1, hitCount)
             }
             for future in concurrent.futures.as_completed(future_detail):
@@ -1025,37 +1287,37 @@ class OneByOneSearch():
                 try:
                     singlePaperData = future.result()
                 except Exception as e:
-                    sres.print(command=resName, target='errQuery', res={'query': query, 'msg':'%d번 레코드 검색 중 에러가 발생.'%(docParam)})
+                    sres.print(command=resName, target='errQuery', res={'query': query, 'msg':'%d번 논문 검색 중 에러가 발생.'%(docParam)})
                     sres.print(command='errObj', msg=e)
                 else:
-                    sres.print(command='log', msg='%d 상세 검색 완료.'%(docParam))
+                    sres.print(command='log', msg='%d번 논문 상세 검색 완료.'%(docParam))
         
         sres.print(command='log', msg='%d까지 검색이 완료되었습니다.'%(docParam))
         self.backToGeneralSearch()
 
-if __name__ == "__main__":
-    sres = sju_response.SJUresponse('singleTest')
-    sl = OneByOneSearch(sres)
-    sl.generalSearch(
-        ('Back', 'Back', 'Sejong'),
-        '2010',
-        '2018',
-        'AU',
-        'ares'
-    )
-
 # if __name__ == "__main__":
-#     sres = sju_response.SJUresponse('test')
-#     ml = MultiSearch(sres)
-#     ml.generalSearch('2010', '2018', 'TI', 
-#     'C:/Users/F/Desktop/sejong-wos_Setup1.03/input.csv')
+#     sres = sju_response.SJUresponse('singleTest')
+#     sl = OneByOneSearch(sres)
+#     sl.generalSearch(
+#         ('Back SW', 'Lee', ''),
+#         '2010',
+#         '2018',
+#         'AU',
+#         'ares'
+#     )
+
+if __name__ == "__main__":
+    sres = sju_response.SJUresponse('test')
+    ml = MultiSearch(sres)
+    ml.generalSearch('2010', '2018', 'TI', 
+    'C:\\Users\\F\\Desktop\\testData\\test1_short.xlsx')
 
 # if __name__ == "__main__":
 #     sres = sju_response.SJUresponse('singleTest')
 #     sl = SingleSearch(sres)
 #     sl.generalSearch(
-#         ('The first urea-based ionic liquid-stabilized magnetic nanoparticles: an efficient catalyst for the synthesis of bis(indolyl)methanes and pyrano[2,3-d]pyrimidinone derivatives', 'Zolfigol'),
-#         '2010',
+#         ('Compassionate attitude towards others suffering activates the mesolimbic neural system', 'Kim, Ji-Woong; Kim, JW'),
+#         '1945',
 #         '2018',
 #         'TI',
 #         'res'
