@@ -125,7 +125,28 @@ class SingleSearch():
         pAuthors = query[1]
 
         sres.print('log', msg='단일 조회를 시작합니다.')
-        WOS_GeneralSearch_input_form = browser.get_form('WOS_GeneralSearch_input_form')
+        WOS_GeneralSearch_input_form = ''
+
+        # 검색 페이지가 제대로 열리지 않았을 경우 새롭게 초기화
+        try:
+            WOS_GeneralSearch_input_form = browser.get_form('WOS_GeneralSearch_input_form')
+        except Exception as e:
+            sres.print(command='err', msg='검색 중 브라우저가 폼 객체를 찾지 못해 브라우저를 갱신합니다.')
+            self.searchCnt = 1
+            self.browser = RoboBrowser(history=True, parser='lxml')
+            self.browser.open(self.baseUrl)
+
+            self.SID = self.browser.session.cookies['SID'].replace("\"", "")
+            self.jsessionid = self.browser.session.cookies['JSESSIONID']
+
+            param = '?product=WOS'
+            param += '&search_mode=GeneralSearch'
+            param += '&preferencesSaved='
+            param += '&SID=' + self.SID
+            self.browser.open(self.baseUrl + '/WOS_GeneralSearch_input.do' + param)
+            
+            WOS_GeneralSearch_input_form = browser.get_form('WOS_GeneralSearch_input_form')
+
         WOS_GeneralSearch_input_form['value(input1)'] = query[0]
         WOS_GeneralSearch_input_form['value(select1)'] = gubun
         WOS_GeneralSearch_input_form['startYear'] = startYear
@@ -611,7 +632,7 @@ class MultiSearch():
                             sres.print(command='log', msg='[%d번 객체] 검색을 시작합니다.'%wosContainer['no'])
                             res = worker['wos'].generalSearch(qry, startYear, endYear, gubun, 'mres')
                         except Exception as e:
-                            sres.print(command='err', msg='[%d번 객체] 검색 도중 오류를 일으켰습니다.'%wosContainer['no'])
+                            sres.print(command='sysErr', msg='[%d번 객체] 검색 도중 오류를 일으켰습니다.'%wosContainer['no'])
                             sres.print(command='errObj', msg=e)
                         else:
                             sres.print(command='log', msg='[%d번 객체] 검색을 완료했습니다.'%wosContainer['no'])
