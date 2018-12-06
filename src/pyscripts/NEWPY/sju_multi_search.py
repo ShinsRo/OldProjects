@@ -103,7 +103,7 @@ class MultiSearch():
                 container.container_lock.acquire()
                 break
         
-        self.main_lock.acquire()
+        self.main_lock.release()
         return idle_container
 
     def start(self, start_year, end_year, gubun, path):
