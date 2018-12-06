@@ -41,12 +41,20 @@
         <pulse-loader :loading="loading" :color="'#5bc0de'" :size="'20px'"></pulse-loader>
       </v-flex>
     </v-flex>
-    <v-flex>
+    <v-flex xs6>
       <v-text-field
         label="기준 저자의 WOS 상 이름"
         placeholder="해당 이름을 세미콜론으로 구분해주세요. ex) Sejong, Kim; SJ, Kim"
         outline
         v-model="pAuthors"
+      ></v-text-field>
+    </v-flex>
+    <v-flex>
+      <v-text-field
+        label="같이 검색할 소속 기관명"
+        placeholder="입력값이 없으면 해당 필드는 조건에서 제외됩니다."
+        outline
+        v-model="organizaion"
       ></v-text-field>
     </v-flex>
     <!-- END 옵션 컨테이너 -->
@@ -223,6 +231,7 @@ export default {
       pAuthors: '',
       startYear: '',
       endYear: '',
+      organizaion: '',
       listSearch: '',
       pagination: {
         sortBy: 'index',
@@ -304,7 +313,7 @@ export default {
       errObj.show = false;
       const payload = {
         scope: this,
-        inputs: ['singleCitationSearch', this.query, this.startYear, this.endYear, this.pAuthors],
+        inputs: ['singleCitationSearch', this.query, this.startYear, this.endYear, this.pAuthors, this.organizaion],
       };
       this.$emit('stdin', payload);
     },

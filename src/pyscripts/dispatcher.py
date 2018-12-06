@@ -18,9 +18,7 @@ def inputValidation(dsres, serviceName):
         startYear = input().strip()
         endYear = input().strip()
         pAuthors = input().strip()
-        if serviceName == 'citationSearchByAuthor': 
-            organization = input().strip()
-            returnDict['organization'] = organization
+        organizaion = input().strip
         
         if not len(query) > 2: raise Exception('쿼리의 길이가 너무 짧습니다.')
         if not 1900 <= int(startYear) <= now.year: raise Exception('시작년도가 올바르지 않습니다.')
@@ -31,6 +29,7 @@ def inputValidation(dsres, serviceName):
         returnDict['startYear'] = startYear 
         returnDict['endYear'] = endYear 
         returnDict['pAuthors'] = pAuthors
+        returnDict['organization'] = organization
     # 다중 상세 검색
     elif serviceName == 'multiCitationSearch':
         startYear = input().strip()
@@ -78,6 +77,7 @@ def inputValidation(dsres, serviceName):
     return returnDict
 
 if __name__ == "__main__":
+    sLock = citationSearch.SearchLock()
     dsres = sju_response.SJUresponse('dispatcher')
     dsres.print(command='res', target='loading', res=True)
     dsres.print(command='log', msg='dispatcher를 준비합니다.')
@@ -100,7 +100,7 @@ if __name__ == "__main__":
         dsres.print(command='log', msg='초기화 진행 중 검색 서비스는 이용할 수 없습니다.')
         with concurrent.futures.ThreadPoolExecutor(max_workers=len(serviceList)) as executor:
             future_service = {
-                executor.submit(service['init'], sju_response.SJUresponse(service['name'])): service['name'] for service in serviceList
+                executor.submit(service['init'], sju_response.SJUresponse(service['name']), sLock): service['name'] for service in serviceList
             }
             for future in concurrent.futures.as_completed(future_service):
                 name_done = future_service[future]
@@ -157,10 +157,11 @@ if __name__ == "__main__":
                 startYear = inputs['startYear']
                 endYear = inputs['endYear']
                 pAuthors = inputs['pAuthors']
+                organization = inputs['organization']
 
                 try:
                     singleCitationSearchObj.generalSearch(
-                        query=(query, pAuthors), 
+                        query=(query, pAuthors, organization), 
                         startYear=startYear, 
                         endYear=endYear, 
                         gubun='TI',

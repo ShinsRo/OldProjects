@@ -14,7 +14,8 @@ import concurrent.futures
 import sju_response
 
 class MultiSearch():
-    def __init__(self, sres):
+    def __init__(self, sres, sLock):
+        self.sLock = sLock
         self.searchCnt = 0
         self.sres = sres
         self.browser = RoboBrowser(history=True, parser='lxml')
@@ -33,26 +34,26 @@ class MultiSearch():
     def backToAdvancedSearch(self):
         sres = self.sres
 
-        if self.searchCnt % 200 == 0:
-            self.browser = RoboBrowser(history=True, parser='lxml')
-            self.baseUrl = "http://apps.webofknowledge.com"
-            self.browser.open(self.baseUrl)
+        # if self.searchCnt % 180 == 0:
+        #     self.browser = RoboBrowser(history=True, parser='lxml')
+        #     self.baseUrl = "http://apps.webofknowledge.com"
+        #     self.browser.open(self.baseUrl)
 
-            self.SID = self.browser.session.cookies['SID'].replace("\"", "")
-            self.jsessionid = self.browser.session.cookies['JSESSIONID']
+        #     self.SID = self.browser.session.cookies['SID'].replace("\"", "")
+        #     self.jsessionid = self.browser.session.cookies['JSESSIONID']
 
-            sres.print(command='log', msg='SID : %s'%(self.SID))
-            sres.print(command='log', msg='jsessionid : %s'%(self.jsessionid))
-            sres.print(command='log', msg='WOS GeneralSearch를 엽니다.')
+        #     sres.print(command='log', msg='SID : %s'%(self.SID))
+        #     sres.print(command='log', msg='jsessionid : %s'%(self.jsessionid))
+        #     sres.print(command='log', msg='WOS GeneralSearch를 엽니다.')
 
-        sres.print(command='log', msg='브라우저를 초기화합니다.')
+        sres.print(command='log', msg='GeneralSearch로 돌아갑니다.')
         param = '?product=WOS'
         param += "&search_mode=AdvancedSearch"
         param += '&preferencesSaved='
         param += '&SID=' + self.SID
         self.browser.open(self.baseUrl + '/WOS_AdvancedSearch_input.do' + param)
 
-        sres.print(command='log', msg='초기화가 완료되었습니다.')
+        sres.print(command='log', msg='다음 입력을 받을 준비가 되었습니다.')
 
     def makeQueryFromFile(self, path, packSize, gubun):
         fname, ext = os.path.splitext(path)
@@ -232,8 +233,9 @@ class MultiSearch():
             sres.print(command='errObj', msg=e)
             return
 
-        self.searchCnt += 1
-        
+        # self.searchCnt += 1
+        self.sLock.countBefore(sres, browser)
+
         queryListLen = len(queryList)
         for idx, query in enumerate(queryList):
             sres.print(

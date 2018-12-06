@@ -20,9 +20,11 @@ class SJUresponse():
         # if self.name == 'MultiCitationSearch':
         #     pass
         if command == 'res' or command == 'cres' or command == 'mres' or command == 'ares':
+            print(msg)
             returnRes = {'name':self.name, 'command':command, 'target':target, 'res': res}
         elif command == 'log' or command == 'err' or command == 'sysErr':
             # returnRes = {'name':self.name, 'command':command, 'msg': msg}
+            print(msg)
             returnRes = {'name':self.name, 'command':command, 'msg': urllib.parse.quote(msg)}
         elif command == 'errObj':
             returnRes = {'name':self.name, 'command':command, 'msg':str(msg)}
@@ -35,24 +37,8 @@ class SJUresponse():
             returnJSON = json.dumps({'command':'sysErr', 'msg':urllib.parse.quote(msg)})
             self.stdout.info(returnJSON)
 
-        # # 디버깅용
-        # print("==============================")
-        # print(
-        #     'command=',
-        #     command,
-        # )
-        # print(
-        #     'msg=',
-        #     msg,
-        # )
-        # print(
-        #     'target=',
-        #     target,
-        # )
-        # if command == 'errObj':
-        #     traceback.print_tb(msg.__traceback__)
-        # print(
-        #     'res=',
-        #     target,
-        # )
-        # print("==============================")
+        # 디버깅용
+        if command == 'errObj':
+            print("==============================")
+            traceback.print_tb(msg.__traceback__)
+            print("==============================")
