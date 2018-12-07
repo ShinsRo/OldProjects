@@ -50,8 +50,13 @@ def browerGetFormTest():
 
     print(requests.Session().get('http://www.naver.com'))
 if __name__ == "__main__":
-    browerGetFormTest()
+    t_list = range(1, 269)
+    length = len(t_list)
+    amount = 16
+    portion = length // amount + 1
 
+    for idx in range(0, length, portion):
+        print(t_list[idx:idx+portion])
 # if __name__ == "__main__":
 #     print('test')
 #     temp, dec = getQueryListFromFile('C:\\Users\\F\\Desktop\\testData\\test5.xlsx')

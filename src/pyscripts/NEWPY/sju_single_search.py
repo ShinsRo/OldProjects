@@ -11,14 +11,16 @@ from bs4 import BeautifulSoup
 class SingleSearch():
     '''
     '''
-    def __init__(self):
+    def __init__(self, thread_id = None):
         '''
         '''
         self.qid = 0
         self.session = False
-        self.res_name = 'res'
         self.base_url = "http://apps.webofknowledge.com"
-        self.ui_stream = sju_models.UI_Stream('single_search', 'single main', self.res_name)
+        self.res_name = 'res' if thread_id == None else 'mres'
+        self.thread_id = 'single main' if thread_id == None else thread_id
+        ui_stream_name = 'single_search' if thread_id == None else 'multi sub'
+        self.ui_stream = sju_models.UI_Stream(ui_stream_name, self.thread_id, self.res_name)
 
         self.set_session()
 
@@ -26,6 +28,7 @@ class SingleSearch():
     def set_session(self):
         '''
         '''
+        self.qid = 0
         ui_stream = self.ui_stream
 
         # 세션 갱신
@@ -46,7 +49,7 @@ class SingleSearch():
             # 요청 성공
             ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1201])
         else:
-            # 요청 실패
+            # 요청 self.query_package실패
             ui_stream.push(command='err', msg=sju_CONSTANTS.STATE_MSG[1301][0])
             raise sju_exceptions.InitSessionError()
 
@@ -107,25 +110,52 @@ class SingleSearch():
             raise sju_exceptions.RequestsError
 
         # 결과 리스트 페이지가 필요하면 사용
-        # http_res = session.get(url)
-        # target_content = http_res.content
-        # soup = BeautifulSoup(target_content, 'html.parser')
-        # atag_list = soup.select('a.snowplow-full-record')
-        ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1202])
+        http_res = session.get(url)
+        target_content = http_res.content
+        soup = BeautifulSoup(target_content, 'html.parser')
+        
+        atag_list = soup.select('a.snowplow-full-record')
+        try: 
+            if len(atag_list) == 0:
+                raise sju_exceptions.NoPaperDataError()
+            elif len(atag_list) > 1:
+                raise sju_exceptions.MultiplePaperDataError()
+        # 검색 결과가 없을 경우
+        except sju_exceptions.NoPaperDataError:
+            ui_stream.push(command='err', msg=sju_CONSTANTS.STATE_MSG[1302][0])
+            ui_stream.push(
+                command='res', target='errQuery', 
+                res={'query': query, 'msg': sju_CONSTANTS.STATE_MSG[1302][0]}
+            )
+            return
+        # 검색 결과가 2개 이상일 경우
+        except sju_exceptions.MultiplePaperDataError:
+            ui_stream.push(command='err', msg=sju_CONSTANTS.STATE_MSG[1302][1])
+            ui_stream.push(
+                command='res', target='errQuery', 
+                res={'query': query, 'msg': sju_CONSTANTS.STATE_MSG[1302][1]}
+            )
+            return
+        except Exception as e:
+            ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1303][0])
+            raise Exception(e)
 
+        ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1202])
 
         # [단계 2/3] 상세 정보 페이지 fetch
         #########################################################################
         ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1003])
         
-        action_url = '/full_record.do'
-        query_data = {
-            'page': '1',
-            'qid': self.qid,
-            'SID': self.SID,
-            'doc': '1',
-        }
-        query_string = sju_utiles.get_query_string(action_url, query_data)
+        # 결과 리스트 페이지를 들렀다 오는 경우
+        query_string = atag_list[0]['href']
+        # action_url = '/full_record.do'
+        # query_data = {
+        #     'page': '1',
+        #     'qid': str(self.qid),
+        #     'SID': self.SID,
+        #     'doc': '1',
+        # }
+        # query_string = sju_utiles.get_query_string(action_url, query_data)
 
         # 상세 정보 요청
         ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1103])
@@ -172,6 +202,7 @@ class SingleSearch():
         # 인용 횟수에 따른 분기
         if not cnt_link:
             ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1304][0])
+            self.qid += 1
             return
         elif int(paper_data['timesCited']) > 500:
             ui_stream.push(command='err', msg=sju_CONSTANTS.STATE_MSG[1304][1])
@@ -179,6 +210,7 @@ class SingleSearch():
                 command='res', target='errQuery', 
                 res={'query': query, 'msg': sju_CONSTANTS.STATE_MSG[1304][1]}
             )
+            self.qid += 1
             return
 
         # 인용 리포트 요청
@@ -191,14 +223,14 @@ class SingleSearch():
         qid = soup.select('input#qid')[0].attrs['value']
         rurl = soup.select('input#rurl')[0].attrs['value']
         times_cited = paper_data['timesCited']
-        self.qid = qid
+        self.qid = int(qid)
 
         # Fast 5000 요청 및 다운로드
         ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1204])
 
         action_url = '/OutboundService.do?action=go&&'
         form_data = {
-            'qid': self.qid,
+            'qid': str(self.qid),
             'SID': self.SID,
             'mark_to': times_cited,
             'markTo': times_cited,
@@ -223,8 +255,8 @@ class SingleSearch():
             row_list = row.split('\t')
             for idx, key in enumerate(keys):
                 article[key] = row_list[idx]
-            
             citing_articles.append(article)
+            article = {}
 
         # UI 응답 형식에 맞게 변환
         citingArticles = {'id': paper_data['id'], 'selfCitation': 0, 'othersCitation': 0, 'titles': [], 'authors': [], 'isSelf': []}
@@ -311,10 +343,12 @@ class SingleSearch():
 
 if __name__ == "__main__":
     ss = SingleSearch()
-    ss.start(
-        ('Behavioral impact of maternal allergic-asthma in two genetically distinct mouse strains', 'Hughes, HK;Hughes, Heather K', 'Mt Holyoke Coll')
-        ,'2000',
-        '2018',
-        'TI'
-    )
+    print('입력바람')
+    while(True):
+        ss.start(
+            (input(), input(), input())
+            ,'1945',
+            '2018',
+            'TI'
+        )
         

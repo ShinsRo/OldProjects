@@ -2,73 +2,51 @@ import sju_utiles
 import sju_models
 import sju_CONSTANTS
 import sju_exceptions
+import sju_single_search
 
 import re
+import math
 import requests
 import threading
 import concurrent.futures
 
 from bs4 import BeautifulSoup
 
-class SessionContainer():
+class SingleSearchContainer():
     '''
     '''
     def __init__(self, thread_id):
         '''
         '''
         self.qid = 0
+        self.thread_id = thread_id
+        self.query_package = []
         self.container_lock = threading.Lock()
         self.session = False
         self.res_name = 'mres'
         self.base_url = "http://apps.webofknowledge.com"
         self.ui_stream = sju_models.UI_Stream('multi_search', 'multi sub%d'%thread_id, self.res_name)
 
-        self.set_session()
+        self.single_search = sju_single_search.SingleSearch(thread_id = thread_id)
 
-    def set_session(self):
-        '''
-        '''
-        ui_stream = self.ui_stream
+    def set_query_package_and_portion(self, query_package, portion):
+        self.query_package = query_package
+        self.portion = portion
 
-        # 세션 갱신
-        ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1001])
-        session = requests.Session()
+    def run(self, start_year, end_year, gubun):
 
-        # 세션 SID, JSESSIONID 요청
-        ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1101])
-        res = session.get("http://www.webofknowledge.com")
-
-        # SID요청 에러 판별
-        if res.status_code == requests.codes.ok:
-            self.SID = session.cookies['SID'].replace("\"", "")
-            self.jsessionid = session.cookies['JSESSIONID']
-            ui_stream.push(command='log', msg='SID : %s'%self.SID)
-            ui_stream.push(command='log', msg='JSESSIONID : %s'%self.jsessionid)
-
-            # 요청 성공
-            ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1201])
-        else:
-            # 요청 실패
-            ui_stream.push(command='err', msg=sju_CONSTANTS.STATE_MSG[1301][0])
-            raise sju_exceptions.InitSessionError()
-
-        if self.session: self.session.close()
+        with self.container_lock:
+            for query in self.query_package:
+                self.single_search.start(query, start_year, end_year, gubun)
         
-        self.session = session
-
-    def run(self, query, start_year, end_year, gubun):
-        print(query, start_year, end_year, gubun)
-        self.container_lock.release()
-    
 class MultiSearch():
     '''
     '''
     def __init__(self):
         '''
         '''
-        self.main_lock = threading.Lock()
         self.res_name = 'mres'
-        self.threading_amount = 2
+        self.threading_amount = 1
         self.ui_stream = sju_models.UI_Stream('multi_search', 'multi main', self.res_name)
 
         containers = {}
@@ -78,7 +56,7 @@ class MultiSearch():
         ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[2101])
         with concurrent.futures.ThreadPoolExecutor(max_workers=threading_amount) as executor:
             future_containers = {
-                executor.submit(SessionContainer, thread_id,
+                executor.submit(SingleSearchContainer, thread_id,
                 ): thread_id for thread_id in range(threading_amount) 
             }
 
@@ -89,48 +67,48 @@ class MultiSearch():
                     ui_stream.push(command='log', msg='multi sub%d의 %s'%(thread_id, sju_CONSTANTS.STATE_MSG[2201]))
                 except Exception as e:
                     ui_stream.push(command='err', msg='multi sub%d의 %s'%(thread_id, sju_CONSTANTS.STATE_MSG[2301][0]))
+                    raise e
         
         self.containers = containers
         ui_stream.push(command='log', msg='%s'%(sju_CONSTANTS.STATE_MSG[2201]))
 
-    def get_idle_container(self):
-        self.main_lock.acquire()
-        idle_container = ''
 
-        for thread_id, container in self.containers.items():
-            if not container.container_lock.locked():
-                idle_container = container
-                container.container_lock.acquire()
-                break
-        
-        self.main_lock.release()
-        return idle_container
+    def distribute(self, target_id, query_package, portion):
+        containers = self.containers
+        containers[target_id].set_query_package_and_portion(query_package, portion)
+
 
     def start(self, start_year, end_year, gubun, path):
         '''
         '''
+        ui_stream = self.ui_stream
         containers = self.containers
         threading_amount = self.threading_amount
 
         query_list = []
         query_list = sju_utiles.get_query_list_from_file(path)
+        portion = math.ceil(len(query_list) / threading_amount) 
+
+        target_ids = containers.keys()
+        for thread_id in target_ids:
+            start_idx = thread_id * portion
+            self.distribute(thread_id, query_list[start_idx : start_idx + portion], portion)
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=threading_amount) as executor:
-            idle_container = self.get_idle_container()
             future_run = {
                 executor.submit(
-                    idle_container.run, query, start_year, end_year, gubun
-                ): query for query in query_list
+                    container.run, start_year, end_year, gubun
+                ): (thread_id, container) for thread_id, container in containers.items() 
             }
             
             for future in concurrent.futures.as_completed(future_run):
-                query = future_run[future]
+                thread_id, container = future_run[future]
                 try:
                     future.result()
                 except Exception as e:
-                    ui_stream.push(command='err', msg='%s 검색 중 에러발생'%query)
+                    ui_stream.push(command='err', msg='%d 검색 중 에러발생'%thread_id)
+                    raise e
 
-    
 if __name__ == "__main__":
     ms = MultiSearch()
     ms.start('2010','2018','TI', 
