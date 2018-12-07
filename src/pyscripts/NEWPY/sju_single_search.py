@@ -110,7 +110,7 @@ class SingleSearch():
             raise sju_exceptions.RequestsError
 
         # 결과 리스트 페이지가 필요하면 사용
-        http_res = session.get(url)
+        http_res = session.get(reffer)
         target_content = http_res.content
         soup = BeautifulSoup(target_content, 'html.parser')
         
