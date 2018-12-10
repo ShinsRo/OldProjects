@@ -74,6 +74,14 @@ class SingleSearch():
         ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1002])
         ui_stream.push(command='log', msg='검색어 : %s'%keyword)
 
+        if keyword.find('=') != -1:
+            ui_stream.push(command='err', msg=sju_CONSTANTS.STATE_MSG[1300][0])
+            ui_stream.push(
+                command='res', target='errQuery', 
+                res={'query': query, 'msg': sju_CONSTANTS.STATE_MSG[1300][0]}
+            )
+            return
+
         action_url = '/WOS_GeneralSearch.do'
         form_data = {
             'sa_params': 'WOS||%s|http://apps.webofknowledge.com|\''%self.SID,
@@ -91,7 +99,7 @@ class SingleSearch():
                 'fieldCount': '2',
             })
         
-        # 검색 결과 요청
+        # 검색 요청
         ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1102])
 
         url = base_url + action_url
@@ -148,6 +156,10 @@ class SingleSearch():
         
         # 결과 리스트 페이지를 들렀다 오는 경우
         query_string = atag_list[0]['href']
+
+        # 상세 보기 바로 진입
+        # qid가 랜덤한 경우가 존재... 사용하기 위해선
+        # 이슈가 해결되야함.
         # action_url = '/full_record.do'
         # query_data = {
         #     'page': '1',
@@ -167,6 +179,7 @@ class SingleSearch():
         # 상세 정보 파싱
         try:
             paper_data, cnt_link = sju_utiles.parse_paper_data(target_content)
+            paper_data['subsidy'] = sju_utiles.get_subsidy01(paper_data, p_authors)
 
         # 검색 결과가 없을 경우
         except sju_exceptions.NoPaperDataError:
@@ -220,6 +233,15 @@ class SingleSearch():
         http_res = session.get(url)
 
         soup = BeautifulSoup(http_res.content, 'html.parser')
+        # 인용문 링크는 존재하나, 클릭할 경우 검색 결과가 없다는 메세지가 뜰 때
+        if  soup.text.find('Your search found no records') != -1 or soup.text.find('None of the Citing Articles are in your subscription') != -1:
+            ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1304][3])
+            ui_stream.push(
+                command='res', target='errQuery', 
+                res={'query': query, 'msg': sju_CONSTANTS.STATE_MSG[1304][3]}
+            )
+            return
+        
         qid = soup.select('input#qid')[0].attrs['value']
         rurl = soup.select('input#rurl')[0].attrs['value']
         times_cited = paper_data['timesCited']
@@ -239,6 +261,7 @@ class SingleSearch():
 
         url = base_url + action_url
         http_res = session.post(url, form_data)
+        self.qid += 1
 
         # Fast 5000 데이터 처리
         ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1404])
@@ -290,7 +313,7 @@ class SingleSearch():
             self.set_session()
 
         ui_stream.push(command='res', target='citingArticles', res=citingArticles)
-        ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1200])
+        ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1200][0])
         return
         # [단계 종료] 단일 상세 검색
         #########################################################################

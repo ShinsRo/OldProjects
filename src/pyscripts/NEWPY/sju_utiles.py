@@ -9,6 +9,133 @@ import numpy as np
 import pandas as pd
 from bs4 import BeautifulSoup
 
+
+def get_subsidy01(
+        paper_data,
+        p_authors, 
+    ):
+    '''
+        대상 저자에 대한 본 논문관련 장려금 산정
+        실패 시
+         -1 : 기준 저자 없음
+         -2 : 인정 아티클이 아님
+         -3 : 분류(등급)이 없음
+         -4 : 기준 저자의 자격을 판단할 수 없음
+        성공 시
+        금액 반환
+    '''
+    # 기준 저자 체크
+    if p_authors == '':
+        return -1
+
+    p_authors = list(map(lambda x: x.strip(), p_authors.split(';')))
+
+    # docType 체크
+    if not re.search(r'(Article)|(Letter)|(Review)', paper_data['docType'], flags=re.I):
+        return -2
+    
+    # 주저자인 지 판단
+    # 1. 제 1저자인가.
+    is_first = False
+    for pa in p_authors:
+        is_first = paper_data['authors'][0].find(pa) != -1
+        if is_first: break
+    
+    # 2. 교신저자인가.
+    is_reprint = False
+    for pa in p_authors:
+        is_reprint = paper_data['reprint'].find(pa) != -1
+        if is_reprint: break
+
+    # 3. 제 1저자, 교신저자가 본교 소속인가.
+    is_reprint_sju = re.search('Sejong Univ', paper_data['reprint'], flags=re.I)
+    is_first_sju = re.search('Sejong Univ', ' '.join(paper_data['addresses'][paper_data['authors'][0]]), flags=re.I)
+
+    # 4. 공동저자가 존재하는가.
+    # 풀네임 또한 저자로 포함 되므로, 존재할 때마다 2씩 증가한다.
+    has_co_author = False
+    count = 0
+    for au in paper_data['authors']:
+        if re.search('Sejong Univ', ' '.join(paper_data['addresses'][au]), flags=re.I):
+            count += 1
+            has_co_author = count >= 3
+
+    # 5. 저자 상태 판단
+    '''
+        0: 알 수 없음
+        - 주저자 인정
+        1: 교신 저자 및 제 1저자 모두인 경우               100%
+        2: 교신 저자의 소속이 뵨교인 제 1저자인 경우        100%   
+        3: 교신 저자의 소속이 타기관인 제 1저자인 경우      100%
+        4: 제 1저자의 소속이 본교인 교신저자인 경우         100%
+        5: 제 1저자의 소속이 타기관인 교신저자인 경우       50%
+        - 주저자 미인정
+        6: 주저자가 본교인 공동저자의 경우                  0%
+        7: 주저자가 타기관인 공동저자의 경우                50 / 공동저자 수 %
+
+    '''
+    author_is = 0
+    discount = 100
+    if is_first             and is_reprint: author_is = 1; discount = 100
+    elif is_reprint_sju     and is_first: author_is = 2; discount = 100
+    elif not is_reprint_sju and is_first: author_is = 3; discount = 100
+    elif is_first_sju       and is_reprint: author_is = 4; discount = 100
+    elif not is_first_sju   and is_reprint: author_is = 5; discount = 50
+    elif has_co_author      and (is_first_sju or is_reprint_sju): author_is = 6; discount = 0
+    elif has_co_author      and not (is_first_sju or is_reprint_sju): author_is = 7; discount = 50/(count/2)
+    else: author_is = 0
+
+    if author_is == 0:
+        return -4
+
+    # 6. 구분 기준이 무엇인가.
+    '''
+        0. 알 수 없음 or ESCI
+        1. Nature, Science, Cell 
+        2. SCI/SCIE
+        3. SSCI
+        4. A&HCI
+    '''
+    p_rank = 0
+    grades = ' '.join(paper_data['capedGrades'])
+
+    if re.search(r'(SCI)|(SCIE)', grades, flags=re.I):
+        p_rank = 2
+    elif grades.find('SSCI') > 0:
+        p_rank = 3
+    elif grades.find('A&HCI') > 0:
+        p_rank = 4
+    else:
+        p_rank = 0
+
+    if p_rank == 0:
+        return -3
+
+    # if 상위 백분율에 따른 기본 지급금
+    top_percent = paper_data['goodRank']
+    subsidy = 0
+
+    # 전년도 IF가 없는 경우
+    if paper_data['prevYearIF'] == 'None':
+        top_percent = 99.0
+    
+    if p_rank == 2:
+        if top_percent <= 10:   subsidy = 400
+        elif top_percent <= 20: subsidy = 250
+        elif top_percent <= 50: subsidy = 150
+        else:                   subsidy = 0
+    elif p_rank == 3:
+        if top_percent <= 10:   subsidy = 600
+        elif top_percent <= 20: subsidy = 550
+        elif top_percent <= 50: subsidy = 500
+        else:                   subsidy = 300
+    elif p_rank == 4:
+        subsidy = 500
+    else:
+        pass
+
+    return subsidy*discount/100
+
 def get_query_string(action, data):
     query_string = '%s?'%action
     
@@ -45,12 +172,12 @@ def get_query_string(action, data):
             'displayUsageInfo': 'true',
             'parentQid': '',                # required
             'rurl': '',                     # required
-            'startYear': '',                
+            'start_year': '',                
             'mark_to': '',                  # required
             'filters': 'null',
             'rid': 'U-9523-2018',           # required_optional
             'qid': '',                      # required
-            'endYear': '',
+            'end_year': '',
             'SID': '',                      # required
             'totalMarked': '',              # required
             'action': 'crsaveToFile',       # required
@@ -92,8 +219,8 @@ def get_form_data(action, data):
             'SinceLastVisit_DATE': '', 
             'period': 'Year Range',         
             'range': 'CUSTOM',
-            'startYear': '',                # required
-            'endYear': '',                  # required
+            'start_year': '',                # required
+            'end_year': '',                  # required
             'editions': ['SCI', 'SSCI', 'AHCI', 'ESCI'], 
             'update_back2search_link_param': 'yes', 
             'ssStatus': 'display:none',
@@ -140,8 +267,8 @@ def get_form_data(action, data):
             'additional_qoutput_params': 'cr_qid=',
             'print_opt':'Html',
             'include_mark_from_in_url':'true',
-            'endYear': '',
-            'startYear': '',
+            'end_year': '',
+            'start_year': '',
             'piChart': '',
             'toChart': '',
             'fields':'DUMMY_VALUE'
@@ -157,7 +284,7 @@ def get_form_data(action, data):
             'mark_id': 'WOS',
             'colName': 'WOS',
             'search_mode': 'CitingArticles',
-            'locale': 'ko_KR',
+            'locale': 'en_US',
             'research_id': 'U-9523-2018',
             'view_name': 'WOS-CitingArticles-summary',
             'sortBy': 'PY.D;LD.D;SO.A;VL.D;PG.A;AU.A',
@@ -194,6 +321,7 @@ def parse_paper_data(target_content):
 
     pagination_btn_alt = soup.select('a.paginationNext')[0].attrs['alt']
     # 결과 수가 1개가 아닐 경우 즉시 종료
+    # and pagination_btn_alt.find('비활성') == -1
     if pagination_btn_alt.find('Inactive') == -1:
         raise sju_exceptions.MultiplePaperDataError()
 
@@ -308,6 +436,15 @@ def parse_paper_data(target_content):
     #저자, 연구기관
     fconts = fr_authors.select('a')
     fr_authors_text = fr_authors.text.replace('\n', '')
+    fr_authors_text = fr_authors_text.split(':')[1].split(';')
+
+    # 풀 네임
+    full_name = {}
+    for fa in fr_authors_text:
+        fa_match = re.search(r'(.+) \((.+)\)', fa)
+        if fa_match:
+            full_name[fa_match.group(1).strip()] = fa_match.group(2).replace(r'\(|\)', '').strip()
+    
     target_author = ''
     tauthor_address = []
     for con in fconts:
@@ -315,8 +452,9 @@ def parse_paper_data(target_content):
         if not isSub:
             if target_author != '':
                 addresses[target_author] = tauthor_address
+                addresses[full_name[target_author]] = tauthor_address
             tauthor_address = []
-            target_author =  con.text
+            target_author =  con.text.strip()
             authors += [target_author]
         else:
             addressId = re.sub(r'.+\'(.+)\'.+', r'\1', con.get('href'))
@@ -327,6 +465,7 @@ def parse_paper_data(target_content):
 
     if target_author != '':
                 addresses[target_author] = tauthor_address
+                addresses[full_name[target_author]] = tauthor_address
     if reprint == '':
         reprint = 'None'
 
@@ -334,6 +473,7 @@ def parse_paper_data(target_content):
         'id' : random.getrandbits(32),
         # 'authors' : correction_form_inputs_by_name['00N70000002C0wa'].split(';'),
         'authors' : authors,
+        'full_name' : full_name,
         'fr_authors_text' : fr_authors_text,
         'firstAuthor': authors[0],
         'addresses' : addresses,
@@ -362,9 +502,11 @@ def parse_paper_data(target_content):
         'issn' : ISSN,
     }
     paperData['ivp'] = ['%s/%s'%(paperData['issue'], paperData['volume']), paperData['pages']]
-
+    
     # 전년도 임팩트 팩토
-    prev_year = str(int(paperData['published']) - 1)
+    now = datetime.datetime.now()
+    prev_year = str(now.year)
+    # prev_year = str(int(paperData['published']) - 1)
     if prev_year in impact_factor.keys():
         paperData['prevYearIF'] = impact_factor[prev_year]
 
@@ -417,69 +559,95 @@ def input_validation(service_name):
     InputValidationError = sju_exceptions.InputValidationError
     
     # 단일 상세 검색 및 저자명 검색
-    if service_name == 'singleCitationSearch' or service_name == 'citationSearchByAuthor':
+    if service_name == 'singleSearch' or service_name == 'citationSearchByAuthor':
         query = input().strip()
-        startYear = input().strip()
-        endYear = input().strip()
-        pAuthors = input().strip()
+        start_year = input().strip()
+        end_year = input().strip()
+        p_authors = input().strip()
         organization = input().strip()
         
         if not len(query) > 2: raise InputValidationError('쿼리의 길이가 너무 짧습니다.')
-        if not 1900 <= int(startYear) <= now.year: raise InputValidationError('시작년도가 올바르지 않습니다.')
-        if not 1900 <= int(endYear) <= now.year: raise InputValidationError('끝 년도가 올바르지 않습니다.')
-        if not int(startYear) <= int(endYear): raise InputValidationError('검색 기간이 올바르지 않습니다.')
-        # if not pAuthors: raise InputValidationError('---')
+        if not 1900 <= int(start_year) <= now.year: raise InputValidationError('시작년도가 올바르지 않습니다.')
+        if not 1900 <= int(end_year) <= now.year: raise InputValidationError('끝 년도가 올바르지 않습니다.')
+        if not int(start_year) <= int(end_year): raise InputValidationError('검색 기간이 올바르지 않습니다.')
+        # if not p_authors: raise InputValidationError('---')
         returnDict['query'] = query 
-        returnDict['startYear'] = startYear 
-        returnDict['endYear'] = endYear 
-        returnDict['pAuthors'] = pAuthors
+        returnDict['start_year'] = start_year 
+        returnDict['end_year'] = end_year 
+        returnDict['p_authors'] = p_authors
         returnDict['organization'] = organization
 
     # 다중 상세 검색
-    elif service_name == 'multiCitationSearch':
-        startYear = input().strip()
-        endYear = input().strip()
+    elif service_name == 'multiSearch':
+        start_year = input().strip()
+        end_year = input().strip()
         gubun = input().strip()
         path = input().strip()
     
-        if not 1900 <= int(startYear) <= now.year: raise InputValidationError('시작년도가 올바르지 않습니다.')
-        if not 1900 <= int(endYear) <= now.year: raise InputValidationError('끝 년도가 올바르지 않습니다.')
-        if not int(startYear) <= int(endYear): raise InputValidationError('검색 기간이 올바르지 않습니다.')
+        if not 1900 <= int(start_year) <= now.year: raise InputValidationError('시작년도가 올바르지 않습니다.')
+        if not 1900 <= int(end_year) <= now.year: raise InputValidationError('끝 년도가 올바르지 않습니다.')
+        if not int(start_year) <= int(end_year): raise InputValidationError('검색 기간이 올바르지 않습니다.')
         if not (gubun == 'TI' or gubun == 'DO'): raise InputValidationError('구분이 올바르지 않습니다.')
         if not (
             path.endswith('.csv') 
             or path.endswith('.xls')
             or path.endswith('.xlsx')): raise InputValidationError('파일 확장자가 올바르지 않습니다.')
-        returnDict['startYear'] = startYear 
-        returnDict['endYear'] = endYear 
+        returnDict['start_year'] = start_year 
+        returnDict['end_year'] = end_year 
         returnDict['gubun'] = gubun 
         returnDict['path'] = path 
 
     # 다중 일반 검색
     elif service_name == 'multiCommonSearch':
-        startYear = input().strip()
-        endYear = input().strip()
+        start_year = input().strip()
+        end_year = input().strip()
         gubun = input().strip()
-        inputFilePath = input().strip()
+        path = input().strip()
         defaultQueryPackSize = input().strip()
 
-        if not 1900 <= int(startYear) <= now.year: raise InputValidationError('시작년도가 올바르지 않습니다.')
-        if not 1900 <= int(endYear) <= now.year: raise InputValidationError('끝 년도가 올바르지 않습니다.')
-        if not int(startYear) <= int(endYear): raise InputValidationError('검색 기간이 올바르지 않습니다.')
+        if not 1900 <= int(start_year) <= now.year: raise InputValidationError('시작년도가 올바르지 않습니다.')
+        if not 1900 <= int(end_year) <= now.year: raise InputValidationError('끝 년도가 올바르지 않습니다.')
+        if not int(start_year) <= int(end_year): raise InputValidationError('검색 기간이 올바르지 않습니다.')
         if not (gubun == 'TI' or gubun == 'DO'): raise InputValidationError('구분이 올바르지 않습니다.')
-        path = inputFilePath
+        path = path
         if not (
             path.endswith('.csv') 
             or path.endswith('.xls')
             or path.endswith('.xlsx')): raise InputValidationError('파일 확장자가 올바르지 않습니다.')
-        returnDict['startYear'] = startYear 
-        returnDict['endYear'] = endYear 
+        returnDict['start_year'] = start_year 
+        returnDict['end_year'] = end_year 
         returnDict['gubun'] = gubun 
-        returnDict['inputFilePath'] = path 
+        returnDict['path'] = path 
         returnDict['defaultQueryPackSize'] = defaultQueryPackSize 
     else:
         raise InputValidationError('등록되지 않은 서비스 이름')
     return returnDict
 
 if __name__ == "__main__":
-    input_validation('singleCitationSearch')
+    authors = ['Kim SS', 'Kim WH', 'Lee SS', 'Park MH', 'Hong, JT']
+    good_rank = ['SCIE', 'SCI']
+    paper_data = {
+        'authors' : authors,
+        'fr_authors_text' : '',
+        'firstAuthor': authors[0],
+        'addresses' : {
+            'Kim SS': 'Sejong Univer',
+            'Kim WH': 'efg',
+            'Lee SS': 'abcd',
+            'Park MH': 'other',
+            'Hong, JT': 'Hanyang',
+        },
+        'authorsCnt' : '5',
+        'doi' : '',
+        'prevYearIF' : '123',
+        'goodRank' : 15,
+        'timesCited' : '3',
+        'grades' : [],
+        'capedGrades' : good_rank,
+        'docType' : 'Article',
+        'reprint' : 'Kim WH',
+    }
+    print(get_subsidy01(
+        paper_data,
+        'Kim SS; Kim SeungShin',
+    ))

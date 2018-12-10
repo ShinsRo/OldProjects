@@ -1,7 +1,7 @@
 # features
 import sju_single_search 
-import sju_author_search
 import sju_multi_search
+import sju_dupl_search
 
 # support
 import sju_utiles as _utiles
@@ -36,8 +36,8 @@ if __name__ == "__main__":
     # 서비스 초기화
     try:
         service_list = [
-            { 'name': 'SingleCitationSearch', 'init': sju_single_search.SingleSearch }, 
-            # { 'name': 'MultiCitationSearch', 'init': citationSearch.MultiSearch },
+            { 'name': 'singleSearch', 'init': sju_single_search.SingleSearch }, 
+            { 'name': 'multiSearch', 'init': sju_multi_search.MultiSearch },
             # { 'name': 'oneByOneSearch', 'init': citationSearch.OneByOneSearch },
             # { 'name': 'MultiCommonSearch', 'init': commonSearch.MultiSearch },
         ]
@@ -54,10 +54,10 @@ if __name__ == "__main__":
                 tempObj = future.result()
 
                 try:
-                    if name_done == 'SingleCitationSearch': 
+                    if name_done == 'singleSearch': 
                         singleSearchObj = tempObj
                         ui_stream.push(command='log', msg=_CONS.STATE_MSG[106])
-                    elif name_done == 'MultiCitationSearch':
+                    elif name_done == 'multiSearch':
                         multiSearchObj = tempObj
                         ui_stream.push(command='log', msg=_CONS.STATE_MSG[107])
                     elif name_done == 'MultiCommonSearch':
@@ -67,7 +67,16 @@ if __name__ == "__main__":
                         authorSearchObj = tempObj
                         ui_stream.push(command='log', msg=_CONS.STATE_MSG[109])
                 except Exception as e:
-                    raise Exception('%s 초기화 실패'%name_done)
+                    ui_stream.push(command='sysErr', msg='%s 초기화 실패'%name_done)
+                    raise e
+
+    except requests.exceptions.ConnectionError as ce:
+        ui_stream.push(command='sysErr', msg=_CONS.STATE_MSG[303])
+
+        # dispatch 강제 종료
+        ui_stream.push(command='log', msg=_CONS.STATE_MSG[500])
+        ui_stream.push(command='errObj', msg=e)
+        exit(2000)
 
     except Exception as e:
         ui_stream.push(command='sysErr', msg=_CONS.STATE_MSG[302])
@@ -77,6 +86,7 @@ if __name__ == "__main__":
         ui_stream.push(command='errObj', msg=e)
         exit(2000)
     else:
+
         # 모든 서비스 초기화 완료
         ui_stream.push(command='log', msg=_CONS.STATE_MSG[201])
 
@@ -99,56 +109,55 @@ if __name__ == "__main__":
                 continue
 
             # 단일 상세 검색
-            if service_name == 'singleCitationSearch':
+            if service_name == 'singleSearch':
                 query = inputs['query']
-                startYear = inputs['startYear']
-                endYear = inputs['endYear']
-                pAuthors = inputs['pAuthors']
+                start_year = inputs['start_year']
+                end_year = inputs['end_year']
+                p_authors = inputs['p_authors']
                 organization = inputs['organization']
 
                 ui_stream.push(command='log', msg=_CONS.STATE_MSG[111])
 
                 singleSearchObj.start(
-                    (query, pAuthors, organization), 
-                    startYear, 
-                    endYear, 
+                    (query, p_authors, organization), 
+                    start_year, 
+                    end_year, 
                     'TI',
                 )
                 ui_stream.push(command='log', msg=_CONS.STATE_MSG[112])
 
-            # # 다중 상세 검색
-            # elif service_name == 'multiCitationSearch':
-            #     startYear = inputs['startYear']
-            #     endYear = inputs['endYear']
-            #     gubun = inputs['gubun']
-            #     path = inputs['path']
+            # 다중 상세 검색
+            elif service_name == 'multiSearch':
+                start_year = inputs['start_year']
+                end_year = inputs['end_year']
+                gubun = inputs['gubun']
+                path = inputs['path']
 
-            #     try:
-            #         multiSearchObj.generalSearch(
-            #             startYear=startYear,
-            #             endYear=endYear,
-            #             gubun=gubun,
-            #             path=path
-            #         )
-            #     except Exception as e:
-            #         dsres.print(command='sysErr', msg='상세 엑셀 검색 중 오류가 발생했습니다.')
-            #     else:
-            #         dsres.print(command='log', msg='상세 엑셀 검색이 완료되었습니다.')
+                ui_stream.push(command='log', msg=_CONS.STATE_MSG[113])
+
+                multiSearchObj.start(
+                    start_year=start_year,
+                    end_year=end_year,
+                    gubun=gubun,
+                    path=path
+                )
+
+                ui_stream.push(command='log', msg=_CONS.STATE_MSG[114])
 
             # # 다중 일반 검색
             # elif service_name == 'multiCommonSearch':
-            #     startYear = inputs['startYear']
-            #     endYear = inputs['endYear']
+            #     start_year = inputs['start_year']
+            #     end_year = inputs['end_year']
             #     gubun = inputs['gubun']
-            #     inputFilePath = inputs['inputFilePath']
+            #     path = inputs['path']
             #     defaultQueryPackSize = inputs['defaultQueryPackSize']
 
             #     try:
             #         compactSearchObj.generalSearch(
-            #             startYear = startYear,
-            #             endYear = endYear,
+            #             start_year = start_year,
+            #             end_year = end_year,
             #             gubun = gubun,
-            #             inputFilePath = inputFilePath,
+            #             path = path,
             #             defaultQueryPackSize = 0
             #         )
             #     except Exception as e:
@@ -159,15 +168,15 @@ if __name__ == "__main__":
             # # 저자명 기준 검색
             # if service_name == 'citationSearchByAuthor':
             #     query = inputs['query']
-            #     startYear = inputs['startYear']
-            #     endYear = inputs['endYear']
-            #     pAuthors = inputs['pAuthors']
+            #     start_year = inputs['start_year']
+            #     end_year = inputs['end_year']
+            #     p_authors = inputs['p_authors']
             #     organization = inputs['organization']
             #     try:
             #         authorSearchObj.generalSearch(
-            #             query=(query, pAuthors, organization),
-            #             startYear=startYear,
-            #             endYear=endYear, 
+            #             query=(query, p_authors, organization),
+            #             start_year=start_year,
+            #             end_year=end_year, 
             #             gubun='AU',
             #             resName='ares',
             #         )
@@ -180,10 +189,19 @@ if __name__ == "__main__":
             # 알 수 없는 서비스 네임
             else:
                 ui_stream.push(command='sysErr', msg=_CONS.STATE_MSG[402])
+        
+        except requests.exceptions.ConnectionError as ce:
+            ui_stream.push(command='sysErr', msg=_CONS.STATE_MSG[303])
+
+            # dispatch 강제 종료
+            ui_stream.push(command='log', msg=_CONS.STATE_MSG[500])
+            ui_stream.push(command='errObj', msg=e)
+            exit(2000)
         except EOFError as eof:
             ui_stream.push(command='sysErr', msg=_CONS.STATE_MSG[401])
             sys.exit(1)
         except Exception as e:
             ui_stream.push(command='sysErr', msg=_CONS.STATE_MSG[400])
+            print(e)
             traceback.print_tb(e.__traceback__) 
             continue

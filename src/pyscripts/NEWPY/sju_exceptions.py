@@ -16,3 +16,7 @@ class MultiplePaperDataError(Exception):
 class InputValidationError(Exception):
     '''논문 정보를 특정 불가한 경우 예외'''
     pass
+
+class queryHasInvalidCharError(Exception):
+    '''쿼리에 유효하지 않은 문자가 포함한 경우 예외'''
+    pass

@@ -11,14 +11,14 @@ export default new Router({
       component: require('@/components/WelcomeView').default,
     },
     {
-      path: '/citationSearch',
-      name: 'citationSearch',
-      component: require('@/components/citationSearchView').default,
+      path: '/SingleSearch',
+      name: 'SingleSearch',
+      component: require('@/components/SingleSearchView').default,
     },
     {
-      path: '/citationSearchMulti',
-      name: 'citationSearchMulti',
-      component: require('@/components/citationSearchMultiView').default,
+      path: '/MultiSearch',
+      name: 'MultiSearch',
+      component: require('@/components/MultiSearchView').default,
     },
     {
       path: '/commonSearchMulti',

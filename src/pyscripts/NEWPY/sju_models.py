@@ -12,13 +12,17 @@ class UI_Stream():
         self.name = name
         self.thread = thread
         self.res_name = res_name
-        
         streamHandler = logging.StreamHandler()
+        formatter = logging.Formatter(
+            'time:%(asctime)s#@lineout:%(message)s#&',
+            '%m-%d %H:%M:%S'    
+        )
         logging.basicConfig(
             handlers=[streamHandler],
             level=logging.INFO,
-            format='time:%(asctime)s#@lineout:%(message)s#&'
         )
+        streamHandler.formatter = formatter
+        streamHandler.setLevel(logging.NOTSET)
         
         self.stdout = logging.getLogger(name)
 
@@ -30,15 +34,18 @@ class UI_Stream():
             return_res.update({ 'command':self.res_name, 'target':target, 'res': res })
         elif command == 'log' or command == 'err' or command == 'sysErr':
             msg = '[%s thread] %s'%(thread, msg)
+            
             return_res.update({ 'msg': msg })
-            # return_res.update({ 'msg': 'msg': urllib.parse.quote(msg) })
+            print(return_res)
+
+            return_res.update({ 'msg': urllib.parse.quote(msg) })
         elif command == 'errObj':
             return_res.update({ 'msg':str(msg) })
             traceback.print_tb(msg.__traceback__) 
         try:
-            # return_JSON = json.dumps(return_res, allow_nan=False)
-            # self.stdout.info(return_res)
-            print(return_res)
+            return_JSON = json.dumps(return_res, allow_nan=False)
+            # print(return_res)
+            self.stdout.info(return_JSON)
         except Exception as e:
             msg = '통신 JSON 제작에 실패했습니다.'
             return_JSON = json.dumps({'command':'sysErr', 'msg':urllib.parse.quote(msg)})

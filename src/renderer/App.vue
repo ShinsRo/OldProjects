@@ -56,6 +56,13 @@
             <v-btn
             icon
             slot="activator"
+            @click="winMaximize"
+            >
+              <v-icon v-html="'crop_square'"></v-icon>
+            </v-btn>
+            <v-btn
+            icon
+            slot="activator"
             @click="winClose"
             >
               <v-icon v-html="'close'"></v-icon>
@@ -111,7 +118,7 @@
         </v-container>
       <v-footer :fixed="fixed" app>
         <v-spacer></v-spacer>
-        <span>&copy; 2018 Sejong Univ.</span>
+        <span>&copy; 2018 세종대학교 산학협력단</span>
         <v-spacer></v-spacer>
       </v-footer>
 
@@ -127,6 +134,7 @@
   export default {
     name: 'sejong-wos',
     data: () => ({
+      maximize: false,
       errAlert: {
         show: false,
         msg: '',
@@ -141,11 +149,11 @@
       mResIndex: 0,
       items: [
         { icon: 'info', title: '가이드', to: '/' },
-        { icon: 'search', title: '상세 단일 검색', to: '/citationSearch' },
-        { icon: 'format_quote', title: '상세 엑셀 검색', to: '/citationSearchMulti' },
-        { icon: 'person', title: '저자로 검색', to: '/citationSearchByAuthor' },
-        { icon: 'description', title: '일반 엑셀 검색', to: '/commonSearchMulti' },
-        { icon: 'library_books', title: '엑셀 취합', to: '/excelIntegration' },
+        { icon: 'search', title: '검색하기', to: '/SingleSearch' },
+        { icon: 'format_quote', title: '엑셀로 검색하기', to: '/MultiSearch' },
+        // { icon: 'person', title: '중복을 허용해 검색하기', to: '/citationSearchByAuthor' },
+        // { icon: 'description', title: '빠른 엑셀 검색', to: '/commonSearchMulti' },
+        { icon: 'library_books', title: '엑셀 취합하기', to: '/excelIntegration' },
       ],
       miniVariant: true,
       title: '세종대학교 논문 정보 검색 시스템',
@@ -230,6 +238,7 @@
         {
           id: 102020,
           index: 0,
+          subsidy: 100,
           title: 'example',
           authors: ['저자, A', '저자, B'],
           firstAuthor: '저자, A',
@@ -341,6 +350,10 @@
       },
       winMinimize: () => {
         remote.BrowserWindow.getFocusedWindow().minimize();
+      },
+      winMaximize: () => {
+        this.maximize = !this.maximize;
+        remote.BrowserWindow.getFocusedWindow().setFullScreen(this.maximize);
       },
     },
     mounted() {
@@ -463,7 +476,8 @@
         });
         this.executer = cmd;
         // 빌드 시 주석 필수
-        this.executer.stdin.write('python src/pyscripts/dispatcher.py\n');
+        // this.executer.stdin.write('python src/pyscripts/dispatcher.py\n');
+        this.executer.stdin.write('python src/pyscripts/NEWPY/main_dispatcher.py\n');
       }
     },
     destroyed() {

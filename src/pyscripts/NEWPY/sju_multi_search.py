@@ -46,7 +46,7 @@ class MultiSearch():
         '''
         '''
         self.res_name = 'mres'
-        self.threading_amount = 1
+        self.threading_amount = 32
         self.ui_stream = sju_models.UI_Stream('multi_search', 'multi main', self.res_name)
 
         containers = {}
