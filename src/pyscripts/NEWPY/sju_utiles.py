@@ -389,6 +389,8 @@ def parse_paper_data(target_content):
 
     # 기타 필드
     correction_form = soup.find(action='http://ips.clarivate.com/cgi-bin/forms/wok_datachange/wok-proc.pl')
+    if not correction_form:
+        correction_form = soup.find(action='https://support.clarivate.com/ScientificandAcademicResearch/s/datachanges')
     correction_form_inputs_by_name = {}
     for inputTag in correction_form.find_all('input'):
         inputDict = inputTag.attrs
@@ -441,7 +443,9 @@ def parse_paper_data(target_content):
     # 풀 네임
     full_name = {}
     for fa in fr_authors_text:
-        fa_match = re.search(r'(.+) \((.+)\)', fa)
+        p_count = fa.count('(')
+        if p_count > 1: fa_match = re.search(r'(.+) \((.+)\(.+\)\)', fa)
+        elif p_count == 1: fa_match = re.search(r'(.+) \((.+)\)', fa)
         if fa_match:
             full_name[fa_match.group(1).strip()] = fa_match.group(2).replace(r'\(|\)', '').strip()
     
@@ -452,7 +456,7 @@ def parse_paper_data(target_content):
         if not isSub:
             if target_author != '':
                 addresses[target_author] = tauthor_address
-                addresses[full_name[target_author]] = tauthor_address
+                if target_author in full_name.keys(): addresses[full_name[target_author]] = tauthor_address
             tauthor_address = []
             target_author =  con.text.strip()
             authors += [target_author]

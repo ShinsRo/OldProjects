@@ -41,7 +41,7 @@ class UI_Stream():
             return_res.update({ 'msg': urllib.parse.quote(msg) })
         elif command == 'errObj':
             return_res.update({ 'msg':str(msg) })
-            traceback.print_tb(msg.__traceback__) 
+            traceback.print_tb(msg.__traceback__)
         try:
             return_JSON = json.dumps(return_res, allow_nan=False)
             # print(return_res)

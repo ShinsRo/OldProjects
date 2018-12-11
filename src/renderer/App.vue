@@ -118,7 +118,7 @@
         </v-container>
       <v-footer :fixed="fixed" app>
         <v-spacer></v-spacer>
-        <span>&copy; 2018 세종대학교 산학협력단</span>
+        <span>&copy; 2018 Sejong Univ. Industry-Academia Copperation Foundation</span>
         <v-spacer></v-spacer>
       </v-footer>
 
@@ -362,6 +362,7 @@
         this.loading = true;
         const cmd = spawn('cmd.exe');
         // 빌드 전용 spawn
+        // alert(`${path.dirname(process.execPath)}/main_dispatcher.exe`);
         // const cmd = spawn(`${path.dirname(process.execPath)}/dispatcher.exe`);
         cmd.stdin.setDefaultEncoding('utf-8');
         cmd.stdout.setDefaultEncoding('utf-8');
@@ -477,7 +478,7 @@
         this.executer = cmd;
         // 빌드 시 주석 필수
         // this.executer.stdin.write('python src/pyscripts/dispatcher.py\n');
-        this.executer.stdin.write('python src/pyscripts/NEWPY/main_dispatcher.py\n');
+        this.executer.stdin.write('python src/pyscripts/NEWPY/dispatcher.py\n');
       }
     },
     destroyed() {

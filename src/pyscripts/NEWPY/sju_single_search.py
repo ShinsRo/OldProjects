@@ -179,7 +179,7 @@ class SingleSearch():
         # 상세 정보 파싱
         try:
             paper_data, cnt_link = sju_utiles.parse_paper_data(target_content)
-            paper_data['subsidy'] = sju_utiles.get_subsidy01(paper_data, p_authors)
+            # paper_data['subsidy'] = sju_utiles.get_subsidy01(paper_data, p_authors)
 
         # 검색 결과가 없을 경우
         except sju_exceptions.NoPaperDataError:
@@ -198,9 +198,13 @@ class SingleSearch():
             )
             return
         except Exception as e:
-            ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1303][0])
-            raise Exception(e)
-
+            ui_stream.push(command='err', msg=sju_CONSTANTS.STATE_MSG[1302][2])
+            ui_stream.push(
+                command='res', target='errQuery', 
+                res={'query': query, 'msg': sju_CONSTANTS.STATE_MSG[1302][2]}
+            )
+            # raise sju_exceptions.FailedToParseError(e, query)
+            return
         # 요청 성공
         else:
             ui_stream.push(command='res', target='paperData', res=paper_data)

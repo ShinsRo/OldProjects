@@ -109,8 +109,8 @@ class MultiSearch():
                     ui_stream.push(command='err', msg='%d 검색 중 에러발생'%thread_id)
                     raise e
 
-if __name__ == "__main__":
-    ms = MultiSearch()
-    ms.start('2010','2018','TI', 
-    'C:\\Users\\F\\Desktop\\testData\\test2.xlsx')
+# if __name__ == "__main__":
+#     ms = MultiSearch()
+#     ms.start('2010','2018','TI', 
+#     'C:\\Users\\F\\Desktop\\testData\\test2.xlsx')
         

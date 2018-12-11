@@ -1,7 +1,7 @@
 <template>
   <v-layout row wrap>
     <v-flex xs12 class='mb-3'>
-      <h1 class="headline">엑셀 취합 기능</h1>
+      <h1 class="headline">엑셀 취합 하기</h1>
       <v-divider></v-divider>
     </v-flex>
     <!-- 결과표 -->

@@ -103,9 +103,9 @@
               <td >{{ props.item.index }}</td>
               <!-- <td >{{ props.item.subsidy }}</td> -->
               <td >{{ (props.item.title.length > 8)? `${props.item.title.slice(0, 10)}...` : props.item.title }}</td>
-              <td >{{ props.item.reprint.replace(/\(.+\)/, '') }}</td>
+              <td >{{ props.item.reprint.replace(/\(.+\).+/, '').replace(' ', '') }}</td>
               <td v-html="
-                `${props.item.authors
+                `${props.item.authors.map((x => x.replace(' ', '')))
                         .slice(0, 3)
                         .join([separator = '<br>'])}
                         ${(props.item.authors.length>3)? '<br>...':''}`">
