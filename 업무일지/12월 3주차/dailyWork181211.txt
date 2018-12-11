@@ -20,7 +20,7 @@
             - '='포함 레코드 : 12
             - 검색 결과 없음 : 24
                - 물음표 포함(WoS에서 와일드 카드로 인식) : 18
-               - 결과 없음 : 5
+               - 결과 없음 : 4
                - 출판 철회 : 1
          - 검색 실패 :
             - Global Regulation of Gene Expression in the Human Gastric Pathogen Helicobacter pylori in Response to Aerobic Oxygen Tension Under a High Carbon Dioxide Level
