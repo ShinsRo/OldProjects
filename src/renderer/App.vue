@@ -118,7 +118,7 @@
         </v-container>
       <v-footer :fixed="fixed" app>
         <v-spacer></v-spacer>
-        <span>&copy; 2018 Sejong Univ. Industry-Academia Copperation Foundation</span>
+        <span>&copy; 2018 Sejong Univ. Industry-Academia Cooperation Foundation</span>
         <v-spacer></v-spacer>
       </v-footer>
 
