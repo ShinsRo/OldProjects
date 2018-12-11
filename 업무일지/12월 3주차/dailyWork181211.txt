@@ -1,0 +1,29 @@
+18.12.07
+09:00 ~ 
+[기술]
+   - correction_form의 액션 URL이 변동하여 이에 맞게 수정...
+      action='http://ips.clarivate.com/cgi-bin/forms/wok_datachange/wok-proc.pl' 에서
+      action='https://support.clarivate.com/ScientificandAcademicResearch/s/datachanges' 로
+   
+   - 가이드 문서 작성
+
+   - [120701 이슈] Hospitality finance and managerial accounting research Suggesting an interdisciplinary research agenda 검색 오류
+      - [120701 해결] Jang, S (Jang, SooCheong (Shawn))[ 2 ] 의 표기를 정규식 파싱 중 문제 발생, 대응함
+
+[기타]
+   - WoS API Lite 계약문서가 내려와 서명 후 첨부발송함.
+      - 오전 9:50 경 및 오후 4:30 경
+   - Expanded 버전 비용이 내려와 검토
+   - beta 1.0 배포
+      - [120702 이슈] 빌드 후 빌드 파일이 관리자 권한을 획득해야 실행할 수 있음
+      - [120702 해결] 빌드 툴인 pyinstaller의 문제로 해당 문제를 해결, 수정.
+      
+해야할 내용
+   - 언제 피인용 됬는 지.
+   - 저자 기준 피/타 인용은 17일 베타 버전에서 일단 제외
+   - 저자 기준 피/타 인용 일단 제외
+   - API Lite로 빠른 검색 모듈
+   - 논문게재장려금 일반
+   - 논문게재장려금 공동저자
+   - 논문게재장려금 피인용
+
