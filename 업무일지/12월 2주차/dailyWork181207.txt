@@ -8,7 +8,21 @@
    - 268 레코드 신버전 테스트
       - 16:10 ->  
       - 논문 인용 정보가 없을 때 qid 부정확
-      - 
+   
+   - 기존
+      - citaionSearch.py
+      - commonSearch.py
+      - dispatcher.py
+      - sju_response.py
+
+   - 내부 통신 로직 변경한 모듈
+      - sju_CONSTANTS.py 개발
+      - sju_exceiptions.py 개발
+      - sju_models.py 개발
+      - sju_multi_search.py 개발 중
+      - sju_single_search.py 개발
+      - sju_dupl_search.py 개발 예정
+      - sju_utiles.py 개발
 
 [기타]
    - 주임님께 요구사항을 전달받음
