@@ -66,6 +66,9 @@ if __name__ == "__main__":
                     elif name_done == 'oneByOneSearch':
                         authorSearchObj = tempObj
                         ui_stream.push(command='log', msg=_CONS.STATE_MSG[109])
+                except _EXCEP.InitMultiSessionErr as imse:
+                    ui_stream.push(command='sysErr', msg='%s 가용 스레드가 너무 적습니다. 잠시 후 다시 실행해주세요.'%name_done)
+
                 except Exception as e:
                     ui_stream.push(command='sysErr', msg='%s 초기화 실패'%name_done)
                     raise e
@@ -196,9 +199,11 @@ if __name__ == "__main__":
             # dispatch 강제 종료
             ui_stream.push(command='log', msg=_CONS.STATE_MSG[500])
             ui_stream.push(command='errObj', msg=e)
+            ui_stream.push(command='res', target='loading', res=False)
             exit(2000)
         except EOFError as eof:
             ui_stream.push(command='sysErr', msg=_CONS.STATE_MSG[401])
+            ui_stream.push(command='res', target='loading', res=False)
             sys.exit(1)
         except Exception as e:
             ui_stream.push(command='sysErr', msg=_CONS.STATE_MSG[400])

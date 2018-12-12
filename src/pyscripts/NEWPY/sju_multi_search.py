@@ -6,7 +6,6 @@ import sju_single_search
 
 import re
 import math
-import requests
 import threading
 import concurrent.futures
 
@@ -65,10 +64,20 @@ class MultiSearch():
                 try:
                     containers[thread_id] = future.result()
                     ui_stream.push(command='log', msg='multi sub%d의 %s'%(thread_id, sju_CONSTANTS.STATE_MSG[2201]))
+                except sju_exceptions.InitSessionError as ise:
+                    ui_stream.push(command='err', msg='multi sub%d %s'%(thread_id, '접근 거부 User-Agent 삭제'))
+                    # del containers[thread_id]
+                    self.threading_amount -= 1
                 except Exception as e:
                     ui_stream.push(command='err', msg='multi sub%d의 %s'%(thread_id, sju_CONSTANTS.STATE_MSG[2301][0]))
                     raise e
         
+        ui_stream.push(command='log', msg='가용 스레드 수 = %d'%self.threading_amount)
+        if self.threading_amount < 2:
+            ui_stream.push(command='err', msg='서버가 거부한 초기화가 너무 많아 검색을 수행할 수 없습니다.')
+            raise sju_exceptions.InitMultiSessionErr()
+            
+
         self.containers = containers
         ui_stream.push(command='log', msg='%s'%(sju_CONSTANTS.STATE_MSG[2201]))
 
@@ -109,8 +118,8 @@ class MultiSearch():
                     ui_stream.push(command='err', msg='%d 검색 중 에러발생'%thread_id)
                     raise e
 
-# if __name__ == "__main__":
-#     ms = MultiSearch()
-#     ms.start('2010','2018','TI', 
-#     'C:\\Users\\F\\Desktop\\testData\\test2.xlsx')
+if __name__ == "__main__":
+    ms = MultiSearch()
+    ms.start('2010','2018','TI', 
+    'C:\\Users\\F\\Desktop\\testData\\test2.xlsx')
         

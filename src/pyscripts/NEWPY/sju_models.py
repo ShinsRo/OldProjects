@@ -36,7 +36,7 @@ class UI_Stream():
             msg = '[%s thread] %s'%(thread, msg)
             
             return_res.update({ 'msg': msg })
-            print(return_res)
+            # print(return_res)
 
             return_res.update({ 'msg': urllib.parse.quote(msg) })
         elif command == 'errObj':

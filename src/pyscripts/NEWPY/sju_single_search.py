@@ -4,9 +4,11 @@ import sju_CONSTANTS
 import sju_exceptions
 
 import re
+import random
 import requests
 
 from bs4 import BeautifulSoup
+from fake_useragent import UserAgent
 
 class SingleSearch():
     '''
@@ -28,29 +30,44 @@ class SingleSearch():
     def set_session(self):
         '''
         '''
+        MAX_TRIES = 5
         self.qid = 0
+        self.ua = UserAgent()
+        self.userAgent = self.ua.random
+
+        self.headers = {'User-Agent': self.userAgent}
         ui_stream = self.ui_stream
 
-        # 세션 갱신
-        ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1001])
-        session = requests.Session()
+        tries = 0
+        while tries < MAX_TRIES:
+            # 세션 갱신
+            ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1001])
+            session = requests.Session()
+            session = sju_utiles.reset_user_agent(session)
+            # 세션 SID, JSESSIONID 요청
+            ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1101])
+            res = session.request('GET', 'http://apps.webofknowledge.com')
+            # SID요청 에러 판별
+            if res.status_code == requests.codes.ok:
+                self.SID = session.cookies['SID'].replace("\"", "")
+                self.jsessionid = session.cookies['JSESSIONID']
+                ui_stream.push(command='log', msg='SID : %s'%self.SID)
+                ui_stream.push(command='log', msg='JSESSIONID : %s'%self.jsessionid)
 
-        # 세션 SID, JSESSIONID 요청
-        ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1101])
-        res = session.get("http://www.webofknowledge.com")
+                # 요청 성공
+                ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1201])
+                break
+            elif res.status_code == 403:
+                # ui_stream.push(command='log', msg='스레드가 403 상태 메세지를 받았습니다.')
+                tries += 1
+                ui_stream.push(command='log', msg='서버에서 거부하여 2초 뒤 재시도합니다. [%d/%d]'%(tries, MAX_TRIES))
+                continue
+            else:
+                # 요청 self.query_package실패
+                ui_stream.push(command='err', msg=sju_CONSTANTS.STATE_MSG[1301][0])
+                raise sju_exceptions.InitSessionError()
 
-        # SID요청 에러 판별
-        if res.status_code == requests.codes.ok:
-            self.SID = session.cookies['SID'].replace("\"", "")
-            self.jsessionid = session.cookies['JSESSIONID']
-            ui_stream.push(command='log', msg='SID : %s'%self.SID)
-            ui_stream.push(command='log', msg='JSESSIONID : %s'%self.jsessionid)
-
-            # 요청 성공
-            ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1201])
-        else:
-            # 요청 self.query_package실패
-            ui_stream.push(command='err', msg=sju_CONSTANTS.STATE_MSG[1301][0])
+        if tries >= MAX_TRIES:
             raise sju_exceptions.InitSessionError()
 
         if self.session: self.session.close()
@@ -68,7 +85,9 @@ class SingleSearch():
         p_authors = query[1]
         organization = query[2]
 
-
+        # 검색속도 향상을 위한 헤더 랜더마이즈
+        # orginal_headers = session.headers
+        # session.headers.update({'User-Agent': str(random.getrandbits(32))})
         # [단계 1/3] 최초 검색
         #########################################################################
         ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1002])
@@ -112,6 +131,13 @@ class SingleSearch():
         if http_res.status_code == requests.codes.ok:
             location = http_res.history[0].headers['Location']
             reffer = base_url + '/' + location
+        # Access Denied
+        elif http_res.status_code == 403:
+            ui_stream.push(
+                command='res', target='errQuery', 
+                res={'query': query, 'msg': '검색을 요청했으나 서버가 접근 권한 없음을 반환했습니다.'}
+            )
+            return
         # 검색 실패
         else:
             ui_stream.push(command='err', msg=sju_CONSTANTS.STATE_MSG[1302][2])
@@ -119,6 +145,15 @@ class SingleSearch():
 
         # 결과 리스트 페이지가 필요하면 사용
         http_res = session.get(reffer)
+
+        # Access Denied
+        if http_res.status_code == 403:
+            ui_stream.push(
+                command='res', target='errQuery', 
+                res={'query': query, 'msg': '결과 리스트 페이지를 요청했으나 서버가 접근 권한 없음을 반환했습니다.'}
+            )
+            return
+
         target_content = http_res.content
         soup = BeautifulSoup(target_content, 'html.parser')
         
@@ -174,6 +209,15 @@ class SingleSearch():
         
         session.headers['Reffer'] = reffer
         http_res = session.get(base_url + query_string)
+
+        # Access Denied
+        if http_res.status_code == 403:
+            ui_stream.push(
+                command='res', target='errQuery', 
+                res={'query': query, 'msg': '해당 논문의 상세 정보를 요청했으나 서버가 접근 권한 없음을 반환했습니다.'}
+            )
+            return
+
         target_content = http_res.content
 
         # 상세 정보 파싱
@@ -236,6 +280,14 @@ class SingleSearch():
         url = base_url + cnt_link['href']
         http_res = session.get(url)
 
+        # Access Denied
+        if http_res.status_code == 403:
+            ui_stream.push(
+                command='res', target='errQuery', 
+                res={'query': query, 'msg': '인용 리포트를 요청했으나 서버가 접근 권한 없음을 반환했습니다.'}
+            )
+            return
+
         soup = BeautifulSoup(http_res.content, 'html.parser')
         # 인용문 링크는 존재하나, 클릭할 경우 검색 결과가 없다는 메세지가 뜰 때
         if  soup.text.find('Your search found no records') != -1 or soup.text.find('None of the Citing Articles are in your subscription') != -1:
@@ -266,6 +318,14 @@ class SingleSearch():
         url = base_url + action_url
         http_res = session.post(url, form_data)
         self.qid += 1
+
+        # Access Denied
+        if http_res.status_code == 403:
+            ui_stream.push(
+                command='res', target='errQuery', 
+                res={'query': query, 'msg': '인용 논문 자료 다운로드를 요청했으나 서버가 접근 권한 없음을 반환했습니다.'}
+            )
+            return
 
         # Fast 5000 데이터 처리
         ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1404])

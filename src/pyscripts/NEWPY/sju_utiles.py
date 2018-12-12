@@ -1,14 +1,30 @@
 import sju_exceptions
+import sju_CONSTANTS
 
 import os
 import re
 import random
 import datetime
+import requests
+from time import sleep
+from itertools import cycle
+from lxml.html import fromstring
+from fake_useragent import UserAgent
 
 import numpy as np
 import pandas as pd
 from bs4 import BeautifulSoup
 
+def reset_user_agent(session):
+    ua = UserAgent()
+    new_user_agent = {'User-Agent': ua.random}
+    # new_user_agent = {'User-Agent': str(random.getrandbits(16))}
+    session.close()
+    sleep(2)
+    session = requests.Session()
+    
+    session.headers.update(new_user_agent)
+    return session
 
 def get_subsidy01(
         paper_data,

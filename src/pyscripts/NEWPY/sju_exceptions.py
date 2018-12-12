@@ -2,7 +2,8 @@ class InitSessionError(Exception):
     '''초기화 실패 예외'''
     pass
 
-class RequestsError(Exception):
+class InitMultiSessionErr(Exception):
+    '''스레드가 충분하지 않을 경우'''
     pass
 
 class NoPaperDataError(Exception):

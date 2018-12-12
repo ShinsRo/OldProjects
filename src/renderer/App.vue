@@ -140,6 +140,8 @@
         msg: '',
       },
       log: '',
+      logLineCnt: 1,
+      logLineLimit: 500,
       executer: '',
       clipped: true,
       drawer: true,
@@ -409,7 +411,11 @@
                 } else if (resJSON.target === 'errQuery') {
                   this.errQuery.push(resJSON.res);
                 } else {
+                  if (this.logLineCnt % this.logLineLimit === 0) {
+                    this.log = '';
+                  }
                   this.log = `${time} : ${JSON.stringify(resJSON.res)}<br>${this.log}`;
+                  this.logLineCnt += 1;
                 }
                 break;
               case 'mres':
@@ -429,7 +435,11 @@
                 } else if (resJSON.target === 'errQuery') {
                   this.mErrQuery.unshift(resJSON.res);
                 } else {
+                  if (this.logLineCnt % this.logLineLimit === 0) {
+                    this.log = '';
+                  }
                   this.log = `${time} : ${JSON.stringify(resJSON.res)}<br>${this.log}`;
+                  this.logLineCnt += 1;
                 }
                 break;
               case 'ares':
@@ -449,7 +459,11 @@
                 } else if (resJSON.target === 'errQuery') {
                   this.aErrQuery.unshift(resJSON.res);
                 } else {
+                  if (this.logLineCnt % this.logLineLimit === 0) {
+                    this.log = '';
+                  }
                   this.log = `${time} : ${JSON.stringify(resJSON.res)}<br>${this.log}`;
+                  this.logLineCnt += 1;
                 }
                 break;
               case 'cres':
