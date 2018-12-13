@@ -10,15 +10,15 @@ import sju_CONSTANTS as _CONS
 import sju_exceptions as _EXCEP
 
 # std_libs
-import os
 import re
 import sys
-import datetime
-import requests
 import traceback
 import threading
 import concurrent.futures
 
+from sju_utiles import os
+from sju_utiles import datetime
+from sju_utiles import requests
 
 if __name__ == "__main__":
     # ui 출력 객체 초기화

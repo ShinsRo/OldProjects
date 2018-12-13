@@ -15,12 +15,12 @@ import numpy as np
 import pandas as pd
 from bs4 import BeautifulSoup
 
-def reset_user_agent(session):
+def set_user_agent(session):
     ua = UserAgent()
     new_user_agent = {'User-Agent': ua.random}
     # new_user_agent = {'User-Agent': str(random.getrandbits(16))}
+    # sleep(2)
     session.close()
-    sleep(2)
     session = requests.Session()
     
     session.headers.update(new_user_agent)

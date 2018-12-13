@@ -364,8 +364,7 @@
         this.loading = true;
         const cmd = spawn('cmd.exe');
         // 빌드 전용 spawn
-        // alert(`${path.dirname(process.execPath)}/main_dispatcher.exe`);
-        // const cmd = spawn(`${path.dirname(process.execPath)}/dispatcher.exe`);
+        // const cmd = spawn(`${path.dirname(process.execPath)}/dispatcher/dispatcher.exe`);
         cmd.stdin.setDefaultEncoding('utf-8');
         cmd.stdout.setDefaultEncoding('utf-8');
         cmd.stderr.setDefaultEncoding('utf-8');
@@ -485,8 +484,11 @@
           }
         });
 
-        cmd.on('close', (code) => {
-          console.log(`cmd child process exited with code ${code.toString()}`);
+        // cmd.on('close', (code) => {
+        //   console.log(`cmd child process exited with code ${code.toString()}`);
+        //   this.executer = '';
+        // });
+        cmd.on('close', () => {
           this.executer = '';
         });
         this.executer = cmd;

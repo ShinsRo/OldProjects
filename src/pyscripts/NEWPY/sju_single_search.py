@@ -7,8 +7,9 @@ import re
 import random
 import requests
 
-from bs4 import BeautifulSoup
-from fake_useragent import UserAgent
+from sju_utiles import os
+from sju_utiles import UserAgent
+from sju_utiles import BeautifulSoup
 
 class SingleSearch():
     '''
@@ -32,25 +33,29 @@ class SingleSearch():
         '''
         MAX_TRIES = 5
         self.qid = 0
-        self.ua = UserAgent()
-        self.userAgent = self.ua.random
+        # self.ua = UserAgent()
+        # self.userAgent = self.ua.random
+        # self.headers = {'User-Agent': self.userAgent}
+        # self.headers = {}
 
-        self.headers = {'User-Agent': self.userAgent}
         ui_stream = self.ui_stream
 
         tries = 0
+        session = requests.Session()
+        self.orginal_headers = session.headers
+
         while tries < MAX_TRIES:
             # 세션 갱신
             ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1001])
-            session = requests.Session()
-            session = sju_utiles.reset_user_agent(session)
+            session = sju_utiles.set_user_agent(session)
             # 세션 SID, JSESSIONID 요청
             ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1101])
-            res = session.request('GET', 'http://apps.webofknowledge.com')
+            res = session.get('http://apps.webofknowledge.com')
             # SID요청 에러 판별
             if res.status_code == requests.codes.ok:
                 self.SID = session.cookies['SID'].replace("\"", "")
                 self.jsessionid = session.cookies['JSESSIONID']
+                
                 ui_stream.push(command='log', msg='SID : %s'%self.SID)
                 ui_stream.push(command='log', msg='JSESSIONID : %s'%self.jsessionid)
 
@@ -63,7 +68,7 @@ class SingleSearch():
                 ui_stream.push(command='log', msg='서버에서 거부하여 2초 뒤 재시도합니다. [%d/%d]'%(tries, MAX_TRIES))
                 continue
             else:
-                # 요청 self.query_package실패
+                # 요청 실패
                 ui_stream.push(command='err', msg=sju_CONSTANTS.STATE_MSG[1301][0])
                 raise sju_exceptions.InitSessionError()
 
@@ -72,11 +77,12 @@ class SingleSearch():
 
         if self.session: self.session.close()
         self.session = session
-        
+
 
     def start(self, query, start_year, end_year, gubun):
         '''
         '''
+        # driver = self.driver
         session = self.session
         base_url = self.base_url
         ui_stream = self.ui_stream
@@ -131,21 +137,26 @@ class SingleSearch():
         if http_res.status_code == requests.codes.ok:
             location = http_res.history[0].headers['Location']
             reffer = base_url + '/' + location
-        # Access Denied
-        elif http_res.status_code == 403:
-            ui_stream.push(
-                command='res', target='errQuery', 
-                res={'query': query, 'msg': '검색을 요청했으나 서버가 접근 권한 없음을 반환했습니다.'}
-            )
-            return
+        
         # 검색 실패
         else:
             ui_stream.push(command='err', msg=sju_CONSTANTS.STATE_MSG[1302][2])
             raise sju_exceptions.RequestsError
 
-        # 결과 리스트 페이지가 필요하면 사용
-        http_res = session.get(reffer)
+        # Access Denied
+        if http_res.status_code == 403:
+            ui_stream.push(
+                command='res', target='errQuery', 
+                res={'query': query, 'msg': '검색을 요청했으나 서버가 접근 권한 없음을 반환했습니다.'}
+            )
+            return
 
+        # 결과 리스트 페이지가 필요하면 사용
+        temp = session.headers
+        session.headers = self.orginal_headers
+        http_res = session.get(reffer)
+        session.headers = temp
+        
         # Access Denied
         if http_res.status_code == 403:
             ui_stream.push(
@@ -156,7 +167,7 @@ class SingleSearch():
 
         target_content = http_res.content
         soup = BeautifulSoup(target_content, 'html.parser')
-        
+
         atag_list = soup.select('a.snowplow-full-record')
         try: 
             if len(atag_list) == 0:
@@ -166,6 +177,7 @@ class SingleSearch():
         # 검색 결과가 없을 경우
         except sju_exceptions.NoPaperDataError:
             ui_stream.push(command='err', msg=sju_CONSTANTS.STATE_MSG[1302][0])
+            
             ui_stream.push(
                 command='res', target='errQuery', 
                 res={'query': query, 'msg': sju_CONSTANTS.STATE_MSG[1302][0]}
@@ -192,9 +204,9 @@ class SingleSearch():
         # 결과 리스트 페이지를 들렀다 오는 경우
         query_string = atag_list[0]['href']
 
-        # 상세 보기 바로 진입
-        # qid가 랜덤한 경우가 존재... 사용하기 위해선
-        # 이슈가 해결되야함.
+        # # 상세 보기 바로 진입
+        # # qid가 랜덤한 경우가 존재... 사용하기 위해선
+        # # 이슈가 해결되야함.
         # action_url = '/full_record.do'
         # query_data = {
         #     'page': '1',
@@ -207,8 +219,11 @@ class SingleSearch():
         # 상세 정보 요청
         ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1103])
         
+        temp = session.headers
+        session.headers = self.orginal_headers
         session.headers['Reffer'] = reffer
         http_res = session.get(base_url + query_string)
+        session.headers = temp
 
         # Access Denied
         if http_res.status_code == 403:
@@ -278,7 +293,13 @@ class SingleSearch():
         ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1104])
 
         url = base_url + cnt_link['href']
+
+        temp = session.headers
+        session.headers = self.orginal_headers
         http_res = session.get(url)
+        session.headers = temp
+
+        target_content = http_res.content
 
         # Access Denied
         if http_res.status_code == 403:
@@ -288,7 +309,7 @@ class SingleSearch():
             )
             return
 
-        soup = BeautifulSoup(http_res.content, 'html.parser')
+        soup = BeautifulSoup(target_content, 'html.parser')
         # 인용문 링크는 존재하나, 클릭할 경우 검색 결과가 없다는 메세지가 뜰 때
         if  soup.text.find('Your search found no records') != -1 or soup.text.find('None of the Citing Articles are in your subscription') != -1:
             ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1304][3])
@@ -378,6 +399,7 @@ class SingleSearch():
 
         ui_stream.push(command='res', target='citingArticles', res=citingArticles)
         ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1200][0])
+
         return
         # [단계 종료] 단일 상세 검색
         #########################################################################

@@ -32,19 +32,21 @@ class UI_Stream():
 
         if command == 'res':
             return_res.update({ 'command':self.res_name, 'target':target, 'res': res })
+            print(return_res)
         elif command == 'log' or command == 'err' or command == 'sysErr':
             msg = '[%s thread] %s'%(thread, msg)
             
             return_res.update({ 'msg': msg })
-            # print(return_res)
+            print(return_res)
 
             return_res.update({ 'msg': urllib.parse.quote(msg) })
         elif command == 'errObj':
             return_res.update({ 'msg':str(msg) })
+            print(return_res)
+            
             traceback.print_tb(msg.__traceback__)
         try:
             return_JSON = json.dumps(return_res, allow_nan=False)
-            # print(return_res)
             self.stdout.info(return_JSON)
         except Exception as e:
             msg = '통신 JSON 제작에 실패했습니다.'
