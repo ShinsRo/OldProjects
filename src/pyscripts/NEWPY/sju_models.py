@@ -12,19 +12,23 @@ class UI_Stream():
         self.name = name
         self.thread = thread
         self.res_name = res_name
-        streamHandler = logging.StreamHandler()
+
         formatter = logging.Formatter(
             'time:%(asctime)s#@lineout:%(message)s#&',
             '%m-%d %H:%M:%S'    
         )
-        logging.basicConfig(
-            handlers=[streamHandler],
-            level=logging.INFO,
-        )
+        streamHandler = logging.StreamHandler(sys.stdout)
         streamHandler.formatter = formatter
-        streamHandler.setLevel(logging.NOTSET)
-        
-        self.stdout = logging.getLogger(name)
+
+        logfileHandler = logging.FileHandler(filename='.sjulog', mode='a', encoding='utf-8')
+        logfileHandler.formatter = formatter
+
+        self.stdout = logging.Logger('sju.res.%s'%name)
+        self.stdout.addHandler(streamHandler)
+        self.fout = logging.Logger('sju.logfile.%s'%name)
+        self.fout.addHandler(logfileHandler)
+
+        # self.fout = logging.getLogger('sju.%s'%name)
 
     def push(self, command, msg=None, target=None, res=None):
         return_res = { 'name':self.name, 'thread':self.thread, 'command':command }
@@ -32,25 +36,26 @@ class UI_Stream():
 
         if command == 'res':
             return_res.update({ 'command':self.res_name, 'target':target, 'res': res })
-            print(return_res)
+            
         elif command == 'log' or command == 'err' or command == 'sysErr':
             msg = '[%s thread] %s'%(thread, msg)
-            
             return_res.update({ 'msg': msg })
-            print(return_res)
 
-            return_res.update({ 'msg': urllib.parse.quote(msg) })
+            self.fout.info(str(return_res))
+
         elif command == 'errObj':
             return_res.update({ 'msg':str(msg) })
-            print(return_res)
             
-            traceback.print_tb(msg.__traceback__)
+            self.fout.error(str(return_res))
+            logging.exception(msg)
+            return
         try:
             return_JSON = json.dumps(return_res, allow_nan=False)
             self.stdout.info(return_JSON)
         except Exception as e:
             msg = '통신 JSON 제작에 실패했습니다.'
-            return_JSON = json.dumps({'command':'sysErr', 'msg':urllib.parse.quote(msg)})
+            return_JSON = json.dumps({'command':'sysErr', 'msg':msg})
+            # return_JSON = json.dumps({'command':'sysErr', 'msg':urllib.parse.quote(msg)})
             self.stdout.info(return_JSON)
 
 class SearchLock():

@@ -29,8 +29,11 @@ if __name__ == "__main__":
     #   'User-Agent': random.choice(_CONS.USER_AGENT_LIST)
     # }
     print('test start')
+    ua = UserAgent()
     st = time.time()
     s = requests.Session()
+    headers={'User-Agent': ua.random}
+    res = requests.get('http://openlink.eproxy.sejong.ac.kr:8010/link.n2s?url=http://www.isiknowledge.com')
     # proxy = next(proxy_pool)
     ua = UserAgent()
     headers={'User-Agent': ua.random}

@@ -553,6 +553,9 @@ def get_query_list_from_file(path):
 
     return_query_list = []
     for idx, qry in enumerate(query_list):
+        # Sejong Univ 로 고정
+        #####################
+        qry[3] = 'Sejong Univ'
         if type(qry[0]) == type(np.nan) or not qry[0]:
             continue
         else :
@@ -578,14 +581,21 @@ def input_validation(service_name):
     returnDict = {}
     InputValidationError = sju_exceptions.InputValidationError
     
-    # 단일 상세 검색 및 저자명 검색
-    if service_name == 'singleSearch' or service_name == 'citationSearchByAuthor':
+    # 단일 상세 검색 및 빠른 검색
+    if service_name == 'singleSearch' or service_name == 'fastSearch':
         query = input().strip()
         start_year = input().strip()
         end_year = input().strip()
         p_authors = input().strip()
         organization = input().strip()
+        if service_name == 'fastSearch':
+            gubun = input().strip()
+            returnDict['gubun'] = gubun
         
+        # Sejong Univ 로 고정
+        #####################
+        organization = 'Sejong Univ'
+
         if not len(query) > 2: raise InputValidationError('쿼리의 길이가 너무 짧습니다.')
         if not 1900 <= int(start_year) <= now.year: raise InputValidationError('시작년도가 올바르지 않습니다.')
         if not 1900 <= int(end_year) <= now.year: raise InputValidationError('끝 년도가 올바르지 않습니다.')

@@ -95,8 +95,8 @@
             :aResList="aResList"
             :mErrQuery="mErrQuery"
             :mResList="mResList"
-            :cErrQuery="cErrQuery"
-            :cResList="cResList"
+            :fErrQuery="fErrQuery"
+            :fResList="fResList"
             :executer="executer"
             :log="log"
             v-on:stdin="stdinAll"
@@ -118,7 +118,7 @@
         </v-container>
       <v-footer :fixed="fixed" app>
         <v-spacer></v-spacer>
-        <span>&copy; 2018 Sejong Univ. Industry-Academia Cooperation Foundation</span>
+        <span>&copy; 2018 Sejong IACF, SW 중심대학</span>
         <v-spacer></v-spacer>
       </v-footer>
 
@@ -151,32 +151,19 @@
       mResIndex: 0,
       items: [
         { icon: 'info', title: '가이드', to: '/' },
-        { icon: 'search', title: '검색하기', to: '/SingleSearch' },
+        { icon: 'search', title: '빠른 검색', to: '/FastSearch' },
+        { icon: 'zoom_in', title: '상세 검색하기', to: '/SingleSearch' },
         { icon: 'format_quote', title: '엑셀로 검색하기', to: '/MultiSearch' },
         // { icon: 'person', title: '중복을 허용해 검색하기', to: '/citationSearchByAuthor' },
         // { icon: 'description', title: '빠른 엑셀 검색', to: '/commonSearchMulti' },
         { icon: 'library_books', title: '엑셀 취합하기', to: '/excelIntegration' },
+        { icon: 'email', title: '메일 보내기', to: '/SendMail' },
       ],
       miniVariant: true,
       title: '세종대학교 논문 정보 검색 시스템',
       loading: true,
-      cErrQuery: [],
-      cResList: [
-        {
-          id: 102020,
-          Title: 'example',
-          Authors: ['저자, A', '저자, B'],
-          'Source Title': 'LWT-FOOD SCIENCE AND TECHNOLOGY',
-          'Publication Date': 'NOV 2014',
-          Volume: '59',
-          Issue: '1',
-          'Beginning Page': '115',
-          'Ending Page': '121',
-          ivp: ['1/59', '115-121'],
-          DOI: '10.1016/j.lwt.2014.04.058',
-          'Total Citations': '71',
-        },
-      ],
+      fErrQuery: [],
+      fResList: [],
       aErrQuery: [
         // {
         //   query: 'example2',
@@ -372,10 +359,10 @@
         cmd.stdin.on('data', (data) => {
           console.log(`cmd stdin: ${data.toString()}`);
         });
-        cmd.stdout.on('data', (data) => {
-          console.log(`cmd stdout: ${data.toString()}`);
-        });
         cmd.stderr.on('data', (data) => {
+          console.log(`cmd stderr: ${data.toString()}`);
+        });
+        cmd.stdout.on('data', (data) => {
           const output = data.toString().replace(/\n/ig, '').split('#&');
           try {
             console.log(decodeURIComponent(output));
@@ -465,10 +452,9 @@
                   this.logLineCnt += 1;
                 }
                 break;
-              case 'cres':
-                if (resJSON.target === 'result') {
-                  this.cResList = resJSON.res.cResList;
-                  this.cNotFoundList = resJSON.res.notFoundList;
+              case 'fres':
+                if (resJSON.target === 'fast_5000') {
+                  this.fResList = resJSON.res;
                 }
                 break;
               case 'sysErr':

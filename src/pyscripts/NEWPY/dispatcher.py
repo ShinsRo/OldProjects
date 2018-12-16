@@ -1,6 +1,7 @@
 # features
 import sju_single_search 
 import sju_multi_search
+import sju_fast_search
 import sju_dupl_search
 
 # support
@@ -23,7 +24,6 @@ from sju_utiles import requests
 if __name__ == "__main__":
     # ui 출력 객체 초기화
     ui_stream = _models.UI_Stream('dispatcher', 'main', 'res')
-
     # 디스패처 활성화, 로딩 활성화
     ui_stream.push(command='res', target='loading', res=True)
     ui_stream.push(command='log', msg=_CONS.STATE_MSG[101])
@@ -38,7 +38,7 @@ if __name__ == "__main__":
         service_list = [
             { 'name': 'singleSearch', 'init': sju_single_search.SingleSearch }, 
             { 'name': 'multiSearch', 'init': sju_multi_search.MultiSearch },
-            # { 'name': 'oneByOneSearch', 'init': citationSearch.OneByOneSearch },
+            { 'name': 'fastSearch', 'init': sju_fast_search.FastSearch },
             # { 'name': 'MultiCommonSearch', 'init': commonSearch.MultiSearch },
         ]
         
@@ -60,8 +60,8 @@ if __name__ == "__main__":
                     elif name_done == 'multiSearch':
                         multiSearchObj = tempObj
                         ui_stream.push(command='log', msg=_CONS.STATE_MSG[107])
-                    elif name_done == 'MultiCommonSearch':
-                        compactSearchObj = tempObj
+                    elif name_done == 'fastSearch':
+                        fastSearchObj = tempObj
                         ui_stream.push(command='log', msg=_CONS.STATE_MSG[108])
                     elif name_done == 'oneByOneSearch':
                         authorSearchObj = tempObj
@@ -111,6 +111,25 @@ if __name__ == "__main__":
                 ui_stream.push(command='errObj', msg=ive)
                 continue
 
+            # 빠른 검색
+            if service_name == 'fastSearch':
+                query = inputs['query']
+                start_year = inputs['start_year']
+                end_year = inputs['end_year']
+                p_authors = inputs['p_authors']
+                organization = inputs['organization']
+                gubun = inputs['gubun']
+
+                ui_stream.push(command='log', msg=_CONS.STATE_MSG[116])
+
+                fastSearchObj.start(
+                    (query, p_authors, organization), 
+                    start_year, 
+                    end_year, 
+                    gubun,
+                )
+                ui_stream.push(command='log', msg=_CONS.STATE_MSG[118])
+
             # 단일 상세 검색
             if service_name == 'singleSearch':
                 query = inputs['query']
@@ -147,27 +166,6 @@ if __name__ == "__main__":
 
                 ui_stream.push(command='log', msg=_CONS.STATE_MSG[114])
 
-            # # 다중 일반 검색
-            # elif service_name == 'multiCommonSearch':
-            #     start_year = inputs['start_year']
-            #     end_year = inputs['end_year']
-            #     gubun = inputs['gubun']
-            #     path = inputs['path']
-            #     defaultQueryPackSize = inputs['defaultQueryPackSize']
-
-            #     try:
-            #         compactSearchObj.generalSearch(
-            #             start_year = start_year,
-            #             end_year = end_year,
-            #             gubun = gubun,
-            #             path = path,
-            #             defaultQueryPackSize = 0
-            #         )
-            #     except Exception as e:
-            #         dsres.print(command='sysErr', msg='일반 엑셀 검색 중 오류가 발생했습니다.')
-            #     else:
-            #         dsres.print(command='log', msg='일반 엑셀 검색이 완료되었습니다.')
-
             # # 저자명 기준 검색
             # if service_name == 'citationSearchByAuthor':
             #     query = inputs['query']
@@ -191,7 +189,8 @@ if __name__ == "__main__":
             #         dsres.print(command='log', msg='저자명 검색을 마쳤습니다.')
             # 알 수 없는 서비스 네임
             else:
-                ui_stream.push(command='sysErr', msg=_CONS.STATE_MSG[402])
+                pass
+                # ui_stream.push(command='sysErr', msg=_CONS.STATE_MSG[402])
         
         except requests.exceptions.ConnectionError as ce:
             ui_stream.push(command='sysErr', msg=_CONS.STATE_MSG[303])

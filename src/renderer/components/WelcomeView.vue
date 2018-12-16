@@ -11,7 +11,7 @@
         <v-card-title class="headline blue-grey darken-2">시작에 앞서</v-card-title>
         <v-divider></v-divider>
         <v-card-text>
-          <h2>초기화 과정</h2>
+          <h2>주의사항</h2>
           <hr>
           <br>
           <ul>
@@ -19,6 +19,7 @@
             <li >이 시간 동안 검색 서비스는 사용할 수 없습니다.</li>
             <li >초기화 과정이 완료되면 모든 로딩을 비활성화합니다.</li>
             <li >이후 사용에 대해서는 도움말을 참조하시면 도움이 됩니다.</li>
+            <li ><v-icon>chevron_right</v-icon>버튼을 눌러 원하시는 서비스를 이용하세요.</li>
             <li >프로그램의 자세한 진행상황은 맨 아래 진행로그를 확인해주세요.</li>
           </ul>
           <br>
@@ -31,11 +32,12 @@
               <li ><small><font color="grey">한 번 공격으로 인식하면 일정 시간 동안 모든 WoS 서비스 이용이 불가능하니 주의하세요.</font></small></li>
             </ul>
             <li >본 프로그램은 Window 전용 프로그램입니다.</li>
+            <li >검색은 세종대학교 관련 논문으로 제한하고 있습니다.</li>
+            <li >검색은 세종대학교 IP를 통해 이루어져야합니다.</li>
             <li >본 프로그램의 검색은 Web of Science(이하 WoS) 검색을 기반으로 합니다.</li>
             <li >본 프로그램의 검색은 SCOPUS 및 한국연구재단 자료를 포함하지 않습니다.</li>
-            <li >'엑셀로 검색하기' 기능에서 인용 논문이 5000개 이상인 타겟 논문은 검색이 원활하지 않을 수 있습니다.</li>
-            <li >'엑셀로 검색하기' 기능은 분당 20개 검색 처리 속도를 기대할 수 있습니다.</li>
-            <li >현재 피인용 논문게재장려금 및 공동연구(공동논문) 장려금 예상 산정 기능은 포함하지 않습니다.</li>
+            <li >'엑셀로 검색하기' 기능에서 인용 논문이 5000개 이상이면 5000개 까지의 정보만을 가져옵니다.</li>
+            <!-- <li >현재 피인용 논문게재장려금 및 공동연구(공동논문) 장려금 예상 산정 기능은 포함하지 않습니다.</li>
             <li >게재 장려금 산정에서 기준 저자(산정받을 분의 WoS상 표기명)가 부정확하면 결과가 올바르지 않습니다.</li>
             <li >교신저자와 제1저자가 본교 소속일 경우 기입하신 기준 저자를 대표저자로 판단해 산정을 예상합니다.</li>
             <li >게재 장려금 산정에서 본 프로그램의 결과가 실제 결과와 항상 일치하지 않을 수 있음에 주의해주십시오.</li>
@@ -43,15 +45,20 @@
               <li ><small><font color="grey">2017년 개정 기준(2017년 투고 논문부터 적용)</font></small></li>
               <li ><small><font color="grey">제도유예 : 2017년 투고된 이공계열 하위 50% 학술지 논문에 대해서는 장려금 100만원 지급</font></small></li>
             </ul>
-            <li >등급을 확인할 수 없는 경우, 주저자(제1저자, 교신저자) 확인이 불가능한 경우 등 예외적 조건을 포함한 경우는 장려금 산정 예상액 정보를 제공하지 않습니다.</li>
+            <li >등급을 확인할 수 없는 경우, 주저자(제1저자, 교신저자) 확인이 불가능한 경우 등 예외적 조건을 포함한 경우는 장려금 산정 예상액 정보를 제공하지 않습니다.</li> -->
           </ul>
           <br>
+          <h2>업데이트 노트 v{{ version }}</h2>
+          <hr>
+          <br>
+          {{ update_note }}
           <h2>기타</h2>
           <hr>
           <br>
           <p>
-            문제가 발생하면 siotman0728@gmail.com 로 연락부탁드립니다. 감사합니다.
+            문제가 발생하면 왼쪽 하단 메뉴인 메일 보내기를 통해 문의해주십시오.
           </p>
+          <p>혹은 sandan@sejong.ac.kr로 직접 메일을 보내실 수 있겠습니다. 감사합니다.</p>
           <div class="text-xs-right">
             <em><small>&mdash; Seungshin Kim</small></em>
           </div>
@@ -70,17 +77,17 @@
            <v-expansion-panel>
             <!-- 빠른 검색 도움말 -->
             <v-expansion-panel-content>
-              <div slot="header">1 : 빠른 검색</div>
+              <div slot="header"><v-icon small class="mr-1">search</v-icon>: 빠른 검색</div>
               <v-card>
                 <v-card-text>
-                  현 버전에는 포함하지 않습니다.
+                  아직 도움말을 포함하지 않았습니다.
                 </v-card-text>
               </v-card>
             </v-expansion-panel-content>
             <!-- END 빠른 검색 도움말 -->
             <!-- 검색하기 도움말 -->
             <v-expansion-panel-content>
-              <div slot="header"><v-icon small class="mr-1">search</v-icon>: 검색하기</div>
+              <div slot="header"><v-icon small class="mr-1">zoom_in</v-icon>: 상세 검색하기</div>
               <v-card>
                 <v-card-text>
                   <h2>하나의 논문 제목으로 검색해보기</h2>
@@ -205,24 +212,6 @@
         </v-card-text>
       </v-card>
     </v-flex>
-    <!-- <v-flex xs10 class="mt-4">
-      <system-information></system-information>
-    </v-flex> -->
-    <!-- <v-flex xs10 class="mt-4">
-      <v-card>
-        <v-card-title class="headline">Docs</v-card-title>
-        <v-divider></v-divider>
-        <v-card-actions class="pt-3 pb-3">
-          <v-spacer></v-spacer>
-          <v-btn class="link-btn" @click="open('https://vuejs.org/v2/guide/')">Vue</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn class="link-btn" @click="open('https://electron.atom.io/docs/')">Electron</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn class="link-btn" @click="open('https://vuetifyjs.com')">Vuetify</v-btn>
-          <v-spacer></v-spacer>
-        </v-card-actions>
-      </v-card>
-    </v-flex> -->
   </v-layout>
 </template>
 
@@ -231,6 +220,8 @@
 
   export default {
     data: () => ({
+      version: '0.0.5 BETA',
+      update_note: '',
       guideWindow: 3,
       guideLength: 3,
     }),

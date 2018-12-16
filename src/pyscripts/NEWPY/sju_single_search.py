@@ -361,16 +361,16 @@ class SingleSearch():
         # 기준 저자 검증
         if p_authors != '':
             ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1504])
-            p_authors = list(map(lambda x: x.replace(' ', ''), p_authors.split(';')))
+            p_authors = list(map(lambda x: x.replace(' ', '').replace(',', ''), p_authors.split(';')))
 
         for article in citing_articles:
             citingArticles['titles'] += [article['TI']]
             citingArticles['authors'] += [article['AU']]
-            
+            au_temp = article['AU'].replace(' ', '').replace(',', '')
             if p_authors != '':
                 found = False
                 for pa in p_authors:
-                    if re.search(pa, article['AU'], flags=re.IGNORECASE):
+                    if re.search(pa, au_temp, flags=re.IGNORECASE):
                         found = True
                         citingArticles['selfCitation'] += 1
                         citingArticles['isSelf'] += ['Self']

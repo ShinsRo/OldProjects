@@ -11,6 +11,11 @@ export default new Router({
       component: require('@/components/WelcomeView').default,
     },
     {
+      path: '/FastSearch',
+      name: 'FastSearch',
+      component: require('@/components/FastSearchView').default,
+    },
+    {
       path: '/SingleSearch',
       name: 'SingleSearch',
       component: require('@/components/SingleSearchView').default,
@@ -21,11 +26,6 @@ export default new Router({
       component: require('@/components/MultiSearchView').default,
     },
     {
-      path: '/commonSearchMulti',
-      name: 'commonSearchMulti',
-      component: require('@/components/commonSearchMultiView').default,
-    },
-    {
       path: '/citationSearchByAuthor',
       name: 'citationSearchByAuthor',
       component: require('@/components/citationSearchByAuthorView').default,
@@ -34,6 +34,11 @@ export default new Router({
       path: '/excelIntegration',
       name: 'excelIntegration',
       component: require('@/components/excelIntegrationView').default,
+    },
+    {
+      path: '/SendMail',
+      name: 'SendMail',
+      component: require('@/components/SendMailView').default,
     },
     // {
     //   path: '/TEST',

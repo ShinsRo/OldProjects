@@ -49,7 +49,7 @@
         v-model="pAuthors"
       ></v-text-field>
     </v-flex>
-    <v-flex>
+    <v-flex xs4>
       <v-text-field
         label="같이 검색할 소속 기관명"
         placeholder="입력값이 없으면 해당 필드는 조건에서 제외됩니다."
