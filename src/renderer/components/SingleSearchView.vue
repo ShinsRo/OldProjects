@@ -55,6 +55,7 @@
         placeholder="입력값이 없으면 해당 필드는 조건에서 제외됩니다."
         outline
         v-model="organizaion"
+        disabled
       ></v-text-field>
     </v-flex>
     <!-- END 옵션 컨테이너 -->
@@ -232,7 +233,7 @@ export default {
       pAuthors: '',
       startYear: '',
       endYear: '',
-      organizaion: '',
+      organizaion: 'Sejong Univ',
       listSearch: '',
       pagination: {
         sortBy: 'index',

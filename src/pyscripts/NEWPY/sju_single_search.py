@@ -42,7 +42,6 @@ class SingleSearch():
 
         tries = 0
         session = requests.Session()
-        self.orginal_headers = session.headers
 
         while tries < MAX_TRIES:
             # 세션 갱신
@@ -152,10 +151,7 @@ class SingleSearch():
             return
 
         # 결과 리스트 페이지가 필요하면 사용
-        temp = session.headers
-        session.headers = self.orginal_headers
         http_res = session.get(reffer)
-        session.headers = temp
         
         # Access Denied
         if http_res.status_code == 403:
@@ -219,11 +215,8 @@ class SingleSearch():
         # 상세 정보 요청
         ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1103])
         
-        temp = session.headers
-        session.headers = self.orginal_headers
         session.headers['Reffer'] = reffer
         http_res = session.get(base_url + query_string)
-        session.headers = temp
 
         # Access Denied
         if http_res.status_code == 403:
@@ -294,11 +287,7 @@ class SingleSearch():
 
         url = base_url + cnt_link['href']
 
-        temp = session.headers
-        session.headers = self.orginal_headers
         http_res = session.get(url)
-        session.headers = temp
-
         target_content = http_res.content
 
         # Access Denied
