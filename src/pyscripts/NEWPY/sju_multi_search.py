@@ -15,7 +15,7 @@ from sju_utiles import BeautifulSoup
 class SingleSearchContainer():
     '''
     '''
-    def __init__(self, thread_id):
+    def __init__(self, thread_id, cookies = None):
         '''
         '''
         self.qid = 0
@@ -27,7 +27,7 @@ class SingleSearchContainer():
         self.base_url = "http://apps.webofknowledge.com"
         self.ui_stream = sju_models.UI_Stream('multi_search', 'multi sub%d'%thread_id, self.res_name)
 
-        self.single_search = sju_single_search.SingleSearch(thread_id = thread_id)
+        self.single_search = sju_single_search.SingleSearch(thread_id = thread_id, cookies=cookies)
 
     def set_query_package_and_portion(self, query_package, portion):
         self.query_package = query_package
@@ -42,7 +42,7 @@ class SingleSearchContainer():
 class MultiSearch():
     '''
     '''
-    def __init__(self):
+    def __init__(self, cookies = None):
         '''
         '''
         self.res_name = 'mres'
@@ -56,7 +56,7 @@ class MultiSearch():
         ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[2101])
         with concurrent.futures.ThreadPoolExecutor(max_workers=threading_amount) as executor:
             future_containers = {
-                executor.submit(SingleSearchContainer, thread_id,
+                executor.submit(SingleSearchContainer, thread_id, cookies=cookies
                 ): thread_id for thread_id in range(threading_amount) 
             }
 

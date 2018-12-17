@@ -2,6 +2,10 @@ class InitSessionError(Exception):
     '''초기화 실패 예외'''
     pass
 
+class LoginRequired(Exception):
+    '''로그인이 필요한 경우'''
+    pass
+    
 class InitMultiSessionErr(Exception):
     '''스레드가 충분하지 않을 경우'''
     pass

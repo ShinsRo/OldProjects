@@ -3,6 +3,7 @@ import sju_single_search
 import sju_multi_search
 import sju_fast_search
 import sju_dupl_search
+import sju_login
 
 # support
 import sju_utiles as _utiles
@@ -28,70 +29,95 @@ if __name__ == "__main__":
     ui_stream.push(command='res', target='loading', res=True)
     ui_stream.push(command='log', msg=_CONS.STATE_MSG[101])
 
+    cookies = None
     multiSearchObj = None
     singleSearchObj = None
     authorSearchObj = None
     compactSearchObj = None
 
     # 서비스 초기화
-    try:
-        service_list = [
-            { 'name': 'singleSearch', 'init': sju_single_search.SingleSearch }, 
-            { 'name': 'multiSearch', 'init': sju_multi_search.MultiSearch },
-            { 'name': 'fastSearch', 'init': sju_fast_search.FastSearch },
-            # { 'name': 'MultiCommonSearch', 'init': commonSearch.MultiSearch },
-        ]
-        
-        ui_stream.push(command='log', msg=_CONS.STATE_MSG[102])
-        ui_stream.push(command='log', msg=_CONS.STATE_MSG[103])
-        ui_stream.push(command='log', msg=_CONS.STATE_MSG[104])
-        with concurrent.futures.ThreadPoolExecutor(max_workers=len(service_list)) as executor:
-            future_service = {
-                executor.submit(service['init'], ): service['name'] for service in service_list
-            }
-            for future in concurrent.futures.as_completed(future_service):
-                name_done = future_service[future]
-                tempObj = future.result()
+    while True:
+        try:
+            service_list = [
+                { 'name': 'singleSearch', 'init': sju_single_search.SingleSearch }, 
+                { 'name': 'multiSearch', 'init': sju_multi_search.MultiSearch },
+                { 'name': 'fastSearch', 'init': sju_fast_search.FastSearch },
+                # { 'name': 'MultiCommonSearch', 'init': commonSearch.MultiSearch },
+            ]
+            
+            ui_stream.push(command='log', msg=_CONS.STATE_MSG[102])
+            ui_stream.push(command='log', msg=_CONS.STATE_MSG[103])
+            ui_stream.push(command='log', msg=_CONS.STATE_MSG[104])
+            with concurrent.futures.ThreadPoolExecutor(max_workers=len(service_list)) as executor:
+                future_service = {
+                    executor.submit(service['init'], cookies=cookies): service['name'] for service in service_list
+                }
+                for future in concurrent.futures.as_completed(future_service):
+                    name_done = future_service[future]
+                    try:
+                        tempObj = future.result()
 
-                try:
-                    if name_done == 'singleSearch': 
-                        singleSearchObj = tempObj
-                        ui_stream.push(command='log', msg=_CONS.STATE_MSG[106])
-                    elif name_done == 'multiSearch':
-                        multiSearchObj = tempObj
-                        ui_stream.push(command='log', msg=_CONS.STATE_MSG[107])
-                    elif name_done == 'fastSearch':
-                        fastSearchObj = tempObj
-                        ui_stream.push(command='log', msg=_CONS.STATE_MSG[108])
-                    elif name_done == 'oneByOneSearch':
-                        authorSearchObj = tempObj
-                        ui_stream.push(command='log', msg=_CONS.STATE_MSG[109])
-                except _EXCEP.InitMultiSessionErr as imse:
-                    ui_stream.push(command='sysErr', msg='%s 가용 스레드가 너무 적습니다. 잠시 후 다시 실행해주세요.'%name_done)
+                        if name_done == 'singleSearch': 
+                            singleSearchObj = tempObj
+                            ui_stream.push(command='log', msg=_CONS.STATE_MSG[106])
+                        elif name_done == 'multiSearch':
+                            multiSearchObj = tempObj
+                            ui_stream.push(command='log', msg=_CONS.STATE_MSG[107])
+                        elif name_done == 'fastSearch':
+                            fastSearchObj = tempObj
+                            ui_stream.push(command='log', msg=_CONS.STATE_MSG[108])
+                        elif name_done == 'oneByOneSearch':
+                            authorSearchObj = tempObj
+                            ui_stream.push(command='log', msg=_CONS.STATE_MSG[109])
+                    except _EXCEP.InitMultiSessionErr as imse:
+                        ui_stream.push(command='sysErr', msg='%s 가용 스레드가 너무 적습니다. 잠시 후 다시 실행해주세요.'%name_done)
 
-                except Exception as e:
-                    ui_stream.push(command='sysErr', msg='%s 초기화 실패'%name_done)
-                    raise e
+                    except Exception as e:
+                        ui_stream.push(command='sysErr', msg='%s 초기화 실패'%name_done)
+                        raise e
 
-    except requests.exceptions.ConnectionError as ce:
-        ui_stream.push(command='sysErr', msg=_CONS.STATE_MSG[303])
+        except _EXCEP.LoginRequired as lr:
+            ui_stream.push(command='sysErr', msg=_CONS.STATE_MSG[303])
 
-        # dispatch 강제 종료
-        ui_stream.push(command='log', msg=_CONS.STATE_MSG[500])
-        ui_stream.push(command='errObj', msg=e)
-        exit(2000)
+            # dispatch 강제 종료
+            ui_stream.push(command='log', msg=_CONS.STATE_MSG[500])
+            ui_stream.push(command='errObj', msg=e)
+            exit(2000)
 
-    except Exception as e:
-        ui_stream.push(command='sysErr', msg=_CONS.STATE_MSG[302])
+            # 로그인 모듈 개발 완료시 사용
+            # ui_stream.push(command='sysErr', msg='교내 IP가 아닌 경우 로그인이 필요합니다.')
+            # ui_stream.push(command='login', msg='LOGIN REQEUIRED')
 
-        # dispatch 강제 종료
-        ui_stream.push(command='log', msg=_CONS.STATE_MSG[500])
-        ui_stream.push(command='errObj', msg=e)
-        exit(2000)
-    else:
+            # login_gubun = input().strip()
+            # user_id = input().strip()
+            # user_password = input().strip()
 
-        # 모든 서비스 초기화 완료
-        ui_stream.push(command='log', msg=_CONS.STATE_MSG[201])
+            # ui_stream.push(command='log', msg='WOS에 로그인 중입니다.')
+            # login = sju_login.Login()
+            # res = login.login_wos(user_id, user_password)
+            # cookies = res.cookies
+            # cookies['SID'] = '"%s"'%cookies['dotmatics.elementalKey']
+            # continue
+
+        except requests.exceptions.ConnectionError as ce:
+            ui_stream.push(command='sysErr', msg=_CONS.STATE_MSG[303])
+
+            # dispatch 강제 종료
+            ui_stream.push(command='log', msg=_CONS.STATE_MSG[500])
+            ui_stream.push(command='errObj', msg=e)
+            exit(2000)
+
+        except Exception as e:
+            ui_stream.push(command='sysErr', msg=_CONS.STATE_MSG[302])
+
+            # dispatch 강제 종료
+            ui_stream.push(command='log', msg=_CONS.STATE_MSG[500])
+            ui_stream.push(command='errObj', msg=e)
+            exit(2000)
+        else:
+            # 모든 서비스 초기화 완료
+            ui_stream.push(command='log', msg=_CONS.STATE_MSG[201])
+            break
 
 
     # 입력 대기 시작

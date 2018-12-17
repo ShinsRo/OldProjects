@@ -49,6 +49,10 @@ class UI_Stream():
             self.fout.error(str(return_res))
             logging.exception(msg)
             return
+        
+        elif command == 'login':
+            return_res.update({'target': 'login', 'msg': msg })
+
         try:
             return_JSON = json.dumps(return_res, allow_nan=False)
             self.stdout.info(return_JSON)

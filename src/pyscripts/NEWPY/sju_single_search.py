@@ -14,7 +14,7 @@ from sju_utiles import BeautifulSoup
 class SingleSearch():
     '''
     '''
-    def __init__(self, thread_id = None):
+    def __init__(self, thread_id = None, cookies = None):
         '''
         '''
         self.qid = 0
@@ -25,25 +25,30 @@ class SingleSearch():
         ui_stream_name = 'single_search' if thread_id == None else 'multi sub'
         self.ui_stream = sju_models.UI_Stream(ui_stream_name, self.thread_id, self.res_name)
 
-        self.set_session()
+        self.set_session(cookies)
 
 
-    def set_session(self):
+    def set_session(self, cookies = None):
         '''
         '''
         MAX_TRIES = 5
         self.qid = 0
-        # self.ua = UserAgent()
-        # self.userAgent = self.ua.random
-        # self.headers = {'User-Agent': self.userAgent}
-        # self.headers = {}
 
         ui_stream = self.ui_stream
 
         tries = 0
         session = requests.Session()
 
-        while tries < MAX_TRIES:
+        # SID와 JSESSIONID가 주어질 경우
+        if cookies:
+            session = sju_utiles.set_user_agent(session)
+            session.cookies.update(cookies)
+            self.SID = session.cookies['SID'].replace("\"", "")
+            self.jsessionid = session.cookies['JSESSIONID']
+            ui_stream.push(command='log', msg='SID : %s'%self.SID)
+            ui_stream.push(command='log', msg='JSESSIONID : %s'%self.jsessionid)
+            
+        while tries < MAX_TRIES and not cookies:
             # 세션 갱신
             ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1001])
             session = sju_utiles.set_user_agent(session)
@@ -52,6 +57,9 @@ class SingleSearch():
             res = session.get('http://apps.webofknowledge.com')
             # SID요청 에러 판별
             if res.status_code == requests.codes.ok:
+                if res.url.find('login') > -1:
+                    raise sju_exceptions.LoginRequired()
+
                 self.SID = session.cookies['SID'].replace("\"", "")
                 self.jsessionid = session.cookies['JSESSIONID']
                 
