@@ -11,6 +11,7 @@
         <v-card-title class="headline blue-grey darken-2">시작에 앞서</v-card-title>
         <v-divider></v-divider>
         <v-card-text>
+          <div class="text-xs-right">현재 버전 : {{version}}</div>
           <h2>주의사항</h2>
           <hr>
           <br>
@@ -47,11 +48,12 @@
             </ul>
             <li >등급을 확인할 수 없는 경우, 주저자(제1저자, 교신저자) 확인이 불가능한 경우 등 예외적 조건을 포함한 경우는 장려금 산정 예상액 정보를 제공하지 않습니다.</li> -->
           </ul>
-          <br>
+          <!-- <br>
           <h2>업데이트 노트 v{{ version }}</h2>
           <hr>
           <br>
-          {{ update_note }}
+          {{ update_note }} -->
+          <br>
           <h2>기타</h2>
           <hr>
           <br>
@@ -80,7 +82,7 @@
               <div slot="header"><v-icon small class="mr-1">search</v-icon>: 빠른 검색</div>
               <v-card>
                 <v-card-text>
-                  아직 도움말을 포함하지 않았습니다.
+                  해당 기능에 대한 도움말을 아직 포함하지 않았습니다.
                 </v-card-text>
               </v-card>
             </v-expansion-panel-content>
@@ -219,8 +221,8 @@
   import SystemInformation from './WelcomeView/SystemInformation';
 
   export default {
+    props: ['version'],
     data: () => ({
-      version: '0.0.5 BETA',
       update_note: '',
       guideWindow: 3,
       guideLength: 3,

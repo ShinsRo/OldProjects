@@ -88,6 +88,7 @@
         <v-container fluid fill-height>
           <v-slide-y-transition mode="out-in">
             <router-view 
+            :version="version"
             :loading="loading"
             :errQuery="errQuery"
             :resList="resList"
@@ -131,9 +132,11 @@
   import { remote } from 'electron';
   import { spawn } from 'child_process';
   // import path from 'path';
+
   export default {
     name: 'sejong-wos',
     data: () => ({
+      version: '0.0.5 BETA',
       maximize: false,
       errAlert: {
         show: false,
@@ -164,12 +167,7 @@
       loading: true,
       fErrQuery: [],
       fResList: [],
-      aErrQuery: [
-        // {
-        //   query: 'example2',
-        //   msg: '검색결과가 없습니다.',
-        // },
-      ],
+      aErrQuery: [],
       aResList: [
         {
           id: 102020,
@@ -217,12 +215,7 @@
           },
         },
       ],
-      mErrQuery: [
-        // {
-        //   query: 'example2',
-        //   msg: '검색결과가 없습니다.',
-        // },
-      ],
+      mErrQuery: [],
       mResList: [
         {
           id: 102020,
@@ -345,7 +338,7 @@
         remote.BrowserWindow.getFocusedWindow().setFullScreen(this.maximize);
       },
     },
-    mounted() {
+    created() {
       if (this.executer === '') {
         const rInFormat = /time:(.+)#@lineout:(.+)/gm;
         this.loading = true;
