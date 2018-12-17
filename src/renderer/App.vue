@@ -136,7 +136,7 @@
   export default {
     name: 'sejong-wos',
     data: () => ({
-      version: '0.0.5 BETA',
+      version: '0.0.6 BETA',
       maximize: false,
       errAlert: {
         show: false,
