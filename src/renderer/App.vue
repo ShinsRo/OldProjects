@@ -131,7 +131,7 @@
 <script>
   import { remote } from 'electron';
   import { spawn } from 'child_process';
-  // import path from 'path';
+  import path from 'path';
 
   export default {
     name: 'sejong-wos',
@@ -342,9 +342,9 @@
       if (this.executer === '') {
         const rInFormat = /time:(.+)#@lineout:(.+)/gm;
         this.loading = true;
-        const cmd = spawn('cmd.exe');
+        // const cmd = spawn('cmd.exe');
         // 빌드 전용 spawn
-        // const cmd = spawn(`${path.dirname(process.execPath)}/dispatcher/dispatcher.exe`);
+        const cmd = spawn(`${path.dirname(process.execPath)}/dispatcher/dispatcher.exe`);
         cmd.stdin.setDefaultEncoding('utf-8');
         cmd.stdout.setDefaultEncoding('utf-8');
         cmd.stderr.setDefaultEncoding('utf-8');
@@ -473,7 +473,7 @@
         this.executer = cmd;
         // 빌드 시 주석 필수
         // this.executer.stdin.write('python src/pyscripts/dispatcher.py\n');
-        this.executer.stdin.write('python src/pyscripts/NEWPY/dispatcher.py\n');
+        // this.executer.stdin.write('python src/pyscripts/NEWPY/dispatcher.py\n');
       }
     },
     destroyed() {

@@ -85,6 +85,7 @@
             hide-details
           ></v-text-field>
         </v-card-title>
+        <v-btn @click="resFlush">결과 비우기</v-btn>
         <v-data-table
           :headers="resHeaders"
           :items="fResList"
@@ -196,10 +197,13 @@ export default {
     logFlush() {
       this.log = '';
     },
+    resFlush() {
+      this.fResList.splice(0, this.fResList.length);
+    },
     deleteRow(item) {
       if (confirm('정말 행을 삭제합니까?')) {
         const index = this.fResList.indexOf(item);
-        this.resList.splice(index, 1);
+        this.fResList.splice(index, 1);
       }
     },
     stdin() {
