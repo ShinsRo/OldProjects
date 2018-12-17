@@ -47,7 +47,7 @@ class UI_Stream():
             return_res.update({ 'msg':str(msg) })
             
             self.fout.error(str(return_res))
-            logging.exception(msg)
+            self.fout.exception(msg)
             return
         
         elif command == 'login':

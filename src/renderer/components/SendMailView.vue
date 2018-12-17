@@ -24,7 +24,7 @@
       ></v-textarea>
     </v-flex>
     <v-flex xs12 class="text-xs-right">
-      <v-btn @click="sendMail">에러 보내기</v-btn>
+      <v-btn @click="sendMail">메일 보내기</v-btn>
     </v-flex>
     <!-- 로딩 -->
     <v-dialog

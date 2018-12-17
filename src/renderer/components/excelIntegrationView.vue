@@ -267,7 +267,6 @@ export default {
         values.forEach((wb) => {
           if (wb) {
             const x = wb.getWorksheet().getSheetValues();
-            console.log(x);
             x.forEach((row) => {
               if (row && row[1] !== '제목' && row[2] !== '교신저자') {
                 row[0] = this.count;

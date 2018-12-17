@@ -6,6 +6,7 @@ import sju_exceptions
 import re
 import random
 import requests
+import threading
 
 from sju_utiles import os
 from sju_utiles import UserAgent
@@ -47,7 +48,7 @@ class SingleSearch():
             self.jsessionid = session.cookies['JSESSIONID']
             ui_stream.push(command='log', msg='SID : %s'%self.SID)
             ui_stream.push(command='log', msg='JSESSIONID : %s'%self.jsessionid)
-            
+
         while tries < MAX_TRIES and not cookies:
             # 세션 갱신
             ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1001])
@@ -85,6 +86,27 @@ class SingleSearch():
         if self.session: self.session.close()
         self.session = session
 
+    def get_tc_data(self, report_link, paper_data_id, tc_data):
+        self.ui_stream.push(command='log', msg='인용년도 정보를 가져옵니다.')
+        session = requests.Session()
+        session = sju_utiles.set_user_agent(session)
+        session.cookies.update(self.session.cookies)
+        # [단계 2/3] 인용년도 조회 (병렬 구성)
+        #########################################################################
+        report_link = report_link[0]
+
+        http_res = session.get(self.base_url + report_link['href'])
+        target_content = http_res.content
+        soup = BeautifulSoup(target_content, 'html.parser')
+
+        raw_tc_data = soup.select_one('script#raw_tc_data')
+        tc_tuple_list = re.findall(r'([0-9]+)\=([0-9]+)', raw_tc_data.text)
+        # tc_list = list(filter(lambda x: int(x[1]) > 0, tc_tuple_list))
+        tc_dict = {}
+        for x in tc_tuple_list:
+            tc_dict.update({x[0]: x[1]})
+        
+        tc_data['tc_dict'] = tc_dict
 
     def start(self, query, start_year, end_year, gubun):
         '''
@@ -97,6 +119,8 @@ class SingleSearch():
         keyword = query[0]
         p_authors = query[1]
         organization = query[2]
+
+        paper_data_id = str(random.getrandbits(32))
 
         # 검색속도 향상을 위한 헤더 랜더마이즈
         # orginal_headers = session.headers
@@ -173,6 +197,8 @@ class SingleSearch():
         soup = BeautifulSoup(target_content, 'html.parser')
 
         atag_list = soup.select('a.snowplow-full-record')
+        report_link = soup.select('a.citation-report-summary-link')
+
         try: 
             if len(atag_list) == 0:
                 raise sju_exceptions.NoPaperDataError()
@@ -201,14 +227,25 @@ class SingleSearch():
 
         ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1202])
 
-        # [단계 2/3] 상세 정보 페이지 fetch
+        # [단계 2/3] 상세 정보 페이지 fetch, 인용년도 조회 (스레딩)
         #########################################################################
         ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1003])
+
+        tc_data = {'tc_dict': []}
+        tc_parsing_thread = None
+        # 인용 보고서 링크가 잡힐 때
+        if len(report_link) != 0:
+            # 인용년도 조회 스레딩
+            tc_parsing_thread = threading.Thread(
+                target=self.get_tc_data,
+                args=(report_link, paper_data_id, tc_data)
+            )
+            tc_parsing_thread.start()
         
         # 결과 리스트 페이지를 들렀다 오는 경우
         query_string = atag_list[0]['href']
 
-        # # 상세 보기 바로 진입
+        # # 상세 보기 바로 진입 하는 경우
         # # qid가 랜덤한 경우가 존재... 사용하기 위해선
         # # 이슈가 해결되야함.
         # action_url = '/full_record.do'
@@ -238,7 +275,7 @@ class SingleSearch():
 
         # 상세 정보 파싱
         try:
-            paper_data, cnt_link = sju_utiles.parse_paper_data(target_content)
+            paper_data, cnt_link = sju_utiles.parse_paper_data(target_content, paper_data_id)
             # paper_data['subsidy'] = sju_utiles.get_subsidy01(paper_data, p_authors)
 
         # 검색 결과가 없을 경우
@@ -267,7 +304,19 @@ class SingleSearch():
             return
         # 요청 성공
         else:
+
             ui_stream.push(command='res', target='paperData', res=paper_data)
+
+            # 인용 년도 조회 완료를 기다림
+            if tc_parsing_thread:
+                tc_parsing_thread.join()
+                ui_stream.push(command='log', msg='인용 년도 조회가 완료되었습니다.')
+
+            tc_dict = tc_data['tc_dict']
+            # 인용 년도 조회 성공 시 출력
+            if len(tc_dict) > 0:
+                ui_stream.push(command='res', target='tc_data', res={'id': paper_data_id, 'tc_data': tc_dict})
+            
             ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1203])
         # # 요청 실패
         
@@ -281,7 +330,7 @@ class SingleSearch():
             ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1304][0])
             self.qid += 1
             return
-        elif int(paper_data['timesCited']) > 500:
+        elif int(paper_data['timesCited']) > 4999:
             ui_stream.push(command='err', msg=sju_CONSTANTS.STATE_MSG[1304][1])
             ui_stream.push(
                 command='res', target='errQuery', 
@@ -390,18 +439,21 @@ class SingleSearch():
             else:
                 citingArticles['isSelf'] += ['-']
 
+        ui_stream.push(command='res', target='citingArticles', res=citingArticles)
+
+        # [단계 종료] 단일 상세 검색
+        #########################################################################
         # history 제한 방지
         if self.qid > 180:
             self.set_session()
-
-        ui_stream.push(command='res', target='citingArticles', res=citingArticles)
+        
         ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1200][0])
 
         return
-        # [단계 종료] 단일 상세 검색
-        #########################################################################
+
+
         # # 필요할 경우 사용
-        # # Fast 5000 다운로드
+        # # Fast 5000 다운로드 +
         # self.qid += 1
         # action_url = '/ETS/ets.do'
         # query_data = {

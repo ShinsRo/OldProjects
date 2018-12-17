@@ -204,6 +204,16 @@ def get_query_string(action, data):
             'fileOpt': 'xls',                 # required
             'UserIDForSaveToRID': '10957580', # required_optional
         }
+    elif action == '/CitationReport.do':
+        query_data = {
+            'product': 'WOS',
+            'search_mode': 'CitationReport',
+            'SID': '',
+            'page': '',
+            'cr_pqid': '',
+            'viewType': '',
+            'colName': 'WOS',
+        }
     else:
         pass
 
@@ -325,7 +335,7 @@ def get_form_data(action, data):
     form_data.update(data)
     return form_data
 
-def parse_paper_data(target_content):
+def parse_paper_data(target_content, paper_data_id):
     soup = BeautifulSoup(target_content, 'html.parser')
 
     # 검색 결과 수
@@ -490,7 +500,7 @@ def parse_paper_data(target_content):
         reprint = 'None'
 
     paperData = {
-        'id' : random.getrandbits(32),
+        'id' : paper_data_id,
         # 'authors' : correction_form_inputs_by_name['00N70000002C0wa'].split(';'),
         'authors' : authors,
         'full_name' : full_name,
@@ -588,9 +598,7 @@ def input_validation(service_name):
         end_year = input().strip()
         p_authors = input().strip()
         organization = input().strip()
-        if service_name == 'fastSearch':
-            gubun = input().strip()
-            returnDict['gubun'] = gubun
+        gubun = input().strip()
         
         # Sejong Univ 로 고정
         #####################
@@ -606,6 +614,7 @@ def input_validation(service_name):
         returnDict['end_year'] = end_year 
         returnDict['p_authors'] = p_authors
         returnDict['organization'] = organization
+        returnDict['gubun'] = gubun
 
     # 다중 상세 검색
     elif service_name == 'multiSearch':

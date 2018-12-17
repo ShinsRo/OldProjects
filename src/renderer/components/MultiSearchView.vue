@@ -122,6 +122,23 @@
           </v-alert>
           <template slot="expand" slot-scope="props">
             <h2 style="margin: 20px"><v-icon v-html="'assignment'"></v-icon> : {{ props.item.title }}</h2>
+            <!-- 인용년도 테이블 -->
+            <table
+            v-if="'tc_data' in props.item"
+            style="border:1px solid #FFFFFF; margin: 20px; width: 25%">
+              <tr>
+                <td 
+                v-for="year in parseInt(endYear) - parseInt(startYear)" :key="year"
+                style="border:1px solid #FFFFFF;"
+                >{{parseInt(startYear) + year}}</td>
+              </tr>
+              <tr>
+                <td 
+                v-for="year in parseInt(endYear) - parseInt(startYear)" :key="year"
+                style="border:1px solid #FFFFFF;"
+                >{{props.item.tc_data[parseInt(startYear) + year]}}</td>
+              </tr>
+            </table>
             <!-- IF 테이블 -->
             <table 
             v-if="Object.keys(props.item.impact_factor).length"

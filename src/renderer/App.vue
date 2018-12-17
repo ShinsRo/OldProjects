@@ -136,7 +136,7 @@
   export default {
     name: 'sejong-wos',
     data: () => ({
-      version: '0.0.6 BETA',
+      version: '0.1.0 BETA',
       maximize: false,
       errAlert: {
         show: false,
@@ -349,19 +349,15 @@
         cmd.stdout.setDefaultEncoding('utf-8');
         cmd.stderr.setDefaultEncoding('utf-8');
 
-        cmd.stdin.on('data', (data) => {
-          console.log(`cmd stdin: ${data.toString()}`);
-        });
-        cmd.stderr.on('data', (data) => {
-          console.log(`cmd stderr: ${data.toString()}`);
-        });
+        // cmd.stdin.on('data', (data) => {
+        //   console.log(`cmd stdin: ${data.toString()}`);
+        // });
+        // cmd.stderr.on('data', (data) => {
+        //   console.log(`cmd stderr: ${data.toString()}`);
+        // });
         cmd.stdout.on('data', (data) => {
           const output = data.toString().replace(/\n/ig, '').split('#&');
-          try {
-            console.log(decodeURIComponent(output));
-          } catch (e) {
-            console.log(output);
-          }
+
           let time = '';
           let resJSON = '';
 
@@ -369,6 +365,13 @@
             if (!output[i].match(rInFormat) || !output[i]) break;
             time = RegExp.$1;
             resJSON = JSON.parse(RegExp.$2);
+
+            if ('msg' in resJSON) {
+              console.log(resJSON.msg);
+            }
+            if ('target' in resJSON) {
+              console.log(resJSON.target);
+            }
             // 모듈로부터의 결과
             switch (resJSON.command) {
               // 단일 검색 모듈 명령어.
@@ -381,14 +384,20 @@
                   this.resList.push(resJSON.res);
                 } else if (resJSON.target === 'citingArticles') {
                   for (let ii = 0; ii < this.resList.length; ii += 1) {
-                    console.log(resJSON.res.id);
                     if (this.resList[ii].id === resJSON.res.id) {
                       this.resList[ii].citingArticles = resJSON.res;
                       break;
                     }
                   }
+                } else if (resJSON.target === 'tc_data') {
+                  for (let ii = 0; ii < this.resList.length; ii += 1) {
+                    if (this.resList[ii].id === resJSON.res.id) {
+                      this.resList[ii].tc_data = resJSON.res.tc_data;
+                      break;
+                    }
+                  }
                 } else if (resJSON.target === 'errQuery') {
-                  this.errQuery.push(resJSON.res);
+                  this.errQuery.unshift(resJSON.res);
                 } else {
                   if (this.logLineCnt % this.logLineLimit === 0) {
                     this.log = '';

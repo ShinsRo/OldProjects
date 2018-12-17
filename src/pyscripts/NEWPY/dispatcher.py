@@ -163,6 +163,7 @@ if __name__ == "__main__":
                 end_year = inputs['end_year']
                 p_authors = inputs['p_authors']
                 organization = inputs['organization']
+                gubun = inputs['gubun']
 
                 ui_stream.push(command='log', msg=_CONS.STATE_MSG[111])
 
@@ -170,7 +171,7 @@ if __name__ == "__main__":
                     (query, p_authors, organization), 
                     start_year, 
                     end_year, 
-                    'TI',
+                    gubun,
                 )
                 ui_stream.push(command='log', msg=_CONS.STATE_MSG[112])
 
@@ -223,7 +224,7 @@ if __name__ == "__main__":
 
             # dispatch 강제 종료
             ui_stream.push(command='log', msg=_CONS.STATE_MSG[500])
-            ui_stream.push(command='errObj', msg=e)
+            ui_stream.push(command='errObj', msg=ce)
             ui_stream.push(command='res', target='loading', res=False)
             exit(2000)
         except EOFError as eof:
@@ -232,6 +233,5 @@ if __name__ == "__main__":
             sys.exit(1)
         except Exception as e:
             ui_stream.push(command='sysErr', msg=_CONS.STATE_MSG[400])
-            print(e)
-            traceback.print_tb(e.__traceback__) 
+            ui_stream.push(command='errObj', msg=e)
             continue

@@ -58,6 +58,14 @@
         disabled
       ></v-text-field>
     </v-flex>
+    <v-flex xs2>
+      <v-select
+          :items="gubuns"
+          v-model="gubun"
+          label="검색구분"
+          outline
+        ></v-select>
+    </v-flex>
     <!-- END 옵션 컨테이너 -->
     <!-- 인풋 에러 얼럿 -->
     <v-flex xs12>
@@ -128,6 +136,23 @@
           </v-alert>
           <template slot="expand" slot-scope="props">
             <h2 style="margin: 20px"><v-icon v-html="'assignment'"></v-icon> : {{ props.item.title }}</h2>
+            <!-- 인용년도 테이블 -->
+            <table
+            v-if="'tc_data' in props.item"
+            style="border:1px solid #FFFFFF; margin: 20px; width: 25%">
+              <tr>
+                <td 
+                v-for="year in parseInt(endYear) - parseInt(startYear)" :key="year"
+                style="border:1px solid #FFFFFF;"
+                >{{parseInt(startYear) + year}}</td>
+              </tr>
+              <tr>
+                <td 
+                v-for="year in parseInt(endYear) - parseInt(startYear)" :key="year"
+                style="border:1px solid #FFFFFF;"
+                >{{props.item.tc_data[parseInt(startYear) + year]}}</td>
+              </tr>
+            </table>
             <!-- IF 테이블 -->
             <table 
             v-if="Object.keys(props.item.impact_factor).length"
@@ -161,7 +186,7 @@
             <table style="border:1px solid #FFFFFF; margin: 20px; width: 100%">
               <tr>
                 <td style="border:1px solid #FFFFFF;">
-                  파일 ID : {{props.item.citingArticles.id}}
+                  ID : {{props.item.citingArticles.id}}
                 </td>
                 <td style="border:1px solid #FFFFFF;">
                   자기인용 횟수 : {{props.item.citingArticles.selfCitation}}, 
@@ -224,6 +249,14 @@ export default {
   props: ['resList', 'errQuery', 'loading', 'executer', 'log'],
   data() {
     return {
+      gubun: '논문제목',
+      gubuns: ['논문제목', 'DOI'],
+      gubunsId: {
+        논문제목: 'TI',
+        저자명: 'AU',
+        연구기관: 'AD',
+        DOI: 'DO',
+      },
       errObj: {
         show: false,
         code: 200,
@@ -316,7 +349,7 @@ export default {
       errObj.show = false;
       const payload = {
         scope: this,
-        inputs: ['singleSearch', this.query, this.startYear, this.endYear, this.pAuthors, this.organizaion],
+        inputs: ['singleSearch', this.query, this.startYear, this.endYear, this.pAuthors, this.organizaion, this.gubunsId[this.gubun]],
       };
       this.$emit('stdin', payload);
     },
