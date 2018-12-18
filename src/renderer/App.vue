@@ -200,7 +200,7 @@
     created() {
       let version = 'x.x.x';
       if (remote.getGlobal('IS_DEV')) {
-        version = readFileSync('./version.json');
+        version = readFileSync('version.json');
       } else {
         version = readFileSync(`${path.dirname(process.execPath)}/version.json`);
       }
@@ -326,7 +326,7 @@
         });
         if (remote.getGlobal('IS_DEV')) {
           this.executer = cmd;
-          this.executer.stdin.write('python src/pyscripts/NEWPY/dispatcher.py\n');
+          this.executer.stdin.write('python pyscripts/NEWPY/dispatcher.py\n');
         }
       }
     },
