@@ -215,6 +215,7 @@ export default {
         header: 0.3,
         footer: 0.3,
       };
+      const intNY = parseInt((new Date()).getFullYear(), 10);
       sheet.columns = [
         { header: '제목', key: 'title', width: 20 },
         { header: '교신저자', key: 'reprint', width: 10 },
@@ -232,6 +233,17 @@ export default {
         { header: '호', key: 'issue', width: 5 },
         { header: '페이지', key: 'pages', width: 10 },
         { header: '언어', key: 'language', width: 8 },
+
+        { header: `${intNY - 9}`, key: 'year1', width: 5 },
+        { header: `${intNY - 8}`, key: 'year2', width: 5 },
+        { header: `${intNY - 7}`, key: 'year3', width: 5 },
+        { header: `${intNY - 6}`, key: 'year4', width: 5 },
+        { header: `${intNY - 5}`, key: 'year5', width: 5 },
+        { header: `${intNY - 4}`, key: 'year6', width: 5 },
+        { header: `${intNY - 3}`, key: 'year7', width: 5 },
+        { header: `${intNY - 2}`, key: 'year8', width: 5 },
+        { header: `${intNY - 1}`, key: 'year9', width: 5 },
+        { header: `${intNY - 0}`, key: 'year10', width: 5 },
       ];
       const targetList = this.inteList.slice(0);
       targetList.forEach((row) => {

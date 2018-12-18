@@ -129,13 +129,14 @@
 <script>
   import { remote } from 'electron';
   import { spawn } from 'child_process';
-  // import path from 'path';
+  import path from 'path';
+  import { readFileSync } from 'fs';
 
   export default {
     name: 'sejong-wos',
     data: () => ({
       title: '세종대학교 논문 정보 검색 시스템',
-      version: '0.1.1 BETA',
+      version: 'x.x.x',
       executer: '',
       errAlert: { show: false, msg: '' },
       loading: true,
@@ -197,12 +198,23 @@
       },
     },
     created() {
+      let version = 'x.x.x';
+      if (remote.getGlobal('IS_DEV')) {
+        version = readFileSync('./version.json');
+      } else {
+        version = readFileSync(`${path.dirname(process.execPath)}/version.json`);
+      }
+      this.version = JSON.parse(version);
+
       if (this.executer === '') {
         const rInFormat = /time:(.+)#@lineout:(.+)/gm;
         this.loading = true;
-        const cmd = spawn('cmd.exe');
-        // 빌드 전용 spawn
-        // const cmd = spawn(`${path.dirname(process.execPath)}/dispatcher/dispatcher.exe`);
+        let cmd = '';
+        if (remote.getGlobal('IS_DEV')) {
+          cmd = spawn('cmd.exe');
+        } else {
+          cmd = spawn(`${path.dirname(process.execPath)}/dispatcher/dispatcher.exe`);
+        }
         cmd.stdin.setDefaultEncoding('utf-8');
         cmd.stdout.setDefaultEncoding('utf-8');
         cmd.stderr.setDefaultEncoding('utf-8');
@@ -312,10 +324,10 @@
         cmd.on('close', () => {
           this.executer = '';
         });
-        this.executer = cmd;
-        // 빌드 시 주석 필수
-        // this.executer.stdin.write('python src/pyscripts/dispatcher.py\n');
-        this.executer.stdin.write('python src/pyscripts/NEWPY/dispatcher.py\n');
+        if (remote.getGlobal('IS_DEV')) {
+          this.executer = cmd;
+          this.executer.stdin.write('python src/pyscripts/NEWPY/dispatcher.py\n');
+        }
       }
     },
     destroyed() {

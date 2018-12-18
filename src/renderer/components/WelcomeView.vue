@@ -11,7 +11,7 @@
         <v-card-title class="headline blue-grey darken-2">시작에 앞서</v-card-title>
         <v-divider></v-divider>
         <v-card-text>
-          <div class="text-xs-right">현재 버전 : {{version}}</div>
+          <div class="text-xs-right">현재 버전 : {{version.recent_full}}</div>
           <h2>주의사항</h2>
           <hr>
           <br>
