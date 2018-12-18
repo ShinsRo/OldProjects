@@ -563,9 +563,6 @@ def get_query_list_from_file(path):
 
     return_query_list = []
     for idx, qry in enumerate(query_list):
-        # Sejong Univ 로 고정
-        #####################
-        qry[3] = 'Sejong Univ'
         if type(qry[0]) == type(np.nan) or not qry[0]:
             continue
         else :
@@ -581,7 +578,6 @@ def get_query_list_from_file(path):
                     qry[0], 
                     '' if type(qry[1]) == type(np.nan) else qry[1], 
                     '' if type(qry[2]) == type(np.nan) else qry[2])
-            
             return_query_list += [query_list[idx]]
 
     return return_query_list

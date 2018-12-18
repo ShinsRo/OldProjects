@@ -90,12 +90,10 @@
             <router-view 
             :version="version"
             :loading="loading"
-            :errQuery="errQuery"
-            :resList="resList"
-            :aErrQuery="aErrQuery"
-            :aResList="aResList"
-            :mErrQuery="mErrQuery"
-            :mResList="mResList"
+            :errQuery="DV['res'].errQuery"
+            :resList="DV['res'].resList"
+            :mErrQuery="DV['mres'].errQuery"
+            :mResList="DV['mres'].resList"
             :fErrQuery="fErrQuery"
             :fResList="fResList"
             :executer="executer"
@@ -136,187 +134,47 @@
   export default {
     name: 'sejong-wos',
     data: () => ({
-      version: '0.1.0 BETA',
-      maximize: false,
-      errAlert: {
-        show: false,
-        msg: '',
-      },
+      title: '세종대학교 논문 정보 검색 시스템',
+      version: '0.1.1 BETA',
+      executer: '',
+      errAlert: { show: false, msg: '' },
+      loading: true,
       log: '',
       logLineCnt: 1,
       logLineLimit: 500,
-      executer: '',
+      maximize: false,
       clipped: true,
       drawer: true,
       fixed: false,
-      resIndex: 0,
-      aResIndex: 0,
-      mResIndex: 0,
       items: [
         { icon: 'info', title: '가이드', to: '/' },
         { icon: 'search', title: '빠른 검색', to: '/FastSearch' },
         { icon: 'zoom_in', title: '상세 검색하기', to: '/SingleSearch' },
         { icon: 'format_quote', title: '엑셀로 검색하기', to: '/MultiSearch' },
         // { icon: 'person', title: '중복을 허용해 검색하기', to: '/citationSearchByAuthor' },
-        // { icon: 'description', title: '빠른 엑셀 검색', to: '/commonSearchMulti' },
         { icon: 'library_books', title: '엑셀 취합하기', to: '/excelIntegration' },
         { icon: 'email', title: '메일 보내기', to: '/SendMail' },
       ],
       miniVariant: true,
-      title: '세종대학교 논문 정보 검색 시스템',
-      loading: true,
+      DV: {
+        res: {
+          errQuery: [],
+          resList: [],
+          resIndex: 0,
+        },
+        mres: {
+          errQuery: [],
+          resList: [],
+          resIndex: 0,
+        },
+        fres: {
+          errQuery: [],
+          resList: [],
+          resIndex: 0,
+        },
+      },
       fErrQuery: [],
       fResList: [],
-      aErrQuery: [],
-      aResList: [
-        {
-          id: 102020,
-          index: 0,
-          title: 'example',
-          authors: ['저자, A', '저자, B'],
-          firstAuthor: '저자, A',
-          authorsCnt: '2',
-          addresses: {
-            '저자, A': ['[1] 연구기관 A', '[2] 연구기관 B'],
-            '저자, B': ['[1] 연구기관 A'],
-          },
-          doi: '000011',
-          capedGrades: ['SCIE', 'SCI'],
-          volume: '4',
-          issue: '5',
-          pages: '333-1414',
-          ivp: ['4/5', '333-1414'],
-          published: '',
-          publishedMonth: 'NOV 2020',
-          publisher: ['Sejong Docs.'],
-          impact_factor: { 2017: '2.111', '5 year': '1.442' },
-          timesCited: '2',
-          grades: ['asdasd', 'asdasdasdasdasdasd'],
-          docType: 'Article',
-          researchAreas: '',
-          language: 'English',
-          reprint: '저자, A',
-          goodRank: '0.34',
-          prevYearIF: '2.111',
-          issn: 'issn-0000',
-          jcr: [
-            ['JCR® Category', 'Rank in Category', 'Quartile in Category', 'Percentage'],
-            ['BIOCHEMISTRY & MOLECULAR BIOLOGY', '1 of 293', 'Q1', '0.34'],
-            ['CELL BIOLOGY', '2 of 190', 'Q1', '1.05'],
-            ['MEDICINE, RESEARCH & EXPERIMENTAL', '1 of 133', 'Q1', '0.75'],
-          ],
-          citingArticles: {
-            id: 102020,
-            titles: ['논문 A', '논문 B'],
-            authors: ['저자, C; 저자, D; 저자, E;', '저자, F; 저자, G;'],
-            isSelf: ['Self', 'Others'],
-            selfCitation: 1,
-            othersCitation: 1,
-          },
-        },
-      ],
-      mErrQuery: [],
-      mResList: [
-        {
-          id: 102020,
-          index: 0,
-          subsidy: 100,
-          title: 'example',
-          authors: ['저자, A', '저자, B'],
-          firstAuthor: '저자, A',
-          authorsCnt: '2',
-          addresses: {
-            '저자, A': ['[1] 연구기관 A', '[2] 연구기관 B'],
-            '저자, B': ['[1] 연구기관 A'],
-          },
-          doi: '000011',
-          capedGrades: ['SCIE', 'SCI'],
-          volume: '4',
-          issue: '5',
-          pages: '333-1414',
-          ivp: ['4/5', '333-1414'],
-          published: '',
-          publishedMonth: 'NOV 2020',
-          publisher: ['Sejong Docs.'],
-          impact_factor: { 2017: '2.111', '5 year': '1.442' },
-          timesCited: '2',
-          grades: ['asdasd', 'asdasdasdasdasdasd'],
-          docType: 'Article',
-          researchAreas: '',
-          language: 'English',
-          reprint: '저자, A',
-          goodRank: '0.34',
-          prevYearIF: '2.111',
-          issn: 'issn-0000',
-          jcr: [
-            ['JCR® Category', 'Rank in Category', 'Quartile in Category', 'Percentage'],
-            ['BIOCHEMISTRY & MOLECULAR BIOLOGY', '1 of 293', 'Q1', '0.34'],
-            ['CELL BIOLOGY', '2 of 190', 'Q1', '1.05'],
-            ['MEDICINE, RESEARCH & EXPERIMENTAL', '1 of 133', 'Q1', '0.75'],
-          ],
-          citingArticles: {
-            id: 102020,
-            titles: ['논문 A', '논문 B'],
-            authors: ['저자, C; 저자, D; 저자, E;', '저자, F; 저자, G;'],
-            isSelf: ['Self', 'Others'],
-            selfCitation: 1,
-            othersCitation: 1,
-          },
-        },
-      ],
-      errQuery: [
-        // {
-        //   query: 'example2',
-        //   msg: '검색결과가 없습니다.',
-        // },
-      ],
-      resList: [
-        {
-          id: 102020,
-          index: 0,
-          title: 'example',
-          authors: ['저자, A', '저자, B'],
-          firstAuthor: '저자, A',
-          authorsCnt: '2',
-          addresses: {
-            '저자, A': ['[1] 연구기관 A', '[2] 연구기관 B'],
-            '저자, B': ['[1] 연구기관 A'],
-          },
-          doi: '000011',
-          capedGrades: ['SCIE', 'SCI'],
-          volume: '4',
-          issue: '5',
-          pages: '333-1414',
-          ivp: ['4/5', '333-1414'],
-          published: '',
-          publishedMonth: 'NOV 2020',
-          publisher: ['Sejong Docs.'],
-          impact_factor: { 2017: '2.111', '5 year': '1.442' },
-          timesCited: '2',
-          grades: ['asdasd', 'asdasdasdasdasdasd'],
-          docType: 'Article',
-          researchAreas: '',
-          language: 'English',
-          reprint: '저자, A',
-          goodRank: '0.34',
-          prevYearIF: '2.111',
-          issn: 'issn-0000',
-          jcr: [
-            ['JCR® Category', 'Rank in Category', 'Quartile in Category', 'Percentage'],
-            ['BIOCHEMISTRY & MOLECULAR BIOLOGY', '1 of 293', 'Q1', '0.34'],
-            ['CELL BIOLOGY', '2 of 190', 'Q1', '1.05'],
-            ['MEDICINE, RESEARCH & EXPERIMENTAL', '1 of 133', 'Q1', '0.75'],
-          ],
-          citingArticles: {
-            id: 102020,
-            titles: ['논문 A', '논문 B'],
-            authors: ['저자, A; 저자, D; 저자, E;', '저자, F; 저자, G;'],
-            isSelf: ['Self', 'Others'],
-            selfCitation: 1,
-            othersCitation: 1,
-          },
-        },
-      ],
     }),
     methods: {
       stdinAll: (payload) => {
@@ -372,96 +230,71 @@
             if ('target' in resJSON) {
               console.log(resJSON.target);
             }
+            const tval = resJSON.command;
             // 모듈로부터의 결과
-            switch (resJSON.command) {
-              // 단일 검색 모듈 명령어.
-              case 'res':
-                if (resJSON.target === 'loading') {
-                  this.loading = resJSON.res;
-                } else if (resJSON.target === 'paperData') {
-                  this.resIndex += 1;
-                  resJSON.res.index = this.resIndex;
-                  this.resList.push(resJSON.res);
-                } else if (resJSON.target === 'citingArticles') {
-                  for (let ii = 0; ii < this.resList.length; ii += 1) {
-                    if (this.resList[ii].id === resJSON.res.id) {
-                      this.resList[ii].citingArticles = resJSON.res;
-                      break;
-                    }
-                  }
-                } else if (resJSON.target === 'tc_data') {
-                  for (let ii = 0; ii < this.resList.length; ii += 1) {
-                    if (this.resList[ii].id === resJSON.res.id) {
-                      this.resList[ii].tc_data = resJSON.res.tc_data;
-                      break;
-                    }
-                  }
-                } else if (resJSON.target === 'errQuery') {
-                  this.errQuery.unshift(resJSON.res);
-                } else {
-                  if (this.logLineCnt % this.logLineLimit === 0) {
-                    this.log = '';
-                  }
-                  this.log = `${time} : ${JSON.stringify(resJSON.res)}<br>${this.log}`;
-                  this.logLineCnt += 1;
-                }
-                break;
+            switch (tval) {
+              // 검색 모듈 명령어.
               case 'mres':
-                if (resJSON.target === 'loading') {
-                  this.loading = resJSON.res;
-                } else if (resJSON.target === 'paperData') {
-                  this.mResIndex += 1;
-                  resJSON.res.index = this.mResIndex;
-                  this.mResList.push(resJSON.res);
-                } else if (resJSON.target === 'citingArticles') {
-                  for (let ii = 0; ii < this.mResList.length; ii += 1) {
-                    if (this.mResList[ii].id === resJSON.res.id) {
-                      this.mResList[ii].citingArticles = resJSON.res;
-                      break;
+              case 'res':
+                switch (resJSON.target) {
+                  case 'loading':
+                    this.loading = resJSON.res;
+
+                    break;
+                  case 'paperData':
+                    this.DV[tval].resIndex += 1;
+                    resJSON.res.index = this.DV[tval].resIndex;
+                    this.DV[tval].resList.push(resJSON.res);
+
+                    break;
+                  case 'citingArticles':
+                    for (let ii = 0; ii < this.DV[tval].resList.length; ii += 1) {
+                      if (this.DV[tval].resList[ii].id === resJSON.res.id) {
+                        this.DV[tval].resList[ii].citingArticles = resJSON.res;
+                        break;
+                      }
                     }
-                  }
-                } else if (resJSON.target === 'errQuery') {
-                  this.mErrQuery.unshift(resJSON.res);
-                } else {
-                  if (this.logLineCnt % this.logLineLimit === 0) {
-                    this.log = '';
-                  }
-                  this.log = `${time} : ${JSON.stringify(resJSON.res)}<br>${this.log}`;
-                  this.logLineCnt += 1;
-                }
-                break;
-              case 'ares':
-                if (resJSON.target === 'loading') {
-                  this.loading = resJSON.res;
-                } else if (resJSON.target === 'paperData') {
-                  this.aResIndex += 1;
-                  resJSON.res.index = this.aResIndex;
-                  this.aResList.push(resJSON.res);
-                } else if (resJSON.target === 'citingArticles') {
-                  for (let ii = 0; ii < this.aResList.length; ii += 1) {
-                    if (this.aResList[ii].id === resJSON.res.id) {
-                      this.aResList[ii].citingArticles = resJSON.res;
-                      break;
+
+                    break;
+                  case 'tc_data':
+                    for (let ii = 0; ii < this.DV[tval].resList.length; ii += 1) {
+                      if (this.DV[tval].resList[ii].id === resJSON.res.id) {
+                        this.DV[tval].resList[ii].tc_data = {};
+                        const temp = Object.keys(resJSON.res.tc_data);
+                        for (let jj = 0; jj < temp.length; jj += 1) {
+                          this.DV[tval].resList[ii]
+                            .tc_data[parseInt(temp[jj])] = resJSON.res.tc_data[temp[jj]];
+                        }
+                        break;
+                      }
                     }
-                  }
-                } else if (resJSON.target === 'errQuery') {
-                  this.aErrQuery.unshift(resJSON.res);
-                } else {
-                  if (this.logLineCnt % this.logLineLimit === 0) {
-                    this.log = '';
-                  }
-                  this.log = `${time} : ${JSON.stringify(resJSON.res)}<br>${this.log}`;
-                  this.logLineCnt += 1;
+
+                    break;
+                  case 'errQuery':
+                    this.DV[tval].errQuery.unshift(resJSON.res);
+
+                    break;
+                  default:
+                    if (this.logLineCnt % this.logLineLimit === 0) {
+                      this.log = '';
+                    }
+                    this.log = `${time} : ${JSON.stringify(resJSON.res)}<br>${this.log}`;
+                    this.logLineCnt += 1;
+
+                    break;
                 }
+
                 break;
               case 'fres':
                 if (resJSON.target === 'fast_5000') {
                   this.fResList = resJSON.res;
                 }
+
                 break;
               case 'sysErr':
                 this.errAlert.msg = resJSON.msg;
                 this.errAlert.show = true;
+
                 break;
               case 'err':
               case 'log':

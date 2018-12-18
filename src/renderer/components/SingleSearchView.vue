@@ -135,81 +135,77 @@
             "{{ listSearch }}"에 관한 검색 결과가 없습니다.
           </v-alert>
           <template slot="expand" slot-scope="props">
-            <h2 style="margin: 20px"><v-icon v-html="'assignment'"></v-icon> : {{ props.item.title }}</h2>
+            <v-layout class="black">
+              <v-flex xs8>
+                <h1 style="margin: 20px; padding: 10px;">{{ props.item.title }}</h1>
+              </v-flex>
+            </v-layout>
             <!-- 인용년도 테이블 -->
-            <table
-            v-if="'tc_data' in props.item"
-            style="border:1px solid #FFFFFF; margin: 20px; width: 25%">
-              <tr>
-                <td 
-                v-for="year in parseInt(endYear) - parseInt(startYear)" :key="year"
-                style="border:1px solid #FFFFFF;"
-                >{{parseInt(startYear) + year}}</td>
-              </tr>
-              <tr>
-                <td 
-                v-for="year in parseInt(endYear) - parseInt(startYear)" :key="year"
-                style="border:1px solid #FFFFFF;"
-                >{{props.item.tc_data[parseInt(startYear) + year]}}</td>
-              </tr>
+            <h2 class="black" style="margin: 20px; padding: 10px;"><font>TIMES CITED PER A YEAR, IN RANGE 10 YEARS</font></h2>
+            <table class="black" style="margin: 20px; border-collapse: collapse;">
+              <tr style=""><td v-for="year in 10" :key="year"
+              >{{intNY - 10 + year}}</td></tr>
+              <tr
+              ><td v-for="year in 10" :key="year"
+              >{{props.item.tc_data[intNY - 10 + year]}}</td></tr>
             </table>
             <!-- IF 테이블 -->
-            <table 
+            <h2 class="black" style="margin: 20px; padding: 10px;"><font>IMPACT FACTOR TABLE</font></h2>
+            <table class="black"
             v-if="Object.keys(props.item.impact_factor).length"
-            style="border:1px solid #FFFFFF; margin: 20px; width: 25%">
+            style="margin: 20px; width: 25%; border-collapse: collapse;">
               <tr v-for="(value, key, index) in props.item.impact_factor" :key="index">
-                <td style="border:1px solid #FFFFFF;">{{key}}</td>
-                <td style="border:1px solid #FFFFFF;">{{value}}</td>
+                <td style="border-right:1px solid grey;">{{key}}</td>
+                <td>{{value}}</td>
               </tr>
             </table>
+            <h2 class="black" style="margin: 20px; padding: 10px;"><font>JCR RANKS TABLE WITH TOP-PERCENTAGE</font></h2>
             <!-- JCR 테이블 -->
-            <table 
+            <table class="black"
             v-if="props.item.jcr.length"
-            style="border:1px solid #FFFFFF; margin: 20px;">
-              <tr v-for="(row, index) in props.item.jcr" :key="index">
-                <td v-for="col in row" :key="col" style="border:1px solid #FFFFFF;">{{col}}</td>
+            style="margin: 20px; border-collapse: collapse;">
+              <tr v-for="(row, index) in props.item.jcr" :key="index"
+              >
+                <td v-for="col in row" :key="col">{{col}}</td>
               </tr>
             </table>
-            <table style="border:1px solid #FFFFFF; margin: 20px; width: 100%">
+            <!-- 저자목록 테이블 -->
+            <h2 class="black" style="margin: 20px; padding: 10px;"><font>ADDRESSES</font></h2>
+            <table class="black" style="margin: 20px; width: 60%; border-collapse: collapse;">
               <tr>
-                <td style="border:1px solid #FFFFFF;">이 논문의 저자 목록</td>
-                <td style="border:1px solid #FFFFFF;">연구기관</td>
+                <td>이 논문의 저자 목록</td>
+                <td>연구기관</td>
               </tr>
               <tr 
               v-if="props.item.addresses"
               v-for="(value, key, index) in props.item.addresses" :key="index">
-                <td style="border:1px solid #FFFFFF;">{{ key }}</td>
-                <td v-html="value.join([separator = '<br>'])" style="border:1px solid #FFFFFF;"></td>
+                <td>{{ key }}</td>
+                <td v-html="value.join([separator = '<br>'])"></td>
               </tr>
             </table>
             <!-- 인용 테이블 -->
-            <table style="border:1px solid #FFFFFF; margin: 20px; width: 100%">
+            <h2 class="black" style="margin: 20px; padding: 10px;"><font>CITING ARTICLES</font></h2>
+            <table class="black" style="margin: 20px; width: 97.4%; border-collapse: collapse;">
               <tr>
-                <td style="border:1px solid #FFFFFF;">
+                <td>
                   ID : {{props.item.citingArticles.id}}
                 </td>
-                <td style="border:1px solid #FFFFFF;">
+                <td>
                   자기인용 횟수 : {{props.item.citingArticles.selfCitation}}, 
                   타인인용 횟수 : {{props.item.citingArticles.othersCitation}}
                 </td>
               </tr>
               <tr>
-                <td style="border:1px solid #FFFFFF;">인용 분류</td>
-                <td style="border:1px solid #FFFFFF;">이 논문을 인용하는 논문</td>
-                <td style="border:1px solid #FFFFFF;">논문 저자 목록</td>
+                <td>인용 분류</td>
+                <td>이 논문을 인용하는 논문</td>
+                <td>논문 저자 목록</td>
               </tr>
-              <!-- <tr 
-              v-if="props.item.citingArticles.titles.length > 10"
-              >
-                <td>인용한 논문이 너무 많습니다. 엑셀파일을 확인해 주세요.</td><td></td>
-              v-if="props.item.citingArticles.titles.length <= 10"
-              </tr> -->
               <tr
               v-for="(title, index) in props.item.citingArticles.titles" :key="index"
               >
-                <td style="border:1px solid #FFFFFF;">{{props.item.citingArticles.isSelf[index]}}</td>
-                <td style="border:1px solid #FFFFFF;">{{title}}</td>
-                <td style="border:1px solid #FFFFFF;">{{props.item.citingArticles.authors[index]}}</td>
+                <td>{{props.item.citingArticles.isSelf[index]}}</td>
+                <td>{{title}}</td>
+                <td>{{props.item.citingArticles.authors[index]}}</td>
               </tr>
             </table>
           </template>
@@ -249,6 +245,7 @@ export default {
   props: ['resList', 'errQuery', 'loading', 'executer', 'log'],
   data() {
     return {
+      intNY: parseInt((new Date()).getFullYear(), 10),
       gubun: '논문제목',
       gubuns: ['논문제목', 'DOI'],
       gubunsId: {
@@ -357,11 +354,3 @@ export default {
 };
 
 </script>
-
-<style scoped>
-  img {
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-  }
-</style>

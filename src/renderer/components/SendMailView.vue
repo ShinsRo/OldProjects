@@ -1,6 +1,10 @@
 <template>
   <v-layout row wrap>
-    <v-flex xs12></v-flex>
+    <v-flex xs12 class='mb-3'>
+      <h1 class="headline">메일 보내기</h1>
+      <small>에러 로그는 자동으로 첨부됩니다.</small>
+      <v-divider></v-divider>
+    </v-flex>
     <v-flex xs3 mr-3>
       <v-text-field
         label="답장받으실 이메일 주소"
