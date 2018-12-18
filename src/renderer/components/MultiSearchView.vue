@@ -242,7 +242,10 @@
         >
           <template slot="items" slot-scope="props">
             <tr>
-              <td v-html="`검색어 : ${ props.item.query[0] }<br> 기준저자 : ${ props.item.query[1]? props.item.query[1]:'없음' }`"></td>
+              <td 
+              v-html="`검색어 : ${ props.item.query[0] }
+              <br> 기준저자 : ${ props.item.query[1]? props.item.query[1]:'없음' }
+              <br> 연관기관 : ${ props.item.query[2]? props.item.query[2]:'없음' }`"></td>
               <td >{{ props.item.msg }}</td>
             </tr>
           </template>

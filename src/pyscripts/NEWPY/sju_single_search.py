@@ -111,6 +111,10 @@ class SingleSearch():
     def start(self, query, start_year, end_year, gubun):
         '''
         '''
+        # Sejong Univ 로 고정
+        #####################
+        query = (query[0], query[1], 'Sejong Univ')
+
         # driver = self.driver
         session = self.session
         base_url = self.base_url
@@ -120,10 +124,7 @@ class SingleSearch():
         p_authors = query[1]
         organization = query[2]
 
-        # Sejong Univ 로 고정
-        #####################
-        organization = 'Sejong Univ'
-        
+
         paper_data_id = str(random.getrandbits(32))
 
         # 검색속도 향상을 위한 헤더 랜더마이즈
