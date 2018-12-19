@@ -328,6 +328,7 @@
           this.executer = cmd;
           this.executer.stdin.write('python pyscripts/NEWPY/dispatcher.py\n');
         }
+        this.executer = cmd;
       }
     },
     destroyed() {
