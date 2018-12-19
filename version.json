@@ -2,6 +2,8 @@
     "recent": "0.1.1",
     "recent_full": "0.1.1 BETA",
     "0.1.1": {
+        "filename_exe": "sejong-wos_0.1.1_BETA_Setup.exe",
+        "filename_zip": "sejong-wos_0.1.1_BETA.zip",
         "title": "0.1.1 BETA 업데이트 내용",
         "desc": [
             "연도별 인용 횟수 조회 추가",
