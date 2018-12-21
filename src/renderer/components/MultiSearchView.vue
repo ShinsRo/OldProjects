@@ -151,79 +151,84 @@
             "{{ listSearch }}"에 관한 검색 결과가 없습니다.
           </v-alert>
           <template slot="expand" slot-scope="props">
-            <v-layout class="black">
-              <v-flex xs8>
-                <h1 style="margin: 20px; padding: 10px;">{{ props.item.title }}</h1>
-              </v-flex>
-            </v-layout>
-            <!-- 인용년도 테이블 -->
-            <h2 class="black" style="margin: 20px; padding: 10px;"><font>TIMES CITED PER A YEAR, IN RANGE 10 YEARS</font></h2>
-            <table class="black" style="margin: 20px; border-collapse: collapse;">
-              <tr style=""><td v-for="year in 10" :key="year"
-              >{{intNY - 10 + year}}</td></tr>
-              <tr
-              ><td v-for="year in 10" :key="year"
-              >{{props.item.tc_data[intNY - 10 + year]}}</td></tr>
-            </table>
-            <!-- IF 테이블 -->
-            <h2 class="black" style="margin: 20px; padding: 10px;"><font>IMPACT FACTOR TABLE</font></h2>
-            <table class="black"
-            v-if="Object.keys(props.item.impact_factor).length"
-            style="margin: 20px; width: 25%; border-collapse: collapse;">
-              <tr v-for="(value, key, index) in props.item.impact_factor" :key="index">
-                <td style="border-right:1px solid grey;">{{key}}</td>
-                <td>{{value}}</td>
-              </tr>
-            </table>
-            <h2 class="black" style="margin: 20px; padding: 10px;"><font>JCR RANKS TABLE WITH TOP-PERCENTAGE</font></h2>
-            <!-- JCR 테이블 -->
-            <table class="black"
-            v-if="props.item.jcr.length"
-            style="margin: 20px; border-collapse: collapse;">
-              <tr v-for="(row, index) in props.item.jcr" :key="index"
+            <div class="detail-bg">
+              <v-layout class="paper-title">
+                <v-flex xs8>
+                  <h1>{{ props.item.title }}</h1>
+                </v-flex>
+              </v-layout>
+              <hr>
+              <!-- 인용년도 테이블 -->
+                <h2 class="detail-table-header"><font>연도별 인용 횟수</font></h2>
+                <table class="detail-table">
+                  <tr style=""><th v-for="year in 10" :key="year"
+                  >{{intNY - 10 + year}}</th></tr>
+                  <tr
+                  ><td v-for="year in 10" :key="year"
+                  >{{props.item.tc_data[intNY - 10 + year]}}</td></tr>
+                </table>
+              <!-- IF 테이블 -->
+              <h2 class="detail-table-header"><font>IMPACT FACTOR 표</font></h2>
+              <table class="detail-table"
+              v-if="Object.keys(props.item.impact_factor).length"
               >
-                <td v-for="col in row" :key="col">{{col}}</td>
-              </tr>
-            </table>
-            <!-- 저자목록 테이블 -->
-            <h2 class="black" style="margin: 20px; padding: 10px;"><font>ADDRESSES</font></h2>
-            <table class="black" style="margin: 20px; width: 60%; border-collapse: collapse;">
-              <tr>
-                <td>이 논문의 저자 목록</td>
-                <td>연구기관</td>
-              </tr>
-              <tr 
-              v-if="props.item.addresses"
-              v-for="(value, key, index) in props.item.addresses" :key="index">
-                <td>{{ key }}</td>
-                <td v-html="value.join([separator = '<br>'])"></td>
-              </tr>
-            </table>
-            <!-- 인용 테이블 -->
-            <h2 class="black" style="margin: 20px; padding: 10px;"><font>CITING ARTICLES</font></h2>
-            <table class="black" style="margin: 20px; width: 97.4%; border-collapse: collapse;">
-              <tr>
-                <td>
-                  ID : {{props.item.citingArticles.id}}
-                </td>
-                <td>
-                  자기인용 횟수 : {{props.item.citingArticles.selfCitation}}, 
-                  타인인용 횟수 : {{props.item.citingArticles.othersCitation}}
-                </td>
-              </tr>
-              <tr>
-                <td>인용 분류</td>
-                <td>이 논문을 인용하는 논문</td>
-                <td>논문 저자 목록</td>
-              </tr>
-              <tr
-              v-for="(title, index) in props.item.citingArticles.titles" :key="index"
-              >
-                <td>{{props.item.citingArticles.isSelf[index]}}</td>
-                <td>{{title}}</td>
-                <td>{{props.item.citingArticles.authors[index]}}</td>
-              </tr>
-            </table>
+                <tr v-for="(value, key, index) in props.item.impact_factor" :key="index">
+                  <th style="border-right:1px solid grey;">{{key}}</th>
+                  <td>{{value}}</td>
+                </tr>
+              </table>
+              <h2 class="detail-table-header"><font>JCR 순위 표</font></h2>
+              <!-- JCR 테이블 -->
+              <table class="detail-table"
+              v-if="props.item.jcr.length"
+              style="margin: 20px; border-collapse: collapse;">
+                <tr v-for="(row, index) in props.item.jcr" :key="index"
+                >
+                  <th v-if="index == 0" v-for="col in row" :key="col">{{col}}</th>
+                  <td v-if="index != 0" v-for="col in row" :key="col">{{col}}</td>
+                </tr>
+              </table>
+              <!-- 저자목록 테이블 -->
+              <h2 class="detail-table-header"><font>연구기관 주소</font></h2>
+              <table class="detail-table">
+                <tr>
+                  <th>이 논문의 저자 목록</th>
+                  <th>연구기관</th>
+                </tr>
+                <tr 
+                v-if="props.item.addresses"
+                v-for="(value, key, index) in props.item.addresses" :key="index">
+                  <td>{{ key }}</td>
+                  <td v-html="value.join([separator = '<br>'])"></td>
+                </tr>
+              </table>
+              <!-- 인용 테이블 -->
+              <h2 class="detail-table-header"><font>이 논문을 인용 중인 논문</font></h2>
+              <table class="detail-table">
+                <tr>
+                  <td>
+                    ID : {{props.item.citingArticles.id}}
+                  </td>
+                  <td>
+                    자기인용 횟수 : {{props.item.citingArticles.selfCitation}}, 
+                    타인인용 횟수 : {{props.item.citingArticles.othersCitation}}
+                  </td>
+                </tr>
+                <tr>
+                  <th>인용 분류</th>
+                  <th>이 논문을 인용하는 논문</th>
+                  <th>논문 저자 목록</th>
+                </tr>
+                <tr
+                v-for="(title, index) in props.item.citingArticles.titles" :key="index"
+                >
+                  <td>{{props.item.citingArticles.isSelf[index]}}</td>
+                  <td>{{title}}</td>
+                  <td>{{props.item.citingArticles.authors[index]}}</td>
+                </tr>
+              </table>
+              <br>
+            </div>
           </template>
         </v-data-table>
       </v-card>
@@ -377,9 +382,30 @@ export default {
 </script>
 
 <style scoped>
-  img {
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
+  .detail-bg {
+    background-color: rgba(0, 0, 0, 0.281);
+  }
+  .paper-title {
+    text-align: left;
+  }
+  .paper-title h1{
+    margin: 20px;
+  }
+  .detail-table {
+    text-align: left;
+    margin: 20px;
+    border-collapse: collapse;
+  }
+  .detail-table-header {
+    /* background-color: rgba(158, 172, 255, 0.295); */
+    text-align: left;
+    margin: 20px;
+    padding: 10px;
+  }
+  .detail-table th {
+    background-color: rgba(158, 172, 255, 0.295);
+  }
+  .detail-table td {
+    background-color: rgba(210, 217, 255, 0.295);
   }
 </style>
