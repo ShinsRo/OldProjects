@@ -164,7 +164,7 @@ export default {
       startYear: '',
       endYear: '',
       gubun: '논문제목',
-      gubuns: ['논문제목', 'DOI'],
+      gubuns: ['논문제목', 'DOI', '저자명'],
       gubunsId: {
         논문제목: 'TI',
         저자명: 'AU',
