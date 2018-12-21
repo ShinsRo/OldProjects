@@ -58,9 +58,13 @@ class FastSearch():
             session = sju_utiles.set_user_agent(session)
             # 세션 SID, JSESSIONID 요청
             ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1101])
-            res = session.get('http://apps.webofknowledge.com')
+            res = session.get('http://apps.webofknowledge.com', allow_redirects=False)
+
+            for redirect in session.resolve_redirects(res, res.request):
+                if 'SID' in session.cookies.keys(): break
+
             # SID요청 에러 판별
-            if res.status_code == requests.codes.ok:
+            if res.status_code == requests.codes.FOUND or res.status_code == requests.codes.OK:
                 if res.url.find('login') > -1:
                     raise sju_exceptions.LoginRequired()
                 
@@ -119,6 +123,9 @@ class FastSearch():
 
         action_url = '/WOS_GeneralSearch.do'
         form_data = {
+            'action': 'search',
+            'product': 'WOS',
+            'search_mode': 'GeneralSearch',
             'sa_params': 'WOS||%s|http://apps.webofknowledge.com|\''%self.SID,
             'SID': self.SID,
             'value(input1)': keyword,
@@ -138,20 +145,22 @@ class FastSearch():
         ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1102])
 
         url = base_url + action_url
-        form_data = sju_utiles.get_form_data(action_url, form_data)
+        # SEJONG WIFI 접속 시 변수명에 특정 문자를 바르게 인코딩하지 못하는 현상
+        # 어떤 문자인 지 찾아서 수정하는 작업이 필요.
+        # form_data = sju_utiles.get_form_data(action_url, form_data)
         
         self.qid += 1
         http_res = session.post(url, form_data)
 
-        # 검색 성공
-        if http_res.status_code == requests.codes.ok:
-            location = http_res.history[0].headers['Location']
-            reffer = base_url + '/' + location
+        # # 검색 성공
+        # if http_res.status_code == requests.codes.ok:
+        #     location = http_res.history[0].headers['Location']
+        #     reffer = base_url + '/' + location
         
-        # 검색 실패
-        else:
-            ui_stream.push(command='err', msg=sju_CONSTANTS.STATE_MSG[1302][2])
-            raise sju_exceptions.RequestsError
+        # # 검색 실패
+        # else:
+        #     ui_stream.push(command='err', msg=sju_CONSTANTS.STATE_MSG[1302][2])
+        #     raise sju_exceptions.RequestsError
 
         # Access Denied
         if http_res.status_code == 403:
@@ -161,23 +170,21 @@ class FastSearch():
             )
             return
 
-        # 결과 리스트 페이지가 필요하면 사용
-        http_res = session.get(reffer)
+        # http_res = session.get(reffer)
         
-        # Access Denied
-        if http_res.status_code == 403:
-            ui_stream.push(
-                command='res', target='errQuery', 
-                res={'query': query, 'msg': '결과 리스트 페이지를 요청했으나 서버가 접근 권한 없음을 반환했습니다.'}
-            )
-            return
+        # # Access Denied
+        # if http_res.status_code == 403:
+        #     ui_stream.push(
+        #         command='res', target='errQuery', 
+        #         res={'query': query, 'msg': '결과 리스트 페이지를 요청했으나 서버가 접근 권한 없음을 반환했습니다.'}
+        #     )
+        #     return
 
         target_content = http_res.content
         soup = BeautifulSoup(target_content, 'html.parser')
-
-        atag_list = soup.select('a.snowplow-full-record')
+        atag = soup.select_one('a.snowplow-full-record')
         try: 
-            if len(atag_list) == 0:
+            if not atag:
                 raise sju_exceptions.NoPaperDataError()
         # 검색 결과가 없을 경우
         except sju_exceptions.NoPaperDataError:
