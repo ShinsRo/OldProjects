@@ -55,9 +55,13 @@ class SingleSearch():
             session = sju_utiles.set_user_agent(session)
             # 세션 SID, JSESSIONID 요청
             ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1101])
-            res = session.get('http://apps.webofknowledge.com')
+            res = session.get('http://apps.webofknowledge.com', allow_redirects=False)
+            
+            for redirect in session.resolve_redirects(res, res.request):
+                if 'SID' in session.cookies.keys(): break
+
             # SID요청 에러 판별
-            if res.status_code == requests.codes.ok:
+            if res.status_code == requests.codes.FOUND or res.status_code == requests.codes.OK:
                 if res.url.find('login') > -1:
                     raise sju_exceptions.LoginRequired()
 

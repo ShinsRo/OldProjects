@@ -32,45 +32,18 @@ if __name__ == "__main__":
     ua = UserAgent()
     st = time.time()
     s = requests.Session()
-    headers={'User-Agent': ua.random}
-    res = requests.get('http://openlink.eproxy.sejong.ac.kr:8010/link.n2s?url=http://www.isiknowledge.com')
     # proxy = next(proxy_pool)
     ua = UserAgent()
     headers={'User-Agent': ua.random}
-    res = requests.get("http://www.webofknowledge.com", 
+    res = s.get("http://www.webofknowledge.com", 
         headers=headers,
+        allow_redirects=False
     )
-
+    res.headers.get('location')
+    for redirect in s.resolve_redirects(res, res.request):
+        print(redirect.cookies) 
+        print(redirect.headers.get('location')) 
+        
     end = time.time()
     print(res.cookies)
     print(end-st, 'sec')
-
-    print('test start')
-    st = time.time()
-    s = requests.Session()
-    # proxy = next(proxy_pool)
-    ua = UserAgent()
-    headers={'User-Agent': 'abcd'}
-    res = requests.get("http://www.webofknowledge.com", 
-        headers=headers,
-    )
-
-    end = time.time()
-    print(res.cookies)
-    print(end-st, 'sec')
-
-    print('test start')
-    st = time.time()
-    s = requests.Session()
-    # proxy = next(proxy_pool)
-    ua = UserAgent()
-    headers={'User-Agent': str(random.getrandbits(16))}
-    res = requests.get("http://www.webofknowledge.com", 
-        headers=headers,
-    )
-
-    end = time.time()
-    print(res.cookies)
-    print(end-st, 'sec')
-
-    print('all end')
