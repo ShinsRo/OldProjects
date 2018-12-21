@@ -1,7 +1,17 @@
 {
     "version_list": ["0.1.1", "0.1.2"],
-    "recent": "0.1.1",
-    "recent_full": "0.1.1 BETA",
+    "recent": "0.1.2",
+    "recent_full": "0.1.2 BETA",
+    "0.1.2": {
+        "filename_exe": "sejong-wos_0.1.2_BETA_Setup.exe",
+        "filename_zip": "sejong-wos_0.1.2_BETA.zip",
+        "title": "0.1.2 BETA 업데이트 내용",
+        "desc": [
+            "Sejong WIFI 내 요청 오류 수정",
+	        "빠른 검색 저자명 기준 추가",
+            "상세보기 UI 개선"
+        ]
+    },
     "0.1.1": {
         "filename_exe": "sejong-wos_0.1.1_BETA_Setup.exe",
         "filename_zip": "sejong-wos_0.1.1_BETA.zip",
