@@ -36,6 +36,4 @@ class Login():
 
 if __name__ == "__main__":
     Login().login_wos(
-        "siotman0728@gmail.com",
-        "skrdid94!"
     )
