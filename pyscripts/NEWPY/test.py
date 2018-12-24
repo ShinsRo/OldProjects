@@ -1,4 +1,5 @@
 import requests
+import base64
 import time
 from itertools import cycle
 from lxml.html import fromstring
@@ -33,17 +34,42 @@ if __name__ == "__main__":
     st = time.time()
     s = requests.Session()
     # proxy = next(proxy_pool)
-    ua = UserAgent()
-    headers={'User-Agent': ua.random}
-    res = s.get("http://www.webofknowledge.com", 
+    testb = base64.b64encode(b'wsfuser1:password1')
+    testbr = base64.b64encode(b'Sejong_HG:Welcome#%@0078')
+    headers={
+        "Authorization":"Basic d3NmdXNlcjE6cGFzc3dvcmQ", 
+        "connection":"keep-alive", 
+        "cache-control":"no-cache", 
+        "SOAPAction":"", 
+        "pragma":"no-cache", 
+        "content-type":"text/xml; charset=UTF-8",
+        "Accept":"*"
+        }
+    res = s.get("http://search.webofknowledge.com/esti/wokmws/ws/WOKMWSAuthenticate?wsdl", 
         headers=headers,
-        allow_redirects=False
     )
-    res.headers.get('location')
-    for redirect in s.resolve_redirects(res, res.request):
-        print(redirect.cookies) 
-        print(redirect.headers.get('location')) 
-        
+    with open('res.xml', "wb") as fres:
+        fres.write(res.content)
+    
     end = time.time()
-    print(res.cookies)
     print(end-st, 'sec')
+
+    # print('test start')
+    # ua = UserAgent()
+    # st = time.time()
+    # s = requests.Session()
+    # # proxy = next(proxy_pool)
+    # ua = UserAgent()
+    # headers={'User-Agent': ua.random}
+    # res = s.get("http://www.webofknowledge.com", 
+    #     headers=headers,
+    #     allow_redirects=False
+    # )
+    # res.headers.get('location')
+    # for redirect in s.resolve_redirects(res, res.request):
+    #     print(redirect.cookies) 
+    #     print(redirect.headers.get('location')) 
+        
+    # end = time.time()
+    # print(res.cookies)
+    # print(end-st, 'sec')
