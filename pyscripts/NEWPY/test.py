@@ -37,7 +37,7 @@ if __name__ == "__main__":
     testb = base64.b64encode(b'wsfuser1:password1')
     testbr = base64.b64encode(b'Sejong_HG:Welcome#%@0078')
     headers={
-        "Authorization":"Basic d3NmdXNlcjE6cGFzc3dvcmQ", 
+        "Authorization":testbr.decode("utf-8"), 
         "connection":"keep-alive", 
         "cache-control":"no-cache", 
         "SOAPAction":"", 
@@ -50,7 +50,8 @@ if __name__ == "__main__":
     )
     with open('res.xml', "wb") as fres:
         fres.write(res.content)
-    
+#     http://search.webofknowledge.com/esti/wokmws/ws/WOKMWSAuthenticate?wsdl
+# http://search.webofknowledge.com/esti/wokmws/ws/WokSearchLite?wsdl
     end = time.time()
     print(end-st, 'sec')
 
