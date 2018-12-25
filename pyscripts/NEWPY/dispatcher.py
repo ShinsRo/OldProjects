@@ -3,7 +3,6 @@ import sju_single_search
 import sju_multi_search
 import sju_fast_search
 import sju_dupl_search
-import sju_login
 
 # support
 import sju_utiles as _utiles
