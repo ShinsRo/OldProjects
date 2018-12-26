@@ -13,6 +13,7 @@ from sju_utiles import BeautifulSoup
 
 class FastSearch():
     '''
+        TEST CO
     '''
     def __init__(self, thread_id = None, cookies = None):
         '''
