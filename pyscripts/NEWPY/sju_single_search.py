@@ -163,6 +163,7 @@ class SingleSearch():
             form_data.update({
                 'limitStatus': 'expanded',
                 'value(bool_1_2)': 'AND',
+                'value(input2)': organization,
                 'value(select2)': 'AD',
                 'fieldCount': '2',
             })

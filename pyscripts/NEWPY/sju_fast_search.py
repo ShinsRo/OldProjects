@@ -97,6 +97,10 @@ class FastSearch():
     def start(self, query, start_year, end_year, gubun):
         '''
         '''
+        # Sejong Univ 로 고정
+        #####################
+        query = (query[0], query[1], 'Sejong Univ')
+        
         session = self.session
         base_url = self.base_url
         ui_stream = self.ui_stream
@@ -137,6 +141,7 @@ class FastSearch():
             form_data.update({
                 'limitStatus': 'expanded',
                 'value(bool_1_2)': 'AND',
+                'value(input2)': organization,
                 'value(select2)': 'AD',
                 'fieldCount': '2',
             })
