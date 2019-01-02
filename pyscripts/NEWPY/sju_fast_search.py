@@ -13,10 +13,21 @@ from sju_utiles import BeautifulSoup
 
 class FastSearch():
     '''
-        TEST CO
+		FastSearch Class는 빠른검색 기능을 제공
+		이 Class는 start() 함수를 사용하여 검색한 논문의 정보의 제목,각 논문의 정보를 보낸다.
+        (저자 목록,출판일,발행처,권,호,페이지)
     '''
     def __init__(self, thread_id = None, cookies = None):
         '''
+			FastSearch constructor
+            :param thread_id: 쓰레드 네임
+            :Param cookies: 쿠키 값 변수
+			:param qid: session 재호출을 위한 카운트변수
+			:param session: 세션 변수
+			:param base_url: 메인 도메인 URL
+			:param res_name: push command 변수
+			:param ui_stream: logging을 위한 함수 호출 후 저장
+			:return:
         '''
         self.qid = 0
         self.session = False
@@ -31,6 +42,9 @@ class FastSearch():
 
     def set_session(self, cookies = None):
         '''
+			세션 갱신 함수
+			:param cookies: 쿠키 값 저장 변수
+			:return:
         '''
         MAX_TRIES = 5
         self.qid = 0
@@ -97,6 +111,12 @@ class FastSearch():
 
     def start(self, query, start_year, end_year, gubun):
         '''
+			논문 빠른 검색 및 상세정보 제공함수
+			:param query: keyword, p_authors, organization 각각 문자열 
+			:param start_year: 시작년도
+			:param end_year: 끝년도
+			:param gubun: 검색 구분 카테고리
+			:return:
         '''
         session = self.session
         base_url = self.base_url
@@ -138,6 +158,7 @@ class FastSearch():
             form_data.update({
                 'limitStatus': 'expanded',
                 'value(bool_1_2)': 'AND',
+                'value(input2)': organization,
                 'value(select2)': 'AD',
                 'fieldCount': '2',
             })

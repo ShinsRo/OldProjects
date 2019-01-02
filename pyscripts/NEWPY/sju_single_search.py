@@ -14,9 +14,20 @@ from sju_utiles import BeautifulSoup
 
 class SingleSearch():
     '''
+        SingleSearch Class는 한 논문에 대한 상세기능을 제공
+        이 Class는 start() 함수를 사용하여 검색된 한 논문의 관한 상세 정보를 보낸다.
+        (연도별 인용횟수,IMPACT FACTOR,JCR 순위,연구기관 주소)
     '''
     def __init__(self, thread_id = None, cookies = None):
         '''
+			SingleSearch constructor
+            :param thread_id: 쓰레드 네임
+            :Param cookies: 쿠키 값 변수
+			:param session: 세션 변수
+			:param base_url: 메인 도메인 URL
+			:param res_name: push command 변수
+			:param ui_stream: logging을 위한 함수 호출 후 저장
+			:return:
         '''
         self.qid = 0
         self.session = False
@@ -31,6 +42,9 @@ class SingleSearch():
 
     def set_session(self, cookies = None):
         '''
+			세션 갱신 함수
+			:param cookies: 쿠키 값 저장 변수
+			:return:
         '''
         MAX_TRIES = 5
         self.qid = 0
@@ -91,6 +105,13 @@ class SingleSearch():
         self.session = session
 
     def get_tc_data(self, report_link, paper_data_id, tc_data):
+        '''
+			인용보고서에서 인용년도를 조회하는 함수 (start() 함수에서 사용)
+			:param report_link: 인용보고서 링크
+            :param paper_data_id: 
+            :param tc_data: 인용년도 연도별 데이터 저장
+			:return:
+        '''
         self.ui_stream.push(command='log', msg='인용년도 정보를 가져옵니다.')
         session = requests.Session()
         session = sju_utiles.set_user_agent(session)
@@ -114,6 +135,12 @@ class SingleSearch():
 
     def start(self, query, start_year, end_year, gubun):
         '''
+			하나의 논문에 관한 상세 정보 제공함수
+			:param query: keyword, p_authors, organization 각각 문자열 
+			:param start_year: 시작년도
+			:param end_year: 끝년도
+			:param gubun: 검색 구분 카테고리
+			:return:
         '''
         # Sejong Univ 로 고정
         #####################
@@ -163,6 +190,7 @@ class SingleSearch():
             form_data.update({
                 'limitStatus': 'expanded',
                 'value(bool_1_2)': 'AND',
+                'value(input2)': organization,
                 'value(select2)': 'AD',
                 'fieldCount': '2',
             })
@@ -288,7 +316,7 @@ class SingleSearch():
 
         # 상세 정보 파싱
         try:
-            paper_data, cnt_link = sju_utiles.parse_paper_data(target_content, paper_data_id)
+            paper_data, cnt_link = sju_utiles.parse_paper_data(target_content, paper_data_id, "single")
             # paper_data['subsidy'] = sju_utiles.get_subsidy01(paper_data, p_authors)
 
         # 검색 결과가 없을 경우
@@ -516,9 +544,17 @@ if __name__ == "__main__":
     ss = SingleSearch()
     print('입력바람')
     while(True):
+        """
         ss.start(
             (input(), input(), input())
             ,'1945',
+            '2018',
+            'TI'
+        )
+        """
+        ss.start(
+            ('Transfer-Learning-Based Online Mura Defect Classification', '', 'Sejong Univ'),
+            '1945',
             '2018',
             'TI'
         )
