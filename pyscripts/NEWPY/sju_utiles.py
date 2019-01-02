@@ -16,6 +16,11 @@ import pandas as pd
 from bs4 import BeautifulSoup
 
 def set_user_agent(session):
+    '''
+        유저의 Agent(for header form_data)를 설정해주는 함수
+        :param session:
+        :return: 세션
+    '''
     ua = UserAgent()
     new_user_agent = {'User-Agent': ua.random}
     # new_user_agent = {'User-Agent': str(random.getrandbits(16))}
@@ -153,6 +158,12 @@ def get_subsidy01(
     return subsidy*discount/100
 
 def get_query_string(action, data):
+    '''
+        action url과 form data를 입력받아 get 방식 URL로 반환
+        :param action: action url
+        :param data: query_data(form_data)
+        :return: GET방식 URL
+    '''
     query_string = '%s?'%action
     
     if action == '/WOS_GeneralSearch_input.do':
@@ -223,6 +234,12 @@ def get_query_string(action, data):
     return query_string
 
 def get_form_data(action, data):
+    '''
+        입력된 데이터와 action url에 따른 필요한 폼 데이터를 합해 반환해주는 함수
+        :param action: action url
+        :param data: form data
+        :return: 추가된 form data
+    '''
     form_data = {}
 
     if action == '/WOS_GeneralSearch.do':
@@ -335,21 +352,29 @@ def get_form_data(action, data):
     form_data.update(data)
     return form_data
 
-def parse_paper_data(target_content, paper_data_id):
+def parse_paper_data(target_content, paper_data_id, search_type):
+    """
+        페이지 정보를 입력받아 정리한 내용을 리스트로 반환하는 함수
+        :param target_content: 페이지 내용
+        :param paper_data_id: 랜덤 값 ID (10자리)
+        :type: single, dupl search인지 판단
+        :return: 페이지 정보, 인용 수 반환
+    """
     soup = BeautifulSoup(target_content, 'html.parser')
 
-    # 검색 결과 수
-    pagination_btn = soup.select('a.paginationNext')
+    if search_type == "single":
+        # 검색 결과 수
+        pagination_btn = soup.select('a.paginationNext')
     
-    # 결과 수가 없을 경우 즉시 종료
-    if not pagination_btn or len(pagination_btn) == 0:
-        raise sju_exceptions.NoPaperDataError()
+        # 결과 수가 없을 경우 즉시 종료
+        if not pagination_btn or len(pagination_btn) == 0:
+            raise sju_exceptions.NoPaperDataError()
 
-    pagination_btn_alt = soup.select('a.paginationNext')[0].attrs['alt']
-    # 결과 수가 1개가 아닐 경우 즉시 종료
-    # and pagination_btn_alt.find('비활성') == -1
-    if pagination_btn_alt.find('Inactive') == -1:
-        raise sju_exceptions.MultiplePaperDataError()
+        pagination_btn_alt = soup.select('a.paginationNext')[0].attrs['alt']
+        # 결과 수가 1개가 아닐 경우 즉시 종료
+        # and pagination_btn_alt.find('비활성') == -1
+        if pagination_btn_alt.find('Inactive') == -1:
+            raise sju_exceptions.MultiplePaperDataError()
 
     # 논문 제목
     title = soup.select('div.title')[0].text.replace('\n', '')
@@ -543,6 +568,11 @@ def parse_paper_data(target_content, paper_data_id):
     return paperData, cnt_link
 
 def get_query_list_from_file(path):
+    '''
+        검색하기 위한 엑셀파일을 읽고 List파일로 반환해주는 함수
+        :param path: 엑셀 파일경로
+        :return: 엑셀 파일을 읽고 추출한 결과
+    '''
     fname, ext = os.path.splitext(path)
     encodings = ['utf-8', 'cp949', 'euc-kr']
     for d_codec in encodings:
@@ -566,7 +596,7 @@ def get_query_list_from_file(path):
         if type(qry[0]) == type(np.nan) or not qry[0]:
             continue
         else :
-            if (len(qry[0]) < 3) or qry[0].strip() == '':
+            if (len(str(qry[0])) < 3) or qry[0].strip() == '':
                 continue
 
             if len(qry) == 1:
@@ -583,12 +613,17 @@ def get_query_list_from_file(path):
     return return_query_list
 
 def input_validation(service_name):
+    """
+        각 서비스에 맞는 입력,반환을 하는 함수
+        :param service_name: 서비스 이름
+        :return: 입력받은 값을 확인 후 Dict로 반환
+    """
     now = datetime.datetime.now()
     returnDict = {}
     InputValidationError = sju_exceptions.InputValidationError
     
     # 단일 상세 검색 및 빠른 검색
-    if service_name == 'singleSearch' or service_name == 'fastSearch':
+    if service_name == 'singleSearch' or service_name == 'fastSearch' or service_name == 'duplSearch':
         query = input().strip()
         start_year = input().strip()
         end_year = input().strip()

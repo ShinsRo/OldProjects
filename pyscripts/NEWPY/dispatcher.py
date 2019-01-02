@@ -41,6 +41,7 @@ if __name__ == "__main__":
                 { 'name': 'singleSearch', 'init': sju_single_search.SingleSearch }, 
                 { 'name': 'multiSearch', 'init': sju_multi_search.MultiSearch },
                 { 'name': 'fastSearch', 'init': sju_fast_search.FastSearch },
+                { 'name': 'duplSearch', 'init': sju_dupl_search.DuplSearch },
                 # { 'name': 'MultiCommonSearch', 'init': commonSearch.MultiSearch },
             ]
             
@@ -68,6 +69,9 @@ if __name__ == "__main__":
                         elif name_done == 'oneByOneSearch':
                             authorSearchObj = tempObj
                             ui_stream.push(command='log', msg=_CONS.STATE_MSG[109])
+                        elif name_done == 'duplSearch':
+                            duplSearchObj = tempObj
+                            ui_stream.push(command='log', msg=_CONS.STATE_MSG[99])
                     except _EXCEP.InitMultiSessionErr as imse:
                         ui_stream.push(command='sysErr', msg='%s 가용 스레드가 너무 적습니다. 잠시 후 다시 실행해주세요.'%name_done)
 
@@ -191,6 +195,25 @@ if __name__ == "__main__":
                 )
 
                 ui_stream.push(command='log', msg=_CONS.STATE_MSG[114])
+
+            if service_name == 'duplSearch':
+                query = inputs['query']
+                start_year = inputs['start_year']
+                end_year = inputs['end_year']
+                p_authors = inputs['p_authors']
+                organization = inputs['organization']
+                gubun = inputs['gubun']
+
+                ui_stream.push(command='log', msg=_CONS.STATE_MSG[120])
+
+                duplSearchObj.start(
+                    (query, p_authors, organization), 
+                    start_year, 
+                    end_year, 
+                    gubun,
+                )
+
+                ui_stream.push(command='log', msg=_CONS.STATE_MSG[122])
 
             # # 저자명 기준 검색
             # if service_name == 'citationSearchByAuthor':
