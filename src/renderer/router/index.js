@@ -26,6 +26,11 @@ export default new Router({
       component: require('@/components/MultiSearchView').default,
     },
     {
+      path: '/DuplSearch',
+      name: 'DuplSearch',
+      component: require('@/components/DuplSearchView').default,
+    },
+    {
       path: '/citationSearchByAuthor',
       name: 'citationSearchByAuthor',
       component: require('@/components/citationSearchByAuthorView').default,
