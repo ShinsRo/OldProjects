@@ -42,7 +42,6 @@ if __name__ == "__main__":
                 { 'name': 'multiSearch', 'init': sju_multi_search.MultiSearch },
                 { 'name': 'fastSearch', 'init': sju_fast_search.FastSearch },
                 { 'name': 'duplSearch', 'init': sju_dupl_search.DuplSearch },
-                # { 'name': 'MultiCommonSearch', 'init': commonSearch.MultiSearch },
             ]
             
             ui_stream.push(command='log', msg=_CONS.STATE_MSG[102])
@@ -215,31 +214,9 @@ if __name__ == "__main__":
 
                 ui_stream.push(command='log', msg=_CONS.STATE_MSG[122])
 
-            # # 저자명 기준 검색
-            # if service_name == 'citationSearchByAuthor':
-            #     query = inputs['query']
-            #     start_year = inputs['start_year']
-            #     end_year = inputs['end_year']
-            #     p_authors = inputs['p_authors']
-            #     organization = inputs['organization']
-            #     try:
-            #         authorSearchObj.generalSearch(
-            #             query=(query, p_authors, organization),
-            #             start_year=start_year,
-            #             end_year=end_year, 
-            #             gubun='AU',
-            #             resName='ares',
-            #         )
-                
-            #     except Exception as e:
-            #         dsres.print(command='sysErr', msg='심각한 오류')
-            #         dsres.print(command='errObj', msg=e)
-            #     else:
-            #         dsres.print(command='log', msg='저자명 검색을 마쳤습니다.')
             # 알 수 없는 서비스 네임
             else:
-                pass
-                # ui_stream.push(command='sysErr', msg=_CONS.STATE_MSG[402])
+                ui_stream.push(command='sysErr', msg=_CONS.STATE_MSG[402])
         
         except requests.exceptions.ConnectionError as ce:
             ui_stream.push(command='sysErr', msg=_CONS.STATE_MSG[303])

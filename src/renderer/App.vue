@@ -153,7 +153,6 @@
         { icon: 'zoom_in', title: '상세 검색하기', to: '/SingleSearch' },
         { icon: 'format_quote', title: '엑셀로 검색하기', to: '/MultiSearch' },
         { icon: 'done_all', title: '중복을 허용해 검색하기', to: '/DuplSearch' },
-        // { icon: 'person', title: '중복을 허용해 검색하기', to: '/citationSearchByAuthor' },
         { icon: 'library_books', title: '엑셀 취합하기', to: '/excelIntegration' },
         { icon: 'email', title: '메일 보내기', to: '/SendMail' },
       ],

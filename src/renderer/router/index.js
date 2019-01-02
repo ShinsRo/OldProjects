@@ -31,11 +31,6 @@ export default new Router({
       component: require('@/components/DuplSearchView').default,
     },
     {
-      path: '/citationSearchByAuthor',
-      name: 'citationSearchByAuthor',
-      component: require('@/components/citationSearchByAuthorView').default,
-    },
-    {
       path: '/excelIntegration',
       name: 'excelIntegration',
       component: require('@/components/excelIntegrationView').default,
