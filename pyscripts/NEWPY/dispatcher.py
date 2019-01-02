@@ -216,7 +216,8 @@ if __name__ == "__main__":
 
             # 알 수 없는 서비스 네임
             else:
-                ui_stream.push(command='sysErr', msg=_CONS.STATE_MSG[402])
+                pass
+                # ui_stream.push(command='sysErr', msg=_CONS.STATE_MSG[402])
         
         except requests.exceptions.ConnectionError as ce:
             ui_stream.push(command='sysErr', msg=_CONS.STATE_MSG[303])

@@ -165,7 +165,7 @@
                   >{{intNY - 10 + year}}</th></tr>
                   <tr
                   ><td v-for="year in 10" :key="year"
-                  >{{props.item.tc_data[intNY - 10 + year]}}</td></tr>
+                  >{{props.item.tc_data[intNY - 10 + year]||0}}</td></tr>
                 </table>
               <!-- IF 테이블 -->
               <h2 class="detail-table-header"><font>IMPACT FACTOR 표</font></h2>
