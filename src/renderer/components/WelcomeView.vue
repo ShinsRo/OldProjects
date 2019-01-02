@@ -38,6 +38,7 @@
             <li >본 프로그램의 검색은 Web of Science(이하 WoS) 검색을 기반으로 합니다.</li>
             <li >본 프로그램의 검색은 SCOPUS 및 한국연구재단 자료를 포함하지 않습니다.</li>
             <li >'엑셀로 검색하기' 기능에서 인용 논문이 5000개 이상이면 5000개 까지의 정보만을 가져옵니다.</li>
+            <li >'중복을 허용해 검색하기' 기능에서 논문이 50개 이상 검색되면 50개까지의 정보만을 가져옵니다.</li>
             <!-- <li >현재 피인용 논문게재장려금 및 공동연구(공동논문) 장려금 예상 산정 기능은 포함하지 않습니다.</li>
             <li >게재 장려금 산정에서 기준 저자(산정받을 분의 WoS상 표기명)가 부정확하면 결과가 올바르지 않습니다.</li>
             <li >교신저자와 제1저자가 본교 소속일 경우 기입하신 기준 저자를 대표저자로 판단해 산정을 예상합니다.</li>
@@ -82,7 +83,36 @@
               <div slot="header"><v-icon small class="mr-1">search</v-icon>: 빠른 검색</div>
               <v-card>
                 <v-card-text>
-                  해당 기능에 대한 도움말을 아직 포함하지 않았습니다.
+                  <h2>키워드로 여러 논문 빠른 검색해보기</h2>
+                  <hr>
+                  <br>
+                  <img class='logo elevation-10 mb-3' src="~@/assets/guide0_1.png" alt='그림0-1'>
+                  <ul>
+                    <li >먼저 [1] 에 검색하실 논문 제목을 입력합니다.
+                      <ul>
+                        <li><small><font color="grey">한글 입력, '='문자는 지원하지 않으니 주의해주세요.</font></small></li>
+                      </ul>
+                    </li>
+                    <li >[2], [3]에 검색에 포함할 기간을 연도단위로 입력하세요.</li>
+                    <li >[4]에 검색구분할 조건을 선택해주세요.
+                      <ul>
+                        <li><small><font color="grey">논문 제목, DOI로 검색 가능합니다.</font></small></li>
+                      </ul>
+                    </li>
+                    <li >검색 버튼을 눌러 검색을 시작하세요.</li>
+                  </ul>
+                  <br>
+                  <h2>검색 결과 보기</h2>
+                  <hr>
+                  <br>
+                  <img class='logo elevation-10 mb-3' src="~@/assets/guide0_2.png" alt='그림0-2'>
+                  <ul>
+                    <li >[1]과 같은 행을 클릭하면, 해당 행에 대한 자세한 정보가 아래로 펼쳐집니다.</li>
+                    <li >[2]버튼을 클릭하면 해당 행을 지울 수 있습니다. 복구가 불가능하니 주의하십시오.</li>
+                    <li >[3]에서는 [2]버튼을 클릭하면 해당 논문에 대한 정보를 볼 수 있습니다.</li>
+                    <li >[4]버튼을 클릭하면 검색한 전체결과를 지울 수 있습니다. 복구가 불가능하니 주의하십시오.</li>
+                    <li >[5]에 키워드를 입력해 특정한 검색 결과들을 찾아볼 수 있습니다.</li>
+                  </ul>
                 </v-card-text>
               </v-card>
             </v-expansion-panel-content>
@@ -180,10 +210,51 @@
             <!-- END 엑셀로 검색하기 도움말 -->
             <!-- 중복을 허용해 검색하기 도움말 -->
             <v-expansion-panel-content>
-              <div slot="header">4 : 중복을 허용해 검색하기</div>
+              <div slot="header"><v-icon small class="mr-1">done_all</v-icon>: 중복을 허용해 검색하기</div>
               <v-card>
                 <v-card-text>
-                  아직 포함하지 않은 기능입니다.
+                  <h2>키워드로 여러 논문 상세 검색해보기</h2>
+                  <hr>
+                  <br>
+                  <img class='logo elevation-10 mb-3' src="~@/assets/guide6_1.png" alt='그림6-1'>
+                  <ul>
+                    <li >먼저 [1] 에 검색하실 논문 제목을 입력합니다.
+                      <ul>
+                        <li><small><font color="grey">한글 입력, '='문자는 지원하지 않으니 주의해주세요.</font></small></li>
+                      </ul>
+                    </li>
+                    <li >[2], [3]에 검색에 포함할 기간을 연도단위로 입력하세요.</li>
+                    <li >(선택항목) [4]에 기준으로 삼으실 WoS 상 저자 표기명을 입력합니다.
+                      <ul>
+                        <li><small><font color="grey">ex) Kim, Seungshin; Kim, SS; Kim, S;</font></small></li>
+                        <li><small><font color="grey">예상 장려금 산정, 본인인용/타인인용 구분에 사용합니다.</font></small></li>
+                        <li><small><font color="grey">WoS 상 저자 표기가 ,(쉼표) 등을 포함한다면 그대로 포함하십시오.</font></small></li>
+                      </ul>
+                    </li>
+                    <li >[5]에 검색구분할 조건을 선택해주세요.
+                      <ul>
+                        <li><small><font color="grey">논문 제목, DOI로 검색 가능합니다.</font></small></li>
+                      </ul>
+                    </li>
+                    <li >검색 버튼을 눌러 검색을 시작하세요.</li>
+                    <li >[6]과 같은 행을 클릭하면, 해당 행에 대한 자세한 정보가 아래로 펼쳐집니다.</li>
+                    <li >[7]버튼을 클릭하면 해당 행을 지울 수 있습니다. 복구가 불가능하니 주의하십시오.</li>
+                    <li >[8]버튼을 클릭하면 검색한 전체결과를 지울 수 있습니다. 복구가 불가능하니 주의하십시오.</li>
+                    <li >[9]의 버튼을 클릭하면 [6]의 표를 엑셀로 다운로드할 수 있습니다.<ul>
+                        <li><small><font color="grey">클릭 시 팝업 다이얼로그가 나타납니다.</font></small></li>
+                        <li><small><font color="grey">해당 다이얼로그에서 경로를 나타내드리니, 파일 위치는 다이얼로그의 메세지를 참조하세요.</font></small></li>
+                      </ul>
+                    </li>
+                    <li >[10]에 키워드를 입력해 특정한 검색 결과들을 찾아볼 수 있습니다.</li>
+                  </ul>
+                  <br>
+                  <h2>검색 결과 보기</h2>
+                  <hr>
+                  <br>
+                  <img class='logo elevation-10 mb-3' src="~@/assets/guide6_2.png" alt='그림6-2'>
+                  <ul>
+                    <li >[11]은 [6]을 클릭하면 각 논문에 대한 상세정보를 볼 수 있습니다.</li>
+                  </ul>
                 </v-card-text>
               </v-card>
             </v-expansion-panel-content>
