@@ -234,16 +234,16 @@ export default {
         { header: '페이지', key: 'pages', width: 10 },
         { header: '언어', key: 'language', width: 8 },
 
-        { header: `${intNY - 9}`, key: 'year1', width: 5 },
-        { header: `${intNY - 8}`, key: 'year2', width: 5 },
-        { header: `${intNY - 7}`, key: 'year3', width: 5 },
-        { header: `${intNY - 6}`, key: 'year4', width: 5 },
-        { header: `${intNY - 5}`, key: 'year5', width: 5 },
-        { header: `${intNY - 4}`, key: 'year6', width: 5 },
-        { header: `${intNY - 3}`, key: 'year7', width: 5 },
-        { header: `${intNY - 2}`, key: 'year8', width: 5 },
-        { header: `${intNY - 1}`, key: 'year9', width: 5 },
-        { header: `${intNY - 0}`, key: 'year10', width: 5 },
+        { header: `${intNY - 9}`, key: `${intNY - 9}`, width: 5 },
+        { header: `${intNY - 8}`, key: `${intNY - 8}`, width: 5 },
+        { header: `${intNY - 7}`, key: `${intNY - 7}`, width: 5 },
+        { header: `${intNY - 6}`, key: `${intNY - 6}`, width: 5 },
+        { header: `${intNY - 5}`, key: `${intNY - 5}`, width: 5 },
+        { header: `${intNY - 4}`, key: `${intNY - 4}`, width: 5 },
+        { header: `${intNY - 3}`, key: `${intNY - 3}`, width: 5 },
+        { header: `${intNY - 2}`, key: `${intNY - 2}`, width: 5 },
+        { header: `${intNY - 1}`, key: `${intNY - 1}`, width: 5 },
+        { header: `${intNY - 0}`, key: `${intNY - 0}`, width: 5 },
       ];
       const targetList = this.inteList.slice(0);
       targetList.forEach((row) => {
