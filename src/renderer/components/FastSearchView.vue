@@ -112,11 +112,28 @@
             "{{ listSearch }}"에 관한 검색 결과가 없습니다.
           </v-alert>
           <template slot="expand" slot-scope="props">
-            저자 목록 : {{ props.item.AU }} <br>
-            출판일 : {{ props.item.PD }} <br>
-            발행처 : {{ props.item.SO }} <br>
-            권, 호 : {{ props.item.IS }} / {{ props.item.VL }} <br>
-            페이지 : {{ props.item.BP }} - {{ props.item.EP }} <br>
+            <table class="detail-table">
+                <tr>
+                  <th width=120>저자 목록</th>
+                  <td>{{ props.item.AU }}</td>
+                </tr>
+                <tr>
+                  <th>출판일</th>
+                  <td>{{ props.item.PD }}</td>
+                </tr>
+                <tr>
+                  <th>발행처</th>
+                  <td>{{ props.item.SO }}</td>
+                </tr>
+                <tr>
+                  <th>권, 호</th>
+                  <td>{{ props.item.IS }} / {{ props.item.VL }}</td>
+                </tr>
+                <tr>
+                  <th>페이지</th>
+                  <td>{{ props.item.BP }} - {{ props.item.EP }}</td>
+                </tr>
+            </table>
           </template>
         </v-data-table>
       </v-card>
@@ -254,5 +271,22 @@ export default {
     margin-left: auto;
     margin-right: auto;
     display: block;
+  }
+   .detail-table {
+    text-align: left;
+    margin: 20px;
+    border-collapse: collapse;
+  }
+  .detail-table-header {
+    /* background-color: rgba(158, 172, 255, 0.295); */
+    text-align: left;
+    margin: 20px;
+    padding: 10px;
+  }
+  .detail-table th {
+    background-color: rgba(158, 172, 255, 0.295);
+  }
+  .detail-table td {
+    background-color: rgba(210, 217, 255, 0.295);
   }
 </style>

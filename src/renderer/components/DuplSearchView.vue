@@ -1,7 +1,7 @@
 <template>
   <v-layout row wrap>
     <v-flex xs12 class='mb-3'>
-      <h1 class="headline">중복 허용 검색</h1>
+      <h1 class="headline">중복을 허용해 검색하기</h1>
       <v-divider></v-divider>
     </v-flex>
    <!-- 옵션 컨테이너 -->
