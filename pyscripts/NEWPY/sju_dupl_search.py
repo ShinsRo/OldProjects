@@ -79,6 +79,11 @@ class MultiSearchContainer():
         else:
             ui_stream.push(command='res', target='paperData', res=paper_data)
             ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[4203])
+
+            try:
+                query = [paper_data['title'], p_authors, paper_data['researchAreas']]
+            except:
+                query = [paper_data['title'], '', '']
         # # 요청 실패
 
         # 인용 논문 정보
@@ -114,7 +119,7 @@ class MultiSearchContainer():
         if http_res.status_code == 403:
             ui_stream.push(
                 command='res', target='errQuery', 
-                res={'query': query_string_url[query_string_url.find('page'):], 'msg': '인용 리포트를 요청했으나 서버가 접근 권한 없음을 반환했습니다.'}
+                res={'query': query, 'msg': '인용 리포트를 요청했으나 서버가 접근 권한 없음을 반환했습니다.'}
             )
             return
 
@@ -127,7 +132,7 @@ class MultiSearchContainer():
             ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[4304][3])
             ui_stream.push(
                 command='res', target='errQuery', 
-                res={'query': query_string_url[query_string_url.find('page'):], 'msg': sju_CONSTANTS.STATE_MSG[4304][3]}
+                res={'query': query, 'msg': sju_CONSTANTS.STATE_MSG[4304][3]}
             )
             return
         
