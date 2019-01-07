@@ -10,6 +10,7 @@ from time import sleep
 from itertools import cycle
 from lxml.html import fromstring
 from fake_useragent import UserAgent
+from urllib.parse import unquote
 
 import numpy as np
 import pandas as pd
@@ -573,6 +574,7 @@ def get_query_list_from_file(path):
         :param path: 엑셀 파일경로
         :return: 엑셀 파일을 읽고 추출한 결과
     '''
+    path = unquote(path)
     fname, ext = os.path.splitext(path)
     encodings = ['utf-8', 'cp949', 'euc-kr']
     for d_codec in encodings:
