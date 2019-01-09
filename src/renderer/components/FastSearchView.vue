@@ -7,7 +7,7 @@
     <!-- 옵션 컨테이너 -->
     <v-flex xs6>
       <v-text-field
-        label="검색하실 내용을 입력하세요."
+        label="검색하실 논문 제목을 입력하세요."
         placeholder=""
         outline
         v-model="query"
@@ -40,6 +40,7 @@
       <v-flex v-if="loading">
         <pulse-loader :loading="loading" :color="'#5bc0de'" :size="'20px'"></pulse-loader>
       </v-flex>
+      <v-btn @click="delTextBox">제목 비우기</v-btn>
     </v-flex>
     <v-flex xs6>
       <v-text-field
@@ -213,6 +214,9 @@ export default {
   methods: {
     logFlush() {
       this.log = '';
+    },
+    delTextBox() {
+      this.query = '';
     },
     resFlush() {
       this.fResList.splice(0, this.fResList.length);

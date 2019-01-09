@@ -167,6 +167,22 @@
                   ><td v-for="year in 10" :key="year"
                   >{{props.item.tc_data[intNY - 10 + year]||0}}</td></tr>
                 </table>
+              <!-- 교신저자 소속 -->
+              <h2 class="detail-table-header"><font>교신저자</font></h2>
+              <table class="detail-table" v-if="Object.keys(props.item.reprint).length">
+                <tr>
+                  <th style="border-right:1px solid grey;">교신저자</th>
+                  <th>소속</th>
+                </tr>
+                <tr>
+                  <td style="border-right:1px solid grey;">
+                    {{ props.item.reprint.replace((/\(.+\).+/), '').replace(' ', '') }}
+                  </td>
+                  <td>
+                    {{ props.item.reprint.replace('(s)',']').replace((/.+]..../),'') }}
+                  </td>
+                </tr>
+              </table>
               <!-- IF 테이블 -->
               <h2 class="detail-table-header"><font>IMPACT FACTOR 표</font></h2>
               <table class="detail-table"
