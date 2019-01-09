@@ -117,7 +117,7 @@
         </v-container>
       <v-footer :fixed="fixed" app>
         <v-spacer></v-spacer>
-        <span>&copy; 2018 Sejong IACF, Software-centered Univ.</span>
+        <span>&copy; 2018 Sejong IACF&Software-centered Univ.</span>
         <v-spacer></v-spacer>
       </v-footer>
 

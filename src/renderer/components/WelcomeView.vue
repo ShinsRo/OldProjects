@@ -140,10 +140,6 @@
                         <li><small><font color="grey">WoS 상 저자 표기가 ,(쉼표) 등을 포함한다면 그대로 포함하십시오.</font></small></li>
                       </ul>
                     </li>
-                    <li >(선택항목) [5]에 같이 검색할 기관을 추가하여 정확도를 높일 수 있습니다.<ul>
-                        <li><small><font color="grey">ex) Sejong Univ</font></small></li>
-                      </ul>
-                    </li>
                     <li >검색 버튼을 눌러 검색을 시작하세요.</li>
                   </ul>
                   <br>

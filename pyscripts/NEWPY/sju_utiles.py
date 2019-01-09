@@ -561,10 +561,14 @@ def parse_paper_data(target_content, paper_data_id, search_type):
     
     # 전년도 임팩트 팩토
     now = datetime.datetime.now()
-    prev_year = str(now.year - 1)
+    prev_year = str(now.year - 2)
     # prev_year = str(int(paperData['published']) - 1)
     if prev_year in impact_factor.keys():
-        paperData['prevYearIF'] = impact_factor[prev_year]
+        try:
+            paperData['prevYearIF'] = impact_factor[prev_year]
+        except:
+            prev_year = str(now.year - 1)
+            paperData['prevYearIF'] = impact_factor[prev_year]
 
     return paperData, cnt_link
 
