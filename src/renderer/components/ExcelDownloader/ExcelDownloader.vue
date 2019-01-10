@@ -132,6 +132,7 @@ export default {
         { header: 'IF', key: 'prevYearIF', width: 7 },
         { header: '피인용', key: 'timesCited', width: 7 },
         { header: '자인용/타인용', key: 'selfOrOthers', width: 15 },
+        { header: '저널명', key: 'journal_name', width: 20 },
         { header: '발행처', key: 'publisherJoined', width: 20 },
         { header: 'ISSN', key: 'issn', width: 10 },
         { header: '권', key: 'volume', width: 5 },
@@ -150,7 +151,7 @@ export default {
         { header: `${intNY - 1}`, key: `${intNY - 1}`, width: 5 },
         { header: `${intNY - 0}`, key: `${intNY - 0}`, width: 5 },
       ];
-      sheet.getColumn(4).outlineLevel = 1;
+      sheet.getColumn(4).outlineLevel = 2;
 
       const rows = this.resList.slice();
       for (let ii = 0; ii < rows.length; ii += 1) {

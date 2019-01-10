@@ -127,10 +127,7 @@
               <td >{{ props.item.goodRank }}</td>
               <td >{{ props.item.prevYearIF }}</td>
               <td >{{ props.item.timesCited }}</td>
-              <td v-html="props.item.publisher[0]"></td>
-              <td >{{ props.item.issn }}</td>
-              <td v-html="props.item.ivp.join([separator = '<br>'])"></td>
-              <td >{{ props.item.language }}</td>
+              <td v-html="props.item.journal_name"></td>
             </tr>
           </template>
           <v-alert slot="no-results" :value="true" color="error" icon="warning">
@@ -231,6 +228,26 @@
                   <td>{{props.item.citingArticles.authors[index]}}</td>
                 </tr>
               </table>
+              <!-- 발행처 -->
+              <h2 class="detail-table-header"><font>상세정보</font></h2>
+              <table class="detail-table" v-if="Object.keys(props.item.reprint).length">
+                <tr>
+                  <th style="border-right:1px solid grey;">발행처</th>
+                  <td style="border-right:1px solid grey;">{{ props.item.publisher[0] }}</td>
+                </tr>
+                <tr>
+                  <th style="border-right:1px solid grey;">ISSN</th>
+                  <td style="border-right:1px solid grey;">{{ props.item.issn }}</td>
+                </tr>
+                <tr>
+                  <th style="border-right:1px solid grey;">권/호, 페이지</th>
+                  <td style="border-right:1px solid grey;" v-html="props.item.ivp.join([separator = ', '])"></td>
+                </tr>
+                <tr>
+                  <th style="border-right:1px solid grey;">언어</th>
+                  <td style="border-right:1px solid grey;">{{ props.item.language }}</td>
+                </tr>
+              </table>
               <br>
             </div>
           </template>
@@ -310,10 +327,11 @@ export default {
         { text: '백분율', align: 'left', value: 'goodRank', width: '5px' },
         { text: 'IF', align: 'left', value: 'prevYearIF', width: '5px' },
         { text: '피인용', align: 'left', value: 'timesCited', width: '5px' },
-        { text: '발행처', align: 'left', value: 'publisher', width: '20px' },
-        { text: 'ISSN', align: 'left', value: 'issn', width: '5px' },
-        { text: '권/호, 페이지', align: 'left', value: 'ivp', width: '5px' },
-        { text: '언어', align: 'left', value: 'language', width: '10px' },
+        // { text: '발행처', align: 'left', value: 'publisher', width: '20px' },
+        { text: '저널명', align: 'left', value: 'journal_name', width: '20px' },
+        // { text: 'ISSN', align: 'left', value: 'issn', width: '5px' },
+        // { text: '권/호, 페이지', align: 'left', value: 'ivp', width: '5px' },
+        // { text: '언어', align: 'left', value: 'language', width: '10px' },
       ],
       errQueryHeaders: [
         { text: '검색어', align: 'left', value: 'query', width: '20px' },

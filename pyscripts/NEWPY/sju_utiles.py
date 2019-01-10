@@ -439,6 +439,13 @@ def parse_paper_data(target_content, paper_data_id, search_type):
         cnt_link = cnt_link[0]
         times_cited = cnt_link.span.text
 
+    #저널 명
+    journal_name = soup.select('span.sourceTitle')
+    journal_name = journal_name[0].text.replace('\n','')
+
+    #print("[1type]journal_name : ", journal_name)
+    #print("[2type]journal_name : ",type(journal_name))
+
     # 기타 필드
     correction_form = soup.find(action='http://ips.clarivate.com/cgi-bin/forms/wok_datachange/wok-proc.pl')
     if not correction_form:
@@ -541,6 +548,7 @@ def parse_paper_data(target_content, paper_data_id, search_type):
         'published' : correction_form_inputs_by_name['00N70000002BdnY'],
         'publishedMonth' : published_month,
         'publisher' : publisher,
+        'journal_name' : journal_name,
         # 'title' : correction_form_inputs_by_name['00N70000002BdnX'],
         'title' : title,
         'impact_factor' : impact_factor,
