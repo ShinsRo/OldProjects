@@ -103,6 +103,7 @@
               <td>{{ props.item.TI }}</td>
               <td>{{ props.item.DI }}</td>
               <td>{{ props.item.TC }}</td>
+              <td>{{ props.item.SO }}</td>
               <!-- <td>{{ props.item.AU }}</td>
               <td>{{ props.item.PD }}</td>
               <td>{{ props.item.SO }}</td>
@@ -200,6 +201,7 @@ export default {
         { text: '제목', align: 'left', value: 'TI', width: '20px' },
         { text: 'DOI', align: 'left', value: 'DI', width: '20px' },
         { text: '피인용', align: 'left', value: 'TC', width: '5px' },
+        { text: '저널명', align: 'left', value: 'SO', width: '20px' },
       ],
       errQueryHeaders: [
         { text: '검색어', align: 'left', value: 'query', width: '20px' },
