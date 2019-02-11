@@ -26,7 +26,7 @@ class SingleSearchContainer():
         self.res_name = 'mres'
         self.base_url = "http://apps.webofknowledge.com"
         self.ui_stream = sju_models.UI_Stream('multi_search', 'multi sub%d'%thread_id, self.res_name)
-
+         
         self.single_search = sju_single_search.SingleSearch(thread_id = thread_id, cookies=cookies)
 
     def set_query_package_and_portion(self, query_package, portion):
