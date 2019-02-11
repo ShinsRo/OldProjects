@@ -7,6 +7,7 @@ import re
 import random
 import requests
 import threading
+from datetime import datetime
 
 from sju_utiles import os
 from sju_utiles import UserAgent
@@ -113,25 +114,71 @@ class SingleSearch():
 			:return:
         '''
         self.ui_stream.push(command='log', msg='인용년도 정보를 가져옵니다.')
-        session = requests.Session()
-        session = sju_utiles.set_user_agent(session)
-        session.cookies.update(self.session.cookies)
+        session = self.session
+        current_year = datetime.today().year
+
         # [단계 2/3] 인용년도 조회 (병렬 구성)
         #########################################################################
-        report_link = report_link[0]
 
-        http_res = session.get(self.base_url + report_link['href'])
+        http_res = session.get(self.base_url + "/" + report_link)
         target_content = http_res.content
         soup = BeautifulSoup(target_content, 'html.parser')
 
-        raw_tc_data = soup.select_one('script#raw_tc_data')
-        tc_tuple_list = re.findall(r'([0-9]+)\=([0-9]+)', raw_tc_data.text)
-        # tc_list = list(filter(lambda x: int(x[1]) > 0, tc_tuple_list))
-        tc_dict = {}
-        for x in tc_tuple_list:
-            tc_dict.update({x[0]: x[1]})
+        raw_tc_data = soup.select_one('tr#PublicationYear_raMore_tr')
+
+        tc_tuple_list = re.findall(r'20.. \(.+\)', raw_tc_data.text)
+        tmp = ""
+        for i in range(len(tc_tuple_list)):
+            tmp += tc_tuple_list[i]
+
+        tmp = tmp.replace(' ','')
+        tmp = tmp.split(')')
+        tmp.sort()
         
+        tmp_tc_dict = {}
+        for i in range(len(tmp)):
+            if tmp[i] == "":
+                continue
+            a1 = tmp[i][:tmp[i].find('(')]
+            a2 = tmp[i][tmp[i].find('(')+1:]
+            tmp_tc_dict.update({a1: a2})
+            
+        print("tmp tc dict : ",tmp_tc_dict)
+
+        tc_dict = {}
+        # 빈 연도 0으로 채우기
+        for y_now in range(current_year-9,current_year+1):
+            try:
+                if tmp_tc_dict[str(y_now)] != 0:
+                    #print("already have data")
+                    tc_dict.update({str(y_now): tmp_tc_dict[str(y_now)]})
+            except:
+                tc_dict.update({str(y_now): '0'})
+
         tc_data['tc_dict'] = tc_dict
+
+    def get_one_tc_data(self, report_year, tc_data):
+        self.ui_stream.push(command='log', msg='인용년도 정보를 가져옵니다.')
+        current_year = datetime.today().year
+
+        if report_year == 'zero':
+            a1 = '0'
+            a2 = '0'
+        else:
+            a1 = report_year[:report_year.find('(')]
+            a2 = report_year[report_year.find('(')+1: report_year.find(')')]
+        
+        
+        tc_dict = {}
+        # 빈 연도 0으로 채우기
+        for y_now in range(current_year-9,current_year+1):
+            if str(y_now) == a1:
+                tc_dict.update({a1: a2})
+            else:
+                tc_dict.update({str(y_now): '0'})
+            
+        tc_data['tc_dict'] = tc_dict
+
 
     def start(self, query, start_year, end_year, gubun):
         '''
@@ -236,9 +283,9 @@ class SingleSearch():
 
         target_content = http_res.content
         soup = BeautifulSoup(target_content, 'html.parser')
-
         atag_list = soup.select('a.snowplow-full-record')
-        report_link = soup.select('a.citation-report-summary-link')
+
+        #report_link = soup.select('a.citation-report-summary-link')
 
         try: 
             if len(atag_list) == 0:
@@ -271,7 +318,7 @@ class SingleSearch():
         # [단계 2/3] 상세 정보 페이지 fetch, 인용년도 조회 (스레딩)
         #########################################################################
         ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1003])
-
+        """
         tc_data = {'tc_dict': []}
         tc_parsing_thread = None
         # 인용 보고서 링크가 잡힐 때
@@ -282,7 +329,7 @@ class SingleSearch():
                 args=(report_link, paper_data_id, tc_data)
             )
             tc_parsing_thread.start()
-        
+        """
         # 결과 리스트 페이지를 들렀다 오는 경우
         query_string = atag_list[0]['href']
 
@@ -316,7 +363,7 @@ class SingleSearch():
 
         # 상세 정보 파싱
         try:
-            paper_data, cnt_link = sju_utiles.parse_paper_data(target_content, paper_data_id, "single")
+            paper_data, cnt_link = sju_utiles.parse_paper_data(target_content, paper_data_id, "single", self.SID)
             # paper_data['subsidy'] = sju_utiles.get_subsidy01(paper_data, p_authors)
 
         # 검색 결과가 없을 경우
@@ -345,32 +392,32 @@ class SingleSearch():
             return
         # 요청 성공
         else:
-
             ui_stream.push(command='res', target='paperData', res=paper_data)
-
-            # 인용 년도 조회 완료를 기다림
-            if tc_parsing_thread:
-                tc_parsing_thread.join()
-                ui_stream.push(command='log', msg='인용 년도 조회가 완료되었습니다.')
-
-            tc_dict = tc_data['tc_dict']
-            # 인용 년도 조회 성공 시 출력
-            if len(tc_dict) > 0:
-                ui_stream.push(command='res', target='tc_data', res={'id': paper_data_id, 'tc_data': tc_dict})
-            
             ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1203])
+            # 인용 년도 조회 완료를 기다림
+            #if tc_parsing_thread:
+            #    tc_parsing_thread.join()
+            #    ui_stream.push(command='log', msg='인용 년도 조회가 완료되었습니다.')
+
+            #tc_dict = tc_data['tc_dict']
+            # 인용 년도 조회 성공 시 출력
+            #if len(tc_dict) > 0:
+                #ui_stream.push(command='res', target='tc_data', res={'id': paper_data_id, 'tc_data': tc_dict})
+            
+            
         # # 요청 실패
         
 
         # [단계 3/3] 인용 논문 정보
         #########################################################################
         ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1004])
-
+        
         # 인용 횟수에 따른 분기
+        test_check = 0
         if not cnt_link:
             ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1304][0])
             self.qid += 1
-            return
+            test_check = 1
         elif int(paper_data['timesCited']) > 4999:
             ui_stream.push(command='err', msg=sju_CONSTANTS.STATE_MSG[1304][1])
             ui_stream.push(
@@ -381,31 +428,73 @@ class SingleSearch():
             return
 
         # 인용 리포트 요청
-        ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1104])
+        tc_data = {'tc_dict': []}
+        if test_check == 0:
+            ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[4104])
 
-        url = base_url + cnt_link['href']
+            url = base_url + cnt_link['href']
+            http_res = session.get(url)
 
-        http_res = session.get(url)
-        target_content = http_res.content
+            # Access Denied
+            if http_res.status_code == 403:
+                ui_stream.push(
+                    command='res', target='errQuery', 
+                    res={'query': query, 'msg': '인용 리포트를 요청했으나 서버가 접근 권한 없음을 반환했습니다.'}
+                )
+                return
 
-        # Access Denied
-        if http_res.status_code == 403:
-            ui_stream.push(
-                command='res', target='errQuery', 
-                res={'query': query, 'msg': '인용 리포트를 요청했으나 서버가 접근 권한 없음을 반환했습니다.'}
-            )
-            return
+            target_content = http_res.content
 
-        soup = BeautifulSoup(target_content, 'html.parser')
-        # 인용문 링크는 존재하나, 클릭할 경우 검색 결과가 없다는 메세지가 뜰 때
-        if  soup.text.find('Your search found no records') != -1 or soup.text.find('None of the Citing Articles are in your subscription') != -1:
-            ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1304][3])
-            ui_stream.push(
-                command='res', target='errQuery', 
-                res={'query': query, 'msg': sju_CONSTANTS.STATE_MSG[1304][3]}
-            )
+            soup = BeautifulSoup(target_content, 'html.parser')
+
+            # 인용문 링크는 존재하나, 클릭할 경우 검색 결과가 없다는 메세지가 뜰 때
+            if  soup.text.find('Your search found no records') != -1 or soup.text.find('None of the Citing Articles are in your subscription') != -1:
+                self.get_one_tc_data('zero', tc_data)
+                tc_dict = tc_data['tc_dict']
+                ui_stream.push(command='res', target='tc_data', res={'id': paper_data_id, 'tc_data': tc_dict})
+                """
+                ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[4304][3])
+                ui_stream.push(
+                    command='res', target='errQuery', 
+                    res={'query': query, 'msg': sju_CONSTANTS.STATE_MSG[4304][3]}
+                )
+                """
+                return
+        
+        # 연도별 인용 횟수 가져오기 (NEW PART)
+        if cnt_link:
+            try:
+                year_url = soup.select('a#PublicationYear')[0].attrs['href']
+                self.get_tc_data(year_url, paper_data_id, tc_data)
+                #print("======================================================")
+                #print("tc_data[1] : ",tc_data)
+                #print("======================================================")
+            except:
+                # 만약 인용 횟수가 한 연도만 존재할 때
+                year_url = soup.select('div#PublicationYear_tr')[0]
+                year_url = year_url.select_one('label.ra-summary-text').text
+                year_url = year_url.replace(' ','')
+                self.get_one_tc_data(year_url, tc_data)
+                #print("======================================================")
+                #print("tc_data[2] : ",tc_data)
+                #print("======================================================")
+        # 인용횟수가 없을 경우 > 인용 정보를 0으로 초기화
+        else:
+            ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[4304][0])
+            self.get_one_tc_data('zero', tc_data)
+            #print("======================================================")
+            #print("tc_data[3] : ",tc_data)
+            #print("======================================================")
+        
+        tc_dict = tc_data['tc_dict']
+        # 인용 년도 조회 성공 시 출력
+        ui_stream.push(command='res', target='tc_data', res={'id': paper_data_id, 'tc_data': tc_dict})
+        
+        if test_check == 1:
             return
         
+        ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1104])
+
         qid = soup.select('input#qid')[0].attrs['value']
         rurl = soup.select('input#rurl')[0].attrs['value']
         times_cited = paper_data['timesCited']
@@ -553,7 +642,7 @@ if __name__ == "__main__":
         )
         """
         ss.start(
-            ('Transfer-Learning-Based Online Mura Defect Classification', '', 'Sejong Univ'),
+            ('A military history of the ancient world: retrospective prospective', '', 'Sejong Univ'),
             '1945',
             '2018',
             'TI'

@@ -11,6 +11,8 @@ from itertools import cycle
 from lxml.html import fromstring
 from fake_useragent import UserAgent
 from urllib.parse import unquote
+from urllib.parse import quote
+import ast
 
 import numpy as np
 import pandas as pd
@@ -353,7 +355,19 @@ def get_form_data(action, data):
     form_data.update(data)
     return form_data
 
-def parse_paper_data(target_content, paper_data_id, search_type):
+def get_incite_form(sid, p_id, issn, jr):
+    sub_url = ""
+    sub_url += "https://gateway.webofknowledge.com/gateway/Gateway.cgi?GWVersion=2&SrcAuth=" + p_id 
+    sub_url += "&SrcApp=WOS&KeyISSN=" + issn + "&DestApp=" + p_id + "&UsrSteamSID=&SrcAppSID=" + sid + "&SrcJTitle=" + jr
+
+    sub_url = quote(sub_url)
+    
+    total_url = "http://apps.webofknowledge.com/"
+    total_url += "OutboundService.do?&SID=" + sid + "&publisher_id=" + p_id + "&toPID=" + p_id + "&URL=" + sub_url
+    total_url += "&product=WOS&action=go&mode=interProdLink&highlighted_tab=WOS&fromPID=WOS"
+    return total_url
+
+def parse_paper_data(target_content, paper_data_id, search_type, SID_name):
     """
         페이지 정보를 입력받아 정리한 내용을 리스트로 반환하는 함수
         :param target_content: 페이지 내용
@@ -395,41 +409,6 @@ def parse_paper_data(target_content, paper_data_id, search_type):
             temp = label.text.replace('- ', '')
             grades += [temp]
             caped_grades += [re.sub(r'[ a-z]+', r'', temp)]
-
-    # 임팩트 팩토
-    Impact_Factor_table = soup.select('table.Impact_Factor_table')
-    impact_factor = {}
-    if len(Impact_Factor_table) > 0:
-        trs = Impact_Factor_table[0].find_all('tr')
-        tds = trs[0].find_all('td')
-        ths = trs[1].find_all('th')
-
-        for idx, th in enumerate(ths):
-            impact_factor[th.text.strip()] = tds[idx].text.strip()
-        
-    else:
-        impact_factor = {}
-    
-    # JCR 랭크
-    JCR_Category_table = soup.select('table.JCR_Category_table')
-    jcr_headers = []
-    jcr = []
-    ranks = []
-    good_rank = ''
-    trs = []
-    if len(JCR_Category_table) > 0: 
-        JCR_Category_table = JCR_Category_table[0]
-        trs = JCR_Category_table.find_all('tr')
-        if trs:
-            jcr.append([x.text.strip() for x in trs[0].find_all('th')])
-            for tr in trs[1:]:
-                temp = [x.text.strip() for x in tr.find_all('td')]
-                jcr.append(temp)
-                jrank, jall = map(int, temp[1].split(' of '))
-                temp.append(round(jrank/jall  * 100, 2))
-                ranks.append(temp)
-    
-        good_rank = max(ranks, key=lambda x: -x[-1])[-1]
 
     # 인용 횟수 및 링크
     cnt_link = soup.select('a.snowplow-citation-network-times-cited-count-link')
@@ -493,6 +472,167 @@ def parse_paper_data(target_content, paper_data_id, search_type):
         #     fr_addresses = fr_field.nextSibling
             
     addresses = {}
+
+
+    # (NEWPART) IF, 백분율
+
+    # 발행년도-1 가져오기(필터링)
+    incite_published_month = published_month
+    incite_published_month = incite_published_month.strip()
+    incite_published_month = re.findall(r'2[0-9][0-9][0-9]|19[0-9][0-9]', incite_published_month)[0]
+    incite_published_month = str(int(incite_published_month)-1)
+    
+    # IF, 백분율 [1단계] 세부 페이지 -> Incite 페이지 URL
+    publish_id = soup.find("a",{"id":"HS_JCRLink"})
+    publish_id = publish_id['onclick']
+    publish_id = publish_id[publish_id.find('toPID')+6:publish_id.find('cacheurl')-1]
+    
+    ISSN_name = str(ISSN)
+    
+    jr_name = journal_name
+    jr_name = jr_name.replace(" ", "%20")
+    
+    JRC_url = get_incite_form(SID_name, publish_id, ISSN_name, jr_name)
+    #print(JRC_url)
+    #print(type(JRC_url))
+    #print("start111")
+
+    # IF, 백분율 [2단계] Incite 페이지 파싱(1차)
+    try:
+        ua = UserAgent()
+        new_user_agent = {'User-Agent': ua.random}
+        r = requests.Session()
+        http_res = r.get(JRC_url, headers= new_user_agent)
+        #print("start222")
+
+        # [2단계]-1 Impact Factor 파싱 (2차)
+        
+        # incite jr name find  
+        incite_jr_name = "https://jcr.incites.thomsonreuters.com/SearchJournalsJson.action?query=" + ISSN_name
+        http_incite_jr = r.get(incite_jr_name)
+        http_incite_jr_text = http_incite_jr.text
+
+        incite_edition_name = http_incite_jr_text[http_incite_jr_text.find('edition')+10:http_incite_jr_text.find('jcrCoverageYears')-3]
+        incite_jr_name = http_incite_jr_text[http_incite_jr_text.find('abbrJournal')+14:http_incite_jr_text.find('journalTitle')-3]
+        incite_jr_name = incite_jr_name.replace(' ','%20')
+
+        base_json_url = "https://jcr.incites.thomsonreuters.com/JournalProfileGraphDataJson.action?abbrJournal=" + incite_jr_name
+        base_json_url += "&edition=" + incite_edition_name + "&page=1&start=0&limit=25&sort=%5B%7B%22property%22%3A%22year%22%2C%22direction%22%3A%22DESC%22%7D%5D"
+        http_incite_if = r.get(base_json_url)
+
+        findall_if = 'year":"' + incite_published_month + '.{700,800}'
+        http_incite_if_text = re.findall(findall_if, http_incite_if.text)[0]
+
+        #print("start333")
+
+        # ImpactFactor
+        findnall_if = 'journalImpactFactor":"[0-9]{0,10}.{0,1}[0-9]{1,10}",'
+        impactFactor_one = re.findall(findnall_if, http_incite_if_text)[0]
+        impactFactor_one = impactFactor_one[impactFactor_one.find(':')+2:-2]
+        
+        # 5 year ImpactFactor
+        findall_if = 'fiveYearImpactFactor":("[0-9]{0,10}.{0,1}[0-9]{1,10}"|null),"'
+        impactFactor_two = re.findall(findall_if, http_incite_if_text)[0]
+        if impactFactor_two == "null":
+            impactFactor_two = "None"
+        else:
+            impactFactor_two = impactFactor_two[1:-1]
+
+        #print("start444")
+
+        # [2단계]-2 백분율 파싱 (2차)
+        base_json_url = "https://jcr.incites.thomsonreuters.com/JCRImpactFactorJson.action?&abbrJournal=" + incite_jr_name
+        base_json_url += "&edition=" + incite_edition_name
+        http_incite_per = r.get(base_json_url)
+        http_incite_per_LIST = ast.literal_eval(http_incite_per.text)
+        http_incite_per_LIST = http_incite_per_LIST['data']
+        
+        # JCR 랭크
+        ranks = []
+        temp = []
+        jcr = []
+        good_rank = ''
+        for PER_LIST in http_incite_per_LIST:
+            if PER_LIST['year'] == str(incite_published_month):
+                test = str(PER_LIST)
+                find_per = '.{1,3}\/.{1,3}-Q[0-9]'
+                JCRS = re.findall(find_per, test)
+                for JCR in JCRS:
+                    JCR_P = JCR[JCR.find("'")+1:JCR.find("-")]
+                    temp = [JCR_P]
+                    jrank, jall = map(int,JCR_P.split('/'))
+                    temp.append(round(jrank/jall  * 100, 2))
+                    ranks.append(temp)
+                    jcr.append('num')
+                    jcr.append(temp)
+                    
+                good_rank = max(ranks, key=lambda x: -x[-1])[-1]
+                #print("====================================")
+                #print("title : ", title)
+                #print(good_rank)
+                #print("====================================")
+        
+        """
+         # JCR 랭크
+        JCR_Category_table = soup.select('table.JCR_Category_table')
+        jcr_headers = []
+        jcr = []
+        ranks = []
+        good_rank = ''
+        trs = []
+        if len(JCR_Category_table) > 0: 
+            JCR_Category_table = JCR_Category_table[0]
+            trs = JCR_Category_table.find_all('tr')
+            if trs:
+                jcr.append([x.text.strip() for x in trs[0].find_all('th')])
+                for tr in trs[1:]:
+                    temp = [x.text.strip() for x in tr.find_all('td')]
+                    jcr.append(temp)
+                    jrank, jall = map(int, temp[1].split(' of '))
+                    temp.append(round(jrank/jall  * 100, 2))
+                    ranks.append(temp)
+        
+            good_rank = max(ranks, key=lambda x: -x[-1])[-1]
+        """
+        """
+        이전방식 백분율 정규표현식
+        #findall_if = '("year":"' + incite_published_month + '".{10,200}},{"year|"year":"' + incite_published_month + '".{10,200}})'
+        #("year":"2002".{10,200}},{"year|"year":"2002".{10,200}}|,{.{10,200},"year":"2002",.{10,500}"},)
+        #findall_if = '("year":"' + incite_published_month + '".{10,200}},{"year|"year":"' + incite_published_month + '".{10,200}}|,{.{10,200},"year":"' + incite_published_month + '",.{10,400}"},|,{".{10,200},"year":"'+ incite_published_month +'",.{10,50}},)'
+        #findall_if = '("year":"'+ incite_published_month + '".{10,100}},{"year|"year":"' + incite_published_month + '".{10,200}},{"year|"year":"' + incite_published_month + '".{10,200}}|,{".{10,200},"year":"' + incite_published_month +'",.{10,50}},{"|,{.{10,200},"year":"' + incite_published_month + '",.{10,400}"},)'
+
+        #findall_if = '("year":"' + incite_published_month + '"(.{10,100}|.{10,200})},{"year|"year":"' + incite_published_month + '".{10,200}}|,{.{10,200},"year":"' + incite_published_month + '",(.{10,50}|.{10,100}|.{10,200}|.{10,300}|.{10,400})"},)'
+        #http_incite_per_text = re.findall(findall_if, http_incite_per.text)
+        
+        #findall_if = '("year":"' + incite_published_month + '"(.{10,100}|.{10,200})},{"year|"year":"' + incite_published_month + '".{10,200}}|,{.{10,200},"year":"' + incite_published_month + '",(.{10,50}|.{10,100}|.{10,200}|.{10,300}|.{10,400})"},)'
+        #http_incite_per_text = re.findall(findall_if, http_incite_per.text)
+        """
+        
+    except:
+        #print("====================================")
+        #print("error 발생!!")
+        #print("title : ", title)
+        #print("====================================")
+        impactFactor_one = "Except"
+        impactFactor_two = "Except"
+        good_rank = ''
+        jcr = []
+
+    impact_factor = {}
+    if impactFactor_one and impactFactor_two:
+        if impactFactor_one == "Except" and impactFactor_two == "Except":
+            impact_factor[incite_published_month] = "None"    
+            impact_factor['5 year'] = "None"
+        else:
+            impact_factor[incite_published_month] = impactFactor_one
+            impact_factor['5 year'] = impactFactor_two
+    else:
+        impact_factor = {}
+
+    
+    # incite session 종료
+    r.close()
+    #print("finish")
 
     #저자, 연구기관
     fconts = fr_authors.select('a')
@@ -566,18 +706,11 @@ def parse_paper_data(target_content, paper_data_id, search_type):
         'issn' : ISSN,
     }
     paperData['ivp'] = ['%s/%s'%(paperData['issue'], paperData['volume']), paperData['pages']]
-    
+    #print("finish222222222")
     # 전년도 임팩트 팩토
-    now = datetime.datetime.now()
-    prev_year = str(now.year - 2)
-    # prev_year = str(int(paperData['published']) - 1)
-    if prev_year in impact_factor.keys():
-        try:
-            paperData['prevYearIF'] = impact_factor[prev_year]
-        except:
-            prev_year = str(now.year - 1)
-            paperData['prevYearIF'] = impact_factor[prev_year]
-
+    if incite_published_month in impact_factor.keys():
+        paperData['prevYearIF'] = impact_factor[incite_published_month]
+    #print("finish3333333333333")
     return paperData, cnt_link
 
 def get_query_list_from_file(path):

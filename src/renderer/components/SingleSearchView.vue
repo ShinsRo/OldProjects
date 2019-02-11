@@ -175,8 +175,9 @@
                   <td>{{value}}</td>
                 </tr>
               </table>
-              <h2 class="detail-table-header"><font>JCR 순위 표</font></h2>
               <!-- JCR 테이블 -->
+              <!--
+              <h2 class="detail-table-header"><font>JCR 순위 표</font></h2>
               <table class="detail-table"
               v-if="props.item.jcr.length"
               style="margin: 20px; border-collapse: collapse;">
@@ -186,6 +187,7 @@
                   <td v-if="index != 0" v-for="col in row" :key="col">{{col}}</td>
                 </tr>
               </table>
+              -->
               <!-- 저자목록 테이블 -->
               <h2 class="detail-table-header"><font>연구기관 주소</font></h2>
               <table class="detail-table">
