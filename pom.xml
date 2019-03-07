@@ -64,6 +64,13 @@
 	    <scope>test</scope>
 	</dependency>
 	
+	<!-- Spring data -->
+	<dependency>
+	    <groupId>org.springframework.data</groupId>
+	    <artifactId>spring-data-jpa</artifactId>
+	    <version>2.1.5.RELEASE</version>
+	</dependency>
+	
     <!-- JSTL/taglibs -->
     <dependency>
       <groupId>taglibs</groupId>
@@ -77,13 +84,15 @@
       <version>1.2</version>
     </dependency>
 
-	<!-- JPA -->
+
+	<!-- mariaDB connector -->
 	<dependency>
 	    <groupId>org.mariadb.jdbc</groupId>
 	    <artifactId>mariadb-java-client</artifactId>
 	    <version>2.4.0</version>
 	</dependency>
 	
+	<!-- JPA -->
 	<dependency>
 	    <groupId>org.hibernate</groupId>
 	    <artifactId>hibernate-core</artifactId>
@@ -96,12 +105,6 @@
       <version>1.0.0.Final</version>
     </dependency>
     
-	<!-- mariaDB connector -->
-	<dependency>
-	    <groupId>org.springframework.data</groupId>
-	    <artifactId>spring-data-jpa</artifactId>
-	    <version>2.1.5.RELEASE</version>
-	</dependency>
 	
 	<!-- lombok -->
 	<dependency>
