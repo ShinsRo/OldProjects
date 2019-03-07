@@ -17,6 +17,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
+    <springframework.version>4.3.5.RELEASE</springframework.version>
   </properties>
 
   <dependencies>
@@ -31,9 +32,30 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
-      <version>4.3.3.RELEASE</version>
+      <version>${springframework.version}</version>
     </dependency>
 
+	<!-- Spring Core -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>${springframework.version}</version>
+    </dependency>
+
+    <!-- Spring TX -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+      <version>${springframework.version}</version>
+    </dependency>
+
+    <!-- Spring ORM support -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>${springframework.version}</version>
+	</dependency>
+	
     <!-- JSTL/taglibs -->
     <dependency>
       <groupId>taglibs</groupId>
@@ -54,6 +76,18 @@
 	    <version>2.4.0</version>
 	</dependency>
 	
+	<dependency>
+	    <groupId>org.hibernate</groupId>
+	    <artifactId>hibernate-core</artifactId>
+	    <version>5.4.1.Final</version>
+	</dependency>
+	
+	<dependency>
+      <groupId>org.hibernate.javax.persistence</groupId>
+      <artifactId>hibernate-jpa-2.1-api</artifactId>
+      <version>1.0.0.Final</version>
+    </dependency>
+    
 	<!-- mariaDB connector -->
 	<dependency>
 	    <groupId>org.springframework.data</groupId>
