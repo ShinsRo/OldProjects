@@ -15,8 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nastech.upmureport.config.PersistenceJPAConfig;
 import com.nastech.upmureport.config.WebConfig;
-import com.nastech.upmureport.jpa.Member;
-import com.nastech.upmureport.jpa.MemberRepository;
+import com.nastech.upmureport.jpa.sample.Member;
+import com.nastech.upmureport.jpa.sample.MemberRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -32,7 +32,7 @@ public class MemberTest {
 	@Test
 	public void save() {
 		System.out.println(memberRepository);
-		memberRepository.save(new Member(1, "test", 32));
+		memberRepository.save(Member.builder().name("test").id(1).age(32).build());
 //		System.out.println(platformTransactionManager);
 		
 		assertThat(memberRepository.findAll().get(0).getName(), is("test"));
