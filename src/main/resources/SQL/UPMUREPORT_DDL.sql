@@ -14,7 +14,6 @@
  * author 	: 김승신
  * desc.	: 
  */
-
 DROP TABLE PROJ_CONNECTION;
 DROP TABLE DIR;
 DROP TABLE PROJECT;
