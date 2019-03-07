@@ -17,6 +17,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
+@EnableJpaRepositories("com.nastech.upmureport.jpa")
 @EnableTransactionManagement
 public class PersistenceJPAConfig {
 	
@@ -25,7 +26,7 @@ public class PersistenceJPAConfig {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 		em.setDataSource(dataSource());
 		em.setPackagesToScan(new String[] { "com.nastech.upmureport.jpa" });
-		
+	
 		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(vendorAdapter);
 		em.setJpaProperties(additionalProperties());

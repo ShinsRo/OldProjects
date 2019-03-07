@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.nastech.upmureport"})
+@ComponentScan(basePackages = {"com.nastech.upmureport", "com.nastech.upmureport.jpa"})
 public class WebConfig extends WebMvcConfigurerAdapter {
 
 	@Override
