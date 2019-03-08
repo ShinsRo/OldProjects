@@ -1,4 +1,4 @@
-package com.nastech.upmureport.jpa.sample;
+package com.nastech.upmureport.domain.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

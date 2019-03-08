@@ -17,7 +17,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EnableJpaRepositories("com.nastech.upmureport.jpa")
+@EnableJpaRepositories("com.nastech.upmureport.domain")
 @EnableTransactionManagement
 public class PersistenceJPAConfig {
 	
@@ -25,7 +25,7 @@ public class PersistenceJPAConfig {
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 		em.setDataSource(dataSource());
-		em.setPackagesToScan(new String[] { "com.nastech.upmureport.jpa" });
+		em.setPackagesToScan(new String[] { "com.nastech.upmureport.domain" });
 	
 		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(vendorAdapter);
@@ -38,7 +38,7 @@ public class PersistenceJPAConfig {
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("org.mariadb.jdbc.Driver");
-		dataSource.setUrl("jdbc:mariadb://localhost:3307/upmureport");
+		dataSource.setUrl("jdbc:mariadb://localhost:3307/upmureport?useUnicode=true&characterEncoding=utf8");
 		dataSource.setUsername( "sskim" );
 		dataSource.setPassword( "nas1234!" );
 		return dataSource;
