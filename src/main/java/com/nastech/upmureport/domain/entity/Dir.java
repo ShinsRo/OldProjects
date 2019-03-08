@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.Data;
 
@@ -35,6 +36,6 @@ public class Dir {
 	@JoinColumn(name = "dir_id")
 	private Dir parentDir;
 	
-//	@OneToMany(mappedBy = "dir")
-//	private List<Dir> childDirs = new ArrayList<Dir>(); 
+	@OneToMany(mappedBy = "dir")
+	private List<Dir> childDirs = new ArrayList<Dir>(); 
 }
