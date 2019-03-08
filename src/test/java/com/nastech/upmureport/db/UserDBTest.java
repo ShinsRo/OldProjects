@@ -4,7 +4,6 @@ package com.nastech.upmureport.db;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,22 +16,26 @@ import com.nastech.upmureport.config.PersistenceJPAConfig;
 import com.nastech.upmureport.config.WebConfig;
 import com.nastech.upmureport.domain.entity.Dept;
 import com.nastech.upmureport.domain.entity.Position;
+import com.nastech.upmureport.domain.entity.User;
 import com.nastech.upmureport.domain.repository.DeptRepository;
 import com.nastech.upmureport.domain.repository.PositionRepository;
+import com.nastech.upmureport.domain.repository.UserRepository;
 import com.nastech.upmureport.jpa.sample.Member;
 import com.nastech.upmureport.jpa.sample.MemberRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = {WebConfig.class, PersistenceJPAConfig.class}, loader=AnnotationConfigWebContextLoader.class)
-public class MemberTest {
+public class UserDBTest {
 
 	@Autowired
 	MemberRepository memberRepository;
 	@Autowired
-	DeptRepository deptrepository;
+	DeptRepository deptRepository;
 	@Autowired
-	PositionRepository positionrepository;
+	PositionRepository positionRepository;
+	@Autowired
+	UserRepository userRepository;
 //	
 //	@Autowired
 //	PlatformTransactionManager platformTransactionManager;
@@ -45,4 +48,26 @@ public class MemberTest {
 		
 		assertThat(memberRepository.findAll().get(0).getName(), is("test"));
 	}
+	@Test
+	public void save() {
+		System.out.println(deptRepository);
+		deptRepository.save(Dept.builder().dept_name("deptTest").build());
+//		System.out.println(platformTransactionManager);
+		assertThat(deptRepository.findAll().get(0).getDept_name(), is("deptTest"));
+	}
+	
+	@Test
+	public void save3() {
+		System.out.println(positionRepository);
+		positionRepository.save(Position.builder().posi_name("posi test").roll_level(1).build());
+		assertThat(positionRepository.findAll().get(0).getPosi_name(), is("posi test"));
+	}
+	@Test
+	public void save4() {
+		System.out.println(userRepository);
+		userRepository.save(User.builder().user_name("User test").build());
+		assertThat(userRepository.findAll().get(0).getUser_name(), is("User test"));
+	}
+	
+	
 }
