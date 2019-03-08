@@ -5,8 +5,11 @@ import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -19,7 +22,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableJpaRepositories("com.nastech.upmureport.domain")
 @EnableTransactionManagement
+@PropertySource("classpath:/com/nastech/upmureport/config/db.properties")
 public class PersistenceJPAConfig {
+	
+	@Autowired
+    Environment env;
 	
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -37,10 +44,10 @@ public class PersistenceJPAConfig {
 	@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName("org.mariadb.jdbc.Driver");
-		dataSource.setUrl("jdbc:mariadb://localhost:3307/upmureport?useUnicode=true&characterEncoding=utf8");
-		dataSource.setUsername( "sskim" );
-		dataSource.setPassword( "nas1234!" );
+		dataSource.setDriverClassName( env.getProperty("db.dname") );
+		dataSource.setUrl( env.getProperty("db.url") );
+		dataSource.setUsername( env.getProperty("db.user") );
+		dataSource.setPassword( env.getProperty("db.password") );
 		return dataSource;
 	}
 	
