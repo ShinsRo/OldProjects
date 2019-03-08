@@ -17,7 +17,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EnableJpaRepositories("com.nastech.upmureport.jpa")
+@EnableJpaRepositories("com.nastech.upmureport.domain")
 @EnableTransactionManagement
 public class PersistenceJPAConfig {
 	
@@ -25,7 +25,7 @@ public class PersistenceJPAConfig {
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 		em.setDataSource(dataSource());
-		em.setPackagesToScan(new String[] { "com.nastech.upmureport.jpa" });
+		em.setPackagesToScan(new String[] { "com.nastech.upmureport.domain" });
 	
 		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(vendorAdapter);
@@ -38,9 +38,9 @@ public class PersistenceJPAConfig {
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("org.mariadb.jdbc.Driver");
-		dataSource.setUrl("jdbc:mariadb://localhost:3307/upmureport");
-		dataSource.setUsername( "sskim" );
-		dataSource.setPassword( "nas1234!" );
+		dataSource.setUrl("jdbc:mariadb://localhost:3306/upmureport");
+		dataSource.setUsername( "root" );
+		dataSource.setPassword( "nas133" );
 		return dataSource;
 	}
 	
@@ -56,6 +56,8 @@ public class PersistenceJPAConfig {
 		Properties properties = new Properties();
 		properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+		//properties.setProperty("hibernate.physical_naming_strategy", "org.hibernate.boot.model.naming.PhysicalNamingStrategy");
+		//properties.setProperty("hibernate.implicit_naming_strategy", "org.hibernate.cfg.EJB3NamingStrategy");
 		return properties;
 	}
 }

@@ -15,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nastech.upmureport.config.PersistenceJPAConfig;
 import com.nastech.upmureport.config.WebConfig;
-import com.nastech.upmureport.jpa.sample.Member;
-import com.nastech.upmureport.jpa.sample.MemberRepository;
+import com.nastech.upmureport.domain.entity.File;
+import com.nastech.upmureport.domain.entity.Member;
+import com.nastech.upmureport.domain.repository.FileRepository;
+import com.nastech.upmureport.domain.repository.MemberRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -25,6 +27,9 @@ public class MemberTest {
 
 	@Autowired
 	MemberRepository memberRepository;
+	
+	@Autowired
+	FileRepository fileRepository;
 //	
 //	@Autowired
 //	PlatformTransactionManager platformTransactionManager;
@@ -36,5 +41,13 @@ public class MemberTest {
 //		System.out.println(platformTransactionManager);
 		
 		assertThat(memberRepository.findAll().get(0).getName(), is("test"));
+	}
+	
+	@Test
+	public void fileSave() {
+		File file = File.builder().name("testFile").contents("test file context").localPath("c/c/c/c/c").build();
+		fileRepository.save(file);
+		
+		assertThat(fileRepository.findAll().get(0).getName(), is("testFile"));
 	}
 }
