@@ -22,7 +22,4 @@ public class User {
 	private String dept;
 	private String posi;
 	private Boolean deleteFlag;
-	
-//	@OneToMany(mappedBy = "user")
-//	private List<UserProject> userProject;
 }

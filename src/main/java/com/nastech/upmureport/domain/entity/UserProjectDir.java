@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 
 @Entity @Data @Builder @NoArgsConstructor @AllArgsConstructor @IdClass(UserProjectDirPK.class)
 public class UserProjectDir {
-
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "userId")
@@ -28,7 +27,6 @@ public class UserProjectDir {
 	
 	@Id
 	@ManyToOne
-	@JoinColumn(name = "dirId")
 	private Dir dir;
 	
 	private Boolean DELETE_FLAG;

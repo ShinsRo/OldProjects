@@ -30,14 +30,6 @@ public class Dir {
 	@Column
 	private LocalDateTime createDate;
 	
-	@ManyToOne
-	@JoinColumn(name = "projId")
-	private Project project;
-	
-	@ManyToOne
-	@JoinColumn(name = "parentDirId")
-	private Dir parentDir;
-	
 	@OneToMany(mappedBy = "dir")
 	private List<Dir> dir = new ArrayList<Dir>(); 
 	

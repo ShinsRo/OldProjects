@@ -7,7 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,12 +39,9 @@ public class Project {
 
 	@Column
 	private Integer projProgress;
-	
-	@Column
-	private ProjStat projStatCode;
 
-	@OneToMany(mappedBy = "project")
-	private List<UserProject> userProject;
+//	@OneToMany(mappedBy = "project")
+//	private List<UserProject> userProject;
 	
 	private Boolean DELETE_FLAG;
 }
