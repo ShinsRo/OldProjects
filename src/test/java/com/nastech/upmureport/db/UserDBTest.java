@@ -38,22 +38,22 @@ public class UserDBTest {
 	@Test
 	public void save() {
 		System.out.println(deptRepository);
-		deptRepository.save(Dept.builder().dept_name("deptTest").build());
+		deptRepository.save(Dept.builder().deptName("deptTest").build());
 //		System.out.println(platformTransactionManager);
-		assertThat(deptRepository.findAll().get(0).getDept_name(), is("deptTest"));
+		assertThat(deptRepository.findAll().get(0).getDeptName(), is("deptTest"));
 	}
 	
 	@Test
 	public void save3() {
 		System.out.println(positionRepository);
-		positionRepository.save(Position.builder().posi_name("posi test").roll_level(1).build());
-		assertThat(positionRepository.findAll().get(0).getPosi_name(), is("posi test"));
+		positionRepository.save(Position.builder().posiName("posi test").rollLevel(1).build());
+		assertThat(positionRepository.findAll().get(0).getPosiName(), is("posi test"));
 	}
 	@Test
 	public void save4() {
 		System.out.println(userRepository);
-		userRepository.save(User.builder().user_name("User test").build());
-		assertThat(userRepository.findAll().get(0).getUser_name(), is("User test"));
+		userRepository.save(User.builder().userName("User test").build());
+		assertThat(userRepository.findAll().get(0).getUserName(), is("User test"));
 	}
 	
 	

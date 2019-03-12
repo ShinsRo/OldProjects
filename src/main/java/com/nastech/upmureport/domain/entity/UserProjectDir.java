@@ -13,9 +13,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity @Data @Builder @NoArgsConstructor @AllArgsConstructor @IdClass(UserProjectPK.class)
-public class UserProject implements Serializable{
-	private static final long serialVersionUID = 8744403356888666168L;
+@Entity @Data @Builder @NoArgsConstructor @AllArgsConstructor @IdClass(UserProjectDirPK.class)
+public class UserProjectDir implements Serializable{
+	private static final long serialVersionUID = 3098620828364242500L;
 
 	@Id
 	@ManyToOne
@@ -27,7 +27,10 @@ public class UserProject implements Serializable{
 	@JoinColumn(name = "projId")
 	private Project project;
 	
-	private ProjStat projStat;
+	@Id
+	@ManyToOne
+	@JoinColumn(name = "dirId")
+	private Dir dir;
 	
 	private Boolean DELETE_FLAG;
 }
