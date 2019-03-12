@@ -13,20 +13,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity @Data @Builder @NoArgsConstructor @AllArgsConstructor @IdClass(UserProjectPK.class)
-public class UserProject {
-
+@Entity @Data @Builder @NoArgsConstructor @AllArgsConstructor @IdClass(UserProjectDirPK.class)
+public class UserProjectDir {
 	@Id
-	@ManyToOne(optional = false)
+	@ManyToOne
 	@JoinColumn(name = "userId")
 	private User user;
 	
 	@Id
-	@ManyToOne(optional = false)
+	@ManyToOne
 	@JoinColumn(name = "projId")
 	private Project project;
 	
-	private ProjStat projStat;
+	@Id
+	@ManyToOne
+	private Dir dir;
 	
 	private Boolean DELETE_FLAG;
 }

@@ -14,11 +14,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.nastech.upmureport.config.PersistenceJPAConfig;
 import com.nastech.upmureport.config.WebConfig;
-import com.nastech.upmureport.domain.entity.Dept;
-import com.nastech.upmureport.domain.entity.Position;
+import com.nastech.upmureport.domain.entity.EmployeeSystem;
 import com.nastech.upmureport.domain.entity.User;
-import com.nastech.upmureport.domain.repository.DeptRepository;
-import com.nastech.upmureport.domain.repository.PositionRepository;
+import com.nastech.upmureport.domain.repository.EmployeeSystemRepository;
 import com.nastech.upmureport.domain.repository.UserRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -27,34 +25,38 @@ import com.nastech.upmureport.domain.repository.UserRepository;
 public class UserDBTest {
 
 	@Autowired
-	DeptRepository deptRepository;
-	@Autowired
-	PositionRepository positionRepository;
-	@Autowired
 	UserRepository userRepository;
-//	
-//	@Autowired
-//	PlatformTransactionManager platformTransactionManager;
-	@Test
-	public void save() {
-		System.out.println(deptRepository);
-		deptRepository.save(Dept.builder().dept_name("deptTest").build());
-//		System.out.println(platformTransactionManager);
-		assertThat(deptRepository.findAll().get(0).getDept_name(), is("deptTest"));
-	}
+
+	@Autowired
+	EmployeeSystemRepository employeeSystemRepository;
 	
+	/**
+	 * 1. 유저 "마규석" 가입
+	 * 2. 유저 "부하" 가입
+	 * 3. 유저 "부하"는 "마규석"의 산하로 표기
+	 */
 	@Test
-	public void save3() {
-		System.out.println(positionRepository);
-		positionRepository.save(Position.builder().posi_name("posi test").roll_level(1).build());
-		assertThat(positionRepository.findAll().get(0).getPosi_name(), is("posi test"));
+	public void test() {
+		User mk = User.builder()
+				.userId(111138)
+				.userName("마규석")
+				.build();
+		
+		User aa = User.builder()
+				.userId(111123)
+				.userName("마구석")
+				.build();
+		
+		userRepository.save(mk);
+		userRepository.save(aa);
+		
+		employeeSystemRepository.save(
+				EmployeeSystem.builder()
+				.senior(mk)
+				.junior(aa)
+				.build()
+		);
+		System.out.println(employeeSystemRepository.findAllByJunior(aa).get(0));
+		assertThat(employeeSystemRepository.findAllByJunior(aa).get(0).getSenior(), is(mk));
 	}
-	@Test
-	public void save4() {
-		System.out.println(userRepository);
-		userRepository.save(User.builder().user_name("User test").build());
-		assertThat(userRepository.findAll().get(0).getUser_name(), is("User test"));
-	}
-	
-	
 }
