@@ -39,7 +39,7 @@ public class Dir {
 	private Dir parentDir;
 	
 	@OneToMany(mappedBy = "dir")
-	private List<Dir> dirs = new ArrayList<Dir>(); 
+	private List<Dir> dir = new ArrayList<Dir>(); 
 	
 	private Boolean DELETE_FLAG;
 }

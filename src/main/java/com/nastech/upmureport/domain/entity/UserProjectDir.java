@@ -14,8 +14,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity @Data @Builder @NoArgsConstructor @AllArgsConstructor @IdClass(UserProjectDirPK.class)
-public class UserProjectDir implements Serializable{
-	private static final long serialVersionUID = 3098620828364242500L;
+public class UserProjectDir {
 
 	@Id
 	@ManyToOne

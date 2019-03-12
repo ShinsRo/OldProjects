@@ -14,16 +14,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity @Data @Builder @NoArgsConstructor @AllArgsConstructor @IdClass(UserProjectPK.class)
-public class UserProject implements Serializable{
-	private static final long serialVersionUID = 8744403356888666168L;
+public class UserProject {
 
 	@Id
-	@ManyToOne
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "userId")
 	private User user;
 	
 	@Id
-	@ManyToOne
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "projId")
 	private Project project;
 	

@@ -16,15 +16,13 @@ import lombok.NoArgsConstructor;
 @Entity @Data @Builder @NoArgsConstructor @AllArgsConstructor
 public class User {
 	@Id
-	@GeneratedValue
 	private Integer userId;
 	private String userName;
 	private String userPass;
+	private String dept;
+	private String posi;
+	private Boolean deleteFlag;
 	
-	@ManyToOne
-	@JoinColumn(name="deptCode")
-	private Dept dept;
-	
-	@OneToMany(mappedBy = "user")
-	private List<UserProject> userProject;
+//	@OneToMany(mappedBy = "user")
+//	private List<UserProject> userProject;
 }
