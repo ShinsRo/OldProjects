@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nastech.upmureport.domain.entity.Dept;
-
 @Transactional
 @Repository
 public interface DeptRepository extends JpaRepository<Dept, Integer>{
