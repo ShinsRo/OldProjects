@@ -16,6 +16,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.nastech.upmureport.config.PersistenceJPAConfig;
 import com.nastech.upmureport.config.WebConfig;
+import com.nastech.upmureport.domain.dto.ProjectDto;
 import com.nastech.upmureport.domain.entity.Dir;
 import com.nastech.upmureport.domain.entity.ProjStat;
 import com.nastech.upmureport.domain.entity.Project;
@@ -64,19 +65,19 @@ public class UserProjectDirRepoTest {
 		
 		// 1. 유저 마규석, 김승신, 김윤상을 등록한다.
 		users.add(User.builder()
-			.userId(12347)
+			.userId("12347")
 			.userName("마규석")
 			.userPass("1234")
 			.build()
 		);
 		users.add(User.builder()
-			.userId(12346)
+			.userId("12346")
 			.userName("김승신")
 			.userPass("1234")
 			.build()
 		);
 		users.add(User.builder()
-			.userId(12345)
+			.userId("12345")
 			.userName("김윤상")
 			.userPass("1234")
 			.build()
@@ -84,9 +85,9 @@ public class UserProjectDirRepoTest {
 		userRepository.saveAll(users);
 		
 		// 2. 유저 마규석을 조회한다.
-		User ksm = userRepository.findOneByUserName("마규석");
+		User ksm = userRepository.findAllByUserName("마규석").get(0);
 		assertTrue(ksm.getUserName().equals("마규석"));
-//		
+		
 		// 3. 유저 마규석이 프로젝트 1을 등록한다.
 		Project project1 = Project.builder()
 				.projName("프로젝트 1")
@@ -96,9 +97,10 @@ public class UserProjectDirRepoTest {
 				.projStartDate(LocalDateTime.now())
 				.projDesc("담당업무 설명")
 				.build();
-		
-		projectRepository.save(project1);
-		
+
+	
+		project1 = projectRepository.save(project1);
+		project1 = projectRepository.findById(project1.getProjId()).get();
 		userProjectRepsitory.save(
 				UserProject.builder()
 					.project(project1)
@@ -107,8 +109,8 @@ public class UserProjectDirRepoTest {
 					.build());
 		
 		// 4. 프로젝트 1에 유저 김승신, 김윤상을 추가한다.
-		User ssk = userRepository.findOneByUserName("김승신");
-		User ysk = userRepository.findOneByUserId(12345);
+		User ssk = userRepository.findAllByUserName("김승신").get(0);
+		User ysk = userRepository.findOneByUserId("12345");
 		
 		userProjectRepsitory.save(
 				UserProject.builder()
@@ -148,7 +150,7 @@ public class UserProjectDirRepoTest {
 		 */
 		유저프로젝트_연결테스트();
 		
-		User ksm = userRepository.findOneByUserName("마규석");
+		User ksm = userRepository.findAllByUserName("마규석").get(0);
 		
 		
 		List<UserProject> ksmProjects = userProjectRepsitory.findAllByUser(ksm);
@@ -166,7 +168,7 @@ public class UserProjectDirRepoTest {
 				.dirName("proj1_dir1")
 				.createDate(LocalDateTime.now())
 				.build();
-		dirRepository.save(project1Dir);
+		project1Dir = dirRepository.save(project1Dir);
 		
 		userProjectDirRepository.save(UserProjectDir.builder()
 				.project(ksmProject1.getProject())

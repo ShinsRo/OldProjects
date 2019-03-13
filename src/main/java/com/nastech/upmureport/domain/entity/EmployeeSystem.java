@@ -6,6 +6,8 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.nastech.upmureport.domain.pk.EmployeeSystemPK;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,11 +23,11 @@ public class EmployeeSystem {
 	
 	@Id
 	@ManyToOne
-	@JoinColumn(name="seniorId")
+	@JoinColumn(name="seniorId", columnDefinition="varchar(32)")
 	private User senior;
 	
 	@Id
 	@ManyToOne
-	@JoinColumn(name="juniorId")
+	@JoinColumn(name="juniorId", columnDefinition="varchar(32)")
 	private User junior;
 }

@@ -9,8 +9,8 @@ import com.nastech.upmureport.domain.entity.Project;
 import com.nastech.upmureport.domain.entity.User;
 import com.nastech.upmureport.domain.entity.UserProject;
 import com.nastech.upmureport.domain.entity.UserProjectDir;
-import com.nastech.upmureport.domain.entity.UserProjectDirPK;
-import com.nastech.upmureport.domain.entity.UserProjectPK;
+import com.nastech.upmureport.domain.pk.UserProjectDirPK;
+import com.nastech.upmureport.domain.pk.UserProjectPK;
 
 public interface UserProjectDirRepository extends JpaRepository<UserProjectDir, UserProjectDirPK> {
 	public List<UserProjectDir> findAllByUser(User user);

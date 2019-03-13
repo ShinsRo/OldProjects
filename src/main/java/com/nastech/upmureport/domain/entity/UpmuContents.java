@@ -1,14 +1,13 @@
 package com.nastech.upmureport.domain.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.Optional;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -32,9 +31,9 @@ public class UpmuContents implements Serializable{
 	
 	private String contents;
 	
-	private Date newDate;
+	private LocalDateTime newDate;
 	
-	private Date updateDate;
+	private LocalDateTime updateDate;
 	
 	private String localPath;
 	

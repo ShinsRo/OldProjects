@@ -41,12 +41,12 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-700 mb-4">안녕하세요.<br>UPMUREPORT입니다.</h1>
                   </div>
-                  <form class="user">
+                  <form class="User" action="${pageContext.request.contextPath}/login" method="post">
                     <div class="form-group">
-                      <input type="text" class="form-control form-control-user" id="userId" placeholder="사번">
+                      <input type="text" class="form-control form-control-user" name="userId" placeholder="사번">
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control form-control-user" id="userPass" placeholder="비밀번호">
+                      <input type="password" class="form-control form-control-user" name="userPass" placeholder="비밀번호">
                     </div>
                     <div class="form-group">
                       <div class="custom-control custom-checkbox small">
@@ -54,7 +54,8 @@
                         <label class="custom-control-label" for="customCheck">Remember Me</label>
                       </div>
                     </div>
-                    <a href="index.html" class="btn btn-darkblue btn-user btn-block">
+                    <input type="submit" value="login">
+                    <a href="${pageContext.request.contextPath}/temp" class="btn btn-darkblue btn-user btn-block">
                       Login
                     </a>
                     <hr>
