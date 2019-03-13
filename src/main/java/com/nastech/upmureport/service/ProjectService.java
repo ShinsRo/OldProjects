@@ -1,4 +1,4 @@
-package com.nastech.upmureport.domain.service;
+package com.nastech.upmureport.service;
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;

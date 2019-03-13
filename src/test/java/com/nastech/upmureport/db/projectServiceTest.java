@@ -26,7 +26,7 @@ import com.nastech.upmureport.domain.entity.UserProject;
 import com.nastech.upmureport.domain.repository.ProjectRepository;
 import com.nastech.upmureport.domain.repository.UserProjectRepository;
 import com.nastech.upmureport.domain.repository.UserRepository;
-import com.nastech.upmureport.domain.service.ProjectService;
+import com.nastech.upmureport.service.ProjectService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
