@@ -69,19 +69,19 @@ public class UpmuLogTest {
 		
 		// 1. 유저 마규석, 김승신, 김윤상을 등록한다.
 		users.add(User.builder()
-			.userId(12347)
+			.userId("12347")
 			.userName("마규석")
 			.userPass("1234")
 			.build()
 		);
 		users.add(User.builder()
-			.userId(12346)
+			.userId("12346")
 			.userName("김승신")
 			.userPass("1234")
 			.build()
 		);
 		users.add(User.builder()
-			.userId(12345)
+			.userId("12345")
 			.userName("김윤상")
 			.userPass("1234")
 			.build()
