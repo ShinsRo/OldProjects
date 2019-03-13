@@ -10,8 +10,8 @@ public class UserProjectDirPK implements Serializable {
 	private static final long serialVersionUID = 110915459184422098L;
 	
 	private Integer user;
-	private Long project;
-	private Long dir;
+	private Integer project;
+	private Integer dir;
 	
 	@Override
 	public boolean equals(Object o) {

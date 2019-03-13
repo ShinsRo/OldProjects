@@ -8,7 +8,7 @@
     <jsp:include page="${JSP_ROOT_PATH}/commons/meta.jsp"></jsp:include>
     <!-- 상수 -->
 
-    <title>Dashboard</title>
+    <title>LOGIN</title>
 
     <!-- fonts 로드 -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -16,12 +16,12 @@
 
 
     <!-- css 로드 -->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="css/sb-admin-2.css" rel="stylesheet">
     <link href="css/custom-color.css" rel="stylesheet">
     <link href="css/bootstrap-treeview.min.css" rel="stylesheet">
 
 </head>
-<body class=".bg-gradient-darkblue">
+<body class="bg-gradient-darkblue">
 
   <div class="container">
 
@@ -37,12 +37,13 @@
               <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
               <div class="col-lg-6">
                 <div class="p-5">
+               	  <hr>
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">안녕하세요, UPMUREPORT입니다.</h1>
+                    <h1 class="h4 text-gray-700 mb-4">안녕하세요.<br>UPMUREPORT입니다.</h1>
                   </div>
                   <form class="user">
                     <div class="form-group">
-                      <input type="text" class="form-control form-control-user" id="userId" aria-describedby="emailHelp" placeholder="사번">
+                      <input type="text" class="form-control form-control-user" id="userId" placeholder="사번">
                     </div>
                     <div class="form-group">
                       <input type="password" class="form-control form-control-user" id="userPass" placeholder="비밀번호">
@@ -53,24 +54,11 @@
                         <label class="custom-control-label" for="customCheck">Remember Me</label>
                       </div>
                     </div>
-                    <a href="index.html" class="btn btn-primary btn-user btn-block">
+                    <a href="index.html" class="btn btn-darkblue btn-user btn-block">
                       Login
                     </a>
                     <hr>
-                    <a href="index.html" class="btn btn-google btn-user btn-block">
-                      <i class="fab fa-google fa-fw"></i> Login with Google
-                    </a>
-                    <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                      <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                    </a>
                   </form>
-                  <hr>
-                  <div class="text-center">
-                    <a class="small" href="forgot-password.html">Forgot Password?</a>
-                  </div>
-                  <div class="text-center">
-                    <a class="small" href="register.html">Create an Account!</a>
-                  </div>
                 </div>
               </div>
             </div>
