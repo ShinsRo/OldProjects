@@ -29,5 +29,5 @@ public class UserProjectDir {
 	@ManyToOne
 	private Dir dir;
 	
-	private Boolean DELETE_FLAG;
+	private Boolean deleteFlag;
 }

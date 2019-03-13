@@ -1,13 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Project Tracker</title>
-</head>
-<body>
-아래는 template.jsp의 데모임. 이 파일을 참조해서 유아이를 구성하면 됨.
-<a href="${pageContext.request.contextPath}/temp">
-${pageContext.request.contextPath}/temp
-</a>
-${_TEST}
-</body>
-</html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<c:choose>
+	<c:when test="${empty sessionScope.user}">
+		<jsp:forward page="pages/login.jsp"></jsp:forward>
+	</c:when>
+	<c:otherwise>
+		<jsp:forward page="pages/dashboard.jsp"></jsp:forward>
+	</c:otherwise>
+</c:choose>
