@@ -33,7 +33,7 @@ public class UserService {
 	}
 	public UserDto searchUserByName(UserDto userDto) {
 		String userName=userDto.getUserName();
-		User user = userRepository.findOneByUserName(userName);
+		User user = userRepository.findAllByUserName(userName).get(0);
 		if(user != null) 
 			return userDto;
 		else return null;
