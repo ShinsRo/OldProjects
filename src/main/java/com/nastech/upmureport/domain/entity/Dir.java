@@ -2,6 +2,8 @@ package com.nastech.upmureport.domain.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,12 +19,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class Dir implements Serializable{
+@Entity @Data @Builder @NoArgsConstructor @AllArgsConstructor
+public class Dir {
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
 	@Column(name = "dir_id")
@@ -34,15 +32,8 @@ public class Dir implements Serializable{
 	@Column
 	private LocalDateTime createDate;
 	
-	@ManyToOne
-	@JoinColumn(name = "proj_id")
-	private Project project;
+	@OneToMany(mappedBy = "dir")
+	private List<Dir> dir = new ArrayList<Dir>(); 
 	
-	@ManyToOne
-	@JoinColumn(name = "parent_id")
-	private Dir parentDir;
-	
-	
-//	@OneToMany(mappedBy = "dir")
-//	private List<Dir> childDirs = new ArrayList<Dir>(); 
+	private Boolean DELETE_FLAG;
 }
