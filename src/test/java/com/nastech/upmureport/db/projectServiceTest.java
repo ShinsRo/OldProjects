@@ -76,9 +76,9 @@ public class projectServiceTest {
 		assertNotNull(userProject);
 		
 		List<UserProject> userProjList = userProjectRepository.findAllByUser(loginedUserEntity);
-//		
-//		//project에 관련한 유저가 tempUser와 같은가.
-//		assertThat(userProjList.get(0).getUser(), is(loginedUserEntity));
+		
+		//project에 관련한 유저가 tempUser와 같은가.
+		assertThat(userProjList.get(0).getUser(), is(loginedUserEntity));
 	}
 	
 	private List<User> setTempUsers() {

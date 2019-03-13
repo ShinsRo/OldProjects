@@ -85,7 +85,7 @@ public class UserProjectDirRepoTest {
 		userRepository.saveAll(users);
 		
 		// 2. 유저 마규석을 조회한다.
-		User ksm = userRepository.findOneByUserName("마규석");
+		User ksm = userRepository.findAllByUserName("마규석").get(0);
 		assertTrue(ksm.getUserName().equals("마규석"));
 		
 		// 3. 유저 마규석이 프로젝트 1을 등록한다.
@@ -109,7 +109,7 @@ public class UserProjectDirRepoTest {
 					.build());
 		
 		// 4. 프로젝트 1에 유저 김승신, 김윤상을 추가한다.
-		User ssk = userRepository.findOneByUserName("김승신");
+		User ssk = userRepository.findAllByUserName("김승신").get(0);
 		User ysk = userRepository.findOneByUserId("12345");
 		
 		userProjectRepsitory.save(
@@ -150,7 +150,7 @@ public class UserProjectDirRepoTest {
 		 */
 		유저프로젝트_연결테스트();
 		
-		User ksm = userRepository.findOneByUserName("마규석");
+		User ksm = userRepository.findAllByUserName("마규석").get(0);
 		
 		
 		List<UserProject> ksmProjects = userProjectRepsitory.findAllByUser(ksm);

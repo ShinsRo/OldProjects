@@ -23,11 +23,11 @@ public class EmployeeSystem {
 	
 	@Id
 	@ManyToOne
-	@JoinColumn(name="seniorId")
+	@JoinColumn(name="seniorId", columnDefinition="varchar(32)")
 	private User senior;
 	
 	@Id
 	@ManyToOne
-	@JoinColumn(name="juniorId")
+	@JoinColumn(name="juniorId", columnDefinition="varchar(32)")
 	private User junior;
 }

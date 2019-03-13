@@ -3,8 +3,6 @@ package com.nastech.upmureport.domain.pk;
 import java.io.Serializable;
 import java.util.Objects;
 
-import com.nastech.upmureport.domain.entity.ProjStat;
-
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 

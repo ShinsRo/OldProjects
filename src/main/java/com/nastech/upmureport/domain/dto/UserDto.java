@@ -23,5 +23,4 @@ public class UserDto {
 				userName(userName).
 				userPass(userPass).dept(dept).posi(posi).build();
 		}
-
 }

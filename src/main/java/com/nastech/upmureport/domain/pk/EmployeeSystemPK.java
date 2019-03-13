@@ -6,8 +6,8 @@ import java.util.Objects;
 public class EmployeeSystemPK implements Serializable{
 	private static final long serialVersionUID = 3570716009500781077L;
 	
-	private Integer senior;
-	private Integer junior;
+	private String senior;
+	private String junior;
 	
 	@Override
 	public boolean equals(Object o) {
