@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
@@ -16,8 +17,8 @@ import lombok.NoArgsConstructor;
 @Entity @Data @Builder @NoArgsConstructor @AllArgsConstructor
 public class Project {
 	@Id
-	@GeneratedValue
-	private Long projId;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer projId;
 	
 	@Column
 	private String projName;
