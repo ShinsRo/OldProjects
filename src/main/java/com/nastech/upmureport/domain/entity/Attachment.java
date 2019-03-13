@@ -3,11 +3,12 @@ package com.nastech.upmureport.domain.entity;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import com.nastech.upmureport.domain.entity.LogAttachment.LogAttachmentBuilder;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,10 +20,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FileAttachment {
+public class Attachment {
 	
-	@Id @GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
+	@Id
+	private Integer attachmentNum;
 	
 	private String name;
 	
@@ -30,11 +31,10 @@ public class FileAttachment {
 	
 	private String localPath;
 	
-	private Date date;
+	private Date newDate;
 	
 	private double volume;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-	private File file;
-	
+	@ManyToOne
+	private Dir dir;
 }

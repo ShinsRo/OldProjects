@@ -1,5 +1,6 @@
 package com.nastech.upmureport.domain.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,8 @@ import lombok.NoArgsConstructor;
 public class Dir {
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private Long dirId;
+	@Column(name = "dir_id")
+	private Integer dirId;
 	
 	@Column
 	private String dirName;
