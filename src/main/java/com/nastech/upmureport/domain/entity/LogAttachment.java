@@ -31,7 +31,7 @@ public class LogAttachment {
 	private Attachment attachmentNum;
 	
 	@Id @ManyToOne
-	private User user;
+	private User userId;
 	
 	
 	private String name;

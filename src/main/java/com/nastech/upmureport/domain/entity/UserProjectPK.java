@@ -7,7 +7,7 @@ public class UserProjectPK implements Serializable {
 	private static final long serialVersionUID = -1975783332618600132L;
 	
 	private Integer user;
-	private Long project;
+	private Integer project;
 	
 	@Override
 	public boolean equals(Object o) {
