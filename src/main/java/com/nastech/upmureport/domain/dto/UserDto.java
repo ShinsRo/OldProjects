@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
-	private Integer userId;
+	private String userId;
 	private String userName;
 	private String userPass;
 	private String dept;
@@ -21,7 +21,7 @@ public class UserDto {
 		return User.builder().
 				userId(userId).
 				userName(userName).
-				userPass(userPass).dept(dept).posi(posi).deleteFlag(deleteFlag).build();
+				userPass(userPass).dept(dept).posi(posi).build();
 		}
 
 }

@@ -1,13 +1,15 @@
-package com.nastech.upmureport.domain.entity;
+package com.nastech.upmureport.domain.pk;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Id;
+
 public class EmployeeSystemPK implements Serializable{
 	private static final long serialVersionUID = 3570716009500781077L;
 	
-	private Integer senior;
-	private Integer junior;
+	private String senior;
+	private String junior;
 	
 	@Override
 	public boolean equals(Object o) {

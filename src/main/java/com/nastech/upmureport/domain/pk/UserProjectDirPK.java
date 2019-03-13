@@ -1,4 +1,4 @@
-package com.nastech.upmureport.domain.entity;
+package com.nastech.upmureport.domain.pk;
 
 import java.io.Serializable;
 import java.util.Objects;
