@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.nastech.upmureport.domain.entity.LogAttachment.LogAttachmentBuilder;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,16 +20,21 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Log {
-	@Id @GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
+public class Attachment {
 	
-	private String contents;
+	@Id
+	private Integer attachmentNum;
+	
+	private String name;
+	
+	private String path;
+	
+	private String localPath;
 	
 	private Date newDate;
 	
-	private String type;
+	private double volume;
 	
 	@ManyToOne
-	private File file;
+	private Dir dir;
 }

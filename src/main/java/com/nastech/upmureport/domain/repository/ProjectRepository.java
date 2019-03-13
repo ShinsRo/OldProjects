@@ -6,6 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nastech.upmureport.domain.entity.Project;
 
 @Transactional
-public interface ProjectRepository extends JpaRepository<Project, Long>{
+public interface ProjectRepository extends JpaRepository<Project, Integer>{
 
 }

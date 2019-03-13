@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.ManyToOne;
 
-import com.nastech.upmureport.domain.pk.LogAttachmentPK;
 import com.nastech.upmureport.domain.pk.UpmuLogPK;
 
 import lombok.AllArgsConstructor;
@@ -22,24 +21,23 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@IdClass(LogAttachmentPK.class)
-public class LogAttachment {
+@IdClass(UpmuLogPK.class)
+public class UpmuLog {
 	@Id
 	private Date newDate;
 	
-	@Id @ManyToOne
-	private Attachment attachmentNum;
+	@Id @ManyToOne 
+	private User userId;
 	
 	@Id @ManyToOne
-	private User user;
+	private UpmuContents upmuId;
 	
+	private String contents;	
 	
-	private String name;
+	private LogStat stat;	
 	
-	private String path;
-	
-	private String localPath;	
-	
-	private double volume;
+}
 
+enum LogStat{
+	AUTO, MANUAL
 }

@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nastech.upmureport.domain.entity.Dir;
 
 @Transactional
-public interface DirRepository extends JpaRepository<Dir, Long>{
+public interface DirRepository extends JpaRepository<Dir, Integer>{
 
+	Dir findByDirName(String name);
 }

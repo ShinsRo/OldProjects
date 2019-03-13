@@ -22,7 +22,7 @@ public class UserProject {
 	@Id
 	@GeneratedValue
 	@Column
-	private Long projConnId;
+	private Integer projConnId;
 	
 	@Column
 	private String roll;
@@ -36,7 +36,7 @@ public class UserProject {
 	private Project project;
 
 	@Builder
-	public UserProject(Long projConnId, String roll, Project project) {
+	public UserProject(Integer projConnId, String roll, Project project) {
 		super();
 		this.projConnId = projConnId;
 		this.roll = roll;

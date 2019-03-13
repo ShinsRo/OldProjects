@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class Project {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long projId;
+	private Integer projId;
 	
 	@Column
 	private String projName;
@@ -53,7 +53,7 @@ public class Project {
 	private List<UserProject> userProject;
 
 	@Builder
-	public Project(Long projId, String projName, String projCaleGubun, String projSubject, String projDesc,
+	public Project(Integer projId, String projName, String projCaleGubun, String projSubject, String projDesc,
 			LocalDateTime projStartDate, LocalDateTime projEndDate, Integer projProgress, ProjStat projStatCode,
 			List<Dir> dirs, List<UserProject> userProject) {
 		super();
