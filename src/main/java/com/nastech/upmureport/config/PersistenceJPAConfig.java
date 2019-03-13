@@ -5,11 +5,8 @@ import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -22,11 +19,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableJpaRepositories("com.nastech.upmureport.domain")
 @EnableTransactionManagement
-@PropertySource("classpath:/com/nastech/upmureport/config/db.properties")
 public class PersistenceJPAConfig {
-	
-	@Autowired
-    Environment env;
 	
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -44,10 +37,10 @@ public class PersistenceJPAConfig {
 	@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName( env.getProperty("db.dname") );
-		dataSource.setUrl( env.getProperty("db.url") );
-		dataSource.setUsername( env.getProperty("db.user") );
-		dataSource.setPassword( env.getProperty("db.password") );
+		dataSource.setDriverClassName("org.mariadb.jdbc.Driver");
+		dataSource.setUrl("jdbc:mariadb://localhost:3306/upmureport");
+		dataSource.setUsername( "root" );
+		dataSource.setPassword( "nas133" );
 		return dataSource;
 	}
 	
@@ -63,6 +56,8 @@ public class PersistenceJPAConfig {
 		Properties properties = new Properties();
 		properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+		//properties.setProperty("hibernate.physical_naming_strategy", "org.hibernate.boot.model.naming.PhysicalNamingStrategy");
+		//properties.setProperty("hibernate.implicit_naming_strategy", "org.hibernate.cfg.EJB3NamingStrategy");
 		return properties;
 	}
 }
