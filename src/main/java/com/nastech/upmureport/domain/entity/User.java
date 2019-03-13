@@ -16,10 +16,10 @@ import lombok.NoArgsConstructor;
 @Entity @Data @Builder @NoArgsConstructor @AllArgsConstructor
 public class User {
 	@Id
-	private Integer userId;
+	private String userId;
 	private String userName;
 	private String userPass;
 	private String dept;
 	private String posi;
 	private Boolean deleteFlag;
-}
+}	

@@ -1,12 +1,12 @@
 package com.nastech.upmureport.domain.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.nastech.upmureport.domain.pk.UserProjectPK;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,5 +28,5 @@ public class UserProject {
 	
 	private ProjStat projStat;
 	
-	private Boolean DELETE_FLAG;
+	private Boolean deleteFlag;
 }

@@ -1,4 +1,4 @@
-package com.nastech.upmureport.domain.entity;
+package com.nastech.upmureport.domain.pk;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -9,7 +9,7 @@ import lombok.Data;
 public class UserProjectDirPK implements Serializable {
 	private static final long serialVersionUID = 110915459184422098L;
 	
-	private Integer user;
+	private String user;
 	private Integer project;
 	private Integer dir;
 	
