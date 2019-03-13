@@ -16,8 +16,8 @@ import lombok.NoArgsConstructor;
 @Entity @Data @Builder @NoArgsConstructor @AllArgsConstructor
 public class Project {
 	@Id
-	@GeneratedValue
-	private Long projId;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer projId;
 	
 	@Column
 	private String projName;
