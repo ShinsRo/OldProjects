@@ -29,6 +29,7 @@ public class ProjectDto {
 	
 	private LocalDateTime getStartDate() {
 		if (startDate != null) return startDate;
+		if (startYear == null || startMonth == null || startDay == null) return null;
 		LocalDateTime startLdt = 
 				LocalDateTime.of(
 						Integer.valueOf(startYear.trim()), 
@@ -40,6 +41,7 @@ public class ProjectDto {
 	
 	private LocalDateTime getEndDate() {
 		if (endDate != null) return endDate;
+		if (endYear == null || endMonth == null || endDay == null) return null;
 		LocalDateTime endLdt = 
 				LocalDateTime.of(
 						Integer.valueOf(endYear.trim()), 

@@ -1,13 +1,16 @@
 package com.nastech.upmureport.db;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,8 @@ import com.nastech.upmureport.config.PersistenceJPAConfig;
 import com.nastech.upmureport.config.WebConfig;
 import com.nastech.upmureport.domain.dto.ProjectDto;
 import com.nastech.upmureport.domain.dto.UserDto;
+import com.nastech.upmureport.domain.dto.UserProjectDto;
+import com.nastech.upmureport.domain.entity.ProjStat;
 import com.nastech.upmureport.domain.entity.Project;
 import com.nastech.upmureport.domain.entity.User;
 import com.nastech.upmureport.domain.entity.UserProject;
@@ -44,41 +49,13 @@ public class projectServiceTest {
 	@Autowired
 	ProjectService projectService;
 	
-	private User tempUserRegister () {
-		return userRepository.save(User.builder()
-			.userId("1234")
-			.userName("김승신")
-			.userPass("nas1234!")
-			.build());
-	}
-	
-	@Test
-	public void 프로젝트_등록_테스트 () {
-		//임시 회원 가입 유저
-		User loginedUserEntity = tempUserRegister();
-		
-		//로그인한 유저
-		UserDto userDto = new UserDto();
-		userDto.setUserId(loginedUserEntity.getUserId());
-		
-		//넘겨받은 프로젝트
-		ProjectDto projectDto = ProjectDto.builder()
-				.projName("프로젝트 2")
-				.projCaleGubun("주기성")
-				.projDesc("업무보고 프로젝트")
-				.projProgress(0)
-				.startYear("2019").startMonth("3").startDay("4")
-				.endYear("2019").endMonth("6").endDay("21")
-				.build();
-		
-		//프로젝트 등록
-		UserProject userProject = projectService.register(projectDto, userDto, "");
-		assertNotNull(userProject);
-		
-		List<UserProject> userProjList = userProjectRepository.findAllByUser(loginedUserEntity);
-		
-		//project에 관련한 유저가 tempUser와 같은가.
-		assertThat(userProjList.get(0).getUser(), is(loginedUserEntity));
+	@Before
+	public void setUpTempData() {
+		userProjectRepository.deleteAll();
+		projectRepository.deleteAll();
+		userRepository.deleteAll();
+		setTempUsers();
+		setTempProjs();
 	}
 	
 	private List<User> setTempUsers() {
@@ -122,20 +99,110 @@ public class projectServiceTest {
 		
 		List<UserProject> upList = new ArrayList<UserProject>();
 		for (Project project : tempProj) {
-			upList.add(projectService.register(project.toDto(), creator, "대기"));
+			upList.add(projectService.register(project.toDto(), creator.getUserId(), "대기"));
 		}
 		
 		return upList;
 	}
 	
-	@Test
-	public void 프로젝트_수정_테스트 () {
-//		setTempUsers();
-//		setTempProjs();
+	private User tempUserRegister() {
+		return userRepository.save(User.builder()
+			.userId("1234")
+			.userName("임시사용자")
+			.userPass("nas1234!")
+			.build());
+	}
+	
+	@After
+	public void clearAll() {
+		userProjectRepository.deleteAll();
+		projectRepository.deleteAll();
+		userRepository.deleteAll();
 	}
 	
 	@Test
-	public void 프로젝트_삭제_테스트 () {
+	public void 프로젝트_등록_테스트() {
+		//임시 회원 가입 유저
+		User loginedUserEntity = tempUserRegister();
 		
+		//로그인한 유저
+//		UserDto userDto = new UserDto();
+		
+		//넘겨받은 프로젝트
+		ProjectDto projectDto = ProjectDto.builder()
+				.projName("프로젝트 2")
+				.projCaleGubun("주기성")
+				.projDesc("업무보고 프로젝트")
+				.projProgress(0)
+				.startYear("2019").startMonth("3").startDay("4")
+				.endYear("2019").endMonth("6").endDay("21")
+				.build();
+		
+		//프로젝트 등록
+		UserProject userProject = projectService.register(projectDto, loginedUserEntity.getUserId(), "");
+		assertNotNull(userProject);
+		
+		List<UserProject> userProjList = userProjectRepository.findAllByUser(loginedUserEntity);
+		
+		//project에 관련한 유저가 tempUser와 같은가.
+		assertTrue(Objects.equals(loginedUserEntity.getUserId(), userProjList.get(0).getUser().getUserId()));
+	}
+	
+	@Test
+	public void 프로젝트_수정_테스트() {
+		UserDto targetUserDto = new UserDto();
+		ProjectDto targetProjDto;
+		targetUserDto.setUserId("1111");
+		
+		List<UserProject> userProjectsByUserId = projectService.findAllUserProjectByUserId(targetUserDto.getUserId());
+		
+		assertTrue(userProjectsByUserId.size() == 3);
+		
+		UserProject temp = userProjectsByUserId.get(0);
+		Integer projId = temp.getProject().getProjId();
+		String userId = temp.getUser().getUserId();
+		
+		UserProjectDto targetUserProjectDto = new UserProjectDto(userId, projId, ProjStat.폐기);
+		targetProjDto = temp.getProject().toDto();
+		
+		targetProjDto.setProjName("수정한 프로젝트 이름");
+		UserProject updateResult = projectService.update(targetProjDto, targetUserProjectDto);
+		
+		Project targetProj = projectService.findOneById(projId);
+		
+		assertTrue(Objects.equals(updateResult.getProject().getProjId(), targetProj.getProjId()));
+		assertTrue(Objects.equals(targetProj.getProjName(), updateResult.getProject().getProjName()));
+	}
+	
+	@Test
+	public void 프로젝트_삭제_테스트() {
+		String userId = "1111";
+		Project willBeDeleted = Project.builder()
+				.projName("삭제될 프로젝트입니다.").projCaleGubun("주기성").projDesc("")
+				.projProgress(0).projSubject("이러저런업무임").createdDate(LocalDateTime.now())
+				.projStartDate(LocalDateTime.of(2017, 3, 2, 0, 0))
+				.projEndDate(LocalDateTime.of(2017, 3, 2, 0, 0))
+				.build();
+		
+		UserProject userProj = projectService.register(willBeDeleted.toDto(), userId, "");
+		Integer projId = userProj.getProject().getProjId();
+		
+		Project proj = projectService.disableProject(projId);
+		assertTrue(projId == proj.getProjId());
+		assertTrue(proj.getDeleteFlag());
+		
+		
+		assertTrue(projectService.findAllUserProjectByProjId(projId).size() == 1);
+		projectService.deleteProject(projId);
+		
+		Boolean noSuchEleExcepFlag = false;
+		try {
+			projectService.findOneById(projId);
+		} catch (NoSuchElementException e) {
+			noSuchEleExcepFlag = true;
+		}
+		
+		assertTrue(noSuchEleExcepFlag);
+		assertTrue(projectService.findAllUserProjectByProjId(projId).size() == 0);
 	}
 }
