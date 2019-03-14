@@ -1,8 +1,7 @@
 package com.nastech.upmureport.domain.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
@@ -18,18 +17,20 @@ import lombok.NoArgsConstructor;
 @Entity @Data @Builder @NoArgsConstructor @AllArgsConstructor @IdClass(UserProjectDirPK.class)
 public class UserProjectDir {
 	@Id
-	@ManyToOne
+	@ManyToOne(optional = false, fetch=FetchType.LAZY)
 	@JoinColumn(name = "userId")
 	private User user;
 	
 	@Id
-	@ManyToOne
+	@ManyToOne(optional = false, fetch=FetchType.LAZY)
 	@JoinColumn(name = "projId")
 	private Project project;
 	
 	@Id
-	@ManyToOne
+	@ManyToOne(optional = false, fetch=FetchType.LAZY)
+	@JoinColumn(name = "dirId")
 	private Dir dir;
 	
-	private Boolean deleteFlag;
+	@Builder.Default
+	private Boolean deleteFlag = false;
 }

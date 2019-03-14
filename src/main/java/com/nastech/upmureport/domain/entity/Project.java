@@ -8,8 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import org.hibernate.annotations.Where;
-
 import com.nastech.upmureport.domain.dto.ProjectDto;
 
 import lombok.AllArgsConstructor;
@@ -17,7 +15,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// @Where(clause="deleteFlag=false")
 @Entity 
 @Data @Builder @NoArgsConstructor @AllArgsConstructor 
 public class Project {
@@ -33,9 +30,9 @@ public class Project {
 	private LocalDateTime projStartDate;
 	private LocalDateTime projEndDate;
 	private Integer projProgress;
-	
-//	@Column(name="deleteFlag", columnDefinition="boolean default false")
-	private Boolean deleteFlag;
+
+	@Builder.Default
+	private Boolean deleteFlag = false;
 	
 	public ProjectDto toDto() {
 		return ProjectDto.builder()
