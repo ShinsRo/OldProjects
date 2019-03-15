@@ -1,75 +1,78 @@
-import React from "react";
+import React, { Component } from "react";
 
-const Login = () => {
-    var fullScreen = {
-        height: '100%',
-        width: '100%',
-        position: 'absolute',
-        top: 0, left: 0
-    };
-    return (
-        <div className="bg-gradient-darkblue" style={fullScreen}>
+var fullScreen = {
+    height: '100%',
+    width: '100%',
+    position: 'absolute',
+    top: 0, left: 0
+};
 
-            <div className="container">
-
-                {/* <!-- Outer Row --> */}
-                <div className="row justify-content-center">
-
-                <div className="col-xl-10 col-lg-12 col-md-9">
-
-                    <div className="card o-hidden border-0 shadow-lg my-5">
-                    <div className="card-body p-0">
-                        {/* <!-- Nested Row within Card Body --> */}
-                        <div className="row">
-                        <div className="col-lg-6 d-none d-lg-block bg-login-image"></div>
-                        <div className="col-lg-6">
-                            <div className="p-5">
-                            <hr />
-                            <div className="text-center">
-                                <h1 className="h4 text-gray-700 mb-4">안녕하세요.<br />UPMUREPORT입니다.</h1>
-                            </div>
-                            <form className="User" action="" method="post">
-                                <div className="form-group">
-                                <input type="text" className="form-control form-control-user" name="userId" placeholder="사번" />
-                                </div>
-                                <div className="form-group">
-                                <input type="password" className="form-control form-control-user" name="userPass" placeholder="비밀번호" />
-                                </div>
-                                <div className="form-group">
-                                <div className="custom-control custom-checkbox small">
-                                    <input type="checkbox" className="custom-control-input" id="customCheck" />
-                                    <label className="custom-control-label" htmlFor="customCheck">Remember Me</label>
-                                </div>
-                                </div>
-                                <input type="submit" value="login" />
-                                <a href="${pageContext.request.contextPath}/temp" className="btn btn-darkblue btn-user btn-block">
-                                Login
-                                </a>
+class Login extends Component {
+    render() {
+        return (
+            <div className="bg-gradient-darkblue" style={fullScreen}>
+    
+                <div className="container">
+    
+                    {/* <!-- Outer Row --> */}
+                    <div className="row justify-content-center">
+    
+                    <div className="col-xl-10 col-lg-12 col-md-9">
+    
+                        <div className="card o-hidden border-0 shadow-lg my-5">`
+                        <div className="card-body p-0">
+                            {/* <!-- Nested Row within Card Body --> */}
+                            <div className="row">
+                            <div className="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div className="col-lg-6">
+                                <div className="p-5">
                                 <hr />
-                            </form>
+                                <div className="text-center">
+                                    <h1 className="h4 text-gray-700 mb-4">안녕하세요.<br />UPMUREPORT입니다.</h1>
+                                </div>
+                                <form className="User" action="" method="post">
+                                    <div className="form-group">
+                                    <input type="text" className="form-control form-control-user" name="userId" placeholder="사번" />
+                                    </div>
+                                    <div className="form-group">
+                                    <input type="password" className="form-control form-control-user" name="userPass" placeholder="비밀번호" />
+                                    </div>
+                                    <div className="form-group">
+                                    <div className="custom-control custom-checkbox small">
+                                        <input type="checkbox" className="custom-control-input" id="customCheck" />
+                                        <label className="custom-control-label" htmlFor="customCheck">Remember Me</label>
+                                    </div>
+                                    </div>
+                                    <input type="submit" value="login" />
+                                    <a href="/" className="btn btn-darkblue btn-user btn-block">
+                                    Login
+                                    </a>
+                                    <hr />
+                                </form>
+                                </div>
+                            </div>
                             </div>
                         </div>
                         </div>
+    
                     </div>
+    
                     </div>
-
+    
                 </div>
-
-                </div>
-
+    
+                {/* <!-- Bootstrap core JavaScript--> */}
+                <script src="vendor/jquery/jquery.min.js"></script>
+                <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    
+                {/* <!-- Core plugin JavaScript--> */}
+                <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    
+                {/* <!-- Custom scripts for all pages--> */}
+                <script src="js/sb-admin-2.min.js"></script>
+    
             </div>
-
-            {/* <!-- Bootstrap core JavaScript--> */}
-            <script src="vendor/jquery/jquery.min.js"></script>
-            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-            {/* <!-- Core plugin JavaScript--> */}
-            <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-            {/* <!-- Custom scripts for all pages--> */}
-            <script src="js/sb-admin-2.min.js"></script>
-
-        </div>
-    );
+        );
+    }    
 };
 export default Login;
