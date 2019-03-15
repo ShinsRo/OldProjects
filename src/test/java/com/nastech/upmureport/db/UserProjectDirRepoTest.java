@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -169,7 +170,10 @@ public class UserProjectDirRepoTest {
 				.createDate(LocalDateTime.now())
 				.build();
 		project1Dir = dirRepository.save(project1Dir);
-		
+		project1Dir = (Dir) Hibernate.unproxy(project1Dir);
+		ksmProject1 = (UserProject) Hibernate.unproxy(ksmProject1);
+		ksmProject1.setUser((User) Hibernate.unproxy(ksmProject1.getUser()));
+		ksmProject1.setProject((Project) Hibernate.unproxy(ksmProject1.getProject()));
 		userProjectDirRepository.save(UserProjectDir.builder()
 				.project(ksmProject1.getProject())
 				.user(ksmProject1.getUser())
