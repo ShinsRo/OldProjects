@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { Dashboard, Login } from ".";
-import { DevTest } from ".";
+import { DashboardTest } from ".";
 
 class App extends Component {
 
@@ -10,7 +10,7 @@ class App extends Component {
       <div>
         <Route exact path="/login" component={Login}></Route>
         <Route exact path="/dashboard" component={Dashboard}></Route>
-        <Route exact path="/devtest" component={DevTest}></Route>
+        <Route exact path="/dashboardtest" component={DashboardTest}></Route>
       </div>
     );
   }

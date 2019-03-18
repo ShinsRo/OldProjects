@@ -3,10 +3,6 @@ import { Header } from "../components/Header";
 import { Sidebar } from "../components/Sidebar";
 
 class Dashboard extends Component {
-
-  componentDidMount() {
-  }
-
   render() {
     
     return (
@@ -20,7 +16,6 @@ class Dashboard extends Component {
             <Header/>
             {/* Page Content  */}
             <div className="container-fluid">
-            <div id="test">TETETETETE</div>
             </div>
 
           </div>
