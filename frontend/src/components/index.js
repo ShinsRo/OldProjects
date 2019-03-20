@@ -1,9 +1,9 @@
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
-import { TreeView } from "./TreeView";
+import { ProjPanel } from './ProjPanel';
 
 export {
     Header,
     Sidebar,
-    TreeView
+    ProjPanel
 }
