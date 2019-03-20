@@ -19,8 +19,8 @@ const initialState = Map({
 });
 // 썽크 미들웨어
 export function getAllAsync(requestUrl) {
-    const requestUrl = requestUrl;
-
+    console.log('asdasdasddsa');
+    
     const chains = (dispatch) => {
         dispatch(request(requestUrl));
     

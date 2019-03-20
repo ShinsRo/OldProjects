@@ -1,8 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
-import * as projectActions from '../../stores/modules/project_module';
 
 import ProjTable from './ProjTable';
 
@@ -12,15 +8,14 @@ const VIEW_LEVEL = {
     PROJ_DETAIL: 2
 };
 
-class ProjPanelContainer extends React.Component {
+class ProjPanel extends React.Component {
     static defaultProps = {
-        targetUser: { userName: "이름없음" },
+        userName: "이름없음",
     }
     constructor(props) {
         super(props);
         this.state = {
-            breadcrumb: [props.targetUser.userName, "Projects"],
-            projects: [],
+            breadcrumb: [props.userName, "Projects"],
             viewLevel: VIEW_LEVEL.PROJECTS,
         };
         this.onBreadcrumbClick = this.onBreadcrumbClick.bind(this);
@@ -88,9 +83,4 @@ class ProjPanelContainer extends React.Component {
         );
     }
 }
-export default connect(
-    (state) => ({
-        projectState: state.projectState,
-    }),
-    (dispatch) => bindActionCreators(projectActions, dispatch)
-) (ProjPanelContainer);
+export default ProjPanel;

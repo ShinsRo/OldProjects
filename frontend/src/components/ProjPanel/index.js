@@ -1,5 +1,5 @@
-import ProjPanelContainer from "./ProjPanelContainer";
+import ProjPanel from "./ProjPanel";
 
 export {
-    ProjPanelContainer
+    ProjPanel
 }
