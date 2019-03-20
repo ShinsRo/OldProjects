@@ -1,6 +1,10 @@
 import React from 'react';
-import ProjTable from './ProjTable';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
+import * as projectActions from '../../stores/modules/project_module';
+
+import ProjTable from './ProjTable';
 
 const VIEW_LEVEL = {
     NONE: 0,
@@ -8,7 +12,7 @@ const VIEW_LEVEL = {
     PROJ_DETAIL: 2
 };
 
-class ProjPanel extends React.Component {
+class ProjPanelContainer extends React.Component {
     static defaultProps = {
         targetUser: { userName: "이름없음" },
     }
@@ -84,5 +88,9 @@ class ProjPanel extends React.Component {
         );
     }
 }
-
-export default ProjPanel;
+export default connect(
+    (state) => ({
+        projectState: state.projectState,
+    }),
+    (dispatch) => bindActionCreators(projectActions, dispatch)
+) (ProjPanelContainer);
