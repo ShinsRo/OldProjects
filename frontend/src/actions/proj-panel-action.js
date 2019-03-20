@@ -2,19 +2,19 @@ import * as projectApi from '../api/project-api';
 
 export const REQUEST_PROJECTS = 'REQUEST_PROJECTS';
 
-export function requestProjects(reqUrl) {
+export function requestProjects() {
     return {
-        type: REQUEST_PROJECTS,
-        reqUrl
+        type: REQUEST_PROJECTS
     };
 }
 
-export const RECEIVE_PROJECTS = 'REQUEST_PROJECTS';
+export const RECEIVE_PROJECTS = 'RECEIVE_PROJECTS';
 
-export function receiveProjects(reqUrl, json) {
+export function receiveProjects(projs) {
+  
     return {
         type: RECEIVE_PROJECTS,
-        projects: json.data,
+        projects: projs,
         receivedAt: Date.now()
     };
 }
@@ -23,14 +23,16 @@ export function receiveProjects(reqUrl, json) {
 export function fetchProjects(reqUrl) {
   
     return function (dispatch) {
-  
-      dispatch(requestProjects(reqUrl));
+      
+      dispatch(requestProjects());
   
       return projectApi.getAll()
-        .then(response => response.json())
-        .then(json =>
-  
-          dispatch(requestProjects(reqUrl, json))
-        );
+        .then(response => {
+          const projs = response.data;
+          dispatch(receiveProjects(projs))
+        }, reason => {
+          console.info(`프로젝트 Fetch axios 통신 중 에러, 사유 >> ${reason}`);
+          dispatch(receiveProjects({ data: [{projName:'통신에 장애가 있습니다. 프로젝트 목록을 불러오지 못했습니다.'}] }))
+        });
     };
   }

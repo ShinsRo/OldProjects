@@ -16,13 +16,7 @@ class ProjPanel extends React.Component {
         super(props);
         this.state = {
             breadcrumb: [props.targetUser.userName, "Projects"],
-            projects: [
-                { projName: '프로젝트 1', userName: '김승신', projStat: "진행", progress: "20"},
-                { projName: '프로젝트 2', userName: '김윤상', projStat: "보류", progress: "80"},
-                { projName: '프로젝트 3', userName: '마규석', projStat: "대기", progress: "40"},
-                { projName: '프로젝트 4', userName: '김승신', projStat: "폐기", progress: "0"},
-                { projName: '프로젝트 5', userName: '김철수', projStat: "완료", progress: "100"},
-            ],
+            projects: [],
             viewLevel: VIEW_LEVEL.PROJECTS,
         };
         this.onBreadcrumbClick = this.onBreadcrumbClick.bind(this);
@@ -41,12 +35,12 @@ class ProjPanel extends React.Component {
         e.preventDefault();
         
         const prevBreadcrumb = this.state.breadcrumb;
-        this.setState( { breadcrumb: Array.prototype.concat(prevBreadcrumb, [proj.projName]) } )
+        this.setState( { breadcrumb: Array.prototype.concat(prevBreadcrumb, [proj.projName]), viewLevel: VIEW_LEVEL.PROJ_DETAIL } )
     }
 
     render() {
         const breadcrumb = this.state.breadcrumb;
-        const projects = this.state.projects;
+        const projects = this.props.projects;
         let panelBody = {};
             switch (this.state.viewLevel) {
                 case VIEW_LEVEL.PROJECTS:
@@ -85,9 +79,6 @@ class ProjPanel extends React.Component {
                 </div>
                 <div className="card-body">
                         {panelBody}
-                        <div onClick={() => {
-                            
-                        }}>추가하기</div>
                 </div>
             </div>
         );

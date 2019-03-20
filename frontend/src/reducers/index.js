@@ -1,8 +1,6 @@
 import { combineReducers } from 'redux';
-import projPanelReducer from "./proj-panel-reducer";
+import * as reducers from ".";
 
-const appReducers = combineReducers({
-    projPanelReducer
-});
+const appReducers = combineReducers(reducers);
 
 export default appReducers;

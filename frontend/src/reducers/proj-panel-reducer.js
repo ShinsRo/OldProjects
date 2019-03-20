@@ -1,9 +1,8 @@
-import { combineReducers } from 'redux';
 import {
     REQUEST_PROJECTS, RECEIVE_PROJECTS
 } from '../actions/proj-panel-action';
 
-function getAll(state = {
+export default function getAll(state = {
     isFetching: false,
     projects: []
 }, action) {
@@ -16,9 +15,3 @@ function getAll(state = {
             return state;
     }
 }
-
-const projPanelReducer = combineReducers({
-    getAll,
-});
-  
-export default projPanelReducer;
