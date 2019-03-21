@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -23,9 +24,10 @@ public class UserController {
     	System.out.println(user.getUserId());
     	return "_template";
     }*/
-    @RequestMapping(value = "/login",method= {RequestMethod.POST , RequestMethod.GET} )
-    public String login(UserDto user, HttpServletRequest request){
+    @RequestMapping(value = "/login",method= RequestMethod.POST )
+    public String login(@RequestBody UserDto user, HttpServletRequest request){
     	UserDto loginedUserDto = userService.userLogin(user);
+    	System.out.println(loginedUserDto);
     	if(loginedUserDto != null) {
     		HttpSession session = request.getSession();
     		session.setAttribute("userDto", (Object)loginedUserDto);

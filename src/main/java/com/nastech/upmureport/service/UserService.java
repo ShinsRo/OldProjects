@@ -46,11 +46,11 @@ public class UserService {
 	public UserDto userLogin(UserDto user) {
 		String id = user.getUserId();
 		String pass = user.getUserPass();
-		System.out.println(id+pass);
+		System.out.println("id:"+id+"\npass:"+pass);
 		User loginedUser = userRepository.findOneByUserId(id);
 		if(loginedUser == null) return null;
 		if(pass.equals(loginedUser.getUserPass())) {
-			return user;
+			return loginedUser.toDto();
 		}
 		else
 			return null;
