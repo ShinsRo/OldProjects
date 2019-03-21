@@ -5,24 +5,24 @@ import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 
 import com.nastech.upmureport.domain.dto.UpmuReqDto;
-import com.nastech.upmureport.domain.entity.UpmuContents;
+import com.nastech.upmureport.domain.entity.UpmuContent;
 import com.nastech.upmureport.domain.repository.DirRepository;
-import com.nastech.upmureport.domain.repository.UpmuContentsRepository;
+import com.nastech.upmureport.domain.repository.UpmuContentRepository;
 
 @Service
 public class UpmuService {
 	
-	UpmuContentsRepository upmuContentsRepository;
+	UpmuContentRepository upmuContentRepository;
 	
 	DirRepository dirRepository;
 	
-	public UpmuService(UpmuContentsRepository upmuContentsRepository, DirRepository dirRepository) {
-		this.upmuContentsRepository = upmuContentsRepository;
+	public UpmuService(UpmuContentRepository upmuContentRepository, DirRepository dirRepository) {
+		this.upmuContentRepository = upmuContentRepository;
 		this.dirRepository = dirRepository;
 	}
 	
-	public UpmuContents addUpmuContents(UpmuReqDto upmuReqDto) {
-		UpmuContents upmuContents = UpmuContents.builder()
+	public UpmuContent addUpmuContents(UpmuReqDto upmuReqDto) {
+		UpmuContent upmuContents = UpmuContent.builder()
 				.dirId(upmuReqDto.getDir())
 				.name(upmuReqDto.getName())
 				.contents(upmuReqDto.getContents())
@@ -31,7 +31,7 @@ public class UpmuService {
 				.build();
 		
 		try {
-			return upmuContentsRepository.save(upmuContents);
+			return upmuContentRepository.save(upmuContents);
 		}catch(Exception e){
 			e.getMessage();
 			return null;

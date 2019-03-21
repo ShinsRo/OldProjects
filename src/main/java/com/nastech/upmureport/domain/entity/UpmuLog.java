@@ -30,7 +30,7 @@ public class UpmuLog {
 	private User userId;
 	
 	@Id @ManyToOne
-	private UpmuContents upmuId;
+	private UpmuContent upmuId;
 	
 	private String contents;	
 	

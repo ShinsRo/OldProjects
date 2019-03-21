@@ -1,17 +1,21 @@
 package com.nastech.upmureport.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.nastech.upmureport.domain.dto.UpmuReqDto;
-import com.nastech.upmureport.domain.entity.UpmuContents;
+import com.nastech.upmureport.domain.entity.UpmuContent;
 import com.nastech.upmureport.service.UpmuService;
 
 import lombok.extern.java.Log;
 
-@Controller
+@RestController
 @Log
 public class UpmuController {
 	
@@ -21,20 +25,21 @@ public class UpmuController {
 		// TODO Auto-generated constructor stub
 		this.upmuService = upmuService;
 	}
-	
+	/*
 	@GetMapping(value= "/test")
     //@RequestMapping(value="/test")
     public String goAddUpmu() {
     	log.info("==========================/test");
     	return "addUpmu";
     }
+	*/
 	
 	@PostMapping(value= "/upmu")
-	@ResponseBody
-	public String addUpmu(UpmuReqDto upmuReqDto) {
+	public String addUpmu(@RequestBody UpmuReqDto upmuReqDto) {
 		log.info("==========================/upmu");
+		log.info(upmuReqDto.toString());
 		
-		UpmuContents upmuContents = upmuService.addUpmuContents(upmuReqDto);
+		UpmuContent upmuContents = upmuService.addUpmuContents(upmuReqDto);
 		
 		if(upmuContents == null) {
 			return "error";
@@ -43,5 +48,10 @@ public class UpmuController {
 		}		
 	}
 	
+//	@GetMapping(value="/upmu")
+//	public List<>
 	
+	
+	
+		
 }

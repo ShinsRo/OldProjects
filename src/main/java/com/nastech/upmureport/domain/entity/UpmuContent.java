@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 
 
 @Entity @Data @NoArgsConstructor @Builder @AllArgsConstructor
-public class UpmuContents implements Serializable{
+public class UpmuContent implements Serializable{
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer upmuId;

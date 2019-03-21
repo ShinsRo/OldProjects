@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.nastech.upmureport.domain.entity.UpmuContents;
+import com.nastech.upmureport.domain.entity.UpmuContent;
 import com.nastech.upmureport.domain.entity.User;
 
 import lombok.extern.java.Log;
@@ -36,9 +36,9 @@ public class HomeController {
     	return "addUpmu";
     }
     
-    @PostMapping(value="/upmu")
-    public String addUpmu(UpmuContents upmuContents ) {
-    	log.info("==========================/upmu");
-    	return upmuContents.getName();    	
-    }
+//    @PostMapping(value="/upmu")
+//    public String addUpmu(UpmuContents upmuContents ) {
+//    	log.info("==========================/upmu");
+//    	return upmuContents.getName();    	
+//    }
 }
