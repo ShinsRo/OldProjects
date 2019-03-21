@@ -118,6 +118,18 @@ public class ProjectService {
 		return userProjs;
 	}
 
+	public List<ProjectDto> findProjectsByUserId(String userId) {
+		List<UserProject> userProjs = userProjectRepository.findAllByUser(
+											User.builder().userId(userId).build());
+		
+		List<ProjectDto> projects = new ArrayList<ProjectDto>(); 
+		for (UserProject up : userProjs) {
+			ProjectDto project = new ProjectDto(up.getUser(), up.getProject());
+			projects.add(project);
+		}
+		
+		return projects;
+	}
 
 	public Project findOneById(Integer projId) throws NoSuchElementException {
 		return projectRepository.findById(projId).get();
@@ -152,7 +164,6 @@ public class ProjectService {
 
 	public List<Project> findAll() {
 		return projectRepository.findAll();
-	}
-	
+	}	
 	
 }

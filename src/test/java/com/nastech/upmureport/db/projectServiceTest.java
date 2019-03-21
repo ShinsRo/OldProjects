@@ -79,20 +79,20 @@ public class projectServiceTest {
 		creator.setUserId("1111");
 		
 		tempProj.add(Project.builder()
-				.projName("프로젝트 1").projCaleGubun("주기성").projDesc("")
-				.projProgress(0).projSubject("이러저런업무임").createdDate(LocalDateTime.now())
+				.projName("일일업무보고 프로젝트").projCaleGubun("주기성").projDesc("일일업무 보고체계를 보입하여 진행사항을 파악한다.")
+				.projProgress(0).projSubject("사원 일일업무 보고체계 도입").createdDate(LocalDateTime.now())
 				.projStartDate(LocalDateTime.of(2017, 3, 2, 0, 0))
 				.projEndDate(LocalDateTime.of(2017, 3, 2, 0, 0))
 				.build());
 		tempProj.add(Project.builder()
-				.projName("프로젝트 2").projCaleGubun("비주기성").projDesc("무슨무슨프로젝트")
-				.projProgress(0).projSubject("이러저런업무임").createdDate(LocalDateTime.now())
+				.projName("업무리포트 웹 버전 프로젝트").projCaleGubun("주기성").projDesc("설명 없음")
+				.projProgress(80).projSubject("업무리포트 프로그램을 웹으로 이전한다.").createdDate(LocalDateTime.now())
 				.projStartDate(LocalDateTime.of(2017, 3, 12, 0, 0))
 				.projEndDate(LocalDateTime.of(2017, 6, 25, 0, 0))
 				.build());
 		tempProj.add(Project.builder()
-				.projName("프로젝트 3").projCaleGubun("비주기성").projDesc("")
-				.projProgress(20).projSubject("이러저런업무임").createdDate(LocalDateTime.now())
+				.projName("나스텍 프로젝트").projCaleGubun("비주기성").projDesc("설명 없음")
+				.projProgress(20).projSubject("나스텍~").createdDate(LocalDateTime.now())
 				.projStartDate(LocalDateTime.of(2018, 1, 31, 0, 0))
 				.projEndDate(LocalDateTime.of(2019, 12, 31, 0, 0))
 				.build());
@@ -118,6 +118,14 @@ public class projectServiceTest {
 		userProjectRepository.deleteAll();
 		projectRepository.deleteAll();
 		userRepository.deleteAll();
+	}
+	
+	@Test
+	public void 리스트_불러오기() {
+		List<ProjectDto> projs = projectService.findProjectsByUserId("1111");
+		assertTrue(projs.size() == 3);
+		
+		System.out.println(projs);
 	}
 	
 	@Test

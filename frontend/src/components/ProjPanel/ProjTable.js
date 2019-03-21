@@ -36,10 +36,10 @@ class ProjTable extends React.Component {
                                     <td>
                                     <div className="row no-gutters align-items-center">
                                         <div className="col progress progress-sm mr-1">
-                                            <div className={`bg-darkblue`} role="progressbar" style={{width: `${proj.progress}%`}} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div className={`bg-darkblue`} role="progressbar" style={{width: `${proj.projProgress}%`}} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                         <div className="col-auto">
-                                            <div className="ml-1">{proj.progress}%</div>
+                                            <div className="ml-1">{proj.projProgress}%</div>
                                         </div>
                                     </div>
                                     </td>
