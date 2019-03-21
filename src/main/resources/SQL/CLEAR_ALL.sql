@@ -1,6 +1,3 @@
-
-Clear all
-
 ALTER TABLE `upmureport`.`attachment` DROP PRIMARY KEY;
 
 ALTER TABLE `upmureport`.`user` DROP PRIMARY KEY;

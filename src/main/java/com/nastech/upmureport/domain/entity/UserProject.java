@@ -2,6 +2,8 @@ package com.nastech.upmureport.domain.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
@@ -15,15 +17,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity 
-@Data @Builder @NoArgsConstructor @AllArgsConstructor @IdClass(UserProjectPK.class)
+@Data @Builder @NoArgsConstructor @AllArgsConstructor
 public class UserProject {
-
-	@Id
+	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	private Long userProjectId;
+	
 	@ManyToOne(optional = false, fetch=FetchType.LAZY)
 	@JoinColumn(name = "userId")
 	private User user;
 	
-	@Id
 	@ManyToOne(optional = false, fetch=FetchType.LAZY)
 	@JoinColumn(name = "projId")
 	private Project project;

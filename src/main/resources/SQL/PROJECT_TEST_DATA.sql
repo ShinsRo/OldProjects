@@ -1,10 +1,10 @@
-insert into user(userId, suerPass, userName, posi, dept, deleteFlag)
+insert into user(userId, userPass, userName, posi, dept, deleteFlag)
 	values('1111', 'nas', '김승신', '인턴', '인턴부', false);
 	
-insert into user(userId, suerPass, userName, posi, dept, deleteFlag)
+insert into user(userId, userPass, userName, posi, dept, deleteFlag)
 	values('1112', 'nas', '김윤상', '인턴', '인턴부', false);
 	
-insert into user(userId, suerPass, userName, posi, dept, deleteFlag)
+insert into user(userId, userPass, userName, posi, dept, deleteFlag)
 	values('1113', 'nas', '마규석', '인턴', '인턴부', false);
 	
 	
@@ -40,3 +40,5 @@ insert into userProject(
 		projId, userId, 
 		projStat, deleteFlag)
 	values(500, 1111, 0, false);
+
+select * from user;

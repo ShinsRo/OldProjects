@@ -14,14 +14,16 @@ class ProjPanelContainer extends Component {
     // }
     componentDidMount() {
         const { ProjectActions } = this.props;
-        console.log(this.props);
         
         ProjectActions.axiosGetAsync('api/projects/list', {userId: '1111'});
     }
     render() {
         const { projectState } = this.props;
+        // const { userState } = this.props;
+        //임시 유저 스토어
+        const { userState } = {userState: { selectedUser: {userId: '1111', userName: '김승신'} }};
         
-        return (<ProjPanel projectState={projectState}></ProjPanel>);
+        return (<ProjPanel projectState={projectState} userState={userState}></ProjPanel>);
     }
 }
 

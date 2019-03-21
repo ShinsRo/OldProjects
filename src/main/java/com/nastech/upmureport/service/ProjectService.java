@@ -121,10 +121,9 @@ public class ProjectService {
 	public List<ProjectDto> findProjectsByUserId(String userId) {
 		List<UserProject> userProjs = userProjectRepository.findAllByUser(
 											User.builder().userId(userId).build());
-		
 		List<ProjectDto> projects = new ArrayList<ProjectDto>(); 
 		for (UserProject up : userProjs) {
-			ProjectDto project = new ProjectDto(up.getUser(), up.getProject());
+			ProjectDto project = new ProjectDto(up);
 			projects.add(project);
 		}
 		

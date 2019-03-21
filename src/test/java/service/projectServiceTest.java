@@ -1,4 +1,4 @@
-package com.nastech.upmureport.db;
+package service;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -158,28 +158,6 @@ public class projectServiceTest {
 	
 	@Test
 	public void 프로젝트_수정_테스트() {
-		UserDto targetUserDto = new UserDto();
-		ProjectDto targetProjDto;
-		targetUserDto.setUserId("1111");
-		
-		List<UserProject> userProjectsByUserId = projectService.findAllUserProjectByUserId(targetUserDto.getUserId());
-		
-		assertTrue(userProjectsByUserId.size() == 3);
-		
-		UserProject temp = userProjectsByUserId.get(0);
-		Integer projId = temp.getProject().getProjId();
-		String userId = temp.getUser().getUserId();
-		
-		UserProjectDto targetUserProjectDto = new UserProjectDto(userId, projId, ProjStat.폐기);
-		targetProjDto = temp.getProject().toDto();
-		
-		targetProjDto.setProjName("수정한 프로젝트 이름");
-		UserProject updateResult = projectService.update(targetProjDto, targetUserProjectDto);
-		
-		Project targetProj = projectService.findOneById(projId);
-		
-		assertTrue(Objects.equals(updateResult.getProject().getProjId(), targetProj.getProjId()));
-		assertTrue(Objects.equals(targetProj.getProjName(), updateResult.getProject().getProjName()));
 	}
 	
 	@Test
