@@ -5,17 +5,18 @@ import ProjTable from './ProjTable';
 const VIEW_LEVEL = {
     NONE: 0,
     PROJECTS: 1,
-    PROJ_DETAIL: 2
+    PROJ_DIR: 2,
+    PROJ_DETAIL: 3,
 };
 
 class ProjPanel extends React.Component {
-    static defaultProps = {
-        userName: "이름없음",
-    }
+    // static defaultProps = {
+    //     userName: "이름없음",
+    // }
     constructor(props) {
         super(props);
         this.state = {
-            breadcrumb: [props.userName, "Projects"],
+            breadcrumb: [props.projectState.get('projects'), "Projects"],
             viewLevel: VIEW_LEVEL.PROJECTS,
         };
         this.onBreadcrumbClick = this.onBreadcrumbClick.bind(this);
@@ -34,19 +35,23 @@ class ProjPanel extends React.Component {
         e.preventDefault();
         
         const prevBreadcrumb = this.state.breadcrumb;
-        this.setState( { breadcrumb: Array.prototype.concat(prevBreadcrumb, [proj.projName]), viewLevel: VIEW_LEVEL.PROJ_DETAIL } )
+        this.setState( { breadcrumb: Array.prototype.concat(prevBreadcrumb, [proj.projName]), viewLevel: VIEW_LEVEL.PROJ_DIR } )
     }
 
     render() {
         const breadcrumb = this.state.breadcrumb;
-        const projects = this.props.projects;
+        const projects = this.props.projectState.get('projects');
+        
         let panelBody = {};
             switch (this.state.viewLevel) {
                 case VIEW_LEVEL.PROJECTS:
                     panelBody = (<ProjTable projects={projects} onProjClick={this.onProjClick}/>);
                     break;
+                case VIEW_LEVEL.PROJ_DIR:
+                    panelBody = (<div>프로젝트 디렉토리 뷰</div>);
+                    break;
                 case VIEW_LEVEL.PROJ_DETAIL:
-                    panelBody = (<div>프로젝트 디테일</div>);
+                    panelBody = (<div>프로젝트 디테일 뷰</div>);
                     break;
                 default:
                     panelBody = (<div>알 수 없는 뷰 레벨입니다.</div>);

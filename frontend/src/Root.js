@@ -9,8 +9,8 @@ import { Provider } from 'react-redux';
 const store = configureStore();
 
 // 상태가 바뀔때마다 기록합니다.
-let unsubscribe = store.subscribe(() =>
-  console.log(store.getState())
+store.subscribe(() =>
+  console.log('상태 변동 감지 >> ', store.getState())
 );
 
 

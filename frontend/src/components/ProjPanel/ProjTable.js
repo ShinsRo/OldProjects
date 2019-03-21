@@ -10,7 +10,7 @@ class ProjTable extends React.Component {
     render() {
         const projects = this.props.projects;
         const onProjClick = this.props.onProjClick;
-
+        
         return (
             <div className="table-responsive">
                 <table className="table" id="dataTable" cellSpacing="0">
