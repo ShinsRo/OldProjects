@@ -4,16 +4,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.nastech.upmureport.domain.dto.UserDto;
 import com.nastech.upmureport.service.UserService;
 
-@Controller
+@RestController
 public class UserController {
 	@Autowired
 	UserService userService;
@@ -25,17 +25,18 @@ public class UserController {
     	return "_template";
     }*/
     @RequestMapping(value = "/login",method= RequestMethod.POST )
-    public String login(@RequestBody UserDto user, HttpServletRequest request){
+    public UserDto login(@RequestBody UserDto user, HttpServletRequest request){
     	UserDto loginedUserDto = userService.userLogin(user);
     	System.out.println(loginedUserDto);
     	if(loginedUserDto != null) {
     		HttpSession session = request.getSession();
     		session.setAttribute("userDto", (Object)loginedUserDto);
-    		return "index";
+    		System.out.println("send loginedUser to View:"+loginedUserDto);
+    		return loginedUserDto;
     	}
     	else
     	{
-    		return "redirect:/";
+    		return null;
     	}
     }
     @GetMapping(value = "/regi")

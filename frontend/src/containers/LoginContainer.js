@@ -11,7 +11,7 @@ class LoginContainer extends Component {
         //id 인풋 값 변경
         const {LoginActions}=this.props;
         LoginActions.changeId(e.target.value);
-        console.log(loginActions);
+        //console.log(loginActions);
     }
     handleChangePass = (e) => {
         //Pass 인풋 값 변경

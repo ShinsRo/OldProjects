@@ -24,6 +24,14 @@ export const getPost = (loginInfo) => dispatch => {
                 type:GET_POST_SUCCESS,
                 payload: response
             });
+            if(response.data !== ""){
+                console.log("로그인 유저정보:")
+                console.log(response.data)
+            }
+            else{
+                alert("로그인에 실패하였습니다")
+            }
+            
         }
     ).catch(error =>{
         // 에러가 발생했을 경우, 에러 내용을 payload 로 설정하여 GET_POST_FAILURE 액션을 디스패치합니다
