@@ -6,7 +6,6 @@ import { bindActionCreators } from 'redux';
 import * as projectActions from '../stores/modules/project_module';
 
 import { ProjPanel } from '../components/ProjPanel';
-import { Map, List } from 'immutable';
 
 class ProjPanelContainer extends Component {
     // constructor(props) {
@@ -21,7 +20,9 @@ class ProjPanelContainer extends Component {
         const { projectState } = this.props;
         // const { userState } = this.props;
         //임시 유저 스토어
-        const { userState } = {userState: { selectedUser: {userId: '1111', userName: '김승신'} }};
+        
+        const { userState } = { userState: { selectedUser: {userId: '1111', userName: '김승신'} }};
+        console.log(projectState);
         
         return (<ProjPanel projectState={projectState} userState={userState}></ProjPanel>);
     }

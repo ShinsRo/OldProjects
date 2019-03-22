@@ -5,9 +5,11 @@ import { Map, List } from 'immutable';
 //Actions
 export const REQUEST = 'project/REQUEST';   // ndPoint
 export const RECEIVE = 'project/RECEIVE';   // { endPoint, items }
+export const PUSHERR = 'project/PUSHERR';   // { err }
 
 export const request = createAction(REQUEST);
 export const receive = createAction(RECEIVE);
+export const pusherr = createAction(PUSHERR);
 
 //init state
 const initialState = Map({
@@ -15,6 +17,12 @@ const initialState = Map({
         isFetching: false,
         projects: List([]),
         lastUpdated: '',
+        errObj: {
+            msg: '',
+            err: '',
+            type: '',
+            isHandled: true
+        },
     }),
 });
 
@@ -48,16 +56,17 @@ export default handleActions({
      * 
      */
     [RECEIVE]: (state, action) => {
-        
         const _ = END_POINT;
         const endPoint = action.payload.endPoint;
         const items = action.payload.items;
 
         let projectState = state.get('projectState');
+        projectState = projectState.set('receivedAt', Date.now());
 
         switch (endPoint) {
             case _.PROJ_LIST: 
                 projectState = projectState.set('projects', items);
+                projectState = projectState.set('lastUpdated', Date.now());
                 break;
             case _.PROJ_CREATE:
             case _.PROJ_CORRECT:
@@ -66,15 +75,29 @@ export default handleActions({
         }   
 
         projectState = projectState.set('isFetching', false);
-        projectState = projectState.set('receivedAt', Date.now());
 
         return state.set('projectState', projectState);
+    },
+    [PUSHERR] : (state, action) => {
+        const err = action.payload;
+        console.info(`프로젝트 Fetch axios 통신 중 에러, 사유 >> ${err}`);
+
+        let projectState = state.get('projectState');
+        projectState = projectState.set('errObj', {
+            msg: '프로젝트 관련 정보를 받는 중 통신 오류가 발생했습니다.',
+            err: 'conn',
+            type: err,
+            isHandled: false
+        });
+
+        return projectState;
     },
 }, initialState);
 
 // 썽크 미들웨어 상 GET
 export function axiosGetAsync(endPoint, params) {
     const _ = END_POINT;
+
     let promise;
     const chains = (dispatch) => {
         dispatch(request(endPoint));
@@ -85,8 +108,7 @@ export function axiosGetAsync(endPoint, params) {
                     const items = res.data;
                     dispatch(receive( { endPoint, items } ))
                 }, error => {
-                    console.info(`프로젝트 Fetch axios 통신 중 에러, 사유 >> ${error}`);
-                    dispatch(receive({ endPoint, items: ['통신이 원활하지 않습니다.'] }));
+                    dispatch(pusherr(error));
                 });
                 break;
             case _.PROJ_CREATE:

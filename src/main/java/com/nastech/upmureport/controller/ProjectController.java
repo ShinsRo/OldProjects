@@ -1,7 +1,5 @@
 package com.nastech.upmureport.controller;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +17,7 @@ import com.nastech.upmureport.domain.dto.ProjectDto;
 import com.nastech.upmureport.domain.entity.Project;
 import com.nastech.upmureport.service.ProjectService;
 
-@CrossOrigin
+
 @RestController
 @RequestMapping(value = "/api/projects")
 public class ProjectController {
@@ -27,14 +25,12 @@ public class ProjectController {
 	@Autowired
 	private ProjectService projectService;
 	
+	@CrossOrigin
 	@GetMapping(value = "/list")
 	ResponseEntity<List<ProjectDto>> list(HttpServletRequest request, @RequestParam(value = "userId") String userId) {
 		List<ProjectDto> dtoList = projectService.findProjectsByUserId(userId);
 		return new ResponseEntity<List<ProjectDto>>(dtoList, HttpStatus.OK);
 	}
-	
-	
-	
 	
 	//API TEST
 	@GetMapping(value = "/getAll")

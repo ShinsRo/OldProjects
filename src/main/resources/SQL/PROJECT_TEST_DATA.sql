@@ -27,18 +27,18 @@ insert into project(
 	values(500, 60, '프로젝트 알파', '코딩계 알파고 빌드', '코딩 머신~', '비주기성', false);
 
 insert into userProject(
-		projId, userId, 
+		userProjectId, projId, userId, 
 		projStat, deleteFlag)
-	values(300, 1111, 1, false);
+	values(300, 300, 1111, 1, false);
 	
 insert into userProject(
-		projId, userId, 
+		userProjectId, projId, userId, 
 		projStat, deleteFlag)
-	values(400, 1111, 5, false);
+	values(100, 400, 1111, 5, false);
 	
 insert into userProject(
-		projId, userId, 
+		userProjectId, projId, userId, 
 		projStat, deleteFlag)
-	values(500, 1111, 0, false);
+	values(200, 500, 1111, 0, false);
 
 select * from user;

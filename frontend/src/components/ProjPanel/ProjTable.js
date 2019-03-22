@@ -23,7 +23,7 @@ class ProjTable extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {projects.map( (proj, idx) => {
+                        {projects && projects.map( (proj, idx) => {
                             return (
                                 <tr key={idx}>
                                     <td>

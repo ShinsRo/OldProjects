@@ -15,8 +15,9 @@ class ProjPanel extends React.Component {
     // }
     constructor(props) {
         super(props);
+        
         this.state = {
-            breadcrumb: [props.projectState.get('projects'), "Projects"],
+            breadcrumb: [props.userState.selectedUser.userName, "Projects"],
             viewLevel: VIEW_LEVEL.PROJECTS,
         };
         this.onBreadcrumbClick = this.onBreadcrumbClick.bind(this);
@@ -40,22 +41,25 @@ class ProjPanel extends React.Component {
 
     render() {
         const breadcrumb = this.state.breadcrumb;
-        const projects = this.props.projectState.get('projects');
+        const projects 
+            = this.props.projectState 
+            && this.props.projectState.get('errObj').isHandled 
+            && this.props.projectState.get('projects')
         
         let panelBody = {};
-            switch (this.state.viewLevel) {
-                case VIEW_LEVEL.PROJECTS:
-                    panelBody = (<ProjTable projects={projects} onProjClick={this.onProjClick}/>);
-                    break;
-                case VIEW_LEVEL.PROJ_DIR:
-                    panelBody = (<div>프로젝트 디렉토리 뷰</div>);
-                    break;
-                case VIEW_LEVEL.PROJ_DETAIL:
-                    panelBody = (<div>프로젝트 디테일 뷰</div>);
-                    break;
-                default:
-                    panelBody = (<div>알 수 없는 뷰 레벨입니다.</div>);
-            }
+        switch (this.state.viewLevel) {
+            case VIEW_LEVEL.PROJECTS:
+                panelBody = (<ProjTable projects={projects} onProjClick={this.onProjClick}/>);
+                break;
+            case VIEW_LEVEL.PROJ_DIR:
+                panelBody = (<div>프로젝트 디렉토리 뷰</div>);
+                break;
+            case VIEW_LEVEL.PROJ_DETAIL:
+                panelBody = (<div>프로젝트 디테일 뷰</div>);
+                break;
+            default:
+                panelBody = (<div>알 수 없는 뷰 레벨입니다.</div>);
+        }
         
 
         return (
