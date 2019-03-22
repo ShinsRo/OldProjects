@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Header, Sidebar } from "../components";
+import { Sidebar } from "../components";
+import ProjPanelContainer from "./ProjPanelContainer";
+import HeaderContainer from "./HeaderContainer";
 
 class Dashboard extends Component {
   render() {
-    
     return (
       <div id="wrapper">
         <Sidebar/>
@@ -12,9 +13,12 @@ class Dashboard extends Component {
 
           {/* Main Content */}
           <div id="content">
-            <Header/>
+            <HeaderContainer history={this.props.history}/>
             {/* Page Content  */}
             <div className="container-fluid">
+              <div className="col-lg-6">
+                <ProjPanelContainer></ProjPanelContainer>
+              </div>
             </div>
 
           </div>

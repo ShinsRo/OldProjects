@@ -13,17 +13,15 @@ export const pusherr = createAction(PUSHERR);
 
 //init state
 const initialState = Map({
-    projectState: Map({
-        isFetching: false,
-        projects: List([]),
-        lastUpdated: '',
-        errObj: {
-            msg: '',
-            err: '',
-            type: '',
-            isHandled: true
-        },
-    }),
+    isFetching: false,
+    projects: List([]),
+    lastUpdated: '',
+    errObj: {
+        msg: '',
+        err: '',
+        type: '',
+        isHandled: true
+    },
 });
 
 //액션 핸들링
@@ -36,8 +34,7 @@ export default handleActions({
         const _ = END_POINT;
         const endPoint = action.payload.endPoint;
 
-        let projectState = state.get('projectState');
-
+        let projectState = state;
         projectState = projectState.set('isFetching', true);
         
         switch (endPoint) {
@@ -60,7 +57,8 @@ export default handleActions({
         const endPoint = action.payload.endPoint;
         const items = action.payload.items;
 
-        let projectState = state.get('projectState');
+        let projectState = state;
+        
         projectState = projectState.set('receivedAt', Date.now());
 
         switch (endPoint) {

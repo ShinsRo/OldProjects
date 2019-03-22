@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
+import {Map} from 'immutable';
 
 var fullScreen = {
     height: '100%',
@@ -7,8 +8,8 @@ var fullScreen = {
     top: 0, left: 0
 };
 
-class Login extends Component {
-    render() {
+const Login = ({inputId,inputPass,user,onChangeInput,onLogin}) => {
+
         return (
             <div className="bg-gradient-darkblue" style={fullScreen}>
     
@@ -32,10 +33,10 @@ class Login extends Component {
                                 </div>
                                 <form className="User" action="" method="post">
                                     <div className="form-group">
-                                    <input type="text" className="form-control form-control-user" name="userId" placeholder="사번" />
+                                    <input value={inputId} onChange={e => onChangeInput(e, 'inputId')} type="text" className="form-control form-control-user" name="userId" placeholder="사번" />
                                     </div>
                                     <div className="form-group">
-                                    <input type="password" className="form-control form-control-user" name="userPass" placeholder="비밀번호" />
+                                    <input value={inputPass} onChange={e => onChangeInput(e, 'inputPass')} type="password" className="form-control form-control-user" name="userPass" placeholder="비밀번호" />
                                     </div>
                                     <div className="form-group">
                                     <div className="custom-control custom-checkbox small">
@@ -43,10 +44,7 @@ class Login extends Component {
                                         <label className="custom-control-label" htmlFor="customCheck">Remember Me</label>
                                     </div>
                                     </div>
-                                    <input type="submit" value="login" />
-                                    <a href="/" className="btn btn-darkblue btn-user btn-block">
-                                    Login
-                                    </a>
+                                    <input type="button" onClick={onLogin} className="btn btn-darkblue btn-user btn-block" value="Login" />
                                     <hr />
                                 </form>
                                 </div>
@@ -72,7 +70,15 @@ class Login extends Component {
                 <script src="js/sb-admin-2.min.js"></script>
     
             </div>
-        );
-    }    
-};
+        );    
+}   
+Login.defaultProps= {
+    inputId:'',
+    inputPass:'',
+    user: Map({
+        id:'0',
+        pass:'1'
+    }),
+}
+
 export default Login;

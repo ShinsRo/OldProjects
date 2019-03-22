@@ -2,6 +2,7 @@ package com.nastech.upmureport.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -26,4 +27,14 @@ public class WebConfig implements WebMvcConfigurer {
 	    registry.addResourceHandler("/scss/**").addResourceLocations("/resources/scss/");
 	    registry.addResourceHandler("/vendor/**").addResourceLocations("/resources/vendor/");
 	}
+	
+	@Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**/**")
+                .allowedOrigins("*")
+                .allowedMethods("*")
+                .allowedHeaders("*")
+                .allowCredentials(false).maxAge(3600);
+    }
+	
 }

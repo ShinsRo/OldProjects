@@ -1,28 +1,58 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import { Route } from 'react-router-dom';
-import { Dashboard, App, DashboardTest } from "./containers";
-
-import configureStore from './stores/configureStore';
+import { Route, BrowserRouter, withRouter, Switch } from 'react-router-dom';
+import { Dashboard, NotFound, LoginContainer } from "./containers";
 import { Provider } from 'react-redux';
-
-const store = configureStore();
+import store from './stores'
 
 // 상태가 바뀔때마다 기록합니다.
 store.subscribe(() =>
   console.log('상태 변동 감지 >> ', store.getState())
 );
 
+const RouteAsUserInfo = withRouter(({ match, location, history }) => {
+    const { userState } = store.getState();
+    
+    let routes = [];
+    if ( !(userState && userState.hasOwnProperty('userInfo') && userState.userInfo)) {
+        routes = [
+            { path: '/', component: LoginContainer },
+        ]
+    } else {
+        routes = [
+            { path: '/', component: Dashboard },
+            { path: '/dashboard', component: Dashboard },
+        ]
+    }
+    return (
+        <Switch>
+            {routes.map((route, idx) => {
+                return <Route exact path={route.path} component={route.component} key={idx++}></Route>
+            })}
+            <Route component={NotFound}/>
+        </Switch>
+    );
+}) 
 
 export default class Root extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            routes: [
+                { path: '/', component: LoginContainer },
+            ]
+        };
+    }
+
+    componentDidMount() {
+        
+    }
+
     render() {
         return (
             <Provider store={store}>
                 <BrowserRouter>
                     <div>
-                        <Route exact path="/" component={App}></Route>
-                        <Route exact path="/dashboard" component={Dashboard}></Route>
-                        <Route exact path="/dashboardtest" component={DashboardTest}></Route>
+                        <RouteAsUserInfo/>
                     </div>
                 </BrowserRouter>
             </Provider>

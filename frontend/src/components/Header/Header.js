@@ -1,6 +1,6 @@
 import React from "react";
 
-const Header = () => {
+const Header = ({handleLogout}) => {
     return (
         <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
         
@@ -27,7 +27,7 @@ const Header = () => {
                     <div className="dropdown-divider"></div>
                     <a className="dropdown-item" href="/" data-toggle="modal" data-target="#logoutModal">
                     <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Logout
+                    <button onClick={handleLogout}>로그아웃</button>
                     </a>
                 </div>
                 </li>

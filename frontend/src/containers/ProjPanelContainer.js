@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
+import store from '../stores'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
-import * as projectActions from '../stores/modules/project_module';
+import * as projectActions from '../stores/modules/projectState';
 
 import { ProjPanel } from '../components/ProjPanel';
 
@@ -17,7 +17,7 @@ class ProjPanelContainer extends Component {
         ProjectActions.axiosGetAsync('api/projects/list', {userId: '1111'});
     }
     render() {
-        const { projectState } = this.props;
+        const { projectState } = store;
         // const { userState } = this.props;
         //임시 유저 스토어
         
@@ -30,7 +30,7 @@ class ProjPanelContainer extends Component {
 
 export default connect(
     (state) => ({
-        projectState: state.get('projectState'),
+        projectState: state.projectState,
     }),
     (dispatch) => ({
         ProjectActions: bindActionCreators(projectActions, dispatch)
