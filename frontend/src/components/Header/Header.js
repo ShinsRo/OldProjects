@@ -1,6 +1,6 @@
 import React from "react";
 
-const Header = ({handleLogout}) => {
+const Header = ({handleLogout, userInfo}) => {
     return (
         <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
         
@@ -15,7 +15,7 @@ const Header = ({handleLogout}) => {
                 {/* Nav Item - User Information */}
                 <li className="nav-item dropdown no-arrow">
                 <a className="nav-link dropdown-toggle" href="/" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span className="mr-2 d-none d-lg-inline text-gray-600 small">안녕하세요, 님</span>
+                    <span className="mr-2 d-none d-lg-inline text-gray-600 small">안녕하세요, {userInfo.userName}님</span>
                 </a>
 
                 {/* Dropdown - User Information */}
@@ -25,10 +25,15 @@ const Header = ({handleLogout}) => {
                     Profile
                     </a>
                     <div className="dropdown-divider"></div>
-                    <a className="dropdown-item" href="/" data-toggle="modal" data-target="#logoutModal">
-                    <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    <button onClick={handleLogout}>로그아웃</button>
-                    </a>
+
+                    <div className="text-center">
+                        <a onClick={handleLogout} href="/" className="btn btn-danger btn-icon-split ml-1 mr-1">
+                            <span className="icon text-white-50">
+                            <i className="fas fa-sign-out-alt"></i>
+                            </span>
+                            <span className="text">로그아웃</span>
+                        </a>
+                    </div>
                 </div>
                 </li>
             </ul>

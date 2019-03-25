@@ -18,18 +18,19 @@ const Login = ({inputId,inputPass,user,onChangeInput,onLogin}) => {
                     {/* <!-- Outer Row --> */}
                     <div className="row justify-content-center">
     
-                    <div className="col-xl-10 col-lg-12 col-md-9">
+                    {/* <div className="col-xl-10 col-lg-12 col-md-9"> */}
+                    <div className="col-xl-6">
     
-                        <div className="card o-hidden border-0 shadow-lg my-5">`
+                        <div className="card o-hidden border-0 shadow-lg my-5">
                         <div className="card-body p-0">
                             {/* <!-- Nested Row within Card Body --> */}
                             <div className="row">
-                            <div className="col-lg-6 d-none d-lg-block bg-login-image"></div>
-                            <div className="col-lg-6">
+                            {/* <div className="col-lg-6 d-none d-lg-block bg-login-image"></div> */}
+                            <div className="col-xl-12">
                                 <div className="p-5">
                                 <hr />
                                 <div className="text-center">
-                                    <h1 className="h4 text-gray-700 mb-4">안녕하세요.<br />UPMUREPORT입니다.</h1>
+                                    <h1 className="h4 text-gray-700 mb-4">UPMUREPORT</h1>
                                 </div>
                                 <form className="User" action="" method="post">
                                     <div className="form-group">

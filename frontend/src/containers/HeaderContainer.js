@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as userActions from '../stores/modules/userState'
+import store from '../stores';
 
 import { Header } from '../components/Header';
 
@@ -30,10 +31,13 @@ class HeaderContainer extends Component {
     }
 
     render() {
+        const { userState } = store.getState();
+        console.log(userState);
+        
         return (
             <div>
                 {this.renderRedirect()}
-                <Header handleLogout={this.handleLogout}/>
+                <Header handleLogout={this.handleLogout} userInfo={userState.userInfo}/>
             </div>
         );
     }

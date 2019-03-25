@@ -33,16 +33,18 @@ class LoginContainer extends Component {
 
             const { userState } = store.getState();
             const { userInfo } = userState;
-            console.log('너는 누구냐', this);
             
             const { history } = this.props;
             
-            if ( userInfo ) {
+            if ( userState.error ) {
+                alert('통신 상태가 원활하지 않습니다. 잠시 후 다시 시도해주세요.');
+            } else if ( userInfo ) {
                 history.push('/dashboard')
             } else {
-                alert('아니, 비밀번호도 기억못함? 아니면 설마 아이디?????')
+                alert('아이디, 혹은 비밀번호가 일치하지 않습니다.');
             }
 
+            
         });
     }
 

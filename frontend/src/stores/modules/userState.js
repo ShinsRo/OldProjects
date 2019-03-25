@@ -51,10 +51,13 @@ export const getPost = (loginInfo) => dispatch => {
         });
     })
 }
+
+const userInfo = sessionStorage.getItem('userInfo');
+
 const initialState = {
     pending: false,
     error: false,
-    userInfo: sessionStorage.getItem('userInfo'),
+    userInfo: userInfo && JSON.parse(userInfo),
 }
 
 export default handleActions({
@@ -67,7 +70,7 @@ export default handleActions({
     },
     [GET_POST_SUCCESS]: (state,action) => {
         const userInfo = action.payload;
-        sessionStorage.setItem('userInfo', userInfo);
+        userInfo && sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
         return{
             ...state,
             pending: false,

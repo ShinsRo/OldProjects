@@ -4,6 +4,7 @@ import ProjPanelContainer from "./ProjPanelContainer";
 import HeaderContainer from "./HeaderContainer";
 
 class Dashboard extends Component {
+  
   render() {
     return (
       <div id="wrapper">
