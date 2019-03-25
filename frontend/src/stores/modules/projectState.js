@@ -47,7 +47,7 @@ export default handleActions({
             default:
         }
 
-        return state.set('projectState', projectState);
+        return projectState;
     },
     /**
      * 
@@ -74,7 +74,7 @@ export default handleActions({
 
         projectState = projectState.set('isFetching', false);
 
-        return state.set('projectState', projectState);
+        return projectState;
     },
     [PUSHERR] : (state, action) => {
         const err = action.payload;

@@ -17,12 +17,11 @@ class ProjPanelContainer extends Component {
         ProjectActions.axiosGetAsync('api/projects/list', {userId: '1111'});
     }
     render() {
-        const { projectState } = store;
+        const { projectState } = store.getState();
         // const { userState } = this.props;
         //임시 유저 스토어
         
         const { userState } = { userState: { selectedUser: {userId: '1111', userName: '김승신'} }};
-        console.log(projectState);
         
         return (<ProjPanel projectState={projectState} userState={userState}></ProjPanel>);
     }
