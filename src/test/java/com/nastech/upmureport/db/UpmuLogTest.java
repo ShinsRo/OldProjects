@@ -16,12 +16,12 @@ import com.nastech.upmureport.config.PersistenceJPAConfig;
 import com.nastech.upmureport.config.WebConfig;
 import com.nastech.upmureport.domain.entity.Attachment;
 import com.nastech.upmureport.domain.entity.LogAttachment;
-import com.nastech.upmureport.domain.entity.UpmuContents;
+import com.nastech.upmureport.domain.entity.UpmuContent;
 import com.nastech.upmureport.domain.entity.UpmuLog;
 import com.nastech.upmureport.domain.entity.User;
 import com.nastech.upmureport.domain.repository.AttachmentRepository;
 import com.nastech.upmureport.domain.repository.LogAttachmentRepository;
-import com.nastech.upmureport.domain.repository.UpmuContentsRepository;
+import com.nastech.upmureport.domain.repository.UpmuContentRepository;
 import com.nastech.upmureport.domain.repository.UpmuLogRepository;
 import com.nastech.upmureport.domain.repository.UserRepository;
 
@@ -34,7 +34,7 @@ public class UpmuLogTest {
 	UserRepository userRepository;
 	
 	@Autowired
-	UpmuContentsRepository upmuContentsRepository;
+	UpmuContentRepository upmuContentsRepository;
 	
 	@Autowired
 	UpmuLogRepository upmuLogRepository;
@@ -60,7 +60,7 @@ public class UpmuLogTest {
 	public void setUpmu() {
 		Date date = new Date();
 		
-		UpmuContents upmuContents = UpmuContents.builder().name("upmu1").contents("upmu1 contents")
+		UpmuContent upmuContents = UpmuContent.builder().name("upmu1").contents("upmu1 contents")
 				.build();
 		
 		upmuContentsRepository.save(upmuContents);		

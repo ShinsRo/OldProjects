@@ -1,28 +1,31 @@
 package com.nastech.upmureport.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.nastech.upmureport.domain.dto.UpmuReqDto;
-import com.nastech.upmureport.domain.entity.UpmuContents;
+import com.nastech.upmureport.domain.entity.Dir;
+import com.nastech.upmureport.domain.entity.UpmuContent;
 import com.nastech.upmureport.domain.repository.DirRepository;
-import com.nastech.upmureport.domain.repository.UpmuContentsRepository;
+import com.nastech.upmureport.domain.repository.UpmuContentRepository;
 
 @Service
 public class UpmuService {
 	
-	UpmuContentsRepository upmuContentsRepository;
+	UpmuContentRepository upmuContentRepository;
 	
 	DirRepository dirRepository;
 	
-	public UpmuService(UpmuContentsRepository upmuContentsRepository, DirRepository dirRepository) {
-		this.upmuContentsRepository = upmuContentsRepository;
+	public UpmuService(UpmuContentRepository upmuContentRepository, DirRepository dirRepository) {
+		this.upmuContentRepository = upmuContentRepository;
 		this.dirRepository = dirRepository;
 	}
 	
-	public UpmuContents addUpmuContents(UpmuReqDto upmuReqDto) {
-		UpmuContents upmuContents = UpmuContents.builder()
+	public UpmuContent addUpmuContents(UpmuReqDto upmuReqDto) {
+		UpmuContent upmuContents = UpmuContent.builder()
 				.dirId(upmuReqDto.getDir())
 				.name(upmuReqDto.getName())
 				.contents(upmuReqDto.getContents())
@@ -31,10 +34,31 @@ public class UpmuService {
 				.build();
 		
 		try {
-			return upmuContentsRepository.save(upmuContents);
+			return upmuContentRepository.save(upmuContents);
 		}catch(Exception e){
 			e.getMessage();
 			return null;
 		}
+	}
+	
+	public List<UpmuReqDto> getUpmu(Integer dirId){
+		
+		Dir dir = dirRepository.findById(dirId).get();
+		
+		List<UpmuContent> upmuContents = upmuContentRepository.findByDirId(dir);
+		
+		List<UpmuReqDto> upmuReqDtos = new ArrayList<>();
+		
+		for(UpmuContent upmuContent : upmuContents) {
+			UpmuReqDto upmuReqDto = UpmuReqDto.builder()
+										.name(upmuContent.getName())
+										.contents(upmuContent.getContents())
+										.localPath(upmuContent.getLocalPath())
+										.dir(upmuContent.getDirId())
+										.build();
+			upmuReqDtos.add(upmuReqDto);			
+		}
+		
+		return upmuReqDtos;		
 	}
 }

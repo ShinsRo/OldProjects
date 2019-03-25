@@ -1,5 +1,7 @@
 package com.nastech.upmureport.config;
 
+import java.util.List;
+
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -35,6 +37,5 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedMethods("*")
                 .allowedHeaders("*")
                 .allowCredentials(false).maxAge(3600);
-    }
-	
+    }	
 }
