@@ -4,15 +4,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.nastech.upmureport.domain.dto.UserDto;
 import com.nastech.upmureport.service.UserService;
 
-@Controller
+@RestController
+@RequestMapping(value = "/api/users")
 public class UserController {
 	@Autowired
 	UserService userService;
@@ -23,19 +27,22 @@ public class UserController {
     	System.out.println(user.getUserId());
     	return "_template";
     }*/
-    @RequestMapping(value = "/login",method= {RequestMethod.POST , RequestMethod.GET} )
-    public String login(UserDto user, HttpServletRequest request){
+    @PostMapping(value = "/login")
+    public UserDto login(@RequestBody UserDto user, HttpServletRequest request){
     	UserDto loginedUserDto = userService.userLogin(user);
+    	System.out.println(loginedUserDto);
     	if(loginedUserDto != null) {
     		HttpSession session = request.getSession();
     		session.setAttribute("userDto", (Object)loginedUserDto);
-    		return "index";
+    		System.out.println("send loginedUser to View:"+loginedUserDto);
+    		return loginedUserDto;
     	}
     	else
     	{
-    		return "redirect:/";
+    		return null;
     	}
     }
+    @CrossOrigin
     @GetMapping(value = "/regi")
     public String register() {
     	UserDto user= new UserDto("190313", "Test", "1q2w3e4r", "연구소", "사원", false);

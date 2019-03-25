@@ -92,33 +92,22 @@ public class ProjectService {
 		return userProj;
 	}
 	
-	/**
-	 * 
-	 * @param userId
-	 * @return 유저 아이디에 연관한 모든 유저-프로젝트 리스트
-	 */
-	public List<UserProject> findAllUserProjectByUserId(String userId) {
-		List<UserProject> userProjs = new ArrayList<UserProject>();
+	public List<ProjectDto> findProjectsByUserId(String userId) {
+		List<UserProject> userProjs = userProjectRepository.findAllByUser(
+											User.builder().userId(userId).build());
+		List<ProjectDto> projects = new ArrayList<ProjectDto>(); 
+		for (UserProject up : userProjs) {
+			ProjectDto project = new ProjectDto(up);
+			projects.add(project);
+		}
 		
-		userProjs = userProjectRepository.findAllByUser(
-				User.builder().userId(userId).build());
-		return userProjs;
+		return projects;
 	}
+
+	public List<Project> findAll() {
+		return projectRepository.findAll();
+	}	
 	
-	/**
-	 * 
-	 * @param projId
-	 * @return
-	 */
-	public List<UserProject> findAllUserProjectByProjId(Integer projId) {
-		List<UserProject> userProjs = new ArrayList<UserProject>();
-		
-		userProjs = userProjectRepository.findAllByProject(
-				Project.builder().projId(projId).build());
-		return userProjs;
-	}
-
-
 	public Project findOneById(Integer projId) throws NoSuchElementException {
 		return projectRepository.findById(projId).get();
 	}
@@ -150,9 +139,32 @@ public class ProjectService {
 	}
 
 
-	public List<Project> findAll() {
-		return projectRepository.findAll();
+
+	
+	/**
+	 * 
+	 * @param userId
+	 * @return 유저 아이디에 연관한 모든 유저-프로젝트 리스트
+	 */
+	public List<UserProject> findAllUserProjectByUserId(String userId) {
+		List<UserProject> userProjs = new ArrayList<UserProject>();
+		
+		userProjs = userProjectRepository.findAllByUser(
+				User.builder().userId(userId).build());
+		return userProjs;
 	}
 	
-	
+	/**
+	 * 
+	 * @param projId
+	 * @return
+	 */
+	public List<UserProject> findAllUserProjectByProjId(Integer projId) {
+		List<UserProject> userProjs = new ArrayList<UserProject>();
+		
+		userProjs = userProjectRepository.findAllByProject(
+				Project.builder().projId(projId).build());
+		return userProjs;
+	}
+
 }
