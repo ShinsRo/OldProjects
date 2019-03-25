@@ -24,7 +24,7 @@ public class UpmuContent implements Serializable{
 	private Integer upmuId;
 	
 	@ManyToOne
-	@JoinColumn
+	@JoinColumn(name="dirId")
 	private Dir dirId;
 	
 	private String name;

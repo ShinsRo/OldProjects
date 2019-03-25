@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nastech.upmureport.domain.dto.UpmuReqDto;
+import com.nastech.upmureport.domain.dto.UpmuResDto;
 import com.nastech.upmureport.domain.entity.Dir;
 import com.nastech.upmureport.domain.entity.UpmuContent;
 import com.nastech.upmureport.service.UpmuService;
@@ -40,20 +41,20 @@ public class UpmuController {
 	*/
 	
 	@PostMapping(value= "/upmu")
-	public UpmuContent addUpmu(@RequestBody UpmuReqDto upmuReqDto) {
+	public UpmuResDto addUpmu(@RequestBody UpmuReqDto upmuReqDto) {
 		log.info("==========================/upmu");
 		log.info(upmuReqDto.toString());
 		
-		UpmuContent upmuContents = upmuService.addUpmuContents(upmuReqDto);
+		UpmuResDto upmuResDto = upmuService.addUpmuContents(upmuReqDto);
 		
 		
-		return upmuContents;	
+		return upmuResDto;	
 	}
 	
 	@GetMapping(value="/upmu/{dirId}")
-	public List<UpmuReqDto> getUpmu(@PathVariable String dirId){
+	public List<UpmuResDto> getUpmu(@PathVariable String dirId){
 		log.info("=========get=============/upmu");
-		
+		log.info("dir id = " + dirId);
 		return upmuService.getUpmu(Integer.valueOf(dirId));		
 	}
 	

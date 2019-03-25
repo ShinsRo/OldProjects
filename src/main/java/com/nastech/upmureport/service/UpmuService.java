@@ -1,18 +1,24 @@
 package com.nastech.upmureport.service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.nastech.upmureport.controller.UpmuController;
 import com.nastech.upmureport.domain.dto.UpmuReqDto;
+import com.nastech.upmureport.domain.dto.UpmuResDto;
 import com.nastech.upmureport.domain.entity.Dir;
 import com.nastech.upmureport.domain.entity.UpmuContent;
 import com.nastech.upmureport.domain.repository.DirRepository;
 import com.nastech.upmureport.domain.repository.UpmuContentRepository;
 
+import lombok.extern.java.Log;
+
 @Service
+@Log
 public class UpmuService {
 	
 	UpmuContentRepository upmuContentRepository;
@@ -24,41 +30,61 @@ public class UpmuService {
 		this.dirRepository = dirRepository;
 	}
 	
-	public UpmuContent addUpmuContents(UpmuReqDto upmuReqDto) {
+	public UpmuResDto addUpmuContents(UpmuReqDto upmuReqDto) {
+		Dir dir = dirRepository.findById(upmuReqDto.getDirId()).get();
+		
 		UpmuContent upmuContents = UpmuContent.builder()
-				.dirId(upmuReqDto.getDir())
+				.dirId(dir)
 				.name(upmuReqDto.getName())
 				.contents(upmuReqDto.getContents())
 				.localPath(upmuReqDto.getLocalPath())
 				.newDate(LocalDateTime.now())
+				.updateDate(LocalDateTime.now())
+				.build();
+		
+		upmuContents = upmuContentRepository.save(upmuContents);
+		
+		UpmuResDto upmuResDto = UpmuResDto.builder()
+				.name(upmuContents.getName())
+				.contents(upmuContents.getContents())
+				.localPath(upmuContents.getLocalPath())
+				.dirId(upmuContents.getDirId().getDirId())
+				.newDate(upmuContents.getNewDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+				.updateDate(upmuContents.getUpdateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))										
 				.build();
 		
 		try {
-			return upmuContentRepository.save(upmuContents);
+			return upmuResDto;
 		}catch(Exception e){
 			e.getMessage();
 			return null;
 		}
 	}
 	
-	public List<UpmuReqDto> getUpmu(Integer dirId){
+	public List<UpmuResDto> getUpmu(Integer dirId){
 		
 		Dir dir = dirRepository.findById(dirId).get();
 		
 		List<UpmuContent> upmuContents = upmuContentRepository.findByDirId(dir);
 		
-		List<UpmuReqDto> upmuReqDtos = new ArrayList<>();
+		log.info("size ==== " + upmuContents.size());
+		
+		List<UpmuResDto> upmuResDtos = new ArrayList<>();
 		
 		for(UpmuContent upmuContent : upmuContents) {
-			UpmuReqDto upmuReqDto = UpmuReqDto.builder()
+			UpmuResDto upmuResDto = UpmuResDto.builder()
 										.name(upmuContent.getName())
 										.contents(upmuContent.getContents())
 										.localPath(upmuContent.getLocalPath())
-										.dir(upmuContent.getDirId())
+										.dirId(upmuContent.getDirId().getDirId())
+										.newDate(upmuContent.getNewDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+										.updateDate(upmuContent.getUpdateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))										
 										.build();
-			upmuReqDtos.add(upmuReqDto);			
+			upmuResDtos.add(upmuResDto);		
+			
+			log.info(upmuContent.getNewDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 		}
 		
-		return upmuReqDtos;		
+		return upmuResDtos;		
 	}
 }
