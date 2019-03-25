@@ -21,6 +21,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.nastech.upmureport.config.PersistenceJPAConfig;
 import com.nastech.upmureport.config.WebConfig;
+import com.nastech.upmureport.domain.dto.DirDto;
 import com.nastech.upmureport.domain.dto.ProjectDto;
 import com.nastech.upmureport.domain.dto.UserDto;
 import com.nastech.upmureport.domain.dto.UserProjectDto;
@@ -28,6 +29,7 @@ import com.nastech.upmureport.domain.entity.ProjStat;
 import com.nastech.upmureport.domain.entity.Project;
 import com.nastech.upmureport.domain.entity.User;
 import com.nastech.upmureport.domain.entity.UserProject;
+import com.nastech.upmureport.domain.repository.DirRepository;
 import com.nastech.upmureport.domain.repository.ProjectRepository;
 import com.nastech.upmureport.domain.repository.UserProjectRepository;
 import com.nastech.upmureport.domain.repository.UserRepository;
@@ -54,8 +56,6 @@ public class projectServiceTest {
 		userProjectRepository.deleteAll();
 		projectRepository.deleteAll();
 		userRepository.deleteAll();
-		setTempUsers();
-		setTempProjs();
 	}
 	
 	private List<User> setTempUsers() {
@@ -99,18 +99,12 @@ public class projectServiceTest {
 		
 		List<UserProject> upList = new ArrayList<UserProject>();
 		for (Project project : tempProj) {
-			upList.add(projectService.register(project.toDto(), creator.getUserId(), "대기"));
+			ProjectDto projectDto = project.toDto();
+			projectDto.setUserId("1111");
+			upList.add(projectService.register(projectDto));
 		}
 		
 		return upList;
-	}
-	
-	private User tempUserRegister() {
-		return userRepository.save(User.builder()
-			.userId("1234")
-			.userName("임시사용자")
-			.userPass("nas1234!")
-			.build());
 	}
 	
 	@After
@@ -121,74 +115,18 @@ public class projectServiceTest {
 	}
 	
 	@Test
-	public void 리스트_불러오기() {
-		List<ProjectDto> projs = projectService.findProjectsByUserId("1111");
-		assertTrue(projs.size() == 3);
+	public void 디렉토리_리스트_테스트() {
+		setTempUsers();
+		setUpTempData();
+		List<UserProject> upList = setTempProjs();
+		projectService.registerDir(
+				DirDto.builder()
+				.dirName("디렉토리")
+				.parentProjId("" + upList.get(0).getProject().getProjId())
+				.userId("1111")
+				.build()
+				);
 		
-		System.out.println(projs);
-	}
-	
-	@Test
-	public void 프로젝트_등록_테스트() {
-		//임시 회원 가입 유저
-		User loginedUserEntity = tempUserRegister();
-		
-		//로그인한 유저
-//		UserDto userDto = new UserDto();
-		
-		//넘겨받은 프로젝트
-		ProjectDto projectDto = ProjectDto.builder()
-				.projName("프로젝트 2")
-				.projCaleGubun("주기성")
-				.projDesc("업무보고 프로젝트")
-				.projProgress(0)
-				.startYear("2019").startMonth("3").startDay("4")
-				.endYear("2019").endMonth("6").endDay("21")
-				.build();
-		
-		//프로젝트 등록
-		UserProject userProject = projectService.register(projectDto, loginedUserEntity.getUserId(), "");
-		assertNotNull(userProject);
-		
-		List<UserProject> userProjList = userProjectRepository.findAllByUser(loginedUserEntity);
-		
-		//project에 관련한 유저가 tempUser와 같은가.
-		assertTrue(Objects.equals(loginedUserEntity.getUserId(), userProjList.get(0).getUser().getUserId()));
-	}
-	
-	@Test
-	public void 프로젝트_수정_테스트() {
-	}
-	
-	@Test
-	public void 프로젝트_삭제_테스트() {
-		String userId = "1111";
-		Project willBeDeleted = Project.builder()
-				.projName("삭제될 프로젝트입니다.").projCaleGubun("주기성").projDesc("")
-				.projProgress(0).projSubject("이러저런업무임").createdDate(LocalDateTime.now())
-				.projStartDate(LocalDateTime.of(2017, 3, 2, 0, 0))
-				.projEndDate(LocalDateTime.of(2017, 3, 2, 0, 0))
-				.build();
-		
-		UserProject userProj = projectService.register(willBeDeleted.toDto(), userId, "");
-		Integer projId = userProj.getProject().getProjId();
-		
-		Project proj = projectService.disableProject(projId);
-		assertTrue(projId == proj.getProjId());
-		assertTrue(proj.getDeleteFlag());
-		
-		
-		assertTrue(projectService.findAllUserProjectByProjId(projId).size() == 1);
-		projectService.deleteProject(projId);
-		
-		Boolean noSuchEleExcepFlag = false;
-		try {
-			projectService.findOneById(projId);
-		} catch (NoSuchElementException e) {
-			noSuchEleExcepFlag = true;
-		}
-		
-		assertTrue(noSuchEleExcepFlag);
-		assertTrue(projectService.findAllUserProjectByProjId(projId).size() == 0);
+//		projectService.findDirsByProjId("" + upList.get(0).getProject().getProjId());
 	}
 }

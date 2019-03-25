@@ -41,4 +41,41 @@ insert into userProject(
 		projStat, deleteFlag)
 	values(200, 500, 1111, 0, false);
 
+# 디렉토리
+insert into dir(
+		dirId, userId, parentProjId, parentDirId, 
+		dirName, deleteFlag)
+	values(1001, '1111', 300, null, '2019년 업무보고', false);
+
+insert into dir(
+		dirId, userId, parentProjId, parentDirId, 
+		dirName, deleteFlag)
+	values(10011, '1111', 300, 1001, '1월 업무보고', false);
+
+insert into dir(
+		dirId, userId, parentProjId, parentDirId, 
+		dirName, deleteFlag)
+	values(10012, '1111', 300, 1001, '2월 업무보고', false);
+	
+insert into dir(
+		dirId, userId, parentProjId, parentDirId, 
+		dirName, deleteFlag)
+	values(10013, '1111', 300, 1001, '3월 업무보고', false);
+	
+insert into dir(
+		dirId, userId, parentProjId, parentDirId, 
+		dirName, deleteFlag)
+	values(1002, '1111', 300, null, '2018년 업무보고', false);
+	
+insert into dir(
+		dirId, userId, parentProjId, parentDirId, 
+		dirName, deleteFlag)
+	values(10021, '1112', 300, 1002, '3월 업무보고', false);
+	
+insert into dir(
+		dirId, userId, parentProjId, parentDirId, 
+		dirName, deleteFlag)
+	values(1003, '1112', 400, null, '웹 리소스 폴더', false);
+
+delete from dir;
 select * from user;
