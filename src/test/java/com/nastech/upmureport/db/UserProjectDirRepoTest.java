@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Hibernate;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,15 @@ public class UserProjectDirRepoTest {
 	 *  5. 유저 김승신이 보유한 프로젝트를 조회한다.
 	 *  6. 이 프로젝트가 프로젝트 1인지 확인한다.
 	 */
+	
+	@Before
+	public void setUp() {
+		userProjectDirRepository.deleteAll();
+		userProjectRepsitory.deleteAll();
+		dirRepository.deleteAll();
+		projectRepository.deleteAll();
+		userRepository.deleteAll();
+	}
 	
 	@Test
 	public void 유저프로젝트_연결테스트() {
@@ -166,22 +176,19 @@ public class UserProjectDirRepoTest {
 		assertTrue(ksmProject1 != null);
 		
 		Dir project1Dir = Dir.builder()
+				.project((Project) Hibernate.unproxy(ksmProject1.getProject()))
 				.dirName("proj1_dir1")
 				.createDate(LocalDateTime.now())
 				.build();
 		project1Dir = dirRepository.save(project1Dir);
-		project1Dir = (Dir) Hibernate.unproxy(project1Dir);
-		ksmProject1 = (UserProject) Hibernate.unproxy(ksmProject1);
-		ksmProject1.setUser((User) Hibernate.unproxy(ksmProject1.getUser()));
-		ksmProject1.setProject((Project) Hibernate.unproxy(ksmProject1.getProject()));
+		
 		userProjectDirRepository.save(UserProjectDir.builder()
-				.project(ksmProject1.getProject())
-				.user(ksmProject1.getUser())
-				.dir(project1Dir)
+				.project((Project) Hibernate.unproxy(ksmProject1.getProject()))
+				.user(ksm)
+				.dir(project1Dir)	
 				.build());
 		
-		List<UserProjectDir> ksmProjDirs = userProjectDirRepository.findAllByUser(ksm);
-		
-		assertTrue(ksmProjDirs.get(0).getDir().getDirName().equals("proj1_dir1"));	
+		List<Dir> dirList = dirRepository.findAllByParentProjId(ksmProject1.getProject().getProjId());
+		assertTrue(dirList.get(0).getDirName().equals("proj1_dir1"));	
 	}
 }
