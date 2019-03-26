@@ -19,6 +19,10 @@
     color: #243377 !important;
 }
 
+.text-white {
+    color: #fff !important;
+}
+
 
 
 /*
@@ -74,4 +78,55 @@
     font-style: normal;
     font-weight: 400;
     src: url(../fonts/NotoSansKR-Light.otf) format('opentype');
+}
+
+
+/*
+ 디렉토리 트리 뷰 css
+*/
+
+.dir-upmureport-theme {
+    height: 100%;
+    
+    
+}
+
+.dir-upmureport-theme
+.deni-react-treeview-container {
+    background-color: #fff;
+    border-color: #fff !important;
+    width: 100%;
+    font-size: 14px;
+}
+
+.dir-upmureport-theme
+.deni-react-treeview-container
+.deni-react-treeview-item-container {
+    height: 36px;
+}
+
+.treeivew-item {
+    align-items: right !important;
+    width: 100%;
+    display: flex;
+    flex: 1;
+}
+.treeview-item.text {
+    flex: 1;
+}
+.action-btn {
+    margin-right: 5px;
+    cursor: pointer;
+    opacity: 0.5;
+}
+.action-btn.trash {
+    color: #ff6666;
+}
+.action-btn.edit {
+    color: #006699;
+    margin-top: 1px;
+}
+.action-btn:hover {
+    visibility: visible;
+    opacity: 1;
 }
