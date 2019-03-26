@@ -48,7 +48,7 @@ public class UpmuController {
 		UpmuResDto upmuResDto = upmuService.addUpmuContents(upmuReqDto);
 		
 		
-		return upmuResDto;	
+		return upmuResDto;
 	}
 	
 	@GetMapping(value="/upmu/{dirId}")
