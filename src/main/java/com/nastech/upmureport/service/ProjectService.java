@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,16 @@ import org.springframework.core.codec.Hints;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nastech.upmureport.domain.dto.DirDto;
 import com.nastech.upmureport.domain.dto.ProjectDto;
 import com.nastech.upmureport.domain.dto.UserDto;
 import com.nastech.upmureport.domain.dto.UserProjectDto;
+import com.nastech.upmureport.domain.entity.Dir;
 import com.nastech.upmureport.domain.entity.ProjStat;
 import com.nastech.upmureport.domain.entity.Project;
 import com.nastech.upmureport.domain.entity.User;
 import com.nastech.upmureport.domain.entity.UserProject;
+import com.nastech.upmureport.domain.repository.DirRepository;
 import com.nastech.upmureport.domain.repository.ProjectRepository;
 import com.nastech.upmureport.domain.repository.UserProjectRepository;
 import com.nastech.upmureport.domain.repository.UserRepository;
@@ -32,29 +36,33 @@ public class ProjectService {
 	
 	@Autowired
 	UserProjectRepository userProjectRepository;
+	
+	@Autowired
+	DirRepository dirRepository;
+	
 	/**
-	 * 넘겨받은 프로젝트 정보에 의거해 프로젝트를 등록합니다. 이 때 요청한 유저는 자동적으로 프로젝트에 소속합니다.
 	 * @param projectDto 프로젝트 등록할 정보
+	 * 넘겨받은 프로젝트 정보에 의거해 프로젝트를 등록합니다. 이 때 요청한 유저는 자동적으로 프로젝트에 소속합니다.
 	 * @param userDto 등록을 요청한 사용자
 	 * @param projStat 프로젝트 상태 
 	 * @return 등록자와 프로젝트 연결 객체, 해당 유저가 존재하지 않을 경우 NULL
 	 */
 	@Transactional
-	public UserProject register(ProjectDto projectDto, String userId, String projStat) throws NoSuchElementException {
+	public UserProject register(ProjectDto projectDto) throws NoSuchElementException {
 		User user = null;
 		try {
-			user = userRepository.findById(userId).get();
+			user = userRepository.findById(projectDto.getUserId()).get();
 		} catch (NoSuchElementException nsee) {
 			throw new NoSuchElementException("userId에 해당하는 사용자가 없습니다.");
 		}
 		
 		Project project = projectDto.toEntity();
 		project.setCreatedDate(LocalDateTime.now());
-		project = projectRepository.save(project);
+		projectRepository.save(project);
 		
 		ProjStat pj;
 		try {
-			pj = ProjStat.valueOf(projStat);
+			pj = ProjStat.valueOf(projectDto.getProjStat());
 		} catch (IllegalArgumentException iae) {
 			pj = ProjStat.대기;
 		}
@@ -165,6 +173,45 @@ public class ProjectService {
 		userProjs = userProjectRepository.findAllByProject(
 				Project.builder().projId(projId).build());
 		return userProjs;
+	}
+
+	public List<DirDto> findDirsByProjId(String projId) {
+		List<Dir> dirs = dirRepository.findAllByParentProjId(Integer.parseInt(projId));
+		List<DirDto> dirDtos = new ArrayList<DirDto>();
+		for (Dir dir : dirs) {
+			DirDto temp = DirDto.builder()
+					.dirId(""+dir.getDirId())
+					.dirName(dir.getDirName())
+					.build();
+			
+			if (dir.getParentDir() == null) {
+				temp.setParentDirId("root");				
+			} else {
+				temp.setParentDirId(""+dir.getParentDir().getDirId());
+			}
+			dirDtos.add(temp);
+		}
+		return dirDtos;
+	}
+
+
+	public Dir registerDir(DirDto dirDto) {
+		String userId = dirDto.getUserId();
+		Integer projId = Integer.parseInt(dirDto.getParentProjId());
+		Integer parentDirId = Integer.parseInt(dirDto.getParentDirId());
+		
+		User user = userRepository.findById(userId).get();
+		Project proj = projectRepository.findById(projId).get();
+		Optional<Dir> parentDir = dirRepository.findById(parentDirId);
+		
+		Dir dir = Dir.builder()
+				.dirName(dirDto.getDirName())
+				.user(user)
+				.project(proj)
+				.build();
+		
+		if(parentDir.isPresent()) dir.setParentDir(parentDir.get());
+		return dirRepository.save(dir);
 	}
 
 }

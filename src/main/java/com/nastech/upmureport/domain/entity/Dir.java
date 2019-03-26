@@ -1,7 +1,5 @@
 package com.nastech.upmureport.domain.entity;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -30,8 +28,9 @@ public class Dir {
 	@Column
 	private String dirName;
 	
-	@Column
-	private LocalDateTime createDate;
+	@ManyToOne(optional = true, fetch=FetchType.LAZY)
+	@JoinColumn(name = "userId")
+	private User user;
 	
 	@ManyToOne(optional = true, fetch=FetchType.LAZY)
 	@JoinColumn(name = "parentProjId")
@@ -41,8 +40,8 @@ public class Dir {
 	@JoinColumn(name = "parentDirId", nullable = true)
 	private Dir parentDir;
 	
-	@OneToMany(mappedBy="parentDir", fetch=FetchType.LAZY)
-	private List<Dir> childDirs;
+//	@OneToMany(mappedBy="parentDir", fetch=FetchType.LAZY)
+//	private List<Dir> childDirs;
 	
 	@Column
 	private Boolean deleteFlag;
