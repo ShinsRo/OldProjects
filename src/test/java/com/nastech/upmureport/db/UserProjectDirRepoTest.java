@@ -178,7 +178,6 @@ public class UserProjectDirRepoTest {
 		Dir project1Dir = Dir.builder()
 				.project((Project) Hibernate.unproxy(ksmProject1.getProject()))
 				.dirName("proj1_dir1")
-				.createDate(LocalDateTime.now())
 				.build();
 		project1Dir = dirRepository.save(project1Dir);
 		

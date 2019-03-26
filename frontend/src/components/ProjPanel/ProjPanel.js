@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ProjTable from './ProjTable';
+import ProjTreeView from './ProjTreeView';
 
 const VIEW_LEVEL = {
     NONE: 0,
@@ -36,23 +37,34 @@ class ProjPanel extends React.Component {
         e.preventDefault();
         
         const prevBreadcrumb = this.state.breadcrumb;
-        this.setState( { breadcrumb: Array.prototype.concat(prevBreadcrumb, [proj.projName]), viewLevel: VIEW_LEVEL.PROJ_DIR } )
+        this.setState( { breadcrumb: Array.prototype.concat(prevBreadcrumb, [proj.projName]) } )
+        this.setState( { viewLevel: VIEW_LEVEL.PROJ_DIR } )
+        this.setState( { selectedProj: proj } )
+
+        this.props.onProjClick(proj.projId);
     }
 
     render() {
         const breadcrumb = this.state.breadcrumb;
+        const { selectedProj } = this.state;
+
         const projects 
             = this.props.projectState 
-            && this.props.projectState.get('errObj').isHandled 
+            && this.props.projectState.get('errObj').get('isHandled') 
             && this.props.projectState.get('projects')
-        
+
+        const dirs 
+            = this.props.projectState 
+            && this.props.projectState.get('errObj').get('isHandled') 
+            && this.props.projectState.get('dirs')
+
         let panelBody = {};
         switch (this.state.viewLevel) {
             case VIEW_LEVEL.PROJECTS:
                 panelBody = (<ProjTable projects={projects} onProjClick={this.onProjClick}/>);
                 break;
             case VIEW_LEVEL.PROJ_DIR:
-                panelBody = (<div>프로젝트 디렉토리 뷰</div>);
+                panelBody = (<ProjTreeView project={selectedProj} dirs={dirs}/>);
                 break;
             case VIEW_LEVEL.PROJ_DETAIL:
                 panelBody = (<div>프로젝트 디테일 뷰</div>);
