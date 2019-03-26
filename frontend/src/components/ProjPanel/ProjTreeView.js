@@ -113,12 +113,6 @@ function convertDirListToTree(dirList, userId) {
     const dirTree = [];
     const keyOrder = [];
 
-    // 디렉토리 정렬
-    dirList.sort( (a, b) => {
-        if (a.dirName < b.dirName) return -1;
-        return 1;
-    } );
-
     dirList.forEach( (dir, idx) => {
         tempMap[dir.dirId] = {
             id: dir.dirId,

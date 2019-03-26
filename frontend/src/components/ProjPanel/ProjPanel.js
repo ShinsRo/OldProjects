@@ -18,7 +18,7 @@ class ProjPanel extends React.Component {
         super(props);
         
         this.state = {
-            breadcrumb: [props.userState.selectedUser.userName, "Projects"],
+            breadcrumb: [props.userState.selectedUser.userName, "내 프로젝트"],
             viewLevel: VIEW_LEVEL.PROJECTS,
         };
         this.onBreadcrumbClick = this.onBreadcrumbClick.bind(this);
@@ -64,7 +64,7 @@ class ProjPanel extends React.Component {
                 panelBody = (<ProjTable projects={projects} onProjClick={this.onProjClick}/>);
                 break;
             case VIEW_LEVEL.PROJ_DIR:
-                { panelBody = (<ProjTreeView project={selectedProj} dirs={dirs}/>); }
+                panelBody = (<ProjTreeView project={selectedProj} dirs={dirs}/>);
                 break;
             case VIEW_LEVEL.PROJ_DETAIL:
                 panelBody = (<div>프로젝트 디테일 뷰</div>);

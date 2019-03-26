@@ -55,6 +55,9 @@ export default handleActions({
         const endPoint = action.payload.endPoint;
         const items = action.payload.items;
 
+        
+
+
         let projectState = state;
 
         projectState = projectState.set('receivedAt', Date.now());
@@ -68,6 +71,13 @@ export default handleActions({
             case _.PROJ_CORRECT:
                 break;
             case _.PROJ_DIRS:
+
+                // 디렉토리 이름 오름차순 정렬
+                items.sort( (a, b) => {
+                    if (a.dirName < b.dirName) return -1;
+                    return 1;
+                });
+
                 const projId = action.payload.projId;
                 projectState = projectState.has('dirs') ? projectState : projectState.set('dirs', Map()); 
                 projectState = projectState.setIn(['dirs', `${projId}`], items);

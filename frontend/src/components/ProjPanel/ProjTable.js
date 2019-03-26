@@ -1,10 +1,18 @@
 import React from 'react';
-
+import ProjAddModal from './ProjAddModal';
 
 class ProjTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
+    }
+
+    deleteItemClick(projId) {
+        
+    }
+    
+    editItemClick(projId) {
+        
     }
 
     render() {
@@ -42,6 +50,8 @@ class ProjTable extends React.Component {
                             return (
                                 <tr key={idx}>
                                     <td>
+                                    <span className="action-btn trash" onClick={this.deleteItemClick(proj.projId)}><i className="fas fa-trash-alt"></i></span>
+                                    <span className="action-btn edit" onClick={this.editItemClick(proj.projId)}><i className="fas fa-edit"></i></span>
                                         <a  href="/"
                                             className="text-gray-800" 
                                             onClick={(e) => onProjClick(e, proj, idx)}>{proj.projName}</a>
@@ -62,6 +72,10 @@ class ProjTable extends React.Component {
                             );
                         })}
                     </tbody>
+                    <div className="row" style={{ margin: '5px', cursor: 'pointer' }}>
+                        <div className="btn-cirecle btn-sm bg-darkblue text-white" data-toggle="modal" data-target="#projAddModal"><i className="fas fa-plus"></i> 프로젝트 추가하기</div>
+                    </div>
+                    <ProjAddModal/>
                 </table>
             </div>
             
