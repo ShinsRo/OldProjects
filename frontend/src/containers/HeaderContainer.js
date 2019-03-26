@@ -32,7 +32,6 @@ class HeaderContainer extends Component {
 
     render() {
         const { userState } = store.getState();
-        console.log(userState);
         
         return (
             <div>
