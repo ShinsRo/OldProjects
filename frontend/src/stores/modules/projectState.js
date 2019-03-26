@@ -56,7 +56,7 @@ export default handleActions({
         const items = action.payload.items;
 
         let projectState = state;
-        
+
         projectState = projectState.set('receivedAt', Date.now());
 
         switch (endPoint) {
