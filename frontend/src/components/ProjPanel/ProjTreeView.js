@@ -44,6 +44,8 @@ class ProjTreeView extends React.Component {
 function convertDirListToTree(dirList) {
     const tempMap = {};
     const dirTree = [];
+    console.log(">>>>", dirList);
+    
     dirList.forEach((dir, idx) => {
         tempMap[dir.dirId] = {
             id: dir.dirId,
@@ -53,6 +55,8 @@ function convertDirListToTree(dirList) {
             isLeaf: false
         }
     });
+    
+    console.log(tempMap);
     
     Object.keys(tempMap).forEach( key => {
         const parent = tempMap[key].parent;

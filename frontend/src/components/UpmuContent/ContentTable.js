@@ -7,8 +7,11 @@ class ContentTable extends React.Component {
     }
 
     render() {
-        const upmus = this.props.upmus;
 
+        const upmus = this.props.upmus;
+        const {onClickDir} = this.props;
+
+        console.log('upmus---', upmus);
         return (
             <div>
                 <table className="table" id="upmuTable" cellSpacing="0">
@@ -25,7 +28,7 @@ class ContentTable extends React.Component {
                         {upmus.map((upmu, idx) => {
                             console.log('--------', upmu);
                             return (
-                                <tr key={idx}>
+                                <tr value={1002} key={idx} onClick={onClickDir}>
                                     <td>{upmu.name}</td>
                                     <td>{upmu.contents}</td>
                                     <td>{upmu.localPath}</td>
