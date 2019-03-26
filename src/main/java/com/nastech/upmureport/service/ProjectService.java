@@ -178,6 +178,9 @@ public class ProjectService {
 		List<DirDto> dirDtos = new ArrayList<DirDto>();
 		for (Dir dir : dirs) {
 			DirDto temp = DirDto.builder()
+					.projId(projId)
+					.userId(dir.getUser().getUserId())
+					.userName(dir.getUser().getUserName())
 					.dirId(""+dir.getDirId())
 					.dirName(dir.getDirName())
 					.build();
