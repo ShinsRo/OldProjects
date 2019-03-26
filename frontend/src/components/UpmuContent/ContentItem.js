@@ -6,18 +6,21 @@ class UpmuItem extends Component {
     static defaultProps = {
         upmu: {
             name: '이름',
-            content: '내용',
+            contents: '내용',
         }
     }
 
     render() {
         const { upmu } = this.props;
 
+        console.log('upmu Item render');
         return (
-            <div style={style}>
+            <div>
                 <div><b>{upmu.name}</b></div>
-                <div>{upmu.content}</div>
+                <div>{upmu.contents}</div>
             </div>
         );
     }
 }
+
+export default UpmuItem;

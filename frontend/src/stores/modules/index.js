@@ -1,8 +1,12 @@
 import {combineReducers} from 'redux';
 import userState from './userState'
 import projectState from "./projectState";
+<<<<<<< HEAD
 import juniorList from './juniorList';
+=======
+import saveUpmu from "./saveUpmu";
+
 // reducer 합치는곳 
 export default combineReducers({
-    userState, projectState,juniorList
+    userState, projectState, saveUpmu, juniorList
 });
