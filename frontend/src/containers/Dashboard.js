@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Sidebar } from "../components";
 import ProjPanelContainer from "./ProjPanelContainer";
 import HeaderContainer from "./HeaderContainer";
+import Upmu from "../components/UpmuContent/Upmu";
 
 class Dashboard extends Component {
   
@@ -19,6 +20,10 @@ class Dashboard extends Component {
             <div className="container-fluid">
               <div className="col-lg-6">
                 <ProjPanelContainer></ProjPanelContainer>
+              </div>
+
+              <div>
+                <Upmu />
               </div>
             </div>
 
