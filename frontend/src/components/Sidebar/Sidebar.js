@@ -1,6 +1,9 @@
 import React from "react";
+import {Map, List} from 'immutable';
+import axios from 'axios';
 
-const Sidebar = () => {
+const Sidebar = ({users}) => {
+    console.log("사이드바바!: ",users);
     return (
         <ul className="navbar-nav bg-gradient-darkblue sidebar sidebar-dark accordion" id="accordionSidebar">
 

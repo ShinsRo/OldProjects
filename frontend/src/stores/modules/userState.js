@@ -62,7 +62,7 @@ const initialState = {
 
 export default handleActions({
     [GET_POST_PENDING]: (state,action) => {
-        return{
+        return {
             ...state,
             pending:true,
             error:false
@@ -70,8 +70,9 @@ export default handleActions({
     },
     [GET_POST_SUCCESS]: (state,action) => {
         const userInfo = action.payload;
+
         userInfo && sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
-        return{
+        return {
             ...state,
             pending: false,
             userInfo: userInfo
