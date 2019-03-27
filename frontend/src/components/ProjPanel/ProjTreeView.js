@@ -1,5 +1,6 @@
 import React from 'react';
 import TreeView from 'deni-react-treeview';
+import store from '../../stores';
 
 class ProjTreeView extends React.Component {
 
@@ -14,17 +15,17 @@ class ProjTreeView extends React.Component {
     }
     
     deleteItemClick(id) {
-    this.refs.treeview.api.removeItem(id);
+        this.refs.treeview.api.removeItem(id);
     }
     
     editItemClick(id) {
-    alert('editing routine here...')
+        alert('editing routine here...')
     }
 
     render() {
         const {dirs, project} = this.props;
         const dirList = (dirs && dirs.get(`${project.projId}`)) || [];
-        
+
         const dirTree = convertDirListToTree(dirList);
         
         
@@ -42,6 +43,7 @@ class ProjTreeView extends React.Component {
 }
 
 function convertDirListToTree(dirList) {
+
     const tempMap = {};
     const dirTree = [];
     console.log(">>>>", dirList);
@@ -67,8 +69,10 @@ function convertDirListToTree(dirList) {
         } else {
             dirTree.push(tempMap[key]);
         }
-    });
+    });    
     return dirTree;
 }
 
+
 export default ProjTreeView;
+

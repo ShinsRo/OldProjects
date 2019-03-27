@@ -23,6 +23,7 @@ class ProjPanel extends React.Component {
         };
         this.onBreadcrumbClick = this.onBreadcrumbClick.bind(this);
         this.onProjClick = this.onProjClick.bind(this);
+        
     }
 
     onBreadcrumbClick(e, el, idx) {
@@ -37,6 +38,8 @@ class ProjPanel extends React.Component {
         e.preventDefault();
         
         const prevBreadcrumb = this.state.breadcrumb;
+
+
         this.setState( { breadcrumb: Array.prototype.concat(prevBreadcrumb, [proj.projName]) } )
         this.setState( { viewLevel: VIEW_LEVEL.PROJ_DIR } )
         this.setState( { selectedProj: proj } )
