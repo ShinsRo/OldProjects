@@ -29,7 +29,6 @@ class ProjPanelContainer extends Component {
     
     handleDirItemClick (selectedDirId) {
         const { ProjectActions } = this.props;
-        alert(selectedDirId)
         ProjectActions.saveDirId(selectedDirId);
     };
 
