@@ -105,7 +105,6 @@ public class UserProjectDirRepoTest {
 				.projSubject("담당업무 제목")
 				.projCaleGubun("주기성")
 				.projProgress(0)
-				.projStartDate(LocalDateTime.now())
 				.projDesc("담당업무 설명")
 				.build();
 

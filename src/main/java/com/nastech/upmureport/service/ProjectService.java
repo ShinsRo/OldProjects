@@ -2,19 +2,18 @@ package com.nastech.upmureport.service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.codec.Hints;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nastech.upmureport.domain.dto.DirDto;
 import com.nastech.upmureport.domain.dto.ProjectDto;
-import com.nastech.upmureport.domain.dto.UserDto;
 import com.nastech.upmureport.domain.dto.UserProjectDto;
 import com.nastech.upmureport.domain.entity.Dir;
 import com.nastech.upmureport.domain.entity.ProjStat;
@@ -57,11 +56,12 @@ public class ProjectService {
 		}
 		
 		Project project = projectDto.toEntity();
-		project.setCreatedDate(LocalDateTime.now());
+		project.setCreatedDate(new Date(System.currentTimeMillis())); 
 		projectRepository.save(project);
 		
 		ProjStat pj;
 		try {
+			System.out.println(projectDto.getProjStat());
 			pj = ProjStat.valueOf(projectDto.getProjStat());
 		} catch (IllegalArgumentException iae) {
 			pj = ProjStat.대기;
@@ -180,6 +180,9 @@ public class ProjectService {
 		List<DirDto> dirDtos = new ArrayList<DirDto>();
 		for (Dir dir : dirs) {
 			DirDto temp = DirDto.builder()
+					.projId(projId)
+					.userId(dir.getUser().getUserId())
+					.userName(dir.getUser().getUserName())
 					.dirId(""+dir.getDirId())
 					.dirName(dir.getDirName())
 					.build();

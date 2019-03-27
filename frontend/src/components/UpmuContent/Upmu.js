@@ -5,7 +5,7 @@ import * as upmuActions from '../../stores/modules/saveUpmu';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import store from '../../stores';
-import ContentItem from './ContentItem';
+import * as dirStateActions from '../../stores/modules/dirState'
 import ContentTable from './ContentTable';
 
 const customStyles = {
@@ -39,6 +39,7 @@ class Upmu extends Component {
 
 static defaultProps = {
   upmus: List(),
+  projectState: '',
 }
 
 static state = Map({
@@ -46,10 +47,9 @@ static state = Map({
 })
 
   componentDidMount() {
-    const {saveUpmu, userState} = store.getState();
+    const {dirState, userState} = store.getState();
     const {UpmuActions} = this.props;
-    UpmuActions.getUpmu(saveUpmu.get('dirId'));   
-    //alert(userState.userInfo.userId); 
+    // UpmuActions.getUpmu(saveUpmu.get('dirId'));
   }
 /*
   getList = () => {
@@ -91,14 +91,14 @@ static state = Map({
   // }
 
   handleInsert = (e) => {
-    const {saveUpmu} = store.getState();
+    const {saveUpmu, dirState} = store.getState();
     const {UpmuActions} = this.props;
     //const {titleInput, contentInput} = this.props;
 
     const upmu = {
         name: saveUpmu.get('titleInput'),
         contents: saveUpmu.get('contentInput'),
-        dirId: 1
+        dirId: dirState.get('dir'),
     };
 
     console.log(upmu);
@@ -109,10 +109,20 @@ static state = Map({
     //this.props.saveUpmu.setState('upmus', saveUpmu.get('upmus'));
   }
 
+  handleChangeDir = (e) => {
+    const {DirStateActions, UpmuActions} = this.props;
+    const {dirState} = store.getState();
+
+    DirStateActions.changeSelectedDir(1002);
+    console.log('e.target.value',e.target.value);
+    UpmuActions.getUpmu(1002); 
+    
+  }
+
     render(){
       const { openModal}  = this;
-      const {titleInput, contentInput, saveUpmu} = this.props;
-      const { handleTitleChange, handleContentChange, handleInsert } = this;
+      const {saveUpmu} = this.props;
+      const { handleTitleChange, handleContentChange, handleInsert, handleChangeDir } = this;
       //alert(`asd${saveUpmu}`)
       /*
       const upmuList = upmus.map((upmu) => 
@@ -129,8 +139,8 @@ static state = Map({
                     isOpen={this.state.modalIsOpen}
                     onAfterOpen={this.afterOpenModal}
                 >
-                    <input value={titleInput} placeholder="name" onChange={handleTitleChange}/>
-                    <input value={contentInput} placeholder="content" onChange={handleContentChange}/>
+                    <input value={saveUpmu.titleInput} placeholder="name" onChange={handleTitleChange}/>
+                    <input value={saveUpmu.contentInput} placeholder="content" onChange={handleContentChange}/>
                     <button onClick={handleInsert}>add</button>
                     <button onClick={this.closeModal}>close</button>
                 </Modal>
@@ -151,7 +161,7 @@ static state = Map({
                 );
                 })}
               */}
-              <ContentTable upmus={saveUpmu.get('upmus')} />              
+              <ContentTable upmus={saveUpmu.get('upmus')} onClickDir = {handleChangeDir} />              
             </div>
           </div>
           );
@@ -160,15 +170,14 @@ static state = Map({
 
 export default connect(
     (state) => ({
-        titleInput: state.saveUpmu.titleInput,
-        contentInput: state.contentInput,
-        upmus: state.upmus,
-        dirId: state.dirId,
         saveUpmu: state.saveUpmu,
         userState: state.userState,
+        projectState: state.projectState,
+        dirState: state.dirState
     }),
     (dispatch) => ({
         //UpmuContentActions: bindActionCreators(upmuContentActions, dispatch),
-        UpmuActions: bindActionCreators(upmuActions, dispatch)        
+        UpmuActions: bindActionCreators(upmuActions, dispatch),
+        DirStateActions : bindActionCreators(dirStateActions, dispatch),
     })
 )(Upmu);
