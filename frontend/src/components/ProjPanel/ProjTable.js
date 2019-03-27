@@ -72,11 +72,11 @@ class ProjTable extends React.Component {
                             );
                         })}
                     </tbody>
-                    <div className="row" style={{ margin: '5px', cursor: 'pointer' }}>
-                        <div className="btn-cirecle btn-sm bg-darkblue text-white" data-toggle="modal" data-target="#projAddModal"><i className="fas fa-plus"></i> 프로젝트 추가하기</div>
-                    </div>
-                    <ProjAddModal/>
                 </table>
+                <div className="row" style={{ margin: '5px', cursor: 'pointer' }}>
+                    <div className="btn-cirecle btn-sm bg-darkblue text-white" data-toggle="modal" data-target="#projAddModal"><i className="fas fa-plus"></i> 프로젝트 추가하기</div>
+                </div>
+                <ProjAddModal/>
             </div>
             
         )

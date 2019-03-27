@@ -1,6 +1,7 @@
 package com.nastech.upmureport.domain.entity;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,9 +27,9 @@ public class Project {
 	private String projCaleGubun;
 	private String projSubject;
 	private String projDesc;
-	private LocalDateTime createdDate;
-	private LocalDateTime projStartDate;
-	private LocalDateTime projEndDate;
+	private Date createdDate;
+	private Date projStartDate;
+	private Date projEndDate;
 	private Integer projProgress;
 
 	@Builder.Default
@@ -41,13 +42,9 @@ public class Project {
 				.projCaleGubun(projCaleGubun)
 				.projSubject(projSubject)
 				.projDesc(projDesc)
+				.startDate(projStartDate)
+				.endDate(projEndDate)
 				.projProgress(projProgress)
-				.startYear(Integer.toString(projStartDate.getYear()))
-				.startMonth(Integer.toString(projStartDate.getMonthValue()))
-				.startDay(Integer.toString(projStartDate.getDayOfMonth()))
-				.endYear(Integer.toString(projEndDate.getYear()))
-				.endMonth(Integer.toString(projEndDate.getMonthValue()))
-				.endDay(Integer.toString(projEndDate.getDayOfMonth()))
 				.build();
 	}
 }

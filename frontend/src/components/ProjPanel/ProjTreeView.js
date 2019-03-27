@@ -9,6 +9,7 @@ class ProjTreeView extends React.Component {
                 <div 
                     draggable
                     onDragStart={e => this.drag(e, item)}
+                    onClick={this.onItemClick.bind(this, item.id)}
                     className="treeview-item">
                     {/* <div ref={`topDiv${item.id}`} onDrop={e => this.drop(e, item)} onDragOver={e => this.allowDrop(e, item)}>>----------------------------</div> */}
                     <span className="action-btn trash" onClick={this.deleteItemClick.bind(this, item.id)}><i className="fas fa-trash-alt"></i></span>
@@ -21,6 +22,10 @@ class ProjTreeView extends React.Component {
         )
     }
     
+    onItemClick(dirId) {
+        this.props.handleDirItemClick(dirId);
+    }
+
     drop(e, item) {
         const dropedDirId = e.dataTransfer.getData('dirId');
         console.log(dropedDirId);
@@ -42,6 +47,9 @@ class ProjTreeView extends React.Component {
     
     editItemClick(id) {
         
+    }
+    test11(e) {
+        alert(test)
     }
 
     render() {

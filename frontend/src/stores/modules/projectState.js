@@ -6,10 +6,12 @@ import { Map, List } from 'immutable';
 export const REQUEST = 'project/REQUEST';   // endPoint
 export const RECEIVE = 'project/RECEIVE';   // { endPoint, items }
 export const PUSHERR = 'project/PUSHERR';   // { err }
+export const SAVE_DIRID = 'project/SAVE_DIRID';   // { selectedDirId }
 
 export const request = createAction(REQUEST);
 export const receive = createAction(RECEIVE);
 export const pusherr = createAction(PUSHERR);
+export const saveDirId = createAction(SAVE_DIRID);
 
 //init state
 const initialState = Map({
@@ -54,8 +56,6 @@ export default handleActions({
         const _ = END_POINT;
         const endPoint = action.payload.endPoint;
         const items = action.payload.items;
-
-        
 
 
         let projectState = state;
@@ -105,6 +105,10 @@ export default handleActions({
 
         return projectState;
     },
+
+    [SAVE_DIRID] : (state, action) => {
+        return state.set('selectedDirId', action.payload);
+    },
 }, initialState);
 
 // 썽크 미들웨어 상 GET
@@ -140,23 +144,33 @@ export function axiosPostAsync(endPoint, params) {
     let promise;
     const chains = (dispatch) => {
         dispatch(request(endPoint));
-        
         switch (endPoint) {
             case _.PROJ_DIRS:
-                const projId = params.projId;
-                promise = _project_api.post_dir_list(projId, params.userId).then(res => {
-                    const items = res.data;
-                    dispatch(receive({ endPoint, items, projId }) );
-                }, error => { dispatch(pusherr(error)); })
+            const projId = params.projId;
+            promise = _project_api.post_dir_list(projId, params.userId).then(res => {
+                const items = res.data;
+                dispatch(receive({ endPoint, items, projId }) );
+            }, error => { dispatch(pusherr(error)); })
+            break;
+            case _.PROJ_REGISTER:
+            console.log(endPoint);
+            
+            promise = _project_api.post_register(params.data).then(res => {
+                dispatch(receive( { endPoint, items:[] } ));
+            }, err => {
+                
+            });
                 break;
             default:
+                const url = params.url;
+                promise = _project_api.post_for(url, params.data);
         }
         return promise;
     };
     return chains;
 }
 
-const BASE_URL = 'http://localhost:8080/upmureport/'
+export const BASE_URL = 'http://localhost:8080/upmureport/'
 
 export const END_POINT = {
     DEFAULT: '',
@@ -192,13 +206,19 @@ const _project_api = {
         return axios.get(`${BASE_URL}${END_POINT.PROJ_LIST}?userId=${userId}`);
     },
 
-    post_register: (projDto) => {
-        return axios.post(`${BASE_URL}${END_POINT.PROJ_REGISTER}`, {
-            projDto
-        }, {
+    post_register: (formData) => {
+        return axios.post(`${BASE_URL}${END_POINT.PROJ_REGISTER}`, formData, {
             headers: {
                 ...defaultHeaders,
-                'Authorization': projDto.userId,
+            }
+        });
+    },
+
+    post_for: (endPoint, data) => {
+        return axios.post(`${BASE_URL}${endPoint}`, data, 
+        {
+            headers: {
+                ...defaultHeaders,
             }
         });
     },

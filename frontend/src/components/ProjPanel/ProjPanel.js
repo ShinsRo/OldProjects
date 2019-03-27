@@ -64,7 +64,7 @@ class ProjPanel extends React.Component {
                 panelBody = (<ProjTable projects={projects} onProjClick={this.onProjClick}/>);
                 break;
             case VIEW_LEVEL.PROJ_DIR:
-                panelBody = (<ProjTreeView project={selectedProj} dirs={dirs}/>);
+                panelBody = (<ProjTreeView project={selectedProj} dirs={dirs} handleDirItemClick={this.props.handleDirItemClick}/>);
                 break;
             case VIEW_LEVEL.PROJ_DETAIL:
                 panelBody = (<div>프로젝트 디테일 뷰</div>);
