@@ -12,7 +12,9 @@ public class DirDto {
 
 	private String dirId;
 	private String dirName;
+	private String projId;
 	private String userId;
+	private String userName;
 	private String parentProjId;
 	private String parentDirId;
 	

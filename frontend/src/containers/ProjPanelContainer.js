@@ -12,6 +12,7 @@ class ProjPanelContainer extends Component {
     constructor(props) {
         super(props);
         this.loadDirs = this.loadDirs.bind(this);
+        this.handleDirItemClick = this.handleDirItemClick.bind(this);
     }
     componentDidMount() {
         const { userState } = store.getState();
@@ -41,14 +42,27 @@ class ProjPanelContainer extends Component {
     //     DirStateActions.setDirTree(dirs);
     // }
     
+    handleDirItemClick (selectedDirId) {
+        const { ProjectActions } = this.props;
+        alert(selectedDirId)
+        ProjectActions.saveDirId(selectedDirId);
+    };
+
     render() {
         const { projectState } = store.getState();
+        const { ProjectActions } = this.props;
         // const { userState } = this.props;
         //임시 유저 목록 스토어
         
         const { userState } = { userState: { selectedUser: {userId: '1111', userName: '김승신'} }};
         
-        return (<ProjPanel projectState={projectState} userState={userState} onProjClick={this.loadDirs}></ProjPanel>);
+        return (<ProjPanel 
+                    projectState={projectState} 
+                    userState={userState}
+                    onProjClick={this.loadDirs}
+                    ProjectActions={ProjectActions}
+                    handleDirItemClick={this.handleDirItemClick}
+                    ></ProjPanel>);
     }
 }
 

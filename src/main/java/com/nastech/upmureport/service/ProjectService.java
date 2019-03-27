@@ -2,6 +2,7 @@ package com.nastech.upmureport.service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -55,11 +56,12 @@ public class ProjectService {
 		}
 		
 		Project project = projectDto.toEntity();
-		project.setCreatedDate(LocalDateTime.now());
+		project.setCreatedDate(new Date(System.currentTimeMillis())); 
 		projectRepository.save(project);
 		
 		ProjStat pj;
 		try {
+			System.out.println(projectDto.getProjStat());
 			pj = ProjStat.valueOf(projectDto.getProjStat());
 		} catch (IllegalArgumentException iae) {
 			pj = ProjStat.대기;
@@ -178,6 +180,9 @@ public class ProjectService {
 		List<DirDto> dirDtos = new ArrayList<DirDto>();
 		for (Dir dir : dirs) {
 			DirDto temp = DirDto.builder()
+					.projId(projId)
+					.userId(dir.getUser().getUserId())
+					.userName(dir.getUser().getUserName())
 					.dirId(""+dir.getDirId())
 					.dirName(dir.getDirName())
 					.build();
