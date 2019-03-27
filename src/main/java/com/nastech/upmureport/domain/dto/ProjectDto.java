@@ -63,12 +63,13 @@ public class ProjectDto {
 	
 	public Project toEntity() {
 		Project project = Project.builder()
-				.projName(projName)
-				.projCaleGubun(projCaleGubun)
-				.projSubject(projSubject)
-				.projDesc(projDesc)
-				.projStartDate(getStartDate())
-				.projEndDate(getEndDate())
+				.projName(this.projName)
+				.projCaleGubun(this.projCaleGubun)
+				.projSubject(this.projSubject)
+				.projProgress(this.projProgress)
+				.projDesc(this.projDesc)
+				.projStartDate(this.startDate)
+				.projEndDate(this.endDate)
 				.build();
 		
 		if (projId != null && projId != 0) project.setProjId(projId);

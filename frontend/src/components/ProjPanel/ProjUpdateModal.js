@@ -4,13 +4,26 @@ import "react-datepicker/dist/react-datepicker.css";
 import store from '../../stores';
 import * as projectActions from '../../stores/modules/projectState';
 
-class ProjAddModal extends React.Component {
+class ProjUpdateModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            startDate: new Date(),
-            endDate: new Date(),
+            initStartDate: '',
+            initEndDate: '',
+            startDate: 0,
+            endDate: 0,
             projProgress: 0,
+            emptyProject: {
+                projName: '',
+                projSubject: '',
+                projCaleGubun: '',
+                projDesc: '',
+                projProgress: 0,
+                projStat: '',
+                startDate: 0,
+                endDate: 0,
+                userId: '',
+            }
         }
         this.onStartDateChange = this.onStartDateChange.bind(this);
         this.onEndDateChange = this.onEndDateChange.bind(this);
@@ -48,14 +61,16 @@ class ProjAddModal extends React.Component {
 
     render() {
         const { userState } = store.getState();
+        let { project } = this.props;
+        project = project || this.state.emptyProject;
         return (
             <div>
                 {/* 디렉토리 추가 모달 */}
-                <div className="modal fade" id="projAddModal" tabIndex="-1" role="dialog" aria-labelledby="projAddModal" aria-hidden="true">
+                <div className="modal fade" id="ProjUpdateModal" tabIndex="-1" role="dialog" aria-labelledby="ProjUpdateModal" aria-hidden="true">
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
-                        <h5 className="modal-title font-weight-bold" id="exampleModalLabel">프로젝트를 추가합니다.</h5>
+                        <h5 className="modal-title font-weight-bold" id="exampleModalLabel">프로젝트를 수정합니다.</h5>
                         <button className="close" type="button" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
@@ -64,15 +79,15 @@ class ProjAddModal extends React.Component {
                         <form className="user" onSubmit={this.handleSubmit}>
                             <div className="form-group row">
                                 <div className="col-xl-12">
-                                    <input name="projName" id="projName" type="text" className="form-control" placeholder="프로젝트 명" required/>
+                                    <input value={project.projName} name="projName" id="projName" type="text" className="form-control" placeholder="프로젝트 명" required/>
                                 </div>
                             </div>
                             <div className="form-group row">
                                 <div className="col-8">
-                                    <input name="projSubject" type="text" className="form-control" placeholder="업무 제목" required/>
+                                    <input value={project.projSubject} name="projSubject" type="text" className="form-control" placeholder="업무 제목" required/>
                                 </div>
                                 <div className="col">
-                                    <select name="projCaleGubun" id="projCaleGubun" className="form-control">
+                                    <select value={project.projCaleGubun} name="projCaleGubun" id="projCaleGubun" className="form-control">
                                         <option value="없음">일정 구분</option>
                                         <option value="주기성">주기성</option>
                                         <option value="비주기성">비주기성</option>
@@ -81,14 +96,14 @@ class ProjAddModal extends React.Component {
                             </div>
                             <div className="form-group row">
                                 <div className="col">
-                                    <textarea name="projDesc" id="projDesc" cols="30" rows="10" className="form-control" placeholder="업무 설명">
+                                    <textarea value={project.projDesc} name="projDesc" id="projDesc" cols="30" rows="10" className="form-control" placeholder="업무 설명">
                                     </textarea>
                                 </div>
                             </div>
                             <div className="form-group row">
                                 <div className="col">
                                     <DatePicker
-                                    customInput={<StartDatePickInput text="시작일"/>}
+                                    customInput={<StartDatePickInput text={'123'}/>}
                                         selected={this.state.startDate}
                                         dateFormat="yyyy년 MM월 dd일"
                                         selectsStart
@@ -100,7 +115,7 @@ class ProjAddModal extends React.Component {
                                 </div>
                                 <div className="col">
                                     <DatePicker
-                                    customInput={<EndDatePickInput text="종료일"/>}
+                                    customInput={<EndDatePickInput text={'123'}/>}
                                         dateFormat="yyyy년 MM월 dd일"
                                         selected={this.state.endDate}
                                         selectsEnd
@@ -140,7 +155,7 @@ class ProjAddModal extends React.Component {
                                 </div>
                                 <div className="col-8">
                                     <input type="text" className="form-control" readOnly
-                                        value={`${userState.userInfo.userName}님이 프로젝트를 등록합니다.`} />
+                                        value={`${userState.userInfo.userName}님이 프로젝트를 수정합니다.`} />
                                     <input name="userId" type="hidden" value={userState.userInfo.userId} />
                                 </div>
                             </div>
@@ -159,7 +174,7 @@ class ProjAddModal extends React.Component {
     }
 };
 
-export default ProjAddModal;
+export default ProjUpdateModal;
 
 class StartDatePickInput extends React.Component {
     render() {
@@ -171,7 +186,7 @@ class StartDatePickInput extends React.Component {
                     value={value} 
                     className="form-control" 
                     onClick={onClick}  
-                    placeholder={text}
+                    placeholder={new Date(text)}
                     readOnly required
                     />
             </div>
@@ -189,7 +204,7 @@ class EndDatePickInput extends React.Component {
                     value={value} 
                     className="form-control" 
                     onClick={onClick}  
-                    placeholder={text}
+                    placeholder={new Date(text)}
                     readOnly required
                     />
             </div>
