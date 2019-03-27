@@ -84,3 +84,4 @@ insert into dir(
 	
 delete from dir;
 select * from user;
+select * from project;
