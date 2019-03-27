@@ -49,7 +49,7 @@ static state = Map({
     const {saveUpmu, userState} = store.getState();
     const {UpmuActions} = this.props;
     UpmuActions.getUpmu(saveUpmu.get('dirId'));   
-    alert(userState.userInfo.userId); 
+    //alert(userState.userInfo.userId); 
   }
 /*
   getList = () => {

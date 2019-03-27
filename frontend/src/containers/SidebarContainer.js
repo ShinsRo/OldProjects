@@ -10,7 +10,9 @@ class SidebarContainer extends Component {
         super(props);
         
         this.state = {
-            users:this.props.users
+            users:this.props.users,
+            depts:[],
+           // deptName:[]
         };
     }
     componentWillMount(){
@@ -23,19 +25,45 @@ class SidebarContainer extends Component {
             this.setState({
                users: juniorList.get('users')
            })
-        });
+        })
+        .then(res=>{
+            const deptMap={}
+            //const deptName=[]
+            let idx=0
+            this.state.users && this.state.users.forEach(user => {
+                //!deptName.includes(user.dept) && deptName.push(user.dept)
+ 
+                deptMap[user.dept] = deptMap[user.dept] || [];
+                deptMap[user.dept].push(user);
+                /*
+                if(!(deptList.includes(user.dept)))
+                {
+                    
+                }*/
+            });
+
+            this.setState({
+                depts: deptMap,
+                //deptName: deptName
+            })
+            console.log("부서들",this.state)
+        })
     }
     render() {
         console.log('사이드바컨테이너 확인',this.state.users)
         const users=this.state.users
+        const depts=this.state.depts
+        //const deptName=this.state.deptName
         return(
             <Sidebar
                 users={users}
+                depts={depts}
+                //deptName={deptName}
             />
         );
     }
 }
-export default connect(
+export default connect(     
     //state를 비구조화
     (state) => ({
         users: state.users

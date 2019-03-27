@@ -24,7 +24,6 @@ export const getJuniors = (loginUser) => dispatch => {
                 type: GET_JUNIOR_SUCCESS,
                 payload: response.data
             })
-            console.log("리스폰스", response.data)
         }
     ).catch(error => {
         console.log("요청실패")
@@ -42,14 +41,14 @@ const initialState = Map({
     pending: false,
     error: false,
     users: List([
-        Map({
+        {
             userId: '1',
             userName: '1',
             userPass:'',
             dept:'',
             posi:'',
             deleteFlag:'',
-        })
+        },
     ])
 })
 
