@@ -8,6 +8,10 @@ class ProjTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
+            updateModalState: {
+                show: false,
+                target: {},
+            }
         };
     }
 
@@ -32,13 +36,23 @@ class ProjTable extends React.Component {
     }
     
     editItemClick(proj) {
-        this.setState({ selectedProj: proj });
+        this.setState({ 
+            updateModalState: {
+                show: true,
+                target: proj
+            }
+         });
     }
 
     render() {
         console.log("Rendering: ProjTable");
         const projects = this.props.projects;
         const onProjClick = this.props.onProjClick;
+        
+        const updateModal 
+            = this.state.updateModalState.show 
+            && <ProjUpdateModal project={Object.assign({}, this.state.updateModalState.target)}/>;
+
         const progressColor = (projProgress) => {
             const toInt = Number(projProgress);
 
@@ -98,7 +112,7 @@ class ProjTable extends React.Component {
                     <div className="btn-cirecle btn-sm bg-darkblue text-white" data-toggle="modal" data-target="#projAddModal"><i className="fas fa-plus"></i> 프로젝트 추가하기</div>
                 </div>
                 <ProjAddModal/>
-                <ProjUpdateModal project={Object.assign({}, this.state.selectedProj)}/>
+                {updateModal}
             </div>
             
         )
