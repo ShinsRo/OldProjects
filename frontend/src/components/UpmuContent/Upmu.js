@@ -52,8 +52,6 @@ static state = Map({
     const {dirState, projectState} = store.getState();
     const {UpmuActions} = this.props;
     projectState.get('selectedProject') && UpmuActions.getUpmu(projectState.get('selectedProject'));   
-    alert(dirState.get('dir'));
-
   }
 /*
   getList = () => {
