@@ -33,12 +33,19 @@ class ProjUpdateModal extends React.Component {
 
     handleSubmit(e) {
         const data = new FormData(e.target);
-        const jsonObj = {};
+        const { userState } = store.getState();
+        let jsonObj = {};
         data.forEach((value, key) => {
             jsonObj[key] = value;
         });
-
-        const URL = projectActions.BASE_URL + projectActions.END_POINT.PROJ_REGISTER;
+        console.log();
+        jsonObj = {
+            ...jsonObj,
+            userId: userState.selectedUser.userId,
+            projId: this.props.project.projId,
+        }
+        
+        const URL = projectActions.BASE_URL + projectActions.END_POINT.PROJ_CORRECT;
         fetch(URL, {
             method: 'POST',
             body: JSON.stringify(jsonObj),
@@ -100,7 +107,6 @@ class ProjUpdateModal extends React.Component {
                                         startDate={this.state.startDate}
                                         endDate={this.state.endDate}
                                         onChange={this.onStartDateChange}
-                                        readOnly={true}
                                     />
                                     <input name="startDate" type="hidden" value={this.state.startDate}/>
                                 </div>
@@ -113,7 +119,6 @@ class ProjUpdateModal extends React.Component {
                                         startDate={this.state.startDate}
                                         endDate={this.state.endDate}
                                         onChange={this.onEndDateChange}
-                                        readOnly={true}
                                     />
                                     <input name="endDate" type="hidden" value={this.state.endDate}/>
                                 </div>

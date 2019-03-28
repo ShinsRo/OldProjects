@@ -196,12 +196,14 @@ public class ProjectService {
 
 	public Dir registerDir(DirDto dirDto) {
 		String userId = dirDto.getUserId();
-		Integer projId = Integer.parseInt(dirDto.getParentProjId());
-		Integer parentDirId = Integer.parseInt(dirDto.getParentDirId());
+		Integer projId = Integer.parseInt(dirDto.getProjId());
 		
 		User user = userRepository.findById(userId).get();
 		Project proj = projectRepository.findById(projId).get();
-		Optional<Dir> parentDir = dirRepository.findById(parentDirId);
+		
+		String parentDirId = dirDto.getParentDirId();
+		Optional<Dir> parentDir = null;
+		if (parentDirId != null) parentDir = dirRepository.findById(Integer.valueOf(parentDirId));
 		
 		Dir dir = Dir.builder()
 				.dirName(dirDto.getDirName())
@@ -209,7 +211,7 @@ public class ProjectService {
 				.project(proj)
 				.build();
 		
-		if(parentDir.isPresent()) dir.setParentDir(parentDir.get());
+		if(parentDir != null && parentDir.isPresent()) dir.setParentDir(parentDir.get());
 		return dirRepository.save(dir);
 	}
 

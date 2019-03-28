@@ -104,9 +104,12 @@ public class ProjectController {
 	
 	@PostMapping(value = "/registerDir", consumes = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<Boolean> registerDir(@RequestBody Map<String, String> formData) {
+		System.out.println(formData);
 		if (projectService.registerDir(
 				DirDto.builder()
+				.projId(formData.get("projId"))
 				.dirName(formData.get("dirName"))
+				.userId(formData.get("userId"))
 				.parentDirId(formData.get("parentId"))
 				.build()) != null) 
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
