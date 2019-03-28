@@ -1,21 +1,42 @@
 import React from 'react';
 import ProjAddModal from './ProjAddModal';
+import ProjUpdateModal from './ProjUpdateModal';
+import * as projectActions from '../../stores/modules/projectState';
+import store from '../../stores';
 
 class ProjTable extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = { 
+        };
     }
 
     deleteItemClick(projId) {
-        
+        if (!window.confirm('정말로 삭제 할까요?')) return;
+
+        const URL = projectActions.BASE_URL + projectActions.END_POINT.PROJ_DISABLE;
+        const { userState } = store.getState();
+        const data = {
+            userId: userState.userInfo.userId,
+            projId,
+        }
+        fetch(URL, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+            }
+        });
+        window.location.href="/";
     }
     
-    editItemClick(projId) {
-        
+    editItemClick(proj) {
+        this.setState({ selectedProj: proj });
     }
 
     render() {
+        console.log("Rendering: ProjTable");
         const projects = this.props.projects;
         const onProjClick = this.props.onProjClick;
         const progressColor = (projProgress) => {
@@ -50,8 +71,8 @@ class ProjTable extends React.Component {
                             return (
                                 <tr key={idx}>
                                     <td>
-                                    <span className="action-btn trash" onClick={this.deleteItemClick(proj.projId)}><i className="fas fa-trash-alt"></i></span>
-                                    <span className="action-btn edit" onClick={this.editItemClick(proj.projId)}><i className="fas fa-edit"></i></span>
+                                    <span className="action-btn trash" onClick={(e) => this.deleteItemClick(proj.projId)}><i className="fas fa-trash-alt"></i></span>
+                                    <span className="action-btn edit" data-toggle="modal" data-target="#ProjUpdateModal" onClick={(e) => this.editItemClick(proj)}><i className="fas fa-edit"></i></span>
                                         <a  href="/"
                                             className="text-gray-800" 
                                             onClick={(e) => onProjClick(e, proj, idx)}>{proj.projName}</a>
@@ -77,6 +98,7 @@ class ProjTable extends React.Component {
                     <div className="btn-cirecle btn-sm bg-darkblue text-white" data-toggle="modal" data-target="#projAddModal"><i className="fas fa-plus"></i> 프로젝트 추가하기</div>
                 </div>
                 <ProjAddModal/>
+                <ProjUpdateModal project={Object.assign({}, this.state.selectedProj)}/>
             </div>
             
         )

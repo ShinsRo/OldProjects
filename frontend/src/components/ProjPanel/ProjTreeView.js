@@ -1,7 +1,19 @@
 import React from 'react';
 import TreeView from 'deni-react-treeview';
+import store from '../../stores';
+import { BASE_URL, END_POINT } from '../../stores/modules/projectState';
 
 class ProjTreeView extends React.Component {
+
+    // constructor(props) {
+    //     super(props);
+    // }
+
+    componentWillMount() {
+        if (!this.props.project) {
+            return false;
+        }
+    }
 
     onRenderItem(item, treeview) {
         return (
@@ -26,6 +38,67 @@ class ProjTreeView extends React.Component {
         this.props.handleDirItemClick(dirId);
     }
 
+    addItem(e) {
+        e.preventDefault(e.target);
+        alert()
+        const { userState, projectState } = store.getState();
+        let { slectedDirId } = projectState
+        
+        const URL = BASE_URL + END_POINT.DIR_REGISTER;
+        const jsonObj = {};
+        e.target.forEach((value, key) => {
+            jsonObj[key] = value;
+        });
+
+        const dirName = jsonObj.dirName;
+        const data = {
+            userId: userState.userInfo.userId,
+            projId: this.state.projId,
+            parentId: slectedDirId,
+            dirName,
+        }
+        
+        fetch(URL, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+            }
+        }).then(res => {
+            alert("디렉토리 추가함")
+            if (!slectedDirId) slectedDirId = this.refs.treeview.api.getRootItem();
+            this.refs.treeview.api.addItem (dirName, false, slectedDirId)
+        });
+        // window.location.href="/";
+        // this.props.handleDirItemActionCall(END_POINT.DIR_REGISTER, this.props.project.projId, -1, dir);
+    }
+
+    deleteItemClick(id) {
+        const URL = BASE_URL + END_POINT.DIR_DISABLE;
+        const { userState } = store.getState();
+        const data = {
+            userId: userState.userInfo.userId,
+            projId: this.state.projId,
+            dirId: id,
+        }
+        fetch(URL, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+            }
+        }).then(res => {
+            alert("디렉토리 삭제함")
+            this.refs.treeview.api.removeItem(id);
+        });
+    }
+    
+    editItemClick(id) {
+        // this.props.handleDirItemActionCall(END_POINT.DIR_UPDATE, this.props.project.projId, id, {});
+    }
+
     drop(e, item) {
         const dropedDirId = e.dataTransfer.getData('dirId');
         console.log(dropedDirId);
@@ -40,19 +113,8 @@ class ProjTreeView extends React.Component {
         console.log(this.refs[`botDiv${item.id}`]);
         
     }
-
-    deleteItemClick(id) {
-        this.refs.treeview.api.removeItem(id);
-    }
-    
-    editItemClick(id) {
-        
-    }
-    test11(e) {
-        alert(test)
-    }
-
     render() {
+        console.log("Rendering: ProjTreeView");
         const {dirs, project} = this.props;
         const dirList = (dirs && dirs.get(`${project.projId}`)) || [];
         
@@ -71,7 +133,7 @@ class ProjTreeView extends React.Component {
                         onRenderItem={ this.onRenderItem.bind(this) }
                         ></TreeView>
                 </div>
-                <div className="row" style={{ float: 'right', cursor: 'pointer' }}>
+                <div className="row" style={{ marginLeft: '3px', cursor: 'pointer' }}>
                     <div className="btn-cirecle btn-sm bg-darkblue text-white" data-toggle="modal" data-target="#dirAddModal"><i className="fas fa-plus"></i> 폴더 추가하기</div>
                 </div>
 
@@ -86,7 +148,7 @@ class ProjTreeView extends React.Component {
                             </button>
                             </div>
                             <div className="modal-body">
-                            <form className="user">
+                            <form className="user" onSubmit={this.addItem.bind(this)}>
                                 <div className="form-group row">
                                 <div className="col-xl-3">
                                     <h6 className="m-0 font-weight-bold" style={{
@@ -97,15 +159,14 @@ class ProjTreeView extends React.Component {
                                     }}>디렉토리 이름 :</h6>
                                 </div>
                                 <div className="col-xl-9">
-                                    <input type="text" className="form-control form-control-user" id="exampleLastName" placeholder="Directory name"/>
+                                    <input name="dirName" type="text" className="form-control form-control-user" id="exampleLastName" placeholder="Directory name"/>
                                 </div>
+                                </div>
+                                <div className="modal-footer">
+                                    <button className="btn btn-secondary" type="button" data-dismiss="modal">취소하기</button>
+                                    <input className="btn btn-darkblue" type="submit" value="추가하기"></input>
                                 </div>
                             </form>
-                            
-                            </div>
-                            <div className="modal-footer">
-                            <button className="btn btn-secondary" type="button" data-dismiss="modal">취소하기</button>
-                            <a className="btn btn-primary" href="login.html">추가하기</a>
                             </div>
                         </div>
                     </div>
