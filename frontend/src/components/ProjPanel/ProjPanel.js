@@ -66,10 +66,14 @@ class ProjPanel extends React.Component {
                 break;
             case VIEW_LEVEL.PROJ_DIR:
                 panelBody = (
-                <ProjTreeView 
-                    project={selectedProj} dirs={dirs} 
-                    handleDirItemClick={this.props.handleDirItemClick} 
-                    handleDirItemActionCall={this.props.handleDirItemActionCall}/>
+                    () => {
+                        if (selectedProj) {
+                            return <ProjTreeView 
+                                project={selectedProj} dirs={dirs} 
+                                handleDirItemClick={this.props.handleDirItemClick} 
+                                handleDirItemActionCall={this.props.handleDirItemActionCall}/>
+                        }
+                    }
                 );
                 break;
             case VIEW_LEVEL.PROJ_DETAIL:

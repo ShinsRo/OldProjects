@@ -90,25 +90,27 @@ class ProjAddModal extends React.Component {
                             <div className="form-group row">
                                 <div className="col">
                                     <DatePicker
-                                    customInput={<StartDatePickInput text="시작일"/>}
+                                        className="form-control" 
                                         selected={this.state.startDate}
                                         dateFormat="yyyy년 MM월 dd일"
                                         selectsStart
                                         startDate={this.state.startDate}
                                         endDate={this.state.endDate}
                                         onChange={this.onStartDateChange}
+                                        readOnly={true}
                                     />
                                     <input name="startDate" type="hidden" value={this.state.startDate}/>
                                 </div>
                                 <div className="col">
                                     <DatePicker
-                                    customInput={<EndDatePickInput text="종료일"/>}
+                                        className="form-control" 
                                         dateFormat="yyyy년 MM월 dd일"
                                         selected={this.state.endDate}
                                         selectsEnd
                                         startDate={this.state.startDate}
                                         endDate={this.state.endDate}
                                         onChange={this.onEndDateChange}
+                                        readOnly={true}
                                     />
                                     <input name="endDate" type="hidden" value={this.state.endDate}/>
                                 </div>
@@ -162,33 +164,3 @@ class ProjAddModal extends React.Component {
 };
 
 export default ProjAddModal;
-
-const StartDatePickInput = ({text, value, onClick}) => {
-        return (
-            <div>
-                <input 
-                    type="text" 
-                    value={value} 
-                    className="form-control" 
-                    onClick={onClick}  
-                    placeholder={text}
-                    readOnly required
-                    />
-            </div>
-    );
-}
-
-const EndDatePickInput = ({text, value, onClick}) => {
-    return (
-            <div>
-                <input 
-                    type="text" 
-                    value={value} 
-                    className="form-control" 
-                    onClick={onClick}  
-                    placeholder={text}
-                    readOnly required
-                    />
-            </div>
-    );
-}
