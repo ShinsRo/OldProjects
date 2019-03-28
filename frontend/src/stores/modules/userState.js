@@ -12,11 +12,17 @@ const GET_POST_PENDING = 'GET_POST_PENDING';
 const GET_POST_SUCCESS = 'GET_POST_SUCCESS';
 const GET_POST_FAILURE = 'GET_POST_FAILURE';
 const EMPTY_USERINFORM = 'EMPTY_USERINFORM';
+const SELECTED_USERINFO = 'SELECTED_USERINFO';
 
 export const logout = () => dispatch => {
     dispatch({type: EMPTY_USERINFORM});    
 }
-
+export const select = (userInfo) => dispatch => {
+    dispatch({
+        type: SELECTED_USERINFO,
+        payload: userInfo
+    });    
+}
 //
 export const getPost = (loginInfo) => dispatch => {
     // 먼저, 요청이 시작했다는것을 알립니다
@@ -58,11 +64,12 @@ const initialState = {
     pending: false,
     error: false,
     userInfo: userInfo && JSON.parse(userInfo),
+    selectedUser: userInfo && JSON.parse(userInfo),
 }
 
 export default handleActions({
     [GET_POST_PENDING]: (state,action) => {
-        return{
+        return {
             ...state,
             pending:true,
             error:false
@@ -70,11 +77,13 @@ export default handleActions({
     },
     [GET_POST_SUCCESS]: (state,action) => {
         const userInfo = action.payload;
+
         userInfo && sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
-        return{
+        return {
             ...state,
             pending: false,
-            userInfo: userInfo
+            userInfo: userInfo,
+            selectedUser: userInfo
         };
     },
     [GET_POST_FAILURE]: (state,action) => {
@@ -90,6 +99,14 @@ export default handleActions({
             ...state,
             userInfo: false,
         }
-    }
+    },
+
+    [SELECTED_USERINFO]: (state,action) => {
+        return {
+            ...state,
+            selectedUser: action.payload
+        }
+    },
+
 },initialState);
 

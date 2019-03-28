@@ -11,16 +11,12 @@ const VIEW_LEVEL = {
 };
 
 class ProjPanel extends React.Component {
-    // static defaultProps = {
-    //     userName: "이름없음",
-    // }
     constructor(props) {
         super(props);
-        
         this.state = {
-            breadcrumb: [props.userState.selectedUser.userName, "내 프로젝트"],
             viewLevel: VIEW_LEVEL.PROJECTS,
         };
+        
         this.onBreadcrumbClick = this.onBreadcrumbClick.bind(this);
         this.onProjClick = this.onProjClick.bind(this);
         
@@ -48,9 +44,10 @@ class ProjPanel extends React.Component {
     }
 
     render() {
-        const breadcrumb = this.state.breadcrumb;
+        console.log("Rendering: ProjPanel");
+        const breadcrumb = this.props.breadcrumb;
         const { selectedProj } = this.state;
-
+        
         const projects 
             = this.props.projectState 
             && this.props.projectState.get('errObj').get('isHandled') 
@@ -67,7 +64,16 @@ class ProjPanel extends React.Component {
                 panelBody = (<ProjTable projects={projects} onProjClick={this.onProjClick}/>);
                 break;
             case VIEW_LEVEL.PROJ_DIR:
-                panelBody = (<ProjTreeView project={selectedProj} dirs={dirs} handleDirItemClick={this.props.handleDirItemClick}/>);
+                panelBody = (
+                    () => {
+                        if (selectedProj) {
+                            return <ProjTreeView 
+                                project={selectedProj} dirs={dirs} 
+                                handleDirItemClick={this.props.handleDirItemClick} 
+                                handleDirItemActionCall={this.props.handleDirItemActionCall}/>
+                        }
+                    }
+                );
                 break;
             case VIEW_LEVEL.PROJ_DETAIL:
                 panelBody = (<div>프로젝트 디테일 뷰</div>);
@@ -76,7 +82,6 @@ class ProjPanel extends React.Component {
                 panelBody = (<div>알 수 없는 뷰 레벨입니다.</div>);
         }
         
-
         return (
             <div className="card shadow mb-4">
                 <div className="card-header py-3">

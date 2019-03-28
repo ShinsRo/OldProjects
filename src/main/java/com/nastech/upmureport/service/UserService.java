@@ -1,17 +1,23 @@
 package com.nastech.upmureport.service;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nastech.upmureport.domain.dto.UserDto;
+import com.nastech.upmureport.domain.entity.EmployeeSystem;
 import com.nastech.upmureport.domain.entity.User;
+import com.nastech.upmureport.domain.repository.EmployeeSystemRepository;
 import com.nastech.upmureport.domain.repository.UserRepository;
 
 @Service
 public class UserService {
 	
+	@Autowired
+	EmployeeSystemRepository employeeSystemRepository;
 	@Autowired
 	UserRepository userRepository;
 	
@@ -72,6 +78,22 @@ public class UserService {
 		userRepository.save(originUser);
 	}
 	
+	public List<UserDto> findMyJuniors(UserDto user){
+		Queue<UserDto> q = new LinkedList();
+		List<UserDto> juniorList = new LinkedList();
+		q.add(user);
+		System.out.println(employeeSystemRepository.findAllBySenior(user.toEntity()));
+		List<EmployeeSystem> temp = employeeSystemRepository.findAllBySenior(user.toEntity());
+		while( !(q.isEmpty()) ) {
+			temp=employeeSystemRepository.findAllBySenior(q.poll().toEntity());
+			for (EmployeeSystem employeeSystem : temp) {
+				System.out.println("주니어들");
+				System.out.println(employeeSystem.getJunior());
+				q.add(employeeSystem.getJunior().toDto());
+				juniorList.add(employeeSystem.getJunior().toDto());
+			}
+		}
+		return juniorList;
+	}
 	
-
 }
