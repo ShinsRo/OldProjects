@@ -1,5 +1,7 @@
 package com.nastech.upmureport.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -9,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nastech.upmureport.domain.dto.UserDto;
@@ -42,6 +43,21 @@ public class UserController {
     		return null;
     	}
     }
+    @CrossOrigin
+    @PostMapping(value = "/userlist")
+    public List<UserDto> userList(@RequestBody UserDto user, HttpServletRequest request){
+    	System.out.println("주니어목록줘!");
+    	List<UserDto> juniorList = userService.findMyJuniors(user);
+    	if( !juniorList.isEmpty()) {
+    		System.out.println("내 부하들 리스트:"+juniorList);
+    		return juniorList;
+    	}
+    	else
+    	{
+    		return null;
+    	}
+    }
+    
     @CrossOrigin
     @GetMapping(value = "/regi")
     public String register() {

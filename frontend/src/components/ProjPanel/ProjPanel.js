@@ -2,6 +2,7 @@ import React from 'react';
 
 import ProjTable from './ProjTable';
 import ProjTreeView from './ProjTreeView';
+import store from '../../stores'
 
 const VIEW_LEVEL = {
     NONE: 0,
@@ -16,11 +17,10 @@ class ProjPanel extends React.Component {
     // }
     constructor(props) {
         super(props);
-        
         this.state = {
-            breadcrumb: [props.userState.selectedUser.userName, "내 프로젝트"],
             viewLevel: VIEW_LEVEL.PROJECTS,
         };
+        
         this.onBreadcrumbClick = this.onBreadcrumbClick.bind(this);
         this.onProjClick = this.onProjClick.bind(this);
     }
@@ -44,11 +44,23 @@ class ProjPanel extends React.Component {
         this.props.onProjClick(proj.projId);
     }
 
+    componentWillMount() {
+        
+        // alert("아오"+this.state.breadcrumb)
+    }
+
     render() {
         console.log("Rendering: ProjPanel");
         const breadcrumb = this.state.breadcrumb;
         const { selectedProj } = this.state;
-
+        
+        // alert(JSON.stringify(selectedUser))
+        // this.setState({
+        //     ...this.state,
+        //     breadcrumb: [userState.selectedUser.userName, "내 프로젝트"]
+        // })
+        //this.state.set('breadcrumb', [userState.selectedUser.userName, "내 프로젝트"])
+        
         const projects 
             = this.props.projectState 
             && this.props.projectState.get('errObj').get('isHandled') 
