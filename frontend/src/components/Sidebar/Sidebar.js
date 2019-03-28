@@ -7,7 +7,12 @@ const defaultProps = {
     users:['default']
 };
 
-const Sidebar = ({users,depts,deptName}) => {
+/*
+const a = (e) =>{
+    alert('클릭')
+    alert(e.target.value)
+}*/
+const Sidebar = ({users,depts,deptName,select}) => {
 
     const state={
     }
@@ -69,6 +74,7 @@ const Sidebar = ({users,depts,deptName}) => {
                 })
                 
             } */}
+            
 
             {
                 Object.keys(depts).map((key, idx) => {
@@ -84,7 +90,7 @@ const Sidebar = ({users,depts,deptName}) => {
                                 <h6 className="collapse-header">구성 인원:</h6>
                                 {
                                     usersInDept.map((user, idx)=> {
-                                        return <a key={idx} className="collapse-item" href="buttons.html">{user.posi} {user.userName}</a>
+                                        return <a key={idx} className="collapse-item" onClick={() => select(user)} value={user}>{user.posi} {user.userName}</a>
                                     })
                                 }
                             </div>

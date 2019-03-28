@@ -4,6 +4,7 @@ import {List,Map} from 'immutable';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux'
 import * as juniorsAction from '../stores/modules/juniorList'
+import * as userActions from '../stores/modules/userState'
 import store from '../stores'
 class SidebarContainer extends Component {
     constructor(props) {
@@ -33,6 +34,7 @@ class SidebarContainer extends Component {
             this.state.users && this.state.users.forEach(user => {
                 //!deptName.includes(user.dept) && deptName.push(user.dept)
  
+                //dict처럼
                 deptMap[user.dept] = deptMap[user.dept] || [];
                 deptMap[user.dept].push(user);
                 /*
@@ -50,6 +52,7 @@ class SidebarContainer extends Component {
         })
     }
     render() {
+        const {userActions} = this.props
         console.log('사이드바컨테이너 확인',this.state.users)
         const users=this.state.users
         const depts=this.state.depts
@@ -58,6 +61,7 @@ class SidebarContainer extends Component {
             <Sidebar
                 users={users}
                 depts={depts}
+                select={userActions.select}
                 //deptName={deptName}
             />
         );
@@ -70,6 +74,7 @@ export default connect(
     }),
     //함수들
     (dispatch) => ({
-        juniorsAction: bindActionCreators(juniorsAction, dispatch)
+        juniorsAction: bindActionCreators(juniorsAction, dispatch),
+        userActions: bindActionCreators(userActions, dispatch),
     })
 )(SidebarContainer);
