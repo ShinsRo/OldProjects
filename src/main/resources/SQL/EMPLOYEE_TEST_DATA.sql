@@ -4,6 +4,8 @@ insert into employeesystem(juniorId, seniorId)
 	values(1111,111123);
 insert into employeesystem(juniorId, seniorId)
 	values(1112,111123);
+insert into employeesystem(juniorId, seniorId)
+	values(111123,111138);
 
 insert into project(
 		projId, projProgress, 

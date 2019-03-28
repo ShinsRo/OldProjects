@@ -1,81 +1,33 @@
 import React from "react";
-import {Map, List} from 'immutable';
-import axios from 'axios';
-import User from './User'
 
 const defaultProps = {
     users:['default']
 };
 
-/*
-const a = (e) =>{
-    alert('클릭')
-    alert(e.target.value)
-}*/
-const Sidebar = ({users,depts,deptName,select}) => {
-
-    const state={
-    }
-    console.log("depts 정보 sidebar단",depts)
-
+const Sidebar = ({depts,select}) => {
     return (
         <ul className="navbar-nav bg-gradient-darkblue sidebar sidebar-dark accordion" id="accordionSidebar">
             {/* Sidebar - Brand */}
             <a className="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div className="sidebar-brand-icon rotate-n-15">
-                <i className="fas fa-laugh-wink"></i>
+                {/* <i className="fas fa-laugh-wink"></i> */}
                 </div>
                 <div className="sidebar-brand-text mx-3">UPMUREPORT</div>
             </a>
 
             {/* Divider */}
-            <hr className="sidebar-divider my-0"/>
-
-            {/* Nav Item - Dashboard */}
-            <li className="nav-item active">
-                <a className="nav-link" href="index.html">
-                <i className="fas fa-fw fa-tachometer-alt"></i>
-                <span>DASHBOARD</span></a>
-            </li>
-
-            {/* Divider */}
             <hr className="sidebar-divider"/>
 
             {/* Heading */}
-            <div className="sidebar-heading">
-                부서명
-            </div>
+            <li className="nav-item active">
+                <a className="nav-link" href="index.html">
+                <i className="fas fa-fw fa-building"></i>
+                <span>부서명</span></a>
+            </li>
+            {/* <div className="sidebar-heading">
+            </div> */}
 
             {/* Nav Item - Pages Collapse Menu */}
-            {/*
-            { <li className="nav-item">
-                <a className="nav-link collapsed" href="/" data-toggle="collapse" data-target="#collapse" aria-expanded="true" aria-controls="collapseTwo">
-                <i className="fas fa-fw fa-folder"></i>
-                <span>대표이사</span>
-                </a>
-                <div id="collapse1" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div className="bg-white py-2 collapse-inner rounded">
-                    <h6 className="collapse-header">구성 인원:</h6>
-                    <a className="collapse-item" href="buttons.html">이성기</a>
-                </div>
-                </div>
-            </li> }
-            */}
-            {/* {
-                deptName.map((name,idx)=>{
-                    return(
-                        <li className="nav-item" key={idx}>
-                            <a className="nav-link collapsed" href="/" data-toggle="collapse" data-target={"#collapse"+name} aria-expanded="true" aria-controls="collapsePages">
-                                <i className="fas fa-fw fa-folder"></i>
-                                <span>{name}</span>
-                            </a>
-                        </li>
-                    );
-                })
-                
-            } */}
-            
-
             {
                 Object.keys(depts).map((key, idx) => {
                     const usersInDept = depts[key];
@@ -90,7 +42,7 @@ const Sidebar = ({users,depts,deptName,select}) => {
                                 <h6 className="collapse-header">구성 인원:</h6>
                                 {
                                     usersInDept.map((user, idx)=> {
-                                        return <a key={idx} className="collapse-item" onClick={() => select(user)} value={user}>{user.posi} {user.userName}</a>
+                                        return <div key={idx} className="collapse-item" onClick={() => select(user)} value={user}>{user.posi} {user.userName}</div>
                                     })
                                 }
                             </div>

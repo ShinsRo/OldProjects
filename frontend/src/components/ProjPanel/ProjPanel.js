@@ -2,7 +2,6 @@ import React from 'react';
 
 import ProjTable from './ProjTable';
 import ProjTreeView from './ProjTreeView';
-import store from '../../stores'
 
 const VIEW_LEVEL = {
     NONE: 0,
@@ -12,9 +11,6 @@ const VIEW_LEVEL = {
 };
 
 class ProjPanel extends React.Component {
-    // static defaultProps = {
-    //     userName: "이름없음",
-    // }
     constructor(props) {
         super(props);
         this.state = {
@@ -44,22 +40,10 @@ class ProjPanel extends React.Component {
         this.props.onProjClick(proj.projId);
     }
 
-    componentWillMount() {
-        
-        // alert("아오"+this.state.breadcrumb)
-    }
-
     render() {
         console.log("Rendering: ProjPanel");
-        const breadcrumb = this.state.breadcrumb;
+        const breadcrumb = this.props.breadcrumb;
         const { selectedProj } = this.state;
-        
-        // alert(JSON.stringify(selectedUser))
-        // this.setState({
-        //     ...this.state,
-        //     breadcrumb: [userState.selectedUser.userName, "내 프로젝트"]
-        // })
-        //this.state.set('breadcrumb', [userState.selectedUser.userName, "내 프로젝트"])
         
         const projects 
             = this.props.projectState 

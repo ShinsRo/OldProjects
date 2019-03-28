@@ -18,7 +18,7 @@ export const getJuniors = (loginUser) => dispatch => {
     // 여기서 만든 promise 를 return 해줘야, 나중에 컴포넌트에서 호출 할 때 getJUNIOR().then(...) 을 할 수 있습니다
     return getjuniorAPI(loginUser).then(
         (response) => {
-            console.log("요청성공", response)
+            // console.log("요청성공", response)
             // 요청이 성공했을경우, 서버 응답내용을 payload 로 설정하여 GET_JUNIOR_SUCCESS 액션을 디스패치합니다.
             dispatch({
                 type: GET_JUNIOR_SUCCESS,
@@ -26,8 +26,7 @@ export const getJuniors = (loginUser) => dispatch => {
             })
         }
     ).catch(error => {
-        console.log("요청실패")
-
+        // console.log("요청실패")
         // 에러가 발생했을 경우, 에로 내용을 payload 로 설정하여 GET_JUNIOR_FAILURE 액션을 디스패치합니다.
         dispatch({
             type: GET_JUNIOR_FAILURE,
@@ -67,7 +66,6 @@ export default handleActions({
     },
     [GET_JUNIOR_SUCCESS]: (state, action) => {
         //const { userId,userName,userPass,dept,posi,deleteFlag } = action.payload.users;
-        console.log('>>>>',action.payload);
         
         return state.set('users', action.payload);
     },

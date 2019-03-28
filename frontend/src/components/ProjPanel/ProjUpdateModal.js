@@ -19,24 +19,8 @@ class ProjUpdateModal extends React.Component {
             startDate: new Date(project.startDate),
             endDate: new Date(project.endDate),
         }
-        console.log("asdasd", this.state);
-        
-    }
-    componentDidMount() {
     }
 
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     console.log("shouldComponentUpdate 윌 업데이트", nextProps);
-        
-    //     // if ()
-    //     // if(nextState.initStartDate === this.state.initStartDate) {
-    //     //     console.log("넥스트스테이트~~~~~~", nextState);
-    //     //     console.log("디스스테이트~~~~~~", this.state.startDate);
-    //     //     return false;
-    //     // } else {
-    //     //     return false;
-    //     // }
-    // }
     onStartDateChange(date) {
         this.setState({ startDate: date });
     }
@@ -67,7 +51,6 @@ class ProjUpdateModal extends React.Component {
 
     render() {
         console.log("Rendering: ProjUpdateModal");
-        let { project } = this.props;
         const { userState } = store.getState();
 
         return (

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Sidebar } from "../components";
 import ProjPanelContainer from "./ProjPanelContainer";
 import HeaderContainer from "./HeaderContainer";
 import SidebarContainer from "./SidebarContainer"

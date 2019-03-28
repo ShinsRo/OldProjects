@@ -1,6 +1,5 @@
 import Sidebar from '../components/Sidebar/Sidebar'
 import React, { Component } from 'react';
-import {List,Map} from 'immutable';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux'
 import * as juniorsAction from '../stores/modules/juniorList'
@@ -20,7 +19,7 @@ class SidebarContainer extends Component {
         const {userState} = store.getState()
         const {userInfo} = userState
         const {juniorsAction} = this.props;
-        console.log("사이드바 api",userInfo);
+
         juniorsAction.getJuniors(userInfo).then(res=> {
             const {juniorList} =store.getState()
             this.setState({
@@ -30,7 +29,6 @@ class SidebarContainer extends Component {
         .then(res=>{
             const deptMap={}
             //const deptName=[]
-            let idx=0
             this.state.users && this.state.users.forEach(user => {
                 //!deptName.includes(user.dept) && deptName.push(user.dept)
  
@@ -48,12 +46,10 @@ class SidebarContainer extends Component {
                 depts: deptMap,
                 //deptName: deptName
             })
-            console.log("부서들",this.state)
         })
     }
     render() {
         const {userActions} = this.props
-        console.log('사이드바컨테이너 확인',this.state.users)
         const users=this.state.users
         const depts=this.state.depts
         //const deptName=this.state.deptName

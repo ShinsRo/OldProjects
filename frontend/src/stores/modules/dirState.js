@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions';
-import { Map, List } from 'immutable';
+import { Map } from 'immutable';
 
 const initialState = Map({
     dir: 1001,

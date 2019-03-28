@@ -7,6 +7,11 @@ insert into user(userId, userPass, userName, posi, dept, deleteFlag)
 insert into user(userId, userPass, userName, posi, dept, deleteFlag)
 	values('1113', 'nas', '마규석', '인턴', '인턴부', false);
 	
+insert into user(userId, userPass, userName, posi, dept, deleteFlag)
+	values('111138', 'nas', '김팀장', '팀장', '연구소', false);
+
+insert into user(userId, userPass, userName, posi, dept, deleteFlag)
+	values('111123', 'nas', '김사원', '사원', '연구소', false);
 	
 insert into project(
 		projId, projProgress, 

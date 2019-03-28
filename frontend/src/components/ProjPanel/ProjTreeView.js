@@ -40,7 +40,6 @@ class ProjTreeView extends React.Component {
 
     addItem(e) {
         e.preventDefault(e.target);
-        alert()
         const { userState, projectState } = store.getState();
         let { slectedDirId } = projectState
         
@@ -66,7 +65,6 @@ class ProjTreeView extends React.Component {
                 'accept': 'application/json'
             }
         }).then(res => {
-            alert("디렉토리 추가함")
             if (!slectedDirId) slectedDirId = this.refs.treeview.api.getRootItem();
             this.refs.treeview.api.addItem (dirName, false, slectedDirId)
         });
@@ -90,7 +88,6 @@ class ProjTreeView extends React.Component {
                 'accept': 'application/json'
             }
         }).then(res => {
-            alert("디렉토리 삭제함")
             this.refs.treeview.api.removeItem(id);
         });
     }
@@ -100,17 +97,13 @@ class ProjTreeView extends React.Component {
     }
 
     drop(e, item) {
-        const dropedDirId = e.dataTransfer.getData('dirId');
-        console.log(dropedDirId);
+        // const dropedDirId = e.dataTransfer.getData('dirId');
     }
     drag(e, item) {
         e.dataTransfer.setData('dirId', item.id);
     }
     allowDrop(e, item) {
         e.preventDefault();
-        console.log('allowDrop');
-        console.log(this.refs);
-        console.log(this.refs[`botDiv${item.id}`]);
         
     }
     render() {

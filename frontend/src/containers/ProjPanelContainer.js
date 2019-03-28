@@ -15,6 +15,9 @@ class ProjPanelContainer extends Component {
         this.handleDirItemActionCall = this.handleDirItemActionCall.bind(this);
     }
     componentDidMount() {
+        const { userState } = store.getState();
+        const { ProjectActions } = this.props;
+        ProjectActions.axiosGetAsync('api/projects/list', {userId: userState.selectedUser.userId});
     }
     
     componentWillUpdate(prevProps, prevState) {  //여러번 바뀌어야할때 전 상태와 현재 상태를 비교해서 업데이트 
@@ -60,8 +63,8 @@ class ProjPanelContainer extends Component {
         //const { userState } = { userState: { selectedUser: {userId: '1111', userName: '김승신'} }};
         const { userState } = store.getState();
         const breadcrumb = [userState.selectedUser.userName, "내 프로젝트"];
-        console.log(">>>", userState);
         
+        if(!breadcrumb) return <div></div>
         return (<ProjPanel 
                     projectState={projectState} 
                     userState={userState}
