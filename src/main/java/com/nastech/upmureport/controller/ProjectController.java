@@ -62,6 +62,31 @@ public class ProjectController {
 			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 	
+	@PostMapping(value ="/correct",
+	consumes = MediaType.APPLICATION_JSON_VALUE,
+	produces = {MediaType.APPLICATION_JSON_VALUE})
+	ResponseEntity<Boolean> correct(@RequestBody Map<String, String> formData) {
+	SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss 'GMT'z (Z)");
+
+	ProjectDto projDto = ProjectDto.builder()
+			.projId(Integer.valueOf(formData.get("projId")))
+			.projName(formData.get("projName"))
+			.projSubject(formData.get("projSubject"))
+			.projDesc(formData.get("projDesc"))
+			.projCaleGubun(formData.get("projCaleGubun"))
+			.projProgress(Integer.valueOf(formData.get("projProgress")))
+			.startDate(new Date(formData.get("startDate")))
+			.endDate(new Date(formData.get("endDate")))
+			.projStat(formData.get("projStat"))
+			.userId(formData.get("userId"))
+			.build();
+	
+	if (projectService.register(projDto).getProject() != null)
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+	else 
+		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+	}
+	
 	@PostMapping(value = "/disable", consumes = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<Boolean> disable(@RequestBody Map<String, String> formData) {
 		String userId = formData.get("userId");
@@ -79,9 +104,21 @@ public class ProjectController {
 	
 	@PostMapping(value = "/registerDir", consumes = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<Boolean> registerDir(@RequestBody Map<String, String> formData) {
-		System.out.println(formData);
 		if (projectService.registerDir(
 				DirDto.builder()
+				.dirName(formData.get("dirName"))
+				.parentDirId(formData.get("parentId"))
+				.build()) != null) 
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		else 
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/correctDir", consumes = MediaType.APPLICATION_JSON_VALUE)
+	ResponseEntity<Boolean> correctDir(@RequestBody Map<String, String> formData) {
+		if (projectService.registerDir(
+				DirDto.builder()
+				.dirId(formData.get("dirId"))
 				.dirName(formData.get("dirName"))
 				.parentDirId(formData.get("parentId"))
 				.build()) != null) 

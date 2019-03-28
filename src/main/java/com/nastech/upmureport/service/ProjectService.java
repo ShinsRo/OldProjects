@@ -56,13 +56,11 @@ public class ProjectService {
 		}
 		
 		Project project = projectDto.toEntity();
-		System.out.println(project);
 		project.setCreatedDate(new Date(System.currentTimeMillis())); 
 		projectRepository.save(project);
 		
 		ProjStat pj;
 		try {
-			System.out.println(projectDto.getProjStat());
 			pj = ProjStat.valueOf(projectDto.getProjStat());
 		} catch (IllegalArgumentException iae) {
 			pj = ProjStat.대기;
