@@ -1,17 +1,28 @@
 import React, { Component } from 'react';
+import { Map, List } from 'immutable';
 
 class ContentTable extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+
+        this.state = Map({
+            dirs: List(),
+        });
     }
 
     render() {
 
-        const upmus = this.props.upmus;
-        const {onClickDir} = this.props;
-
-        console.log('upmus---', upmus);
+        const {upmus, dirs} = this.props;
+        const { onClickDir } = this.props;
+        //const {selectedProject} = projectState.get('selectedProject') && projectState.get('selectedProject');
+        const {selectedProject} = this.props;
+        console.log(selectedProject);
+        //this.state.set('dirs', projectState.get('dirs').get('selectedProject'));
+        //const {dirs} = projectState.get('dirs').get('selectedProject');
+        console.log(dirs);
+        //console.log('upmus---', upmus);
+        //console.log('dirs---', dirs);
+ //       console.log('dirs---', projectState.get('dirs').dirs.get(`${projectState.project.projId}`));
         return (
             <div>
                 <table className="table" id="upmuTable" cellSpacing="0">
@@ -25,7 +36,21 @@ class ContentTable extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {upmus.map((upmu, idx) => {
+                        {dirs && dirs.get(`${selectedProject}`).map((dir, idx) => {
+                            console.log('--------', dir);
+                            return (
+                                <tr value={1002} key={idx} onClick={onClickDir}>
+                                    <td>{dir.dirName}</td>
+                                    <td>d</td>
+                                    <td>d</td>
+                                    <td>f</td>
+                                    <td>s</td>
+                                </tr>
+                            );
+                        })}
+                        </tbody>
+                        <tbody>
+                        {upmus && upmus.map((upmu, idx) => {
                             console.log('--------', upmu);
                             return (
                                 <tr value={1002} key={idx} onClick={onClickDir}>

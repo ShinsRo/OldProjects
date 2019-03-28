@@ -40,16 +40,20 @@ class Upmu extends Component {
 static defaultProps = {
   upmus: List(),
   projectState: '',
+  treeDir:'',
 }
 
 static state = Map({
-  upmus: List()
+  upmus: List(),
+  dirs: List(),
 })
 
   componentDidMount() {
-    const {dirState, userState} = store.getState();
+    const {dirState, projectState} = store.getState();
     const {UpmuActions} = this.props;
-    // UpmuActions.getUpmu(saveUpmu.get('dirId'));
+    projectState.get('selectedProject') && UpmuActions.getUpmu(projectState.get('selectedProject'));   
+    alert(dirState.get('dir'));
+
   }
 /*
   getList = () => {
@@ -91,14 +95,15 @@ static state = Map({
   // }
 
   handleInsert = (e) => {
-    const {saveUpmu, dirState} = store.getState();
+    const {saveUpmu, dirState, projectState} = store.getState();
     const {UpmuActions} = this.props;
     //const {titleInput, contentInput} = this.props;
 
     const upmu = {
         name: saveUpmu.get('titleInput'),
         contents: saveUpmu.get('contentInput'),
-        dirId: dirState.get('dir'),
+        dirId: projectState.get('selectedProject'),
+        localPath: 'dd',
     };
 
     console.log(upmu);
@@ -115,14 +120,18 @@ static state = Map({
 
     DirStateActions.changeSelectedDir(1002);
     console.log('e.target.value',e.target.value);
-    UpmuActions.getUpmu(1002); 
-    
+    UpmuActions.getUpmu(1002);     
   }
 
     render(){
       const { openModal}  = this;
       const {saveUpmu} = this.props;
       const { handleTitleChange, handleContentChange, handleInsert, handleChangeDir } = this;
+      const {projectState} = this.props;
+      // const dirs 
+      //       = this.props.projectState 
+      //       && this.props.projectState.get('errObj').get('isHandled') 
+      //       && this.props.projectState.get('dirs')
       //alert(`asd${saveUpmu}`)
       /*
       const upmuList = upmus.map((upmu) => 
@@ -133,7 +142,7 @@ static state = Map({
 */
 
         return (
-            <div>
+            <div className="card shadow mb-4">
               <div>
                 <Modal
                     isOpen={this.state.modalIsOpen}
@@ -145,14 +154,14 @@ static state = Map({
                     <button onClick={this.closeModal}>close</button>
                 </Modal>
             </div>
-              <div>
+              <div >
               <h2>프로젝트</h2>
                 <button onClick={openModal}>add</button>
                 <button>delete</button>
                 <button>update</button>
                 <button>log</button>
               </div>
-            <div>
+            <div className="card-body">
               {/*
               {saveUpmu.get('upmus').map((upmu, idx) => {
                 console.log('--------', upmu);
@@ -161,7 +170,12 @@ static state = Map({
                 );
                 })}
               */}
-              <ContentTable upmus={saveUpmu.get('upmus')} onClickDir = {handleChangeDir} />              
+              <ContentTable 
+                upmus={saveUpmu.get('upmus')} 
+                onClickDir = {handleChangeDir} 
+                selectedProject = {projectState.get('selectedProject')} 
+                dirs = {projectState.get('dirs')}
+                />              
             </div>
           </div>
           );

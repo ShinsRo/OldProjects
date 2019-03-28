@@ -18,7 +18,7 @@ const initialState = Map({
     isFetching: false,
     error: false,
     upmus: List(),
-    dirId: 1
+    dirId: ''
 })
 
 // 액션 생성 함수

@@ -110,7 +110,6 @@ class ProjTreeView extends React.Component {
         console.log("Rendering: ProjTreeView");
         const {dirs, project} = this.props;
         const dirList = (dirs && dirs.get(`${project.projId}`)) || [];
-        
         const dirTree = convertDirListToTree(dirList, project.userId);
         
         return (
@@ -200,8 +199,9 @@ function convertDirListToTree(dirList, userId) {
             dirTree.push(tempMap[key]);
         }
     });
-
     return dirTree;
 }
 
+
 export default ProjTreeView;
+

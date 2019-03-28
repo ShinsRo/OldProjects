@@ -24,6 +24,7 @@ const initialState = Map({
         type: '',
         isHandled: true
     }),
+    selectedProject:'',
 });
 
 //액션 핸들링
@@ -87,7 +88,7 @@ export default handleActions({
                 projectState = projectState.has('dirs') ? projectState : projectState.set('dirs', Map()); 
                 projectState = projectState.setIn(['dirs', `${projId}`], items);
                 projectState = projectState.set('lastUpdated', Date.now());
-
+                projectState = projectState.set('selectedProject', projId);
                 break;
             default:
         }   
