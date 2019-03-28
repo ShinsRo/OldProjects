@@ -64,6 +64,11 @@ export default handleActions({
 
         switch (endPoint) {
             case _.PROJ_LIST: 
+                items.map((item) => {
+                    item.startDate = item.startDate || 0;
+                    item.endDate = item.endDate || 0;
+                    return {...item, startDate: new Date(item.startDate), endDate: new Date(item.endDate)}
+                });
                 projectState = projectState.set('projects', items);
                 projectState = projectState.set('lastUpdated', Date.now());
                 break;
@@ -178,8 +183,12 @@ export const END_POINT = {
     PROJ_LIST: 'api/projects/list',
     PROJ_REGISTER: 'api/projects/register',
     PROJ_CORRECT: 'api/projects/correct',
+    PROJ_DISABLE: 'api/projects/disable',
 
     PROJ_DIRS: 'api/projects/dirs',
+    DIR_REGISTER: 'api/projects/registerDir',
+    DIR_DISABLE: 'api/projects/disableDir',
+    DIR_CORRECT: 'api/projects/correctDir',
 };
 
 const defaultHeaders = {

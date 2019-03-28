@@ -4,20 +4,39 @@ import "react-datepicker/dist/react-datepicker.css";
 import store from '../../stores';
 import * as projectActions from '../../stores/modules/projectState';
 
-class ProjAddModal extends React.Component {
+class ProjUpdateModal extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            startDate: new Date(),
-            endDate: new Date(),
-            projProgress: 0,
-        }
         this.onStartDateChange = this.onStartDateChange.bind(this);
         this.onEndDateChange = this.onEndDateChange.bind(this);
         this.onProjProgressChange = this.onProjProgressChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+
+        const project = this.props.project;
+        
+        this.state = {
+            ...this.props.project,
+            startDate: new Date(project.startDate),
+            endDate: new Date(project.endDate),
+        }
+        console.log("asdasd", this.state);
+        
+    }
+    componentDidMount() {
     }
 
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     console.log("shouldComponentUpdate 윌 업데이트", nextProps);
+        
+    //     // if ()
+    //     // if(nextState.initStartDate === this.state.initStartDate) {
+    //     //     console.log("넥스트스테이트~~~~~~", nextState);
+    //     //     console.log("디스스테이트~~~~~~", this.state.startDate);
+    //     //     return false;
+    //     // } else {
+    //     //     return false;
+    //     // }
+    // }
     onStartDateChange(date) {
         this.setState({ startDate: date });
     }
@@ -47,15 +66,16 @@ class ProjAddModal extends React.Component {
     }
 
     render() {
+        console.log("Rendering: ProjUpdateModal");
+        let { project } = this.props;
         const { userState } = store.getState();
-        console.log("Rendering: ProjAddModal");
-        
+
         return (
             <div>
                 {/* 디렉토리 추가 모달 */}
-                <div className="modal fade" id="projAddModal" tabIndex="-1" role="dialog" aria-labelledby="projAddModal" aria-hidden="true">
+                <div className="modal fade" id="ProjUpdateModal" tabIndex="-1" role="dialog" aria-labelledby="ProjUpdateModal" aria-hidden="true">
                 <div className="modal-dialog" role="document">
-                    <div className="modal-content">
+                <div className="modal-content">
                         <div className="modal-header">
                         <h5 className="modal-title font-weight-bold" id="exampleModalLabel">프로젝트를 추가합니다.</h5>
                         <button className="close" type="button" data-dismiss="modal" aria-label="Close">
@@ -66,15 +86,15 @@ class ProjAddModal extends React.Component {
                         <form className="user" onSubmit={this.handleSubmit}>
                             <div className="form-group row">
                                 <div className="col-xl-12">
-                                    <input name="projName" id="projName" type="text" className="form-control" placeholder="프로젝트 명" required/>
+                                    <input defaultValue={this.state.projName} name="projName" id="projName" type="text" className="form-control" placeholder="프로젝트 명" required/>
                                 </div>
                             </div>
                             <div className="form-group row">
                                 <div className="col-8">
-                                    <input name="projSubject" type="text" className="form-control" placeholder="업무 제목" required/>
+                                    <input defaultValue={this.state.projSubject} name="projSubject" type="text" className="form-control" placeholder="업무 제목" required/>
                                 </div>
                                 <div className="col">
-                                    <select name="projCaleGubun" id="projCaleGubun" className="form-control">
+                                    <select defaultValue={this.state.projCaleGubun} name="projCaleGubun" id="projCaleGubun" className="form-control">
                                         <option value="없음">일정 구분</option>
                                         <option value="주기성">주기성</option>
                                         <option value="비주기성">비주기성</option>
@@ -83,7 +103,7 @@ class ProjAddModal extends React.Component {
                             </div>
                             <div className="form-group row">
                                 <div className="col">
-                                    <textarea name="projDesc" id="projDesc" cols="30" rows="10" className="form-control" placeholder="업무 설명">
+                                    <textarea defaultValue={this.state.projDesc} name="projDesc" id="projDesc" cols="30" rows="10" className="form-control" placeholder="업무 설명">
                                     </textarea>
                                 </div>
                             </div>
@@ -126,13 +146,13 @@ class ProjAddModal extends React.Component {
                                     onChange={this.onProjProgressChange}/>
                                 </div>
                                 <div className="col-2">
-                                    <input type="text" className="form-control" value={`${this.state.projProgress}%`} readOnly/>
+                                    <input type="text" className="form-control" defaultValue={`${this.state.projProgress}%`} readOnly/>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col">
                                     <select name="projStat" id="projStat" className="form-control">
-                                        <option value="">상태</option>
+                                        <option value={this.state.projStat}>{this.state.projStat}</option>
                                         <option value="대기">대기</option>
                                         <option value="접수">접수</option>
                                         <option value="진행">진행</option>
@@ -163,4 +183,4 @@ class ProjAddModal extends React.Component {
     }
 };
 
-export default ProjAddModal;
+export default ProjUpdateModal;
