@@ -7,7 +7,8 @@ import store from '../../stores';
 class ProjTable extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { };
+        this.state = { 
+        };
     }
 
     deleteItemClick(projId) {
@@ -35,6 +36,7 @@ class ProjTable extends React.Component {
     }
 
     render() {
+        console.log("Rendering: ProjTable");
         const projects = this.props.projects;
         const onProjClick = this.props.onProjClick;
         const progressColor = (projProgress) => {
@@ -96,7 +98,7 @@ class ProjTable extends React.Component {
                     <div className="btn-cirecle btn-sm bg-darkblue text-white" data-toggle="modal" data-target="#projAddModal"><i className="fas fa-plus"></i> 프로젝트 추가하기</div>
                 </div>
                 <ProjAddModal/>
-                <ProjUpdateModal project={this.state.selectedProj}/>
+                <ProjUpdateModal project={Object.assign({}, this.state.selectedProj)}/>
             </div>
             
         )

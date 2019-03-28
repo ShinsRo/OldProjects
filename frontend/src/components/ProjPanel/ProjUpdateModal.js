@@ -10,26 +10,32 @@ class ProjUpdateModal extends React.Component {
         this.state = {
             initStartDate: '',
             initEndDate: '',
-            startDate: 0,
-            endDate: 0,
             projProgress: 0,
-            emptyProject: {
-                projName: '',
-                projSubject: '',
-                projCaleGubun: '',
-                projDesc: '',
-                projProgress: 0,
-                projStat: '',
-                startDate: 0,
-                endDate: 0,
-                userId: '',
-            }
         }
         this.onStartDateChange = this.onStartDateChange.bind(this);
         this.onEndDateChange = this.onEndDateChange.bind(this);
         this.onProjProgressChange = this.onProjProgressChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
+    componentWillMount() {
+        // alert(this.props.project.hasOwnProperty('startDate'))
+        if (!this.props.project.hasOwnProperty('startDate')) {
+            return false;
+        } else {
+        }
+    }
+    shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.project.hasOwnProperty('startDate')) {
+            // alert(nextProps.project.startDate)
+            // this.setState({ startDate: new Date(this.props.project.startDate) })
+            // this.setState({ endDate: new Date(this.props.project.endDate) })
+            return true;
+        } else { return false; }
+    }
+    // componentDidMount() {
+    //     alert(this.state.startDate)
+    // }
 
     onStartDateChange(date) {
         this.setState({ startDate: date });
@@ -60,9 +66,12 @@ class ProjUpdateModal extends React.Component {
     }
 
     render() {
+        console.log("Rendering: ProjUpdateModal");
         const { userState } = store.getState();
         let { project } = this.props;
-        project = project || this.state.emptyProject;
+        // project = project || this.state.emptyProject;
+        // this.setState({ startDate: Object.assign({}, project.startDate) })
+        // this.setState({ endDate: Object.assign({}, project.startDate) })
         return (
             <div>
                 {/* 디렉토리 추가 모달 */}
@@ -102,8 +111,9 @@ class ProjUpdateModal extends React.Component {
                             </div>
                             <div className="form-group row">
                                 <div className="col">
+                                
                                     <DatePicker
-                                    customInput={<StartDatePickInput text={'123'}/>}
+                                    customInput={<StartDatePickInput text={this.state.startDate}/>}
                                         selected={this.state.startDate}
                                         dateFormat="yyyy년 MM월 dd일"
                                         selectsStart
@@ -115,7 +125,7 @@ class ProjUpdateModal extends React.Component {
                                 </div>
                                 <div className="col">
                                     <DatePicker
-                                    customInput={<EndDatePickInput text={'123'}/>}
+                                    customInput={<EndDatePickInput text={this.state.endDate}/>}
                                         dateFormat="yyyy년 MM월 dd일"
                                         selected={this.state.endDate}
                                         selectsEnd
@@ -133,11 +143,11 @@ class ProjUpdateModal extends React.Component {
                                 <div className="col-7">
                                 <input name="projProgress" type="range" className="form-control" 
                                     min="0" max="100"
-                                    value={this.state.projProgress}
+                                    value={project.projProgress}
                                     onChange={this.onProjProgressChange}/>
                                 </div>
                                 <div className="col-2">
-                                    <input type="text" className="form-control" value={`${this.state.projProgress}%`} readOnly/>
+                                    <input type="text" className="form-control" value={`${project.projProgress}%`} readOnly/>
                                 </div>
                             </div>
                             <div className="row">
@@ -186,7 +196,7 @@ class StartDatePickInput extends React.Component {
                     value={value} 
                     className="form-control" 
                     onClick={onClick}  
-                    placeholder={new Date(text)}
+                    // placeholder={}
                     readOnly required
                     />
             </div>
@@ -204,7 +214,7 @@ class EndDatePickInput extends React.Component {
                     value={value} 
                     className="form-control" 
                     onClick={onClick}  
-                    placeholder={new Date(text)}
+                    // placeholder={new Date(text)}
                     readOnly required
                     />
             </div>

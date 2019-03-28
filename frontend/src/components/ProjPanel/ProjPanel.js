@@ -45,6 +45,7 @@ class ProjPanel extends React.Component {
     }
 
     render() {
+        console.log("Rendering: ProjPanel");
         const breadcrumb = this.state.breadcrumb;
         const { selectedProj } = this.state;
 
@@ -64,7 +65,12 @@ class ProjPanel extends React.Component {
                 panelBody = (<ProjTable projects={projects} onProjClick={this.onProjClick}/>);
                 break;
             case VIEW_LEVEL.PROJ_DIR:
-                panelBody = (<ProjTreeView project={selectedProj} dirs={dirs} handleDirItemClick={this.props.handleDirItemClick}/>);
+                panelBody = (
+                <ProjTreeView 
+                    project={selectedProj} dirs={dirs} 
+                    handleDirItemClick={this.props.handleDirItemClick} 
+                    handleDirItemActionCall={this.props.handleDirItemActionCall}/>
+                );
                 break;
             case VIEW_LEVEL.PROJ_DETAIL:
                 panelBody = (<div>프로젝트 디테일 뷰</div>);
@@ -73,7 +79,6 @@ class ProjPanel extends React.Component {
                 panelBody = (<div>알 수 없는 뷰 레벨입니다.</div>);
         }
         
-
         return (
             <div className="card shadow mb-4">
                 <div className="card-header py-3">

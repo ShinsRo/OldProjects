@@ -186,6 +186,9 @@ export const END_POINT = {
     PROJ_DISABLE: 'api/projects/disable',
 
     PROJ_DIRS: 'api/projects/dirs',
+    DIR_REGISTER: 'api/projects/registerDir',
+    DIR_DISABLE: 'api/projects/disableDir',
+    DIR_CORRECT: 'api/projects/correctDir',
 };
 
 const defaultHeaders = {

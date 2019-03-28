@@ -77,12 +77,16 @@ public class ProjectController {
 		return new ResponseEntity<List<DirDto>>(dtoList, HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/registerDir")
-	ResponseEntity<Object> registerDir(@RequestBody Dir dir) {
-		Object returnDto;
-		if ((returnDto = projectService.registerDir(new DirDto())) != null) 
-			return new ResponseEntity<Object>(true, HttpStatus.OK);
+	@PostMapping(value = "/registerDir", consumes = MediaType.APPLICATION_JSON_VALUE)
+	ResponseEntity<Boolean> registerDir(@RequestBody Map<String, String> formData) {
+		System.out.println(formData);
+		if (projectService.registerDir(
+				DirDto.builder()
+				.dirName(formData.get("dirName"))
+				.parentDirId(formData.get("parentId"))
+				.build()) != null) 
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		else 
-			return new ResponseEntity<Object>(false, HttpStatus.OK);
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 }

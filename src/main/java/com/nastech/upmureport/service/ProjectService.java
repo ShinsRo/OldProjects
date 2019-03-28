@@ -147,8 +147,6 @@ public class ProjectService {
 		userProjectRepository.delete(up);		
 	}
 
-
-
 	
 	/**
 	 * 
@@ -175,6 +173,7 @@ public class ProjectService {
 		return userProjs;
 	}
 
+	
 	public List<DirDto> findDirsByProjId(String projId) {
 		List<Dir> dirs = dirRepository.findAllByParentProjId(Integer.parseInt(projId));
 		List<DirDto> dirDtos = new ArrayList<DirDto>();
@@ -196,7 +195,6 @@ public class ProjectService {
 		}
 		return dirDtos;
 	}
-
 
 	public Dir registerDir(DirDto dirDto) {
 		String userId = dirDto.getUserId();

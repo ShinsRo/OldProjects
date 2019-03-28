@@ -48,6 +48,8 @@ class ProjAddModal extends React.Component {
 
     render() {
         const { userState } = store.getState();
+        console.log("Rendering: ProjAddModal");
+        
         return (
             <div>
                 {/* 디렉토리 추가 모달 */}
@@ -148,7 +150,7 @@ class ProjAddModal extends React.Component {
                             <div className="modal-footer">
                                 <button className="btn btn-secondary" type="button" data-dismiss="modal">취소하기</button>
                                 <input className="btn btn-primary" type="submit" value="추가하기"></input>
-                                </div>
+                            </div>
                             </form>
                         </div>
                     </div>
@@ -161,9 +163,7 @@ class ProjAddModal extends React.Component {
 
 export default ProjAddModal;
 
-class StartDatePickInput extends React.Component {
-    render() {
-        const {text, value, onClick} = this.props;
+const StartDatePickInput = ({text, value, onClick}) => {
         return (
             <div>
                 <input 
@@ -175,14 +175,11 @@ class StartDatePickInput extends React.Component {
                     readOnly required
                     />
             </div>
-        );
-    }
+    );
 }
 
-class EndDatePickInput extends React.Component {
-    render() {
-        const {text, value, onClick} = this.props;
-        return (
+const EndDatePickInput = ({text, value, onClick}) => {
+    return (
             <div>
                 <input 
                     type="text" 
@@ -193,6 +190,5 @@ class EndDatePickInput extends React.Component {
                     readOnly required
                     />
             </div>
-        );
-    }
+    );
 }

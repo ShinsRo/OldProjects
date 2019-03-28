@@ -12,6 +12,7 @@ class ProjPanelContainer extends Component {
         super(props);
         this.loadDirs = this.loadDirs.bind(this);
         this.handleDirItemClick = this.handleDirItemClick.bind(this);
+        this.handleDirItemActionCall = this.handleDirItemActionCall.bind(this);
     }
     componentDidMount() {
         const { userState } = store.getState();
@@ -31,6 +32,19 @@ class ProjPanelContainer extends Component {
         const { ProjectActions } = this.props;
         ProjectActions.saveDirId(selectedDirId);
     };
+    
+    handleDirItemActionCall (endPoint, projId, selectedDirId, item) {
+        const { ProjectActions } = this.props;
+        const { userState } = store.getState();
+
+        ProjectActions.axiosPostAsync(endPoint, {
+            projId,
+            userId: userState.userInfo.userId,
+            selectedDirId,
+            item
+        });
+    }
+
 
     render() {
         const { projectState } = store.getState();
@@ -46,6 +60,7 @@ class ProjPanelContainer extends Component {
                     onProjClick={this.loadDirs}
                     ProjectActions={ProjectActions}
                     handleDirItemClick={this.handleDirItemClick}
+                    handleDirItemActionCall={this.handleDirItemActionCall}
                     ></ProjPanel>);
     }
 }
