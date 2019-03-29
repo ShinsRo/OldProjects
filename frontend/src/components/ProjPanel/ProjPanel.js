@@ -20,6 +20,12 @@ class ProjPanel extends React.Component {
         this.onBreadcrumbClick = this.onBreadcrumbClick.bind(this);
         this.onProjClick = this.onProjClick.bind(this);
         
+    }   
+
+    componentWillUpdate (nextProps, nextState) {
+        if ( nextProps.breadcrumb[0] !== this.props.breadcrumb[0] ) {
+            this.setState({ breadcrumb: [...nextProps.breadcrumb] })
+        }
     }
 
     onBreadcrumbClick(e, el, idx) {
