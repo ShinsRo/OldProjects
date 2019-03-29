@@ -57,10 +57,8 @@ class ProjPanelContainer extends Component {
     render() {
         const { projectState } = store.getState();
         const { ProjectActions } = this.props;
-        // const { userState } = this.props;
         //임시 유저 목록 스토어
         
-        //const { userState } = { userState: { selectedUser: {userId: '1111', userName: '김승신'} }};
         const { userState } = store.getState();
         const breadcrumb = [userState.selectedUser.userName, "내 프로젝트"];
         

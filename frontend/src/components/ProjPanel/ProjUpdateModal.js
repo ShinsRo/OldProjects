@@ -67,7 +67,7 @@ class ProjUpdateModal extends React.Component {
                 <div className="modal-dialog" role="document">
                 <div className="modal-content">
                         <div className="modal-header">
-                        <h5 className="modal-title font-weight-bold" id="exampleModalLabel">프로젝트를 추가합니다.</h5>
+                        <h5 className="modal-title font-weight-bold" id="exampleModalLabel">프로젝트를 수정합니다.</h5>
                         <button className="close" type="button" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
@@ -159,7 +159,7 @@ class ProjUpdateModal extends React.Component {
                             <br></br>
                             <div className="modal-footer">
                                 <button className="btn btn-secondary" type="button" data-dismiss="modal">취소하기</button>
-                                <input className="btn btn-primary" type="submit" value="추가하기"></input>
+                                <input className="btn btn-primary" type="submit" value="수정하기"></input>
                             </div>
                             </form>
                         </div>
