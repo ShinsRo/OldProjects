@@ -31,7 +31,13 @@ public class UpmuService {
 	}
 	
 	public UpmuResDto addUpmuContents(UpmuReqDto upmuReqDto) {
-		Dir dir = dirRepository.findById(upmuReqDto.getDirId()).get();
+		Dir dir;
+		try {		
+			dir = dirRepository.findById(upmuReqDto.getDirId()).get();
+		} catch(Exception e){
+			log.warning(e.getMessage());
+			return null;
+		}
 		
 		UpmuContent upmuContents = UpmuContent.builder()
 				.dirId(dir)
@@ -51,8 +57,7 @@ public class UpmuService {
 				.dirId(upmuContents.getDirId().getDirId())
 				.newDate(upmuContents.getNewDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
 				.updateDate(upmuContents.getUpdateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))										
-				.build();
-		
+				.build();		
 		try {
 			return upmuResDto;
 		}catch(Exception e){

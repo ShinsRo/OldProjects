@@ -46,8 +46,7 @@ public class UpmuController {
 		log.info(upmuReqDto.toString());
 		
 		UpmuResDto upmuResDto = upmuService.addUpmuContents(upmuReqDto);
-		
-		
+				
 		return upmuResDto;
 	}
 	

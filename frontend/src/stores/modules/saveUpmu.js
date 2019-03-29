@@ -18,7 +18,6 @@ const initialState = Map({
     isFetching: false,
     error: false,
     upmus: List(),
-    dirId: 1
 })
 
 // 액션 생성 함수
@@ -57,6 +56,7 @@ export const getUpmu = (dirId) => dispatch => {
             payload: response.data
         })
     }
+    
     ).catch(error => {
         // 에러가 발생했을 경우, 에로 내용을 payload 로 설정하여 SEND_POST_FAILURE 액션을 디스패치합니다.
         dispatch({
@@ -77,7 +77,7 @@ export default handleActions({
         return state.set('contentInput', action.payload)
     },
     // 전송 초기화
-    [SEND_POST_PENDING]: (state, action) => {
+    [SEND_POST_PENDING]: (state, action) => {        
         return state.set('isFetching', true).set('error', false);
     },
     // 업무 저장 전송 성공 

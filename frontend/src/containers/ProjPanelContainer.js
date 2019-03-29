@@ -4,8 +4,10 @@ import store from '../stores'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as projectActions from '../stores/modules/projectState';
+import * as saveUpmuAction from '../stores/modules/saveUpmu'
 
 import { ProjPanel } from '../components/ProjPanel';
+
 
 class ProjPanelContainer extends Component {
     constructor(props) {
@@ -28,8 +30,9 @@ class ProjPanelContainer extends Component {
     }
     
     handleDirItemClick (selectedDirId) {
-        const { ProjectActions } = this.props;
+        const { ProjectActions, SaveUpmuActions } = this.props;
         ProjectActions.saveDirId(selectedDirId);
+        SaveUpmuActions.getUpmu(selectedDirId);
     };
 
     render() {
@@ -56,6 +59,7 @@ export default connect(
         userState: state.userState,
     }),
     (dispatch) => ({
-        ProjectActions: bindActionCreators(projectActions, dispatch)
+        ProjectActions: bindActionCreators(projectActions, dispatch),
+        SaveUpmuActions: bindActionCreators(saveUpmuAction, dispatch)
     })
 ) (ProjPanelContainer);

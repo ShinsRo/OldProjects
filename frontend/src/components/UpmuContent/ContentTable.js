@@ -9,11 +9,15 @@ class ContentTable extends React.Component {
     render() {
 
         const upmus = this.props.upmus;
-        const {onClickDir} = this.props;
+        const {onClickDir, projectState, dirs, selectedProject, selectedDirId, onClickUpmu} = this.props;       
+        // if (currentDir === ''){
+        //     currentDir = "root" ;
+        // }
 
-        console.log('upmus---', upmus);
+        console.log('selectedDirId---', selectedDirId);
         return (
             <div>
+                <h2>{selectedDirId}</h2>
                 <table className="table" id="upmuTable" cellSpacing="0">
                     <thead>
                         <tr>
@@ -25,10 +29,28 @@ class ContentTable extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
+                        {dirs && dirs.get(`${selectedProject}`).map((dir, idx) => {
+                            console.log('--------', dir);
+                            if (dir.parentDirId === selectedDirId){
+                            return (
+                                <tr value={dir.dirId} key={idx} onClick={() => onClickDir(`${dir.dirId}`)}>
+                                    <td>{dir.dirName}</td>
+                                    <td>{dir.dirId}</td>
+                                    <td>d</td>
+                                    <td>f</td>
+                                    <td>s</td>
+                                </tr>
+                            );
+                            }
+                        })}
+                        </tbody>
+
+                    <tbody>
                         {upmus.map((upmu, idx) => {
                             console.log('--------', upmu);
+                            //if(upmu.dirId === selectedDirId){
                             return (
-                                <tr value={1002} key={idx} onClick={onClickDir}>
+                                <tr value={selectedDirId} key={idx} onClick={() => onClickUpmu(upmu)}>
                                     <td>{upmu.name}</td>
                                     <td>{upmu.contents}</td>
                                     <td>{upmu.localPath}</td>
@@ -36,6 +58,7 @@ class ContentTable extends React.Component {
                                     <td>{upmu.updateDate}</td>
                                 </tr>
                             );
+                           // }
                         })}
                     </tbody>
                 </table>
