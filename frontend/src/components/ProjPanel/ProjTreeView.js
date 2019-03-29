@@ -18,7 +18,7 @@ class ProjTreeView extends React.Component {
 
     onRenderItem(item, treeview) {
         return (
-            <div>
+            <div key={item.id}>
                 <div 
                     draggable
                     onDragStart={e => this.drag(e, item)}
