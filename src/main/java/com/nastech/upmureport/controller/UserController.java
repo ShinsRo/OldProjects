@@ -35,7 +35,6 @@ public class UserController {
     	if(loginedUserDto != null) {
     		HttpSession session = request.getSession();
     		session.setAttribute("userDto", (Object)loginedUserDto);
-    		System.out.println("send loginedUser to View:"+loginedUserDto);
     		return loginedUserDto;
     	}
     	else
@@ -46,10 +45,8 @@ public class UserController {
     @CrossOrigin
     @PostMapping(value = "/userlist")
     public List<UserDto> userList(@RequestBody UserDto user, HttpServletRequest request){
-    	System.out.println("주니어목록줘!");
     	List<UserDto> juniorList = userService.findMyJuniors(user);
     	if( !juniorList.isEmpty()) {
-    		System.out.println("내 부하들 리스트:"+juniorList);
     		return juniorList;
     	}
     	else

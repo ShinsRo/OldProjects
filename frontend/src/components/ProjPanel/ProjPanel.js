@@ -15,8 +15,8 @@ class ProjPanel extends React.Component {
         super(props);
         this.state = {
             viewLevel: VIEW_LEVEL.PROJECTS,
+            breadcrumb: [...this.props.breadcrumb],
         };
-        
         this.onBreadcrumbClick = this.onBreadcrumbClick.bind(this);
         this.onProjClick = this.onProjClick.bind(this);
         
@@ -34,20 +34,19 @@ class ProjPanel extends React.Component {
         e.preventDefault();
         
         const prevBreadcrumb = this.state.breadcrumb;
-
-
+        
         this.setState( { breadcrumb: Array.prototype.concat(prevBreadcrumb, [proj.projName]) } )
         this.setState( { viewLevel: VIEW_LEVEL.PROJ_DIR } )
         this.setState( { selectedProj: proj } )
-
+        
         this.props.onProjClick(proj.projId);
     }
 
     render() {
         console.log("Rendering: ProjPanel");
-        const breadcrumb = this.props.breadcrumb;
+        const breadcrumb = this.state.breadcrumb;
         const { selectedProj } = this.state;
-        
+
         const projects 
             = this.props.projectState 
             && this.props.projectState.get('errObj').get('isHandled') 
@@ -73,7 +72,7 @@ class ProjPanel extends React.Component {
                                 handleDirItemActionCall={this.props.handleDirItemActionCall}/>
                         }
                     }
-                );
+                )();
                 break;
             case VIEW_LEVEL.PROJ_DETAIL:
                 panelBody = (<div>프로젝트 디테일 뷰</div>);

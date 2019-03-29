@@ -7,12 +7,13 @@ export const REQUEST = 'project/REQUEST';   // endPoint
 export const RECEIVE = 'project/RECEIVE';   // { endPoint, items }
 export const PUSHERR = 'project/PUSHERR';   // { err }
 export const SAVE_DIRID = 'project/SAVE_DIRID';   // { selectedDirId }
+export const UPDATE_BREADCRUMB = 'project/UPDATE_BREADCRUMB';
 
 export const request = createAction(REQUEST);
 export const receive = createAction(RECEIVE);
 export const pusherr = createAction(PUSHERR);
 export const saveDirId = createAction(SAVE_DIRID);
-
+export const updateBreadcrumb = createAction(UPDATE_BREADCRUMB);
 //init state
 const initialState = Map({
     isFetching: false,
@@ -115,6 +116,9 @@ export default handleActions({
     [SAVE_DIRID] : (state, action) => {
         return state.set('selectedDirId', action.payload);
     },
+    [UPDATE_BREADCRUMB] : (state, action) => {
+        return state.set('breadcrumb', action.payload);
+    }
 }, initialState);
 
 // 썽크 미들웨어 상 GET
@@ -129,6 +133,7 @@ export function axiosGetAsync(endPoint, params) {
             case _.PROJ_LIST:
                 promise = _project_api.get_proj_list(params.userId).then(res => {
                     const items = res.data;
+                    dispatch(updateBreadcrumb( [params.userId, "내 프로젝트"] ))
                     dispatch(receive( { endPoint, items } ))
                 }, error => { dispatch(pusherr(error)); });
                 break;
