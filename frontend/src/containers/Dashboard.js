@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Sidebar } from "../components";
 import ProjPanelContainer from "./ProjPanelContainer";
 import HeaderContainer from "./HeaderContainer";
+import SidebarContainer from "./SidebarContainer"
 import Upmu from "../components/UpmuContent/Upmu";
 
 class Dashboard extends Component {
@@ -9,7 +9,7 @@ class Dashboard extends Component {
   render() {
     return (
       <div id="wrapper">
-        <Sidebar/>
+        <SidebarContainer/>
         {/* Content Wrapper */}
         <div id="content-wrapper" className="d-flex flex-column">
 
@@ -22,7 +22,6 @@ class Dashboard extends Component {
               <div className="col-xl-6">
                 <ProjPanelContainer></ProjPanelContainer>
               </div>
-
               <div className="col-xl-6">
                   <Upmu />
                 </div>

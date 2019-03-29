@@ -7,6 +7,11 @@ insert into user(userId, userPass, userName, posi, dept, deleteFlag)
 insert into user(userId, userPass, userName, posi, dept, deleteFlag)
 	values('1113', 'nas', '마규석', '인턴', '인턴부', false);
 	
+insert into user(userId, userPass, userName, posi, dept, deleteFlag)
+	values('111138', 'nas', '김팀장', '팀장', '연구소', false);
+
+insert into user(userId, userPass, userName, posi, dept, deleteFlag)
+	values('111123', 'nas', '김사원', '사원', '연구소', false);
 	
 insert into project(
 		projId, projProgress, 
@@ -45,6 +50,11 @@ insert into userProject(
 insert into dir(
 		dirId, userId, parentProjId, parentDirId, 
 		dirName, deleteFlag)
+	values(1, '1113', 500, null, '하하~', false);
+
+insert into dir(
+		dirId, userId, parentProjId, parentDirId, 
+		dirName, deleteFlag)
 	values(1001, '1111', 300, null, '2019년 업무보고', false);
 
 insert into dir(
@@ -76,6 +86,7 @@ insert into dir(
 		dirId, userId, parentProjId, parentDirId, 
 		dirName, deleteFlag)
 	values(1003, '1112', 400, null, '웹 리소스 폴더', false);
+		
 
 insert into dir(
 		dirId, userId, parentProjId, parentDirId, 

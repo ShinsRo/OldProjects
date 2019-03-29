@@ -12,12 +12,14 @@ import com.nastech.upmureport.domain.entity.UserProject;
 import com.nastech.upmureport.domain.pk.UserProjectPK;
 
 public interface UserProjectRepository extends JpaRepository<UserProject, UserProjectPK> {
-	public List<UserProject> findAllByUser(User user);
+	
+	@Query(value = "select * from userproject where deleteFlag = false and userId = :userId", nativeQuery = true)
+	public List<UserProject> findAllByUser(@Param("userId") String userId);
 	public List<UserProject> findAllByProject(Project project);
 	
 //	@Query(value = "select up from userproject up where up.userId = :userId", nativeQuery = true)
 //	public List<UserProject> findAllByUserId(@Param("userId") String userId);
 	
-	@Query(value = "select up from userproject up where up.projId = :projId and up.userId = :userId", nativeQuery = true)
+	@Query(value = "select * from userproject where projId = :projId and userId = :userId", nativeQuery = true)
 	public UserProject findOneByUserIdAndProjId(@Param("projId") Integer projId, @Param("userId") String userId);
 }

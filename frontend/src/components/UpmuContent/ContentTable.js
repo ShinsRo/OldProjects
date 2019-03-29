@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
+import { Map, List } from 'immutable';
 
 class ContentTable extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+
+        this.state = Map({
+            dirs: List(),
+        });
     }
 
     render() {
-
         const upmus = this.props.upmus;
         const {onClickDir, projectState, dirs, selectedProject, selectedDirId, onClickUpmu} = this.props;       
         // if (currentDir === ''){

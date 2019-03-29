@@ -27,16 +27,22 @@ class Upmu extends Component {
 static defaultProps = {
   upmus: List(),
   projectState: '',
+  treeDir:'',
 }
 
 static state = Map({
-  upmus: List()
+  upmus: List(),
+  dirs: List(),
 })
 
   componentDidMount() {
     const {dirState, projectState} = store.getState();
     const {UpmuActions} = this.props;
+<<<<<<< HEAD
     UpmuActions.getUpmu(projectState.get('selectedDirId'));
+=======
+    projectState.get('selectedProject') && UpmuActions.getUpmu(projectState.get('selectedProject'));   
+>>>>>>> refs/remotes/origin/dev
   }
 
   state = {
@@ -68,13 +74,22 @@ static state = Map({
   }
 
   handleInsert = (e) => {
+<<<<<<< HEAD
     const {saveUpmu, projectState} = store.getState();
+=======
+    const {saveUpmu, dirState, projectState} = store.getState();
+>>>>>>> refs/remotes/origin/dev
     const {UpmuActions} = this.props;
 
     const upmu = {
         name: saveUpmu.get('titleInput'),
         contents: saveUpmu.get('contentInput'),
+<<<<<<< HEAD
         dirId: projectState.get('selectedDirId'),
+=======
+        dirId: projectState.get('selectedProject'),
+        localPath: 'dd',
+>>>>>>> refs/remotes/origin/dev
     };
 
     console.log(upmu);
@@ -88,6 +103,7 @@ static state = Map({
     const {projectState} = store.getState();
     //const {dir} = JSON.stringify(dirId);
 
+<<<<<<< HEAD
     console.log('e.target.value',dirId);
     ProjectActions.saveDirId(dirId);
     UpmuActions.getUpmu(dirId);
@@ -109,14 +125,38 @@ static state = Map({
     // })
 
     console.log(saveUpmu.get('titleInput'));  
+=======
+    DirStateActions.changeSelectedDir(1002);
+    console.log('e.target.value',e.target.value);
+    UpmuActions.getUpmu(1002);     
+>>>>>>> refs/remotes/origin/dev
   }
 
     render(){
       const { openModal}  = this;
+<<<<<<< HEAD
       const {saveUpmu, projectState} = this.props;
       console.log(saveUpmu.titleInput);
       const { handleTitleChange, handleContentChange, handleInsert, handleChangeDir, handleClickUpmu } = this;
       
+=======
+      const {saveUpmu} = this.props;
+      const { handleTitleChange, handleContentChange, handleInsert, handleChangeDir } = this;
+      const {projectState} = this.props;
+      // const dirs 
+      //       = this.props.projectState 
+      //       && this.props.projectState.get('errObj').get('isHandled') 
+      //       && this.props.projectState.get('dirs')
+      //alert(`asd${saveUpmu}`)
+      /*
+      const upmuList = upmus.map((upmu) => 
+        (<upmuItem key={upmu.name} upmu={upmu}/>)
+      );
+
+      console.log('--' + upmuList);
+*/
+
+>>>>>>> refs/remotes/origin/dev
         return (
             <div className="card shadow mb-4">
               <div>
@@ -130,8 +170,12 @@ static state = Map({
                     <button onClick={this.closeModal}>close</button>
                 </Modal>
             </div>
+<<<<<<< HEAD
 
               <div>
+=======
+              <div >
+>>>>>>> refs/remotes/origin/dev
               <h2>프로젝트</h2>
                 <button onClick={openModal}>add</button>
                 <button>delete</button>
@@ -139,6 +183,7 @@ static state = Map({
                 <button>log</button>
               </div>
             <div className="card-body">
+<<<<<<< HEAD
               <ContentTable
                 upmus={saveUpmu.get('upmus')} 
                 onClickDir = {handleChangeDir} 
@@ -148,6 +193,22 @@ static state = Map({
                 dirs={projectState.get('dirs')}
 
               />              
+=======
+              {/*
+              {saveUpmu.get('upmus').map((upmu, idx) => {
+                console.log('--------', upmu);
+                return (
+                  <ContentItem key={idx} upmu={upmu}/>
+                );
+                })}
+              */}
+              <ContentTable 
+                upmus={saveUpmu.get('upmus')} 
+                onClickDir = {handleChangeDir} 
+                selectedProject = {projectState.get('selectedProject')} 
+                dirs = {projectState.get('dirs')}
+                />              
+>>>>>>> refs/remotes/origin/dev
             </div>
           </div>
           );

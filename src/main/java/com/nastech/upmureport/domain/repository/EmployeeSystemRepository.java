@@ -12,4 +12,5 @@ import com.nastech.upmureport.domain.pk.EmployeeSystemPK;
 public interface EmployeeSystemRepository extends JpaRepository<EmployeeSystem, EmployeeSystemPK> {
 	public List<EmployeeSystem> findAllBySenior(User senior);
 	public List<EmployeeSystem> findAllByJunior(User junior);
+	public List<EmployeeSystem> findAllBySeniorAndJunior(User senior,User junior);
 }

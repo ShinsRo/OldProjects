@@ -1,6 +1,8 @@
 package com.nastech.upmureport.db;
 
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +13,12 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.nastech.upmureport.config.PersistenceJPAConfig;
 import com.nastech.upmureport.config.WebConfig;
+import com.nastech.upmureport.domain.dto.UserDto;
 import com.nastech.upmureport.domain.entity.EmployeeSystem;
 import com.nastech.upmureport.domain.entity.User;
 import com.nastech.upmureport.domain.repository.EmployeeSystemRepository;
 import com.nastech.upmureport.domain.repository.UserRepository;
+import com.nastech.upmureport.service.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -23,6 +27,8 @@ public class UserDBTest {
 
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	UserService userService; 
 
 	@Autowired
 	EmployeeSystemRepository employeeSystemRepository;
@@ -34,27 +40,51 @@ public class UserDBTest {
 	 */
 	@Test
 	public void test() {
-		User mk = User.builder()
+		User ktj = User.builder()
 				.userId("111138")
-				.userName("마규석")
+				.userName("김팀장")
 				.userPass("1q2w3e4r")
+				.dept("연구소")
+				.posi("팀장")
 				.build();
 		
 		User aa = User.builder()
 				.userId("111123")
 				.userPass("4r3e2w1q")
-				.userName("마구석")
+				.userName("김사원")
+				.dept("연구소")
+				.posi("사원")
 				.build();
 		
-		userRepository.save(mk);
+		userRepository.save(ktj);
 		userRepository.save(aa);
 		
 		employeeSystemRepository.save(
 				EmployeeSystem.builder()
-				.senior(mk)
+				.senior(ktj)
 				.junior(aa)
 				.build()
 		);
+		
+		List<UserDto> a=userService.findMyJuniors(ktj.toDto());
+		/*/////// senior 기준 밑의 junior들 전부 출력
+		Queue<UserDto> q = new LinkedList();
+		List<UserDto> a = new LinkedList();
+		q.add(ktj.toDto());
+		System.out.println(employeeSystemRepository.findAllBySenior(ktj));
+		List<EmployeeSystem> temp = employeeSystemRepository.findAllBySenior(ktj);
+		while( !(q.isEmpty()) ) {
+			temp=employeeSystemRepository.findAllBySenior(q.poll().toEntity());
+			for (EmployeeSystem employeeSystem : temp) {
+				System.out.println("주니어들");
+				System.out.println(employeeSystem.getJunior());
+				q.add(employeeSystem.getJunior().toDto());
+				a.add(employeeSystem.getJunior().toDto());
+			}
+		}*/
+		System.out.println(a);
+		
+		
 		//System.out.println(employeeSystemRepository.findAllByJunior(aa).get(0));
 		//assertThat(employeeSystemRepository.findAllByJunior(aa).get(0).getSenior(), is(mk));
 	}

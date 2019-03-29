@@ -61,7 +61,6 @@ public class ProjectService {
 		
 		ProjStat pj;
 		try {
-			System.out.println(projectDto.getProjStat());
 			pj = ProjStat.valueOf(projectDto.getProjStat());
 		} catch (IllegalArgumentException iae) {
 			pj = ProjStat.대기;
@@ -101,8 +100,7 @@ public class ProjectService {
 	}
 	
 	public List<ProjectDto> findProjectsByUserId(String userId) {
-		List<UserProject> userProjs = userProjectRepository.findAllByUser(
-											User.builder().userId(userId).build());
+		List<UserProject> userProjs = userProjectRepository.findAllByUser(userId);
 		List<ProjectDto> projects = new ArrayList<ProjectDto>(); 
 		for (UserProject up : userProjs) {
 			ProjectDto project = new ProjectDto(up);
@@ -141,12 +139,11 @@ public class ProjectService {
 		return up;
 	}
 	
-	public void disconnectUser(Integer projId, String userId) throws NoSuchElementException {
+	public void disableUserProject(Integer projId, String userId) throws NoSuchElementException {
 		UserProject up = findUserProjectByProjIdAndUserId(projId, userId);
+		up.setDeleteFlag(true);
 		userProjectRepository.delete(up);		
 	}
-
-
 
 	
 	/**
@@ -157,8 +154,7 @@ public class ProjectService {
 	public List<UserProject> findAllUserProjectByUserId(String userId) {
 		List<UserProject> userProjs = new ArrayList<UserProject>();
 		
-		userProjs = userProjectRepository.findAllByUser(
-				User.builder().userId(userId).build());
+		userProjs = userProjectRepository.findAllByUser(userId);
 		return userProjs;
 	}
 	
@@ -175,6 +171,7 @@ public class ProjectService {
 		return userProjs;
 	}
 
+	
 	public List<DirDto> findDirsByProjId(String projId) {
 		List<Dir> dirs = dirRepository.findAllByParentProjId(Integer.parseInt(projId));
 		List<DirDto> dirDtos = new ArrayList<DirDto>();
@@ -196,7 +193,6 @@ public class ProjectService {
 		}
 		return dirDtos;
 	}
-
 
 	public Dir registerDir(DirDto dirDto) {
 		String userId = dirDto.getUserId();
