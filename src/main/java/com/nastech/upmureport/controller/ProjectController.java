@@ -67,7 +67,7 @@ public class ProjectController {
 	produces = {MediaType.APPLICATION_JSON_VALUE})
 	ResponseEntity<Boolean> correct(@RequestBody Map<String, String> formData) {
 	SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss 'GMT'z (Z)");
-
+	System.out.println(formData);
 	ProjectDto projDto = ProjectDto.builder()
 			.projId(Integer.valueOf(formData.get("projId")))
 			.projName(formData.get("projName"))
@@ -81,7 +81,7 @@ public class ProjectController {
 			.userId(formData.get("userId"))
 			.build();
 	
-	if (projectService.register(projDto).getProject() != null)
+	if (projectService.update(projDto).getProject() != null)
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	else 
 		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
@@ -104,9 +104,12 @@ public class ProjectController {
 	
 	@PostMapping(value = "/registerDir", consumes = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<Boolean> registerDir(@RequestBody Map<String, String> formData) {
+		System.out.println(formData);
 		if (projectService.registerDir(
 				DirDto.builder()
+				.projId(formData.get("projId"))
 				.dirName(formData.get("dirName"))
+				.userId(formData.get("userId"))
 				.parentDirId(formData.get("parentId"))
 				.build()) != null) 
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);

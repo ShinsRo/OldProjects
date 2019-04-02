@@ -3,6 +3,7 @@ package com.nastech.upmureport.domain.entity;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,16 +25,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @IdClass(LogAttachmentPK.class)
 public class LogAttachment {
-	@Id
-	private Date newDate;
 	
-	@Id @ManyToOne
+	
+	@Id @GeneratedValue(strategy= GenerationType.AUTO)
+	private Integer LogAttachmentId;
+		
+	@ManyToOne(fetch=FetchType.LAZY)
 	private Attachment attachmentNum;
 	
-	@Id @ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	private User userId;
 	
-	
+	private Date newDate;
+		
 	private String name;
 	
 	private String path;

@@ -5,9 +5,10 @@ import { BASE_URL, END_POINT } from '../../stores/modules/projectState';
 
 class ProjTreeView extends React.Component {
 
-    // constructor(props) {
-    //     super(props);
-    // }
+    constructor(props) {
+        super(props);
+        this.addItem = this.addItem.bind(this);
+    }
 
     componentWillMount() {
         if (!this.props.project) {
@@ -38,22 +39,21 @@ class ProjTreeView extends React.Component {
         this.props.handleDirItemClick(dirId);
     }
 
-    addItem(e) {
-        e.preventDefault(e.target);
+    addItem(e, project) {
+        e.preventDefault();
         const { userState, projectState } = store.getState();
-        let { slectedDirId } = projectState
+        let { slectedDirId, selectedProject } = projectState
         
         const URL = BASE_URL + END_POINT.DIR_REGISTER;
         const jsonObj = {};
-        e.target.forEach((value, key) => {
+        new FormData(e.target).forEach((value, key) => {
             jsonObj[key] = value;
         });
-
         const dirName = jsonObj.dirName;
         const data = {
-            userId: userState.userInfo.userId,
-            projId: this.state.projId,
-            parentId: slectedDirId,
+            userId: userState.selectedUser.userId,
+            projId: project.projId,
+            parentId: slectedDirId || null,
             dirName,
         }
         
@@ -74,10 +74,10 @@ class ProjTreeView extends React.Component {
 
     deleteItemClick(id) {
         const URL = BASE_URL + END_POINT.DIR_DISABLE;
-        const { userState } = store.getState();
+        const { userState, projectState } = store.getState();
         const data = {
-            userId: userState.userInfo.userId,
-            projId: this.state.projId,
+            userId: userState.selectedUser.userId,
+            projId: projectState.selectedProject,
             dirId: id,
         }
         fetch(URL, {
@@ -140,7 +140,7 @@ class ProjTreeView extends React.Component {
                             </button>
                             </div>
                             <div className="modal-body">
-                            <form className="user" onSubmit={this.addItem.bind(this)}>
+                            <form className="user" onSubmit={(e) => this.addItem(e, project)}>
                                 <div className="form-group row">
                                 <div className="col-xl-3">
                                     <h6 className="m-0 font-weight-bold" style={{

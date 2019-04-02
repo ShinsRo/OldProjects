@@ -1,20 +1,17 @@
 package com.nastech.upmureport.service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nastech.upmureport.domain.dto.DirDto;
 import com.nastech.upmureport.domain.dto.ProjectDto;
-import com.nastech.upmureport.domain.dto.UserProjectDto;
 import com.nastech.upmureport.domain.entity.Dir;
 import com.nastech.upmureport.domain.entity.ProjStat;
 import com.nastech.upmureport.domain.entity.Project;
@@ -82,20 +79,23 @@ public class ProjectService {
 	 * @return 변경한 UserProject 오브젝트
 	 */
 	@Transactional
-	public UserProject update(ProjectDto projectDto, UserProjectDto userProjectDto) {
+	public UserProject update(ProjectDto projectDto) {
 		
 		//원본 유저, 프로젝트
-		UserProject userProj = userProjectRepository.getOne(userProjectDto.getUserProjectPK());
+		UserProject userProj = userProjectRepository.findOneByUserIdAndProjId(projectDto.getProjId(), projectDto.getUserId());
+		
+		ProjStat pj;
+		try {
+			pj = ProjStat.valueOf(projectDto.getProjStat());
+		} catch (IllegalArgumentException iae) {
+			pj = ProjStat.대기;
+		}
+		
+		userProj.setProjStat(pj);
 		
 		Project proj = projectDto.toEntity();
-		proj = projectRepository.save(proj);
-		
-		userProj = UserProject.builder()
-				.project((Project) Hibernate.unproxy(proj))
-				.user((User) Hibernate.unproxy(userProj.getUser()))
-				.projStat(userProjectDto.getProjStat())
-				.build();
-		userProj = userProjectRepository.save(userProj);
+		projectRepository.save(proj);
+		userProjectRepository.save(userProj);
 		return userProj;
 	}
 	
@@ -196,12 +196,14 @@ public class ProjectService {
 
 	public Dir registerDir(DirDto dirDto) {
 		String userId = dirDto.getUserId();
-		Integer projId = Integer.parseInt(dirDto.getParentProjId());
-		Integer parentDirId = Integer.parseInt(dirDto.getParentDirId());
+		Integer projId = Integer.parseInt(dirDto.getProjId());
 		
 		User user = userRepository.findById(userId).get();
 		Project proj = projectRepository.findById(projId).get();
-		Optional<Dir> parentDir = dirRepository.findById(parentDirId);
+		
+		String parentDirId = dirDto.getParentDirId();
+		Optional<Dir> parentDir = null;
+		if (parentDirId != null) parentDir = dirRepository.findById(Integer.valueOf(parentDirId));
 		
 		Dir dir = Dir.builder()
 				.dirName(dirDto.getDirName())
@@ -209,7 +211,7 @@ public class ProjectService {
 				.project(proj)
 				.build();
 		
-		if(parentDir.isPresent()) dir.setParentDir(parentDir.get());
+		if(parentDir != null && parentDir.isPresent()) dir.setParentDir(parentDir.get());
 		return dirRepository.save(dir);
 	}
 

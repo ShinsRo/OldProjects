@@ -1,13 +1,36 @@
 import React, { Component } from 'react';
 import { Map, List } from 'immutable';
+import UpmuContentModal from './UpdateContentModal';
 
 class ContentTable extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = Map({
+        this.state = {
             dirs: List(),
+            updateModal: false,
+            upmu: {},
+        };
+    }
+
+    handleClickUpmu = (upmu) => {
+        console.log(upmu);
+        //this.props.handleClickUpmu()
+        this.setState({updateModal: true})
+        this.setState({ upmu }, () => {
+          console.log(">>>>", this.state.upmu);
+          console.log(">>>>", this.state.updateModal);
         });
+    }
+
+    // handleCloseModal = () => {
+    //    this.setState({updateModal: false});
+    //    console.log('close-----');
+    // }
+
+    handleSubmit = (upmu) => {
+        this.props.handleUpdate(upmu);
+//        this.setState({updateModal: false});
     }
 
     render() {
@@ -17,6 +40,17 @@ class ContentTable extends React.Component {
         //     currentDir = "root" ;
         // }
 
+        console.log('updateModal---', this.state.updateModal);
+        const updateModal = this.state.updateModal 
+            && <UpmuContentModal
+                    upmu={this.state.upmu} 
+                    onClose={this.handleCloseModal} 
+                    handleTitleChange = {this.props.handleTitleChange}
+                    handleContentChange = {this.props.handleContentChange}
+                    handleSubmit = {this.handleSubmit}
+                    //handleCloseUpdateModal = {this.props.handleCloseUpdateModal}
+                    status="update"/>;
+
         console.log('selectedDirId---', selectedDirId);
         return (
             <div>
@@ -25,6 +59,7 @@ class ContentTable extends React.Component {
                     <thead>
                         <tr>
                             <th>제목</th>
+                            <th>유형</th>
                             <th>내용</th>
                             <th>경로</th>
                             <th>작성일자</th>
@@ -38,6 +73,7 @@ class ContentTable extends React.Component {
                             return (
                                 <tr value={dir.dirId} key={idx} onClick={() => onClickDir(`${dir.dirId}`)}>
                                     <td>{dir.dirName}</td>
+                                    <td>폴더</td>
                                     <td>{dir.dirId}</td>
                                     <td>d</td>
                                     <td>f</td>
@@ -53,8 +89,9 @@ class ContentTable extends React.Component {
                             console.log('--------', upmu);
                             //if(upmu.dirId === selectedDirId){
                             return (
-                                <tr value={selectedDirId} key={idx} onClick={() => onClickUpmu(upmu)}>
+                                <tr value={selectedDirId} key={idx} onClick={() => this.handleClickUpmu(upmu)} data-toggle="modal" data-target="#UpmuUpdateModal">
                                     <td>{upmu.name}</td>
+                                    <td>업무 일지</td>
                                     <td>{upmu.contents}</td>
                                     <td>{upmu.localPath}</td>
                                     <td>{upmu.newDate}</td>
@@ -65,6 +102,7 @@ class ContentTable extends React.Component {
                         })}
                     </tbody>
                 </table>
+                {updateModal}
             </div>
         )
     }

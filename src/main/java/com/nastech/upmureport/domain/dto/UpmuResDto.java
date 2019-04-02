@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @Data @Builder @AllArgsConstructor @NoArgsConstructor
 public class UpmuResDto {
 	
+	private Integer upmuId;
+	
 	private String name;
 	
 	private String contents;

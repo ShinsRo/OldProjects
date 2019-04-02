@@ -33,12 +33,19 @@ class ProjUpdateModal extends React.Component {
 
     handleSubmit(e) {
         const data = new FormData(e.target);
-        const jsonObj = {};
+        const { userState } = store.getState();
+        let jsonObj = {};
         data.forEach((value, key) => {
             jsonObj[key] = value;
         });
-
-        const URL = projectActions.BASE_URL + projectActions.END_POINT.PROJ_REGISTER;
+        console.log();
+        jsonObj = {
+            ...jsonObj,
+            userId: userState.selectedUser.userId,
+            projId: this.props.project.projId,
+        }
+        
+        const URL = projectActions.BASE_URL + projectActions.END_POINT.PROJ_CORRECT;
         fetch(URL, {
             method: 'POST',
             body: JSON.stringify(jsonObj),
@@ -60,7 +67,7 @@ class ProjUpdateModal extends React.Component {
                 <div className="modal-dialog" role="document">
                 <div className="modal-content">
                         <div className="modal-header">
-                        <h5 className="modal-title font-weight-bold" id="exampleModalLabel">프로젝트를 추가합니다.</h5>
+                        <h5 className="modal-title font-weight-bold" id="exampleModalLabel">프로젝트를 수정합니다.</h5>
                         <button className="close" type="button" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
@@ -100,7 +107,6 @@ class ProjUpdateModal extends React.Component {
                                         startDate={this.state.startDate}
                                         endDate={this.state.endDate}
                                         onChange={this.onStartDateChange}
-                                        readOnly={true}
                                     />
                                     <input name="startDate" type="hidden" value={this.state.startDate}/>
                                 </div>
@@ -113,7 +119,6 @@ class ProjUpdateModal extends React.Component {
                                         startDate={this.state.startDate}
                                         endDate={this.state.endDate}
                                         onChange={this.onEndDateChange}
-                                        readOnly={true}
                                     />
                                     <input name="endDate" type="hidden" value={this.state.endDate}/>
                                 </div>
@@ -154,7 +159,7 @@ class ProjUpdateModal extends React.Component {
                             <br></br>
                             <div className="modal-footer">
                                 <button className="btn btn-secondary" type="button" data-dismiss="modal">취소하기</button>
-                                <input className="btn btn-primary" type="submit" value="추가하기"></input>
+                                <input className="btn btn-primary" type="submit" value="수정하기"></input>
                             </div>
                             </form>
                         </div>

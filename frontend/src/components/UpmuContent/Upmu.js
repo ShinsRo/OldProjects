@@ -9,18 +9,7 @@ import ContentTable from './ContentTable';
 import store from '../../stores';
 import * as upmuActions from '../../stores/modules/saveUpmu';
 import * as projectActions from '../../stores/modules/projectState';
-
-
-const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
-  }
-};
+import AddContentModal from './AddContentModal';
 
 class Upmu extends Component {
 
@@ -29,67 +18,58 @@ static defaultProps = {
   projectState: '',
   treeDir:'',
 }
-
-static state = Map({
-  upmus: List(),
-  dirs: List(),
-})
+  constructor(props) {
+    super(props);
+    this.handleChangeDir = this.handleChangeDir.bind(this);
+  }
 
   componentDidMount() {
     const {dirState, projectState} = store.getState();
     const {UpmuActions} = this.props;
-<<<<<<< HEAD
-    UpmuActions.getUpmu(projectState.get('selectedDirId'));
-=======
-    projectState.get('selectedProject') && UpmuActions.getUpmu(projectState.get('selectedProject'));   
->>>>>>> refs/remotes/origin/dev
+    //projectState.get('selectedProject') && UpmuActions.getUpmu(projectState.get('selectedProject'));
   }
 
   state = {
-    modalIsOpen: false,
+    addModalIsOpen: false,
+    updateModalIsOpen: false,
+    upmu: {}, 
   };
 
-  openModal = () => {
-    const {saveUpmu} = store.getState();
-    console.log(this.state)
-    console.log('open modal')
-    console.log(saveUpmu)
-    this.setState({
-      modalIsOpen: true,
-    });
+  handleCloseAddModal = () => {
+    this.setState({addModalIsOpen: false});
   }
 
-  closeModal = () => {
-    this.setState({modalIsOpen: false});
-  }
+  // handleCloseUpdateModal = () => {
+  //   this.setState({updateModalIsOpen: false});
+  // }
 
-  handleTitleChange = (e) => {
+  handleTitleChange = (input) => {
     const {UpmuActions} = this.props;
-    UpmuActions.changeTitleInput(e.target.value);
+    UpmuActions.changeTitleInput(input);
   }
 
-  handleContentChange = (e) => {
+  handleContentChange = (input) => {
     const {UpmuActions} = this.props;
-    UpmuActions.changeContentInput(e.target.value);
+    UpmuActions.changeContentInput(input);
   }
 
-  handleInsert = (e) => {
-<<<<<<< HEAD
-    const {saveUpmu, projectState} = store.getState();
-=======
+  handleClickAdd = () => {
+    this.setState({addModalIsOpen: true});
+  }
+
+  // handleClickUpmu = () => {
+  //   this.setState({updateModalIsOpen: true});
+  // }
+
+  handleInsert = (e) => {    
     const {saveUpmu, dirState, projectState} = store.getState();
->>>>>>> refs/remotes/origin/dev
+
     const {UpmuActions} = this.props;
 
     const upmu = {
         name: saveUpmu.get('titleInput'),
         contents: saveUpmu.get('contentInput'),
-<<<<<<< HEAD
         dirId: projectState.get('selectedDirId'),
-=======
-        dirId: projectState.get('selectedProject'),
-        localPath: 'dd',
->>>>>>> refs/remotes/origin/dev
     };
 
     console.log(upmu);
@@ -98,117 +78,86 @@ static state = Map({
     e.preventDefault();
   }
 
+  handleUpdate = (upmu) => {    
+    const {saveUpmu, projectState} = store.getState();
+
+    const {UpmuActions} = this.props;
+
+    const upmuItem = {
+        name: saveUpmu.get('titleInput'),
+        contents: saveUpmu.get('contentInput'),
+        upmuId: upmu.upmuId,
+        dirId: projectState.get('selectedDirId'),
+    };
+
+    // upmu.setState({      
+    //     name: saveUpmu.get('titleInput'),
+    //     contents: saveUpmu.get('contentInput'),
+    // })
+
+    console.log('Upmu -> handleUpdate',upmuItem);
+    UpmuActions.updateUpmu(upmuItem);
+    //e.preventDefault();
+  }
+
   handleChangeDir = (dirId) => {
     const {ProjectActions, UpmuActions} = this.props;
     const {projectState} = store.getState();
     //const {dir} = JSON.stringify(dirId);
 
-<<<<<<< HEAD
     console.log('e.target.value',dirId);
     ProjectActions.saveDirId(dirId);
     UpmuActions.getUpmu(dirId);
   }
 
-  handleClickUpmu = (upmu) => {
-    const {ProjectActions, UpmuActions} = this.props;
-    const {saveUpmu} = this.props;
-    console.log(upmu.name);
-
-    this.openModal();
-
-    UpmuActions.changeTitleInput(upmu.name);
-    UpmuActions.changeContentInput(upmu.contents);
-
-    // this.state.set({
-    //   titleInput: upmu.name,
-    //   contentInput: upmu.contents,
-    // })
-
-    console.log(saveUpmu.get('titleInput'));  
-=======
-    DirStateActions.changeSelectedDir(1002);
-    console.log('e.target.value',e.target.value);
-    UpmuActions.getUpmu(1002);     
->>>>>>> refs/remotes/origin/dev
-  }
-
     render(){
-      const { openModal}  = this;
-<<<<<<< HEAD
+      const { openModal }  = this;
       const {saveUpmu, projectState} = this.props;
       console.log(saveUpmu.titleInput);
-      const { handleTitleChange, handleContentChange, handleInsert, handleChangeDir, handleClickUpmu } = this;
-      
-=======
-      const {saveUpmu} = this.props;
       const { handleTitleChange, handleContentChange, handleInsert, handleChangeDir } = this;
-      const {projectState} = this.props;
-      // const dirs 
-      //       = this.props.projectState 
-      //       && this.props.projectState.get('errObj').get('isHandled') 
-      //       && this.props.projectState.get('dirs')
-      //alert(`asd${saveUpmu}`)
-      /*
-      const upmuList = upmus.map((upmu) => 
-        (<upmuItem key={upmu.name} upmu={upmu}/>)
-      );
+            
+      console.log(this.state.addModalIsOpen);
+      const addModal = this.state.addModalIsOpen && 
+                  <AddContentModal
+                    onClose={this.handleCloseModal} 
+                    handleTitleChange = {this.handleTitleChange}
+                    handleContentChange = {this.handleContentChange}
+                    />;
 
-      console.log('--' + upmuList);
-*/
-
->>>>>>> refs/remotes/origin/dev
         return (
-            <div className="card shadow mb-4">
+            <div className="card shadow mb-4">              
               <div>
-                <Modal
-                    isOpen={this.state.modalIsOpen}
-                    onAfterOpen={this.afterOpenModal}
-                >
-                    <textarea name= "name" value={saveUpmu.titleInput} placeholder="name" onChange={handleTitleChange}/>
-                    <textarea name="content" value={saveUpmu.contentInput} placeholder="content" onChange={handleContentChange}/>
-                    <button onClick={handleInsert}>add</button>
-                    <button onClick={this.closeModal}>close</button>
-                </Modal>
-            </div>
-<<<<<<< HEAD
-
-              <div>
-=======
-              <div >
->>>>>>> refs/remotes/origin/dev
               <h2>프로젝트</h2>
-                <button onClick={openModal}>add</button>
-                <button>delete</button>
-                <button onClick={openModal}>update</button>
-                <button>log</button>
+                <span className="btn btn-primary btn-icon-split" onClick={this.handleClickAdd} data-toggle="modal" data-target="#UpmuAddModal">
+                    <span className="icon text-white-50">
+                      <i className="fas fa-flag"></i>
+                    </span>
+                    <span className="text">업무 내용 추가</span>
+                </span>
+                {addModal}
               </div>
             <div className="card-body">
-<<<<<<< HEAD
               <ContentTable
+                handleTitleChange = {handleTitleChange}
+                handleContentChange = {handleContentChange}
                 upmus={saveUpmu.get('upmus')} 
                 onClickDir = {handleChangeDir} 
-                onClickUpmu = {handleClickUpmu}
                 selectedProject= {projectState.get('selectedProject')}
                 selectedDirId = {projectState.get('selectedDirId')} 
                 dirs={projectState.get('dirs')}
+                handleUpdate= {this.handleUpdate}
+                //updateModalIsOpen = {this.state.updateModalIsOpen}
+                //handleClickUpmu = {this.handleClickUpmu}
+                handleCloseUpdateModal = {this.handleCloseUpdateModal}
+              />
 
-              />              
-=======
-              {/*
-              {saveUpmu.get('upmus').map((upmu, idx) => {
-                console.log('--------', upmu);
-                return (
-                  <ContentItem key={idx} upmu={upmu}/>
-                );
-                })}
-              */}
-              <ContentTable 
-                upmus={saveUpmu.get('upmus')} 
-                onClickDir = {handleChangeDir} 
-                selectedProject = {projectState.get('selectedProject')} 
-                dirs = {projectState.get('dirs')}
-                />              
->>>>>>> refs/remotes/origin/dev
+              <button type="button" data-toggle="modal" data-target="#UpmuAddModal" className="btn btn-info btn-icon-split">
+                <span className="icon text-white-50">
+                  <i className="fas fa-info-circle"></i>
+                </span>
+              <span className="text">로그 보기</span>
+              </button>
+              
             </div>
           </div>
           );
@@ -220,10 +169,8 @@ export default connect(
         saveUpmu: state.saveUpmu,
         userState: state.userState,
         projectState: state.projectState,
-
     }),
     (dispatch) => ({
-        //UpmuContentActions: bindActionCreators(upmuContentActions, dispatch),
         ProjectActions: bindActionCreators(projectActions, dispatch),
         UpmuActions: bindActionCreators(upmuActions, dispatch),
     })

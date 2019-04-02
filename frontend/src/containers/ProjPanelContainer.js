@@ -32,19 +32,11 @@ class ProjPanelContainer extends Component {
     }
 
     loadDirs (projId) {
-        const { userState,  projectState} = store.getState();
+        const { userState } = store.getState();
         const { ProjectActions } = this.props;
 
         ProjectActions.axiosPostAsync('api/projects/dirs', {projId, userId: userState.selectedUser.userId})
     }
-
-    // disState의 값을 변경해주는 함수 => 패널로 전달
-    // setDirState(dirs) {
-    //     const { DirStateActions } = this.props;
-
-    //     console.log(dirs);
-    //     DirStateActions.setDirTree(dirs);
-    // }
     
     handleDirItemClick (selectedDirId) {
         const { ProjectActions, SaveUpmuActions } = this.props;
@@ -68,10 +60,8 @@ class ProjPanelContainer extends Component {
     render() {
         const { projectState } = store.getState();
         const { ProjectActions } = this.props;
-        // const { userState } = this.props;
         //임시 유저 목록 스토어
         
-        //const { userState } = { userState: { selectedUser: {userId: '1111', userName: '김승신'} }};
         const { userState } = store.getState();
         const breadcrumb = [userState.selectedUser.userName, "내 프로젝트"];
         
@@ -92,10 +82,10 @@ export default connect(
     (state) => ({
         projectState: state.projectState,
         userState: state.userState,
-        dirState: state.dirState,
     }),
     (dispatch) => ({
         ProjectActions: bindActionCreators(projectActions, dispatch),
         SaveUpmuActions: bindActionCreators(saveUpmuAction, dispatch)
+
     })
 ) (ProjPanelContainer);

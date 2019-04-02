@@ -97,7 +97,6 @@ class ProjAddModal extends React.Component {
                                         startDate={this.state.startDate}
                                         endDate={this.state.endDate}
                                         onChange={this.onStartDateChange}
-                                        readOnly={true}
                                     />
                                     <input name="startDate" type="hidden" value={this.state.startDate}/>
                                 </div>
@@ -110,7 +109,6 @@ class ProjAddModal extends React.Component {
                                         startDate={this.state.startDate}
                                         endDate={this.state.endDate}
                                         onChange={this.onEndDateChange}
-                                        readOnly={true}
                                     />
                                     <input name="endDate" type="hidden" value={this.state.endDate}/>
                                 </div>
