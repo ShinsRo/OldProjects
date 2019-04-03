@@ -1,5 +1,6 @@
 package com.nastech.upmureport.db;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -88,10 +89,10 @@ public class UpmuLogTest {
 		);
 		userRepository.saveAll(users);
 		
-		UpmuLog upmuLog = UpmuLog.builder().newDate(date).userId(users.get(0)).upmuId(upmuContents)
+		UpmuLog upmuLog = UpmuLog.builder().newDate(LocalDateTime.now()).userId(users.get(0)).upmuId(upmuContents)
 				.build();
 		
-		upmuLogRepository.save(upmuLog);
+		//upmuLogRepository.save(upmuLog);
 		
 		Attachment attachment = Attachment.builder().attachmentNum(1).name("attachment11").build();
 		

@@ -8,10 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
-import com.nastech.upmureport.domain.pk.LogAttachmentPK;
-import com.nastech.upmureport.domain.pk.UpmuLogPK;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +21,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@IdClass(LogAttachmentPK.class)
 public class LogAttachment {
 	
 	
@@ -31,9 +28,11 @@ public class LogAttachment {
 	private Integer LogAttachmentId;
 		
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="attachmentNum")
 	private Attachment attachmentNum;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="userId")
 	private User userId;
 	
 	private Date newDate;
@@ -45,5 +44,7 @@ public class LogAttachment {
 	private String localPath;	
 	
 	private double volume;
+	
+	private boolean deleteFlag;
 
 }

@@ -9,21 +9,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
-import com.nastech.upmureport.domain.pk.UpmuLogPK;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity 
-@Data
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@IdClass(UpmuLogPK.class)
 public class UpmuLog {
 	
 	@Id @GeneratedValue(strategy= GenerationType.AUTO)
@@ -32,9 +31,11 @@ public class UpmuLog {
 	private LocalDateTime newDate;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="userId")
 	private User userId;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="upmuId")
 	private UpmuContent upmuId;
 	
 	private String contents;	
@@ -59,4 +60,3 @@ public class UpmuLog {
         }
 	}
 }
-

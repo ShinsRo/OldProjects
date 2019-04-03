@@ -54,6 +54,7 @@ public class UpmuService {
 				.localPath(upmuReqDto.getLocalPath())
 				.newDate(LocalDateTime.now())
 				.updateDate(LocalDateTime.now())
+				.deleteFlag(false)
 				.build();
 		
 		upmuContent = upmuContentRepository.save(upmuContent);
@@ -71,9 +72,9 @@ public class UpmuService {
 	public UpmuResDto updateUpmucontents(UpmuReqDto upmuReqDto) {
 		UpmuContent upmuContent = upmuContentRepository.findById(upmuReqDto.getUpmuId()).get();
 		
-		upmuContent.setName(upmuReqDto.getName());
-		upmuContent.setContents(upmuReqDto.getContents());
-		upmuContent.setUpdateDate(LocalDateTime.now());
+		upmuContent.changeName(upmuReqDto.getName());
+		upmuContent.changeContents(upmuReqDto.getContents());
+		upmuContent.updateDate();
 		
 		logService.createUpmuLog(upmuContent, LogStat.UPDATE);
 		
@@ -95,7 +96,25 @@ public class UpmuService {
 			upmuResDtos.add(upmuResDto);		
 		}
 		
-		return upmuResDtos;		
+		return upmuResDtos;
+	}
+	
+	public List<UpmuResDto> deleteUpmu(String upmuId) {
+		
+		UpmuContent upmuContent = upmuContentRepository.findById(Integer.valueOf(upmuId)).get();
+		
+		upmuContent.deleteUpmuContent();
+		
+		log.info(upmuContent.toString());
+		log.info(upmuContent.getDeleteFlag() + "");
+		
+		logService.createUpmuLog(upmuContent, LogStat.DELETE);
+		
+		upmuContentRepository.save(upmuContent);
+		
+		return getUpmu(upmuContent.getDirId().getDirId());
+		
+		//upmuContentRepository.findByDirId(dirId)
 	}
 	
 	public UpmuResDto upmuContentsToUpmuResDto(UpmuContent upmuContents) {

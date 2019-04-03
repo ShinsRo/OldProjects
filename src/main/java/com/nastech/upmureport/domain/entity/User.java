@@ -28,5 +28,4 @@ public class User {
 				userName(userName).
 				userPass(userPass).dept(dept).posi(posi).build();
 		}
-
 }	
