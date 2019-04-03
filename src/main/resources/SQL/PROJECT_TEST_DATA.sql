@@ -50,11 +50,6 @@ insert into userProject(
 insert into dir(
 		dirId, userId, parentProjId, parentDirId, 
 		dirName, deleteFlag)
-	values(1, '1113', 500, null, '하하~', false);
-
-insert into dir(
-		dirId, userId, parentProjId, parentDirId, 
-		dirName, deleteFlag)
 	values(1001, '1111', 300, null, '2019년 업무보고', false);
 
 insert into dir(
@@ -86,13 +81,8 @@ insert into dir(
 		dirId, userId, parentProjId, parentDirId, 
 		dirName, deleteFlag)
 	values(1003, '1112', 400, null, '웹 리소스 폴더', false);
-		
-
-insert into dir(
-		dirId, userId, parentProjId, parentDirId, 
-		dirName, deleteFlag)
-	values(1, '1112', 500, null, '임시 폴더', false);
 	
 delete from dir;
+select dirId from dir where parentProjId = 32 and ;
 select * from user;
 select * from project;

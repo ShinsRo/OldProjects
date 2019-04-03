@@ -8,14 +8,17 @@ const Header = ({handleLogout, userInfo}) => {
             <button id="sidebarToggleTop" className="btn btn-link d-md-none rounded-circle mr-3">
                 <i className="fa fa-bars"></i>
             </button>
-
+            <div style={{ width: '100%', textAlign: 'center', position: 'absolute'}}>
+                <img src={process.env.PUBLIC_URL + '/resources/img/nastech.png'} alt="main_logo" style={{ 
+                    width: 100, height: 47,
+                }}/>
+            </div>
             {/* Topbar Navbar */}
             <ul className="navbar-nav ml-auto">
-                
                 {/* Nav Item - User Information */}
                 <li className="nav-item dropdown no-arrow">
                 <a className="nav-link dropdown-toggle" href="/" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span className="mr-2 d-none d-lg-inline text-gray-600 small">안녕하세요, {userInfo.userName}님</span>
+                    <span className="mr-2 d-none d-lg-inline text-gray-800">안녕하세요, {userInfo.userName}님</span>
                 </a>
 
                 {/* Dropdown - User Information */}
