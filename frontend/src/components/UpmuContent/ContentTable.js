@@ -37,7 +37,6 @@ class ContentTable extends React.Component {
                     </thead>
                     <tbody>
                         {dirs && dirs.get(`${selectedProject}`).map((dir, idx) => {
-                            console.log('--------', dir);
                             return (
                                 <tr value={1002} key={idx} onClick={onClickDir}>
                                     <td>{dir.dirName}</td>
@@ -51,7 +50,6 @@ class ContentTable extends React.Component {
                         </tbody>
                         <tbody>
                         {upmus && upmus.map((upmu, idx) => {
-                            console.log('--------', upmu);
                             return (
                                 <tr value={1002} key={idx} onClick={onClickDir}>
                                     <td>{upmu.name}</td>
