@@ -57,13 +57,8 @@ static defaultProps = {
     this.setState({addModalIsOpen: true});
   }
 
-  // handleClickUpmu = () => {
-  //   this.setState({updateModalIsOpen: true});
-  // }
-
   handleInsert = (e) => {    
     const {saveUpmu, dirState, projectState} = store.getState();
-
     const {UpmuActions} = this.props;
 
     const upmu = {
@@ -74,13 +69,12 @@ static defaultProps = {
 
     console.log(upmu);
     UpmuActions.saveUpmu(upmu);
-    this.closeModal();
+    //this.handleCloseAddModal();
     e.preventDefault();
   }
 
   handleUpdate = (upmu) => {    
     const {saveUpmu, projectState} = store.getState();
-
     const {UpmuActions} = this.props;
 
     const upmuItem = {
@@ -90,11 +84,6 @@ static defaultProps = {
         dirId: projectState.get('selectedDirId'),
     };
 
-    // upmu.setState({      
-    //     name: saveUpmu.get('titleInput'),
-    //     contents: saveUpmu.get('contentInput'),
-    // })
-
     console.log('Upmu -> handleUpdate',upmuItem);
     UpmuActions.updateUpmu(upmuItem);
     //e.preventDefault();
@@ -103,11 +92,22 @@ static defaultProps = {
   handleChangeDir = (dirId) => {
     const {ProjectActions, UpmuActions} = this.props;
     const {projectState} = store.getState();
-    //const {dir} = JSON.stringify(dirId);
 
     console.log('e.target.value',dirId);
     ProjectActions.saveDirId(dirId);
     UpmuActions.getUpmu(dirId);
+    
+  }
+
+  handleDeleteUpmu = (upmuId) => {
+    const {UpmuActions, projectState} = this.props;
+
+    if (!window.confirm('ㄹㅇ?')) return;
+
+    console.log('delete upmu --' , upmuId)
+    UpmuActions.deleteUpmu(upmuId);
+    //UpmuActions.getUpmu(projectState.get('selectedDirId'));
+    //UpmuActions.getUpmu(upmuId);
   }
 
     render(){
@@ -122,18 +122,23 @@ static defaultProps = {
                     onClose={this.handleCloseModal} 
                     handleTitleChange = {this.handleTitleChange}
                     handleContentChange = {this.handleContentChange}
+                    handleInsert = {this.handleInsert}
                     />;
+
+      const addButton =  projectState.get('selectedDirId') &&(
+                      <span className="btn btn-primary btn-icon-split" onClick={this.handleClickAdd} data-toggle="modal" data-target="#UpmuAddModal">
+                          <span className="icon text-white-50">
+                              <i className="fas fa-flag"></i>
+                          </span>
+                          <span className="text">업무 내용 추가</span>
+                      </span> )
+
 
         return (
             <div className="card shadow mb-4">              
               <div>
               <h2>프로젝트</h2>
-                <span className="btn btn-primary btn-icon-split" onClick={this.handleClickAdd} data-toggle="modal" data-target="#UpmuAddModal">
-                    <span className="icon text-white-50">
-                      <i className="fas fa-flag"></i>
-                    </span>
-                    <span className="text">업무 내용 추가</span>
-                </span>
+                {addButton}
                 {addModal}
               </div>
             <div className="card-body">
@@ -149,6 +154,7 @@ static defaultProps = {
                 //updateModalIsOpen = {this.state.updateModalIsOpen}
                 //handleClickUpmu = {this.handleClickUpmu}
                 handleCloseUpdateModal = {this.handleCloseUpdateModal}
+                handleDeleteUpmu = {this.handleDeleteUpmu}
               />
 
               <button type="button" data-toggle="modal" data-target="#UpmuAddModal" className="btn btn-info btn-icon-split">

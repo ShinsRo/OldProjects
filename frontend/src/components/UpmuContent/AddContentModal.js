@@ -27,10 +27,6 @@ class AddContentModal extends Component {
     this.props.handleContentChange(e.target.value);
   }
 
-  handleSubmit = () => {
-    
-  }
-
   render() {
     const upmu = this.state;
     //console.log("modal ---" , upmu.name);
@@ -50,8 +46,8 @@ class AddContentModal extends Component {
               <input type="text" name= "name" onChange={this.onContentChange} placeholder="contents"/>
       </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal" onClick={this.props.onClose}>Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal" onClick={this.props.onClose}>닫기</button>
+              <button type="button" class="btn btn-primary" onClick={this.props.handleInsert}>추가</button>
             </div>
           </div>
         </div>

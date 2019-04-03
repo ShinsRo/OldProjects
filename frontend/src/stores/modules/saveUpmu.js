@@ -11,7 +11,8 @@ const SEND_POST_PENDING = 'SEND_POST_PENDING';
 const SAVE_UPMU_SUCCESS = 'SAVE_UPMU_SUCCESS';
 const GET_UPMU_SECCESS = 'GET_UPMU_SECCESS';
 const SEND_POST_FAILURE = 'SEND_POST_FAILURE';
-const UPDATE_PUST_SUCCESS = 'UPDATE_PUST_SUCCESS';
+const UPDATE_POST_SUCCESS = 'UPDATE_POST_SUCCESS';
+const DELETE_UPMU_SUCCESS = 'DELETE_UPMU_SUCCESS';
 
 const initialState = Map({
     titleInput: '',
@@ -86,6 +87,29 @@ export const getUpmu = (dirId) => dispatch => {
             payload: error
         });
     })
+
+
+}
+
+export const deleteUpmu = (upmuId) => dispatch => {
+    dispatch({ type: SEND_POST_PENDING });
+
+    //console.log(this.initialState.titleInput);
+    return upmuService.deleteUpmu(upmuId).then(
+        (response) => {
+            // 요청이 성공했을경우, 서버 응답내용을 payload 로 설정하여 SEND_POST_SUCCESS 액션을 디스패치합니다.
+            dispatch({
+                type: GET_UPMU_SECCESS,
+                payload: response.data                
+            })
+        }
+    ).catch(error => {
+        // 에러가 발생했을 경우, 에로 내용을 payload 로 설정하여 SEND_POST_FAILURE 액션을 디스패치합니다.
+        dispatch({
+            type: SEND_POST_FAILURE,
+            payload: error
+        });
+    })
 }
 
 export default handleActions({
@@ -110,13 +134,16 @@ export default handleActions({
         return state.set('isFetching', false).set('upmu', action.payload).set('upmus', upmulist);
         //return state.set('isFetching', false).set('upmu.name', action.payload.titleInput).set('upmu.contents', action.payload.contents);
     },
-    [UPDATE_PUST_SUCCESS]: (state, action) => {
+    [UPDATE_POST_SUCCESS]: (state, action) => {
         //console.log(action.payload);
         //const upmulist = state.get('upmus');
         //upmulist.push(action.payload);
         //return state.set('isFetching', false).set('upmu', action.payload);
         return state.set('isFetching', false);
         //return state.set('isFetching', false).set('upmu.name', action.payload.titleInput).set('upmu.contents', action.payload.contents);
+    },
+    [DELETE_UPMU_SUCCESS]: (state, action) => {
+        return state.set('isFetching', false);
     },
     // 겟 업무 성공
     [GET_UPMU_SECCESS] : (state, action) => {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Map, List } from 'immutable';
-import UpmuContentModal from './UpdateContentModal';
+import UpdateContentModal from './UpdateContentModal';
 
 class ContentTable extends React.Component {
     constructor(props) {
@@ -15,7 +15,6 @@ class ContentTable extends React.Component {
 
     handleClickUpmu = (upmu) => {
         console.log(upmu);
-        //this.props.handleClickUpmu()
         this.setState({updateModal: true})
         this.setState({ upmu }, () => {
           console.log(">>>>", this.state.upmu);
@@ -23,32 +22,18 @@ class ContentTable extends React.Component {
         });
     }
 
-    // handleCloseModal = () => {
-    //    this.setState({updateModal: false});
-    //    console.log('close-----');
-    // }
-
-    handleSubmit = (upmu) => {
-        this.props.handleUpdate(upmu);
-//        this.setState({updateModal: false});
-    }
-
     render() {
         const upmus = this.props.upmus;
         const {onClickDir, projectState, dirs, selectedProject, selectedDirId, onClickUpmu} = this.props;       
-        // if (currentDir === ''){
-        //     currentDir = "root" ;
-        // }
-
+        
         console.log('updateModal---', this.state.updateModal);
         const updateModal = this.state.updateModal 
-            && <UpmuContentModal
+            && <UpdateContentModal
                     upmu={this.state.upmu} 
                     onClose={this.handleCloseModal} 
                     handleTitleChange = {this.props.handleTitleChange}
                     handleContentChange = {this.props.handleContentChange}
-                    handleSubmit = {this.handleSubmit}
-                    //handleCloseUpdateModal = {this.props.handleCloseUpdateModal}
+                    handleSubmit = {this.props.handleUpdate}
                     status="update"/>;
 
         console.log('selectedDirId---', selectedDirId);
@@ -87,18 +72,26 @@ class ContentTable extends React.Component {
                     <tbody>
                         {upmus.map((upmu, idx) => {
                             console.log('--------', upmu);
-                            //if(upmu.dirId === selectedDirId){
                             return (
-                                <tr value={selectedDirId} key={idx} onClick={() => this.handleClickUpmu(upmu)} data-toggle="modal" data-target="#UpmuUpdateModal">
+                                <tr value={selectedDirId} key={idx} >
                                     <td>{upmu.name}</td>
                                     <td>업무 일지</td>
                                     <td>{upmu.contents}</td>
                                     <td>{upmu.localPath}</td>
                                     <td>{upmu.newDate}</td>
                                     <td>{upmu.updateDate}</td>
+                                    <td>
+                                        <button onClick={() => this.handleClickUpmu(upmu) } data-toggle="modal" data-target="#UpmuUpdateModal" class="btn btn-info btn-circle btn-sm">
+                                            <i class="fas fa-info-circle"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button onClick={() => this.props.handleDeleteUpmu(upmu.upmuId)} class="btn btn-danger btn-circle btn-sm">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                             );
-                           // }
                         })}
                     </tbody>
                 </table>
