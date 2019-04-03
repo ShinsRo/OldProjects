@@ -73,7 +73,7 @@ class ProjPanel extends React.Component {
                     () => {
                         if (selectedProj) {
                             return <ProjTreeView 
-                                project={selectedProj} dirs={dirs} 
+                                project={selectedProj} dirs={dirs}
                                 handleDirItemClick={this.props.handleDirItemClick} 
                                 handleDirItemActionCall={this.props.handleDirItemActionCall}/>
                         }

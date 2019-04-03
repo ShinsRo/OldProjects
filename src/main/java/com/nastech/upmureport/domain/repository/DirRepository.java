@@ -11,6 +11,6 @@ import com.nastech.upmureport.domain.entity.Dir;
 
 @Transactional
 public interface DirRepository extends JpaRepository<Dir, Integer>{
-	@Query(value = "select * from dir d where d.parentProjId = :parentProjId", nativeQuery = true)
+	@Query(value = "select * from dir where parentProjId = :parentProjId and deleteFlag = false", nativeQuery = true)
 	List<Dir> findAllByParentProjId(@Param(value = "parentProjId") Integer parentProjId);
 }
