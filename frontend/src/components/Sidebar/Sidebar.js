@@ -1,13 +1,11 @@
 import React from "react";
-
-const logoStyle = {
-}
-
+import store from "../../stores"
 const defaultProps = {
     users:['default']
 };
 
-const Sidebar = ({depts,select}) => {
+const Sidebar = ({depts,select,userInfo}) => {
+    
     return (
         <ul className="navbar-nav bg-gradient-darkblue sidebar sidebar-dark accordion" id="accordionSidebar">
             {/* rotate-n-15 */}
@@ -24,10 +22,17 @@ const Sidebar = ({depts,select}) => {
 
             {/* Heading */}
             <li className="nav-item active">
-                <a className="nav-link" href="index.html">
+                <div className="nav-link" href="index.html">
                 <i className="fas fa-fw fa-building"></i>
-                <span>부서명</span></a>
+                <span>부서명</span></div>
             </li>
+
+            <li className="nav-item active">
+                <i className="fas fa-user"></i>
+                <span className="collapse-item" onClick={() => select(userInfo)} value={userInfo}> My: {userInfo.userName}</span>
+            </li>
+            {/* Divider */}
+
 
             {/* Nav Item - Pages Collapse Menu */}
             {

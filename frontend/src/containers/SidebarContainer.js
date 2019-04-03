@@ -52,12 +52,15 @@ class SidebarContainer extends Component {
         const {userActions} = this.props
         const users=this.state.users
         const depts=this.state.depts
+        const {userState} = store.getState()
+        const {userInfo} = userState
         //const deptName=this.state.deptName
         return(
             <Sidebar
                 users={users}
                 depts={depts}
                 select={userActions.select}
+                userInfo={userInfo}
                 //deptName={deptName}
             />
         );
