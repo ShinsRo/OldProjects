@@ -1,14 +1,15 @@
 import React from "react";
-
+import store from "../../stores"
 const defaultProps = {
     users:['default']
 };
 
-const Sidebar = ({depts,select}) => {
+const Sidebar = ({depts,select,userInfo}) => {
+    
     return (
         <ul className="navbar-nav bg-gradient-darkblue sidebar sidebar-dark accordion" id="accordionSidebar">
             {/* Sidebar - Brand */}
-            <a className="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a className="sidebar-brand d-flex align-items-center justify-content-center" href="./">
                 <div className="sidebar-brand-icon rotate-n-15">
                 {/* <i className="fas fa-laugh-wink"></i> */}
                 </div>
@@ -20,12 +21,19 @@ const Sidebar = ({depts,select}) => {
 
             {/* Heading */}
             <li className="nav-item active">
-                <a className="nav-link" href="index.html">
+                <div className="nav-link" href="index.html">
                 <i className="fas fa-fw fa-building"></i>
-                <span>부서명</span></a>
+                <span>부서명</span></div>
             </li>
             {/* <div className="sidebar-heading">
             </div> */}
+
+            <li className="nav-item active">
+                <i className="fas fa-user"></i>
+                <span className="collapse-item" onClick={() => select(userInfo)} value={userInfo}> My: {userInfo.userName}</span>
+            </li>
+            {/* Divider */}
+
 
             {/* Nav Item - Pages Collapse Menu */}
             {
