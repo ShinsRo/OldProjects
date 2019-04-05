@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, BrowserRouter, withRouter, Switch } from 'react-router-dom';
 import { Dashboard, NotFound, LoginContainer } from "./containers";
+import Register from "./components/Register"
 import { Provider } from 'react-redux';
 import store from './stores'
 
@@ -16,6 +17,7 @@ const RouteAsUserInfo = withRouter(({ match, location, history }) => {
     if ( !(userState && userState.hasOwnProperty('userInfo') && userState.userInfo)) {
         routes = [
             { path: '/', component: LoginContainer },
+            { path: '/register', component : Register},
         ]
     } else {
         routes = [

@@ -3,6 +3,7 @@ import React from 'react';
 import ProjTable from './ProjTable';
 import ProjTreeView from './ProjTreeView';
 
+
 const VIEW_LEVEL = {
     NONE: 0,
     PROJECTS: 1,
