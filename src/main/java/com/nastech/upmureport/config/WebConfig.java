@@ -1,6 +1,7 @@
 package com.nastech.upmureport.config;
 
 import java.util.List;
+import java.util.Properties;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -8,6 +9,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -35,7 +39,7 @@ public class WebConfig implements WebMvcConfigurer {
 	    registry.addResourceHandler("/vendor/**").addResourceLocations("/resources/vendor/");
 	    registry.addResourceHandler("/resources/**")
         	.addResourceLocations("/WEB-INF/resources/");	    
-	    
+
 	    registry.addResourceHandler("swagger-ui.html")
         .addResourceLocations("classpath:/META-INF/resources/");
 
@@ -44,7 +48,8 @@ public class WebConfig implements WebMvcConfigurer {
 
 	}
 	
-	
+
+
 	@Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**/**")
@@ -57,5 +62,19 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 		converters.add(new MappingJackson2HttpMessageConverter());
+	}
+	
+	@Bean
+	public MultipartResolver multipartResolver() {
+		StandardServletMultipartResolver multipartResolver = new StandardServletMultipartResolver();
+		return multipartResolver;
+		
+	}
+	
+	Properties additionalProperties() {
+		Properties properties = new Properties();
+		properties.setProperty("multipart.max_file_size", "128KB");
+		properties.setProperty("multipart.max_request_size", "128KB");
+		return properties;
 	}
 }

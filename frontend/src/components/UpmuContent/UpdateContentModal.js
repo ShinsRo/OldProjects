@@ -24,12 +24,10 @@ class UpdateContentModal extends Component {
   }
 
   onTitleChange = (e) => {
-    const {saveUpmu} = store.getState();
     this.props.handleTitleChange(e.target.value);
   }
 
   onContentChange = (e) => {
-    const {saveUpmu} = store.getState();
     this.props.handleContentChange(e.target.value);
   }
 

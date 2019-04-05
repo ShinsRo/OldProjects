@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import ContentTable from './ContentTable';
+import AttachmentTable from './AttachmentTable';
 
 import store from '../../stores';
 import * as upmuActions from '../../stores/modules/saveUpmu';
@@ -126,20 +127,32 @@ static defaultProps = {
                     />;
 
       const addButton =  projectState.get('selectedDirId') &&(
+                  <span>
                       <span className="btn btn-primary btn-icon-split" onClick={this.handleClickAdd} data-toggle="modal" data-target="#UpmuAddModal">
                           <span className="icon text-white-50">
                               <i className="fas fa-flag"></i>
                           </span>
-                          <span className="text">업무 내용 추가</span>
-                      </span> )
+                          <span className="text">업무 내용 추가</span>                          
+                      </span>                      
+                  </span>)
 
 
         return (
             <div className="card shadow mb-4">              
               <div>
               <h2>프로젝트</h2>
+              </div>
+              <div>
                 {addButton}
-                {addModal}
+                {addModal}    
+
+                <button type="button" data-toggle="modal" data-target="#UpmuAddModal" className="btn btn-info btn-icon-split">
+                <span className="icon text-white-50">
+                  <i className="fas fa-info-circle"></i>
+                </span>
+              <span className="text">로그 보기</span>
+              </button>
+                
               </div>
             <div className="card-body">
               <ContentTable
@@ -155,15 +168,13 @@ static defaultProps = {
                 //handleClickUpmu = {this.handleClickUpmu}
                 handleCloseUpdateModal = {this.handleCloseUpdateModal}
                 handleDeleteUpmu = {this.handleDeleteUpmu}
-              />
+              />    
+             
+            </div>
 
-              <button type="button" data-toggle="modal" data-target="#UpmuAddModal" className="btn btn-info btn-icon-split">
-                <span className="icon text-white-50">
-                  <i className="fas fa-info-circle"></i>
-                </span>
-              <span className="text">로그 보기</span>
-              </button>
-              
+            <div className="card-body">
+              <AttachmentTable />
+
             </div>
           </div>
           );

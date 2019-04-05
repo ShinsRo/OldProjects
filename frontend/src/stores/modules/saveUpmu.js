@@ -11,8 +11,6 @@ const SEND_POST_PENDING = 'SEND_POST_PENDING';
 const SAVE_UPMU_SUCCESS = 'SAVE_UPMU_SUCCESS';
 const GET_UPMU_SECCESS = 'GET_UPMU_SECCESS';
 const SEND_POST_FAILURE = 'SEND_POST_FAILURE';
-const UPDATE_POST_SUCCESS = 'UPDATE_POST_SUCCESS';
-const DELETE_UPMU_SUCCESS = 'DELETE_UPMU_SUCCESS';
 
 const initialState = Map({
     titleInput: '',
@@ -87,8 +85,6 @@ export const getUpmu = (dirId) => dispatch => {
             payload: error
         });
     })
-
-
 }
 
 export const deleteUpmu = (upmuId) => dispatch => {
@@ -133,17 +129,6 @@ export default handleActions({
         //return state.set('isFetching', false).set('upmu', action.payload);
         return state.set('isFetching', false).set('upmu', action.payload).set('upmus', upmulist);
         //return state.set('isFetching', false).set('upmu.name', action.payload.titleInput).set('upmu.contents', action.payload.contents);
-    },
-    [UPDATE_POST_SUCCESS]: (state, action) => {
-        //console.log(action.payload);
-        //const upmulist = state.get('upmus');
-        //upmulist.push(action.payload);
-        //return state.set('isFetching', false).set('upmu', action.payload);
-        return state.set('isFetching', false);
-        //return state.set('isFetching', false).set('upmu.name', action.payload.titleInput).set('upmu.contents', action.payload.contents);
-    },
-    [DELETE_UPMU_SUCCESS]: (state, action) => {
-        return state.set('isFetching', false);
     },
     // 겟 업무 성공
     [GET_UPMU_SECCESS] : (state, action) => {
