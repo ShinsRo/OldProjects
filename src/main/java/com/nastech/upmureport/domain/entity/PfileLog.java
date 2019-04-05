@@ -1,20 +1,18 @@
 package com.nastech.upmureport.domain.entity;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,10 +21,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpmuLog {
+public class PfileLog {
 	
 	@Id @GeneratedValue(strategy= GenerationType.AUTO)
-	private Integer LogId;
+	private BigInteger LogId;
 	
 	private LocalDateTime newDate;
 	
@@ -35,8 +33,8 @@ public class UpmuLog {
 	private User userId;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="upmuId")
-	private UpmuContent upmuId;
+	@JoinColumn(name="pfileId")
+	private Pfile pfileId;
 	
 	private String contents;	
 	

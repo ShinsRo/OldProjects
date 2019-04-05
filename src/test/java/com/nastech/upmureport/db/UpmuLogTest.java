@@ -16,14 +16,14 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import com.nastech.upmureport.config.PersistenceJPAConfig;
 import com.nastech.upmureport.config.WebConfig;
 import com.nastech.upmureport.domain.entity.Attachment;
-import com.nastech.upmureport.domain.entity.LogAttachment;
-import com.nastech.upmureport.domain.entity.UpmuContent;
-import com.nastech.upmureport.domain.entity.UpmuLog;
+import com.nastech.upmureport.domain.entity.AttachmentLog;
+import com.nastech.upmureport.domain.entity.Pfile;
+import com.nastech.upmureport.domain.entity.PfileLog;
 import com.nastech.upmureport.domain.entity.User;
 import com.nastech.upmureport.domain.repository.AttachmentRepository;
-import com.nastech.upmureport.domain.repository.LogAttachmentRepository;
-import com.nastech.upmureport.domain.repository.UpmuContentRepository;
-import com.nastech.upmureport.domain.repository.UpmuLogRepository;
+import com.nastech.upmureport.domain.repository.AttachmentLogRepository;
+import com.nastech.upmureport.domain.repository.PfileRepository;
+import com.nastech.upmureport.domain.repository.PfileLogRepository;
 import com.nastech.upmureport.domain.repository.UserRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -35,16 +35,16 @@ public class UpmuLogTest {
 	UserRepository userRepository;
 	
 	@Autowired
-	UpmuContentRepository upmuContentsRepository;
+	PfileRepository upmuContentsRepository;
 	
 	@Autowired
-	UpmuLogRepository upmuLogRepository;
+	PfileLogRepository upmuLogRepository;
 	
 	@Autowired
 	AttachmentRepository attachmentRepository;
 	
 	@Autowired
-	LogAttachmentRepository logAttachmentRepository;
+	AttachmentLogRepository logAttachmentRepository;
 	
 	/**
 	 * Upmu, log, attachment test
@@ -61,7 +61,7 @@ public class UpmuLogTest {
 	public void setUpmu() {
 		Date date = new Date();
 		
-		UpmuContent upmuContents = UpmuContent.builder().name("upmu1").contents("upmu1 contents")
+		Pfile upmuContents = Pfile.builder().name("upmu1").contents("upmu1 contents")
 				.build();
 		
 		upmuContentsRepository.save(upmuContents);		
@@ -89,7 +89,7 @@ public class UpmuLogTest {
 		);
 		userRepository.saveAll(users);
 		
-		UpmuLog upmuLog = UpmuLog.builder().newDate(LocalDateTime.now()).userId(users.get(0)).upmuId(upmuContents)
+		PfileLog upmuLog = PfileLog.builder().newDate(LocalDateTime.now()).userId(users.get(0)).upmuId(upmuContents)
 				.build();
 		
 		//upmuLogRepository.save(upmuLog);
@@ -99,7 +99,7 @@ public class UpmuLogTest {
 		
 		attachmentRepository.save(attachment);
 		
-		LogAttachment logAttachment = LogAttachment.builder().newDate(date).attachmentNum(attachment)
+		AttachmentLog logAttachment = AttachmentLog.builder().newDate(date).attachmentNum(attachment)
 				.userId(users.get(0)).build();
 		
 		logAttachmentRepository.save(logAttachment);

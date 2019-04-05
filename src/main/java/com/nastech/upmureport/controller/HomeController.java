@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.nastech.upmureport.domain.entity.UpmuContent;
+import com.nastech.upmureport.domain.entity.Pfile;
 import com.nastech.upmureport.domain.entity.User;
 
 import lombok.extern.java.Log;

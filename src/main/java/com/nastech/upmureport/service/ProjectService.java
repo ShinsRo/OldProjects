@@ -1,5 +1,6 @@
 package com.nastech.upmureport.service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -203,7 +204,7 @@ public class ProjectService {
 		
 		String parentDirId = dirDto.getParentDirId();
 		Dir parentDir = null;
-		if (parentDirId != null) parentDir = dirRepository.getOne(Integer.valueOf(parentDirId));
+		if (parentDirId != null) parentDir = dirRepository.getOne(BigInteger.valueOf(Long.parseLong(parentDirId)));
 		
 		Dir dir = Dir.builder()
 				.dirName(dirDto.getDirName())
@@ -217,7 +218,7 @@ public class ProjectService {
 
 
 	public void disableDir(DirDto dto) {
-		Dir target = dirRepository.getOne(Integer.valueOf(dto.getDirId()));
+		Dir target = dirRepository.getOne(BigInteger.valueOf(Long.parseLong(dto.getDirId())));
 		target.setDeleteFlag(true);
 		dirRepository.save(target);
 	}

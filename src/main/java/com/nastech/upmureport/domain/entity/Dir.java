@@ -1,5 +1,7 @@
 package com.nastech.upmureport.domain.entity;
 
+import java.math.BigInteger;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,7 +21,7 @@ import lombok.NoArgsConstructor;
 public class Dir {
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private Integer dirId;
+	private BigInteger dirId;
 	
 	private String dirName;
 	

@@ -10,10 +10,10 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.nastech.upmureport.config.PersistenceJPAConfig;
 import com.nastech.upmureport.config.WebConfig;
-import com.nastech.upmureport.domain.dto.UpmuReqDto;
-import com.nastech.upmureport.domain.repository.UpmuContentRepository;
-import com.nastech.upmureport.domain.repository.UpmuLogRepository;
-import com.nastech.upmureport.service.UpmuService;
+import com.nastech.upmureport.domain.dto.PfileReqDto;
+import com.nastech.upmureport.domain.repository.PfileRepository;
+import com.nastech.upmureport.domain.repository.PfileLogRepository;
+import com.nastech.upmureport.service.PfileService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -21,18 +21,18 @@ import com.nastech.upmureport.service.UpmuService;
 public class LogTest {
 	
 	@Autowired
-	UpmuContentRepository upmuContentRepository;
+	PfileRepository upmuContentRepository;
 	
 	@Autowired
-	UpmuLogRepository upmuLogRepository;
+	PfileLogRepository upmuLogRepository;
 	
 	@Autowired
-	UpmuService upmuservice;
+	PfileService upmuservice;
 	
 	@Test
 	public void logTest() {
 				
-		UpmuReqDto upmuReqDto = UpmuReqDto.builder()
+		PfileReqDto upmuReqDto = PfileReqDto.builder()
 				.name("logTest")
 				.contents("log test content")
 				.localPath("fdfdf")

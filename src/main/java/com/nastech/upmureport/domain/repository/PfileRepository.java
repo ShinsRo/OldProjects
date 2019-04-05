@@ -6,12 +6,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nastech.upmureport.domain.entity.Dir;
-import com.nastech.upmureport.domain.entity.UpmuContent;
+import com.nastech.upmureport.domain.entity.Pfile;
+
+import java.math.BigInteger;
 import java.util.List;
 
 @Transactional
-public interface UpmuContentRepository extends JpaRepository<UpmuContent, Integer>{
+public interface PfileRepository extends JpaRepository<Pfile, BigInteger>{
 	
-	@Query("select u from UpmuContent u where u.dirId = :dirId and u.deleteFlag = 0")
-	List<UpmuContent> findByDirId(@Param(value = "dirId") Dir dirId);
+	@Query("select p from Pfile p where p.pdirId = :pdirId and p.deleteFlag = 0")
+	List<Pfile> findByDirId(@Param(value = "pdirId") Dir pdirId);
 }

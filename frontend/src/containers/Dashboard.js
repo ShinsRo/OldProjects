@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ProjPanelContainer from "./ProjPanelContainer";
 import HeaderContainer from "./HeaderContainer";
 import SidebarContainer from "./SidebarContainer"
-import Upmu from "../components/UpmuContent/Upmu";
+import Pfile from "../components/Pfile/Pfile";
 
 class Dashboard extends Component {
   
@@ -23,7 +23,7 @@ class Dashboard extends Component {
                 <ProjPanelContainer></ProjPanelContainer>
               </div>
               <div className="col-xl-6">
-                  <Upmu />
+                  <Pfile />
                 </div>
                 </div>
             </div>

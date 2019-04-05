@@ -1,6 +1,6 @@
 package com.nastech.upmureport.domain.dto;
 
-import com.nastech.upmureport.domain.entity.Dir;
+import java.math.BigInteger;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data @Builder @AllArgsConstructor @NoArgsConstructor
-public class UpmuReqDto {
+public class PfileReqDto {
 	
 	private String name;
 	
@@ -16,8 +16,8 @@ public class UpmuReqDto {
 	
 	private String localPath;
 	
-	private Integer dirId;
+	private BigInteger dirId;
 	
-	private Integer upmuId;
+	private BigInteger pfileId;
 
 }

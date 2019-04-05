@@ -3,9 +3,9 @@ package com.nastech.upmureport.service;
 import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 
-import com.nastech.upmureport.domain.entity.UpmuContent;
-import com.nastech.upmureport.domain.entity.UpmuLog;
-import com.nastech.upmureport.domain.repository.UpmuLogRepository;
+import com.nastech.upmureport.domain.entity.Pfile;
+import com.nastech.upmureport.domain.entity.PfileLog;
+import com.nastech.upmureport.domain.repository.PfileLogRepository;
 
 import lombok.extern.java.Log;
 
@@ -13,23 +13,23 @@ import lombok.extern.java.Log;
 @Service @Log
 public class LogService {
 
-	UpmuLogRepository upmuLogRepository;
+	PfileLogRepository pfileLogRepository;
 	
-	public LogService(UpmuLogRepository upmuLogRepository) {
-		this.upmuLogRepository = upmuLogRepository;
+	public LogService(PfileLogRepository pfileLogRepository) {
+		this.pfileLogRepository = pfileLogRepository;
 	}
 	
-	public UpmuLog createUpmuLog(UpmuContent upmuContent, UpmuLog.LogStat logStat) {
+	public PfileLog createUpmuLog(Pfile pfile, PfileLog.LogStat logStat) {
 		
 		log.info("========create upmu log");
 		
-		UpmuLog upmuLog = UpmuLog.builder()
+		PfileLog pfileLog = PfileLog.builder()
 				.newDate(LocalDateTime.now())
-				.userId(upmuContent.getDirId().getUser())
-				.upmuId(upmuContent)
+				.userId(pfile.getDirId().getUser())
+				.pfileId(pfile)
 				.stat(logStat)
 				.build();
 		
-		return upmuLogRepository.save(upmuLog);
+		return pfileLogRepository.save(pfileLog);
 	}		
 }
