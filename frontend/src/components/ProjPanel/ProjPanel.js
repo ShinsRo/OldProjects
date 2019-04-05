@@ -20,6 +20,15 @@ class ProjPanel extends React.Component {
         this.onBreadcrumbClick = this.onBreadcrumbClick.bind(this);
         this.onProjClick = this.onProjClick.bind(this);
         
+    }   
+
+    componentWillUpdate (nextProps, nextState) {
+        if ( nextProps.breadcrumb[0] !== this.props.breadcrumb[0] ) {
+            this.setState({ 
+                breadcrumb: [...nextProps.breadcrumb],
+                viewLevel: VIEW_LEVEL.PROJECTS
+            })
+        }
     }
 
     onBreadcrumbClick(e, el, idx) {
@@ -27,19 +36,18 @@ class ProjPanel extends React.Component {
 
         const prevBreadcrumb = this.state.breadcrumb;
         this.setState({ breadcrumb: prevBreadcrumb.slice(0, idx + 1), viewLevel: VIEW_LEVEL.PROJECTS });
+        console.log("bread",this.state)
         return;
     }
 
     onProjClick(e, proj) {
         e.preventDefault();
-        
         const prevBreadcrumb = this.state.breadcrumb;
-        
         this.setState( { breadcrumb: Array.prototype.concat(prevBreadcrumb, [proj.projName]) } )
         this.setState( { viewLevel: VIEW_LEVEL.PROJ_DIR } )
         this.setState( { selectedProj: proj } )
-        
         this.props.onProjClick(proj.projId);
+        console.log("proj0",this.state)
     }
 
     render() {
@@ -67,7 +75,7 @@ class ProjPanel extends React.Component {
                     () => {
                         if (selectedProj) {
                             return <ProjTreeView 
-                                project={selectedProj} dirs={dirs} 
+                                project={selectedProj} dirs={dirs}
                                 handleDirItemClick={this.props.handleDirItemClick} 
                                 handleDirItemActionCall={this.props.handleDirItemActionCall}/>
                         }

@@ -152,8 +152,8 @@ class ProjUpdateModal extends React.Component {
                                 </div>
                                 <div className="col-8">
                                     <input type="text" className="form-control" readOnly
-                                        value={`${userState.userInfo.userName}님이 프로젝트를 등록합니다.`} />
-                                    <input name="userId" type="hidden" value={userState.userInfo.userId} />
+                                        value={`${userState.selectedUser.userName}님이 프로젝트를 수정합니다.`} />
+                                    <input name="userId" type="hidden" value={userState.selectedUser.userId} />
                                 </div>
                             </div>
                             <br></br>

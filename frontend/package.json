@@ -8,6 +8,7 @@
     "deni-react-treeview": "^0.2.15",
     "fontawesome": "^5.6.3",
     "immutable": "^4.0.0-rc.12",
+    "jquery": "^3.3.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.4",
     "react-datepicker": "^2.3.0",

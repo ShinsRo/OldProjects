@@ -202,8 +202,8 @@ public class ProjectService {
 		Project proj = projectRepository.findById(projId).get();
 		
 		String parentDirId = dirDto.getParentDirId();
-		Optional<Dir> parentDir = null;
-		if (parentDirId != null) parentDir = dirRepository.findById(Integer.valueOf(parentDirId));
+		Dir parentDir = null;
+		if (parentDirId != null) parentDir = dirRepository.getOne(Integer.valueOf(parentDirId));
 		
 		Dir dir = Dir.builder()
 				.dirName(dirDto.getDirName())
@@ -211,8 +211,15 @@ public class ProjectService {
 				.project(proj)
 				.build();
 		
-		if(parentDir != null && parentDir.isPresent()) dir.setParentDir(parentDir.get());
+		if(parentDir != null ) dir.setParentDir(parentDir);
 		return dirRepository.save(dir);
+	}
+
+
+	public void disableDir(DirDto dto) {
+		Dir target = dirRepository.getOne(Integer.valueOf(dto.getDirId()));
+		target.setDeleteFlag(true);
+		dirRepository.save(target);
 	}
 
 }

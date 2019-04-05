@@ -3,10 +3,20 @@ import TreeView from 'deni-react-treeview';
 import store from '../../stores';
 import { BASE_URL, END_POINT } from '../../stores/modules/projectState';
 
+import jQuery from 'jquery';
+window.$ = window.jQuery = jQuery;
+
 class ProjTreeView extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.state = {
+            updateFlag: true,
+            addingCnt: 0,
+            modalShow: false,
+        }
+        this.modalCloseEl = React.createRef();
         this.addItem = this.addItem.bind(this);
     }
 
@@ -16,68 +26,68 @@ class ProjTreeView extends React.Component {
         }
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        const api = this.refs.treeview.api;
+        
+        if (nextState.addingCnt !== this.state.addingCnt) {
+            let add = api.addItem (nextState.dirName, false, nextState.targetDir);
+            add['id'] = nextState.addId;
+            this.props.handleDirItemClick(Number(add.id));
+        }
+        if(!nextState.updateFlag) {
+            return false;
+        } else {
+            this.setState({updateFlag: false});
+            return true;
+        }
+    }
+
     onRenderItem(item, treeview) {
         return (
-            <div>
+            <>
                 <div 
                     draggable
-                    onDragStart={e => this.drag(e, item)}
-                    onClick={this.onItemClick.bind(this, item.id)}
-                    className="treeview-item">
-                    {/* <div ref={`topDiv${item.id}`} onDrop={e => this.drop(e, item)} onDragOver={e => this.allowDrop(e, item)}>>----------------------------</div> */}
-                    <span className="action-btn trash" onClick={this.deleteItemClick.bind(this, item.id)}><i className="fas fa-trash-alt"></i></span>
-                    <span className="action-btn edit" onClick={this.editItemClick.bind(this)}><i className="fas fa-edit"></i></span>
-                    <span className="treeview-item-text">{item.text}</span>
-                    {/* <div ref={`botDiv${item.id}`} onDrop={e => this.drop(e, item)} onDragOver={e => this.allowDrop(e, item)}>>----------------------------</div> */}
-
+                    // onDragStart={e => this.drag(e, item)}
+                    // onContextMenu={e => this.onItemClick(e, item.id)}
+                    style = {{ width: '100%', height: '140%', backgroundColor: 'yellow' }}
+                    onDragEnter={(e) => { 
+                        e.currentTarget.lastChild.lastChild.innerHTML = '  <'
+                    }}
+                    onDragLeave={(e) => {
+                        e.currentTarget.lastChild.lastChild.innerHTML = ''
+                    }}
+                    onDragOver={(e) => {
+                        e.preventDefault();
+                    }}
+                    onDrop={(e) => {
+                        e.currentTarget.lastChild.lastChild.innerHTML = ''
+                        console.log(e.currentTarget);
+                        console.log(e.target);
+                    }}
+                    oneDrop
+                    key={item.id}>
+                    <div className="treeview-item">
+                        <input type="hidden" value="item.id"></input>
+                        <span className="action-btn trash" onClick={this.deleteItemClick.bind(this, item.id)}><i className="fas fa-trash-alt"></i></span>
+                        <span className="action-btn edit" onClick={this.editItemClick.bind(this)}><i className="fas fa-edit"></i></span>
+                        <span className="treeview-item-text">{item.text}</span>
+                        <span></span>
+                    </div>
                 </div>
-            </div>
+            </>
         )
     }
     
-    onItemClick(dirId) {
-        this.props.handleDirItemClick(dirId);
-    }
-
-    addItem(e, project) {
-        e.preventDefault();
-        const { userState, projectState } = store.getState();
-        let { slectedDirId, selectedProject } = projectState
-        
-        const URL = BASE_URL + END_POINT.DIR_REGISTER;
-        const jsonObj = {};
-        new FormData(e.target).forEach((value, key) => {
-            jsonObj[key] = value;
-        });
-        const dirName = jsonObj.dirName;
-        const data = {
-            userId: userState.selectedUser.userId,
-            projId: project.projId,
-            parentId: slectedDirId || null,
-            dirName,
-        }
-        
-        fetch(URL, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json',
-                'accept': 'application/json'
-            }
-        }).then(res => {
-            if (!slectedDirId) slectedDirId = this.refs.treeview.api.getRootItem();
-            this.refs.treeview.api.addItem (dirName, false, slectedDirId)
-        });
-        // window.location.href="/";
-        // this.props.handleDirItemActionCall(END_POINT.DIR_REGISTER, this.props.project.projId, -1, dir);
-    }
+    editItemClick() {}
 
     deleteItemClick(id) {
+        if(!window.confirm('정말 삭제할까요?')) return true;
+
         const URL = BASE_URL + END_POINT.DIR_DISABLE;
         const { userState, projectState } = store.getState();
         const data = {
             userId: userState.selectedUser.userId,
-            projId: projectState.selectedProject,
+            projId: projectState.get('selectedProject'),
             dirId: id,
         }
         fetch(URL, {
@@ -91,26 +101,53 @@ class ProjTreeView extends React.Component {
             this.refs.treeview.api.removeItem(id);
         });
     }
-    
-    editItemClick(id) {
-        // this.props.handleDirItemActionCall(END_POINT.DIR_UPDATE, this.props.project.projId, id, {});
+
+    onSelectItem(item) {
+        this.props.handleDirItemClick(Number(item.id));
     }
 
-    drop(e, item) {
-        // const dropedDirId = e.dataTransfer.getData('dirId');
-    }
-    drag(e, item) {
-        e.dataTransfer.setData('dirId', item.id);
-    }
-    allowDrop(e, item) {
+    addItem(e, project) {
         e.preventDefault();
+
+        window.$('#dirAddModal').modal('toggle');
+
+        const { userState, projectState } = store.getState();
+        let { addingCnt } = this.state
+        const URL = BASE_URL + END_POINT.DIR_REGISTER;
+        const jsonObj = {};
+
+        new FormData(e.target).forEach((value, key) => {
+            jsonObj[key] = value;
+        });
+
+        const dirName = jsonObj.dirName;
+        const data = {
+            userId: userState.selectedUser.userId,
+            projId: project.projId,
+            parentId: projectState.get('selectedDirId') || null,
+            dirName,
+        }
         
+        fetch(URL, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+                'accept': 'application/json'
+            }
+        }).then(res => {
+            return res.json()
+        }).then(json => {
+            const targetDir = this.refs.treeview.api.getSelectedItem() || this.refs.treeview.api.getRootItem();
+            this.setState( { addId: json, targetDir, dirName, addingCnt: ++addingCnt } );
+        });
     }
+
     render() {
         console.log("Rendering: ProjTreeView");
         const {dirs, project} = this.props;
         const dirList = (dirs && dirs.get(`${project.projId}`)) || [];
-        const dirTree = convertDirListToTree(dirList, project.userId);
+        const dirTree = convertDirListToTree(dirList, project.userId, project.projName);
         
         return (
             <div>
@@ -118,10 +155,11 @@ class ProjTreeView extends React.Component {
                     {/* filter */}
                 </div>
                 <div className="dir-upmureport-theme row">
-                    <TreeView 
+                    <TreeView
                         items={ dirTree }
                         ref="treeview"
                         selectRow={ true }
+                        onSelectItem={this.onSelectItem.bind(this)}
                         onRenderItem={ this.onRenderItem.bind(this) }
                         ></TreeView>
                 </div>
@@ -169,9 +207,9 @@ class ProjTreeView extends React.Component {
     }
 }
 
-function convertDirListToTree(dirList, userId) {
+function convertDirListToTree(dirList, userId, projName) {
     const tempMap = {};
-    const dirTree = [];
+    const tempTree = [];
     const keyOrder = [];
 
     dirList.forEach( (dir, idx) => {
@@ -189,19 +227,31 @@ function convertDirListToTree(dirList, userId) {
         keyOrder.push(dir.dirId);
     });
 
+    
     keyOrder.forEach( key => {
-        if ( tempMap[key].userId !== userId ) return;
+        // if ( tempMap[key].userId !== userId ) return; // 내 폴더만 보는 경우
         const parent = tempMap[key].parent;
         // tempMap[key].isLeaf = tempMap[key].children.length === 0;
         if (parent !== 'root') {
             tempMap.hasOwnProperty(parent) && tempMap[parent].children.push(tempMap[key]);
         } else {
-            dirTree.push(tempMap[key]);
+            tempTree.push(tempMap[key]);
         }
     });
-    return dirTree;
-}
+    
+    return tempTree;
+    // const _root = {
+    //     id: null,
+    //     text: projName,
+    //     children: [],
+    //     isLeaf: false,
+    //     parent: undefined,
+    // }
+    // _root.children = tempTree;
+    // const dirTree = [_root]
 
+    // return dirTree;
+}
 
 export default ProjTreeView;
 

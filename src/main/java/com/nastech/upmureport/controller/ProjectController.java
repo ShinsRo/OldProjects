@@ -67,7 +67,7 @@ public class ProjectController {
 	produces = {MediaType.APPLICATION_JSON_VALUE})
 	ResponseEntity<Boolean> correct(@RequestBody Map<String, String> formData) {
 	SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss 'GMT'z (Z)");
-	System.out.println(formData);
+
 	ProjectDto projDto = ProjectDto.builder()
 			.projId(Integer.valueOf(formData.get("projId")))
 			.projName(formData.get("projName"))
@@ -99,22 +99,33 @@ public class ProjectController {
 	@PostMapping(value = "/dirs")
 	ResponseEntity<List<DirDto>> dirs(@RequestBody Map<String, String> formData) {
 		List<DirDto> dtoList = projectService.findDirsByProjId(formData.get("projId"));
+
 		return new ResponseEntity<List<DirDto>>(dtoList, HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/registerDir", consumes = MediaType.APPLICATION_JSON_VALUE)
-	ResponseEntity<Boolean> registerDir(@RequestBody Map<String, String> formData) {
-		System.out.println(formData);
-		if (projectService.registerDir(
-				DirDto.builder()
+	@PostMapping(value = "/registerDir", consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_VALUE})
+	ResponseEntity<String> registerDir(@RequestBody Map<String, String> formData) {
+		DirDto dto = DirDto.builder()
 				.projId(formData.get("projId"))
 				.dirName(formData.get("dirName"))
 				.userId(formData.get("userId"))
 				.parentDirId(formData.get("parentId"))
-				.build()) != null) 
-			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-		else 
-			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+				.build();
+		Dir rtn = projectService.registerDir(dto);
+
+		return new ResponseEntity<String>(rtn.getDirId().toString(), HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/disableDir", consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_VALUE})
+	ResponseEntity<Boolean> disableDir(@RequestBody Map<String, String> formData) {
+		DirDto dto = DirDto.builder()
+				.projId(formData.get("projId"))
+				.dirId(formData.get("dirId"))
+				.userId(formData.get("userId"))
+				.build();
+		projectService.disableDir(dto);
+
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/correctDir", consumes = MediaType.APPLICATION_JSON_VALUE)
