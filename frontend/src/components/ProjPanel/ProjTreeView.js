@@ -49,9 +49,9 @@ class ProjTreeView extends React.Component {
                     draggable
                     // onDragStart={e => this.drag(e, item)}
                     // onContextMenu={e => this.onItemClick(e, item.id)}
-                    style = {{ width: '100%' }}
+                    style = {{ width: '100%', height: '140%', backgroundColor: 'yellow' }}
                     onDragEnter={(e) => { 
-                        e.currentTarget.lastChild.lastChild.innerHTML = '  <=========='
+                        e.currentTarget.lastChild.lastChild.innerHTML = '  <'
                     }}
                     onDragLeave={(e) => {
                         e.currentTarget.lastChild.lastChild.innerHTML = ''

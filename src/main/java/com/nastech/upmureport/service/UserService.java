@@ -82,13 +82,10 @@ public class UserService {
 		Queue<UserDto> q = new LinkedList();
 		List<UserDto> juniorList = new LinkedList();
 		q.add(user);
-		System.out.println(employeeSystemRepository.findAllBySenior(user.toEntity()));
 		List<EmployeeSystem> temp = employeeSystemRepository.findAllBySenior(user.toEntity());
 		while( !(q.isEmpty()) ) {
 			temp=employeeSystemRepository.findAllBySenior(q.poll().toEntity());
 			for (EmployeeSystem employeeSystem : temp) {
-				System.out.println("주니어들");
-				System.out.println(employeeSystem.getJunior());
 				q.add(employeeSystem.getJunior().toDto());
 				juniorList.add(employeeSystem.getJunior().toDto());
 			}
