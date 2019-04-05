@@ -12,6 +12,7 @@ import com.nastech.upmureport.domain.dto.UpmuReqDto;
 import com.nastech.upmureport.domain.dto.UpmuResDto;
 import com.nastech.upmureport.domain.entity.Dir;
 import com.nastech.upmureport.domain.entity.UpmuContent;
+import com.nastech.upmureport.domain.entity.UpmuLog.LogStat;
 import com.nastech.upmureport.domain.repository.DirRepository;
 import com.nastech.upmureport.domain.repository.UpmuContentRepository;
 
@@ -25,40 +26,59 @@ public class UpmuService {
 	
 	DirRepository dirRepository;
 	
-	public UpmuService(UpmuContentRepository upmuContentRepository, DirRepository dirRepository) {
+	LogService logService;
+	
+	// 생성자로 빈 등록
+	public UpmuService(UpmuContentRepository upmuContentRepository, DirRepository dirRepository
+			,LogService logService) {
 		this.upmuContentRepository = upmuContentRepository;
 		this.dirRepository = dirRepository;
+		this.logService = logService;
 	}
 	
+	
+	// 업무 일지 등록
 	public UpmuResDto addUpmuContents(UpmuReqDto upmuReqDto) {
-		Dir dir = dirRepository.findById(upmuReqDto.getDirId()).get();
+		Dir dir;
+		try {		
+			dir = dirRepository.findById(upmuReqDto.getDirId()).get();
+		} catch(Exception e){
+			log.warning(e.getMessage());
+			return null;
+		}
 		
-		UpmuContent upmuContents = UpmuContent.builder()
+		UpmuContent upmuContent = UpmuContent.builder()
 				.dirId(dir)
 				.name(upmuReqDto.getName())
 				.contents(upmuReqDto.getContents())
 				.localPath(upmuReqDto.getLocalPath())
 				.newDate(LocalDateTime.now())
 				.updateDate(LocalDateTime.now())
+				.deleteFlag(false)
 				.build();
 		
-		upmuContents = upmuContentRepository.save(upmuContents);
+		upmuContent = upmuContentRepository.save(upmuContent);
 		
-		UpmuResDto upmuResDto = UpmuResDto.builder()
-				.name(upmuContents.getName())
-				.contents(upmuContents.getContents())
-				.localPath(upmuContents.getLocalPath())
-				.dirId(upmuContents.getDirId().getDirId())
-				.newDate(upmuContents.getNewDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-				.updateDate(upmuContents.getUpdateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))										
-				.build();
-		
+		logService.createUpmuLog(upmuContent, LogStat.CREATE);
+			
 		try {
-			return upmuResDto;
+			return upmuContentsToUpmuResDto(upmuContent);
 		}catch(Exception e){
 			e.getMessage();
 			return null;
 		}
+	}
+	
+	public UpmuResDto updateUpmucontents(UpmuReqDto upmuReqDto) {
+		UpmuContent upmuContent = upmuContentRepository.findById(upmuReqDto.getUpmuId()).get();
+		
+		upmuContent.changeName(upmuReqDto.getName());
+		upmuContent.changeContents(upmuReqDto.getContents());
+		upmuContent.updateDate();
+		
+		logService.createUpmuLog(upmuContent, LogStat.UPDATE);
+		
+		return upmuContentsToUpmuResDto(upmuContentRepository.save(upmuContent));
 	}
 	
 	public List<UpmuResDto> getUpmu(Integer dirId){
@@ -72,19 +92,43 @@ public class UpmuService {
 		List<UpmuResDto> upmuResDtos = new ArrayList<>();
 		
 		for(UpmuContent upmuContent : upmuContents) {
-			UpmuResDto upmuResDto = UpmuResDto.builder()
-										.name(upmuContent.getName())
-										.contents(upmuContent.getContents())
-										.localPath(upmuContent.getLocalPath())
-										.dirId(upmuContent.getDirId().getDirId())
-										.newDate(upmuContent.getNewDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-										.updateDate(upmuContent.getUpdateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))										
-										.build();
+			UpmuResDto upmuResDto = upmuContentsToUpmuResDto(upmuContent);
 			upmuResDtos.add(upmuResDto);		
-			
-			log.info(upmuContent.getNewDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 		}
 		
-		return upmuResDtos;		
+		return upmuResDtos;
 	}
+	
+	public List<UpmuResDto> deleteUpmu(String upmuId) {
+		
+		UpmuContent upmuContent = upmuContentRepository.findById(Integer.valueOf(upmuId)).get();
+		
+		upmuContent.deleteUpmuContent();
+		
+		log.info(upmuContent.toString());
+		log.info(upmuContent.getDeleteFlag() + "");
+		
+		logService.createUpmuLog(upmuContent, LogStat.DELETE);
+		
+		upmuContentRepository.save(upmuContent);
+		
+		return getUpmu(upmuContent.getDirId().getDirId());
+		
+		//upmuContentRepository.findByDirId(dirId)
+	}
+	
+	public UpmuResDto upmuContentsToUpmuResDto(UpmuContent upmuContents) {
+		UpmuResDto upmuResDto = UpmuResDto.builder()
+				.upmuId(upmuContents.getUpmuId())
+				.name(upmuContents.getName())
+				.contents(upmuContents.getContents())
+				.localPath(upmuContents.getLocalPath())
+				.dirId(upmuContents.getDirId().getDirId())
+				.newDate(upmuContents.getNewDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+				.updateDate(upmuContents.getUpdateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))										
+				.build();
+		
+		return upmuResDto;
+	}
+		
 }

@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,16 +15,17 @@ import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
-@Entity @Data @NoArgsConstructor @Builder @AllArgsConstructor
+@Entity @Getter @NoArgsConstructor @Builder @AllArgsConstructor
 public class UpmuContent implements Serializable{
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer upmuId;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="dirId")
 	private Dir dirId;
 	
@@ -37,5 +39,21 @@ public class UpmuContent implements Serializable{
 	
 	private String localPath;
 	
-	private boolean DELETE_FLAG;
+	private Boolean deleteFlag;
+	
+	public void deleteUpmuContent() {
+		this.deleteFlag = true;
+	}
+	
+	public void changeName(String newName) {
+		this.name = newName;
+	}
+	
+	public void changeContents(String newContents) {
+		this.contents = newContents;
+	}
+	
+	public void updateDate() {
+		this.updateDate = LocalDateTime.now();
+	}
 }

@@ -18,15 +18,14 @@ class Dashboard extends Component {
             <HeaderContainer history={this.props.history}/>
             {/* Page Content  */}
             <div className="container-fluid">
-              <div className="row">
-                <div className="col-xl-6">
-                  <ProjPanelContainer></ProjPanelContainer>
-                </div>
-
-                <div className="col-xl-6">
+            <div className="row">
+              <div className="col-xl-6">
+                <ProjPanelContainer></ProjPanelContainer>
+              </div>
+              <div className="col-xl-6">
                   <Upmu />
                 </div>
-              </div>
+                </div>
             </div>
 
           </div>

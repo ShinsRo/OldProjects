@@ -17,5 +17,7 @@ public class UpmuReqDto {
 	private String localPath;
 	
 	private Integer dirId;
+	
+	private Integer upmuId;
 
 }

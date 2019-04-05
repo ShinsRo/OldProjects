@@ -5,10 +5,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nastech.upmureport.domain.entity.LogAttachment;
-import com.nastech.upmureport.domain.pk.LogAttachmentPK;
 
 @Transactional
 @Repository
-public interface LogAttachmentRepository extends JpaRepository<LogAttachment, LogAttachmentPK>{
+public interface LogAttachmentRepository extends JpaRepository<LogAttachment, Integer>{
 
 }
