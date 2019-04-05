@@ -38,5 +38,5 @@ public class Attachment {
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="pdirId")
-	private Dir pdirId;
+	private Pdir dId;
 }

@@ -25,13 +25,12 @@ import lombok.NoArgsConstructor;
 public class Pfile implements Serializable{
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-	private BigInteger pfileId;
+	private BigInteger fId;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="dirId")
-	private Dir dirId;
+	@JoinColumn(name="dId")
+	private Pdir dId;
 	
-
 	private String name;
 	
 	private String contents;

@@ -29,12 +29,12 @@ public class PfileLog {
 	private LocalDateTime newDate;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="userId")
-	private User userId;
+	@JoinColumn(name="mId")
+	private Member mId;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="pfileId")
-	private Pfile pfileId;
+	@JoinColumn(name="fId")
+	private Pfile fId;
 	
 	private String contents;	
 	

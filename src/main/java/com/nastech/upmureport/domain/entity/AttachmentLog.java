@@ -33,7 +33,7 @@ public class AttachmentLog {
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="userId")
-	private User userId;
+	private Member mId;
 	
 	private Date newDate;
 		
