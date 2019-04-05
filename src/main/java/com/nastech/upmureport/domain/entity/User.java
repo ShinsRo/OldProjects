@@ -22,6 +22,7 @@ public class User {
 	private String posi;
 	private Boolean deleteFlag;
 	
+	
 	public UserDto toDto() {
 		return UserDto.builder().
 				userId(userId).
