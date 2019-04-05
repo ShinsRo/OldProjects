@@ -4,13 +4,13 @@ import { List, Map } from 'immutable';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import ContentTable from './ContentTable';
+import ContentTable from './PfileTable';
 import AttachmentTable from './AttachmentTable';
 
 import store from '../../stores';
-import * as upmuActions from '../../stores/modules/saveUpmu';
+import * as upmuActions from '../../stores/modules/pfile';
 import * as projectActions from '../../stores/modules/projectState';
-import AddContentModal from './AddContentModal';
+import AddContentModal from './AddPfileModal';
 
 class Upmu extends Component {
 

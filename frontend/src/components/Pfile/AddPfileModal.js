@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import store from '../../stores';
 
-class AddContentModal extends Component {
+class AddPfileModal extends Component {
   static defaultProps = {
-    upmu: {
+    pfile: {
       name: '',
       contents: '',
     },
@@ -28,12 +28,12 @@ class AddContentModal extends Component {
   }
 
   render() {
-    const upmu = this.state;
-    //console.log("modal ---" , upmu.name);
-    const {saveUpmu} = store.getState();
+    const pfile = this.state;
+    //console.log("modal ---" , pfile.name);
+    const {save} = store.getState();
 
     return (
-      <div class="modal fade" id="UpmuAddModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal fade" id="pfileAddModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -56,4 +56,4 @@ class AddContentModal extends Component {
   }
 }
 
-export default AddContentModal;
+export default AddPfileModal;

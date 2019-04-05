@@ -1,35 +1,35 @@
 import React, { Component } from 'react';
 import { Map, List } from 'immutable';
-import UpdateContentModal from './UpdateContentModal';
+import UpdatePfileModal from './UpdatePfileModal';
 
-class ContentTable extends React.Component {
+class PfileTable extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             dirs: List(),
             updateModal: false,
-            upmu: {},
+            pfile: {},
         };
     }
 
-    handleClickUpmu = (upmu) => {
-        console.log(upmu);
+    handleClickPfile = (pfile) => {
+        console.log(pfile);
         this.setState({updateModal: true})
-        this.setState({ upmu }, () => {
-          console.log(">>>>", this.state.upmu);
+        this.setState({ pfile }, () => {
+          console.log(">>>>", this.state.pfile);
           console.log(">>>>", this.state.updateModal);
         });
     }
 
     render() {
-        const upmus = this.props.upmus;
-        const {onClickDir, projectState, dirs, selectedProject, selectedDirId, onClickUpmu} = this.props;       
+        const pfiles = this.props.pfiles;
+        const {onClickDir, projectState, dirs, selectedProject, selectedDirId, onClickPfile} = this.props;       
         
         console.log('updateModal---', this.state.updateModal);
         const updateModal = this.state.updateModal 
-            && <UpdateContentModal
-                    upmu={this.state.upmu} 
+            && <UpdatePfileModal
+                    pfile={this.state.pfile} 
                     onClose={this.handleCloseModal} 
                     handleTitleChange = {this.props.handleTitleChange}
                     handleContentChange = {this.props.handleContentChange}
@@ -40,7 +40,7 @@ class ContentTable extends React.Component {
         return (
             <div>
                 <h2>{selectedDirId}</h2>
-                <table className="table" id="upmuTable" cellSpacing="0">
+                <table className="table" id="PfileTable" cellSpacing="0">
                     <thead>
                         <tr>
                             <th>제목</th>
@@ -68,22 +68,22 @@ class ContentTable extends React.Component {
                         })}
                         </tbody>
                         <tbody>
-                        {upmus && upmus.map((upmu, idx) => {
+                        {pfiles && pfiles.map((pfile, idx) => {
                             return (
                                 <tr value={selectedDirId} key={idx} >
-                                    <td>{upmu.name}</td>
+                                    <td>{pfile.name}</td>
                                     <td>업무 일지</td>
-                                    <td>{upmu.contents}</td>
-                                    <td>{upmu.localPath}</td>
-                                    <td>{upmu.newDate}</td>
-                                    <td>{upmu.updateDate}</td>
+                                    <td>{pfile.contents}</td>
+                                    <td>{pfile.localPath}</td>
+                                    <td>{pfile.newDate}</td>
+                                    <td>{pfile.updateDate}</td>
                                     <td>
-                                        <button onClick={() => this.handleClickUpmu(upmu) } data-toggle="modal" data-target="#UpmuUpdateModal" class="btn btn-info btn-circle btn-sm">
+                                        <button onClick={() => this.handleClickpfile(pfile) } data-toggle="modal" data-target="#UpdatePfileModal" class="btn btn-info btn-circle btn-sm">
                                             <i class="fas fa-info-circle"></i>
                                         </button>
                                     </td>
                                     <td>
-                                        <button onClick={() => this.props.handleDeleteUpmu(upmu.upmuId)} class="btn btn-danger btn-circle btn-sm">
+                                        <button onClick={() => this.props.handleDeletepfile(pfile.pfileId)} class="btn btn-danger btn-circle btn-sm">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </td>
@@ -98,4 +98,4 @@ class ContentTable extends React.Component {
     }
 }
 
-export default ContentTable;
+export default PfileTable;
