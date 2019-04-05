@@ -19,15 +19,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @IdClass(EmployeeSystemPK.class)
-public class EmployeeSystem {
+public class MemberSystem {
 	
 	@Id
 	@ManyToOne
 	@JoinColumn(name="seniorId", columnDefinition="varchar(32)")
-	private User senior;
+	private Member senior;
 	
 	@Id
 	@ManyToOne
 	@JoinColumn(name="juniorId", columnDefinition="varchar(32)")
-	private User junior;
+	private Member junior;
 }

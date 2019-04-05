@@ -5,12 +5,12 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.nastech.upmureport.domain.entity.EmployeeSystem;
-import com.nastech.upmureport.domain.entity.User;
+import com.nastech.upmureport.domain.entity.MemberSystem;
+import com.nastech.upmureport.domain.entity.Member;
 import com.nastech.upmureport.domain.pk.EmployeeSystemPK;
 
-public interface EmployeeSystemRepository extends JpaRepository<EmployeeSystem, EmployeeSystemPK> {
-	public List<EmployeeSystem> findAllBySenior(User senior);
-	public List<EmployeeSystem> findAllByJunior(User junior);
-	public List<EmployeeSystem> findAllBySeniorAndJunior(User senior,User junior);
+public interface EmployeeSystemRepository extends JpaRepository<MemberSystem, EmployeeSystemPK> {
+	public List<MemberSystem> findAllBySenior(Member senior);
+	public List<MemberSystem> findAllByJunior(Member junior);
+	public List<MemberSystem> findAllBySeniorAndJunior(Member senior,Member junior);
 }

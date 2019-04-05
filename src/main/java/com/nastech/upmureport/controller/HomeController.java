@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nastech.upmureport.domain.entity.UpmuContent;
-import com.nastech.upmureport.domain.entity.User;
+import com.nastech.upmureport.domain.entity.Member;
 
 import lombok.extern.java.Log;
 
