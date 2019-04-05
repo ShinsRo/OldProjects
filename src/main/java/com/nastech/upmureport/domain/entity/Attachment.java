@@ -1,16 +1,13 @@
 package com.nastech.upmureport.domain.entity;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
-import com.nastech.upmureport.domain.entity.LogAttachment.LogAttachmentBuilder;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +22,7 @@ import lombok.NoArgsConstructor;
 public class Attachment {
 	
 	@Id
-	private Integer attachmentNum;
+	private BigInteger attachmentNum;
 	
 	private String name;
 	
@@ -40,6 +37,6 @@ public class Attachment {
 	private Boolean deleteFlag;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="dirId")
-	private Dir dirId;
+	@JoinColumn(name="pdirId")
+	private Dir pdirId;
 }

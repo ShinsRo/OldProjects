@@ -4,7 +4,7 @@ import store from '../stores'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as projectActions from '../stores/modules/projectState';
-import * as saveUpmuAction from '../stores/modules/saveUpmu'
+import * as pfileAction from '../stores/modules/pfileState'
 
 import { ProjPanel } from '../components/ProjPanel';
 
@@ -39,9 +39,9 @@ class ProjPanelContainer extends Component {
     }
     
     handleDirItemClick (selectedDirId) {
-        const { ProjectActions, SaveUpmuActions } = this.props;
+        const { ProjectActions, pfileActions } = this.props;
         ProjectActions.saveDirId(selectedDirId);
-        SaveUpmuActions.getUpmu(selectedDirId);
+        pfileActions.getPfile(selectedDirId);
     };
     
     handleDirItemActionCall (endPoint, projId, selectedDirId, item) {
@@ -85,7 +85,7 @@ export default connect(
     }),
     (dispatch) => ({
         ProjectActions: bindActionCreators(projectActions, dispatch),
-        SaveUpmuActions: bindActionCreators(saveUpmuAction, dispatch)
+        pfileActions: bindActionCreators(pfileAction, dispatch)
 
     })
 ) (ProjPanelContainer);

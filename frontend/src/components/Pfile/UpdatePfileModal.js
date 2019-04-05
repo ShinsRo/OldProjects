@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import store from '../../stores';
 
-class UpdateContentModal extends Component {
+class UpdatePfileModal extends Component {
   static defaultProps = {
-    upmu: {
+    pfile: {
       name: '',
       contents: '',
     },
@@ -13,14 +13,14 @@ class UpdateContentModal extends Component {
     super(props);
 
     this.state = {
-      upmu: props.upmu,
+      pfile: props.pfile,
       status: props,
       inputTitle: '',
       inputContents: '',
     }
 
-    props.handleTitleChange(this.state.upmu.name);
-    props.handleContentChange(this.state.upmu.contents);
+    props.handleTitleChange(this.state.pfile.name);
+    props.handleContentChange(this.state.pfile.contents);
   }
 
   onTitleChange = (e) => {
@@ -33,17 +33,17 @@ class UpdateContentModal extends Component {
 
   handleSubmit = (e) => {
     //this.props.onClose();
-    this.props.handleSubmit(this.state.upmu);    
+    this.props.handleSubmit(this.state.pfile);    
     //this.props.handleCloseUpdateModal();
   }
 
   render() {
-    const upmu = this.state;
-    console.log("modal ---" , upmu.name);
-    const {saveUpmu} = store.getState();
+    const pfile = this.state;
+    console.log("modal ---" , pfile.name);
+    const {pfileState} = store.getState();
 
     return (
-      <div class="modal fade" id="UpmuUpdateModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" backdrop="static">
+      <div class="modal fade" id="UpdatePfileModal" tabIndex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" backdrop="static">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -53,8 +53,8 @@ class UpdateContentModal extends Component {
             <div class="modal-body">
               ...
               
-              <input type="text" name= "name" defaultValue={this.state.upmu.name} onChange={this.onTitleChange} placeholder="name"/>
-              <input type="text" name= "name" defaultValue={this.state.upmu.contents} onChange={this.onContentChange} placeholder="contents"/>
+              <input type="text" name= "name" defaultValue={this.state.pfile.name} onChange={this.onTitleChange} placeholder="name"/>
+              <input type="text" name= "name" defaultValue={this.state.pfile.contents} onChange={this.onContentChange} placeholder="contents"/>
               
             </div>
             <div class="modal-footer">
@@ -68,4 +68,4 @@ class UpdateContentModal extends Component {
   }
 }
 
-export default UpdateContentModal;
+export default UpdatePfileModal;

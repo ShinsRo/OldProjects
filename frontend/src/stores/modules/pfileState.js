@@ -1,15 +1,15 @@
 import { createAction, handleActions } from 'redux-actions';
 import { Map, List } from 'immutable';
-import * as upmuService from '../../api/upmuService'
+import * as pfileService from '../../api/PfileService'
 
 // 액션 타입
 const CHANGE_TITLE_INPUT = 'CHANGE_TITLE_INPUT';
 const CHANGE_CONTENT_INPUT = 'CHANGE_CONTENT_INPUT';
-const INSERT_UPMU = 'INSERT_UPMU';
+const INSERT_FILE = 'INSERT_FILE';
 const SEND_POST_PENDING = 'SEND_POST_PENDING';
 //const SEND_POST_SUCCESS = 'SEND_POST_SUCCESS';
-const SAVE_UPMU_SUCCESS = 'SAVE_UPMU_SUCCESS';
-const GET_UPMU_SECCESS = 'GET_UPMU_SECCESS';
+const SAVE_FILE_SUCCESS = 'SAVE_FILE_SUCCESS';
+const GET_FILE_SECCESS = 'GET_FILE_SECCESS';
 const SEND_POST_FAILURE = 'SEND_POST_FAILURE';
 
 const initialState = Map({
@@ -17,23 +17,23 @@ const initialState = Map({
     contentInput: '',
     isFetching: false,
     error: false,
-    upmus: List(),
+    pfiles: List(),
 })
 
 // 액션 생성 함수
 export const changeTitleInput = createAction(CHANGE_TITLE_INPUT);
 export const changeContentInput = createAction(CHANGE_CONTENT_INPUT);
-export const insertUpmu = createAction(INSERT_UPMU);
+export const insertPfile = createAction(INSERT_FILE);
 
-export const saveUpmu = (upmu) => dispatch => {
+export const savePfile = (pfile) => dispatch => {
     dispatch({ type: SEND_POST_PENDING });
 
     //console.log(this.initialState.titleInput);
-    return upmuService.saveUpmu(upmu).then(
+    return pfileService.savePfile(pfile).then(
         (response) => {
             // 요청이 성공했을경우, 서버 응답내용을 payload 로 설정하여 SEND_POST_SUCCESS 액션을 디스패치합니다.
             dispatch({
-                type: SAVE_UPMU_SUCCESS,
+                type: SAVE_FILE_SUCCESS,
                 payload: response.data                
             })
         }
@@ -46,15 +46,15 @@ export const saveUpmu = (upmu) => dispatch => {
     })
 }
 
-export const updateUpmu = (upmu) => dispatch => {
+export const updatePfile = (pfile) => dispatch => {
     dispatch({ type: SEND_POST_PENDING });
 
     //console.log(this.initialState.titleInput);
-    return upmuService.updateUpmu(upmu).then(
+    return pfileService.updatePfile(pfile).then(
         (response) => {
             // 요청이 성공했을경우, 서버 응답내용을 payload 로 설정하여 SEND_POST_SUCCESS 액션을 디스패치합니다.
             dispatch({
-                type: GET_UPMU_SECCESS,
+                type: GET_FILE_SECCESS,
                 payload: response.data                
             })
         }
@@ -67,13 +67,13 @@ export const updateUpmu = (upmu) => dispatch => {
     })
 }
 
-export const getUpmu = (dirId) => dispatch => {
+export const getPfile = (dirId) => dispatch => {
     dispatch({ type: SEND_POST_PENDING });
 
-    return upmuService.getUpmu(dirId).then((response) => {
+    return pfileService.getPfile(dirId).then((response) => {
         // 요청이 성공했을경우, 서버 응답내용을 payload 로 설정하여 SEND_POST_SUCCESS 액션을 디스패치합니다.
         dispatch({
-            type: GET_UPMU_SECCESS,
+            type: GET_FILE_SECCESS,
             payload: response.data
         })
     }
@@ -87,15 +87,15 @@ export const getUpmu = (dirId) => dispatch => {
     })
 }
 
-export const deleteUpmu = (upmuId) => dispatch => {
+export const deletePfile = (pfileId) => dispatch => {
     dispatch({ type: SEND_POST_PENDING });
 
     //console.log(this.initialState.titleInput);
-    return upmuService.deleteUpmu(upmuId).then(
+    return pfileService.deletePfile(pfileId).then(
         (response) => {
             // 요청이 성공했을경우, 서버 응답내용을 payload 로 설정하여 SEND_POST_SUCCESS 액션을 디스패치합니다.
             dispatch({
-                type: GET_UPMU_SECCESS,
+                type: GET_FILE_SECCESS,
                 payload: response.data                
             })
         }
@@ -122,7 +122,7 @@ export default handleActions({
         return state.set('isFetching', true).set('error', false);
     },
     // 업무 저장 전송 성공 
-    [SAVE_UPMU_SUCCESS]: (state, action) => {
+    [SAVE_FILE_SUCCESS]: (state, action) => {
         console.log(action.payload);
         const upmulist = state.get('upmus');
         upmulist.push(action.payload);
@@ -131,7 +131,7 @@ export default handleActions({
         //return state.set('isFetching', false).set('upmu.name', action.payload.titleInput).set('upmu.contents', action.payload.contents);
     },
     // 겟 업무 성공
-    [GET_UPMU_SECCESS] : (state, action) => {
+    [GET_FILE_SECCESS] : (state, action) => {
         console.log('get--',action.payload)
         return state.set('upmus', action.payload).set('isFetching', false);
     },

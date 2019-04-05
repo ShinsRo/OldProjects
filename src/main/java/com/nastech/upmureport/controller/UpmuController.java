@@ -1,5 +1,6 @@
 package com.nastech.upmureport.controller;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,9 +11,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nastech.upmureport.domain.dto.UpmuReqDto;
-import com.nastech.upmureport.domain.dto.UpmuResDto;
-import com.nastech.upmureport.service.UpmuService;
+import com.nastech.upmureport.domain.dto.PfileReqDto;
+import com.nastech.upmureport.domain.dto.PfileResDto;
+import com.nastech.upmureport.service.PfileService;
 
 import lombok.extern.java.Log;
 
@@ -20,9 +21,9 @@ import lombok.extern.java.Log;
 @Log
 public class UpmuController {
 	
-	UpmuService upmuService;
+	PfileService upmuService;
 	
-	public UpmuController(UpmuService upmuService) {
+	public UpmuController(PfileService upmuService) {
 		// TODO Auto-generated constructor stub
 		this.upmuService = upmuService;
 	}
@@ -36,33 +37,33 @@ public class UpmuController {
 	*/
 	
 	@PostMapping(value= "/upmu")
-	public UpmuResDto addUpmu(@RequestBody UpmuReqDto upmuReqDto) {
+	public PfileResDto addUpmu(@RequestBody PfileReqDto pfileReqDto) {
 		log.info("==========================/upmu");
-		log.info(upmuReqDto.toString());
+		log.info(pfileReqDto.toString());
 		
-		UpmuResDto upmuResDto = upmuService.addUpmuContents(upmuReqDto);
+		PfileResDto upmuResDto = upmuService.addUpmuContents(pfileReqDto);
 				
 		return upmuResDto;
 	}
 	
 	@GetMapping(value="/upmu/{dirId}")
-	public List<UpmuResDto> getUpmu(@PathVariable String dirId){
+	public List<PfileResDto> getUpmu(@PathVariable long dirId){
 		log.info("=========get=============/upmu");
 		log.info("dir id = " + dirId);
-		return upmuService.getUpmu(Integer.valueOf(dirId));		
+		return upmuService.getUpmu(BigInteger.valueOf(dirId));		
 	}
 	
 	@PutMapping(value= "/upmu")
-	public List<UpmuResDto> updateUpmu(@RequestBody UpmuReqDto upmuReqDto) {
+	public List<PfileResDto> updateUpmu(@RequestBody PfileReqDto upmuReqDto) {
 		log.info("===========update========/upmu");
 		log.info(upmuReqDto.toString());
 		
 		upmuService.updateUpmucontents(upmuReqDto);
-		return upmuService.getUpmu(Integer.valueOf(upmuReqDto.getDirId())); 
+		return upmuService.getUpmu(BigInteger.valueOf((upmuReqDto.getDirId()).longValue())); 
 	}
 	
 	@DeleteMapping(value= "/upmu/{upmuId}")
-	public List<UpmuResDto> deleteUpmu(@PathVariable String upmuId) {
+	public List<PfileResDto> deleteUpmu(@PathVariable String upmuId) {
 		log.info("===========delete========/upmu/" + upmuId);
 		return upmuService.deleteUpmu(upmuId);
 	}

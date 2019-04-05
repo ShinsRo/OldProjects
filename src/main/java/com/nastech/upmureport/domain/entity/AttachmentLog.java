@@ -1,5 +1,6 @@
 package com.nastech.upmureport.domain.entity;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -7,7 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -21,11 +21,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LogAttachment {
+public class AttachmentLog {
 	
 	
 	@Id @GeneratedValue(strategy= GenerationType.AUTO)
-	private Integer LogAttachmentId;
+	private BigInteger AttachmentLogId;
 		
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="attachmentNum")

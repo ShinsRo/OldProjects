@@ -1,8 +1,8 @@
 package com.nastech.upmureport.domain.entity;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,24 +11,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.intellij.lang.annotations.JdkConstants.CursorType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
-@Entity @Getter @NoArgsConstructor @Builder @AllArgsConstructor
-public class UpmuContent implements Serializable{
+@Entity @Table(name="pfile") @Getter @NoArgsConstructor @Builder @AllArgsConstructor
+public class Pfile implements Serializable{
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer upmuId;
+	private BigInteger pfileId;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="dirId")
 	private Dir dirId;
 	
+
 	private String name;
 	
 	private String contents;
