@@ -2,6 +2,7 @@ package com.nastech.upmureport.domain.entity;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,10 +35,10 @@ public class Project {
 	private String desc;
 	
 	@Temporal(TemporalType.DATE)
-	private LocalDateTime stDate;
+	private Date stDate;
 	
 	@Temporal(TemporalType.DATE)
-	private LocalDateTime edDate;
+	private Date edDate;
 	
 	@CreationTimestamp
 	private LocalDateTime cDate;
