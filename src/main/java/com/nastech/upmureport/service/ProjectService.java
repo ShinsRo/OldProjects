@@ -212,7 +212,6 @@ public class ProjectService {
 				.build();
 		
 		if(parentDir != null ) dir.setParentDir(parentDir);
-		System.out.println(parentDir);
 		return dirRepository.save(dir);
 	}
 

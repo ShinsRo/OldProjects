@@ -31,7 +31,6 @@ public class UserController {
     @PostMapping(value = "/login")
     public UserDto login(@RequestBody UserDto user, HttpServletRequest request){
     	UserDto loginedUserDto = userService.userLogin(user);
-    	System.out.println(loginedUserDto);
     	if(loginedUserDto != null) {
     		HttpSession session = request.getSession();
     		session.setAttribute("userDto", (Object)loginedUserDto);
