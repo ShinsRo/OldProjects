@@ -34,4 +34,7 @@ class queryHasInvalidCharError(Exception):
     '''쿼리에 유효하지 않은 문자가 포함한 경우 예외'''
     pass
 
+class NewConnectionError(Exception):
+    '''sju_get, sju_post 연결지연으로 인한 접근불가 예외'''
+    pass
 

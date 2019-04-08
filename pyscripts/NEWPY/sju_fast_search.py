@@ -73,7 +73,7 @@ class FastSearch():
             session = sju_utiles.set_user_agent(session)
             # 세션 SID, JSESSIONID 요청
             ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1101])
-            res = session.get('http://apps.webofknowledge.com', allow_redirects=False)
+            res = session.get('http://apps.webofknowledge.com', allow_redirects=False, verify=False)
 
             for redirect in session.resolve_redirects(res, res.request):
                 if 'SID' in session.cookies.keys(): break
@@ -176,7 +176,9 @@ class FastSearch():
         # form_data = sju_utiles.get_form_data(action_url, form_data)
         
         self.qid += 1
-        http_res = session.post(url, form_data)
+        
+        http_res = sju_utiles.sju_post(session, url, form_data, 5, query)        
+        #http_res = session.post(url, form_data, verify=False)
 
         # # 검색 성공
         # if http_res.status_code == requests.codes.ok:
@@ -246,7 +248,9 @@ class FastSearch():
         form_data = sju_utiles.get_form_data(action_url, form_data)
 
         url = base_url + action_url
-        http_res = session.post(url, form_data)
+        
+        http_res = sju_utiles.sju_post(session, url, form_data, 5, query)
+        #http_res = session.post(url, form_data, verify=False)
         self.qid += 1
 
         # Access Denied

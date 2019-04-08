@@ -121,6 +121,9 @@ STATE_MSG = {
     
 
     4999: '[dupl] paper_data cnt_link error',
+
+    #search part MSG
+    5000: '[검색] 연결이 지연되어 검색이 불가능합니다.',
 }
 
 USER_AGENT_LIST = [
