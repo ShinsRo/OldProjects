@@ -14,6 +14,7 @@ import com.nastech.upmureport.domain.entity.Pdir;
 import com.nastech.upmureport.domain.entity.Project;
 import com.nastech.upmureport.domain.entity.Role;
 import com.nastech.upmureport.domain.entity.support.Prole;
+import com.nastech.upmureport.domain.entity.support.Pstat;
 import com.nastech.upmureport.domain.repository.AuthInfoRepository;
 import com.nastech.upmureport.domain.repository.CareerRepository;
 import com.nastech.upmureport.domain.repository.MemberProjectRepository;
@@ -205,12 +206,16 @@ public class TestData {
 					.member(m)
 					.project(p1)
 					.pRole(Prole.관리자)
+					.pStat(Pstat.대기)
+					.progress(0)
 					.build();
 			
 			MemberProject mp2 = MemberProject.builder()
 					.member(m)
 					.project(p2)
 					.pRole(Prole.관리자)
+					.pStat(Pstat.진행)
+					.progress(60)
 					.build();
 			
 			mpList.add(mp1);
@@ -220,6 +225,8 @@ public class TestData {
 		MemberProject mp = MemberProject.builder()
 				.member(mList.get(1))
 				.project(p3)
+				.progress(100)
+				.pStat(Pstat.완료)
 				.pRole(Prole.책임자)
 				.build();
 		

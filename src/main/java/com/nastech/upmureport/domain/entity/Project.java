@@ -28,7 +28,6 @@ public class Project {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private BigInteger pid;
 	
-	@NotEmpty
 	private String pName;
 	
 	private String description;

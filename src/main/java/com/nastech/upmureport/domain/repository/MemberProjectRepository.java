@@ -8,9 +8,25 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.nastech.upmureport.domain.entity.Project;
+import com.nastech.upmureport.domain.entity.Member;
 import com.nastech.upmureport.domain.entity.MemberProject;
 
 public interface MemberProjectRepository extends JpaRepository<MemberProject, BigInteger> {
+
+	MemberProject findOneByMemberAndProject(Member m, Project p);
+
+	List<MemberProject> findAllByMember(Member m);
+	List<MemberProject> findAllByProject(Project p);
+
+	void countByMember(Member m);
+	void countByProject(Project p);
+	
+	@Query(
+			value = "update dFlag "
+					+ "from memberproject "
+					+ "where mid = :mp.member.mid and pid = :mp.project.pid", 
+			nativeQuery = true)
+	void disable(MemberProject mp);
 	
 //	@Query(value = "select * from memberproject where deleteFlag = false and userId = :userId", nativeQuery = true)
 //	public List<MemberProject> findAllByMember(@Param("mid") BigInteger mid);
