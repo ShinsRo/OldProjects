@@ -1,4 +1,4 @@
-package com.nastech.upmureport.db;
+package com.nastech.upmureport;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

@@ -1,6 +1,6 @@
-package com.nastech.upmureport.db;
+package com.nastech.upmureport.service;
 
-import static org.junit.Assert.assertTrue;
+import javax.transaction.Transactional;
 
 import org.junit.After;
 import org.junit.Before;
@@ -26,8 +26,7 @@ import com.nastech.upmureport.domain.repository.ProjectRepository;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = {WebConfig.class, PersistenceJPAConfig.class}, loader=AnnotationConfigWebContextLoader.class)
-public class ProjectAndPdirDBTest {
-	
+public class ProjectServiceTest {
 	// Member repositories
 	@Autowired
 	MemberRepository memberRepository;
@@ -45,58 +44,34 @@ public class ProjectAndPdirDBTest {
 	ProjectRepository projectRepository;
 	@Autowired
 	PdirRepository pdirRepository;
-
+	
 	@Before
 	public void setUp() {
 		TestData td = new TestData(
 				memberRepository, memberSystemRepository, 
-				authinfoRepository, careerRepository,
+				authinfoRepository, careerRepository, 
 				memberProjectRepository, projectRepository, 
 				pdirRepository);
 		
 		td.setMemberTestData();
-		
-		assertTrue(memberRepository.count() == 4);
-		assertTrue(authinfoRepository.count() == 4);
-		assertTrue(careerRepository.count() == 4);
-		assertTrue(memberSystemRepository.count() == 3);
-		
 		td.setProjectTestData();
-		
-		assertTrue(projectRepository.count() == 3);
-		assertTrue(memberProjectRepository.count() > 1);
-		
 		td.setPdirTestData();
-		
-		assertTrue(pdirRepository.count() > 1);
 	}
 	
 	@Test
+	@Transactional
 	public void test01() {}
 	
 	@After
 	public void clearAll() {
 		TestData td = new TestData(
 				memberRepository, memberSystemRepository, 
-				authinfoRepository, careerRepository,
+				authinfoRepository, careerRepository, 
 				memberProjectRepository, projectRepository, 
 				pdirRepository);
 		
 		td.deleteAllPdirData();
-		
-		assertTrue(pdirRepository.count() == 0);
-		
 		td.deleteAllProjectData();
-		
-		assertTrue(projectRepository.count() == 0);
-		assertTrue(memberProjectRepository.count() == 0);
-		
 		td.deleteAllMemberData();
-		
-		assertTrue(memberRepository.count() == 0);
-		assertTrue(authinfoRepository.count() == 0);
-		assertTrue(careerRepository.count() == 0);
-		assertTrue(memberSystemRepository.count() == 0);
 	}
-
 }
