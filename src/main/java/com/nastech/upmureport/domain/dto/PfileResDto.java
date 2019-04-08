@@ -23,5 +23,4 @@ public class PfileResDto {
 	private String newDate;
 	
 	private String updateDate;
-
 }

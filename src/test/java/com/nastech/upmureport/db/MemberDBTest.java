@@ -2,10 +2,6 @@ package com.nastech.upmureport.db;
 
 import static org.junit.Assert.assertTrue;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,13 +12,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.AnnotationConfigWebContextLoader;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.nastech.upmureport.TestData;
 import com.nastech.upmureport.config.PersistenceJPAConfig;
 import com.nastech.upmureport.config.WebConfig;
-import com.nastech.upmureport.domain.entity.AuthInfo;
-import com.nastech.upmureport.domain.entity.Career;
-import com.nastech.upmureport.domain.entity.Member;
-import com.nastech.upmureport.domain.entity.MemberSystem;
-import com.nastech.upmureport.domain.entity.Role;
 import com.nastech.upmureport.domain.repository.AuthInfoRepository;
 import com.nastech.upmureport.domain.repository.CareerRepository;
 import com.nastech.upmureport.domain.repository.MemberRepository;
