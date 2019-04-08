@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,6 +28,7 @@ public class PfileLog {
 	@Id @GeneratedValue(strategy= GenerationType.AUTO)
 	private BigInteger LogId;
 	
+	@CreationTimestamp
 	private LocalDateTime newDate;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -34,7 +37,7 @@ public class PfileLog {
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="fId")
-	private Pfile fId;
+	private Pfile pfile;
 	
 	private String contents;	
 	

@@ -53,14 +53,17 @@ public class ProjectAndPdirDBTest {
 	ProjectRepository projectRepository;
 	@Autowired
 	PdirRepository pdirRepository;
+	
+	@Autowired
+	TestData td;
 
 	@Before
 	public void setUp() {
-		TestData td = new TestData(
-				memberRepository, memberSystemRepository, 
-				authinfoRepository, careerRepository,
-				memberProjectRepository, projectRepository, 
-				pdirRepository);
+//		TestData td = new TestData(
+//				memberRepository, memberSystemRepository, 
+//				authinfoRepository, careerRepository,
+//				memberProjectRepository, projectRepository, 
+//				pdirRepository);
 		
 		td.setMemberTestData();
 		
@@ -84,11 +87,11 @@ public class ProjectAndPdirDBTest {
 	
 	@After
 	public void clearAll() {
-		TestData td = new TestData(
-				memberRepository, memberSystemRepository, 
-				authinfoRepository, careerRepository,
-				memberProjectRepository, projectRepository, 
-				pdirRepository);
+//		TestData td = new TestData(
+//				memberRepository, memberSystemRepository, 
+//				authinfoRepository, careerRepository,
+//				memberProjectRepository, projectRepository, 
+//				pdirRepository);
 		
 		td.deleteAllPdirData();
 		

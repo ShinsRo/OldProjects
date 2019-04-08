@@ -41,10 +41,12 @@ public class MemberDBTest {
 	AuthInfoRepository authinfoRepository;
 	@Autowired
 	CareerRepository careerRepository;
+	@Autowired
+	TestData td;
 
 	@Before
 	public void setUp() {
-		TestData td = new TestData(memberRepository, memberSystemRepository, authinfoRepository, careerRepository);
+		//TestData td = new TestData(memberRepository, memberSystemRepository, authinfoRepository, careerRepository);
 		td.setMemberTestData();
 		
 		assertTrue(memberRepository.count() == 4);
@@ -54,11 +56,14 @@ public class MemberDBTest {
 	}
 	
 	@Test
-	public void test01() {}
+	public void test01() {
+		
+		
+	}
 	
 	@After
 	public void clearAll() {
-		TestData td = new TestData(memberRepository, memberSystemRepository, authinfoRepository, careerRepository);
+		//TestData td = new TestData(memberRepository, memberSystemRepository, authinfoRepository, careerRepository);
 		td.deleteAllMemberData();
 		
 		assertTrue(memberRepository.count() == 0);

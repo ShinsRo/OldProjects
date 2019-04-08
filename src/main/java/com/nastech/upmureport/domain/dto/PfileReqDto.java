@@ -16,7 +16,7 @@ public class PfileReqDto {
 	
 	private String localPath;
 	
-	private BigInteger dirId;
+	private BigInteger pdirId;
 	
 	private BigInteger pfileId;
 
