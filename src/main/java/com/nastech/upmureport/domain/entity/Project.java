@@ -31,14 +31,11 @@ public class Project {
 	@NotEmpty
 	private String pName;
 	
-	@NotNull
-	private String desc;
+	private String description;
 	
-	@Temporal(TemporalType.DATE)
-	private Date stDate;
+	private LocalDateTime stDate;
 	
-	@Temporal(TemporalType.DATE)
-	private Date edDate;
+	private LocalDateTime edDate;
 	
 	@CreationTimestamp
 	private LocalDateTime cDate;

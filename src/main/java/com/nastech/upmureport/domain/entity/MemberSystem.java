@@ -6,7 +6,7 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.nastech.upmureport.domain.pk.EmployeeSystemPK;
+import com.nastech.upmureport.domain.pk.MemberSystemPK;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,16 +18,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@IdClass(EmployeeSystemPK.class)
+@IdClass(MemberSystemPK.class)
 public class MemberSystem {
 	
 	@Id
 	@ManyToOne
-	@JoinColumn(name="seniorId", columnDefinition="varchar(32)")
+	@JoinColumn(name="seniorId")
 	private Member senior;
 	
 	@Id
 	@ManyToOne
-	@JoinColumn(name="juniorId", columnDefinition="varchar(32)")
+	@JoinColumn(name="juniorId")
 	private Member junior;
 }

@@ -38,11 +38,9 @@ public class Pdir {
 	@JoinColumn(name = "parentDirId")
 	private Pdir parentDir;
 	
-//	@NotNull
-//	@ManyToOne(optional = true) @JoinColumn(name = "mid")
-//	private Member member;
+	@ManyToOne(optional = true) @JoinColumn(name = "mid")
+	private Member member;
 	
-	@NotNull
 	@ManyToOne(fetch=FetchType.LAZY, cascade={ CascadeType.REFRESH }) 
 	@JoinColumn(name = "parentProjId")
 	private Project project;

@@ -1,13 +1,14 @@
 package com.nastech.upmureport.domain.pk;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Objects;
 
-public class EmployeeSystemPK implements Serializable{
+public class MemberSystemPK implements Serializable{
 	private static final long serialVersionUID = 3570716009500781077L;
 	
-	private String senior;
-	private String junior;
+	private BigInteger senior;
+	private BigInteger junior;
 	
 	@Override
 	public boolean equals(Object o) {
@@ -17,7 +18,7 @@ public class EmployeeSystemPK implements Serializable{
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		EmployeeSystemPK pk = (EmployeeSystemPK) o;
+		MemberSystemPK pk = (MemberSystemPK) o;
 		return Objects.equals(senior, pk.senior) && Objects.equals(junior, pk.junior);
 	}
 	

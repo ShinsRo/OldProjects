@@ -1,5 +1,6 @@
 package com.nastech.upmureport.domain.entity;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -9,7 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Max;
@@ -31,11 +31,11 @@ import lombok.NoArgsConstructor;
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
 public class MemberProject {
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
-	private Long mpid;
+	private BigInteger mpid;
 	
-//	@ManyToOne(optional = false, fetch=FetchType.LAZY)
-//	@JoinColumn(name = "mid")
-//	private Member member;
+	@ManyToOne(optional = false, fetch=FetchType.LAZY)
+	@JoinColumn(name = "mid")
+	private Member member;
 	
 	@ManyToOne(optional = false, fetch=FetchType.LAZY)
 	@JoinColumn(name = "pid")

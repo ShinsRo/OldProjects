@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,12 +30,12 @@ public class Member {
 	private String phoneNum;
 	private LocalDate joinDate;
 	private LocalDate retireDate;
-	private Boolean deleteFlag;
-	@OneToOne
-	@JoinColumn(name = "aid")
-	private Auth aid;
 	
-	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL) // (1)
+	@Builder.Default
+	private Boolean dFlag = false;
+	
+	
+	@OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name="mid")
 	private List<Career> career;
 	

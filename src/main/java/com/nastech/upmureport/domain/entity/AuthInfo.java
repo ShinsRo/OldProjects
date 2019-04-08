@@ -8,6 +8,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,11 +18,16 @@ import lombok.NoArgsConstructor;
 
 @Entity 
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
-public class Auth {
+public class AuthInfo {
 	@Id @GeneratedValue(strategy= GenerationType.AUTO)
 	private BigInteger aid;
 	private String username;
 	private String password;
+	
 	@Enumerated(EnumType.STRING)
     private Role role;
+
+	@OneToOne
+	@JoinColumn(name = "mid")
+	private Member member;
 }
