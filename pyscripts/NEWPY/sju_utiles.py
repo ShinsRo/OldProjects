@@ -1,5 +1,6 @@
 import sju_exceptions
 import sju_CONSTANTS
+import sju_models
 
 import os
 import re
@@ -12,11 +13,82 @@ from lxml.html import fromstring
 from fake_useragent import UserAgent
 from urllib.parse import unquote
 from urllib.parse import quote
+from urllib3.exceptions import NewConnectionError
 import ast
 
 import numpy as np
 import pandas as pd
 from bs4 import BeautifulSoup
+
+def sju_get(session, url, redirects, max_retries, query = None):
+    http_res = ''
+    retries = 0
+    ui_stream = sju_models.UI_Stream('search')
+
+    if query == None:
+        query = ('None','','Sejong Univ')
+    
+    while (retries < max_retries):
+        try:
+            http_res = session.get(url, allow_redirects=redirects, verify=False)
+            break
+        except NewConnectionError as nce:
+            sleep(5)
+        finally:
+            retries += 1
+    try:
+        if retries >= max_retries:
+            raise sju_exceptions.NewConnectionError()
+    except sju_exceptions.NewConnectionError:
+            ui_stream.push(command='err', msg=sju_CONSTANTS.STATE_MSG[5000])
+            
+            ui_stream.push(
+                command='res', target='errQuery', 
+                res={'query': query, 'msg': sju_CONSTANTS.STATE_MSG[5000]}
+            )
+            return
+
+    # # 요청 초과 시 익셉션 발생
+    # ConnectionError 정의 안되있으니 정의 따로 하시고, 에러 핸들 하셔야합니다.
+    # if retries >= max_retries:
+    #     raise new ConnectionError()
+
+    return http_res
+
+def sju_post(session, url, form_data, max_retries, query = None):
+    http_res = ''
+    retries = 0
+    ui_stream = sju_models.UI_Stream('search')
+
+    if query == None:
+        query = ('None','','Sejong Univ')
+
+    while (retries < max_retries):
+        try:
+            http_res = session.post(url, form_data, verify=False)
+            break
+        except NewConnectionError as nce:
+            sleep(5)
+        finally:
+            retries += 1
+    try:
+        if retries >= max_retries:
+            raise sju_exceptions.NewConnectionError()
+    except sju_exceptions.NewConnectionError:
+            ui_stream.push(command='err', msg=sju_CONSTANTS.STATE_MSG[5000])
+            
+            ui_stream.push(
+                command='res', target='errQuery', 
+                res={'query': query, 'msg': sju_CONSTANTS.STATE_MSG[5000]}
+            )
+            return
+        
+    # # 요청 초과 시 익셉션 발생
+    # ConnectionError 정의 안되있으니 정의 따로 하시고, 에러 핸들 하셔야합니다.
+    # if retries >= max_retries:
+    #     raise new ConnectionError()
+
+    return http_res
 
 def set_user_agent(session):
     '''
@@ -508,15 +580,17 @@ def parse_paper_data(target_content, paper_data_id, search_type, SID_name):
         # [2단계]-1 Impact Factor 파싱 (2차)
         
         # incite jr name find  
-        incite_jr_name = "https://jcr.incites.thomsonreuters.com/SearchJournalsJson.action?query=" + ISSN_name
+        incite_jr_name = "https://jcr.clarivate.com/SearchJournalsJson.action?query=" + ISSN_name
+        #incite_jr_name = "https://jcr.incites.thomsonreuters.com/SearchJournalsJson.action?query=" + ISSN_name
         http_incite_jr = r.get(incite_jr_name)
         http_incite_jr_text = http_incite_jr.text
 
         incite_edition_name = http_incite_jr_text[http_incite_jr_text.find('edition')+10:http_incite_jr_text.find('jcrCoverageYears')-3]
         incite_jr_name = http_incite_jr_text[http_incite_jr_text.find('abbrJournal')+14:http_incite_jr_text.find('journalTitle')-3]
         incite_jr_name = incite_jr_name.replace(' ','%20')
-
-        base_json_url = "https://jcr.incites.thomsonreuters.com/JournalProfileGraphDataJson.action?abbrJournal=" + incite_jr_name
+        
+        #base_json_url = "https://jcr.incites.thomsonreuters.com/JournalProfileGraphDataJson.action?abbrJournal=" + incite_jr_name
+        base_json_url = "https://jcr.clarivate.com/JournalProfileGraphDataJson.action?abbrJournal=" + incite_jr_name
         base_json_url += "&edition=" + incite_edition_name + "&page=1&start=0&limit=25&sort=%5B%7B%22property%22%3A%22year%22%2C%22direction%22%3A%22DESC%22%7D%5D"
         http_incite_if = r.get(base_json_url)
 
@@ -537,11 +611,11 @@ def parse_paper_data(target_content, paper_data_id, search_type, SID_name):
             impactFactor_two = "None"
         else:
             impactFactor_two = impactFactor_two[1:-1]
-
         #print("start444")
 
         # [2단계]-2 백분율 파싱 (2차)
-        base_json_url = "https://jcr.incites.thomsonreuters.com/JCRImpactFactorJson.action?&abbrJournal=" + incite_jr_name
+        #base_json_url = "https://jcr.incites.thomsonreuters.com/JCRImpactFactorJson.action?&abbrJournal=" + incite_jr_name
+        base_json_url = "https://jcr.clarivate.com/JCRImpactFactorJson.action?&abbrJournal=" + incite_jr_name
         base_json_url += "&edition=" + incite_edition_name
         http_incite_per = r.get(base_json_url)
         http_incite_per_LIST = ast.literal_eval(http_incite_per.text)
@@ -628,8 +702,11 @@ def parse_paper_data(target_content, paper_data_id, search_type, SID_name):
             impact_factor['5 year'] = impactFactor_two
     else:
         impact_factor = {}
-
     
+    #print("final impact_factor = ", impact_factor)
+    #print("impactFactor one = ", impactFactor_one)
+    #print("impactFactor two = ", impactFactor_two)
+
     # incite session 종료
     r.close()
     #print("finish")

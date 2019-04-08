@@ -8,7 +8,7 @@ import logging
 import traceback
 
 class UI_Stream():
-    def __init__(self, name, thread, res_name):
+    def __init__(self, name, thread = None, res_name = None):
         self.name = name
         self.thread = thread
         self.res_name = res_name

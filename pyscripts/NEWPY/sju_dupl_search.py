@@ -47,7 +47,8 @@ class MultiSearchContainer():
         # [단계 2/3] 인용년도 조회 (병렬 구성)
         #########################################################################
 
-        http_res = session.get(self.base_url + "/" + report_link)
+        http_res = sju_utiles.sju_get(session, self.base_url + "/" + report_link, True, 5)
+        #http_res = session.get(self.base_url + "/" + report_link, verify=False)
         target_content = http_res.content
         soup = BeautifulSoup(target_content, 'html.parser')
 
@@ -128,7 +129,8 @@ class MultiSearchContainer():
         #ui_stream.push(command='log', msg='[url]: %s'%query_string_url[query_string_url.find('page'):])
         
         # 상세 정보 페이지 요청
-        http_res = session.get(query_string_url)
+        http_res = sju_utiles.sju_get(session, query_string_url, True, 5, query)
+        #http_res = session.get(query_string_url, verify=False)
 
         # Access Denied
         if http_res.status_code == 403:
@@ -192,7 +194,8 @@ class MultiSearchContainer():
             ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[4104])
 
             url = base_url + cnt_link['href']
-            http_res = session.get(url)
+            http_res = sju_utiles.sju_get(session, url, True, 5, query)
+            #http_res = session.get(url, verify=False)
 
             # Access Denied
             if http_res.status_code == 403:
@@ -271,7 +274,8 @@ class MultiSearchContainer():
         form_data = sju_utiles.get_form_data(action_url, form_data)
 
         url = base_url + action_url
-        http_res = session.post(url, form_data)
+        http_res = sju_utiles.sju_post(session, url, form_data, 5, query)
+        #http_res = session.post(url, form_data, verify=False)
         local_qid += 1
         #self.qid += 1 
 
@@ -385,7 +389,8 @@ class DuplSearch():
             session = sju_utiles.set_user_agent(session)
             # 세션 SID, JSESSIONID 요청
             ui_stream.push(command='log', msg=sju_CONSTANTS.STATE_MSG[1101])
-            res = session.get('http://apps.webofknowledge.com', allow_redirects=False)
+
+            res = session.get('http://apps.webofknowledge.com', allow_redirects=False, verify=False)
             
             for redirect in session.resolve_redirects(res, res.request):
                 if 'SID' in session.cookies.keys(): break
@@ -482,7 +487,8 @@ class DuplSearch():
         url = base_url + action_url
         
         self.qid += 1
-        http_res = session.post(url, form_data)
+        http_res = sju_utiles.sju_post(session, url, form_data, 5, query)
+        #http_res = session.post(url, form_data, verify=False)
 
         # Access Denied
         if http_res.status_code == 403:
@@ -581,7 +587,7 @@ if __name__ == "__main__":
     ds.start(
             #(input(), input(), input()),
         #('world', '', 'sejong univ'),
-        ("Assessing the economic values of World Heritage Sites and the effects of perceived authenticity on their values", '', 'sejong univ'),
+        ("Edge Oxidation Effect of Chemical-Vapor-Deposition-Grown Graphene Nanoconstriction", '', 'sejong univ'),
         '1945',
         '2018',
         'TI'
