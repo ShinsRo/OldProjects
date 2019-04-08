@@ -3,6 +3,7 @@ package com.nastech.upmureport.domain.entity;
 import java.math.BigInteger;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -33,11 +34,12 @@ public class MemberProject {
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private BigInteger mpid;
 	
-	@ManyToOne(optional = false, fetch=FetchType.LAZY)
+	@ManyToOne(optional = false, fetch=FetchType.LAZY, cascade={ CascadeType.REFRESH })
 	@JoinColumn(name = "mid")
 	private Member member;
 	
-	@ManyToOne(optional = false, fetch=FetchType.LAZY)
+	@ManyToOne(optional = false, fetch=FetchType.LAZY, 
+			cascade={ CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
 	@JoinColumn(name = "pid")
 	private Project project;
 	

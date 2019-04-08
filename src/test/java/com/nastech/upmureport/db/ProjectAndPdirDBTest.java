@@ -25,14 +25,18 @@ import com.nastech.upmureport.domain.entity.MemberSystem;
 import com.nastech.upmureport.domain.entity.Role;
 import com.nastech.upmureport.domain.repository.AuthInfoRepository;
 import com.nastech.upmureport.domain.repository.CareerRepository;
+import com.nastech.upmureport.domain.repository.MemberProjectRepository;
 import com.nastech.upmureport.domain.repository.MemberRepository;
 import com.nastech.upmureport.domain.repository.MemberSystemRepository;
+import com.nastech.upmureport.domain.repository.PdirRepository;
+import com.nastech.upmureport.domain.repository.ProjectRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = {WebConfig.class, PersistenceJPAConfig.class}, loader=AnnotationConfigWebContextLoader.class)
-public class MemberDBTest {
+public class ProjectAndPdirDBTest {
 	
+	// Member repositories
 	@Autowired
 	MemberRepository memberRepository;
 	@Autowired
@@ -41,16 +45,38 @@ public class MemberDBTest {
 	AuthInfoRepository authinfoRepository;
 	@Autowired
 	CareerRepository careerRepository;
+	
+	//Project and pdir repositories
+	@Autowired
+	MemberProjectRepository memberProjectRepository;
+	@Autowired
+	ProjectRepository projectRepository;
+	@Autowired
+	PdirRepository pdirRepository;
 
 	@Before
 	public void setUp() {
-		TestData td = new TestData(memberRepository, memberSystemRepository, authinfoRepository, careerRepository);
+		TestData td = new TestData(
+				memberRepository, memberSystemRepository, 
+				authinfoRepository, careerRepository,
+				memberProjectRepository, projectRepository, 
+				pdirRepository);
+		
 		td.setMemberTestData();
 		
 		assertTrue(memberRepository.count() == 4);
 		assertTrue(authinfoRepository.count() == 4);
 		assertTrue(careerRepository.count() == 4);
 		assertTrue(memberSystemRepository.count() == 3);
+		
+		td.setProjectTestData();
+		
+		assertTrue(projectRepository.count() == 3);
+		assertTrue(memberProjectRepository.count() > 1);
+		
+		td.setPdirTestData();
+		
+		assertTrue(pdirRepository.count() > 1);
 	}
 	
 	@Test
@@ -58,7 +84,21 @@ public class MemberDBTest {
 	
 	@After
 	public void clearAll() {
-		TestData td = new TestData(memberRepository, memberSystemRepository, authinfoRepository, careerRepository);
+		TestData td = new TestData(
+				memberRepository, memberSystemRepository, 
+				authinfoRepository, careerRepository,
+				memberProjectRepository, projectRepository, 
+				pdirRepository);
+		
+		td.deleteAllPdirData();
+		
+		assertTrue(pdirRepository.count() == 0);
+		
+		td.deleteAllProjectData();
+		
+		assertTrue(projectRepository.count() == 0);
+		assertTrue(memberProjectRepository.count() == 0);
+		
 		td.deleteAllMemberData();
 		
 		assertTrue(memberRepository.count() == 0);

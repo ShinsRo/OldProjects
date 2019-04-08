@@ -35,14 +35,15 @@ public class Pdir {
 	
 	@Nullable
 	@ManyToOne(fetch=FetchType.LAZY, cascade={ CascadeType.REFRESH, CascadeType.DETACH })
-	@JoinColumn(name = "parentDirId")
+	@JoinColumn(name = "parentDid")
 	private Pdir parentDir;
 	
-	@ManyToOne(optional = true) @JoinColumn(name = "mid")
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "mid")
 	private Member member;
 	
 	@ManyToOne(fetch=FetchType.LAZY, cascade={ CascadeType.REFRESH }) 
-	@JoinColumn(name = "parentProjId")
+	@JoinColumn(name = "parentPid")
 	private Project project;
 	
 	@CreationTimestamp
