@@ -45,11 +45,11 @@ public class MemberProject {
 	
 	@NotNull
 	@Enumerated(EnumType.ORDINAL)
-	private Prole pRole;
+	private Prole prole;
 	
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	private Pstat pStat;
+	private Pstat pstat;
 	
 	@NotNull
 	@Max(100)
@@ -57,11 +57,11 @@ public class MemberProject {
 	private Integer progress;
 	
 	@CreationTimestamp
-	private Date cDate;
+	private Date cdate;
 	
 	@UpdateTimestamp
-	private Date uDate;
+	private Date udate;
 
 	@Builder.Default
-	private Boolean dFlag = false;
+	private Boolean dflag = false;
 }

@@ -19,6 +19,7 @@ import com.nastech.upmureport.domain.entity.PfileLog.LogStat;
 import com.nastech.upmureport.domain.entity.Project;
 import com.nastech.upmureport.domain.entity.Role;
 import com.nastech.upmureport.domain.entity.support.Prole;
+import com.nastech.upmureport.domain.entity.support.Pstat;
 import com.nastech.upmureport.domain.repository.AttachmentLogRepository;
 import com.nastech.upmureport.domain.repository.AttachmentRepository;
 import com.nastech.upmureport.domain.repository.AuthInfoRepository;
@@ -71,23 +72,6 @@ public class TestData {
 		this.attachmentLogRepository = attachmentLogRepository;
 		
 	}
-
-	
-	
-//	public TestData(MemberRepository memberRepository, MemberSystemRepository memberSystemRepository,
-//			AuthInfoRepository authinfoRepository, CareerRepository careerRepository,
-//			MemberProjectRepository memberProjectRepository, ProjectRepository projectRepository,
-//			PdirRepository pdirRepository) {
-//		super();
-//		this.memberRepository = memberRepository;
-//		this.memberSystemRepository = memberSystemRepository;
-//		this.authinfoRepository = authinfoRepository;
-//		this.careerRepository = careerRepository;
-//		this.memberProjectRepository = memberProjectRepository;
-//		this.projectRepository = projectRepository;
-//		this.pdirRepository = pdirRepository;
-//	}
-
 
 	/**
 	 * 멤버 테스트 데이터 생성 메서드
@@ -201,21 +185,21 @@ public class TestData {
 		List<Project> pList = new ArrayList<Project>();
 		
 		Project p1 = Project.builder()
-				.pName("일일 업무 보고")
+				.pname("일일 업무 보고")
 				.description("일일 간 업무를 보고한다.")
 				.stDate(LocalDateTime.now())
 				.edDate(LocalDateTime.now())
 				.build();
 		
 		Project p2 = Project.builder()
-				.pName("업무리포트2웹 프로젝트")
+				.pname("업무리포트2웹 프로젝트")
 				.description("C# 업무리포트 프로그램을 웹으로 포팅한다.")
 				.stDate(LocalDateTime.now())
 				.edDate(LocalDateTime.now())
 				.build();
 		
 		Project p3 = Project.builder()
-				.pName("아무개 프로젝트")
+				.pname("아무개 프로젝트")
 				.description("시크릿 프로젝트")
 				.stDate(LocalDateTime.now())
 				.edDate(LocalDateTime.now())
@@ -233,13 +217,17 @@ public class TestData {
 			MemberProject mp1 = MemberProject.builder()
 					.member(m)
 					.project(p1)
-					.pRole(Prole.관리자)
+					.pstat(Pstat.대기)
+					.prole(Prole.관리자)
+					.progress(0)
 					.build();
 			
 			MemberProject mp2 = MemberProject.builder()
 					.member(m)
 					.project(p2)
-					.pRole(Prole.관리자)
+					.pstat(Pstat.진행)
+					.prole(Prole.관리자)
+					.progress(60)
 					.build();
 			
 			mpList.add(mp1);
@@ -249,7 +237,9 @@ public class TestData {
 		MemberProject mp = MemberProject.builder()
 				.member(mList.get(1))
 				.project(p3)
-				.pRole(Prole.책임자)
+				.pstat(Pstat.완료)
+				.prole(Prole.책임자)
+				.progress(100)
 				.build();
 		
 		mpList.add(mp);
@@ -276,7 +266,7 @@ public class TestData {
 		List<Pdir> pdList = new ArrayList<Pdir>();
 		
 		for (MemberProject mp : mpList) {
-			if ( mp.getPRole().compareTo(Prole.구성원) > 0 ) continue;
+			if ( mp.getProle().compareTo(Prole.구성원) > 0 ) continue;
 			
 			Pdir root = Pdir.builder()
 					.dName(mp.getMember().getMName())

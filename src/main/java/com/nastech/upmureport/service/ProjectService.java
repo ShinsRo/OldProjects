@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.nastech.upmureport.domain.dto.ProjectDTO;
+import com.nastech.upmureport.domain.dto.ProjectDto;
 import com.nastech.upmureport.domain.entity.Member;
 import com.nastech.upmureport.domain.entity.MemberProject;
 import com.nastech.upmureport.domain.entity.Project;
@@ -17,7 +17,6 @@ import com.nastech.upmureport.domain.entity.support.Prole;
 import com.nastech.upmureport.domain.entity.support.Pstat;
 import com.nastech.upmureport.domain.repository.MemberProjectRepository;
 import com.nastech.upmureport.domain.repository.MemberRepository;
-import com.nastech.upmureport.domain.repository.PdirRepository;
 import com.nastech.upmureport.support.Utils;
 
 @Service
@@ -28,20 +27,17 @@ public class ProjectService {
 	@Autowired
 	private MemberProjectRepository mpr;
 	
-	@Autowired
-	private PdirRepository pdr;
-	
 	/**
 	 * @param pDTO 프로젝트 등록할 정보
 	 * 넘겨받은 프로젝트 정보에 의거해 프로젝트를 등록합니다. 이 때 요청한 유저는 자동적으로 프로젝트에 소속합니다.
 	 * @return 등록자와 프로젝트 연결 객체, 해당 유저가 존재하지 않을 경우 익셉션
 	 */
 	@Transactional
-	public MemberProject register(ProjectDTO pDTO) throws NoSuchElementException {
+	public MemberProject register(ProjectDto pDTO) throws NoSuchElementException {
 		Member member = null;
 
 		Project project = Project.builder()
-				.pName(pDTO.getPName())
+				.pname(pDTO.getPname())
 				.description(pDTO.getDescription())
 				.stDate(pDTO.getStDate())
 				.edDate(pDTO.getEdDate())
@@ -49,10 +45,11 @@ public class ProjectService {
 		
 		BigInteger BigIntegerPid = null;
 		String pid = pDTO.getPid();
-		if (pid != null && pid.equals("")) 
+		if (pid != null && pid.equals("")) {
 			BigIntegerPid = Utils.StrToBigInt(pid);
+			project.setPid(BigIntegerPid);
+		}
 		
-		project.setPid(BigIntegerPid);
 		
 		BigInteger mid = Utils.StrToBigInt(pDTO.getMid());
 		try {
@@ -71,8 +68,8 @@ public class ProjectService {
 		MemberProject mp = MemberProject.builder()
 				.member(member)
 				.project(project)
-				.pStat(ps)
-				.pRole(Prole.책임자)
+				.pstat(ps)
+				.prole(Prole.책임자)
 				.progress(pDTO.getProgess())
 				.build();
 		
@@ -86,7 +83,7 @@ public class ProjectService {
 	 * @return 변경한 UserProject 오브젝트
 	 */
 	@Transactional
-	public MemberProject update(ProjectDTO pDTO) {
+	public MemberProject update(ProjectDto pDTO) {
 		Project p = Project.builder()
 				.pid(Utils.StrToBigInt(pDTO.getPid()))
 				.build();
@@ -102,32 +99,31 @@ public class ProjectService {
 		try {
 			ps = Pstat.valueOf(pDTO.getPStat());
 		} catch (IllegalArgumentException iae) {
-			ps = mp.getPStat();
+			ps = mp.getPstat();
 		}
-		mp.setPStat(ps);
+		mp.setPstat(ps);
 		
 		Prole pr;
 		try {
 			pr = Prole.valueOf(pDTO.getPRole());
 		} catch (IllegalArgumentException iae) {
-			pr = mp.getPRole();
+			pr = mp.getProle();
 		}
-		mp.setPRole(pr);
-		
-		mpr.save(mp);
-		return mp;
+		mp.setProle(pr);
+		Utils.overrideEntity(mp.getProject(), pDTO);
+		return mpr.save(mp);
 	}
 	
-	public List<ProjectDTO> listByMid(String mid) {
+	public List<ProjectDto> listByMid(String mid) {
 		Member m = Member.builder()
 				.mid(Utils.StrToBigInt(mid))
 				.build();
 		
-		List<MemberProject> mpList = mpr.findAllByMember(m);
+		List<MemberProject> mpList = mpr.findAllByMemberAndDflagFalse(m);
 		
-		List<ProjectDTO> pDTOs = new ArrayList<ProjectDTO>(); 
+		List<ProjectDto> pDTOs = new ArrayList<ProjectDto>(); 
 		for (MemberProject mp : mpList) {
-			ProjectDTO pDTO = new ProjectDTO(mp);
+			ProjectDto pDTO = new ProjectDto(mp);
 			pDTOs.add(pDTO);
 		}
 		
@@ -135,7 +131,7 @@ public class ProjectService {
 	}
 	
 	@Transactional
-	public void disableMemberProject(ProjectDTO pDTO) throws NoSuchElementException {
+	public void disableMemberProject(ProjectDto pDTO) throws NoSuchElementException {
 		Member m = Member.builder()
 				.mid(Utils.StrToBigInt(pDTO.getMid()))
 				.build();
@@ -145,9 +141,9 @@ public class ProjectService {
 				.build();
 		
 		MemberProject mp = mpr.findOneByMemberAndProject(m, p);
-		mp.setDFlag(true);
+		mp.setDflag(true);
 		
-		mpr.disable(mp);
+		mpr.save(mp);
 	}
 	
 //	/**
