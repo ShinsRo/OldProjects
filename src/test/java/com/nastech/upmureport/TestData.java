@@ -5,24 +5,33 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.nastech.upmureport.domain.entity.AuthInfo;
 import com.nastech.upmureport.domain.entity.Career;
 import com.nastech.upmureport.domain.entity.Member;
 import com.nastech.upmureport.domain.entity.MemberProject;
 import com.nastech.upmureport.domain.entity.MemberSystem;
 import com.nastech.upmureport.domain.entity.Pdir;
+import com.nastech.upmureport.domain.entity.Pfile;
+import com.nastech.upmureport.domain.entity.PfileLog;
+import com.nastech.upmureport.domain.entity.PfileLog.LogStat;
 import com.nastech.upmureport.domain.entity.Project;
 import com.nastech.upmureport.domain.entity.Role;
 import com.nastech.upmureport.domain.entity.support.Prole;
-import com.nastech.upmureport.domain.entity.support.Pstat;
+import com.nastech.upmureport.domain.repository.AttachmentLogRepository;
+import com.nastech.upmureport.domain.repository.AttachmentRepository;
 import com.nastech.upmureport.domain.repository.AuthInfoRepository;
 import com.nastech.upmureport.domain.repository.CareerRepository;
 import com.nastech.upmureport.domain.repository.MemberProjectRepository;
 import com.nastech.upmureport.domain.repository.MemberRepository;
 import com.nastech.upmureport.domain.repository.MemberSystemRepository;
 import com.nastech.upmureport.domain.repository.PdirRepository;
+import com.nastech.upmureport.domain.repository.PfileLogRepository;
+import com.nastech.upmureport.domain.repository.PfileRepository;
 import com.nastech.upmureport.domain.repository.ProjectRepository;
 
+@Service 
 public class TestData {
 		//Member repositories
 		MemberRepository memberRepository;
@@ -34,32 +43,50 @@ public class TestData {
 		MemberProjectRepository memberProjectRepository;
 		ProjectRepository projectRepository;
 		PdirRepository pdirRepository;
+		
+		//pfile, pfile log, attachment, attachment log
+		PfileRepository pfileRepository;
+		PfileLogRepository pfileLogRepository;
+		AttachmentRepository attachmentRepository;
+		AttachmentLogRepository attachmentLogRepository;
 	
 	
 	public TestData(MemberRepository memberRepository, MemberSystemRepository memberSystemRepository,
-			AuthInfoRepository authinfoRepository, CareerRepository careerRepository) {
-		super();
+			AuthInfoRepository authinfoRepository, CareerRepository careerRepository, PfileRepository pfileRepository, PfileLogRepository pfileLogRepository,
+			AttachmentRepository attachmentRepository, AttachmentLogRepository attachmentLogRepository,
+			MemberProjectRepository memberProjectRepository, ProjectRepository projectRepository, PdirRepository pdirRepository) {
+
 		this.memberRepository = memberRepository;
 		this.memberSystemRepository = memberSystemRepository;
 		this.authinfoRepository = authinfoRepository;
 		this.careerRepository = careerRepository;
+		
+		this.memberProjectRepository = memberProjectRepository;
+		this.projectRepository = projectRepository;
+		this.pdirRepository = pdirRepository;
+		
+		this.pfileRepository = pfileRepository;
+		this.pfileLogRepository = pfileLogRepository;
+		this.attachmentRepository = attachmentRepository;
+		this.attachmentLogRepository = attachmentLogRepository;
+		
 	}
 
 	
 	
-	public TestData(MemberRepository memberRepository, MemberSystemRepository memberSystemRepository,
-			AuthInfoRepository authinfoRepository, CareerRepository careerRepository,
-			MemberProjectRepository memberProjectRepository, ProjectRepository projectRepository,
-			PdirRepository pdirRepository) {
-		super();
-		this.memberRepository = memberRepository;
-		this.memberSystemRepository = memberSystemRepository;
-		this.authinfoRepository = authinfoRepository;
-		this.careerRepository = careerRepository;
-		this.memberProjectRepository = memberProjectRepository;
-		this.projectRepository = projectRepository;
-		this.pdirRepository = pdirRepository;
-	}
+//	public TestData(MemberRepository memberRepository, MemberSystemRepository memberSystemRepository,
+//			AuthInfoRepository authinfoRepository, CareerRepository careerRepository,
+//			MemberProjectRepository memberProjectRepository, ProjectRepository projectRepository,
+//			PdirRepository pdirRepository) {
+//		super();
+//		this.memberRepository = memberRepository;
+//		this.memberSystemRepository = memberSystemRepository;
+//		this.authinfoRepository = authinfoRepository;
+//		this.careerRepository = careerRepository;
+//		this.memberProjectRepository = memberProjectRepository;
+//		this.projectRepository = projectRepository;
+//		this.pdirRepository = pdirRepository;
+//	}
 
 
 	/**
@@ -156,6 +183,7 @@ public class TestData {
 		careerRepository.saveAll(cList);
 		memberSystemRepository.saveAll(msList);
 	}
+	
 	public void deleteAllMemberData() {
 		memberSystemRepository.deleteAll();
 		careerRepository.deleteAll();
@@ -206,16 +234,12 @@ public class TestData {
 					.member(m)
 					.project(p1)
 					.pRole(Prole.관리자)
-					.pStat(Pstat.대기)
-					.progress(0)
 					.build();
 			
 			MemberProject mp2 = MemberProject.builder()
 					.member(m)
 					.project(p2)
 					.pRole(Prole.관리자)
-					.pStat(Pstat.진행)
-					.progress(60)
 					.build();
 			
 			mpList.add(mp1);
@@ -225,8 +249,6 @@ public class TestData {
 		MemberProject mp = MemberProject.builder()
 				.member(mList.get(1))
 				.project(p3)
-				.progress(100)
-				.pStat(Pstat.완료)
 				.pRole(Prole.책임자)
 				.build();
 		
@@ -297,4 +319,56 @@ public class TestData {
 		pdirRepository.deleteAll();
 	}
 	
+	public void setPfileTestData() {
+		List<Pdir> pdirs = pdirRepository.findAll();
+		List<Member> members = memberRepository.findAll();
+		
+		List<Pfile> pfiles = new ArrayList<Pfile>();
+		List<PfileLog> pfileLogs = new ArrayList<PfileLog>();
+		
+		Pfile pfile1 = Pfile.builder().pdir(pdirs.get(0))
+				.name("0408업무일지")
+				.contents("오늘은 날씨가 좋았다ㅎㅎㅎㅎ")
+				.build();
+		
+		Pfile pfile2 = Pfile.builder().pdir(pdirs.get(0))
+				.name("0409업무일지")
+				.contents("ㅎㅎㅎㅎ")
+				.build();
+		
+		Pfile pfile3 = Pfile.builder().pdir(pdirs.get(0))
+				.name("0410업무일지")
+				.contents("오늘은 날씨가 구리다ㅎㅎㅎㅎ")
+				.build();
+		
+		pfiles.add(pfile1);
+		pfiles.add(pfile2);
+		pfiles.add(pfile3);
+		
+		
+		PfileLog pfileLog1 = PfileLog.builder().mId(members.get(0))
+				.pfile(pfile1)
+				.contents("로그 생성~~~~")
+				.stat(LogStat.CREATE)
+				.build();
+		
+		PfileLog pfileLog2 = PfileLog.builder().mId(members.get(0))
+				.pfile(pfile2)
+				.contents("로그 생성2222~~~~")
+				.stat(LogStat.CREATE)
+				.build();
+		
+		PfileLog pfileLog3 = PfileLog.builder().mId(members.get(0))
+				.pfile(pfile3)
+				.contents("로그 생성33333~~~~")
+				.stat(LogStat.CREATE)
+				.build();
+		
+		pfileLogs.add(pfileLog1);
+		pfileLogs.add(pfileLog2);
+		pfileLogs.add(pfileLog3);
+		
+		pfileRepository.saveAll(pfiles);
+		pfileLogRepository.saveAll(pfileLogs);		
+	}
 }

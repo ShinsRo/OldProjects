@@ -53,18 +53,15 @@ public class ProjectServiceTest {
 	@Autowired
 	PdirRepository pdirRepository;
 	
+	@Autowired
+	TestData td;
+	
 	//Project Services
 	@Autowired
 	ProjectService ps;
 	
 	@Before
 	public void setUp() {
-		TestData td = new TestData(
-				memberRepository, memberSystemRepository, 
-				authinfoRepository, careerRepository, 
-				memberProjectRepository, projectRepository, 
-				pdirRepository);
-		
 		td.setMemberTestData();
 		td.setProjectTestData();
 		td.setPdirTestData();
@@ -140,12 +137,6 @@ public class ProjectServiceTest {
 	
 	@After
 	public void clearAll() {
-		TestData td = new TestData(
-				memberRepository, memberSystemRepository, 
-				authinfoRepository, careerRepository, 
-				memberProjectRepository, projectRepository, 
-				pdirRepository);
-		
 		td.deleteAllPdirData();
 		td.deleteAllProjectData();
 		td.deleteAllMemberData();
