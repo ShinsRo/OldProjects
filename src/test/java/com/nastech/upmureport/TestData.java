@@ -71,7 +71,7 @@ public class TestData {
 		
 		Member admin = Member.builder()
 				.eid("0000")
-				.mName("관리자")
+				.name("관리자")
 				.birth("00000000")
 				.phoneNum("01011111111")
 				.joinDate(LocalDate.now())
@@ -81,7 +81,7 @@ public class TestData {
 		
 		Member m1 = Member.builder()
 				.eid("1111")
-				.mName("김승신")
+				.name("김승신")
 				.birth("19940728")
 				.phoneNum("01011111111")
 				.joinDate(LocalDate.now())
@@ -91,7 +91,7 @@ public class TestData {
 		
 		Member m2 = Member.builder()
 				.eid("1112")
-				.mName("마규석")
+				.name("마규석")
 				.birth("19951226")
 				.phoneNum("01012345555")
 				.joinDate(LocalDate.now())
@@ -101,7 +101,7 @@ public class TestData {
 		
 		Member m3 = Member.builder()
 				.eid("1113")
-				.mName("김윤상")
+				.name("김윤상")
 				.birth("19940729")
 				.phoneNum("01011131111")
 				.joinDate(LocalDate.now())
@@ -112,7 +112,7 @@ public class TestData {
 		List<Career> cList = new ArrayList<Career>();
 		
 		Career c0 = Career.builder()
-				.dept("관리").posi("관리").active(true).startDate(LocalDate.now()).member(m1)
+				.dept("관리").posi("관리").active(true).startDate(LocalDate.now()).member(admin)
 				.build();
 		Career c1 = Career.builder()
 				.dept("인턴부").posi("인턴").active(true).startDate(LocalDate.now()).member(m1)
@@ -250,7 +250,7 @@ public class TestData {
 			if ( mp.getPRole().compareTo(Prole.구성원) > 0 ) continue;
 			
 			Pdir root = Pdir.builder()
-					.dName(mp.getMember().getMName())
+					.dName(mp.getMember().getName())
 					.parentDir(null)
 					.member(mp.getMember())
 					.project(mp.getProject())

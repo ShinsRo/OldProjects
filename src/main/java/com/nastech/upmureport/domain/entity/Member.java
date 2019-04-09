@@ -1,6 +1,7 @@
 package com.nastech.upmureport.domain.entity;
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+
+import com.nastech.upmureport.domain.dto.MemberDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,19 +28,31 @@ public class Member {
 	@Id @GeneratedValue(strategy= GenerationType.AUTO)
 	private BigInteger mid;
 	private String eid;
-	private String mName;
+	private String name;
 	private String birth;
 	private String phoneNum;
 	private LocalDate joinDate;
 	private LocalDate retireDate;
 	
 	@Builder.Default
-	private Boolean dFlag = false;
+	private Boolean dflag = false;
 	
 	
-	@OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name="mid")
-	private List<Career> career;
+	@OneToMany(mappedBy="member")
+	private List<Career> career=new ArrayList<Career>();
+	
+	public MemberDto toDto() {
+		return MemberDto.builder().
+				mid(mid).
+				eid(eid).
+				name(name).
+				birth(birth).
+				phoneNum(phoneNum).
+				joinDate(joinDate).
+				retireDate(retireDate).dflag(dflag).
+				career(career).build();
+		}
+	
 	
 	/*
 	public UserDto toDto() {
