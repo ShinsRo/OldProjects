@@ -7,5 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.nastech.upmureport.domain.entity.Member;
 
 public interface MemberRepository extends JpaRepository<Member, BigInteger> {
+	public Member findOneByMid(BigInteger id);
+	public Member findOneByName(String name);
 	public Member findOneByEid(String eid);
 }

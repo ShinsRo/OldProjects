@@ -2,7 +2,6 @@ package com.nastech.upmureport.domain.dto;
 
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nastech.upmureport.domain.entity.Member;
 import com.nastech.upmureport.domain.entity.MemberProject;
 import com.nastech.upmureport.domain.entity.Project;
@@ -14,35 +13,35 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class ProjectDTO {
+public class ProjectDto {
 	private String pid;
-	private String pName;
+	private String pname;
 	private String description;
 	private LocalDateTime stDate;
 	private LocalDateTime edDate;
-	private LocalDateTime cDate;
-	private LocalDateTime uDate;
+	private LocalDateTime cdate;
+	private LocalDateTime udate;
 	
 	private String mid;
 	private String pStat;
 	private String pRole;
 	private Integer progess;
 
-	public ProjectDTO(MemberProject mp) {
+	public ProjectDto(MemberProject mp) {
 		Project p = mp.getProject();
 		Member m = mp.getMember();
 		
 		this.pid = p.getPid().toString();
-		this.pName = p.getPName();
+		this.pname = p.getPname();
 		this.description = p.getDescription();
 		this.stDate = p.getStDate();
 		this.edDate = p.getEdDate();
-		this.cDate = p.getCDate();
-		this.uDate = p.getUDate();
+		this.cdate = p.getCdate();
+		this.udate = p.getUdate();
 		
 		this.mid = m.getMid().toString();
-		this.pStat = mp.getPStat().toString();
-		this.pRole = mp.getPRole().toString();
+		this.pStat = mp.getPstat().toString();
+		this.pRole = mp.getProle().toString();
 		this.progess = mp.getProgress();
 	}
 }

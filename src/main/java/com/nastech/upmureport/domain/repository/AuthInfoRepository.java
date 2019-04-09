@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.nastech.upmureport.domain.entity.AuthInfo;
 
 public interface AuthInfoRepository extends JpaRepository<AuthInfo, BigInteger> {
-
+	public AuthInfo findOneByUsername(String username);
 }

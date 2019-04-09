@@ -2,16 +2,12 @@ package com.nastech.upmureport.domain.entity;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.persistence.JoinColumn;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -28,20 +24,23 @@ public class Project {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private BigInteger pid;
 	
-	private String pName;
+	private String pname;
 	
 	private String description;
+	
+//	@JoinColumn(name="rootDid")
+//	private Pdir rootDir;
 	
 	private LocalDateTime stDate;
 	
 	private LocalDateTime edDate;
 	
 	@CreationTimestamp
-	private LocalDateTime cDate;
+	private LocalDateTime cdate;
 	
 	@UpdateTimestamp
-	private LocalDateTime uDate;
+	private LocalDateTime udate;
 
 	@Builder.Default
-	private Boolean dFlag = false;
+	private Boolean dflag = false;
 }

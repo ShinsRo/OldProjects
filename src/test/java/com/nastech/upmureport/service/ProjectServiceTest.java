@@ -21,8 +21,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import com.nastech.upmureport.TestData;
 import com.nastech.upmureport.config.PersistenceJPAConfig;
 import com.nastech.upmureport.config.WebConfig;
-import com.nastech.upmureport.domain.dto.ProjectDTO;
+import com.nastech.upmureport.domain.dto.ProjectDto;
 import com.nastech.upmureport.domain.entity.Member;
+import com.nastech.upmureport.domain.entity.MemberProject;
 import com.nastech.upmureport.domain.repository.AuthInfoRepository;
 import com.nastech.upmureport.domain.repository.CareerRepository;
 import com.nastech.upmureport.domain.repository.MemberProjectRepository;
@@ -78,7 +79,7 @@ public class ProjectServiceTest {
 		String mksMid = mks.getMid().toString();
 		String kysMid = kys.getMid().toString();
 		
-		List<ProjectDTO> pDTOList;
+		List<ProjectDto> pDTOList;
 		
 		pDTOList = ps.listByMid(kssMid);
 		assertTrue(pDTOList.size() == 3);
@@ -94,12 +95,12 @@ public class ProjectServiceTest {
 		Member kss = memberRepository.findOneByEid("1111");
 		String kssMid = kss.getMid().toString();
 		
-		List<ProjectDTO> pDTOList = ps.listByMid(kssMid);
+		List<ProjectDto> pDTOList = ps.listByMid(kssMid);
 		Integer size = pDTOList.size();
 		
-		ProjectDTO pDTO = ProjectDTO.builder()
+		ProjectDto pDTO = ProjectDto.builder()
 				.mid(kssMid)
-				.pName("코딩 알파고 프로젝트")
+				.pname("코딩 알파고 프로젝트")
 				.description("코딩계의 알파고를 만들어 코딩 시키는 프로젝트")
 				.stDate(LocalDateTime.now())
 				.edDate(LocalDateTime.now())
@@ -120,19 +121,28 @@ public class ProjectServiceTest {
 		Member kss = memberRepository.findOneByEid("1111");
 		String kssMid = kss.getMid().toString();
 		
-		LinkedList<ProjectDTO> pDTOList = new LinkedList<ProjectDTO>(ps.listByMid(kssMid)) ;
-		ProjectDTO pDTO1 = pDTOList.poll();
+		LinkedList<ProjectDto> pDTOList = new LinkedList<ProjectDto>(ps.listByMid(kssMid)) ;
+		ProjectDto pDTO1 = pDTOList.poll();
 		
-		String pName = pDTO1.getPName();
-		pDTO1.setPName(pName + "_수정본");
+		String pname = pDTO1.getPname();
+		pDTO1.setPname(pname + "_수정본");
 		
-		ps.update(pDTO1);
+		MemberProject mp = ps.update(pDTO1);
+		assertTrue(mp.getProject().getPname().equals(pname + "_수정본"));
 	}
 	
 	@Test
 	@Transactional
 	public void 프로젝트_연결해제_테스트() {
+		Member kss = memberRepository.findOneByEid("1111");
+		String kssMid = kss.getMid().toString();
 		
+		List<ProjectDto> pDTOList = ps.listByMid(kssMid);
+		Integer size = pDTOList.size();
+		ProjectDto pDTO = pDTOList.get(0);
+		
+		ps.disableMemberProject(pDTO);
+		assertTrue(ps.listByMid(kssMid).size() == size - 1);
 	}
 	
 	@After
