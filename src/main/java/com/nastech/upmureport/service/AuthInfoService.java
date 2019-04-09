@@ -20,10 +20,17 @@ public class AuthInfoService {
 	AuthInfo loginedUser = authInfoRepository.findOneByUsername(id);
 	if(loginedUser == null) return null;
 	if(pass.equals(loginedUser.getPassword())) {
+		System.out.println("로그인 성공");
 		return loginedUser;
 		}
 	else
 		return null;
+	}
+	
+	public void authModify(String id,AuthInfo newAuthinfo) {
+		AuthInfo auth=authInfoRepository.findOneByUsername(id);
+		auth.setPassword(newAuthinfo.getPassword());
+		authInfoRepository.save(auth);
 	}
 	
 }

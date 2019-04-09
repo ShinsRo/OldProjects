@@ -26,7 +26,7 @@ public class Member {
 	
 	
 	@Id @GeneratedValue(strategy= GenerationType.AUTO)
-	private BigInteger mid;
+	private Long mid;
 	private String eid;
 	private String name;
 	private String birth;
