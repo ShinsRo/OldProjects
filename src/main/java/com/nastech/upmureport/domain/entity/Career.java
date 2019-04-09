@@ -31,7 +31,7 @@ public class Career {
 	private LocalDate endDate;
 	private Boolean active;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 	@JoinColumn(name="mid")
 	private Member member;
 }
