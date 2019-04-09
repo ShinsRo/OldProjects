@@ -3,6 +3,8 @@ package com.nastech.upmureport.config;
 import java.util.List;
 import java.util.Properties;
 
+import javax.servlet.MultipartConfigElement;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -64,12 +66,27 @@ public class WebConfig implements WebMvcConfigurer {
 		converters.add(new MappingJackson2HttpMessageConverter());
 	}
 	
-	@Bean
-	public MultipartResolver multipartResolver() {
-		StandardServletMultipartResolver multipartResolver = new StandardServletMultipartResolver();
-		return multipartResolver;
-		
-	}
+//	@Bean
+//	public MultipartConfigElement multipartConfigElement() {
+//	    MultipartConfigFactory factory = new MultipartConfigFactory();
+//
+//	    factory.setMaxFileSize(getMaxUploadFileSize());
+//	    factory.setMaxRequestSize(getMaxUploadFileSize());
+//
+//	    return factory.createMultipartConfig();
+//	}
+//	
+//	@Bean
+//	public MultipartResolver multipartResolver() {
+//	    return new StandardServletMultipartResolver();
+//	}
+	
+//	@Bean
+//	public MultipartResolver multipartResolver() {
+//		StandardServletMultipartResolver multipartResolver = new StandardServletMultipartResolver();
+//		return multipartResolver;
+//		
+//	}
 	
 	Properties additionalProperties() {
 		Properties properties = new Properties();
