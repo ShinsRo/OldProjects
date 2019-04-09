@@ -5,23 +5,34 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.nastech.upmureport.domain.entity.AuthInfo;
 import com.nastech.upmureport.domain.entity.Career;
 import com.nastech.upmureport.domain.entity.Member;
 import com.nastech.upmureport.domain.entity.MemberProject;
 import com.nastech.upmureport.domain.entity.MemberSystem;
 import com.nastech.upmureport.domain.entity.Pdir;
+import com.nastech.upmureport.domain.entity.Pfile;
+import com.nastech.upmureport.domain.entity.PfileLog;
+import com.nastech.upmureport.domain.entity.PfileLog.LogStat;
 import com.nastech.upmureport.domain.entity.Project;
 import com.nastech.upmureport.domain.entity.Role;
 import com.nastech.upmureport.domain.entity.support.Prole;
+import com.nastech.upmureport.domain.entity.support.Pstat;
+import com.nastech.upmureport.domain.repository.AttachmentLogRepository;
+import com.nastech.upmureport.domain.repository.AttachmentRepository;
 import com.nastech.upmureport.domain.repository.AuthInfoRepository;
 import com.nastech.upmureport.domain.repository.CareerRepository;
 import com.nastech.upmureport.domain.repository.MemberProjectRepository;
 import com.nastech.upmureport.domain.repository.MemberRepository;
 import com.nastech.upmureport.domain.repository.MemberSystemRepository;
 import com.nastech.upmureport.domain.repository.PdirRepository;
+import com.nastech.upmureport.domain.repository.PfileLogRepository;
+import com.nastech.upmureport.domain.repository.PfileRepository;
 import com.nastech.upmureport.domain.repository.ProjectRepository;
 
+@Service 
 public class TestData {
 		//Member repositories
 		MemberRepository memberRepository;
@@ -33,33 +44,34 @@ public class TestData {
 		MemberProjectRepository memberProjectRepository;
 		ProjectRepository projectRepository;
 		PdirRepository pdirRepository;
+		
+		//pfile, pfile log, attachment, attachment log
+		PfileRepository pfileRepository;
+		PfileLogRepository pfileLogRepository;
+		AttachmentRepository attachmentRepository;
+		AttachmentLogRepository attachmentLogRepository;
 	
 	
 	public TestData(MemberRepository memberRepository, MemberSystemRepository memberSystemRepository,
-			AuthInfoRepository authinfoRepository, CareerRepository careerRepository) {
-		super();
-		this.memberRepository = memberRepository;
-		this.memberSystemRepository = memberSystemRepository;
-		this.authinfoRepository = authinfoRepository;
-		this.careerRepository = careerRepository;
-	}
+			AuthInfoRepository authinfoRepository, CareerRepository careerRepository, PfileRepository pfileRepository, PfileLogRepository pfileLogRepository,
+			AttachmentRepository attachmentRepository, AttachmentLogRepository attachmentLogRepository,
+			MemberProjectRepository memberProjectRepository, ProjectRepository projectRepository, PdirRepository pdirRepository) {
 
-	
-	
-	public TestData(MemberRepository memberRepository, MemberSystemRepository memberSystemRepository,
-			AuthInfoRepository authinfoRepository, CareerRepository careerRepository,
-			MemberProjectRepository memberProjectRepository, ProjectRepository projectRepository,
-			PdirRepository pdirRepository) {
-		super();
 		this.memberRepository = memberRepository;
 		this.memberSystemRepository = memberSystemRepository;
 		this.authinfoRepository = authinfoRepository;
 		this.careerRepository = careerRepository;
+		
 		this.memberProjectRepository = memberProjectRepository;
 		this.projectRepository = projectRepository;
 		this.pdirRepository = pdirRepository;
+		
+		this.pfileRepository = pfileRepository;
+		this.pfileLogRepository = pfileLogRepository;
+		this.attachmentRepository = attachmentRepository;
+		this.attachmentLogRepository = attachmentLogRepository;
+		
 	}
-
 
 	/**
 	 * 멤버 테스트 데이터 생성 메서드
@@ -155,6 +167,7 @@ public class TestData {
 		careerRepository.saveAll(cList);
 		memberSystemRepository.saveAll(msList);
 	}
+	
 	public void deleteAllMemberData() {
 		memberSystemRepository.deleteAll();
 		careerRepository.deleteAll();
@@ -172,21 +185,21 @@ public class TestData {
 		List<Project> pList = new ArrayList<Project>();
 		
 		Project p1 = Project.builder()
-				.pName("일일 업무 보고")
+				.pname("일일 업무 보고")
 				.description("일일 간 업무를 보고한다.")
 				.stDate(LocalDateTime.now())
 				.edDate(LocalDateTime.now())
 				.build();
 		
 		Project p2 = Project.builder()
-				.pName("업무리포트2웹 프로젝트")
+				.pname("업무리포트2웹 프로젝트")
 				.description("C# 업무리포트 프로그램을 웹으로 포팅한다.")
 				.stDate(LocalDateTime.now())
 				.edDate(LocalDateTime.now())
 				.build();
 		
 		Project p3 = Project.builder()
-				.pName("아무개 프로젝트")
+				.pname("아무개 프로젝트")
 				.description("시크릿 프로젝트")
 				.stDate(LocalDateTime.now())
 				.edDate(LocalDateTime.now())
@@ -204,13 +217,17 @@ public class TestData {
 			MemberProject mp1 = MemberProject.builder()
 					.member(m)
 					.project(p1)
-					.pRole(Prole.관리자)
+					.pstat(Pstat.대기)
+					.prole(Prole.관리자)
+					.progress(0)
 					.build();
 			
 			MemberProject mp2 = MemberProject.builder()
 					.member(m)
 					.project(p2)
-					.pRole(Prole.관리자)
+					.pstat(Pstat.진행)
+					.prole(Prole.관리자)
+					.progress(60)
 					.build();
 			
 			mpList.add(mp1);
@@ -220,7 +237,9 @@ public class TestData {
 		MemberProject mp = MemberProject.builder()
 				.member(mList.get(1))
 				.project(p3)
-				.pRole(Prole.책임자)
+				.pstat(Pstat.완료)
+				.prole(Prole.책임자)
+				.progress(100)
 				.build();
 		
 		mpList.add(mp);
@@ -247,7 +266,7 @@ public class TestData {
 		List<Pdir> pdList = new ArrayList<Pdir>();
 		
 		for (MemberProject mp : mpList) {
-			if ( mp.getPRole().compareTo(Prole.구성원) > 0 ) continue;
+			if ( mp.getProle().compareTo(Prole.구성원) > 0 ) continue;
 			
 			Pdir root = Pdir.builder()
 					.dName(mp.getMember().getName())
@@ -290,4 +309,56 @@ public class TestData {
 		pdirRepository.deleteAll();
 	}
 	
+	public void setPfileTestData() {
+		List<Pdir> pdirs = pdirRepository.findAll();
+		List<Member> members = memberRepository.findAll();
+		
+		List<Pfile> pfiles = new ArrayList<Pfile>();
+		List<PfileLog> pfileLogs = new ArrayList<PfileLog>();
+		
+		Pfile pfile1 = Pfile.builder().pdir(pdirs.get(0))
+				.name("0408업무일지")
+				.contents("오늘은 날씨가 좋았다ㅎㅎㅎㅎ")
+				.build();
+		
+		Pfile pfile2 = Pfile.builder().pdir(pdirs.get(0))
+				.name("0409업무일지")
+				.contents("ㅎㅎㅎㅎ")
+				.build();
+		
+		Pfile pfile3 = Pfile.builder().pdir(pdirs.get(0))
+				.name("0410업무일지")
+				.contents("오늘은 날씨가 구리다ㅎㅎㅎㅎ")
+				.build();
+		
+		pfiles.add(pfile1);
+		pfiles.add(pfile2);
+		pfiles.add(pfile3);
+		
+		
+		PfileLog pfileLog1 = PfileLog.builder().mId(members.get(0))
+				.pfile(pfile1)
+				.contents("로그 생성~~~~")
+				.stat(LogStat.CREATE)
+				.build();
+		
+		PfileLog pfileLog2 = PfileLog.builder().mId(members.get(0))
+				.pfile(pfile2)
+				.contents("로그 생성2222~~~~")
+				.stat(LogStat.CREATE)
+				.build();
+		
+		PfileLog pfileLog3 = PfileLog.builder().mId(members.get(0))
+				.pfile(pfile3)
+				.contents("로그 생성33333~~~~")
+				.stat(LogStat.CREATE)
+				.build();
+		
+		pfileLogs.add(pfileLog1);
+		pfileLogs.add(pfileLog2);
+		pfileLogs.add(pfileLog3);
+		
+		pfileRepository.saveAll(pfiles);
+		pfileLogRepository.saveAll(pfileLogs);		
+	}
 }

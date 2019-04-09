@@ -1,5 +1,11 @@
 package com.nastech.upmureport.service;
 
+import static org.junit.Assert.assertTrue;
+
+import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.junit.After;
@@ -15,6 +21,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import com.nastech.upmureport.TestData;
 import com.nastech.upmureport.config.PersistenceJPAConfig;
 import com.nastech.upmureport.config.WebConfig;
+import com.nastech.upmureport.domain.dto.ProjectDto;
+import com.nastech.upmureport.domain.entity.Member;
+import com.nastech.upmureport.domain.entity.MemberProject;
 import com.nastech.upmureport.domain.repository.AuthInfoRepository;
 import com.nastech.upmureport.domain.repository.CareerRepository;
 import com.nastech.upmureport.domain.repository.MemberProjectRepository;
@@ -45,14 +54,15 @@ public class ProjectServiceTest {
 	@Autowired
 	PdirRepository pdirRepository;
 	
+	@Autowired
+	TestData td;
+	
+	//Project Services
+	@Autowired
+	ProjectService ps;
+	
 	@Before
 	public void setUp() {
-		TestData td = new TestData(
-				memberRepository, memberSystemRepository, 
-				authinfoRepository, careerRepository, 
-				memberProjectRepository, projectRepository, 
-				pdirRepository);
-		
 		td.setMemberTestData();
 		td.setProjectTestData();
 		td.setPdirTestData();
@@ -60,16 +70,83 @@ public class ProjectServiceTest {
 	
 	@Test
 	@Transactional
-	public void test01() {}
+	public void 멤버의_프로젝트목록_가져오기_테스트() {
+		Member kss = memberRepository.findOneByEid("1111");
+		Member mks = memberRepository.findOneByEid("1112");
+		Member kys = memberRepository.findOneByEid("1113");
+		
+		String kssMid = kss.getMid().toString();
+		String mksMid = mks.getMid().toString();
+		String kysMid = kys.getMid().toString();
+		
+		List<ProjectDto> pDTOList;
+		
+		pDTOList = ps.listByMid(kssMid);
+		assertTrue(pDTOList.size() == 3);
+		pDTOList = ps.listByMid(mksMid);
+		assertTrue(pDTOList.size() == 2);
+		pDTOList = ps.listByMid(kysMid);
+		assertTrue(pDTOList.size() == 2);
+	}
+	
+	@Test
+	@Transactional
+	public void 프로젝트_생성하기_테스트() {
+		Member kss = memberRepository.findOneByEid("1111");
+		String kssMid = kss.getMid().toString();
+		
+		List<ProjectDto> pDTOList = ps.listByMid(kssMid);
+		Integer size = pDTOList.size();
+		
+		ProjectDto pDTO = ProjectDto.builder()
+				.mid(kssMid)
+				.pname("코딩 알파고 프로젝트")
+				.description("코딩계의 알파고를 만들어 코딩 시키는 프로젝트")
+				.stDate(LocalDateTime.now())
+				.edDate(LocalDateTime.now())
+				.pStat("대기")
+				.pRole("책임자")
+				.progess(0)
+				.build();
+		
+		ps.register(pDTO);
+		
+		pDTOList = ps.listByMid(kssMid);
+		assertTrue(pDTOList.size() == size + 1);
+	}
+	
+	@Test
+	@Transactional
+	public void 프로젝트_수정하기_테스트() {
+		Member kss = memberRepository.findOneByEid("1111");
+		String kssMid = kss.getMid().toString();
+		
+		LinkedList<ProjectDto> pDTOList = new LinkedList<ProjectDto>(ps.listByMid(kssMid)) ;
+		ProjectDto pDTO1 = pDTOList.poll();
+		
+		String pname = pDTO1.getPname();
+		pDTO1.setPname(pname + "_수정본");
+		
+		MemberProject mp = ps.update(pDTO1);
+		assertTrue(mp.getProject().getPname().equals(pname + "_수정본"));
+	}
+	
+	@Test
+	@Transactional
+	public void 프로젝트_연결해제_테스트() {
+		Member kss = memberRepository.findOneByEid("1111");
+		String kssMid = kss.getMid().toString();
+		
+		List<ProjectDto> pDTOList = ps.listByMid(kssMid);
+		Integer size = pDTOList.size();
+		ProjectDto pDTO = pDTOList.get(0);
+		
+		ps.disableMemberProject(pDTO);
+		assertTrue(ps.listByMid(kssMid).size() == size - 1);
+	}
 	
 	@After
 	public void clearAll() {
-		TestData td = new TestData(
-				memberRepository, memberSystemRepository, 
-				authinfoRepository, careerRepository, 
-				memberProjectRepository, projectRepository, 
-				pdirRepository);
-		
 		td.deleteAllPdirData();
 		td.deleteAllProjectData();
 		td.deleteAllMemberData();

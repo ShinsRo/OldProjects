@@ -13,7 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.intellij.lang.annotations.JdkConstants.CursorType;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,19 +34,22 @@ public class Pfile implements Serializable{
 	@JoinColumn(name="did")
 	private Pdir pdir;
 	
+	@NotNull
 	private String name;
 	
+	@NotNull
 	private String contents;
 	
+	@CreationTimestamp
 	private LocalDateTime newDate;
 	
+	@UpdateTimestamp
 	private LocalDateTime updateDate;
 	
-	private String localPath;
+	private Boolean deleteFlag=false;
 	
-	private Boolean deleteFlag;
 	
-	public void deleteUpmuContent() {
+	public void deletePfile() {
 		this.deleteFlag = true;
 	}
 	

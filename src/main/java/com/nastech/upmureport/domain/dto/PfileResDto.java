@@ -18,10 +18,9 @@ public class PfileResDto {
 	
 	private String localPath;
 	
-	private BigInteger dirId;
+	private BigInteger pdirId;
 	
 	private String newDate;
 	
 	private String updateDate;
-
 }

@@ -2,19 +2,16 @@ package com.nastech.upmureport.domain.entity;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.nastech.upmureport.support.Utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,8 +25,7 @@ public class Project {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private BigInteger pid;
 	
-	@NotEmpty
-	private String pName;
+	private String pname;
 	
 	private String description;
 	
@@ -38,11 +34,11 @@ public class Project {
 	private LocalDateTime edDate;
 	
 	@CreationTimestamp
-	private LocalDateTime cDate;
+	private LocalDateTime cdate;
 	
 	@UpdateTimestamp
-	private LocalDateTime uDate;
+	private LocalDateTime udate;
 
 	@Builder.Default
-	private Boolean dFlag = false;
+	private Boolean dflag = false;
 }
