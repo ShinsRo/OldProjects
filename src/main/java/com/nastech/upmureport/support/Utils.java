@@ -1,10 +1,7 @@
 package com.nastech.upmureport.support;
 
+import java.lang.reflect.Field;
 import java.math.BigInteger;
-import java.util.Arrays;
-import java.lang.reflect.*;
-import java.util.Enumeration;
-import java.util.Properties;
 
 import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.proxy.LazyInitializer;
@@ -27,7 +24,7 @@ public class Utils {
 	}
 	
 	/**
-	 * dto의 필드값과 같은 필드에 대해 덮어쓰기한 엔티티를 반환합니다.
+	 * dto의 이름이 같은 필드에 대해 dto로 덮어쓰기한 entity를 반환합니다.
 	 * @param entity
 	 * @param dto
 	 * @return
