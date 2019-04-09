@@ -2,6 +2,7 @@ package com.nastech.upmureport.service;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -56,6 +57,25 @@ public class PdirServiceTest {
 		td.setPdirTestData();
 	}
 	
+	@Test
+	public void 디렉토리목록_가져오기_테스트 () {
+		
+	}
+	
+	@Test
+	public void 디렉토리_추가하기_테스트 () {
+		
+	}
+	
+	@Test
+	public void 디렉토리_수정하기_테스트 () {
+		
+	}
+	
+	@Test
+	public void 디렉토리_연결해제_테스트 () {
+		
+	}
 	
 	@After
 	public void clearAll() {

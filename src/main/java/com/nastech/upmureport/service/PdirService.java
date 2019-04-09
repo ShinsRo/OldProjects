@@ -11,18 +11,13 @@ import org.springframework.stereotype.Service;
 
 import com.nastech.upmureport.domain.dto.PdirDto;
 import com.nastech.upmureport.domain.entity.Member;
-import com.nastech.upmureport.domain.entity.MemberProject;
 import com.nastech.upmureport.domain.entity.Pdir;
 import com.nastech.upmureport.domain.entity.Project;
-import com.nastech.upmureport.domain.repository.MemberProjectRepository;
-import com.nastech.upmureport.domain.repository.MemberRepository;
 import com.nastech.upmureport.domain.repository.PdirRepository;
 import com.nastech.upmureport.support.Utils;
 
 @Service
 public class PdirService {
-	@Autowired
-	private MemberProjectRepository mpr;
 	@Autowired
 	private PdirRepository dr;
 	
@@ -46,7 +41,6 @@ public class PdirService {
 		
 		Member m = Member.builder().mid(mid).build();
 		Project p = Project.builder().pid(pid).build();
-		MemberProject mp = mpr.findOneByMemberAndProject(m, p);
 		
 		Pdir parentDir = null;
 		if (parentDid.equals("root")) { /* 최상위 루트 디렉토리 ("/")는 수정 불가하므로 익셉션 처리 할 것 */ }
@@ -63,24 +57,27 @@ public class PdirService {
 	}
 	
 	
-//	public Pdir update(PdirDto dto, String gubun) {
-//		BigInteger did = Utils.StrToBigInt(dto.getDid());
-//		String parentDir = 
-//		Pdir dir = dr.findByDidAndDflagFalse(did);
-//		Pdir parentDir = dr.findByDidAndDflagFalse()
-//		switch (gubun) {
-//		case "이동":
-//			
-//			
-//			break;
-//		case "변경":
-//		default:			
-//			Utils.overrideEntity(dir, dto);
-//			break;
-//		}
-//		
-//		return null;
-//	}
+	public Pdir update(PdirDto dto, String gubun) {
+		BigInteger did = Utils.StrToBigInt(dto.getDid());
+		String parentDid = dto.getParentDid();
+		Pdir dir = dr.findByDidAndDflagFalse(did);
+		Pdir parentDir = null;
+		
+		switch (gubun) {
+		case "변경":
+			Utils.overrideEntity(dir, dto);
+		case "이동":			
+			if (parentDid.equals("root")) { /* 최상위 루트 디렉토리 ("/")는 수정 불가하므로 익셉션 처리 할 것 */ }
+			else { 
+				parentDir = dr.findByDidAndDflagFalse(Utils.StrToBigInt(parentDid)); 
+				dir.setParentDir(parentDir);
+			}
+		default:			
+			break;
+		}
+		
+		return dr.save(dir);
+	}
 	
 	public void disable(PdirDto dto) {
 		BigInteger did = Utils.StrToBigInt(dto.getDid());
