@@ -269,28 +269,28 @@ public class TestData {
 			if ( mp.getProle().compareTo(Prole.구성원) > 0 ) continue;
 			
 			Pdir root = Pdir.builder()
-					.dName(mp.getMember().getName())
+					.dname(mp.getMember().getName())
 					.parentDir(null)
 					.member(mp.getMember())
 					.project(mp.getProject())
 					.build();
 			
 			Pdir child1 = Pdir.builder()
-					.dName("child1")
+					.dname("child1")
 					.parentDir(root)
 					.member(mp.getMember())
 					.project(mp.getProject())
 					.build();
 			
 			Pdir child2 = Pdir.builder()
-					.dName("child2")
+					.dname("child2")
 					.parentDir(root)
 					.member(mp.getMember())
 					.project(mp.getProject())
 					.build();
 			
 			Pdir child3 = Pdir.builder()
-					.dName("child3")
+					.dname("child3")
 					.parentDir(child1)
 					.member(mp.getMember())
 					.project(mp.getProject())

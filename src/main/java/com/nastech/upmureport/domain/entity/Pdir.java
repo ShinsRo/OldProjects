@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -31,14 +30,14 @@ public class Pdir {
 	private BigInteger did;
 	
 	@NotEmpty
-	private String dName;
+	private String dname;
 	
 	@Nullable
-	@ManyToOne(fetch=FetchType.LAZY, cascade={ CascadeType.REFRESH, CascadeType.DETACH })
+	@ManyToOne(optional = true, fetch=FetchType.LAZY, cascade={ CascadeType.REFRESH, CascadeType.DETACH })
 	@JoinColumn(name = "parentDid")
 	private Pdir parentDir;
 	
-	@ManyToOne(optional = true)
+	@ManyToOne(fetch=FetchType.LAZY, cascade={ CascadeType.REFRESH })
 	@JoinColumn(name = "mid")
 	private Member member;
 	
@@ -47,11 +46,11 @@ public class Pdir {
 	private Project project;
 	
 	@CreationTimestamp
-	private LocalDateTime cDate;
+	private LocalDateTime cdate;
 	
 	@UpdateTimestamp
-	private LocalDateTime uDate;
+	private LocalDateTime udate;
 	
 	@Builder.Default
-	private Boolean dFlag = false;
+	private Boolean dflag = false;
 }
