@@ -34,7 +34,7 @@ public class MemberProject {
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private BigInteger mpid;
 	
-	@ManyToOne(optional = false, fetch=FetchType.LAZY, cascade={ CascadeType.REFRESH })
+	@ManyToOne(optional = false, fetch=FetchType.LAZY)
 	@JoinColumn(name = "mid")
 	private Member member;
 	

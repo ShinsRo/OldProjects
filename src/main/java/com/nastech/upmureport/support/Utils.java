@@ -3,6 +3,7 @@ package com.nastech.upmureport.support;
 import java.lang.reflect.Field;
 import java.math.BigInteger;
 
+import org.aspectj.apache.bcel.generic.Type;
 import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.proxy.LazyInitializer;
 
@@ -41,16 +42,16 @@ public class Utils {
 				for (Field df: dtoFields) {
 					df.setAccessible(true);
 					if (df.getName().equals(ef.getName())) {
-						Object efVal = ef.get(entity);
+//						Object efVal = ef.get(entity);	// 필요 시 주석 해제 후 사용하세요.
 						Object dfVal = df.get(dto);
 						
-						if (dfVal.getClass().equals(String.class) 
-								&& efVal.getClass().equals(BigInteger.class)) {
-							value = StrToBigInt((String) dfVal);
-						} else {
+						if (dfVal == null) break;
+						if (df.getType().equals(ef.getType())) {
 							value = dfVal;
+						} else if (ef.getType().equals(java.math.BigInteger.class)) {
+							value = StrToBigInt((String) dfVal);
 						}
-						ef.set(entity, value);
+						ef.set(entity, value);						
 						break;
 					}
 				}

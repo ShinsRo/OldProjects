@@ -22,7 +22,8 @@ public class PdirService {
 	private PdirRepository dr;
 	
 	public List<PdirDto> listByPid(String pid) {
-		List<Pdir> dirs = dr.findAllByPidAndDflagFalse(Utils.StrToBigInt(pid));
+		Project p = Project.builder().pid(Utils.StrToBigInt(pid)).build();
+		List<Pdir> dirs = dr.findAllByProjectAndDflagFalse(p);
 		
 		List<PdirDto> dirDtos = new ArrayList<>();
 		for (Pdir dir : dirs) {
@@ -35,7 +36,7 @@ public class PdirService {
 	
 	@Transactional
 	public Pdir register(PdirDto dto) {
-		BigInteger mid = Utils.StrToBigInt(dto.getMid());
+		Long mid = Long.valueOf(dto.getMid());
 		BigInteger pid = Utils.StrToBigInt(dto.getPid());
 		String parentDid = dto.getParentDid();
 		
@@ -64,7 +65,7 @@ public class PdirService {
 		Pdir parentDir = null;
 		
 		switch (gubun) {
-		case "변경":
+		case "수정":
 			Utils.overrideEntity(dir, dto);
 		case "이동":			
 			if (parentDid.equals("root")) { /* 최상위 루트 디렉토리 ("/")는 수정 불가하므로 익셉션 처리 할 것 */ }

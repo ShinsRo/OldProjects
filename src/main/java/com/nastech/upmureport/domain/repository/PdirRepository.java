@@ -6,10 +6,11 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.nastech.upmureport.domain.entity.Pdir;
+import com.nastech.upmureport.domain.entity.Project;
 
 public interface PdirRepository extends JpaRepository<Pdir, BigInteger>{
 
-	List<Pdir> findAllByPidAndDflagFalse(BigInteger pid);
+	List<Pdir> findAllByProjectAndDflagFalse(Project project);
 
 	Pdir findByDidAndDflagFalse(BigInteger did);
 }

@@ -53,8 +53,7 @@ public class ProjectService {
 			project.setPid(BigIntegerPid);
 		}
 		
-		
-		BigInteger mid = Utils.StrToBigInt(pDTO.getMid());
+		Long mid = Long.valueOf(pDTO.getMid());
 		try {
 			member = mr.findById(mid).get();
 		} catch (NoSuchElementException nsee) {
@@ -100,7 +99,7 @@ public class ProjectService {
 				.build();
 		
 		Member m = Member.builder()
-				.mid(Utils.StrToBigInt(pDTO.getMid()))
+				.mid(Long.valueOf(pDTO.getMid()))
 				.build();
 		
 		//원본 유저, 프로젝트
@@ -132,7 +131,7 @@ public class ProjectService {
 	 */
 	public List<ProjectDto> listByMid(String mid) {
 		Member m = Member.builder()
-				.mid(Utils.StrToBigInt(mid))
+				.mid(Long.valueOf(mid))
 				.build();
 		
 		List<MemberProject> mpList = mpr.findAllByMemberAndDflagFalse(m);
@@ -149,7 +148,7 @@ public class ProjectService {
 	@Transactional
 	public void disable(ProjectDto pDTO) throws NoSuchElementException {
 		Member m = Member.builder()
-				.mid(Utils.StrToBigInt(pDTO.getMid()))
+				.mid(Long.valueOf(pDTO.getMid()))
 				.build();
 		
 		Project p = Project.builder()

@@ -71,9 +71,9 @@ public class ProjectServiceTest {
 	@Test
 	@Transactional
 	public void 멤버의_프로젝트목록_가져오기_테스트() {
-		Member kss = memberRepository.findOneByEid("1111");
-		Member mks = memberRepository.findOneByEid("1112");
-		Member kys = memberRepository.findOneByEid("1113");
+		Member kss = memberRepository.findOneByEidAndDflagFalse("1111");
+		Member mks = memberRepository.findOneByEidAndDflagFalse("1112");
+		Member kys = memberRepository.findOneByEidAndDflagFalse("1113");
 		
 		String kssMid = kss.getMid().toString();
 		String mksMid = mks.getMid().toString();
@@ -92,7 +92,7 @@ public class ProjectServiceTest {
 	@Test
 	@Transactional
 	public void 프로젝트_생성하기_테스트() {
-		Member kss = memberRepository.findOneByEid("1111");
+		Member kss = memberRepository.findOneByEidAndDflagFalse("1111");
 		String kssMid = kss.getMid().toString();
 		
 		List<ProjectDto> pDTOList = ps.listByMid(kssMid);
@@ -118,7 +118,7 @@ public class ProjectServiceTest {
 	@Test
 	@Transactional
 	public void 프로젝트_수정하기_테스트() {
-		Member kss = memberRepository.findOneByEid("1111");
+		Member kss = memberRepository.findOneByEidAndDflagFalse("1111");
 		String kssMid = kss.getMid().toString();
 		
 		LinkedList<ProjectDto> pDTOList = new LinkedList<ProjectDto>(ps.listByMid(kssMid)) ;
@@ -134,7 +134,7 @@ public class ProjectServiceTest {
 	@Test
 	@Transactional
 	public void 프로젝트_연결해제_테스트() {
-		Member kss = memberRepository.findOneByEid("1111");
+		Member kss = memberRepository.findOneByEidAndDflagFalse("1111");
 		String kssMid = kss.getMid().toString();
 		
 		List<ProjectDto> pDTOList = ps.listByMid(kssMid);
