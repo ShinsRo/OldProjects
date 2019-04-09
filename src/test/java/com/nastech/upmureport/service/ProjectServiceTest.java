@@ -141,7 +141,7 @@ public class ProjectServiceTest {
 		Integer size = pDTOList.size();
 		ProjectDto pDTO = pDTOList.get(0);
 		
-		ps.disableMemberProject(pDTO);
+		ps.disable(pDTO);
 		assertTrue(ps.listByMid(kssMid).size() == size - 1);
 	}
 	

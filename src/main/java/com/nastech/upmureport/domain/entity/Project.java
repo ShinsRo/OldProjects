@@ -3,11 +3,14 @@ package com.nastech.upmureport.domain.entity;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -27,9 +30,6 @@ public class Project {
 	private String pname;
 	
 	private String description;
-	
-//	@JoinColumn(name="rootDid")
-//	private Pdir rootDir;
 	
 	private LocalDateTime stDate;
 	

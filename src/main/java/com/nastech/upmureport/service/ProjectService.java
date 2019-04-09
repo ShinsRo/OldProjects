@@ -18,15 +18,17 @@ import com.nastech.upmureport.domain.entity.support.Prole;
 import com.nastech.upmureport.domain.entity.support.Pstat;
 import com.nastech.upmureport.domain.repository.MemberProjectRepository;
 import com.nastech.upmureport.domain.repository.MemberRepository;
+import com.nastech.upmureport.domain.repository.PdirRepository;
 import com.nastech.upmureport.support.Utils;
 
 @Service
 public class ProjectService {
 	@Autowired
 	private MemberRepository mr;
-	
 	@Autowired
 	private MemberProjectRepository mpr;
+	@Autowired
+	private PdirRepository dr;
 	
 	/**
 	 * 넘겨받은 프로젝트 정보에 의거해 프로젝트를 등록합니다. 이 때 요청한 유저는 프로젝트에 책임자로 소속합니다.
@@ -34,7 +36,7 @@ public class ProjectService {
 	 * @return 등록자와 프로젝트 연결 객체, 해당 유저가 존재하지 않을 경우 익셉션
 	 */
 	@Transactional
-	public Boolean register(ProjectDto pDTO) throws NoSuchElementException {
+	public MemberProject register(ProjectDto pDTO) throws NoSuchElementException {
 		Member member = null;
 
 		Project project = Project.builder()
@@ -66,15 +68,6 @@ public class ProjectService {
 			ps = Pstat.대기;
 		}
 		
-//		Pdir rootDir = Pdir.builder()
-//				.dname("/")
-//				.parentDir(null)
-//				.member(member)
-//				.project(project)
-//				.build();
-		
-//		project.setRootDir(rootDir);
-		
 		MemberProject mp = MemberProject.builder()
 				.member(member)
 				.project(project)
@@ -83,9 +76,15 @@ public class ProjectService {
 				.progress(pDTO.getProgess())
 				.build();
 		
+		Pdir rootDir = Pdir.builder()
+				.dname("/")
+				.parentDir(null)
+				.member(member)
+				.project(project)
+				.build();
 		
-		mpr.save(mp);
-		return true;
+		dr.save(rootDir);
+		return mpr.save(mp);
 	}
 	
 
@@ -148,7 +147,7 @@ public class ProjectService {
 	}
 	
 	@Transactional
-	public void disableMemberProject(ProjectDto pDTO) throws NoSuchElementException {
+	public void disable(ProjectDto pDTO) throws NoSuchElementException {
 		Member m = Member.builder()
 				.mid(Utils.StrToBigInt(pDTO.getMid()))
 				.build();
@@ -162,80 +161,4 @@ public class ProjectService {
 		
 		mpr.save(mp);
 	}
-	
-//	/**
-//	 * 
-//	 * @param userId
-//	 * @return 유저 아이디에 연관한 모든 유저-프로젝트 리스트
-//	 */
-//	public List<MemberProject> findAllUserProjectByUserId(String userId) {
-//		List<MemberProject> userProjs = new ArrayList<MemberProject>();
-//		
-//		userProjs = userProjectRepository.findAllByUser(userId);
-//		return userProjs;
-//	}
-//	
-	/**
-	 * 
-	 * @param projId
-	 * @return
-	 */
-//	public List<MemberProject> findAllUserProjectByProjId(Integer projId) {
-//		List<MemberProject> userProjs = new ArrayList<MemberProject>();
-//		
-//		userProjs = userProjectRepository.findAllByProject(
-//				Project.builder().projId(projId).build());
-//		return userProjs;
-//	}
-//
-//	
-//	public List<DirDto> findDirsByProjId(String projId) {
-//		List<Dir> dirs = pdr.findAllByParentProjId(Integer.parseInt(projId));
-//		List<DirDto> dirDtos = new ArrayList<DirDto>();
-//		for (Dir dir : dirs) {
-//			DirDto temp = DirDto.builder()
-//					.projId(projId)
-//					.userId(dir.getUser().getUserId())
-//					.userName(dir.getUser().getUserName())
-//					.dirId(""+dir.getDirId())
-//					.dirName(dir.getDirName())
-//					.build();
-//			
-//			if (dir.getParentDir() == null) {
-//				temp.setParentDirId("root");				
-//			} else {
-//				temp.setParentDirId(""+dir.getParentDir().getDirId());
-//			}
-//			dirDtos.add(temp);
-//		}
-//		return dirDtos;
-//	}
-//
-//	public Dir registerDir(DirDto dirDto) {
-//		String userId = dirDto.getUserId();
-//		Integer projId = Integer.parseInt(dirDto.getProjId());
-//		
-//		User user = mr.findById(userId).get();
-//		Project proj = pr.findById(projId).get();
-//		
-//		String parentDirId = dirDto.getParentDirId();
-//		Dir parentDir = null;
-//		if (parentDirId != null) parentDir = pdr.getOne(Integer.valueOf(parentDirId));
-//		
-//		Dir dir = Dir.builder()
-//				.dirName(dirDto.getDirName())
-//				.user(user)
-//				.project(proj)
-//				.build();
-//		
-//		if(parentDir != null ) dir.setParentDir(parentDir);
-//		return pdr.save(dir);
-//	}
-//
-//
-//	public void disableDir(DirDto dto) {
-//		Dir target = pdr.getOne(Integer.valueOf(dto.getDirId()));
-//		target.setDeleteFlag(true);
-//		pdr.save(target);
-//	}
 }
