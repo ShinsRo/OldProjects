@@ -2,13 +2,24 @@ package com.nastech.upmureport.support;
 
 import java.lang.reflect.Field;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.TimeZone;
 
-import org.aspectj.apache.bcel.generic.Type;
 import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.proxy.LazyInitializer;
 
 public class Utils {
-
+	private static final SimpleDateFormat _SDF 
+		= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+	
+	public Utils() {
+		TimeZone tz = TimeZone.getTimeZone("GMT+9");
+		_SDF.setTimeZone(tz);
+	}
+	
 	public static Object unproxy(Object proxy) {
 		Object unproxiedEntity = null;
 		
@@ -50,7 +61,10 @@ public class Utils {
 							value = dfVal;
 						} else if (ef.getType().equals(java.math.BigInteger.class)) {
 							value = StrToBigInt((String) dfVal);
-						}
+						} 
+//						else if (ef.getType().equals(java.time.LocalDateTime.class)) {
+//							value = LocalDateTime.parse((String) dfVal, DateTimeFormatter.ISO_DATE_TIME);
+//						}
 						ef.set(entity, value);						
 						break;
 					}
@@ -59,8 +73,9 @@ public class Utils {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
+			} catch (DateTimeParseException e) {
+				e.printStackTrace();
 			}
-			
 		}
 	}
 }

@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.nastech.upmureport.domain.dto.ProjectDto;
 import com.nastech.upmureport.domain.entity.support.Prole;
 import com.nastech.upmureport.domain.entity.support.Pstat;
 

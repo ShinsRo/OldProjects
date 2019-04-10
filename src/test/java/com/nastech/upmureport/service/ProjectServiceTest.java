@@ -104,9 +104,9 @@ public class ProjectServiceTest {
 				.description("코딩계의 알파고를 만들어 코딩 시키는 프로젝트")
 				.stDate(LocalDateTime.now())
 				.edDate(LocalDateTime.now())
-				.pStat("대기")
-				.pRole("책임자")
-				.progess(0)
+				.pstat("대기")
+				.prole("책임자")
+				.progress(0)
 				.build();
 		
 		ps.register(pDTO);
@@ -127,8 +127,8 @@ public class ProjectServiceTest {
 		String pname = pDTO1.getPname();
 		pDTO1.setPname(pname + "_수정본");
 		
-		MemberProject mp = ps.update(pDTO1);
-		assertTrue(mp.getProject().getPname().equals(pname + "_수정본"));
+		ProjectDto pDTOr = ps.correct(pDTO1);
+		assertTrue(pDTOr.getPname().equals(pname + "_수정본"));
 	}
 	
 	@Test

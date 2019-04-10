@@ -35,7 +35,7 @@ public class PdirService {
 	}
 	
 	@Transactional
-	public Pdir register(PdirDto dto) {
+	public PdirDto register(PdirDto dto) {
 		Long mid = Long.valueOf(dto.getMid());
 		BigInteger pid = Utils.StrToBigInt(dto.getPid());
 		String parentDid = dto.getParentDid();
@@ -54,11 +54,11 @@ public class PdirService {
 				.build();
 		
 		Utils.overrideEntity(pdir, dto);
-		return dr.save(pdir);
+		return new PdirDto(dr.save(pdir));
 	}
 	
 	
-	public Pdir update(PdirDto dto, String gubun) {
+	public PdirDto correct(PdirDto dto, String gubun) {
 		BigInteger did = Utils.StrToBigInt(dto.getDid());
 		String parentDid = dto.getParentDid();
 		Pdir dir = dr.findByDidAndDflagFalse(did);
@@ -77,13 +77,13 @@ public class PdirService {
 			break;
 		}
 		
-		return dr.save(dir);
+		return new PdirDto(dr.save(dir));
 	}
 	
-	public void disable(PdirDto dto) {
+	public PdirDto disable(PdirDto dto) {
 		BigInteger did = Utils.StrToBigInt(dto.getDid());
 		Pdir dir = dr.findByDidAndDflagFalse(did);
 		dir.setDflag(true);
-		dr.save(dir);
+		return new PdirDto(dr.save(dir));
 	}
 }

@@ -101,10 +101,10 @@ public class PdirServiceTest {
 				.pid(pDto.getPid())
 				.build();
 		
-		Pdir dir = ds.register(dto);
+		PdirDto dir = ds.register(dto);
 		assertTrue(dir != null);
 		
-		Pdir regied = pdirRepository.findById(dir.getDid()).get();
+		Pdir regied = pdirRepository.findById(Utils.StrToBigInt(dir.getDid())).get();
 		assertTrue(regied.getMember().getName() != null);
 	}
 	
@@ -120,7 +120,7 @@ public class PdirServiceTest {
 		
 		target.setDname(originDname + "_수정본");
 		
-		ds.update(target, "수정");
+		ds.correct(target, "수정");
 		
 		Pdir after = pdirRepository.findById(Utils.StrToBigInt(target.getDid())).get();
 		assertTrue(after.getDname().equals(originDname + "_수정본"));
