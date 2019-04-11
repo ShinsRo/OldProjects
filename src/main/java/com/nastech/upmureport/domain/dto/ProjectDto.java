@@ -9,9 +9,11 @@ import com.nastech.upmureport.domain.entity.Project;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class ProjectDto {
 	private String pid;
@@ -23,9 +25,9 @@ public class ProjectDto {
 	private LocalDateTime udate;
 	
 	private String mid;
-	private String pStat;
-	private String pRole;
-	private Integer progess;
+	private String pstat;
+	private String prole;
+	private Integer progress;
 
 	public ProjectDto(MemberProject mp) {
 		Project p = mp.getProject();
@@ -40,8 +42,8 @@ public class ProjectDto {
 		this.udate = p.getUdate();
 		
 		this.mid = m.getMid().toString();
-		this.pStat = mp.getPstat().toString();
-		this.pRole = mp.getProle().toString();
-		this.progess = mp.getProgress();
+		this.pstat = mp.getPstat().toString();
+		this.prole = mp.getProle().toString();
+		this.progress = mp.getProgress();
 	}
 }

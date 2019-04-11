@@ -10,4 +10,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	public Member findOneByMid(Long mid);
 	public Member findOneByName(String name);
 	public Member findOneByEid(String eid);
+	public Member findOneByEidAndDflagFalse(String eid);
 }

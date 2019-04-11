@@ -208,13 +208,18 @@ public class TestData {
 		List<MemberProject> mpList = new ArrayList<MemberProject>();
 		
 		for (Member m: mList) {
-			if(m.getEid().equals("0000")) continue;
+			Prole prole = Prole.관리자;
+			
+			if(m.getEid().equals("0000")) {
+				prole = Prole.책임자;
+			}
+
 			
 			MemberProject mp1 = MemberProject.builder()
 					.member(m)
 					.project(p1)
 					.pstat(Pstat.대기)
-					.prole(Prole.관리자)
+					.prole(prole)
 					.progress(0)
 					.build();
 			
@@ -222,7 +227,7 @@ public class TestData {
 					.member(m)
 					.project(p2)
 					.pstat(Pstat.진행)
-					.prole(Prole.관리자)
+					.prole(prole)
 					.progress(60)
 					.build();
 			
@@ -230,7 +235,7 @@ public class TestData {
 			mpList.add(mp2);
 		}
 
-		MemberProject mp = MemberProject.builder()
+		MemberProject mp3 = MemberProject.builder()
 				.member(mList.get(1))
 				.project(p3)
 				.pstat(Pstat.완료)
@@ -238,11 +243,12 @@ public class TestData {
 				.progress(100)
 				.build();
 		
-		mpList.add(mp);
+		mpList.add(mp3);
 		
-		memberProjectRepository.saveAll(mpList);
+		mpList = memberProjectRepository.saveAll(mpList);
 	}
 	public void deleteAllProjectData() {
+		pdirRepository.deleteAll();
 		memberProjectRepository.deleteAll();
 		projectRepository.deleteAll();
 	}
@@ -259,40 +265,45 @@ public class TestData {
 	 */
 	public void setPdirTestData() {
 		List<MemberProject> mpList = memberProjectRepository.findAll();
+		List<Pdir> roots = new ArrayList<Pdir>();
 		List<Pdir> pdList = new ArrayList<Pdir>();
 		
 		for (MemberProject mp : mpList) {
-			if ( mp.getProle().compareTo(Prole.구성원) > 0 ) continue;
+			if (mp.getProle().compareTo(Prole.책임자) != 0) continue;
 			
-			Pdir root = Pdir.builder()
-					.dname(mp.getMember().getName())
+			Pdir rootDir = Pdir.builder()
+					.dname("/")
 					.parentDir(null)
 					.member(mp.getMember())
 					.project(mp.getProject())
 					.build();
 			
+			roots.add(pdirRepository.save(rootDir));			
+		}
+		
+		for (Pdir root : roots) {
+			
 			Pdir child1 = Pdir.builder()
 					.dname("child1")
 					.parentDir(root)
-					.member(mp.getMember())
-					.project(mp.getProject())
+					.member(root.getMember())
+					.project(root.getProject())
 					.build();
 			
 			Pdir child2 = Pdir.builder()
 					.dname("child2")
 					.parentDir(root)
-					.member(mp.getMember())
-					.project(mp.getProject())
+					.member(root.getMember())
+					.project(root.getProject())
 					.build();
 			
 			Pdir child3 = Pdir.builder()
 					.dname("child3")
 					.parentDir(child1)
-					.member(mp.getMember())
-					.project(mp.getProject())
+					.member(root.getMember())
+					.project(root.getProject())
 					.build();
 			
-			pdList.add(root);
 			pdList.add(child1);
 			pdList.add(child2);
 			pdList.add(child3);

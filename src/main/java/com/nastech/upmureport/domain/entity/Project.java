@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -27,9 +26,6 @@ public class Project {
 	private String pname;
 	
 	private String description;
-	
-//	@JoinColumn(name="rootDid")
-//	private Pdir rootDir;
 	
 	private LocalDateTime stDate;
 	

@@ -42,7 +42,7 @@ public class PfileService {
 	public PfileResDto addPfile(PfileReqDto pfileReqDto) {
 		Pdir pdir;
 		try {		
-			pdir = pdirRepository.findById(pfileReqDto.getPdirId().intValue()).get();
+			pdir = pdirRepository.findById(pfileReqDto.getPdirId()).get();
 		} catch(Exception e){
 			log.warning(e.getMessage());
 			return null;
@@ -83,7 +83,7 @@ public class PfileService {
 	
 	public List<PfileResDto> getPfiles(BigInteger bigInteger){
 		
-		Pdir pdir = pdirRepository.findById(bigInteger.intValue()).get();
+		Pdir pdir = pdirRepository.findById(bigInteger).get();
 		
 		List<Pfile> pfiles = pfileRepository.findByDirId(pdir);
 		

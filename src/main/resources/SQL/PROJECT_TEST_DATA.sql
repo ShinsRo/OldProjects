@@ -1,5 +1,5 @@
-insert into user(userId, userPass, userName, posi, dept, deleteFlag)
-	values('1111', 'nas', '김승신', '인턴', '인턴부', false);
+insert into member(mid, eid, name, birth, phoneNum)
+	values('1111', '1111', 'nas', '김승신', '인턴');
 	
 insert into user(userId, userPass, userName, posi, dept, deleteFlag)
 	values('1112', 'nas', '김윤상', '인턴', '인턴부', false);
