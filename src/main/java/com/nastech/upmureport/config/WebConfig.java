@@ -74,11 +74,11 @@ public class WebConfig implements WebMvcConfigurer {
 //
 //	    return factory.createMultipartConfig();
 //	}
-//	
-//	@Bean
-//	public MultipartResolver multipartResolver() {
-//	    return new StandardServletMultipartResolver();
-//	}
+	
+	@Bean
+	public MultipartResolver multipartResolver() {
+	    return new StandardServletMultipartResolver();
+	}
 	
 //	@Bean
 //	public MultipartResolver multipartResolver() {

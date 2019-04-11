@@ -17,6 +17,7 @@ public class ApplicationInitalizer implements WebApplicationInitializer {
 		
 		context.setConfigLocation("com.nastech.upmureport.config");
 		
+		
 		container.addListener(new ContextLoaderListener(context));
 		
 		ServletRegistration.Dynamic dispatcher = container.addServlet("dispatcher", new DispatcherServlet(context));

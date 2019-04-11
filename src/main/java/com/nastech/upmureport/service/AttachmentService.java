@@ -19,6 +19,8 @@ import lombok.extern.java.Log;
 @Service
 @Log
 public class AttachmentService {
+
+	private final String ATTACH_PATH = "C:\\\\Users\\\\NASTECH\\\\Desktop";
 	
 	AttachmentRepository attachmentRepository;
 	
@@ -33,8 +35,8 @@ public class AttachmentService {
 			// Normalize file name
 	        //String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 			String fileName = file.getOriginalFilename();
-			File destinationFile = new File("C:\\Users\\NASTECH\\Desktop" + File.separator + fileName);
-			file.transferTo(destinationFile);			
+			File destinationFile = new File(ATTACH_PATH + File.separator + fileName);
+			file.transferTo(destinationFile);
 			
 			log.info(fileName);
 			
