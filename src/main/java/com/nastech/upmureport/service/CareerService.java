@@ -15,8 +15,8 @@ import com.nastech.upmureport.domain.repository.CareerRepository;
 public class CareerService {
 	@Autowired
 	CareerRepository careerRepository;
-	public void careerModify(Member mem, Career newCar) {
-		List<Career> cList =careerRepository.findAll();
+	public void careerEnd(Member mem, Career newCar) {
+		List<Career> cList =careerRepository.findAllByMember(mem);
 		for (Career career : cList) {
 			if(career.getActive() == true) {
 				career.setActive(false);
@@ -27,7 +27,32 @@ public class CareerService {
 				break;
 			}
 		}
-		
+	}
+	public Career currentCareer(Member mem) {
+		List<Career> cList =careerRepository.findAllByMember(mem);
+		for (Career career : cList) {
+			if(career.getActive() == true) {
+				return career;
+			}
+		}
+		return null;
+	}
+	
+	
+	
+	public void careerModify(Member mem, Career newCar) {
+//		List<Career> cList =careerRepository.findAllByMember(mem);
+//		for (Career career : cList) {
+//			if(career.getActive() == true) {
+//				career.setActive(false);
+//				career.setEndDate(LocalDate.now());
+//				careerRepository.save(career);
+//				System.out.println("기존 캐리어 내용");
+//				System.out.println(career.toString());
+//				break;
+//			}
+//		}
+		careerEnd(mem,newCar);
 		newCar.setStartDate(LocalDate.now());
 		Member temp = Member.builder().mid(mem.getMid()).build();
 		newCar.setMember(temp);
@@ -36,4 +61,5 @@ public class CareerService {
 		System.out.println(newCar);
 		careerRepository.save(newCar);
 	}
+	
 }

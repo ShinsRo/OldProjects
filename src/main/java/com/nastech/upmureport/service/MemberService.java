@@ -1,5 +1,6 @@
 package com.nastech.upmureport.service;
 
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -59,6 +60,11 @@ public class MemberService {
 		List<Member> users;
 		users=memberRepository.findAll();
 		return users;
+	}
+	public void retireMember(MemberDto memDto) {
+		memDto.setDflag(true);
+		memDto.setRetireDate(LocalDate.now());
+		memberRepository.save(memDto.toEntity());
 	}
 //	public MemberDto userLogin(MemberDto user) {
 //		String id = user.getUserId();

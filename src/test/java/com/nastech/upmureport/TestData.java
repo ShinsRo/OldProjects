@@ -87,7 +87,6 @@ public class TestData {
 				.birth("00000000")
 				.phoneNum("01011111111")
 				.joinDate(LocalDate.now())
-				.retireDate(LocalDate.now())
 				.build();
 		mList.add(admin);
 		
@@ -97,7 +96,6 @@ public class TestData {
 				.birth("19940728")
 				.phoneNum("01011111111")
 				.joinDate(LocalDate.now())
-				.retireDate(LocalDate.now())
 				.build();
 		mList.add(m1);
 		
@@ -107,7 +105,6 @@ public class TestData {
 				.birth("19951226")
 				.phoneNum("01012345555")
 				.joinDate(LocalDate.now())
-				.retireDate(LocalDate.now())
 				.build();
 		mList.add(m2);
 		
@@ -117,7 +114,6 @@ public class TestData {
 				.birth("19940729")
 				.phoneNum("01011131111")
 				.joinDate(LocalDate.now())
-				.retireDate(LocalDate.now())
 				.build();
 		mList.add(m3);
 		
