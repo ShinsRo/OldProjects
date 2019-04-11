@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class MemberDto {
-	private BigInteger mid;
+	private Long mid;
 	private String eid;
 	private String name;
 	private String birth;

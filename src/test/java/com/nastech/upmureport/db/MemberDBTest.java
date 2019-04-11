@@ -18,12 +18,17 @@ import com.nastech.upmureport.TestData;
 import com.nastech.upmureport.config.PersistenceJPAConfig;
 import com.nastech.upmureport.config.WebConfig;
 import com.nastech.upmureport.domain.dto.MemberDto;
+import com.nastech.upmureport.domain.entity.AuthInfo;
+import com.nastech.upmureport.domain.entity.Career;
 import com.nastech.upmureport.domain.entity.Member;
 import com.nastech.upmureport.domain.repository.AuthInfoRepository;
 import com.nastech.upmureport.domain.repository.CareerRepository;
 import com.nastech.upmureport.domain.repository.MemberRepository;
 import com.nastech.upmureport.domain.repository.MemberSystemRepository;
+import com.nastech.upmureport.service.AuthInfoService;
+import com.nastech.upmureport.service.CareerService;
 import com.nastech.upmureport.service.MemberService;
+import com.nastech.upmureport.service.MemberSystemService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -43,6 +48,12 @@ public class MemberDBTest {
 
 	@Autowired
 	MemberService memberService;
+	@Autowired
+	MemberSystemService memberSystemService;
+	@Autowired
+	AuthInfoService as;
+	@Autowired
+	CareerService cs;
 	
 	@Before
 	public void setUp() {
@@ -56,7 +67,7 @@ public class MemberDBTest {
 		
 		
 	}
-	
+
 	@Test
 	public void test01() {
 		MemberDto admin = MemberDto.builder()
@@ -67,22 +78,35 @@ public class MemberDBTest {
 				.joinDate(LocalDate.now())
 				.retireDate(LocalDate.now())
 				.build();
+		AuthInfo temp = AuthInfo.builder()
+				.username("admin").password("1111")
+				.build();
+		Career newCar = Career.builder()
+				.dept("연구소").posi("연구팀장")
+				.build();
 		System.out.println(authinfoRepository.findAll().get(0).getMember());
 		System.out.println("auth로 멤버를 찾아라"+authinfoRepository.findOneByUsername("admin"));
 		
 		//System.out.println("찾아라 ㅁㄴ이ㅏ러ㅣㅏㅁ넒ㄴ"+memberService.searchMemberByName(admin));
-		Member a= memberService.searchMemberByEid(admin).toEntity();
-		System.out.println("찾아라 eid이ㅏ러ㅣㅏㅁ넒ㄴ"+a.getCareer().get(0).getPosi()+a.getCareer().get(0).getStartDate());
-		
-		//System.out.println("ㅁㄴ"+memberSystemRepository.findAllBySenior(a));
-		
+		Member a= memberService.searchMemberByEid(admin).toEntity();	
 		System.out.println("주니어드르을");
 		System.out.println("ㅁㄴ"+memberService.findMyJuniors(a.toDto()));
+		System.out.println(as.userLogin(temp));
+		cs.careerModify(a, newCar);
+		memberService.retireMember(a.toDto());
+		
+		Member m1 = memberRepository.findOneByName("마규석");
+		memberSystemService.deleteMemberSystem(a, m1);
+		System.out.println(memberSystemRepository.findAll());
+		memberSystemService.addMemberSystem(a, m1);
+		System.out.println(memberSystemRepository.findAll());
+		
 	}
 	
 	@After
 	public void clearAll() {
 		//TestData td = new TestData(memberRepository, memberSystemRepository, authinfoRepository, careerRepository);
+		
 		td.deleteAllMemberData();
 		
 		assertTrue(memberRepository.count() == 0);

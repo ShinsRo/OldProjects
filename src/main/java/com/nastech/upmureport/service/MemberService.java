@@ -1,6 +1,6 @@
 package com.nastech.upmureport.service;
 
-import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -24,7 +24,7 @@ public class MemberService {
 	
 	
 	public MemberDto searchMemberByMid(MemberDto memberDto) {
-		BigInteger id=memberDto.getMid();
+		Long id = memberDto.getMid();
 		Member member = memberRepository.findOneByMid(id);
 		if(member != null)
 			return member.toDto();
@@ -61,6 +61,11 @@ public class MemberService {
 		users=memberRepository.findAll();
 		return users;
 	}
+	public void retireMember(MemberDto memDto) {
+		memDto.setDflag(true);
+		memDto.setRetireDate(LocalDate.now());
+		memberRepository.save(memDto.toEntity());
+	}
 //	public MemberDto userLogin(MemberDto user) {
 //		String id = user.getUserId();
 //		String pass = user.getUserPass();
@@ -81,7 +86,6 @@ public class MemberService {
 	public void deleteMember(Member member) {
 		memberRepository.delete(member);
 	}
-
 	
 	public List<MemberDto> findMyJuniors(MemberDto user){
 		Queue<MemberDto> q = new LinkedList();

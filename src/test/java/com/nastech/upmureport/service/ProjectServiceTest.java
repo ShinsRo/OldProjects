@@ -71,9 +71,9 @@ public class ProjectServiceTest {
 	@Test
 	@Transactional
 	public void 멤버의_프로젝트목록_가져오기_테스트() {
-		Member kss = memberRepository.findOneByEid("1111");
-		Member mks = memberRepository.findOneByEid("1112");
-		Member kys = memberRepository.findOneByEid("1113");
+		Member kss = memberRepository.findOneByEidAndDflagFalse("1111");
+		Member mks = memberRepository.findOneByEidAndDflagFalse("1112");
+		Member kys = memberRepository.findOneByEidAndDflagFalse("1113");
 		
 		String kssMid = kss.getMid().toString();
 		String mksMid = mks.getMid().toString();
@@ -92,7 +92,7 @@ public class ProjectServiceTest {
 	@Test
 	@Transactional
 	public void 프로젝트_생성하기_테스트() {
-		Member kss = memberRepository.findOneByEid("1111");
+		Member kss = memberRepository.findOneByEidAndDflagFalse("1111");
 		String kssMid = kss.getMid().toString();
 		
 		List<ProjectDto> pDTOList = ps.listByMid(kssMid);
@@ -104,9 +104,9 @@ public class ProjectServiceTest {
 				.description("코딩계의 알파고를 만들어 코딩 시키는 프로젝트")
 				.stDate(LocalDateTime.now())
 				.edDate(LocalDateTime.now())
-				.pStat("대기")
-				.pRole("책임자")
-				.progess(0)
+				.pstat("대기")
+				.prole("책임자")
+				.progress(0)
 				.build();
 		
 		ps.register(pDTO);
@@ -118,7 +118,7 @@ public class ProjectServiceTest {
 	@Test
 	@Transactional
 	public void 프로젝트_수정하기_테스트() {
-		Member kss = memberRepository.findOneByEid("1111");
+		Member kss = memberRepository.findOneByEidAndDflagFalse("1111");
 		String kssMid = kss.getMid().toString();
 		
 		LinkedList<ProjectDto> pDTOList = new LinkedList<ProjectDto>(ps.listByMid(kssMid)) ;
@@ -127,21 +127,21 @@ public class ProjectServiceTest {
 		String pname = pDTO1.getPname();
 		pDTO1.setPname(pname + "_수정본");
 		
-		MemberProject mp = ps.update(pDTO1);
-		assertTrue(mp.getProject().getPname().equals(pname + "_수정본"));
+		ProjectDto pDTOr = ps.correct(pDTO1);
+		assertTrue(pDTOr.getPname().equals(pname + "_수정본"));
 	}
 	
 	@Test
 	@Transactional
 	public void 프로젝트_연결해제_테스트() {
-		Member kss = memberRepository.findOneByEid("1111");
+		Member kss = memberRepository.findOneByEidAndDflagFalse("1111");
 		String kssMid = kss.getMid().toString();
 		
 		List<ProjectDto> pDTOList = ps.listByMid(kssMid);
 		Integer size = pDTOList.size();
 		ProjectDto pDTO = pDTOList.get(0);
 		
-		ps.disableMemberProject(pDTO);
+		ps.disable(pDTO);
 		assertTrue(ps.listByMid(kssMid).size() == size - 1);
 	}
 	

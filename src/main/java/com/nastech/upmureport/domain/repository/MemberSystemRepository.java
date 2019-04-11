@@ -12,4 +12,5 @@ public interface MemberSystemRepository extends JpaRepository<MemberSystem, Memb
 	public List<MemberSystem> findAllBySenior(Member senior);
 	public List<MemberSystem> findAllByJunior(Member junior);
 	public List<MemberSystem> findAllBySeniorAndJunior(Member senior,Member junior);
+	public MemberSystem findOneBySeniorAndJunior(Member senior,Member junior);
 }

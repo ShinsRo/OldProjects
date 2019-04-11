@@ -7,8 +7,8 @@ import java.util.Objects;
 public class MemberSystemPK implements Serializable{
 	private static final long serialVersionUID = 3570716009500781077L;
 	
-	private BigInteger senior;
-	private BigInteger junior;
+	private Long senior;
+	private Long junior;
 	
 	@Override
 	public boolean equals(Object o) {

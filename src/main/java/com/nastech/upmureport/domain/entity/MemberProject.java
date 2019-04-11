@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.nastech.upmureport.domain.dto.ProjectDto;
 import com.nastech.upmureport.domain.entity.support.Prole;
 import com.nastech.upmureport.domain.entity.support.Pstat;
 
@@ -34,7 +35,7 @@ public class MemberProject {
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	private BigInteger mpid;
 	
-	@ManyToOne(optional = false, fetch=FetchType.LAZY, cascade={ CascadeType.REFRESH })
+	@ManyToOne(optional = false, fetch=FetchType.LAZY)
 	@JoinColumn(name = "mid")
 	private Member member;
 	
