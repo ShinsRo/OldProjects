@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import kotlin.jvm.Strictfp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,5 +37,6 @@ public class Career {
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 	@JoinColumn(name="mid")
+	@JsonBackReference
 	private Member member;
 }

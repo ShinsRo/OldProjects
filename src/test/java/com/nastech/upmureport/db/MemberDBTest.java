@@ -95,11 +95,11 @@ public class MemberDBTest {
 		cs.careerModify(a, newCar);
 		memberService.retireMember(a.toDto());
 		
-		Member m1 = memberRepository.findOneByName("마규석");
-		memberSystemService.deleteMemberSystem(a, m1);
-		System.out.println(memberSystemRepository.findAll());
-		memberSystemService.addMemberSystem(a, m1);
-		System.out.println(memberSystemRepository.findAll());
+		//Member m1 = memberRepository.findOneByName("마규석");
+		//memberSystemService.deleteMemberSystem(a, m1);
+		//System.out.println(memberSystemRepository.findAll());
+		//memberSystemService.addMemberSystem(a, m1);
+		//System.out.println(memberSystemRepository.findAll());
 		
 	}
 	
@@ -107,12 +107,12 @@ public class MemberDBTest {
 	public void clearAll() {
 		//TestData td = new TestData(memberRepository, memberSystemRepository, authinfoRepository, careerRepository);
 		
-		td.deleteAllMemberData();
-		
-		assertTrue(memberRepository.count() == 0);
-		assertTrue(authinfoRepository.count() == 0);
-		assertTrue(careerRepository.count() == 0);
-		assertTrue(memberSystemRepository.count() == 0);
+//		td.deleteAllMemberData();
+//		
+//		assertTrue(memberRepository.count() == 0);
+//		assertTrue(authinfoRepository.count() == 0);
+//		assertTrue(careerRepository.count() == 0);
+//		assertTrue(memberSystemRepository.count() == 0);
 	}
 
 }
