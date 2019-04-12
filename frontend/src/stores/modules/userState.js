@@ -35,7 +35,7 @@ export const getPost = (loginInfo) => dispatch => {
             // 요청이 성공했을경우, 서버 응답내용을 payload 로 설정하여 GET_POST_SUCCESS 액션을 디스패치합니다.
             if(response.data !== "") {  // 로그인 성공
                 
-                
+                console.log("why",response.data);
                 const userInfo = response.data;
                 dispatch({
                     type:GET_POST_SUCCESS,

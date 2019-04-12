@@ -26,8 +26,8 @@ class LoginContainer extends Component {
         const { UserActions } = this.props;
 
         const loginInfo = Map({
-            userId:inputId,
-            userPass:inputPass});
+            username:inputId,
+            password:inputPass});
 
         UserActions.getPost(loginInfo).then(res => {
 

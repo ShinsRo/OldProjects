@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.nastech.upmureport.domain.dto.MemberDto;
 
 import lombok.AllArgsConstructor;
@@ -41,6 +43,7 @@ public class Member {
 	
 	
 	@OneToMany(mappedBy="member")
+	@JsonManagedReference
 	private List<Career> career=new ArrayList<Career>();
 	
 	public MemberDto toDto() {

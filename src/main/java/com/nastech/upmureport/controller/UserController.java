@@ -30,7 +30,6 @@ public class UserController {
     	//userService.userLogin(user.getUserId(), user.getUserPass());
     	System.out.println(user.getUserId());
     	return "_template";
-    	
     }*/
     @PostMapping(value = "/login")
     public MemberDto login(@RequestBody AuthInfo user, HttpServletRequest request){

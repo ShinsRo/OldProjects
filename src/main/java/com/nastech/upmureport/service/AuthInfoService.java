@@ -26,6 +26,7 @@ public class AuthInfoService {
 //	else
 //		return null;
 //	}
+	
 	public MemberDto userLogin(AuthInfo authinfo) {
 	String id = authinfo.getUsername();
 	String pass = authinfo.getPassword();
