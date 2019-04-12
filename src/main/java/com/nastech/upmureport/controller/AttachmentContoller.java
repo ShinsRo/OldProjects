@@ -2,6 +2,9 @@ package com.nastech.upmureport.controller;
 
 import javax.servlet.annotation.MultipartConfig;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,5 +33,18 @@ public class AttachmentContoller {
 		String fileName = attachmentService.storeFile(file);
 		
 		return fileName;
+	}
+	
+	@GetMapping("/attachment/{pdirId}")
+	public void getAttachment(@PathVariable String pdirId) {
+		
+		
+	}
+	
+	
+	@DeleteMapping("/attachment")
+	public void deleteAttachment() {
+		
+		
 	}
 }

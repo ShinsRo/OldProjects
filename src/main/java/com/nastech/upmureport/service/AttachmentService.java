@@ -28,8 +28,7 @@ public class AttachmentService {
 		this.attachmentRepository = attachmentRepository;
 	}
 	
-	public String storeFile(MultipartFile file) {
-		
+	public String storeFile(MultipartFile file) {		
 		
 		try {
 			// Normalize file name
@@ -47,7 +46,7 @@ public class AttachmentService {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}         
+		}
         
         
 		return "";

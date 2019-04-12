@@ -11,7 +11,7 @@ class AttachmentTable extends Component {
         }
         this.onFormSubmit = this.onFormSubmit.bind(this)
         this.onChange = this.onChange.bind(this)
-        this.fileUpload = this.fileUpload.bind(this)
+        this.attachmentUpload = this.attachmentUpload.bind(this)
       }
 
 
@@ -27,7 +27,7 @@ class AttachmentTable extends Component {
        console.log(e.target.files[0]);
     }
 
-    fileUpload(file){
+    attachmentUpload(file){
        const url = 'http://localhost:8080/upmureport/attachment';
        const formData = new FormData();
        formData.append('file',file)

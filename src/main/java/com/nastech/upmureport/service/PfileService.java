@@ -16,6 +16,7 @@ import com.nastech.upmureport.domain.entity.PfileLog.LogStat;
 import com.nastech.upmureport.domain.repository.PdirRepository;
 import com.nastech.upmureport.domain.repository.PfileLogRepository;
 import com.nastech.upmureport.domain.repository.PfileRepository;
+import com.nastech.upmureport.support.Utils;
 
 import lombok.extern.java.Log;
 
@@ -60,9 +61,9 @@ public class PfileService {
 		pfile = pfileRepository.save(pfile);
 		
 		pfileLogService.createPfileLog(pfile, LogStat.CREATE);
-			
+		
 		try {
-			return pfileToPfileResDto(pfile);
+			return pfile2PfileResDto(pfile);
 		}catch(Exception e){
 			e.getMessage();
 			return null;
@@ -78,7 +79,7 @@ public class PfileService {
 		
 		pfileLogService.createPfileLog(pfile, LogStat.UPDATE);
 		
-		return pfileToPfileResDto(pfileRepository.save(pfile));
+		return pfile2PfileResDto(pfileRepository.save(pfile));
 	}
 	
 	public List<PfileResDto> getPfiles(BigInteger bigInteger){
@@ -91,18 +92,25 @@ public class PfileService {
 		
 		List<PfileResDto> pfileResDtos = new ArrayList<>();
 		
-		for(Pfile pfile : pfiles) {
-			PfileResDto pfileResDto = pfileToPfileResDto(pfile);
-			pfileResDtos.add(pfileResDto);		
-		}
+		pfiles.forEach(pfile -> {
+			PfileResDto pfileResDto = pfile2PfileResDto(pfile);
+			pfileResDtos.add(pfileResDto);
+		});
+		
+//		for(Pfile pfile : pfiles) {
+//			PfileResDto pfileResDto = pfile2PfileResDto(pfile);
+//			pfileResDtos.add(pfileResDto);		
+//		}
 		
 		return pfileResDtos;
 	}
 	
+	
 	public List<PfileResDto> deletePfile(String pfileId) {
 		
-		Pfile pfile = pfileRepository.findById(BigInteger.valueOf(Long.parseLong(pfileId))).get();
+		//Pfile pfile = pfileRepository.findById(BigInteger.valueOf(Long.parseLong(pfileId))).get();
 		
+		Pfile pfile = pfileRepository.findById(Utils.StrToBigInt(pfileId)).get();
 		pfile.deletePfile();
 		
 		log.info(pfile.toString());
@@ -117,7 +125,7 @@ public class PfileService {
 		//upmuContentRepository.findByDirId(dirId)
 	}
 	
-	public PfileResDto pfileToPfileResDto(Pfile pfile) {
+	public PfileResDto pfile2PfileResDto(Pfile pfile) {
 		PfileResDto pfileResDto = PfileResDto.builder()
 				.pfileId(pfile.getFId())
 				.pdirId(pfile.getPdir().getDid())
