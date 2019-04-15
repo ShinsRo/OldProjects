@@ -18,12 +18,12 @@ import lombok.NoArgsConstructor;
 
 @Entity 
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
+//시작
 public class AuthInfo {
 	@Id @GeneratedValue(strategy= GenerationType.AUTO)
 	private BigInteger aid;
 	private String username;
 	private String password;
-	
 	@Enumerated(EnumType.STRING)
     private Role role;
 
