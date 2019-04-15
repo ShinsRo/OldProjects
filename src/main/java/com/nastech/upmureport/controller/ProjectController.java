@@ -25,6 +25,7 @@ public class ProjectController {
 	
 	@GetMapping(value = "/list")
 	ResponseEntity<List<ProjectDto>> list(@RequestParam(value = "mid", required=true) String mid) {
+		System.out.println(ps.listByMid(mid));
 		return ResponseEntity.ok().body(ps.listByMid(mid));
 	}
 	

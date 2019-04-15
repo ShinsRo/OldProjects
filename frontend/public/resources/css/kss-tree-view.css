@@ -1,0 +1,11 @@
+div.kss-tree {
+    color: white;
+    font-size: 0.9rem;
+    /* background-color: yellow;  */
+}
+
+div.kss-tree-branch-wspace {
+    padding-left: 18px;
+    cursor: pointer;
+}
+

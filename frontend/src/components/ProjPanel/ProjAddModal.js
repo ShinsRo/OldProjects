@@ -2,7 +2,7 @@ import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import store from '../../stores';
-import * as projectActions from '../../stores/modules/projectState';
+// import * as projectActions from '../../stores/modules/projectState';
 
 class ProjAddModal extends React.Component {
     constructor(props) {
@@ -29,21 +29,21 @@ class ProjAddModal extends React.Component {
     }
 
     handleSubmit(e) {
-        const data = new FormData(e.target);
-        const jsonObj = {};
-        data.forEach((value, key) => {
-            jsonObj[key] = value;
-        });
+        // const data = new FormData(e.target);
+        // const jsonObj = {};
+        // data.forEach((value, key) => {
+        //     jsonObj[key] = value;
+        // });
 
-        const URL = projectActions.BASE_URL + projectActions.END_POINT.PROJ_REGISTER;
-        fetch(URL, {
-            method: 'POST',
-            body: JSON.stringify(jsonObj),
-            headers: {
-                'Content-Type': 'application/json',
-                'accept': 'application/json'
-            }
-        });
+        // const URL = projectActions.BASE_URL + projectActions.END_POINT.PROJ_REGISTER;
+        // fetch(URL, {
+        //     method: 'POST',
+        //     body: JSON.stringify(jsonObj),
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'accept': 'application/json'
+        //     }
+        // });
     }
 
     render() {
