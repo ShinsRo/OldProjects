@@ -13,7 +13,7 @@ var fullScreen = {
 const Login = ({inputId,inputPass,user,onChangeInput,onLogin}) => {
     const handleClickEnter = (e) => {
         if(e.charCode === 13){
-            console.log("HIHIHI ENTER")
+            
             onLogin()
         }
     }
