@@ -33,11 +33,7 @@ class ProjPanel extends React.Component {
             </li> */}
             
             <ProjTreeView projectState={projectState} handleDirItemClick={handleDirItemClick}/>
-            {/* Divider */}
-
-            {/* Divider */}
-            <hr className="sidebar-divider d-none d-md-block"/>
-
+            
             {/* Sidebar Toggler (Sidebar) */}
             <div className="text-center d-none d-md-inline">
                 <button className="rounded-circle border-0" id="sidebarToggle"></button>

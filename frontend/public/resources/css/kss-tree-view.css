@@ -1,4 +1,7 @@
 div.kss-tree {
+    padding: 10px;
+    padding-bottom: 50px;
+    padding-top: 10px;
     position: relative;
     color: white;
     font-size: 0.9rem;
@@ -6,7 +9,37 @@ div.kss-tree {
     /* background-color: yellow;  */
 }
 
+div.kss-tree-filter {
+    margin-left: 20px;
+}
+
+i.filter-icon {
+    left: -20px;
+    padding-right: 10px;
+    color: white;
+}
+
+input[type=text].kss-tree-filter-input  {
+    color: white;
+    border: none;
+    background-color: rgba(0,0,0,0);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 2px;
+    width: 85%;
+}
+
+input[type=text].kss-tree-filter-input:focus  {
+    outline: none;
+    border-bottom: 1px solid #4366f3;
+}
+
+div.kss-tree-title {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 div.kss-tree-item {
+    padding: 3px;
     position: relative;
     cursor: pointer;
 }
@@ -21,18 +54,26 @@ div.kss-tree-item .overlay {
 
 div.kss-tree-item:hover .overlay { display: block; }
 
+div.kss-tree-item .active { 
+    position: absolute; 
+    left: 0; top: 0; width: 100%; height: 100%;
+    background-color: #4366f3; 
+    display: none; 
+    right: -8px; width: 314px; left: auto !important;
+}
+
 div.kss-tree-icon {
     z-index: 1;
     position: absolute; 
     font-size: 0.9rem;
-    left: -18px; top: 0; 
+    left: -18px; top: 0;
 }
 
-
 div.kss-tree-item-title {
+    margin-top: 3px;
     position: absolute; 
     font-size: 0.9rem;
-    left: 12px; top: 0; 
+    left: 24px; top: 0; 
     /* background-color: yellow;  */
 }
 
