@@ -83,9 +83,9 @@ public class PfileService {
 		return pfile2PfileResDto(pfileRepository.save(pfile));
 	}
 	
-	public List<PfileResDto> getPfiles(BigInteger bigInteger){
+	public List<PfileResDto> getPfiles(BigInteger pdirId){
 		
-		Pdir pdir = pdirRepository.findById(bigInteger).get();
+		Pdir pdir = pdirRepository.findById(pdirId).get();
 		
 		List<Pfile> pfiles = pfileRepository.findByDirId(pdir);
 		
