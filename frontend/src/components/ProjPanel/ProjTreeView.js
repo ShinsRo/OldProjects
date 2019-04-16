@@ -40,7 +40,7 @@ class ProjTreeView extends React.Component {
                         {(() => {
                             if (dir.parent !== 'root') {
                                 return dir.isOpen ? 
-                                (<i className="fas fa-folder-open pr-1"></i>):
+                                    (<i className="fas fa-folder-open pr-1"></i>):
                                     (<i className="fas fa-folder pr-1"></i>);
                             }
                         })()
