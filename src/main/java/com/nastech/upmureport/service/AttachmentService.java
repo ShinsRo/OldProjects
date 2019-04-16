@@ -25,6 +25,7 @@ import com.nastech.upmureport.domain.repository.PdirRepository;
 public class AttachmentService {
 
 	private final String ATTACH_PATH = "C:\\\\Users\\\\NASTECH\\\\Desktop\\\\attachment";
+	private final String PREFIX_URL = "/upload/";
 	private static final Log LOG = LogFactory.getLog(AttachmentService.class);
 	
 	AttachmentRepository attachmentRepository;
@@ -35,29 +36,42 @@ public class AttachmentService {
 		this.pdirRepository = pdirRepository;
 	}
 	
-	public void storeAttachment(MultipartFile file) {		
+	public void storeAttachment(MultipartFile file, String pid) {		
 		
+		File destinationFile = saveFile(file);		
+		String fileName = file.getOriginalFilename();
+		
+		Attachment attachment = Attachment.builder()
+				.name(fileName)
+				.url(PREFIX_URL + fileName)
+				.localPath(destinationFile.getPath())
+				.volume(file.getSize())
+				.build();
+		
+		attachmentRepository.save(attachment);
+		LOG.info("save file : " + attachment.getName());
+	}
+	
+	private File saveFile(MultipartFile file) {
 		String fileName = "";
-		File destinationFile;
+		File destinationFile = null;
 		try {
 			fileName = file.getOriginalFilename();
 			destinationFile = new File(ATTACH_PATH + File.separator + fileName);
-			file.transferTo(destinationFile);		
+			file.transferTo(destinationFile);
 		} catch (IllegalStateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-		//Attachment attachment = Attachment.builder().
-		//LOG.info(fileName);
+		}		
+		return destinationFile;
 	}
 	
 	public void getAttachment(BigInteger pdirId) {
 		Pdir pdir = pdirRepository.findById(pdirId).get();
 		List<Attachment> attachments = attachmentRepository.findByDid(pdir);
-		//LOG.info(attachments.get(0).getPath()());
+		LOG.info(attachments.get(0).getUrl());
 	}
 }

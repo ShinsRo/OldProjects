@@ -36,7 +36,7 @@ public class AttachmentContoller {
 		//ObjectMapper objectMapper = new ObjectMapper();
 		//AttachmentDto attachmentDto = objectMapper.readValue(json, AttachmentDto.class);
 		LOG.info("======== json: " + json);
-		attachmentService.storeAttachment(file);
+		attachmentService.storeAttachment(file, json);
 	}
 	
 	@GetMapping("/attachment/{pdirId}")

@@ -157,7 +157,8 @@ class Pfile extends Component {
             </div>
 
             <div className="card-body">
-              <AttachmentTable />
+              <AttachmentTable 
+                selectedDirId = {projectState.get('selectedDirId')} />
 
             </div>
           </div>
