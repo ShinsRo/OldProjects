@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { ProjTreeView } from './ProjTreeView';
+import ProjTreeView from './ProjTreeView';
 
 class ProjPanel extends React.Component {
-
     render() {
         console.log("Rendering: ProjPanel");
         const { projectState, handleDirItemClick } = this.props;

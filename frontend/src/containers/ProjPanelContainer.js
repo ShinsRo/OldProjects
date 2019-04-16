@@ -21,18 +21,9 @@ class ProjPanelContainer extends Component {
         ProjectActions.list(selectedUser.mid, selectedUser.name);
     }
     
-    componentWillUpdate(prevProps, prevState) {  //여러번 바뀌어야할때 전 상태와 현재 상태를 비교해서 업데이트 
-        const { userState } = store.getState();
-        const { ProjectActions } = this.props;
-        // if (prevProps.userState.selectedUser === this.props.userState.selectedUser) return false;
-        // else {
-        //     ProjectActions.axiosGetAsync('api/projects/list', {userId: userState.selectedUser.userId});
-        // }
-    }
-    
     handleDirItemClick (selectedDirId) {
         const { ProjectActions, pfileActions } = this.props;
-        ProjectActions.saveDirId(selectedDirId);
+        ProjectActions.saveItem({ selectedDirId });
         pfileActions.getPfile(selectedDirId);
     };
 

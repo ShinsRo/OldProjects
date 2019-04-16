@@ -1,11 +1,42 @@
 div.kss-tree {
+    position: relative;
     color: white;
     font-size: 0.9rem;
+    overflow: hidden; 
+    /* background-color: yellow;  */
+}
+
+div.kss-tree-item {
+    position: relative;
+    cursor: pointer;
+}
+
+div.kss-tree-item .overlay {
+    position: absolute; 
+    left: 0; top: 0; width: 100%; height: 100%;
+    background-color: #3b4e97; 
+    display: none; 
+    right: -8px; width: 314px; left: auto !important;
+}
+
+div.kss-tree-item:hover .overlay { display: block; }
+
+div.kss-tree-icon {
+    z-index: 1;
+    position: absolute; 
+    font-size: 0.9rem;
+    left: -18px; top: 0; 
+}
+
+
+div.kss-tree-item-title {
+    position: absolute; 
+    font-size: 0.9rem;
+    left: 12px; top: 0; 
     /* background-color: yellow;  */
 }
 
 div.kss-tree-branch-wspace {
+    position: relative;
     padding-left: 18px;
-    cursor: pointer;
 }
-
