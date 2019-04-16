@@ -17,7 +17,7 @@ class AttachmentTable extends Component {
 
     onFormSubmit(e){
         e.preventDefault() // Stop form submit
-        this.fileUpload(this.state.file).then((response)=>{
+        this.attachmentUpload(this.state.file).then((response)=>{
           console.log(response.data);
         })
       }

@@ -124,16 +124,16 @@ export default handleActions({
     // 업무 저장 전송 성공 
     [SAVE_FILE_SUCCESS]: (state, action) => {
         console.log(action.payload);
-        const upmulist = state.get('upmus');
-        upmulist.push(action.payload);
+        const pfileList = state.get('pfiles');
+        pfileList.push(action.payload);
         //return state.set('isFetching', false).set('upmu', action.payload);
-        return state.set('isFetching', false).set('upmu', action.payload).set('upmus', upmulist);
+        return state.set('isFetching', false).set('pfile', action.payload).set('pfiles', pfileList);
         //return state.set('isFetching', false).set('upmu.name', action.payload.titleInput).set('upmu.contents', action.payload.contents);
     },
     // 겟 업무 성공
     [GET_FILE_SECCESS] : (state, action) => {
         console.log('get--',action.payload)
-        return state.set('upmus', action.payload).set('isFetching', false);
+        return state.set('pfiles', action.payload).set('isFetching', false);
     },
     // 전송 실패
     [SEND_POST_FAILURE]: (state, action) => {
