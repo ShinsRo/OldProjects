@@ -2,76 +2,80 @@ import React from 'react';
 // import jQuery from 'jquery';
 // window.$ = window.jQuery = jQuery;
 
-export const ProjTreeView = ({ projectState, handleDirItemClick }) => {
-    const projects = projectState.get("projects");
-    const dirTrees = toTree(projects);
-    return (
-        <div>
-            <div className="row">
-                {/* filter */}
-            </div>
-            <div className="kss-tree">
-            { 
-                drawTree(dirTrees, handleDirItemClick)
-            }
-                    {/* dirTrees.map((dirs, idx) => {
+class ProjTreeView extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.drawTree = this.drawTree.bind(this);
+        this.onDirClick = this.onDirClick.bind(this);
+        
+        this.state = {
+            treeMap: {},
+            projectMap: {},
+            dirTrees: [],
+        };
+    }
+
+    drawTree(trees, handleDirItemClick) {
+        if (!trees) return (<></>);
+        return trees.map((dir, idx) => {
+            return (<>
+                <div key={dir.id} className="kss-tree-item">
+                    <span className="kss-tree-icon" onClick={() => { this.toggleFold(dir.id) }}>
+                        {(() => {
+                            if (dir.child.length === 0) return (<>&nbsp;</>);
+                            else if (dir.isOpen) return '-';
+                            else return '+';
+                        })()} 
+                    </span>
+                    <div className="overlay" onClick={() => { this.onDirClick(dir.id) }}></div>
+                    <div key={dir.id} onClick={() => { this.onDirClick(dir.id) }} className="kss-tree-item-title">
+                        {dir.title}
+                    </div>
+                </div>
+                {(() => {
+                    if (dir.isOpen) 
                         return (
-                            <div key={idx} className="kss-tree-branch-wspace">{dirs.title}
+                            <div key={dir.id + 'childs'} className="kss-tree-branch-wspace">
+                                {this.drawTree(dir.child, handleDirItemClick)}
                             </div>
                         );
-                    }) */}
-            </div>
-        </div>
+                })()}
+            </>);
+        })
+    }
+
+    onDirClick(did) {
+        const { projectState } = this.props;
+        const dirContainer = projectState.get("dirContainer");
+        dirContainer.treeMap[did].isOpen = !dirContainer.treeMap[did].isOpen;
+        this.props.handleDirItemClick(did);
+    }
+
+    toggleFold(did) {
+    }
+
+    render() {
+        const { projectState, handleDirItemClick } = this.props;
+        const dirContainer = projectState.get("dirContainer");
+        if (!dirContainer) return (<></>);
         
-    );
-}
+        const dirTrees = dirContainer.getDirTree();
 
-function drawTree(trees, handleDirItemClick) {
-    if (!trees) return (<></>);
-    return trees.map((dir, idx) => {
-        return (<>
-            <div key={dir.id} className="kss-tree-branch-wspace" onClick={() => { handleDirItemClick(dir.id) }}>
-                {dir.title}
-                {drawTree(dir.child, handleDirItemClick)}    
+        return (
+            <div>
+                <div className="row">
+                    {/* filter */}
+                </div>
+                <div className="kss-tree">
+                { 
+                    this.drawTree(dirTrees, handleDirItemClick)
+                }
+                </div>
             </div>
-        </>);
-    })
-}
-
-function toTree(projects) {
-    let treeMap = {};
-    let projectMap = {};
-    let dirTrees = [];
-    
-    projects.forEach(project => {
-        projectMap[project.pid] = {
-            pname : project.pname,
-        }
-        project.dirs.forEach(dir => {
-            treeMap[dir.did] = {
-                id: dir.did,
-                pid: dir.pid,
-                parent: dir.parentDid,
-                title: dir.dname,
-                child: [],
-                isLeaf: true,
-                isActivated: false,
-            }
-        });
-    });
-
-    Object.keys(treeMap).forEach(key => {
-        if ( treeMap[key].parent === 'root' ) {
-            const rootDir = treeMap[key];
             
-            rootDir.title = projectMap[rootDir.pid].pname;
-            dirTrees.push(treeMap[key]);
-        } else {
-            const child = treeMap[key];
-            treeMap[child.parent].isLeaf = false;
-            treeMap[child.parent].child.push(child);
-        }
-    });
-
-    return dirTrees;
+        );
+    }
 }
+
+export default ProjTreeView;

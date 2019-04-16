@@ -1,6 +1,7 @@
 import { createAction, handleActions } from 'redux-actions';
 import { Map, List } from 'immutable';
 import axios from 'axios';
+import KssTree from './kss-tree';
 import { URL } from './API_CONSTANT';
 //Actions
 export const REQUEST = 'project/REQUEST';
@@ -45,6 +46,10 @@ export default handleActions({
         
         for (const key in items) {
             projectState = projectState.set(key, items[key]);
+            if (key === 'projects') {
+                const dirContainer = new KssTree(items[key]);
+                projectState = projectState.set('dirContainer', dirContainer);
+            }
         }
 
         projectState = projectState.set('receivedAt', Date.now());
@@ -74,11 +79,8 @@ export default handleActions({
 }, initialState);
 
 // 단순 접근 api
-export function saveDirId(selectedDirId) {
+export function saveItem(items) {
     return (dispatch) => {
-        const items = {
-            selectedDirId
-        }
         dispatch(receive(items))
     }
 }
@@ -93,7 +95,7 @@ export function list(mid, name) {
                         projects: res.data, 
                         breadcrumb: [name, "내 프로젝트"],
                     }
-                    dispatch(receive(items)); 
+                    dispatch(receive(items));
                 })
                 .catch  (err => { dispatch(pusherr(err)) });
         }
