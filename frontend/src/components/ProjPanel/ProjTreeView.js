@@ -1,4 +1,6 @@
 import React from 'react';
+import stores from '../../stores';
+import AddModal from './AddModal';
 // import jQuery from 'jquery';
 // window.$ = window.jQuery = jQuery;
 
@@ -8,11 +10,13 @@ class ProjTreeView extends React.Component {
         super(props);
         this.drawTree = this.drawTree.bind(this);
         this.onDirClick = this.onDirClick.bind(this);
+        this.onAddClick = this.onAddClick.bind(this);
         
         this.state = {
             treeMap: {},
             projectMap: {},
             dirTrees: [],
+            showAddModal: true,
         };
     }
 
@@ -43,8 +47,7 @@ class ProjTreeView extends React.Component {
                                     (<i className="fas fa-folder-open pr-1"></i>):
                                     (<i className="fas fa-folder pr-1"></i>);
                             }
-                        })()
-                        }                     
+                        })()}                     
                         {dir.title}
                         </div>
                     </div>
@@ -67,11 +70,18 @@ class ProjTreeView extends React.Component {
         dirContainer.treeMap[did].isOpen = !dirContainer.treeMap[did].isOpen;
         this.props.handleDirItemClick(did);
     }
+    
+    onAddClick() {
+        const { projectState } = this.props;
+        const dirContainer = projectState.get("dirContainer");
+        this.setState({ showAddModal: true });
+    }
 
     render() {
         const { projectState, handleDirItemClick } = this.props;
         const dirContainer = projectState.get("dirContainer");
         if (!dirContainer) return (<></>);
+        const userInfo = stores.getState().userState.userInfo;
         
         const dirTrees = dirContainer.getDirTree();
 
@@ -85,9 +95,18 @@ class ProjTreeView extends React.Component {
                     </div>
                 </div>
                 <div className="kss-tree">
-                    <div className="kss-tree-title"><h6>PROJECTS</h6></div>
+                    <div className="kss-tree-title">
+                        {userInfo.name}님의 진행 중인 프로젝트
+                        <span 
+                            className="fas fa-plus-circle" 
+                            data-toggle="modal" 
+                            data-target="#projAddModal"
+                            onClick={this.onAddClick}
+                        ></span>
+                    </div>
                     { this.drawTree(dirTrees, handleDirItemClick) }
                 </div>
+                <AddModal showModal={this.state.showAddModal}></AddModal>
             </div>
         );
     }
