@@ -100,13 +100,6 @@ export function list(mid, name) {
                 .catch  (err => { dispatch(pusherr(err)) });
         }
 };
-export function register(pDto) {
-        return (dispatch) => {
-            dispatch(request());
-            return axios.post(`${URL.PROJECT.REGISTER}`, pDto)
-                .then   (res => { dispatch(receive(res.data)); })
-                .catch  (err => { dispatch(pusherr(err)) });
-        };
-    };
+export function register(pDto) { return axios.post(`${URL.PROJECT.REGISTER}`, pDto); };
 export function correct(pDto) { axios.put(`${URL.PROJECT.CORRECT}`, pDto) };
 export function disable(pDto) { axios.patch(`${URL.PROJECT.DISABLE}`, pDto) };

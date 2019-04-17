@@ -134,10 +134,9 @@
     height: 36px;
 }
 
-.treeivew-item {
+.icon-align-r {
     align-items: right !important;
     width: 100%;
-    display: flex;
     flex: 1;
 }
 .treeview-item.text {

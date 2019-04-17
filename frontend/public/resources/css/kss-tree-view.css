@@ -34,11 +34,22 @@ input[type=text].kss-tree-filter-input:focus  {
 }
 
 div.kss-tree-title {
+    font-weight: 600;
     padding-top: 10px;
     padding-bottom: 10px;
 }
 
+div.kss-tree-title .fas{
+    float: right;
+    padding-left: 10px;
+    padding-top: 3px;
+    padding-bottom: 10px;
+    padding-right: 20px;
+    cursor: pointer;
+}
+
 div.kss-tree-item {
+    font-weight: 200;
     padding: 3px;
     position: relative;
     cursor: pointer;

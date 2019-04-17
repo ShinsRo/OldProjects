@@ -7,10 +7,10 @@ import * as projectActions from '../stores/modules/projectState';
 import * as pfileAction from '../stores/modules/pfileState'
 
 
-import { ProjPanel } from '../components/ProjPanel';
+import { ProjectSideBar } from '../components/ProjectSideBar';
 
 
-class ProjPanelContainer extends Component {
+class ProjectSideBarContainer extends Component {
     constructor(props) {
         super(props);
         this.handleDirItemClick = this.handleDirItemClick.bind(this);
@@ -23,7 +23,7 @@ class ProjPanelContainer extends Component {
     
     handleDirItemClick (selectedDirId) {
         const { ProjectActions, pfileActions } = this.props;
-        ProjectActions.saveItem({ selectedDirId });
+        ProjectActions.saveItem({ selectedDirId, detailViewLevel: 'project' });
         pfileActions.getPfile(selectedDirId);
     };
 
@@ -33,11 +33,11 @@ class ProjPanelContainer extends Component {
         const { ProjectActions } = this.props;
         
         return (
-            <ProjPanel 
+            <ProjectSideBar 
                 projectState={projectState} 
                 ProjectActions={ProjectActions}
                 handleDirItemClick={this.handleDirItemClick}
-            ></ProjPanel>
+            ></ProjectSideBar>
         );
     }
 }
@@ -52,4 +52,4 @@ export default connect(
         pfileActions: bindActionCreators(pfileAction, dispatch)
 
     })
-) (ProjPanelContainer);
+) (ProjectSideBarContainer);
