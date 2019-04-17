@@ -18,7 +18,6 @@ const RouteAsUserInfo = withRouter(({ match, location, history }) => {
         routes = [
             { path: '/', component: LoginContainer },
             { path: '/register', component : Register},
-            { path: '/dashboard', component: Dashboard }
         ]
     } else {
         routes = [
