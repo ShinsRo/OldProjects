@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Map, List } from 'immutable';
 import UpdatePfileModal from './UpdatePfileModal';
+import AttachmentItem from './AttachmentItem' ;
 
 class PfileTable extends React.Component {
     constructor(props) {
@@ -26,7 +27,7 @@ class PfileTable extends React.Component {
         const pfiles = this.props.pfiles;
         const {onClickDir, projectState, dirs, selectedProject, selectedDirId, onClickPfile} = this.props;       
         
-        
+
         console.log('updateModal---', this.state.updateModal);
         const updateModal = this.state.updateModal 
             && <UpdatePfileModal
@@ -53,22 +54,8 @@ class PfileTable extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {dirs && dirs.get(`${selectedProject}`).map((dir, idx) => {
-                            if (dir.parentDirId === selectedDirId){
-                            return (
-                                <tr value={dir.dirId} key={idx} onClick={() => onClickDir(`${dir.dirId}`)}>
-                                    <td>{dir.dirName}</td>
-                                    <td>폴더</td>
-                                    <td>{dir.dirId}</td>
-                                    <td>d</td>
-                                    <td>f</td>
-                                    <td>s</td>
-                                </tr>
-                            );
-                            }
-                        })}
-                        </tbody>
-                        <tbody>
+                        <AttachmentItem > </AttachmentItem>
+        
                         {pfiles && pfiles.map((pfile, idx) => {
                             return (
                                 <tr value={selectedDirId} key={idx} >

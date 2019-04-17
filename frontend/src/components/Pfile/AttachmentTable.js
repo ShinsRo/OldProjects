@@ -14,7 +14,6 @@ class AttachmentTable extends Component {
         this.attachmentUpload = this.attachmentUpload.bind(this)
       }
 
-
     onFormSubmit(e){
         e.preventDefault() // Stop form submit
         this.attachmentUpload(this.state.file).then((response)=>{
@@ -39,8 +38,6 @@ class AttachmentTable extends Component {
        }
        return  axios.post(url, formData, config)
     }
-
-    
 
 
     render() {

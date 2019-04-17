@@ -24,3 +24,4 @@ export function getAttachment(pdirId){
     console.log(pdirId);
     return axios.get(`http://localhost:8080/upmureport/attachment/${pdirId}`);
 }
+
