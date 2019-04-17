@@ -43,10 +43,10 @@
                   </div>
                   <form class="User" action="${pageContext.request.contextPath}/login" method="post">
                     <div class="form-group">
-                      <input type="text" class="form-control form-control-user" name="userId" placeholder="사번">
+                      <input type="text" class="form-control form-control-user" name="username" placeholder="사번">
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control form-control-user" name="userPass" placeholder="비밀번호">
+                      <input type="password" class="form-control form-control-user" name="password" placeholder="비밀번호">
                     </div>
                     <div class="form-group">
                       <div class="custom-control custom-checkbox small">
