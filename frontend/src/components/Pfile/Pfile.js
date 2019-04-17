@@ -101,7 +101,7 @@ class Pfile extends Component {
     render(){
       const {pfileState, projectState} = this.props;
       const { handleTitleChange, handleContentChange, handleInsert, handleChangeDir } = this;
-            
+
       console.log(this.state.addModalIsOpen);
       const addModal = this.state.addModalIsOpen && 
                   <AddPfileModal
@@ -117,7 +117,7 @@ class Pfile extends Component {
                           <span className="icon text-white-50">
                               <i className="fas fa-flag"></i>
                           </span>
-                          <span className="text">업무 내용 추가</span>                          
+                          <span className="text">업무 내용 추가</span>   
                       </span>                      
                   </span>)
 
@@ -157,7 +157,7 @@ class Pfile extends Component {
             </div>
 
             <div className="card-body">
-              <AttachmentTable 
+              <AttachmentTable
                 selectedDirId = {projectState.get('selectedDirId')} />
 
             </div>

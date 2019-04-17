@@ -1,5 +1,8 @@
 package com.nastech.upmureport.controller;
 
+import java.net.MalformedURLException;
+import java.util.List;
+
 import javax.servlet.annotation.MultipartConfig;
 
 import org.apache.commons.logging.Log;
@@ -17,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nastech.upmureport.domain.dto.AttachmentDto;
 import com.nastech.upmureport.service.AttachmentService;
+import com.nastech.upmureport.support.Utils;
 
 
 @RestController 
@@ -36,19 +40,17 @@ public class AttachmentContoller {
 		//ObjectMapper objectMapper = new ObjectMapper();
 		//AttachmentDto attachmentDto = objectMapper.readValue(json, AttachmentDto.class);
 		LOG.info("======== json: " + json);
-		attachmentService.storeAttachment(file, json);
+		attachmentService.saveAttachment(file, json);
 	}
 	
 	@GetMapping("/attachment/{pdirId}")
-	public void getAttachment(@PathVariable String pdirId) {
+	public List<AttachmentDto.AttachmentResDto> getAttachment(@PathVariable String pdirId) throws MalformedURLException {
 		
-		
+		return attachmentService.getAttachment(Utils.StrToBigInt(pdirId));
 	}
 	
 	
 	@DeleteMapping("/attachment")
-	public void deleteAttachment() {
-		
-		
+	public void deleteAttachment()  {
 	}
 }

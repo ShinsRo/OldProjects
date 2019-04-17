@@ -1,6 +1,7 @@
 package com.nastech.upmureport.controller;
 
 import java.math.BigInteger;
+import java.net.MalformedURLException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +14,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import com.nastech.upmureport.config.PersistenceJPAConfig;
 import com.nastech.upmureport.config.WebConfig;
 import com.nastech.upmureport.service.AttachmentService;
+import com.nastech.upmureport.support.Utils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -23,9 +25,9 @@ public class AttachmentControllerTest {
 	AttachmentService attachmentService;
 	
 	@Test
-	public void attachmentTest() {
+	public void attachmentTest() throws MalformedURLException {
 		
-		attachmentService.getAttachment(BigInteger.valueOf(Long.parseLong("30")));
+		attachmentService.getAttachment(Utils.StrToBigInt("25"));
 		
 	}
 }

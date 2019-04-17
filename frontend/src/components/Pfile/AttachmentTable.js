@@ -7,13 +7,12 @@ class AttachmentTable extends Component {
     constructor(props) {
         super(props);
         this.state ={
-          file:null
+          uploadAttachment:null
         }
         this.onFormSubmit = this.onFormSubmit.bind(this)
         this.onChange = this.onChange.bind(this)
         this.attachmentUpload = this.attachmentUpload.bind(this)
       }
-
 
     onFormSubmit(e){
         e.preventDefault() // Stop form submit
@@ -23,7 +22,7 @@ class AttachmentTable extends Component {
       }
 
     onChange(e) {
-       this.setState({file:e.target.files[0]})
+       this.setState({uploadAttachment:e.target.files[0]})
        console.log(e.target.files[0]);
     }
 
@@ -35,7 +34,7 @@ class AttachmentTable extends Component {
        const config = {
            headers: {
                'content-type': 'multipart/form-data'
-           }        
+           }
        }
        return  axios.post(url, formData, config)
     }
@@ -50,7 +49,7 @@ class AttachmentTable extends Component {
                         <label for="ex_file">파일 가져오기</label>
                         <input type="file" id="ex_file" onChange={this.onChange}/>
                         <button type="submit" onClick={this.onFormSubmit} >Upload</button>
-                        {this.state.file && this.state.file.name}
+                        {this.state.uploadAttachment && this.state.uploadAttachment.name}
                       </span>
                 <table className="table" id="upmuTable" cellSpacing="0">
                     <thead>
