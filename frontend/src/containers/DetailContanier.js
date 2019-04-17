@@ -30,7 +30,7 @@ class DetailContanier extends Component {
          * 2. upmu의 경우
          */
         if (detailViewLevel === 'project') {
-            return (<ProjPanel/>);
+            return (<ProjPanel projectState={projectState}/>);
         } else if (detailViewLevel === 'umpu') {
             return (<UpmuPanel/>);
         } else {

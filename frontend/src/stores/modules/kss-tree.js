@@ -9,9 +9,7 @@ class KssTree {
         let dirTrees = this.dirTrees;
         
         projects.forEach(project => {
-            projectMap[project.pid] = {
-                pname : project.pname,
-            }
+            projectMap[project.pid] = project;
             project.dirs.forEach(dir => {
                 treeMap[dir.did] = {
                     id: dir.did,

@@ -158,3 +158,14 @@
     visibility: visible;
     opacity: 1;
 }
+.dropdown-menu .dropdown {
+    cursor: pointer;
+}
+
+.sm-text {
+    font-size: 0.1rem;
+}
+
+.m-text {
+    font-size: 0.8rem;
+}
