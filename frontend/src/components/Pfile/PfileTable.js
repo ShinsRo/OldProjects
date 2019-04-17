@@ -26,10 +26,11 @@ class PfileTable extends React.Component {
         const pfiles = this.props.pfiles;
         const {onClickDir, projectState, dirs, selectedProject, selectedDirId, onClickPfile} = this.props;       
         
+        
         console.log('updateModal---', this.state.updateModal);
         const updateModal = this.state.updateModal 
             && <UpdatePfileModal
-                    pfile={this.state.pfile} 
+                    pfile={this.state.pfile}
                     onClose={this.handleCloseModal} 
                     handleTitleChange = {this.props.handleTitleChange}
                     handleContentChange = {this.props.handleContentChange}
@@ -78,7 +79,7 @@ class PfileTable extends React.Component {
                                     <td>{pfile.newDate}</td>
                                     <td>{pfile.updateDate}</td>
                                     <td>
-                                        <button onClick={() => this.handleClickpfile(pfile) } data-toggle="modal" data-target="#UpdatePfileModal" class="btn btn-info btn-circle btn-sm">
+                                        <button onClick={() => this.handleClickPfile(pfile) } data-toggle="modal" data-target="#UpdatePfileModal" class="btn btn-info btn-circle btn-sm">
                                             <i class="fas fa-info-circle"></i>
                                         </button>
                                     </td>

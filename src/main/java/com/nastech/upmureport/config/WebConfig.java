@@ -65,27 +65,10 @@ public class WebConfig implements WebMvcConfigurer {
 		converters.add(new MappingJackson2HttpMessageConverter());
 	}
 	
-//	@Bean
-//	public MultipartConfigElement multipartConfigElement() {
-//	    MultipartConfigFactory factory = new MultipartConfigFactory();
-//
-//	    factory.setMaxFileSize(getMaxUploadFileSize());
-//	    factory.setMaxRequestSize(getMaxUploadFileSize());
-//
-//	    return factory.createMultipartConfig();
-//	}
-	
 	@Bean
 	public MultipartResolver multipartResolver() {
 	    return new StandardServletMultipartResolver();
 	}
-	
-//	@Bean
-//	public MultipartResolver multipartResolver() {
-//		StandardServletMultipartResolver multipartResolver = new StandardServletMultipartResolver();
-//		return multipartResolver;
-//		
-//	}
 	
 	Properties additionalProperties() {
 		Properties properties = new Properties();
