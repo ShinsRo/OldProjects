@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ProjPanelContainer from "./ProjPanelContainer";
 import HeaderContainer from "./HeaderContainer";
+import DetailContanier from './DetailContanier';
 import Pfile from "../components/Pfile/Pfile";
 
 class Dashboard extends Component {
@@ -19,9 +20,10 @@ class Dashboard extends Component {
             <div className="container-fluid">
             <div className="row">
               <div className="col-xl-6">
+                  <Pfile />
               </div>
               <div className="col-xl-6">
-                  <Pfile />
+                  <DetailContanier />
                 </div>
                 </div>
             </div>

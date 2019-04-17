@@ -72,8 +72,8 @@ class ProjTreeView extends React.Component {
     }
     
     onAddClick() {
-        const { projectState } = this.props;
-        const dirContainer = projectState.get("dirContainer");
+        // const { projectState } = this.props;
+        // const dirContainer = projectState.get("dirContainer");
         this.setState({ showAddModal: true });
     }
 
