@@ -18,9 +18,11 @@ class SidebarContainer extends Component {
     componentWillMount(){
         const {userState} = store.getState()
         const {userInfo} = userState
+        const {memberInfo} = userInfo
         const {juniorsAction} = this.props;
+        console.log("컨테이넘ㄴㅇㄹ",userInfo)
 
-        juniorsAction.getJuniors(userInfo).then(res=> {
+        juniorsAction.getJuniors(memberInfo).then(res=> {
             const {juniorList} =store.getState()
             this.setState({
                users: juniorList.get('users')
@@ -29,6 +31,7 @@ class SidebarContainer extends Component {
         .then(res=>{
             const deptMap={}
             //const deptName=[]
+            console.log("유저들",this.state.users)
             this.state.users && this.state.users.forEach(user => {
                 //!deptName.includes(user.dept) && deptName.push(user.dept)
                 const Careers = user.career;
@@ -62,13 +65,14 @@ class SidebarContainer extends Component {
         const depts=this.state.depts
         const {userState} = store.getState()
         const {userInfo} = userState
+        const {memberInfo} = userInfo
         //const deptName=this.state.deptName
         return(
             <Sidebar
                 users={users}
                 depts={depts}
                 select={userActions.select}
-                userInfo={userInfo}
+                userInfo={memberInfo}
                 //deptName={deptName}
             />
         );

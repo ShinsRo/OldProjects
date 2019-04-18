@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/api/users/login").permitAll()
 				.antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 				.antMatchers("/api/users/userlist").permitAll()
-				.anyRequest().permitAll()
+				.anyRequest().permitAll()  //우선 모든 api요청 열어둠 
 				.and()
 			.formLogin();
 			//.usernameParameter("username").passwordParameter("password").defaultSuccessUrl("/test").permitAll();             
