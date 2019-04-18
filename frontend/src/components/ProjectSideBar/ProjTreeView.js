@@ -108,7 +108,7 @@ class ProjTreeView extends React.Component {
                 </div>
                 <div className="kss-tree">
                     <div className="kss-tree-title">
-                        {userInfo.name}님의 진행 중인 프로젝트
+                        {userInfo.memberInfo.name}님의 진행 중인 프로젝트
                         <span 
                             className="fas fa-plus-circle" 
                             data-toggle="modal" 

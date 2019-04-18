@@ -54,6 +54,7 @@ class AddModal extends React.Component {
 
     render() {
         const { userState } = store.getState();
+        const memberInfo = userState.userInfo.memberInfo;
         console.log("Rendering: ProjAddModal");
         
         return (
@@ -150,15 +151,15 @@ class AddModal extends React.Component {
                                 </div>
                                 <div className="col-8">
                                     <input type="text" className="form-control" readOnly
-                                        value={`${userState.userInfo.name}님이 프로젝트를 등록합니다.`} />
-                                    <input name="userId" type="hidden" value={userState.userInfo.mid} />
+                                        value={`${memberInfo.name}님이 프로젝트를 등록합니다.`} />
+                                    <input name="userId" type="hidden" value={memberInfo.mid} />
                                 </div>
                             </div>
                             <hr></hr>
                             <h6 className="font-weight-bold">프로젝트 참여자</h6>
                             <div className="form-group row">
                                 <div className="col">
-                                    <Collaborators userInfo={userState.userInfo}/>
+                                    <Collaborators userInfo={memberInfo}/>
                                 </div>
                             </div>
                             <div className="modal-footer">

@@ -18,8 +18,10 @@ class ProjectSideBarContainer extends Component {
     }
     componentDidMount() {
         const { selectedUser } = store.getState().userState;
+        const memberInfo = selectedUser.memberInfo;
+        
         const { ProjectActions } = this.props;
-        ProjectActions.list(selectedUser.mid, selectedUser.name);
+        ProjectActions.list(memberInfo.mid, memberInfo.name);
     }
     
     handleDirItemClick (selectedDirId) {
