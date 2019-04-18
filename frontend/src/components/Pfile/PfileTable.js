@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Map, List } from 'immutable';
 import UpdatePfileModal from './UpdatePfileModal';
 import AttachmentItem from './AttachmentItem' ;
+import PfileItem from './PfileItem';
 
 class PfileTable extends React.Component {
     constructor(props) {
@@ -9,40 +10,39 @@ class PfileTable extends React.Component {
 
         this.state = {
             dirs: List(),
+            attachments: List(),
             updateModal: false,
             pfile: {},
+            attahment : {},
         };
     }
 
-    handleClickPfile = (pfile) => {
+    onClickPfile = (pfile) => {
         console.log(pfile);
-        this.setState({updateModal: true})
-        this.setState({ pfile }, () => {
-          console.log(">>>>", this.state.pfile);
-          console.log(">>>>", this.state.updateModal);
-        });
+        const {handleClickPfile} = this.props;
+        this.setState({ pfile: pfile })
+        handleClickPfile(pfile);
+    }
+
+    onClickPfileDelete = (pfileId) => {        
+        const {handleDeletePfile} = this.props;
+        handleDeletePfile(pfileId);
+    }
+
+    onClickAttachment = (attahment) => {
+        const {handleClickAttachment} = this.props;
+
+        this.setState({ attahment: attahment })
+        handleClickAttachment(attahment);
     }
 
     render() {
-        const pfiles = this.props.pfiles;
-        const {onClickDir, projectState, dirs, selectedProject, selectedDirId, onClickPfile} = this.props;       
-        
-
-        console.log('updateModal---', this.state.updateModal);
-        const updateModal = this.state.updateModal 
-            && <UpdatePfileModal
-                    pfile={this.state.pfile}
-                    onClose={this.handleCloseModal} 
-                    handleTitleChange = {this.props.handleTitleChange}
-                    handleContentChange = {this.props.handleContentChange}
-                    handleSubmit = {this.props.handleUpdate}
-                    status="update"/>;
-
+        const {pfiles, attachments, selectedDirId} = this.props;
         console.log('selectedDirId---', selectedDirId);
         return (
-            <div>
+            <div overflow-x = "auto">
                 <h2>{selectedDirId}</h2>
-                <table className="table" id="PfileTable" cellSpacing="0">
+                <table className="table" id="PfileTable" cellSpacing="0" width="100%">
                     <thead>
                         <tr>
                             <th>제목</th>
@@ -54,33 +54,29 @@ class PfileTable extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        <AttachmentItem > </AttachmentItem>
-        
+                        
                         {pfiles && pfiles.map((pfile, idx) => {
-                            return (
-                                <tr value={selectedDirId} key={idx} >
-                                    <td>{pfile.name}</td>
-                                    <td>업무 일지</td>
-                                    <td>{pfile.contents}</td>
-                                    <td>{pfile.localPath}</td>
-                                    <td>{pfile.newDate}</td>
-                                    <td>{pfile.updateDate}</td>
-                                    <td>
-                                        <button onClick={() => this.handleClickPfile(pfile) } data-toggle="modal" data-target="#UpdatePfileModal" class="btn btn-info btn-circle btn-sm">
-                                            <i class="fas fa-info-circle"></i>
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button onClick={() => this.props.handleDeletepfile(pfile.pfileId)} class="btn btn-danger btn-circle btn-sm">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            );
+                            return(  
+                            <PfileItem
+                                idx = {idx}
+                                pfile = {pfile}
+                                onClickPfile = {this.onClickPfile}
+                                onClickPfileDelete = {this.onClickPfileDelete}
+                                />
+                            )
                         })}
+
+                        {attachments && attachments.map((attachment, idx) => {
+                            return(
+                            <AttachmentItem 
+                                idx = {idx}
+                                attachment = {attachment}
+                                onClickAttachment = {this.onClickAttachment}
+                            />
+                            )
+                        })}     
                     </tbody>
                 </table>
-                {updateModal}
             </div>
         )
     }

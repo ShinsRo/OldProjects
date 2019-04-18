@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 
 
+style : {
+
+}
+
 class PfileItem extends Component {
 
     static defaultProps = {
@@ -11,15 +15,29 @@ class PfileItem extends Component {
     }
 
     render() {
-        const { pfile } = this.props;
+        const { pfile, idx } = this.props;
 
         console.log('pfile Item render');
         return (
-            <div>
-                <div><b>{pfile.name}</b></div>
-                <div>{pfile.contents}</div>
-            </div>
-        );
+                <tr key={idx} >
+                    <td >{pfile.name.substring(0,10)}</td>
+                    <td>업무 일지</td>
+                    <td>{pfile.contents}</td>
+                    <td>{pfile.localPath}</td>
+                    <td>{pfile.newDate}</td>
+                    <td>{pfile.updateDate}</td>
+                        <td>
+                            <button onClick={() => this.props.onClickPfile(pfile) } class="btn btn-info btn-circle btn-sm">
+                                <i class="fas fa-info-circle"></i>
+                            </button>
+                        </td>
+                        <td>
+                            <button onClick={() => this.props.onClickPfileDelete(pfile.pfileId)} class="btn btn-danger btn-circle btn-sm">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                </tr>
+                );
     }
 }
 
