@@ -46,7 +46,7 @@ class AttachmentTable extends Component {
             <div>
                 <h2>첨부파일</h2>
                 <span className="filebox"> 
-                        <label for="ex_file">파일 가져오기</label>
+                        <label htmlFor="ex_file">파일 가져오기</label>
                         <input type="file" id="ex_file" onChange={this.onChange}/>
                         <button type="submit" onClick={this.onFormSubmit} >Upload</button>
                         {this.state.uploadAttachment && this.state.uploadAttachment.name}

@@ -6,8 +6,8 @@ class ProjPanel extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            stDate: new Date(),
-            edDate: new Date(),
+            stDate: null,
+            edDate: null,
             progress: 0,
             gubun: 'project',
         }
@@ -47,21 +47,34 @@ class ProjPanel extends Component {
         // });
     }
 
+    dateFormater(arrDate) {
+        const year = arrDate[0];
+        const month = (arrDate[1] < 10) ? '0' + arrDate[1]:arrDate[1];
+        const day = (arrDate[2] < 10) ? '0' + arrDate[2]:arrDate[2];
+
+        return `${year}년 ${month}월 ${day}일`;
+    }
+
     render() {
         const { projectState } = this.props;
         const selectedDirId = projectState.get('selectedDirId');
         const dirContainer = projectState.get("dirContainer");
         const pid = dirContainer.treeMap[selectedDirId].pid;
         const project = dirContainer.projectMap[pid];
-
-        console.log(">>>>>>>>", project);
-        
+        console.log('>>>', project);
+        const strStDate = this.dateFormater(project.stDate);
+        const strEdDate = this.dateFormater(project.edDate);
         return (<>
             <form>
                 <div className="card-header py-3">
                     <div className="row">
                         <div className="m-0 font-weight-bold text-darkblue col-10">
-                            {project.pname}
+                            <span 
+                                name="pname" 
+                                suppressContentEditableWarning={true} 
+                                contentEditable="true"
+                            >{project.pname}</span>
+                            
                         </div>
                         <div className="text-right col-2 pt-1">
                             <div 
@@ -78,9 +91,9 @@ class ProjPanel extends Component {
                     </div>
                 </div>
                 <div className="card-body">
-                    <div className="form-group row input-group-text">
-                        <div className="col-2 m-text">
-                            권한 : {project.prole}
+                    <div className="form-group row mb-3">
+                        <div className="col-2">
+                        <input type="text" class="form-control sm-text" value={`권한 : ${project.prole}`} disabled/>
                         </div>
                         <div className="col-2">
                             <select name="pstat" id="pstat" className="form-control sm-text" style={{ width: '100%' }}>
@@ -94,61 +107,58 @@ class ProjPanel extends Component {
                                 <option value="폐기">폐기</option>
                             </select>
                         </div>
-                        <div className="input-group col-4 sm-text">
-                            <div className="row">
-                                <div className="col-2">
-                                    <span className="fas fa-calendar-week" style={{ fontSize: '1rem', paddingTop: '6px' }}></span>
-                                </div>
-                                <div className="col-10">
-                                    <DatePicker
-                                        className="form-control sm-text mr-0" 
-                                        selected={this.state.stDate}
-                                        dateFormat="yyyy년 MM월 dd일"
-                                        selectsStart
-                                        startDate={this.state.stDate}
-                                        endDate={this.state.edDate}
-                                        onChange={this.onStartDateChange}
-                                    />
-                                    <input name="stDate" type="hidden" value={this.state.stDate}/>
-                                </div>
-                            </div>
+                        <div className="col-2"></div>
+                        <div className="col-1 text-right pr-0">
+                            <span className="fas fa-calendar-week pr-1" style={{ fontSize: '1rem', paddingTop: '6px' }}></span>
                         </div>
-
-                        <div className="input-group col-4 sm-text">
-                            <div className="row">
-                                <div className="col-2">
-                                    <span className="fas fa-calendar-check" style={{ fontSize: '1rem', paddingTop: '6px' }}></span>
-                                </div>
-                                <div className="col-10">
-                                    <DatePicker
-                                        className="form-control sm-text" 
-                                        dateFormat="yyyy년 MM월 dd일"
-                                        selected={this.state.edDate}
-                                        selectsEnd
-                                        startDate={this.state.stDate}
-                                        endDate={this.state.edDate}
-                                        onChange={this.onEndDateChange}
-                                    />
-                                </div>
-                            </div>
-                            <input name="edDate" type="hidden" value={this.state.edDate}/>
+                        <div className="col-2">
+                            <DatePicker
+                                className=" form-control sm-input sm-text text-right"
+                                selected={this.state.stDate}
+                                dateFormat="yyyy년 MM월 dd일"
+                                selectsStart
+                                startDate={this.state.stDate}
+                                endDate={this.state.edDate}
+                                onChange={this.onStartDateChange}
+                                placeholderText={strStDate}
+                            />
+                        </div>
+                
+                        <div className="col-1 text-right pr-0">
+                            <span className="fas fa-calendar-check pr-1" style={{ fontSize: '1rem', paddingTop: '6px' }}></span>
+                        </div>
+                        <div className="col-2">
+                            <DatePicker
+                                className="sm-input form-control te`xt-right" 
+                                dateFormat="yyyy년 MM월 dd일"
+                                selected={this.state.edDate}
+                                selectsEnd
+                                startDate={this.state.stDate}
+                                endDate={this.state.edDate}
+                                onChange={this.onEndDateChange}
+                                placeholderText={strEdDate}
+                            />
                         </div>
                     </div>
-                    {/* <div className="row mt-3">참여자 : </div> */}
                     <hr></hr>
                     <div className="row mt-3">
-                        <div className="input-group col">
+                        <div className="col">
                             {((prole) => {
                                 if (
                                     prole === '관리자' ||
                                     prole === '책임자' ||
                                     prole === ''
                                 ) 
-                                    return (<textarea name="description" id={project.pid} className="form-control" placeholder={project.description} aria-label="With textarea"></textarea>)
+                                    return (<textarea name="description" id={project.pid} className="form-control" placeholder={project.description} style = {{ minHeight: '200px' }}></textarea>)
                                 else
-                                    return (<textarea name="description" id={project.pid} className="form-control" placeholder={project.description} aria-label="With textarea" disabled></textarea>)
+                                    return (<textarea name="description" id={project.pid} className="form-control" placeholder={project.description} disabled></textarea>)
 
                             })(project.prole)}
+                        </div>
+                    </div>
+                    <div className="row mt-3">
+                        <div className="col text-right">
+                            <input className="btn btn-primary" type="submit" value="수정하기"></input>
                         </div>
                     </div>
                 </div>

@@ -166,6 +166,31 @@
     font-size: 0.1rem;
 }
 
+.sm-input {
+    font-size: 0.1rem;
+    margin-right: 0px !important;
+}
+
+input.sm-input {
+    margin-right: 0px;
+}
+
 .m-text {
     font-size: 0.8rem;
 }
+
+.react-datepicker-wrapper {
+    display: block !important;
+}
+.react-datepicker__input-container {
+    display: block !important;
+}
+
+/* .member-circle::before{
+    border: 1px solid black;
+    border-radius: 50% !important;
+} */
+
+/* .member-circle .member-name {
+    position: absolute;
+} */

@@ -10,6 +10,7 @@ class ProjTreeView extends React.Component {
         super(props);
         this.drawTree = this.drawTree.bind(this);
         this.onDirClick = this.onDirClick.bind(this);
+        this.onDirChange = this.onDirChange.bind(this);
         this.onAddClick = this.onAddClick.bind(this);
         
         this.state = {
@@ -20,14 +21,19 @@ class ProjTreeView extends React.Component {
         };
     }
 
+    onDirChange(e, did) {
+        console.log(">>>>>>>>>>", e);
+        
+    }
+
     drawTree(trees, handleDirItemClick) {
         const selectedDirId = this.props.projectState.get('selectedDirId');
         
         if (!trees) return (<></>);
         else {
             return trees.map((dir, idx) => {
-                return (<>
-                    <div key={dir.id} className="kss-tree-item">
+                return (<div key={dir.id} >
+                    <div className="kss-tree-item">
                         <span className="kss-tree-icon" onClick={() => { this.toggleFold(dir.id) }}>
                             {(() => {
                                 if (dir.child.length === 0) return (<>&nbsp;</>);
@@ -48,18 +54,24 @@ class ProjTreeView extends React.Component {
                                     (<i className="fas fa-folder pr-1"></i>);
                             }
                         })()}                     
-                        {dir.title}
+                        <span
+                            suppressContentEditableWarning={true} 
+                            contentEditable="true" 
+                            onClick={(e) => { this.onDirChange(e, dir.id) }}
+                        >
+                            {dir.title}
+                        </span>
                         </div>
                     </div>
                     {(() => {
                         if (dir.isOpen) 
                             return (
-                                <div key={dir.id + 'childs'} className="kss-tree-branch-wspace">
+                                <div className="kss-tree-branch-wspace">
                                     {this.drawTree(dir.child, handleDirItemClick)}
                                 </div>
                             );
                     })()}
-                </>);
+                </div>);
             });
         }
     }

@@ -18,16 +18,16 @@ class Dashboard extends Component {
             <HeaderContainer history={this.props.history}/>
             {/* Page Content  */}
             <div className="container-fluid">
-            <div className="row">
-              <div className="col-xl-6">
-                  <Pfile />
+              <div className="row">
+                <div className="col-xl-6">
+                    <Pfile />
+                </div>
+                <div className="col-xl-6">
+                  <div className="card shadow mb-4" style={{ height: '100%' }}>
+                    <DetailContanier />
+                  </div>
+                </div>
               </div>
-              <div className="col-xl-6">
-                <div className="card shadow mb-4">
-                  <DetailContanier />
-                </div>
-                </div>
-                </div>
             </div>
 
           </div>

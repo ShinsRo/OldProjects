@@ -1,5 +1,6 @@
 import React from "react";
 import DatePicker from "react-datepicker";
+import Collaborators from './Collaborators';
 import "react-datepicker/dist/react-datepicker.css";
 import store from '../../stores';
 import { register } from '../../stores/modules/projectState';
@@ -10,8 +11,8 @@ class AddModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            stDate: new Date(),
-            edDate: new Date(),
+            stDate: null,
+            edDate: null,
             progress: 0,
             gubun: 'project',
         }
@@ -38,12 +39,12 @@ class AddModal extends React.Component {
         data.forEach((value, key) => {
             if (key === 'stDate' || key === 'edDate') {
                 pDto[key] = new Date(value).toISOString();
-                alert("key: " + key + " /// value :" + pDto[key])
             } else {
                 pDto[key] = value;
             }
         });
-
+        console.log(pDto);
+        
         register(pDto).then((res) => {
             console.log(JSON.parse(res));
             
@@ -74,7 +75,7 @@ class AddModal extends React.Component {
                                     <input name="pname" id="pname" type="text" className="form-control" placeholder="프로젝트 명" required/>
                                 </div>
                             </div>
-                            <div className="form-group row">
+                            {/* <div className="form-group row">
                                 <div className="col-8">
                                     <input name="projSubject" type="text" className="form-control" placeholder="업무 제목" required/>
                                 </div>
@@ -85,13 +86,7 @@ class AddModal extends React.Component {
                                         <option value="비주기성">비주기성</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div className="form-group row">
-                                <div className="col">
-                                    <textarea name="description" id="description" cols="30" rows="10" className="form-control" placeholder="프로젝트 설명">
-                                    </textarea>
-                                </div>
-                            </div>
+                            </div> */}
                             <div className="form-group row">
                                 <div className="col">
                                     <DatePicker
@@ -102,6 +97,7 @@ class AddModal extends React.Component {
                                         startDate={this.state.stDate}
                                         endDate={this.state.edDate}
                                         onChange={this.onStartDateChange}
+                                        placeholderText="프로젝트 시작일"
                                     />
                                     <input name="stDate" type="hidden" value={this.state.stDate}/>
                                 </div>
@@ -114,8 +110,15 @@ class AddModal extends React.Component {
                                         startDate={this.state.stDate}
                                         endDate={this.state.edDate}
                                         onChange={this.onEndDateChange}
+                                        placeholderText="프로젝트 마감일"
                                     />
                                     <input name="edDate" type="hidden" value={this.state.edDate}/>
+                                </div>
+                            </div>
+                            <div className="form-group row">
+                                <div className="col">
+                                    <textarea name="description" id="description" cols="30" rows="10" className="form-control" placeholder="프로젝트 설명">
+                                    </textarea>
                                 </div>
                             </div>
                             <div className="form-group row">
@@ -147,11 +150,17 @@ class AddModal extends React.Component {
                                 </div>
                                 <div className="col-8">
                                     <input type="text" className="form-control" readOnly
-                                        value={`${userState.selectedUser.userName}님이 프로젝트를 등록합니다.`} />
-                                    <input name="userId" type="hidden" value={userState.selectedUser.userId} />
+                                        value={`${userState.userInfo.name}님이 프로젝트를 등록합니다.`} />
+                                    <input name="userId" type="hidden" value={userState.userInfo.mid} />
                                 </div>
                             </div>
-                            <br></br>
+                            <hr></hr>
+                            <h6 className="font-weight-bold">프로젝트 참여자</h6>
+                            <div className="form-group row">
+                                <div className="col">
+                                    <Collaborators userInfo={userState.userInfo}/>
+                                </div>
+                            </div>
                             <div className="modal-footer">
                                 <button className="btn btn-secondary" type="button" data-dismiss="modal">취소하기</button>
                                 <input className="btn btn-primary" type="submit" value="추가하기"></input>
