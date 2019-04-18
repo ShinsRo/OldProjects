@@ -45,7 +45,6 @@ public class Member {
 	@OneToMany(mappedBy="member")
 	@JsonManagedReference
 	private List<Career> career=new ArrayList<Career>();
-	
 	public MemberDto toDto() {
 		return MemberDto.builder().
 				mid(mid).

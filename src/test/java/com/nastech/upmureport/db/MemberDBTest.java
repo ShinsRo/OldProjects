@@ -3,6 +3,8 @@ package com.nastech.upmureport.db;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -21,10 +23,15 @@ import com.nastech.upmureport.domain.dto.MemberDto;
 import com.nastech.upmureport.domain.entity.AuthInfo;
 import com.nastech.upmureport.domain.entity.Career;
 import com.nastech.upmureport.domain.entity.Member;
+import com.nastech.upmureport.domain.entity.Role;
+import com.nastech.upmureport.domain.entity.UserRole;
 import com.nastech.upmureport.domain.repository.AuthInfoRepository;
 import com.nastech.upmureport.domain.repository.CareerRepository;
 import com.nastech.upmureport.domain.repository.MemberRepository;
 import com.nastech.upmureport.domain.repository.MemberSystemRepository;
+import com.nastech.upmureport.domain.repository.UserRoleRepository;
+import com.nastech.upmureport.domain.security.CustomUserDetails;
+import com.nastech.upmureport.domain.security.UserService;
 import com.nastech.upmureport.service.AuthInfoService;
 import com.nastech.upmureport.service.CareerService;
 import com.nastech.upmureport.service.MemberService;
@@ -44,6 +51,8 @@ public class MemberDBTest {
 	@Autowired
 	CareerRepository careerRepository;
 	@Autowired
+	UserRoleRepository userRoleRepository;
+	@Autowired
 	TestData td;
 
 	@Autowired
@@ -54,9 +63,14 @@ public class MemberDBTest {
 	AuthInfoService as;
 	@Autowired
 	CareerService cs;
+	@Autowired
+	UserService securityService;
 	
 	@Before
 	public void setUp() {
+		
+		userRoleRepository.deleteAll();
+		td.deleteAllMemberData();
 		//TestData td = new TestData(memberRepository, memberSystemRepository, authinfoRepository, careerRepository);
 		td.setMemberTestData();
 		
@@ -81,6 +95,7 @@ public class MemberDBTest {
 		AuthInfo temp = AuthInfo.builder()
 				.username("admin").password("1111")
 				.build();
+		AuthInfo check = authinfoRepository.findAll().get(0);
 		Career newCar = Career.builder()
 				.dept("연구소").posi("연구팀장")
 				.build();
@@ -94,6 +109,18 @@ public class MemberDBTest {
 		System.out.println(as.userLogin(temp));
 		cs.careerModify(a, newCar);
 		memberService.retireMember(a.toDto());
+		
+//		UserRole ur = UserRole.builder()
+//				.role(Role.ROLE_ADMIN).username("admin")
+//				.build();
+//		userRoleRepository.save(ur);
+//		List<UserRole> url= new ArrayList<UserRole>();
+//		url.add(ur);
+//		System.out.println("유저롤 "+url);
+//		CustomUserDetails u = new CustomUserDetails(check, url);
+//		System.out.println("aaa"+u.isAccountNonExpired());
+//		
+//		securityService.loadUserByUsername("admin");
 		
 		//Member m1 = memberRepository.findOneByName("마규석");
 		//memberSystemService.deleteMemberSystem(a, m1);

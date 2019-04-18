@@ -1,9 +1,22 @@
 import { handleActions } from 'redux-actions';
 import { Map, List } from 'immutable';
 import axios from 'axios';
+import store from '../../stores'
 
 function getjuniorAPI(loginUser) {
-    return axios.post('http://localhost:8080/upmureport/api/users/userlist', loginUser);
+
+    const {userState} = store.getState();
+    const {userInfo} = userState
+    const {token} = userInfo
+    const config = {
+        headers: 
+        {
+                  'X-Auth-Token': token
+        }
+    }
+    console.log("토큰",token)
+
+    return axios.post('http://localhost:8080/upmureport/api/users/userlist', loginUser,config);
 }
 
 const GET_JUNIOR_PENDING = 'GET_JUNIOR_PENDING';

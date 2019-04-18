@@ -11,6 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+
+import com.nastech.upmureport.domain.dto.AuthInfoDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,4 +34,25 @@ public class AuthInfo {
 	@OneToOne
 	@JoinColumn(name = "mid")
 	private Member member;
+	
+	public AuthInfoDto toDto() {
+		return AuthInfoDto.builder()
+				.aid(aid)
+				.username(username)
+				.password(password)
+				.role(role)
+				.member(member)
+				.build();
+	}
+
+	public AuthInfo(AuthInfo authInfo) {
+		this.aid=authInfo.aid;
+		this.username=authInfo.username;
+		this.password=authInfo.password;
+		this.role=authInfo.role;
+		this.member=authInfo.member;
+		// TODO Auto-generated constructor stub
+	}
+	
 }
+
