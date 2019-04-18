@@ -1,79 +1,52 @@
 package com.nastech.upmureport.domain.dto;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.List;
 
-import com.nastech.upmureport.domain.entity.ProjStat;
+import com.nastech.upmureport.domain.entity.Member;
+import com.nastech.upmureport.domain.entity.MemberProject;
 import com.nastech.upmureport.domain.entity.Project;
-import com.nastech.upmureport.domain.entity.User;
-import com.nastech.upmureport.domain.entity.UserProject;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class ProjectDto {
-	private Integer projId;
-	private String projName;
-	private String projCaleGubun;
-	private String projSubject;
-	private String projDesc;
-	private Integer projProgress;
+	private String pid;
+	private String pname;
+	private String description;
+	private LocalDateTime stDate;
+	private LocalDateTime edDate;
+	private LocalDateTime cdate;
+	private LocalDateTime udate;
 	
-	private Date startDate;
-	private Date endDate;
+	private String mid;
+	private String pstat;
+	private String prole;
+	private Integer progress;
 	
-	private String userId;
-	private String userName;
-	private String dept;
-	private String posi;
-	
-	private String projStat;
-	
-	public ProjectDto(User user) {
-		this.userId = user.getUserId();
-		this.userName = user.getUserName();
-		this.dept = user.getDept();
-		this.posi = user.getPosi();
-	}
-	
-	public ProjectDto(User user, Project project) {
-		this(user);
-		this.projId = project.getProjId();
-		this.projName = project.getProjName();
-		this.projCaleGubun = project.getProjCaleGubun();
-		this.projSubject = project.getProjSubject();
-		this.projDesc = project.getProjDesc();
-		this.startDate = project.getProjStartDate();
-		this.endDate = project.getProjEndDate();
-		this.projProgress = project.getProjProgress();
-	}
-	
-	public ProjectDto(UserProject userProject) {
-		this(userProject.getUser(), userProject.getProject());
-		this.projStat = userProject.getProjStat().name();
-	}
-	
-	public ProjectDto() {
-		this.projId = -1;
-	}
-	
-	public Project toEntity() {
-		Project project = Project.builder()
-				.projName(this.projName)
-				.projCaleGubun(this.projCaleGubun)
-				.projSubject(this.projSubject)
-				.projProgress(this.projProgress)
-				.projDesc(this.projDesc)
-				.projStartDate(this.startDate)
-				.projEndDate(this.endDate)
-				.build();
+	private List<PdirDto> dirs;
+
+	public ProjectDto(MemberProject mp) {
+		Project p = mp.getProject();
+		Member m = mp.getMember();
 		
-		if (projId != null && projId != 0) project.setProjId(projId);
+		this.pid = p.getPid().toString();
+		this.pname = p.getPname();
+		this.description = p.getDescription();
+		this.stDate = p.getStDate();
+		this.edDate = p.getEdDate();
+		this.cdate = p.getCdate();
+		this.udate = p.getUdate();
 		
-		return project;
+		this.mid = m.getMid().toString();
+		this.pstat = mp.getPstat().toString();
+		this.prole = mp.getProle().toString();
+		this.progress = mp.getProgress();
 	}
 }

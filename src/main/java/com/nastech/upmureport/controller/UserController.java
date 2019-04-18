@@ -1,64 +1,120 @@
 package com.nastech.upmureport.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nastech.upmureport.domain.dto.UserDto;
-import com.nastech.upmureport.service.UserService;
+import com.nastech.upmureport.domain.dto.MemberDto;
+import com.nastech.upmureport.domain.entity.AuthInfo;
+import com.nastech.upmureport.domain.entity.UserRole;
+import com.nastech.upmureport.domain.repository.AuthInfoRepository;
+import com.nastech.upmureport.domain.repository.UserRoleRepository;
+import com.nastech.upmureport.domain.security.AuthenticationToken;
+import com.nastech.upmureport.domain.security.CustomUserDetails;
+import com.nastech.upmureport.domain.security.UserService;
+import com.nastech.upmureport.service.AuthInfoService;
+import com.nastech.upmureport.service.MemberService;
 
 @RestController
 @RequestMapping(value = "/api/users")
 public class UserController {
 	@Autowired
-	UserService userService;
+	MemberService memberService;
+	@Autowired
+	AuthInfoService authInfoService;
+	@Autowired
+	AuthInfoRepository authInfoRepository;
+	
+	@Autowired AuthenticationManager authenticationManager;
+	@Autowired UserService userService;
+	@Autowired
+	UserRoleRepository userRoleRepository;
     /*
     @GetMapping(value = "/login")
     public String login(User user){
-    	//userService.userLogin(user.getUserId(), user.getUserPass());
+    	//memberService.userLogin(user.getUserId(), user.getUserPass());
     	System.out.println(user.getUserId());
     	return "_template";
     }*/
-    @PostMapping(value = "/login")
-    public UserDto login(@RequestBody UserDto user, HttpServletRequest request){
-    	UserDto loginedUserDto = userService.userLogin(user);
-    	if(loginedUserDto != null) {
-    		HttpSession session = request.getSession();
-    		session.setAttribute("userDto", (Object)loginedUserDto);
-    		return loginedUserDto;
-    	}
-    	else
-    	{
-    		return null;
-    	}
+//    @PostMapping(value = "/login")  //기존 로그인 서비스
+//    public MemberDto login(@RequestBody AuthInfo user, HttpServletRequest request){
+//    	MemberDto loginedUserDto = authInfoService.userLogin(user);
+//    	if(loginedUserDto != null) {
+//    		HttpSession session = request.getSession();
+//    		session.setAttribute("userDto", (Object)loginedUserDto);
+//    		return loginedUserDto;
+//    	}
+//    	else
+//    	{
+//    		return null;
+//    	}
+//    }
+	
+	@PostMapping(value = "/login")
+    public Map<?, ?> login(@RequestBody AuthInfo user, HttpServletRequest request){
+		String username = user.getUsername();
+		String password = user.getPassword();
+		HttpSession session = request.getSession();
+		
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
+		Authentication authentication = authenticationManager.authenticate(token);
+		SecurityContextHolder.getContext().setAuthentication(authentication);  //인증된것 contextHolder에 넣어줌
+		session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY , SecurityContextHolder.getContext());
+		
+		AuthInfo authUser = authInfoRepository.findOneByUsername(username);
+		List<UserRole> userRoles = userRoleRepository.findAllByUsername(username);
+		if(authUser==null || userRoles.isEmpty() ) return null;
+		CustomUserDetails customUser = new CustomUserDetails(authUser, userRoles);
+		System.out.println("customUser"+customUser);
+		System.out.println("-----customUser"+customUser.getAuthorities());
+		
+		Map<String, Object> returnObj = new HashMap<String, Object>();
+		
+		returnObj.put("authToken", new AuthenticationToken(customUser.getUsername(), customUser.getAuthorities(), session.getId()));
+		returnObj.put("memberInfo", authUser.getMember());
+		
+		return returnObj;
     }
+	@PostMapping(value = "/test")
+	public void a() {
+		System.out.println("test");
+	}
+	
     @CrossOrigin
     @PostMapping(value = "/userlist")
-    public List<UserDto> userList(@RequestBody UserDto user, HttpServletRequest request){
-    	List<UserDto> juniorList = userService.findMyJuniors(user);
+    public List<MemberDto> userList(@RequestBody MemberDto user, HttpServletRequest request){
+    	List<MemberDto> juniorList = memberService.findMyJuniors(user);
     	if( !juniorList.isEmpty()) {
+    		System.out.println("비어있지안흥ㅁ");
     		return juniorList;
     	}
     	else
     	{
+    		System.out.println("비어있음");
     		return null;
     	}
     }
-    
-    @CrossOrigin
-    @GetMapping(value = "/regi")
-    public String register() {
-    	UserDto user= new UserDto("190313", "Test", "1q2w3e4r", "연구소", "사원", false);
-    	userService.userRegister(user);
-    	return "redirect:/";
-    }
+//    
+//    @CrossOrigin
+//    @GetMapping(value = "/regi")
+//    public String register() {
+//    	UserDto user= new UserDto("190313", "Test", "1q2w3e4r", "연구소", "사원", false);
+//    	memberService.userRegister(user);
+//    	return "redirect:/";
+//    }
 }

@@ -29,7 +29,7 @@ const Sidebar = ({depts,select,userInfo}) => {
 
             <li className="nav-item active">
                 <i className="fas fa-user"></i>
-                <span className="collapse-item" onClick={() => select(userInfo)} value={userInfo}> My: {userInfo.userName}</span>
+                <span className="collapse-item" onClick={() => select(userInfo)} value={userInfo}> My: {userInfo.name}</span>
             </li>
             {/* Divider */}
 
@@ -49,7 +49,10 @@ const Sidebar = ({depts,select,userInfo}) => {
                                 <h6 className="collapse-header">구성 인원:</h6>
                                 {
                                     usersInDept.map((user, idx)=> {
-                                        return <div key={idx} className="collapse-item" onClick={() => select(user)} value={user}>{user.posi} {user.userName}</div>
+                                        //현재 커리어가져오기위함
+                                        let currentCareer = user.career.filter(car => car.active ===true)
+                                        //console.log("현재 컬어",currentCareer[0].posi)
+                                        return <div key={idx} className="collapse-item" onClick={() => select(user)} value={user}> {currentCareer[0].posi} {user.name}</div>
                                     })
                                 }
                             </div>

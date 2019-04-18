@@ -1,225 +1,168 @@
 package com.nastech.upmureport.service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.nastech.upmureport.domain.dto.DirDto;
+import com.nastech.upmureport.domain.dto.PdirDto;
 import com.nastech.upmureport.domain.dto.ProjectDto;
-import com.nastech.upmureport.domain.entity.Dir;
-import com.nastech.upmureport.domain.entity.ProjStat;
+import com.nastech.upmureport.domain.entity.Member;
+import com.nastech.upmureport.domain.entity.MemberProject;
+import com.nastech.upmureport.domain.entity.Pdir;
 import com.nastech.upmureport.domain.entity.Project;
-import com.nastech.upmureport.domain.entity.User;
-import com.nastech.upmureport.domain.entity.UserProject;
-import com.nastech.upmureport.domain.repository.DirRepository;
-import com.nastech.upmureport.domain.repository.ProjectRepository;
-import com.nastech.upmureport.domain.repository.UserProjectRepository;
-import com.nastech.upmureport.domain.repository.UserRepository;
+import com.nastech.upmureport.domain.entity.support.Prole;
+import com.nastech.upmureport.domain.entity.support.Pstat;
+import com.nastech.upmureport.domain.repository.MemberProjectRepository;
+import com.nastech.upmureport.domain.repository.MemberRepository;
+import com.nastech.upmureport.domain.repository.PdirRepository;
+import com.nastech.upmureport.support.Utils;
 
 @Service
 public class ProjectService {
 	@Autowired
-	UserRepository userRepository;
-	
+	private MemberRepository mr;
 	@Autowired
-	ProjectRepository projectRepository;
-	
+	private MemberProjectRepository mpr;
 	@Autowired
-	UserProjectRepository userProjectRepository;
-	
+	private PdirRepository dr;
 	@Autowired
-	DirRepository dirRepository;
+	private PdirService ds;
 	
 	/**
-	 * @param projectDto 프로젝트 등록할 정보
-	 * 넘겨받은 프로젝트 정보에 의거해 프로젝트를 등록합니다. 이 때 요청한 유저는 자동적으로 프로젝트에 소속합니다.
-	 * @param userDto 등록을 요청한 사용자
-	 * @param projStat 프로젝트 상태 
-	 * @return 등록자와 프로젝트 연결 객체, 해당 유저가 존재하지 않을 경우 NULL
+	 * 넘겨받은 프로젝트 정보에 의거해 프로젝트를 등록합니다. 이 때 요청한 유저는 프로젝트에 책임자로 소속합니다.
+	 * @param pDto 프로젝트 등록할 정보
+	 * @return 등록자와 프로젝트 연결 객체, 해당 유저가 존재하지 않을 경우 익셉션
 	 */
 	@Transactional
-	public UserProject register(ProjectDto projectDto) throws NoSuchElementException {
-		User user = null;
-		try {
-			user = userRepository.findById(projectDto.getUserId()).get();
-		} catch (NoSuchElementException nsee) {
-			throw new NoSuchElementException("userId에 해당하는 사용자가 없습니다.");
-		}
-		
-		Project project = projectDto.toEntity();
-		project.setCreatedDate(new Date(System.currentTimeMillis())); 
-		projectRepository.save(project);
-		
-		ProjStat pj;
-		try {
-			pj = ProjStat.valueOf(projectDto.getProjStat());
-		} catch (IllegalArgumentException iae) {
-			pj = ProjStat.대기;
-		}
-		
-		UserProject userProject = UserProject.builder()
-				.user(user)
-				.project(project)
-				.projStat(pj)
+	public ProjectDto register(ProjectDto pDto) throws NoSuchElementException {
+		Member member = null;
+
+		Project project = Project.builder()
+				.pname(pDto.getPname())
+				.description(pDto.getDescription())
+				.stDate(pDto.getStDate())
+				.edDate(pDto.getEdDate())
 				.build();
 		
-		return userProjectRepository.save(userProject);
+		BigInteger BigIntegerPid = null;
+		String pid = pDto.getPid();
+		if (pid != null && pid.equals("")) {
+			BigIntegerPid = Utils.StrToBigInt(pid);
+			project.setPid(BigIntegerPid);
+		}
+		
+		Long mid = Long.valueOf(pDto.getMid());
+		try {
+			member = mr.findById(mid).get();
+		} catch (NoSuchElementException nsee) {
+			throw new NoSuchElementException();
+		}
+		
+		Pstat ps = null;
+		try {
+			ps = Pstat.valueOf(pDto.getPstat());
+		} catch (IllegalArgumentException iae) {
+			ps = Pstat.대기;
+		}
+		
+		MemberProject mp = MemberProject.builder()
+				.member(member)
+				.project(project)
+				.pstat(ps)
+				.prole(Prole.책임자)
+				.progress(pDto.getProgress())
+				.build();
+		
+		Pdir rootDir = Pdir.builder()
+				.dname("/")
+				.parentDir(null)
+				.member(member)
+				.project(project)
+				.build();
+		
+		dr.save(rootDir);
+		return new ProjectDto(mpr.save(mp));
 	}
 	
 
 	/**
-	 * 프로젝트 DTO와 UserProjectDTO로부터 기존 내용과 다른 사항을 수정합니다.
-	 * @param projectDto
-	 * @return 변경한 UserProject 오브젝트
+	 * 프로젝트 DTO로부터 MemberProject, Project를 수정합니다.
+	 * @param pDto
+	 * @return 변경한 MemberProject 오브젝트
 	 */
 	@Transactional
-	public UserProject update(ProjectDto projectDto) {
+	public ProjectDto correct(ProjectDto pDto) {
+		Project p = Project.builder()
+				.pid(Utils.StrToBigInt(pDto.getPid()))
+				.build();
+		
+		Member m = Member.builder()
+				.mid(Long.valueOf(pDto.getMid()))
+				.build();
 		
 		//원본 유저, 프로젝트
-		UserProject userProj = userProjectRepository.findOneByUserIdAndProjId(projectDto.getProjId(), projectDto.getUserId());
+		MemberProject mp = mpr.findOneByMemberAndProject(m, p);
 		
-		ProjStat pj;
+		Pstat ps;
 		try {
-			pj = ProjStat.valueOf(projectDto.getProjStat());
+			ps = Pstat.valueOf(pDto.getPstat());
 		} catch (IllegalArgumentException iae) {
-			pj = ProjStat.대기;
+			ps = mp.getPstat();
 		}
+		mp.setPstat(ps);
 		
-		userProj.setProjStat(pj);
-		
-		Project proj = projectDto.toEntity();
-		projectRepository.save(proj);
-		userProjectRepository.save(userProj);
-		return userProj;
-	}
-	
-	public List<ProjectDto> findProjectsByUserId(String userId) {
-		List<UserProject> userProjs = userProjectRepository.findAllByUser(userId);
-		List<ProjectDto> projects = new ArrayList<ProjectDto>(); 
-		for (UserProject up : userProjs) {
-			ProjectDto project = new ProjectDto(up);
-			projects.add(project);
+		Prole pr;
+		try {
+			pr = Prole.valueOf(pDto.getProle());
+		} catch (IllegalArgumentException iae) {
+			pr = mp.getProle();
 		}
-		
-		return projects;
-	}
-
-	public List<Project> findAll() {
-		return projectRepository.findAll();
-	}	
-	
-	public Project findOneById(Integer projId) throws NoSuchElementException {
-		return projectRepository.findById(projId).get();
-	}
-
-
-	public Project disableProject(Integer projId) throws NoSuchElementException {
-		Project proj = findOneById(projId);
-		proj.setDeleteFlag(true);
-		return projectRepository.save(proj);
-	}
-
-	public void deleteProject(Integer projId) {
-		Project project = projectRepository.getOne(projId);
-		List<UserProject> relatedUpList = userProjectRepository.findAllByProject(project);
-		
-		userProjectRepository.deleteAll(relatedUpList);
-		projectRepository.deleteById(projId);
-	}
-
-	public UserProject findUserProjectByProjIdAndUserId(Integer projId, String userId) throws NoSuchElementException {
-		UserProject up = userProjectRepository.findOneByUserIdAndProjId(projId, userId);
-		if (up == null) throw new NoSuchElementException();
-		return up;
-	}
-	
-	public void disableUserProject(Integer projId, String userId) throws NoSuchElementException {
-		UserProject up = findUserProjectByProjIdAndUserId(projId, userId);
-		up.setDeleteFlag(true);
-		userProjectRepository.delete(up);		
-	}
-
-	
-	/**
-	 * 
-	 * @param userId
-	 * @return 유저 아이디에 연관한 모든 유저-프로젝트 리스트
-	 */
-	public List<UserProject> findAllUserProjectByUserId(String userId) {
-		List<UserProject> userProjs = new ArrayList<UserProject>();
-		
-		userProjs = userProjectRepository.findAllByUser(userId);
-		return userProjs;
+		mp.setProle(pr);
+		Utils.overrideEntity(mp.getProject(), pDto);
+		return new ProjectDto(mpr.save(mp));
 	}
 	
 	/**
-	 * 
-	 * @param projId
-	 * @return
+	 * 멤버 아이디에 따라 ProjectDto 리스트를 반환합니다.
+	 * @param mid
+	 * @return pDTOs
 	 */
-	public List<UserProject> findAllUserProjectByProjId(Integer projId) {
-		List<UserProject> userProjs = new ArrayList<UserProject>();
-		
-		userProjs = userProjectRepository.findAllByProject(
-				Project.builder().projId(projId).build());
-		return userProjs;
-	}
-
-	
-	public List<DirDto> findDirsByProjId(String projId) {
-		List<Dir> dirs = dirRepository.findAllByParentProjId(Integer.parseInt(projId));
-		List<DirDto> dirDtos = new ArrayList<DirDto>();
-		for (Dir dir : dirs) {
-			DirDto temp = DirDto.builder()
-					.projId(projId)
-					.userId(dir.getUser().getUserId())
-					.userName(dir.getUser().getUserName())
-					.dirId(""+dir.getDirId())
-					.dirName(dir.getDirName())
-					.build();
-			
-			if (dir.getParentDir() == null) {
-				temp.setParentDirId("root");				
-			} else {
-				temp.setParentDirId(""+dir.getParentDir().getDirId());
-			}
-			dirDtos.add(temp);
-		}
-		return dirDtos;
-	}
-
-	public Dir registerDir(DirDto dirDto) {
-		String userId = dirDto.getUserId();
-		Integer projId = Integer.parseInt(dirDto.getProjId());
-		
-		User user = userRepository.findById(userId).get();
-		Project proj = projectRepository.findById(projId).get();
-		
-		String parentDirId = dirDto.getParentDirId();
-		Dir parentDir = null;
-		if (parentDirId != null) parentDir = dirRepository.getOne(Integer.valueOf(parentDirId));
-		
-		Dir dir = Dir.builder()
-				.dirName(dirDto.getDirName())
-				.user(user)
-				.project(proj)
+	public List<ProjectDto> listByMid(String mid) {
+		Member m = Member.builder()
+				.mid(Long.valueOf(mid))
 				.build();
 		
-		if(parentDir != null ) dir.setParentDir(parentDir);
-		return dirRepository.save(dir);
+		List<MemberProject> mpList = mpr.findAllByMemberAndDflagFalse(m);
+		
+		List<ProjectDto> pDTOs = new ArrayList<ProjectDto>();
+		for (MemberProject mp : mpList) {
+			ProjectDto pDTO = new ProjectDto(mp);
+			List<PdirDto> dirs = ds.listByPid(pDTO.getPid());
+			pDTO.setDirs(dirs);
+			pDTOs.add(pDTO);
+		}
+		
+		return pDTOs;
 	}
-
-
-	public void disableDir(DirDto dto) {
-		Dir target = dirRepository.getOne(Integer.valueOf(dto.getDirId()));
-		target.setDeleteFlag(true);
-		dirRepository.save(target);
+	
+	@Transactional
+	public ProjectDto disable(ProjectDto pDto) throws NoSuchElementException {
+		Member m = Member.builder()
+				.mid(Long.valueOf(pDto.getMid()))
+				.build();
+		
+		Project p = Project.builder()
+				.pid(Utils.StrToBigInt(pDto.getPid()))
+				.build();
+		
+		MemberProject mp = mpr.findOneByMemberAndProject(m, p);
+		mp.setDflag(true);
+		
+		return new ProjectDto(mpr.save(mp));
 	}
-
 }

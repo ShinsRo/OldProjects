@@ -1,15 +1,15 @@
 package com.nastech.upmureport.domain.entity;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.nastech.upmureport.domain.dto.ProjectDto;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,30 +21,22 @@ import lombok.NoArgsConstructor;
 public class Project {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer projId;
+	private BigInteger pid;
 	
-	private String projName;
-	private String projCaleGubun;
-	private String projSubject;
-	private String projDesc;
-	private Date createdDate;
-	private Date projStartDate;
-	private Date projEndDate;
-	private Integer projProgress;
+	private String pname;
+	
+	private String description;
+	
+	private LocalDateTime stDate;
+	
+	private LocalDateTime edDate;
+	
+	@CreationTimestamp
+	private LocalDateTime cdate;
+	
+	@UpdateTimestamp
+	private LocalDateTime udate;
 
 	@Builder.Default
-	private Boolean deleteFlag = false;
-	
-	public ProjectDto toDto() {
-		return ProjectDto.builder()
-				.projId(projId)
-				.projName(projName)
-				.projCaleGubun(projCaleGubun)
-				.projSubject(projSubject)
-				.projDesc(projDesc)
-				.startDate(projStartDate)
-				.endDate(projEndDate)
-				.projProgress(projProgress)
-				.build();
-	}
+	private Boolean dflag = false;
 }

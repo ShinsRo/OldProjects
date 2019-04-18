@@ -1,0 +1,147 @@
+package com.nastech.upmureport.service;
+
+import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Service;
+
+import com.nastech.upmureport.domain.dto.PfileReqDto;
+import com.nastech.upmureport.domain.dto.PfileResDto;
+import com.nastech.upmureport.domain.entity.Pdir;
+import com.nastech.upmureport.domain.entity.Pfile;
+import com.nastech.upmureport.domain.entity.PfileLog.LogStat;
+import com.nastech.upmureport.domain.repository.PdirRepository;
+import com.nastech.upmureport.domain.repository.PfileLogRepository;
+import com.nastech.upmureport.domain.repository.PfileRepository;
+import com.nastech.upmureport.support.Utils;
+
+@Service
+public class PfileService {
+	
+	PfileRepository pfileRepository;
+	
+	PdirRepository pdirRepository;
+	
+	PfileLogService pfileLogService;
+	
+	private static final Log LOG = LogFactory.getLog(PfileService.class);
+	
+	// 생성자로 빈 등록
+	public PfileService(PfileRepository pfileRepository, PdirRepository pdirRepository
+			, PfileLogService pfileLogService) {
+		this.pfileRepository = pfileRepository;
+		this.pdirRepository = pdirRepository;
+		this.pfileLogService = pfileLogService;
+	}
+	
+	
+	// 업무 일지 등록
+	public PfileResDto addPfile(PfileReqDto pfileReqDto) {
+		Pdir pdir;
+		try {		
+			pdir = pdirRepository.findById(pfileReqDto.getPdirId()).get();
+		} catch(Exception e){
+			LOG.warn(e.getMessage());
+			return null;
+		}
+		
+		Pfile pfile = Pfile.builder()
+				.pdir(pdir)
+				.name(pfileReqDto.getName())
+				.contents(pfileReqDto.getContents())
+				.newDate(LocalDateTime.now())
+				.updateDate(LocalDateTime.now())
+				.deleteFlag(false)
+				.build();
+		
+		pfile = pfileRepository.save(pfile);
+		
+		pfileLogService.createPfileLog(pfile, LogStat.CREATE);
+		
+		try {
+			return pfile2PfileResDto(pfile);
+		}catch(Exception e){
+			e.getMessage();
+			return null;
+		}
+	}
+	
+	public PfileResDto updatePfile(PfileReqDto pfileReqDto) {
+		Pfile pfile = pfileRepository.findById(pfileReqDto.getPdirId()).get();
+		
+		pfile.changeName(pfileReqDto.getName());
+		pfile.changeContents(pfileReqDto.getContents());
+		pfile.updateDate();
+		
+		pfileLogService.createPfileLog(pfile, LogStat.UPDATE);
+		
+		return pfile2PfileResDto(pfileRepository.save(pfile));
+	}
+	
+	public List<PfileResDto> getPfiles(BigInteger pdirId){
+		
+		Pdir pdir = pdirRepository.findById(pdirId).get();
+		
+		List<Pfile> pfiles = pfileRepository.findByDirId(pdir);
+		
+		LOG.info("size ==== " + pfiles.size());
+		
+		List<PfileResDto> pfileResDtos = new ArrayList<>();
+		
+		pfiles.forEach(pfile -> {
+			PfileResDto pfileResDto = pfile2PfileResDto(pfile);
+			pfileResDtos.add(pfileResDto);
+		});
+		
+//		for(Pfile pfile : pfiles) {
+//			PfileResDto pfileResDto = pfile2PfileResDto(pfile);
+//			pfileResDtos.add(pfileResDto);		
+//		}
+		
+		return pfileResDtos;
+	}
+	
+	
+	public List<PfileResDto> deletePfile(String pfileId) {
+		
+		//Pfile pfile = pfileRepository.findById(BigInteger.valueOf(Long.parseLong(pfileId))).get();
+		
+		Pfile pfile = pfileRepository.findById(Utils.StrToBigInt(pfileId)).get();
+		pfile.deletePfile();
+		
+		LOG.info(pfile.toString());
+		LOG.info(pfile.getDeleteFlag() + "");
+		
+		pfileLogService.createPfileLog(pfile, LogStat.DELETE);
+		
+		pfileRepository.save(pfile);
+		
+		return getPfiles(pfile.getPdir().getDid());
+		
+		//upmuContentRepository.findByDirId(dirId)
+	}
+	
+	public PfileResDto pfile2PfileResDto(Pfile pfile) {
+		PfileResDto pfileResDto = PfileResDto.builder()
+				.pfileId(pfile.getFId())
+				.pdirId(pfile.getPdir().getDid())
+				.name(pfile.getName())
+				.contents(pfile.getContents())
+				.newDate(pfile.getNewDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+				.updateDate(pfile.getUpdateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))										
+				.build();
+		
+		return pfileResDto;
+	}
+	
+	
+	public void apoTest() {
+		LOG.info("test====================");
+	}
+		
+}

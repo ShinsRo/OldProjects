@@ -8,8 +8,15 @@ var fullScreen = {
     top: 0, left: 0
 };
 
-const Login = ({inputId,inputPass,user,onChangeInput,onLogin}) => {
 
+
+const Login = ({inputId,inputPass,user,onChangeInput,onLogin}) => {
+    const handleClickEnter = (e) => {
+        if(e.charCode === 13){
+            
+            onLogin()
+        }
+    }
         return (
             <div className="bg-gradient-darkblue" style={fullScreen}>
     
@@ -32,12 +39,12 @@ const Login = ({inputId,inputPass,user,onChangeInput,onLogin}) => {
                                 <div className="text-center">
                                     <h1 className="h4 text-gray-700 mb-4">UPMUREPORT</h1>
                                 </div>
-                                <form className="User" action="" method="post">
+                                <form className="AuthInfo" action="" method="post">
                                     <div className="form-group">
-                                    <input value={inputId} onChange={e => onChangeInput(e, 'inputId')} type="text" className="form-control form-control-user" name="userId" placeholder="사번" />
+                                    <input value={inputId} onChange={e => onChangeInput(e, 'inputId')} type="text" className="form-control form-control-user" name="username" placeholder="사번" />
                                     </div>
                                     <div className="form-group">
-                                    <input value={inputPass} onChange={e => onChangeInput(e, 'inputPass')} type="password" className="form-control form-control-user" name="userPass" placeholder="비밀번호" />
+                                    <input value={inputPass} onChange={e => onChangeInput(e, 'inputPass')} onKeyPress={handleClickEnter} type="password" className="form-control form-control-user" name="password" placeholder="비밀번호" />
                                     </div>
                                     <div className="form-group">
                                     <div className="custom-control custom-checkbox small">
