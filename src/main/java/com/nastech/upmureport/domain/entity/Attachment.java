@@ -5,9 +5,13 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,20 +25,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Attachment {
 	
-	@Id
+	@Id @GeneratedValue(strategy= GenerationType.AUTO)
 	private BigInteger attachmentNum;
 	
 	private String name;
 	
-	private String path;
+	private String url;
 	
 	private String localPath;
 	
+	@CreationTimestamp
 	private Date newDate;
 	
-	private Double volume;
+	private Long volume;
 	
-	private Boolean deleteFlag;
+	private Boolean deleteFlag = false;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="pdirId")

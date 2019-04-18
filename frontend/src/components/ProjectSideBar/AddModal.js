@@ -2,47 +2,52 @@ import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import store from '../../stores';
-import * as projectActions from '../../stores/modules/projectState';
+import { register } from '../../stores/modules/projectState';
 
-class ProjAddModal extends React.Component {
+// import * as projectActions from '../../stores/modules/projectState';
+
+class AddModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            startDate: new Date(),
-            endDate: new Date(),
-            projProgress: 0,
+            stDate: new Date(),
+            edDate: new Date(),
+            progress: 0,
+            gubun: 'project',
         }
         this.onStartDateChange = this.onStartDateChange.bind(this);
         this.onEndDateChange = this.onEndDateChange.bind(this);
-        this.onProjProgressChange = this.onProjProgressChange.bind(this);
+        this.onProgressChange = this.onProgressChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     onStartDateChange(date) {
-        this.setState({ startDate: date });
+        this.setState({ stDate: new Date(date) });
     }
     onEndDateChange(date) {
-        this.setState({ endDate: date });
+        this.setState({ edDate: new Date(date) });
     }
-    onProjProgressChange(e) {
-        this.setState({ projProgress: e.target.value });
+    onProgressChange(e) {
+        this.setState({ progress: e.target.value });
     }
 
     handleSubmit(e) {
+        e.preventDefault();
         const data = new FormData(e.target);
-        const jsonObj = {};
+        const pDto = {};
         data.forEach((value, key) => {
-            jsonObj[key] = value;
+            if (key === 'stDate' || key === 'edDate') {
+                pDto[key] = new Date(value).toISOString();
+                alert("key: " + key + " /// value :" + pDto[key])
+            } else {
+                pDto[key] = value;
+            }
         });
 
-        const URL = projectActions.BASE_URL + projectActions.END_POINT.PROJ_REGISTER;
-        fetch(URL, {
-            method: 'POST',
-            body: JSON.stringify(jsonObj),
-            headers: {
-                'Content-Type': 'application/json',
-                'accept': 'application/json'
-            }
+        register(pDto).then((res) => {
+            console.log(JSON.parse(res));
+            
+            alert('ok');
         });
     }
 
@@ -66,7 +71,7 @@ class ProjAddModal extends React.Component {
                         <form className="user" onSubmit={this.handleSubmit}>
                             <div className="form-group row">
                                 <div className="col-xl-12">
-                                    <input name="projName" id="projName" type="text" className="form-control" placeholder="프로젝트 명" required/>
+                                    <input name="pname" id="pname" type="text" className="form-control" placeholder="프로젝트 명" required/>
                                 </div>
                             </div>
                             <div className="form-group row">
@@ -83,7 +88,7 @@ class ProjAddModal extends React.Component {
                             </div>
                             <div className="form-group row">
                                 <div className="col">
-                                    <textarea name="projDesc" id="projDesc" cols="30" rows="10" className="form-control" placeholder="업무 설명">
+                                    <textarea name="description" id="description" cols="30" rows="10" className="form-control" placeholder="프로젝트 설명">
                                     </textarea>
                                 </div>
                             </div>
@@ -91,26 +96,26 @@ class ProjAddModal extends React.Component {
                                 <div className="col">
                                     <DatePicker
                                         className="form-control" 
-                                        selected={this.state.startDate}
+                                        selected={this.state.stDate}
                                         dateFormat="yyyy년 MM월 dd일"
                                         selectsStart
-                                        startDate={this.state.startDate}
-                                        endDate={this.state.endDate}
+                                        startDate={this.state.stDate}
+                                        endDate={this.state.edDate}
                                         onChange={this.onStartDateChange}
                                     />
-                                    <input name="startDate" type="hidden" value={this.state.startDate}/>
+                                    <input name="stDate" type="hidden" value={this.state.stDate}/>
                                 </div>
                                 <div className="col">
                                     <DatePicker
                                         className="form-control" 
                                         dateFormat="yyyy년 MM월 dd일"
-                                        selected={this.state.endDate}
+                                        selected={this.state.edDate}
                                         selectsEnd
-                                        startDate={this.state.startDate}
-                                        endDate={this.state.endDate}
+                                        startDate={this.state.stDate}
+                                        endDate={this.state.edDate}
                                         onChange={this.onEndDateChange}
                                     />
-                                    <input name="endDate" type="hidden" value={this.state.endDate}/>
+                                    <input name="edDate" type="hidden" value={this.state.edDate}/>
                                 </div>
                             </div>
                             <div className="form-group row">
@@ -118,18 +123,18 @@ class ProjAddModal extends React.Component {
                                     <input type="text" className="form-control" placeholder="진행률 :" readOnly/>
                                 </div>
                                 <div className="col-7">
-                                <input name="projProgress" type="range" className="form-control" 
+                                <input name="progress" type="range" className="form-control" 
                                     min="0" max="100"
-                                    value={this.state.projProgress}
-                                    onChange={this.onProjProgressChange}/>
+                                    value={this.state.progress}
+                                    onChange={this.onProgressChange}/>
                                 </div>
                                 <div className="col-2">
-                                    <input type="text" className="form-control" value={`${this.state.projProgress}%`} readOnly/>
+                                    <input type="text" className="form-control" value={`${this.state.progress}%`} readOnly/>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col">
-                                    <select name="projStat" id="projStat" className="form-control">
+                                    <select name="pstat" id="pstat" className="form-control">
                                         <option value="">상태</option>
                                         <option value="대기">대기</option>
                                         <option value="접수">접수</option>
@@ -161,4 +166,4 @@ class ProjAddModal extends React.Component {
     }
 };
 
-export default ProjAddModal;
+export default AddModal;

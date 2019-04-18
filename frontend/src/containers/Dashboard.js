@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import ProjPanelContainer from "./ProjPanelContainer";
+import ProjectSideBarContainer from "./ProjectSideBarContainer";
 import HeaderContainer from "./HeaderContainer";
-import SidebarContainer from "./SidebarContainer"
+import DetailContanier from './DetailContanier';
 import Pfile from "../components/Pfile/Pfile";
 
 class Dashboard extends Component {
@@ -9,7 +9,7 @@ class Dashboard extends Component {
   render() {
     return (
       <div id="wrapper">
-        <SidebarContainer/>
+        <ProjectSideBarContainer/>
         {/* Content Wrapper */}
         <div id="content-wrapper" className="d-flex flex-column">
 
@@ -20,10 +20,12 @@ class Dashboard extends Component {
             <div className="container-fluid">
             <div className="row">
               <div className="col-xl-6">
-                <ProjPanelContainer></ProjPanelContainer>
+                  <Pfile />
               </div>
               <div className="col-xl-6">
-                  <Pfile />
+                <div className="card shadow mb-4">
+                  <DetailContanier />
+                </div>
                 </div>
                 </div>
             </div>

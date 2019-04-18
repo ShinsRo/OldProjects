@@ -60,12 +60,6 @@ public class PfileController {
 	}
 	
 	
-	/** 
-	 * @param pfileId
-	 * @return List<PfileResDto>
-	 * pfile 삭제
-	 */ 
-	
 	@DeleteMapping(value= "/pfile/{pfileId}")
 	public List<PfileResDto> deletePfile(@PathVariable String pfileId) {
 		log.info("===========delete========/pfile/" + pfileId);

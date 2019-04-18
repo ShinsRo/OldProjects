@@ -52,7 +52,7 @@ class Pfile extends Component {
     const pfile = {
         name: pfileState.get('titleInput'),
         contents: pfileState.get('contentInput'),
-        dirId: projectState.get('selectedDirId'),
+        pdirId: projectState.get('selectedDirId'),
     };
 
     console.log(pfile);
@@ -101,7 +101,7 @@ class Pfile extends Component {
     render(){
       const {pfileState, projectState} = this.props;
       const { handleTitleChange, handleContentChange, handleInsert, handleChangeDir } = this;
-            
+
       console.log(this.state.addModalIsOpen);
       const addModal = this.state.addModalIsOpen && 
                   <AddPfileModal
@@ -113,14 +113,13 @@ class Pfile extends Component {
 
       const addButton =  projectState.get('selectedDirId') &&(
                   <span>
-                      <span className="btn btn-primary btn-icon-split" onClick={this.handleClickAdd} data-toggle="modal" data-target="#AddPfileModal">
+                      <span className="btn btn-primary btn-icon-split" onClick={this.handleClickAdd} data-toggle="modal" data-target="#pfileAddModal">
                           <span className="icon text-white-50">
                               <i className="fas fa-flag"></i>
                           </span>
-                          <span className="text">업무 내용 추가</span>                          
+                          <span className="text">업무 내용 추가</span>   
                       </span>                      
                   </span>)
-
 
         return (
             <div className="card shadow mb-4">              
@@ -143,7 +142,7 @@ class Pfile extends Component {
               <PfileTable
                 handleTitleChange = {handleTitleChange}
                 handleContentChange = {handleContentChange}
-                files={pfileState.get('files')} 
+                pfiles={pfileState.get('pfiles')} 
                 onClickDir = {handleChangeDir} 
                 selectedProject= {projectState.get('selectedProject')}
                 selectedDirId = {projectState.get('selectedDirId')} 
@@ -158,7 +157,8 @@ class Pfile extends Component {
             </div>
 
             <div className="card-body">
-              <AttachmentTable />
+              <AttachmentTable
+                selectedDirId = {projectState.get('selectedDirId')} />
 
             </div>
           </div>

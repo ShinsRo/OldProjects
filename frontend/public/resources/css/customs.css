@@ -134,10 +134,9 @@
     height: 36px;
 }
 
-.treeivew-item {
+.icon-align-r {
     align-items: right !important;
     width: 100%;
-    display: flex;
     flex: 1;
 }
 .treeview-item.text {
@@ -158,4 +157,15 @@
 .action-btn:hover {
     visibility: visible;
     opacity: 1;
+}
+.dropdown-menu .dropdown {
+    cursor: pointer;
+}
+
+.sm-text {
+    font-size: 0.1rem;
+}
+
+.m-text {
+    font-size: 0.8rem;
 }

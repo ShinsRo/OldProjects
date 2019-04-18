@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nastech.upmureport.domain.dto.PdirDto;
 import com.nastech.upmureport.domain.dto.ProjectDto;
 import com.nastech.upmureport.domain.entity.Member;
 import com.nastech.upmureport.domain.entity.MemberProject;
@@ -29,6 +30,8 @@ public class ProjectService {
 	private MemberProjectRepository mpr;
 	@Autowired
 	private PdirRepository dr;
+	@Autowired
+	private PdirService ds;
 	
 	/**
 	 * 넘겨받은 프로젝트 정보에 의거해 프로젝트를 등록합니다. 이 때 요청한 유저는 프로젝트에 책임자로 소속합니다.
@@ -139,6 +142,8 @@ public class ProjectService {
 		List<ProjectDto> pDTOs = new ArrayList<ProjectDto>();
 		for (MemberProject mp : mpList) {
 			ProjectDto pDTO = new ProjectDto(mp);
+			List<PdirDto> dirs = ds.listByPid(pDTO.getPid());
+			pDTO.setDirs(dirs);
 			pDTOs.add(pDTO);
 		}
 		

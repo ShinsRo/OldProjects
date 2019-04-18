@@ -1,6 +1,7 @@
 package com.nastech.upmureport.domain.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.nastech.upmureport.domain.entity.Member;
 import com.nastech.upmureport.domain.entity.MemberProject;
@@ -28,6 +29,8 @@ public class ProjectDto {
 	private String pstat;
 	private String prole;
 	private Integer progress;
+	
+	private List<PdirDto> dirs;
 
 	public ProjectDto(MemberProject mp) {
 		Project p = mp.getProject();

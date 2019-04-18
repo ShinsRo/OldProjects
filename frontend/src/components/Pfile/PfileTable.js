@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Map, List } from 'immutable';
 import UpdatePfileModal from './UpdatePfileModal';
+import AttachmentItem from './AttachmentItem' ;
 
 class PfileTable extends React.Component {
     constructor(props) {
@@ -26,10 +27,11 @@ class PfileTable extends React.Component {
         const pfiles = this.props.pfiles;
         const {onClickDir, projectState, dirs, selectedProject, selectedDirId, onClickPfile} = this.props;       
         
+
         console.log('updateModal---', this.state.updateModal);
         const updateModal = this.state.updateModal 
             && <UpdatePfileModal
-                    pfile={this.state.pfile} 
+                    pfile={this.state.pfile}
                     onClose={this.handleCloseModal} 
                     handleTitleChange = {this.props.handleTitleChange}
                     handleContentChange = {this.props.handleContentChange}
@@ -52,22 +54,8 @@ class PfileTable extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {dirs && dirs.get(`${selectedProject}`).map((dir, idx) => {
-                            if (dir.parentDirId === selectedDirId){
-                            return (
-                                <tr value={dir.dirId} key={idx} onClick={() => onClickDir(`${dir.dirId}`)}>
-                                    <td>{dir.dirName}</td>
-                                    <td>폴더</td>
-                                    <td>{dir.dirId}</td>
-                                    <td>d</td>
-                                    <td>f</td>
-                                    <td>s</td>
-                                </tr>
-                            );
-                            }
-                        })}
-                        </tbody>
-                        <tbody>
+                        <AttachmentItem > </AttachmentItem>
+        
                         {pfiles && pfiles.map((pfile, idx) => {
                             return (
                                 <tr value={selectedDirId} key={idx} >
@@ -78,7 +66,7 @@ class PfileTable extends React.Component {
                                     <td>{pfile.newDate}</td>
                                     <td>{pfile.updateDate}</td>
                                     <td>
-                                        <button onClick={() => this.handleClickpfile(pfile) } data-toggle="modal" data-target="#UpdatePfileModal" class="btn btn-info btn-circle btn-sm">
+                                        <button onClick={() => this.handleClickPfile(pfile) } data-toggle="modal" data-target="#UpdatePfileModal" class="btn btn-info btn-circle btn-sm">
                                             <i class="fas fa-info-circle"></i>
                                         </button>
                                     </td>

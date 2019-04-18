@@ -51,6 +51,9 @@ public class ProjectAndPdirDBTest {
 
 	@Before
 	public void setUp() {
+		td.deleteAllPdirData();
+		td.deleteAllProjectData();
+		td.deleteAllMemberData();
 		
 		td.setMemberTestData();
 		
@@ -72,7 +75,7 @@ public class ProjectAndPdirDBTest {
 	@Test
 	public void test01() {}
 	
-	@After
+//	@After
 	public void clearAll() {
 		
 		td.deleteAllPdirData();

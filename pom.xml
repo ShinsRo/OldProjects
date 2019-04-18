@@ -19,6 +19,10 @@
     <maven.compiler.target>1.7</maven.compiler.target>
     <springframework.version>5.1.5.RELEASE</springframework.version>
     <tilesframework.version>3.0.7</tilesframework.version>
+    <org.swagger-version>2.9.2</org.swagger-version>
+    <org.aspectj-version>1.9.3</org.aspectj-version>
+    <jcloverslf4j.version>1.7.6</jcloverslf4j.version>
+    <logback.version>1.1.1</logback.version>
   </properties>
 
   <dependencies>
@@ -48,13 +52,20 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
       <version>${springframework.version}</version>
-    </dependency>
+    </dependency>    
+   
 
 	<!-- Spring Core -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
       <version>${springframework.version}</version>
+      	<exclusions>
+      		<exclusion>
+      			<groupId>commons-logging</groupId>
+      			<artifactId>commons-logging</artifactId>
+      		</exclusion>
+      	</exclusions>
     </dependency>
 
     <!-- Spring TX -->
@@ -86,6 +97,20 @@
 	    <version>${springframework.version}</version>
 	    <scope>test</scope>
 	</dependency>
+	
+    <!-- Logback --> 
+
+    <dependency>                                    
+	    <groupId>org.slf4j</groupId>                
+        <artifactId>jcl-over-slf4j</artifactId>     
+        <version>${jcloverslf4j.version}</version>
+    </dependency>
+
+    <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>${logback.version}</version>
+    </dependency>
 	
 	<!-- Spring data -->
 	<dependency>
@@ -187,36 +212,51 @@
 	<dependency>
     	<groupId>io.springfox</groupId>
     	<artifactId>springfox-swagger2</artifactId>
-    	<version>2.9.2</version>
+    	<version>${org.swagger-version}</version>
 	</dependency>
 	
 	<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
 	<dependency>
    	 <groupId>io.springfox</groupId>
     	<artifactId>springfox-swagger-ui</artifactId>
-   	 <version>2.9.2</version>
+   	 <version>${org.swagger-version}</version>
 	</dependency>
 	
 	<!-- https://mvnrepository.com/artifact/com.cedarsoft.commons/io -->
-<dependency>
-    <groupId>com.cedarsoft.commons</groupId>
-    <artifactId>io</artifactId>
-    <version>8.8.1</version>
-</dependency>
+	<dependency>
+    	<groupId>com.cedarsoft.commons</groupId>
+    	<artifactId>io</artifactId>
+    	<version>8.8.1</version>
+	</dependency>
 
-<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
-<dependency>
-    <groupId>commons-io</groupId>
-    <artifactId>commons-io</artifactId>
-    <version>2.6</version>
-</dependency>
+	<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+	<dependency>
+    	<groupId>commons-io</groupId>
+	    <artifactId>commons-io</artifactId>
+    	<version>2.6</version>
+	</dependency>
 
 	<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
-<dependency>
-    <groupId>commons-fileupload</groupId>
-    <artifactId>commons-fileupload</artifactId>
-    <version>1.4</version>
-</dependency>
+	<dependency>
+	    <groupId>commons-fileupload</groupId>
+	    <artifactId>commons-fileupload</artifactId>
+	    <version>1.4</version>    
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/aspectj/aspectjrt -->
+	<dependency>
+	    <groupId>org.aspectj</groupId>
+	    <artifactId>aspectjrt</artifactId>
+	    <version>${org.aspectj-version}</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjtools -->
+	<dependency>
+	    <groupId>org.aspectj</groupId>
+	    <artifactId>aspectjtools</artifactId>
+	    <version>${org.aspectj-version}</version>
+	</dependency>
+	
 	
 	
 	

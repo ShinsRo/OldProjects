@@ -1,3 +1,5 @@
+
+
 insert into member(mid, eid, name, birth, phoneNum)
 	values('1111', '1111', 'nas', '김승신', '인턴');
 	
@@ -84,5 +86,5 @@ insert into dir(
 	
 delete from dir;
 select dirId from dir where parentProjId = 32 and ;
-select * from user;
-select * from project;
+select * from authinfo where username = 'm1111';
+select * from project where ;

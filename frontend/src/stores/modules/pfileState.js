@@ -5,12 +5,18 @@ import * as pfileService from '../../api/PfileService'
 // 액션 타입
 const CHANGE_TITLE_INPUT = 'CHANGE_TITLE_INPUT';
 const CHANGE_CONTENT_INPUT = 'CHANGE_CONTENT_INPUT';
-const INSERT_FILE = 'INSERT_FILE';
-const SEND_POST_PENDING = 'SEND_POST_PENDING';
-//const SEND_POST_SUCCESS = 'SEND_POST_SUCCESS';
-const SAVE_FILE_SUCCESS = 'SAVE_FILE_SUCCESS';
-const GET_FILE_SECCESS = 'GET_FILE_SECCESS';
-const SEND_POST_FAILURE = 'SEND_POST_FAILURE';
+const SEND_PENDING = 'SEND_PENDING';
+const SEND_SUCCESS = 'SEND_SUCCESS';
+const SAVE_SUCCESS = 'SAVE_SUCCESS';
+const SEND_ERROR = 'SEND_ERROR';
+
+// 액션 생성 함수
+export const changeTitleInput = createAction(CHANGE_TITLE_INPUT);
+export const changeContentInput = createAction(CHANGE_CONTENT_INPUT);
+export const pending = createAction(SEND_PENDING);
+export const senderr = createAction(SEND_ERROR);
+export const pfileSaveSuccess = createAction(SAVE_SUCCESS);
+export const sendSuccess = createAction(SEND_SUCCESS);
 
 const initialState = Map({
     titleInput: '',
@@ -20,92 +26,28 @@ const initialState = Map({
     pfiles: List(),
 })
 
-// 액션 생성 함수
-export const changeTitleInput = createAction(CHANGE_TITLE_INPUT);
-export const changeContentInput = createAction(CHANGE_CONTENT_INPUT);
-export const insertPfile = createAction(INSERT_FILE);
-
 export const savePfile = (pfile) => dispatch => {
-    dispatch({ type: SEND_POST_PENDING });
+    dispatch(pending());
 
-    //console.log(this.initialState.titleInput);
-    return pfileService.savePfile(pfile).then(
-        (response) => {
-            // 요청이 성공했을경우, 서버 응답내용을 payload 로 설정하여 SEND_POST_SUCCESS 액션을 디스패치합니다.
-            dispatch({
-                type: SAVE_FILE_SUCCESS,
-                payload: response.data                
-            })
-        }
-    ).catch(error => {
-        // 에러가 발생했을 경우, 에로 내용을 payload 로 설정하여 SEND_POST_FAILURE 액션을 디스패치합니다.
-        dispatch({
-            type: SEND_POST_FAILURE,
-            payload: error
-        });
-    })
+    return pfileService.savePfile(pfile).then( (response) => { dispatch(pfileSaveSuccess(response.data))}).catch(error => { dispatch(senderr(error)); })
 }
 
 export const updatePfile = (pfile) => dispatch => {
-    dispatch({ type: SEND_POST_PENDING });
+    dispatch(pending());
 
-    //console.log(this.initialState.titleInput);
-    return pfileService.updatePfile(pfile).then(
-        (response) => {
-            // 요청이 성공했을경우, 서버 응답내용을 payload 로 설정하여 SEND_POST_SUCCESS 액션을 디스패치합니다.
-            dispatch({
-                type: GET_FILE_SECCESS,
-                payload: response.data                
-            })
-        }
-    ).catch(error => {
-        // 에러가 발생했을 경우, 에로 내용을 payload 로 설정하여 SEND_POST_FAILURE 액션을 디스패치합니다.
-        dispatch({
-            type: SEND_POST_FAILURE,
-            payload: error
-        });
-    })
+    return pfileService.updatePfile(pfile).then((response) => { dispatch(sendSuccess(response.data))}).catch(error => { dispatch(senderr(error)); })
 }
 
 export const getPfile = (dirId) => dispatch => {
-    dispatch({ type: SEND_POST_PENDING });
+    dispatch(pending());
 
-    return pfileService.getPfile(dirId).then((response) => {
-        // 요청이 성공했을경우, 서버 응답내용을 payload 로 설정하여 SEND_POST_SUCCESS 액션을 디스패치합니다.
-        dispatch({
-            type: GET_FILE_SECCESS,
-            payload: response.data
-        })
-    }
-    
-    ).catch(error => {
-        // 에러가 발생했을 경우, 에로 내용을 payload 로 설정하여 SEND_POST_FAILURE 액션을 디스패치합니다.
-        dispatch({
-            type: SEND_POST_FAILURE,
-            payload: error
-        });
-    })
+    return pfileService.getPfile(dirId).then((response) => { dispatch(sendSuccess(response.data))}).catch(error => { dispatch(senderr(error)); })
 }
 
 export const deletePfile = (pfileId) => dispatch => {
-    dispatch({ type: SEND_POST_PENDING });
-
-    //console.log(this.initialState.titleInput);
-    return pfileService.deletePfile(pfileId).then(
-        (response) => {
-            // 요청이 성공했을경우, 서버 응답내용을 payload 로 설정하여 SEND_POST_SUCCESS 액션을 디스패치합니다.
-            dispatch({
-                type: GET_FILE_SECCESS,
-                payload: response.data                
-            })
-        }
-    ).catch(error => {
-        // 에러가 발생했을 경우, 에로 내용을 payload 로 설정하여 SEND_POST_FAILURE 액션을 디스패치합니다.
-        dispatch({
-            type: SEND_POST_FAILURE,
-            payload: error
-        });
-    })
+    dispatch(pending());
+    
+    return pfileService.deletePfile(pfileId).then((response) => { dispatch(sendSuccess(response.data))}).catch(error => { dispatch(senderr(error)); })
 }
 
 export default handleActions({
@@ -117,27 +59,23 @@ export default handleActions({
     [CHANGE_CONTENT_INPUT]: (state, action) => {
         return state.set('contentInput', action.payload)
     },
-    // 전송 초기화
-    [SEND_POST_PENDING]: (state, action) => {        
+    // 통신 초기화
+    [SEND_PENDING]: (state, action) => {        
         return state.set('isFetching', true).set('error', false);
     },
     // 업무 저장 전송 성공 
-    [SAVE_FILE_SUCCESS]: (state, action) => {
-        console.log(action.payload);
-        const upmulist = state.get('upmus');
-        upmulist.push(action.payload);
-        //return state.set('isFetching', false).set('upmu', action.payload);
-        return state.set('isFetching', false).set('upmu', action.payload).set('upmus', upmulist);
-        //return state.set('isFetching', false).set('upmu.name', action.payload.titleInput).set('upmu.contents', action.payload.contents);
-    },
-    // 겟 업무 성공
-    [GET_FILE_SECCESS] : (state, action) => {
-        console.log('get--',action.payload)
-        return state.set('upmus', action.payload).set('isFetching', false);
-    },
-    // 전송 실패
-    [SEND_POST_FAILURE]: (state, action) => {
+    [SAVE_SUCCESS]: (state, action) => {
+        const pfileList = state.get('pfiles');
+        pfileList.push(action.payload);
 
+        return state.set('isFetching', false).set('pfile', action.payload).set('pfiles', pfileList);
+    },
+    // 통신 성공
+    [SEND_SUCCESS] : (state, action) => {
+        return state.set('pfiles', action.payload).set('isFetching', false);
+    },
+    // 통신 실패
+    [SEND_ERROR]: (state, action) => {
         return state.set('isFetching', false).set('error', true);
     }
 }, initialState);

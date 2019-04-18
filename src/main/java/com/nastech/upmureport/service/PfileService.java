@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import com.nastech.upmureport.domain.dto.PfileReqDto;
@@ -18,10 +20,7 @@ import com.nastech.upmureport.domain.repository.PfileLogRepository;
 import com.nastech.upmureport.domain.repository.PfileRepository;
 import com.nastech.upmureport.support.Utils;
 
-import lombok.extern.java.Log;
-
 @Service
-@Log
 public class PfileService {
 	
 	PfileRepository pfileRepository;
@@ -29,6 +28,8 @@ public class PfileService {
 	PdirRepository pdirRepository;
 	
 	PfileLogService pfileLogService;
+	
+	private static final Log LOG = LogFactory.getLog(PfileService.class);
 	
 	// 생성자로 빈 등록
 	public PfileService(PfileRepository pfileRepository, PdirRepository pdirRepository
@@ -45,7 +46,7 @@ public class PfileService {
 		try {		
 			pdir = pdirRepository.findById(pfileReqDto.getPdirId()).get();
 		} catch(Exception e){
-			log.warning(e.getMessage());
+			LOG.warn(e.getMessage());
 			return null;
 		}
 		
@@ -82,13 +83,13 @@ public class PfileService {
 		return pfile2PfileResDto(pfileRepository.save(pfile));
 	}
 	
-	public List<PfileResDto> getPfiles(BigInteger bigInteger){
+	public List<PfileResDto> getPfiles(BigInteger pdirId){
 		
-		Pdir pdir = pdirRepository.findById(bigInteger).get();
+		Pdir pdir = pdirRepository.findById(pdirId).get();
 		
 		List<Pfile> pfiles = pfileRepository.findByDirId(pdir);
 		
-		log.info("size ==== " + pfiles.size());
+		LOG.info("size ==== " + pfiles.size());
 		
 		List<PfileResDto> pfileResDtos = new ArrayList<>();
 		
@@ -113,8 +114,8 @@ public class PfileService {
 		Pfile pfile = pfileRepository.findById(Utils.StrToBigInt(pfileId)).get();
 		pfile.deletePfile();
 		
-		log.info(pfile.toString());
-		log.info(pfile.getDeleteFlag() + "");
+		LOG.info(pfile.toString());
+		LOG.info(pfile.getDeleteFlag() + "");
 		
 		pfileLogService.createPfileLog(pfile, LogStat.DELETE);
 		
@@ -136,6 +137,11 @@ public class PfileService {
 				.build();
 		
 		return pfileResDto;
+	}
+	
+	
+	public void apoTest() {
+		LOG.info("test====================");
 	}
 		
 }

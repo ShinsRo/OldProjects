@@ -2,7 +2,7 @@ import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import store from '../../stores';
-import * as projectActions from '../../stores/modules/projectState';
+// import * as projectActions from '../../stores/modules/projectState';
 
 class ProjUpdateModal extends React.Component {
     constructor(props) {
@@ -32,28 +32,28 @@ class ProjUpdateModal extends React.Component {
     }
 
     handleSubmit(e) {
-        const data = new FormData(e.target);
-        const { userState } = store.getState();
-        let jsonObj = {};
-        data.forEach((value, key) => {
-            jsonObj[key] = value;
-        });
-        console.log();
-        jsonObj = {
-            ...jsonObj,
-            userId: userState.selectedUser.userId,
-            projId: this.props.project.projId,
-        }
+        // const data = new FormData(e.target);
+        // const { userState } = store.getState();
+        // let jsonObj = {};
+        // data.forEach((value, key) => {
+        //     jsonObj[key] = value;
+        // });
+        // console.log();
+        // jsonObj = {
+        //     ...jsonObj,
+        //     userId: userState.selectedUser.userId,
+        //     projId: this.props.project.projId,
+        // }
         
-        const URL = projectActions.BASE_URL + projectActions.END_POINT.PROJ_CORRECT;
-        fetch(URL, {
-            method: 'POST',
-            body: JSON.stringify(jsonObj),
-            headers: {
-                'Content-Type': 'application/json',
-                'accept': 'application/json'
-            }
-        });
+        // const URL = projectActions.BASE_URL + projectActions.END_POINT.PROJ_CORRECT;
+        // fetch(URL, {
+        //     method: 'POST',
+        //     body: JSON.stringify(jsonObj),
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'accept': 'application/json'
+        //     }
+        // });
     }
 
     render() {
