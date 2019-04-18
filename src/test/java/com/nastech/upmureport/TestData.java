@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nastech.upmureport.domain.entity.AuthInfo;
@@ -18,6 +19,7 @@ import com.nastech.upmureport.domain.entity.PfileLog;
 import com.nastech.upmureport.domain.entity.PfileLog.LogStat;
 import com.nastech.upmureport.domain.entity.Project;
 import com.nastech.upmureport.domain.entity.Role;
+import com.nastech.upmureport.domain.entity.UserRole;
 import com.nastech.upmureport.domain.entity.support.Prole;
 import com.nastech.upmureport.domain.entity.support.Pstat;
 import com.nastech.upmureport.domain.repository.AttachmentLogRepository;
@@ -31,6 +33,7 @@ import com.nastech.upmureport.domain.repository.PdirRepository;
 import com.nastech.upmureport.domain.repository.PfileLogRepository;
 import com.nastech.upmureport.domain.repository.PfileRepository;
 import com.nastech.upmureport.domain.repository.ProjectRepository;
+import com.nastech.upmureport.domain.repository.UserRoleRepository;
 
 @Service 
 public class TestData {
@@ -39,6 +42,9 @@ public class TestData {
 		MemberSystemRepository memberSystemRepository;
 		AuthInfoRepository authinfoRepository;
 		CareerRepository careerRepository;
+		@Autowired
+		UserRoleRepository userRoleRepository;
+		
 		
 		//Project and pdir repositories
 		MemberProjectRepository memberProjectRepository;
@@ -55,7 +61,7 @@ public class TestData {
 	public TestData(MemberRepository memberRepository, MemberSystemRepository memberSystemRepository,
 			AuthInfoRepository authinfoRepository, CareerRepository careerRepository, PfileRepository pfileRepository, PfileLogRepository pfileLogRepository,
 			AttachmentRepository attachmentRepository, AttachmentLogRepository attachmentLogRepository,
-			MemberProjectRepository memberProjectRepository, ProjectRepository projectRepository, PdirRepository pdirRepository) {
+			MemberProjectRepository memberProjectRepository, ProjectRepository projectRepository, PdirRepository pdirRepository, UserRoleRepository userRoleRepository) {
 
 		this.memberRepository = memberRepository;
 		this.memberSystemRepository = memberSystemRepository;
@@ -70,6 +76,7 @@ public class TestData {
 		this.pfileLogRepository = pfileLogRepository;
 		this.attachmentRepository = attachmentRepository;
 		this.attachmentLogRepository = attachmentLogRepository;
+		this.userRoleRepository= userRoleRepository;
 		
 	}
 
@@ -141,8 +148,8 @@ public class TestData {
 		
 		AuthInfo a0 = AuthInfo.builder().member(admin).username("admin").password("1111").role(Role.ROLE_ADMIN).build();
 		AuthInfo a1 = AuthInfo.builder().member(m1).username("m1111").password("1111").role(Role.ROLE_USER).build();
-		AuthInfo a2 = AuthInfo.builder().member(m1).username("m1112").password("1111").role(Role.ROLE_USER).build();
-		AuthInfo a3 = AuthInfo.builder().member(m1).username("m1113").password("1111").role(Role.ROLE_USER).build();
+		AuthInfo a2 = AuthInfo.builder().member(m2).username("m1112").password("1111").role(Role.ROLE_USER).build();
+		AuthInfo a3 = AuthInfo.builder().member(m3).username("m1113").password("1111").role(Role.ROLE_USER).build();
 		
 		aList.add(a0);
 		aList.add(a1);
@@ -157,11 +164,23 @@ public class TestData {
 		msList.add(ms3);
 		msList.add(ms2);
 		msList.add(ms1);
+		
+		List<UserRole> usRoleList = new ArrayList<UserRole>();
+		UserRole ur1 = UserRole.builder().role(Role.ROLE_ADMIN).username("admin").build();
+		UserRole ur2 = UserRole.builder().role(Role.ROLE_USER).username("m1111").build();
+		UserRole ur3 = UserRole.builder().role(Role.ROLE_USER).username("m1112").build();
+		UserRole ur4 = UserRole.builder().role(Role.ROLE_USER).username("m1113").build();
+
+		usRoleList.add(ur1);
+		usRoleList.add(ur2);
+		usRoleList.add(ur3);
+		usRoleList.add(ur4);
 
 		memberRepository.saveAll(mList);
 		authinfoRepository.saveAll(aList);
 		careerRepository.saveAll(cList);
 		memberSystemRepository.saveAll(msList);
+		userRoleRepository.saveAll(usRoleList);
 	}
 	
 	public void deleteAllMemberData() {
@@ -169,6 +188,7 @@ public class TestData {
 		careerRepository.deleteAll();
 		authinfoRepository.deleteAll();
 		memberRepository.deleteAll();
+		userRoleRepository.deleteAll();
 	}
 	
 	/**

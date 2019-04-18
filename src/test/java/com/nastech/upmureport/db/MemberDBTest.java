@@ -109,19 +109,18 @@ public class MemberDBTest {
 		System.out.println(as.userLogin(temp));
 		cs.careerModify(a, newCar);
 		memberService.retireMember(a.toDto());
-		UserRole ur = UserRole.builder()
-				.role(Role.ROLE_ADMIN).username("admin")
-				.build();
 		
-		userRoleRepository.save(ur);
-		
-		List<UserRole> url= new ArrayList<UserRole>();
-		url.add(ur);
-		System.out.println("유저롤 "+url);
-		CustomUserDetails u = new CustomUserDetails(check, url);
-		System.out.println("aaa"+u.isAccountNonExpired());
-		
-		securityService.loadUserByUsername("admin");
+//		UserRole ur = UserRole.builder()
+//				.role(Role.ROLE_ADMIN).username("admin")
+//				.build();
+//		userRoleRepository.save(ur);
+//		List<UserRole> url= new ArrayList<UserRole>();
+//		url.add(ur);
+//		System.out.println("유저롤 "+url);
+//		CustomUserDetails u = new CustomUserDetails(check, url);
+//		System.out.println("aaa"+u.isAccountNonExpired());
+//		
+//		securityService.loadUserByUsername("admin");
 		
 		//Member m1 = memberRepository.findOneByName("마규석");
 		//memberSystemService.deleteMemberSystem(a, m1);
