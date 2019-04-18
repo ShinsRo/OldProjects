@@ -9,6 +9,7 @@ const SEND_PENDING = 'SEND_PENDING';
 const SEND_SUCCESS = 'SEND_SUCCESS';
 const SAVE_SUCCESS = 'SAVE_SUCCESS';
 const SEND_ERROR = 'SEND_ERROR';
+const SET_PFILE = 'SET_PFILE';
 
 // 액션 생성 함수
 export const changeTitleInput = createAction(CHANGE_TITLE_INPUT);
@@ -17,6 +18,7 @@ export const pending = createAction(SEND_PENDING);
 export const senderr = createAction(SEND_ERROR);
 export const pfileSaveSuccess = createAction(SAVE_SUCCESS);
 export const sendSuccess = createAction(SEND_SUCCESS);
+export const setPfile = createAction(SET_PFILE);
 
 const initialState = Map({
     titleInput: '',
@@ -41,7 +43,11 @@ export const updatePfile = (pfile) => dispatch => {
 export const getPfile = (dirId) => dispatch => {
     dispatch(pending());
 
-    return pfileService.getPfile(dirId).then((response) => { dispatch(sendSuccess(response.data))}).catch(error => { dispatch(senderr(error)); })
+    return pfileService.getPfile(dirId).then((response) => 
+    { 
+        dispatch(sendSuccess(response.data))
+
+    }).catch(error => { dispatch(senderr(error)); })
 }
 
 export const deletePfile = (pfileId) => dispatch => {
@@ -59,6 +65,10 @@ export default handleActions({
     [CHANGE_CONTENT_INPUT]: (state, action) => {
         return state.set('contentInput', action.payload)
     },
+    [SET_PFILE]: (state, action) => {
+        console.log(action.payload);
+        return state.set('pfile', action.payload)
+    },
     // 통신 초기화
     [SEND_PENDING]: (state, action) => {        
         return state.set('isFetching', true).set('error', false);
@@ -72,7 +82,10 @@ export default handleActions({
     },
     // 통신 성공
     [SEND_SUCCESS] : (state, action) => {
-        return state.set('pfiles', action.payload).set('isFetching', false);
+        const pfiles = action.payload;
+        console.log("-------------------pfiles ", pfiles);
+
+        return state.set('pfiles', pfiles).set('isFetching', false);
     },
     // 통신 실패
     [SEND_ERROR]: (state, action) => {

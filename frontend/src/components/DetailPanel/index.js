@@ -1,7 +1,7 @@
 import ProjPanel from "./ProjPanel";
-import UpmuPanel from "./UpmuPanel";
+import PfilePanel from "./PfilePanel";
 
 export {
     ProjPanel,
-    UpmuPanel,
+    PfilePanel,
 }

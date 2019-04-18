@@ -6,7 +6,7 @@ import * as projectActions from '../stores/modules/projectState';
 import * as pfileAction from '../stores/modules/pfileState'
 
 
-import { ProjPanel, UpmuPanel } from '../components/DetailPanel';
+import { ProjPanel, PfilePanel } from '../components/DetailPanel';
 
 class DetailContanier extends Component {
     constructor(props) {
@@ -15,7 +15,7 @@ class DetailContanier extends Component {
     }
 
     render() {
-        const { projectState } = this.props;
+        const { projectState, pfileState } = this.props;
         const detailViewLevel = projectState.get('detailViewLevel');
     
         /**
@@ -31,13 +31,11 @@ class DetailContanier extends Component {
          */
         if (detailViewLevel === 'project') {
             return (<ProjPanel projectState={projectState}/>);
-        } else if (detailViewLevel === 'umpu') {
-            return (<UpmuPanel/>);
+        } else if (detailViewLevel === 'pfile') {
+            return (<PfilePanel pfileState={pfileState}/>);
         } else {
             return (<>프로젝트 혹은 업무를 선택하세요.</>);
-        }
-
-        
+        }        
     }
 }
 export default connect(

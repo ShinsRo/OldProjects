@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as projectActions from '../stores/modules/projectState';
 import * as pfileAction from '../stores/modules/pfileState'
+import * as attachmentAction from '../stores/modules/attachmentState'
 
 
 import { ProjectSideBar } from '../components/ProjectSideBar';
@@ -22,9 +23,12 @@ class ProjectSideBarContainer extends Component {
     }
     
     handleDirItemClick (selectedDirId) {
-        const { ProjectActions, pfileActions } = this.props;
-        ProjectActions.saveItem({ selectedDirId, detailViewLevel: 'project' });
-        pfileActions.getPfile(selectedDirId);
+        const { ProjectActions, PfileActions, AttachmentAction, projectState } = this.props;
+        if(projectState.get('selectedDirId') && projectState.get('selectedDirId') !== selectedDirId){
+            PfileActions.getPfile(selectedDirId);
+            AttachmentAction.getAttachment(selectedDirId);
+        }
+        ProjectActions.saveItem({ selectedDirId, detailViewLevel: 'project' });        
     };
 
     render() {
@@ -49,7 +53,7 @@ export default connect(
     }),
     (dispatch) => ({
         ProjectActions: bindActionCreators(projectActions, dispatch),
-        pfileActions: bindActionCreators(pfileAction, dispatch)
-
+        PfileActions: bindActionCreators(pfileAction, dispatch),
+        AttachmentAction: bindActionCreators(attachmentAction, dispatch),
     })
 ) (ProjectSideBarContainer);
