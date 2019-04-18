@@ -4,8 +4,7 @@ class PfilePanel extends Component {
 
     state = {
         isUpdate : false,
-    }
-    
+    }    
 
     render() {
 
@@ -17,8 +16,7 @@ class PfilePanel extends Component {
 //value={pfile.contents}
 //<text className="form-control" value={pfileState.get('pfile').name}/>
         return (
-            {if(isUpdate){
-                <div className="card shadow mb-4">
+            <div className="card shadow mb-4">
                 <div className="card-header py-3">
                     <div className="m-0 font-weight-bold text-darkblue">
                     {pfileState.get('pfile').name}
@@ -39,8 +37,6 @@ class PfilePanel extends Component {
                     </button>
                 </div>
             </div>
-        }}
-            
         );
     }
 }
