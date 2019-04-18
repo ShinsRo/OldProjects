@@ -87,7 +87,6 @@ public class TestData {
 	 */
 	public void setMemberTestData() {
 		List<Member> mList = new ArrayList<Member>();
-		
 		Member admin = Member.builder()
 				.eid("0000")
 				.name("관리자")
