@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { correct } from '../../stores/modules/projectState';
+import stores from '../../stores';
 import Collaborators from '../Collaborators';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -6,6 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 class ProjPanel extends Component {
     constructor(props) {
         super(props);
+        
         this.state = {
             stDate: null,
             edDate: null,
@@ -29,27 +32,38 @@ class ProjPanel extends Component {
         this.setState({ progress: e.target.value });
     }
 
+    onFormFieldChange(e, project) {
+        if (project.isOrigin) {
+            const { projectState } = this.props;
+            const dirContainer = projectState.get("dirContainer");
+            dirContainer.tempProjectData = {...project};
+            project.isOrigin = false;
+        }
+        project[e.target.name] = e.target.value;
+        this.setState({progress: this.state.progress + 1})
+    }
+
     handleSubmit(e) {
         e.preventDefault();
-        // const data = new FormData(e.target);
-        // const pDto = {};
-        // data.forEach((value, key) => {
-        //     if (key === 'stDate' || key === 'edDate') {
-        //         pDto[key] = new Date(value).toISOString();
-        //         alert("key: " + key + " /// value :" + pDto[key])
-        //     } else {
-        //         pDto[key] = value;
-        //     }
-        // });
+        const data = new FormData(e.target);
+        const pDto = {};
+        data.forEach((value, key) => {
+            if (key === 'stDate' || key === 'edDate') {
+                pDto[key] = new Date(value).toISOString();
+            } else {
+                pDto[key] = value;
+            }
+        });
 
-        // register(pDto).then((res) => {
-        //     console.log(JSON.parse(res));
-            
-        //     alert('ok');
-        // });
+        correct(pDto).then((res) => {
+            window.location.href = "/";
+        });
     }
 
     dateFormater(arrDate) {
+        if (arrDate === null) {
+            return '';
+        }
         const year = arrDate[0];
         const month = (arrDate[1] < 10) ? '0' + arrDate[1]:arrDate[1];
         const day = (arrDate[2] < 10) ? '0' + arrDate[2]:arrDate[2];
@@ -79,25 +93,44 @@ class ProjPanel extends Component {
     // }
 
     render() {
+        console.log("Rendering: ProjPanel");
+
         const { projectState } = this.props;
         const selectedDirId = projectState.get('selectedDirId');
         const dirContainer = projectState.get("dirContainer");
         const pid = dirContainer.treeMap[selectedDirId].pid;
         const project = dirContainer.projectMap[pid];
+        console.log(dirContainer.tempProjectData);
+        
+        if (dirContainer.tempProjectData.pid !== project.pid) {
+            const tempProjectData = dirContainer.tempProjectData;
+            dirContainer.projectMap[tempProjectData.pid] = {...tempProjectData};
+        }
 
+        const userInfo = stores.getState().userState.userInfo;
         const strStDate = this.dateFormater(project.stDate);
         const strEdDate = this.dateFormater(project.edDate);
+        const prole = project.prole;
+        // const isEditable = prole === '관리자' || prole === '책임자' || prole === '';
+
         return (<>
-            <form>
+            <form onSubmit={this.handleSubmit}>
                 <div className="card-header py-3">
                     <div className="row">
                         <div className="m-0 font-weight-bold text-darkblue col-10">
-                            <span 
+                            <input
                                 name="pname" 
-                                suppressContentEditableWarning={true} 
-                                contentEditable="true"
-                            >{project.pname}</span>
-                            
+                                className="text-darkblue font-weight-bold"
+                                // suppressContentEditableWarning={true} 
+                                // contentEditable="true"
+                                value={project.pname}
+                                onChange={(e) => { this.onFormFieldChange(e, project); }}
+                                style={{border: 'none', backgroundColor: 'none'}}
+                            ></input>
+                            {/* <input name="pname" type="hidden" value={project.pname}/> */}
+                            <input name="pid" type="hidden" value={project.pid}/>
+                            <input name="mid" type="hidden" value={userInfo.memberInfo.mid}/>
+                            <input name="prole" type="hidden" value={project.prole}/>
                         </div>
                         <div className="text-right col-2 pt-1">
                             <div 
@@ -108,7 +141,7 @@ class ProjPanel extends Component {
                             <div className="dropdown-menu">
                             <div className="dropdown-item" href="#">삭제하기</div>
                             <div className="dropdown-divider"></div>
-                            <div className="dropdown-item" href="#">일단 비고</div>
+                            <div className="dropdown-item">임시비고</div>
                             </div>
                         </div>
                     </div>
@@ -190,24 +223,18 @@ class ProjPanel extends Component {
                     <hr></hr>
                     <div className="row mt-3">
                         <div className="col">
-                            {((prole) => {
-                                if (
-                                    prole === '관리자' ||
-                                    prole === '책임자' ||
-                                    prole === ''
-                                ) 
-                                    return (<textarea name="description" id={project.pid} className="form-control" placeholder={project.description} style = {{ minHeight: '200px' }}></textarea>)
-                                else
-                                    return (<textarea name="description" id={project.pid} className="form-control" placeholder={project.description} disabled></textarea>)
-
-                            })(project.prole)}
+                            <textarea 
+                                name="description" 
+                                className="form-control" 
+                                value={project.description}
+                                onChange={(e) => { this.onFormFieldChange(e, project); }}
+                            ></textarea>
                         </div>
                     </div>
-                    <div className="row mt-3">
-                        <div className="col text-right">
-                            <input className="btn btn-darkblue" type="submit" value="수정하기"></input>
-                        </div>
-                    </div>
+                    <br></br>
+                    { !project.isOrigin && (<div className="modal-footer">
+                        <input className="btn btn-darkblue" type="submit" value="수정하기"></input>
+                    </div>)}
                 </div>
             </form>
         </>);

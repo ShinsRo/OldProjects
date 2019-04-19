@@ -15,6 +15,7 @@ class AddModal extends React.Component {
             edDate: null,
             progress: 0,
             gubun: 'project',
+            show: true,
         }
         this.onStartDateChange = this.onStartDateChange.bind(this);
         this.onEndDateChange = this.onEndDateChange.bind(this);
@@ -46,9 +47,8 @@ class AddModal extends React.Component {
         console.log(pDto);
         
         register(pDto).then((res) => {
-            console.log(JSON.parse(res));
-            
-            alert('ok');
+            console.log(res);
+            window.location.href = "/";
         });
     }
 
@@ -153,7 +153,7 @@ class AddModal extends React.Component {
                                 <div className="col-8">
                                     <input type="text" className="form-control" readOnly
                                         value={`${memberInfo.name}님이 프로젝트를 등록합니다.`} />
-                                    <input name="userId" type="hidden" value={memberInfo.mid} />
+                                    <input name="mid" type="hidden" value={memberInfo.mid} />
                                 </div>
                             </div>
                             <hr></hr>

@@ -107,12 +107,14 @@ public class ProjectService {
 		
 		//원본 유저, 프로젝트
 		MemberProject mp = mpr.findOneByMemberAndProject(m, p);
+		p = mp.getProject();
+		m = mp.getMember();
 		
 		Pstat ps;
 		try {
 			ps = Pstat.valueOf(pDto.getPstat());
 		} catch (IllegalArgumentException iae) {
-			ps = mp.getPstat();
+			ps = Pstat.대기;
 		}
 		mp.setPstat(ps);
 		
@@ -123,7 +125,13 @@ public class ProjectService {
 			pr = mp.getProle();
 		}
 		mp.setProle(pr);
-		Utils.overrideEntity(mp.getProject(), pDto);
+		
+		Project updated = Project.builder()
+				.pid(p.getPid())
+				.build();
+		Utils.overrideEntity(updated, pDto);
+		
+		mp.setProject(updated);
 		return new ProjectDto(mpr.save(mp));
 	}
 	

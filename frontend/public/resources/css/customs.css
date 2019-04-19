@@ -186,6 +186,12 @@ input.sm-input {
     display: block !important;
 }
 
+input.text-darkblue {
+    color: #243377 !important;
+    border: none;
+    background-color: rgba(255,255,255,0);
+}
+
 /* .member-circle::before{
     border: 1px solid black;
     border-radius: 50% !important;

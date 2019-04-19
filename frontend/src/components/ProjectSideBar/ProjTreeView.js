@@ -28,6 +28,56 @@ class ProjTreeView extends React.Component {
         
     }
 
+    onDropDir(e, dir) {
+        const enterChar = e.target.getElementsByClassName('enterChar')[0];
+        if (enterChar) enterChar.innerHTML = "";
+
+        const from = JSON.parse(e.dataTransfer.getData('from'));
+        const to = dir;
+        
+        const { projectState } = this.props;
+        const dirContainer = projectState.get("dirContainer");
+        const treeMap = dirContainer.treeMap;
+        
+        const dDto = {
+            did: from.id,
+            parentDid: to.id,
+            pid: to.pid,
+        }
+
+        let ancestorId = to.id;
+        while (ancestorId != 'root') {
+            if (ancestorId === from.id) return;
+            ancestorId = treeMap[ancestorId].parent;
+        }
+
+        pdir_api.correct(dDto, 'move')
+            .then( res => {
+                treeMap[from.id].parent = to.id;
+                dirContainer.buildDirTrees();
+
+                this.setState({ reload: !this.state.reload });
+            }).catch( err => {
+                alert("오류로 인해 디렉토리를 바꿀 수 없습니다.");
+            });
+        
+    }
+
+    onDirEnter(e) { 
+        const enterChar = e.target.getElementsByClassName('enterChar')[0];
+        if (enterChar) enterChar.innerHTML = "↵";
+    }
+
+    onDragStart(e, dir) {
+        e.dataTransfer.setData('from', JSON.stringify(dir));
+        e.dataTransfer.setData('fromId', dir.id);
+    }
+
+    onDirLeave(e) {
+        const enterChar = e.target.getElementsByClassName('enterChar')[0];
+        if (enterChar) enterChar.innerHTML = "";
+    }
+    
     drawTree(trees, handleDirItemClick) {
         const selectedDirId = this.props.projectState.get('selectedDirId');
 
@@ -36,48 +86,14 @@ class ProjTreeView extends React.Component {
             return trees.map((dir, idx) => {
                 return (<div key={dir.id}>
                     <div className="kss-tree-item" 
-                        draggable
+                        draggable={dir.parent !== 'root'}
                         onDragOver={(e) => {
                             e.preventDefault();
                         }}
-                        onDragStart={(e) => {
-                            e.dataTransfer.setData('from', JSON.stringify(dir));
-                        }}
-                        onDragEnter={(e) => { 
-                            const enterChar = e.target.getElementsByClassName('enterChar')[0];
-                            if (enterChar) enterChar.innerHTML = "↵";
-                        }}
-                        onDragLeave={(e) => {
-                            const enterChar = e.target.getElementsByClassName('enterChar')[0];
-                            if (enterChar) enterChar.innerHTML = "";
-                        }}
-                        onDrop={(e) => {
-                            const enterChar = e.target.getElementsByClassName('enterChar')[0];
-                            if (enterChar) enterChar.innerHTML = "";
-                            
-                            const from = JSON.parse(e.dataTransfer.getData('from'));
-
-                            const to = dir;
-                            const { projectState } = this.props;
-                            const dirContainer = projectState.get("dirContainer");
-                            const treeMap = dirContainer.treeMap;
-                            
-                            const dDto = {
-                                did: from.id,
-                                parentDid: to.id,
-                                pid: to.pid,
-                            }
-
-                            pdir_api.correct(dDto, 'move')
-                                .then( res => {
-                                    treeMap[from.id].parent = to.id;
-                                    dirContainer.buildDirTrees();
-                                    this.setState({ reload: !this.state.reload });
-                                }).catch( err => {
-                                    alert("오류로 인해 디렉토리를 바꿀 수 없습니다.");
-                                });
-                            
-                        }}
+                        onDragStart={(e) => { this.onDragStart(e, dir); }}
+                        onDragLeave={(e) => { this.onDirLeave(e); }}
+                        onDragEnter={(e) => { this.onDirEnter(e); }}
+                        onDrop={(e) => { this.onDropDir(e, dir); }}
                     >
                         <span className="kss-tree-icon" onClick={() => { this.toggleFold(dir.id) }}>
                             {(() => {
@@ -87,11 +103,14 @@ class ProjTreeView extends React.Component {
                             })()} 
                         </span>
                         <div className="overlay" onClick={() => { this.onDirClick(dir.id) }}></div>
-                        <div className="active" 
-                            onClick={() => { this.onDirClick(dir.id) }} 
+                        <div className="active"
                             style={{ display: (selectedDirId && selectedDirId === dir.id) ? 'block': '' }}>
                         </div>
-                        <div key={dir.id} onClick={() => { this.onDirClick(dir.id) }} className="kss-tree-item-title">
+                        <div key={dir.id} onClick={() => { this.onDirClick(dir.id) }} className="kss-tree-item-title"
+                            onDragLeave={(e) => { this.onDirLeave(e); }}
+                            onDragEnter={(e) => { this.onDirEnter(e); }}
+                            onDrop={(e) => { this.onDropDir(e, dir); }}
+                        >
                         {(() => {
                             if (dir.parent !== 'root') {
                                 return dir.isOpen ? 
@@ -100,9 +119,8 @@ class ProjTreeView extends React.Component {
                             }
                         })()}                     
                         <span
-                            suppressContentEditableWarning={true} 
-                            contentEditable="true" 
-                            onClick={(e) => { this.onDirChange(e, dir.id) }}
+                            // suppressContentEditableWarning={true} 
+                            // contentEditable="true" 
                         >
                             {dir.title}
                         </span>

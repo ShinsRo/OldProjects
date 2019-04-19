@@ -64,7 +64,7 @@ public class PersistenceJPAConfig {
 		properties.setProperty("hibernate.hbm2ddl.auto", "update");
 		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MariaDBDialect");
 		properties.setProperty("hibernate.enable_lazy_load_no_trans", "true");
-		//properties.setProperty("hibernate.show_sql", "true");
+		properties.setProperty("hibernate.show_sql", "true");
 		properties.setProperty("hibernate.use_sql_comments", "true");
 		properties.setProperty("hibernate.format_sql", "true");
 		return properties;

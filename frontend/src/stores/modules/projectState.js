@@ -98,7 +98,7 @@ export function list(mid, name) {
         }
 };
 export function register(pDto) { return axios.post(`${URL.PROJECT.REGISTER}`, pDto); };
-export function correct(pDto) { axios.put(`${URL.PROJECT.CORRECT}`, pDto) };
+export function correct(pDto) { return axios.put(`${URL.PROJECT.CORRECT}`, pDto) };
 export function disable(pDto) { axios.patch(`${URL.PROJECT.DISABLE}`, pDto) };
 
 export const pdir_api = {

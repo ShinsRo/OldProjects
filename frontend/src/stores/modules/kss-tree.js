@@ -5,6 +5,7 @@ class KssTree {
         this.projectMap = {};
         this.dirTrees = [];
 
+        this.tempProjectData = {};
         this.init();
     }
 
@@ -14,6 +15,7 @@ class KssTree {
         let projectMap = this.projectMap;
         
         projects.forEach(project => {
+            project['isOrigin'] = true;
             projectMap[project.pid] = project;
             project.dirs.forEach(dir => {
                 treeMap[dir.did] = {
@@ -40,6 +42,9 @@ class KssTree {
         dirTrees.length = 0;
         Object.keys(treeMap).forEach(key => {
             treeMap[key].child.length = 0;
+        });
+
+        Object.keys(treeMap).forEach(key => {
             if ( treeMap[key].parent === 'root' ) {
                 const rootDir = treeMap[key];
                 
