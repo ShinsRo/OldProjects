@@ -1,12 +1,17 @@
 class KssTree {
     constructor(projects) {
+        this.projects = projects;
         this.treeMap = {};
         this.projectMap = {};
         this.dirTrees = [];
 
+        this.init();
+    }
+
+    init() {
+        let projects = this.projects;
         let treeMap = this.treeMap;
         let projectMap = this.projectMap;
-        let dirTrees = this.dirTrees;
         
         projects.forEach(project => {
             projectMap[project.pid] = project;
@@ -22,8 +27,19 @@ class KssTree {
                 }
             });
         });
-    
+        this.buildDirTrees();
+    }
+
+    buildDirTrees() {
+        
+        let treeMap = this.treeMap;
+        let dirTrees = this.dirTrees;
+        let projectMap = this.projectMap;
+        console.log("treeMap", treeMap);
+
+        dirTrees.length = 0;
         Object.keys(treeMap).forEach(key => {
+            treeMap[key].child.length = 0;
             if ( treeMap[key].parent === 'root' ) {
                 const rootDir = treeMap[key];
                 

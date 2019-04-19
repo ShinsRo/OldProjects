@@ -1,5 +1,6 @@
 import React from 'react';
 import stores from '../../stores';
+import { pdir_api } from '../../stores/modules/projectState';
 import AddModal from './AddModal';
 // import jQuery from 'jquery';
 // window.$ = window.jQuery = jQuery;
@@ -18,6 +19,7 @@ class ProjTreeView extends React.Component {
             projectMap: {},
             dirTrees: [],
             showAddModal: true,
+            reload: false,
         };
     }
 
@@ -28,12 +30,55 @@ class ProjTreeView extends React.Component {
 
     drawTree(trees, handleDirItemClick) {
         const selectedDirId = this.props.projectState.get('selectedDirId');
-        
+
         if (!trees) return (<></>);
         else {
             return trees.map((dir, idx) => {
-                return (<div key={dir.id} >
-                    <div className="kss-tree-item">
+                return (<div key={dir.id}>
+                    <div className="kss-tree-item" 
+                        draggable
+                        onDragOver={(e) => {
+                            e.preventDefault();
+                        }}
+                        onDragStart={(e) => {
+                            e.dataTransfer.setData('from', JSON.stringify(dir));
+                        }}
+                        onDragEnter={(e) => { 
+                            const enterChar = e.target.getElementsByClassName('enterChar')[0];
+                            if (enterChar) enterChar.innerHTML = "↵";
+                        }}
+                        onDragLeave={(e) => {
+                            const enterChar = e.target.getElementsByClassName('enterChar')[0];
+                            if (enterChar) enterChar.innerHTML = "";
+                        }}
+                        onDrop={(e) => {
+                            const enterChar = e.target.getElementsByClassName('enterChar')[0];
+                            if (enterChar) enterChar.innerHTML = "";
+                            
+                            const from = JSON.parse(e.dataTransfer.getData('from'));
+
+                            const to = dir;
+                            const { projectState } = this.props;
+                            const dirContainer = projectState.get("dirContainer");
+                            const treeMap = dirContainer.treeMap;
+                            
+                            const dDto = {
+                                did: from.id,
+                                parentDid: to.id,
+                                pid: to.pid,
+                            }
+
+                            pdir_api.correct(dDto, 'move')
+                                .then( res => {
+                                    treeMap[from.id].parent = to.id;
+                                    dirContainer.buildDirTrees();
+                                    this.setState({ reload: !this.state.reload });
+                                }).catch( err => {
+                                    alert("오류로 인해 디렉토리를 바꿀 수 없습니다.");
+                                });
+                            
+                        }}
+                    >
                         <span className="kss-tree-icon" onClick={() => { this.toggleFold(dir.id) }}>
                             {(() => {
                                 if (dir.child.length === 0) return (<>&nbsp;</>);
@@ -62,6 +107,7 @@ class ProjTreeView extends React.Component {
                             {dir.title}
                         </span>
                         </div>
+                        <span className="enterChar" style={{ float: 'right' }}></span>
                     </div>
                     {(() => {
                         if (dir.isOpen) 
@@ -80,7 +126,7 @@ class ProjTreeView extends React.Component {
         const { projectState } = this.props;
         const dirContainer = projectState.get("dirContainer");
         dirContainer.treeMap[did].isOpen = !dirContainer.treeMap[did].isOpen;
-        this.props.handleDirItemClick(did);
+        this.props.handlers("handleDirItemClick", { selectedDirId: did });
     }
     
     onAddClick() {
