@@ -3,8 +3,9 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux'
 import * as juniorsAction from '../stores/modules/juniorList'
-import * as userActions from '../stores/modules/userState'
+//import * as userActions from '../stores/modules/userState'
 import store from '../stores'
+import Member from '../components/Admin/Member';
 class SidebarContainer extends Component {
     constructor(props) {
         super(props);
@@ -25,6 +26,7 @@ class SidebarContainer extends Component {
         juniorsAction.getJuniors(memberInfo).then(res=> {
             const {juniorList} =store.getState()
             this.setState({
+                //map은 get
                users: juniorList.get('users')
            })
         })
@@ -60,7 +62,7 @@ class SidebarContainer extends Component {
         })
     }
     render() {
-        const {userActions} = this.props
+        const {select} = this.props
         const users=this.state.users
         const depts=this.state.depts
         const {userState} = store.getState()
@@ -71,7 +73,7 @@ class SidebarContainer extends Component {
             <Sidebar
                 users={users}
                 depts={depts}
-                select={userActions.select}
+                select={select}
                 userInfo={memberInfo}
                 //deptName={deptName}
             />
@@ -86,6 +88,6 @@ export default connect(
     //함수들
     (dispatch) => ({
         juniorsAction: bindActionCreators(juniorsAction, dispatch),
-        userActions: bindActionCreators(userActions, dispatch),
+        //userActions: bindActionCreators(userActions, dispatch),
     })
 )(SidebarContainer);

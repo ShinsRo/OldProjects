@@ -16,7 +16,7 @@ function getjuniorAPI(loginUser) {
     }
     console.log("토큰",token)
 
-    return axios.post('http://localhost:8080/upmureport/api/users/userlist', loginUser,config);
+    return axios.post('http://localhost:8080/upmureport/api/users/userlist', loginUser);
 }
 
 const GET_JUNIOR_PENDING = 'GET_JUNIOR_PENDING';

@@ -83,7 +83,7 @@ export default handleActions({
             ...state,
             pending: false,
             userInfo: userInfo,
-            selectedUser: userInfo
+            selectedUser: userInfo.memberInfo
         };
     },
     [GET_POST_FAILURE]: (state,action) => {

@@ -17,8 +17,8 @@ class ProjectSideBarContainer extends Component {
         this.handleDirItemClick = this.handleDirItemClick.bind(this);
     }
     componentDidMount() {
-        const { selectedUser } = store.getState().userState;
-        const memberInfo = selectedUser.memberInfo;
+        const { userInfo } = store.getState().userState;
+        const memberInfo = userInfo.memberInfo;
         
         const { ProjectActions } = this.props;
         ProjectActions.list(memberInfo.mid, memberInfo.name);

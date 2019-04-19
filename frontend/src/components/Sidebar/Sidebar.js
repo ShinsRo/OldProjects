@@ -29,7 +29,7 @@ const Sidebar = ({depts,select,userInfo}) => {
 
             <li className="nav-item active">
                 <i className="fas fa-user"></i>
-                <span className="collapse-item" onClick={() => select(userInfo)} value={userInfo}> My: {userInfo.name}</span>
+                <span className="collapse-item" onClick={select(userInfo)} value={userInfo}> My: {userInfo.name}</span>
             </li>
             {/* Divider */}
 
