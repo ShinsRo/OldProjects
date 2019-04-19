@@ -6,6 +6,13 @@ class PfilePanel extends Component {
         isUpdate : false,
     }    
 
+    onClickUpdateBts = (e) => {
+
+        e.preventDefault();
+        const {handleUpdateBts} = this.props;
+        handleUpdateBts({ detailViewLevel: 'pfileUpdate' });
+    }
+
     render() {
 
         const {pfileState} = this.props;
@@ -29,7 +36,7 @@ class PfilePanel extends Component {
                 </div>
 
                 <div>
-                    <button type="button" className="btn btn-info btn-icon-split">
+                    <button type="button" className="btn btn-info btn-icon-split" onClick={this.onClickUpdateBts}>
                         <span className="icon text-white-50">
                             <i className="fas fa-info-circle"></i>
                         </span>

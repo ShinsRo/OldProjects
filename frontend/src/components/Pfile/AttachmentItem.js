@@ -18,7 +18,7 @@ class AttachmentItem extends Component {
         console.log('pfile Item render');
         return (
             <tr key={idx} >
-                    <td>{attachment.attachmentName.substring(0,9)}</td>
+                    <td>{attachment.attachmentName}</td>
                     <td>{attachment.volume}</td>
                     <td>첨부</td>
                     <td>첨부</td>

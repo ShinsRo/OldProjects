@@ -7,7 +7,7 @@ import PfileItem from './PfileItem';
 class PfileTable extends React.Component {
     constructor(props) {
         super(props);
-
+        
         this.state = {
             dirs: List(),
             attachments: List(),

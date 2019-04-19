@@ -18,10 +18,10 @@ const initialState = Map({
     attachments: List(),
 })
 
-export const saveAttachment = (attachment) => dispatch => {
+export const saveAttachment = (attachment, config) => dispatch => {
     dispatch(attPending());
 
-    return attachmentService.saveAttachment(attachment).then( (response) => {
+    return attachmentService.saveAttachment(attachment, config).then( (response) => {
          dispatch(attachmentSaveSuccess(response.data))
         })
          .catch(error => { dispatch(attSenderr(error)); })
