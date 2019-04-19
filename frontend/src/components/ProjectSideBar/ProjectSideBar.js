@@ -2,10 +2,10 @@ import React from 'react';
 
 import ProjTreeView from './ProjTreeView';
 
-class ProjPanel extends React.Component {
+class ProjectSideBar extends React.Component {
     render() {
-        console.log("Rendering: ProjPanel");
-        const { projectState, handleDirItemClick } = this.props;
+        console.log("Rendering: ProjectSideBar");
+        const { projectState, handlers } = this.props;
         
         const errObj = projectState.get('errObj');
         if (!projectState || !errObj.get('isHandled')) return (<></>);
@@ -22,7 +22,7 @@ class ProjPanel extends React.Component {
                 </div>
             </a>
             
-            <ProjTreeView projectState={projectState} handleDirItemClick={handleDirItemClick}/>
+            <ProjTreeView projectState={projectState} handlers={handlers}/>
 
             {/* Sidebar Toggler (Sidebar) */}
             <div className="text-center d-none d-md-inline">
@@ -33,4 +33,4 @@ class ProjPanel extends React.Component {
         );
     }
 }
-export default ProjPanel;
+export default ProjectSideBar;

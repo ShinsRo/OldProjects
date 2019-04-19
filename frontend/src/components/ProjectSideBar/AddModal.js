@@ -1,6 +1,6 @@
 import React from "react";
 import DatePicker from "react-datepicker";
-import Collaborators from './Collaborators';
+import Collaborators from '../Collaborators';
 import "react-datepicker/dist/react-datepicker.css";
 import store from '../../stores';
 import { register } from '../../stores/modules/projectState';
@@ -100,7 +100,7 @@ class AddModal extends React.Component {
                                         onChange={this.onStartDateChange}
                                         placeholderText="프로젝트 시작일"
                                     />
-                                    <input name="stDate" type="hidden" value={this.state.stDate}/>
+                                    <input name="stDate" type="hidden" value={this.state.stDate || "null"}/>
                                 </div>
                                 <div className="col">
                                     <DatePicker
@@ -113,7 +113,7 @@ class AddModal extends React.Component {
                                         onChange={this.onEndDateChange}
                                         placeholderText="프로젝트 마감일"
                                     />
-                                    <input name="edDate" type="hidden" value={this.state.edDate}/>
+                                    <input name="edDate" type="hidden" value={this.state.edDate || "null"}/>
                                 </div>
                             </div>
                             <div className="form-group row">
@@ -122,7 +122,8 @@ class AddModal extends React.Component {
                                     </textarea>
                                 </div>
                             </div>
-                            <div className="form-group row">
+                            {/* 진행률 row */}
+                            {/* <div className="form-group row">
                                 <div className="col-3">
                                     <input type="text" className="form-control" placeholder="진행률 :" readOnly/>
                                 </div>
@@ -135,7 +136,7 @@ class AddModal extends React.Component {
                                 <div className="col-2">
                                     <input type="text" className="form-control" value={`${this.state.progress}%`} readOnly/>
                                 </div>
-                            </div>
+                            </div> */}
                             <div className="row">
                                 <div className="col">
                                     <select name="pstat" id="pstat" className="form-control">
@@ -159,7 +160,7 @@ class AddModal extends React.Component {
                             <h6 className="font-weight-bold">프로젝트 참여자</h6>
                             <div className="form-group row">
                                 <div className="col">
-                                    <Collaborators userInfo={memberInfo}/>
+                                    <Collaborators collaborators={[{ name: memberInfo.name, mid: memberInfo.mid, prole: '관리자' }]}/>
                                 </div>
                             </div>
                             <div className="modal-footer">

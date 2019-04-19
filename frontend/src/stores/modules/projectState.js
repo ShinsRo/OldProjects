@@ -91,10 +91,7 @@ export function list(mid, name) {
             dispatch(request());
             return axios.get(`${URL.PROJECT.LIST}?mid=${mid}`)
                 .then   (res => {
-                    const items = { 
-                        projects: res.data, 
-                        breadcrumb: [name, "내 프로젝트"],
-                    }
+                    const items = { projects: res.data, };
                     dispatch(receive(items));
                 })
                 .catch  (err => { dispatch(pusherr(err)) });
@@ -103,3 +100,13 @@ export function list(mid, name) {
 export function register(pDto) { return axios.post(`${URL.PROJECT.REGISTER}`, pDto); };
 export function correct(pDto) { axios.put(`${URL.PROJECT.CORRECT}`, pDto) };
 export function disable(pDto) { axios.patch(`${URL.PROJECT.DISABLE}`, pDto) };
+
+export const pdir_api = {
+    register: pDto => {
+        return axios.post(`${URL.PDIR.REGISTER}`, pDto);
+    },
+    correct: (dDto, gubun) => {
+        return axios.put(`${URL.PDIR.CORRECT}?gubun=${gubun}`, dDto);
+    },
+    disable: dDto => axios.patch(`${URL.PDIR.DISABLE}`, dDto),
+};
