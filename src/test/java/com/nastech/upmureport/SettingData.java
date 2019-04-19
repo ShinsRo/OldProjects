@@ -59,13 +59,8 @@ public class SettingData {
 		td.setMemberTestData();
 		td.setProjectTestData();
 		td.setPdirTestData();
-		td.setPfileTestData();
-		
-		
-		
-	}
-
-	
+		td.setPfileTestData();		
+	}	
 }
 
 

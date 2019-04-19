@@ -72,7 +72,11 @@ public class PfileService {
 	}
 	
 	public PfileResDto updatePfile(PfileReqDto pfileReqDto) {
-		Pfile pfile = pfileRepository.findById(pfileReqDto.getPdirId()).get();
+		LOG.info("updatePfile pfileId-----" +  pfileReqDto.getPfileId());
+		
+		Pfile pfile = pfileRepository.findById(pfileReqDto.getPfileId()).get();
+		
+		LOG.info("updatePfile -----" +  pfile);
 		
 		pfile.changeName(pfileReqDto.getName());
 		pfile.changeContents(pfileReqDto.getContents());

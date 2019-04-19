@@ -2,6 +2,7 @@ import React, { Component }  from 'react';
 import { List, Map } from 'immutable';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import axios from 'axios';
 
 import PfileTable from './PfileTable';
 import AttachmentTable from './AttachmentTable';
@@ -26,20 +27,6 @@ class Pfile extends Component {
     pfile: {}, 
   };
 
-  // handleCloseAddModal = () => {
-  //   this.setState({addModalIsOpen: false});
-  // }
-
-  // handleTitleChange = (input) => {
-  //   const {PfileActions} = this.props;
-  //   PfileActions.changeTitleInput(input);
-  // }
-
-  // handleContentChange = (input) => {
-  //   const {PfileActions} = this.props;
-  //   PfileActions.changeContentInput(input);
-  // }
-
   handleClickPfile = (pfile) => {
     const {ProjectActions, PfileActions} = this.props;
 
@@ -49,55 +36,23 @@ class Pfile extends Component {
   }
 
   handleClickAttachment = (attachment) => {
-
+    
 
   } 
 
-  // handleClickAdd = () => {
-  //   this.setState({addModalIsOpen: true});
-  // }
+  handlePfileAddForm = () => {
+    const {ProjectActions, projectState} = this.props;
+    console.log(projectState.get('selectedDirId'))
+    ProjectActions.saveItem({ detailViewLevel: 'pfileAdd' });
 
-  // handleInsert = (e) => {    
-  //   const {pfileState, projectState} = store.getState();
-  //   const {PfileActions} = this.props;
+  }
 
-  //   const pfile = {
-  //       name: pfileState.get('titleInput'),
-  //       contents: pfileState.get('contentInput'),
-  //       pdirId: projectState.get('selectedDirId'),
-  //   };
+  handlePfileUpdateForm = () => {
+    const {ProjectActions} = this.props;
 
-  //   console.log(pfile);
-  //   PfileActions.savePfile(pfile);
-  //   //this.handleCloseAddModal();
-  //   e.preventDefault();
-  // }
+    ProjectActions.saveItem({ detailViewLevel: 'pfileUpdate' });
 
-  // handleUpdate = (pfile) => {    
-  //   const {pfileState, projectState} = store.getState();
-  //   const {PfileActions} = this.props;
-
-  //   const pfileItem = {
-  //       name: pfileState.get('titleInput'),
-  //       contents: pfileState.get('contentInput'),
-  //       pfileId: pfile.pfileId,
-  //       dirId: projectState.get('selectedDirId'),
-  //   };
-
-  //   console.log('pfile -> handleUpdate',pfileItem);
-  //   PfileActions.updatePfile(pfileItem);
-  //   //e.preventDefault();
-  // }
-
-  // handleChangeDir = (dirId) => {
-  //   const {ProjectActions, PfileActions} = this.props;
-  //   const {projectState} = store.getState();
-
-  //   console.log('e.target.value',dirId);
-  //   ProjectActions.saveDirId(dirId);
-  //   PfileActions.getPfile(dirId);
-
-  // }
+  }
 
   handleDeletePfile = (pfileId) => {
     const {PfileActions, projectState} = this.props;
@@ -106,6 +61,36 @@ class Pfile extends Component {
 
     console.log('delete pfile --' , pfileId)
     PfileActions.deletePfile(pfileId);
+  }
+
+  onFormSubmit = (e) => {
+    e.preventDefault() // Stop form submit
+    this.attachmentUpload(this.state.uploadAttachment)
+    .then(()=>{
+      //console.log(response.data);
+      this.setState({uploadAttachment:''})
+    })
+  }
+
+  onChange = (e) => {
+    this.setState({uploadAttachment:e.target.files[0]})
+    console.log(e.target.files[0]);
+  }
+
+  attachmentUpload = (file) => {
+    const {projectState, AttachmentActions} = this.props;
+    // const url = 'http://localhost:8080/upmureport/attachment';
+    console.log(file)
+    const formData = new FormData();
+    formData.append('file',file);
+    formData.append('json', projectState.get('selectedDirId'));
+    const config = {
+        headers: {
+            'content-type': 'multipart/form-data'
+        }
+    }
+
+    return  AttachmentActions.saveAttachment(formData, config)
   }
 
     render(){
@@ -120,15 +105,23 @@ class Pfile extends Component {
       //               handleInsert = {this.handleInsert}
       //               />;
 
-      // const addButton =  projectState.get('selectedDirId') &&(
-      //             <span>
-      //                 <span className="btn btn-primary btn-icon-split" onClick={this.handleClickAdd} data-toggle="modal" data-target="#pfileAddModal">
-      //                     <span className="icon text-white-50">
-      //                         <i className="fas fa-flag"></i>
-      //                     </span>
-      //                     <span className="text">업무 내용 추가</span>   
-      //                 </span>                      
-      //             </span>)
+      const addButton =  projectState.get('selectedDirId') &&(
+        <div>
+          <button type="button" className="btn btn-info btn-icon-split" onClick= {this.handlePfileAddForm}>
+            <span className="icon text-white-50">
+              <i className="fas fa-info-circle"></i>
+            </span>
+            <span className="text">파일 추가</span>
+          </button>
+
+          <span className="filebox"> 
+              <label htmlFor="ex_file">파일 가져오기</label>
+              <input type="file" id="ex_file" onChange={this.onChange}/>
+              <button type="submit" onClick={this.onFormSubmit} >Upload</button>
+              {this.state.uploadAttachment && this.state.uploadAttachment.name}
+            </span>
+        </div>
+        )
 
         return (
             <div className="card shadow mb-4">              
@@ -136,13 +129,7 @@ class Pfile extends Component {
               <h2>프로젝트</h2>
               </div>
               <div>
-                <button type="button" data-toggle="modal" data-target="#AddPfileModal" className="btn btn-info btn-icon-split">
-                <span className="icon text-white-50">
-                  <i className="fas fa-info-circle"></i>
-                </span>
-              <span className="text">로그 보기</span>
-              </button>
-                
+                {addButton}                
               </div>
             <div className="card-body">
               <PfileTable
