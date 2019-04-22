@@ -24,6 +24,11 @@ const Header = ({handleLogout, userInfo}) => {
                 {/* Dropdown - User Information */}
                 <div className="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                     <a className="dropdown-item" href="/">
+                        <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                        HOME
+                        </a>
+
+                    <a className="dropdown-item" href="/profile">
                     <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Profile
                     </a>
