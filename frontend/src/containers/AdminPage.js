@@ -30,18 +30,24 @@ class AdminPage extends Component {
     const {handleLogin} = this;
     const {userState} = this.props;
     const {juniorList} = this.props;
+    const deptList=[];
     const members=juniorList.get('users')
-    members.forEach(member => {
-      const Career= member.Career
-    });
+    if (members) {
+      members.forEach(member => {
+        let Careers = member.career
+        if (Careers) {
+          Careers.forEach(car => {
+            //!deptName.includes(user.dept) && deptName.push(user.dept)
+            !deptList.includes(car.dept) && deptList.push(car.dept)
+          });
+        }
+      });
+    }
 
     // const {userState} = store.getState();
     console.log("------------------------------------------",members);
     console.log(">>>>>>>>>", userState.selectedUser);
-    
     //const this.setState = userState.selectedUser.memberInfo || userState.selectedUser
-     console.log("adminpageas change",this.state)
-
     return (
       <div id="wrapper">
         <SidebarContainer 
@@ -62,7 +68,9 @@ class AdminPage extends Component {
                 왼쪽
               </div>
               <div className="col-xl-6">
-              <Career selectUser={userState.selectedUser}/>
+              <Career selectUser={userState.selectedUser}
+                      deptList={deptList}
+              />
                   오른쪽 
                 </div>
                 </div>

@@ -6,16 +6,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nastech.upmureport.domain.dto.MemberDto;
 import com.nastech.upmureport.domain.entity.Career;
 import com.nastech.upmureport.domain.entity.Member;
 import com.nastech.upmureport.domain.repository.CareerRepository;
+import com.nastech.upmureport.domain.repository.MemberRepository;
 
 @Service
 public class CareerService {
 	@Autowired
 	CareerRepository careerRepository;
-	public void careerEnd(Member mem, Career newCar) {
+	@Autowired
+	MemberRepository memberRepo;
+	public void careerEnd(Member mem) {
 		List<Career> cList =careerRepository.findAllByMember(mem);
 		for (Career career : cList) {
 			if(career.getActive() == true) {
@@ -52,13 +54,18 @@ public class CareerService {
 //				break;
 //			}
 //		}
-		careerEnd(mem,newCar);
+		System.out.println("변경요청 "+mem+" and "+newCar);
+		careerEnd(mem);
 		newCar.setStartDate(LocalDate.now());
-		Member temp = Member.builder().mid(mem.getMid()).build();
+		//Member temp = Member.builder().mid(mem.getMid()).build();
+		Member temp = memberRepo.findOneByMid(mem.getMid());
 		newCar.setMember(temp);
 		newCar.setActive(true);
 		System.out.println("새로운 캐리어 내용");
-		System.out.println(newCar);
+		System.out.println(newCar.getDept());
+		System.out.println(newCar.getPosi());
+		System.out.println(newCar.getActive());
+		System.out.println(newCar.getStartDate());
 		careerRepository.save(newCar);
 	}
 	
