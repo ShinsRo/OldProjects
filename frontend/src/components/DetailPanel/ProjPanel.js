@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { correct } from '../../stores/modules/projectState';
+import { correct, disable } from '../../stores/modules/projectState';
 import stores from '../../stores';
 import Collaborators from '../Collaborators';
 import DatePicker from "react-datepicker";
@@ -10,8 +10,8 @@ class ProjPanel extends Component {
         super(props);
         
         this.state = {
-            stDate: null,
-            edDate: null,
+            stDate: new Date(),
+            edDate: new Date(),
             progress: 0,
             gubun: 'project',
         }
@@ -19,7 +19,20 @@ class ProjPanel extends Component {
         this.onEndDateChange = this.onEndDateChange.bind(this);
         this.onProgressChange = this.onProgressChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.disable = this.disable.bind(this);
         // this.progressColor = this.progressColor.bind(this);
+    }
+
+    disable(e, project) {
+        if (!window.confirm("정말 삭제하시겠습니까?")) {
+            return;
+        }
+        disable(project).then(res => {
+            
+        }).catch(err => {
+
+        });
+        window.location.href = "/";
     }
 
     onStartDateChange(date) {
@@ -110,7 +123,6 @@ class ProjPanel extends Component {
         const userInfo = stores.getState().userState.userInfo;
         const strStDate = this.dateFormater(project.stDate);
         const strEdDate = this.dateFormater(project.edDate);
-        const prole = project.prole;
         // const isEditable = prole === '관리자' || prole === '책임자' || prole === '';
 
         return (<>
@@ -139,9 +151,9 @@ class ProjPanel extends Component {
                                 aria-haspopup="true" 
                                 aria-expanded="false"><span className="fas fa-ellipsis-h"></span></div>
                             <div className="dropdown-menu">
-                            <div className="dropdown-item" href="#">삭제하기</div>
+                            <div className="dropdown-item cusor-pointer" onClick={(e) => { this.disable(e, project) }}>삭제하기</div>
                             <div className="dropdown-divider"></div>
-                            <div className="dropdown-item">임시비고</div>
+                            <div className="dropdown-item cusor-pointer">임시비고</div>
                             </div>
                         </div>
                     </div>
@@ -170,6 +182,7 @@ class ProjPanel extends Component {
                                         onChange={this.onStartDateChange}
                                         placeholderText={strStDate}
                                     />
+                                    <input name="stDate" type="hidden" value={this.state.stDate}/>
                                 </div>
                             </div>
                         </div>
@@ -190,6 +203,7 @@ class ProjPanel extends Component {
                                         onChange={this.onEndDateChange}
                                         placeholderText={strEdDate}
                                     />
+                                    <input name="edDate" type="hidden" value={this.state.edDate}/>
                                 </div>
                             </div>
 
@@ -208,7 +222,13 @@ class ProjPanel extends Component {
                                 </div> */}
                         </div>
                         <div className="col-2">
-                            <select name="pstat" id="pstat" className="form-control sm-text" style={{ width: '100%' }}>
+                            <select 
+                                name="pstat" 
+                                value={project.pstat} 
+                                className="form-control sm-text" 
+                                style={{ width: '100%' }}
+                                onChange={(e) => { this.onFormFieldChange(e, project);}}
+                                >
                                 <option value="">상태</option>
                                 <option value="대기">대기</option>
                                 <option value="접수">접수</option>

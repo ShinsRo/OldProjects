@@ -22,6 +22,7 @@ class ProjectSideBarContainer extends Component {
         
         const { ProjectActions } = this.props;
         ProjectActions.list(memberInfo.mid, memberInfo.name);
+        ProjectActions.setMemberAutocompletor();
     }
 
     handlers(cmd, params) {

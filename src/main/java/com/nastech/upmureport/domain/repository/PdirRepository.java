@@ -13,5 +13,7 @@ public interface PdirRepository extends JpaRepository<Pdir, BigInteger>{
 	List<Pdir> findAllByProjectAndDflagFalse(Project project);
 
 	Pdir findByDidAndDflagFalse(BigInteger did);
+
+	List<Pdir> findAllByDidOrParentDirAndDflagFalse(BigInteger did, Pdir parentDir);
 }
 

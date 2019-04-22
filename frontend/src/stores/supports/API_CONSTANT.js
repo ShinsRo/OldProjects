@@ -1,9 +1,14 @@
 const BASE_URL = 'http://localhost:8080/upmureport';
 const PROJECT_URL = `${BASE_URL}/api/project`;
 const PDIR_URL = `${BASE_URL}/api/pdir`;
+const MEMBER_URL = `${BASE_URL}/api/users`;
 
 export const URL = {
     DEFAULT: '/',
+
+    MEMBER: {
+        LIST_ALL: `${MEMBER_URL}/listAll`,
+    },
 
     PROJECT: {
         LIST: `${PROJECT_URL}/list`,

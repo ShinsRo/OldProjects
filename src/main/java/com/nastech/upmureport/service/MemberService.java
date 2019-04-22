@@ -1,6 +1,7 @@
 package com.nastech.upmureport.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -100,6 +101,12 @@ public class MemberService {
 			}
 		}
 		return juniorList;
+	}
+	public List<MemberDto> listAll() {
+		List<MemberDto> mDtos = new ArrayList<MemberDto>();
+		List<Member> members = memberRepository.findAllByDflagFalse();
+		members.forEach(m -> { mDtos.add(m.toDto()); });
+		return mDtos;
 	}
 	
 }

@@ -11,25 +11,49 @@ class KssTree {
 
     init() {
         let projects = this.projects;
-        let treeMap = this.treeMap;
         let projectMap = this.projectMap;
         
         projects.forEach(project => {
             project['isOrigin'] = true;
             projectMap[project.pid] = project;
             project.dirs.forEach(dir => {
-                treeMap[dir.did] = {
-                    id: dir.did,
-                    pid: dir.pid,
-                    parent: dir.parentDid,
-                    title: dir.dname,
-                    child: [],
-                    isLeaf: true,
-                    isOpen: false,
-                }
+                this.addOne(dir);
             });
         });
         this.buildDirTrees();
+    }
+
+    addProject(project) {
+        let projectMap = this.projectMap;
+        project['isOrigin'] = true;
+        projectMap[project.pid] = project;
+        project.dirs.forEach(dir => {
+            this.addOne(dir);
+        });
+    }
+
+    deleteProject(project) {
+        return;
+    }
+
+    addOne(dir) {
+        let treeMap = this.treeMap;
+
+        treeMap[dir.did] = {
+            id: dir.did,
+            pid: dir.pid,
+            parent: dir.parentDid,
+            title: dir.dname,
+            child: [],
+            isLeaf: true,
+            isOpen: false,
+        };
+    }
+
+    delete(dirs) {
+        dirs.forEach(dir => {
+            delete this.treeMap[dir.did];
+        });
     }
 
     buildDirTrees() {
@@ -37,7 +61,6 @@ class KssTree {
         let treeMap = this.treeMap;
         let dirTrees = this.dirTrees;
         let projectMap = this.projectMap;
-        console.log("treeMap", treeMap);
 
         dirTrees.length = 0;
         Object.keys(treeMap).forEach(key => {

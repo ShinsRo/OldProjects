@@ -78,6 +78,8 @@ public class ProjectService {
 				.progress(pDto.getProgress())
 				.build();
 		
+		ProjectDto returnDto = new ProjectDto(mpr.save(mp));
+		
 		Pdir rootDir = Pdir.builder()
 				.dname("/")
 				.parentDir(null)
@@ -85,8 +87,14 @@ public class ProjectService {
 				.project(project)
 				.build();
 		
-		dr.save(rootDir);
-		return new ProjectDto(mpr.save(mp));
+		Pdir saved = dr.save(rootDir);
+		PdirDto rootDirDto = new PdirDto(saved);
+		List<PdirDto> dirs= new ArrayList<PdirDto>();
+
+		dirs.add(rootDirDto);
+		returnDto.setDirs(dirs);
+		
+		return returnDto;
 	}
 	
 

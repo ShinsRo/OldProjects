@@ -192,6 +192,10 @@ input.text-darkblue {
     background-color: rgba(255,255,255,0);
 }
 
+.cusor-pointer {
+    cursor: pointer;
+}
+
 /* .member-circle::before{
     border: 1px solid black;
     border-radius: 50% !important;

@@ -80,10 +80,14 @@ public class PdirService {
 		return new PdirDto(dr.save(dir));
 	}
 	
-	public PdirDto disable(PdirDto dto) {
+	public List<PdirDto> disable(PdirDto dto) {
 		BigInteger did = Utils.StrToBigInt(dto.getDid());
-		Pdir dir = dr.findByDidAndDflagFalse(did);
-		dir.setDflag(true);
-		return new PdirDto(dr.save(dir));
+		List<Pdir> dirs = dr.findAllByDidOrParentDirAndDflagFalse(did, Pdir.builder().did(did).build());
+		List<PdirDto> dDtos = new ArrayList<PdirDto>();
+		
+		dirs.forEach(dir -> { dir.setDflag(true); });		
+		dr.saveAll(dirs).forEach(dir -> { dDtos.add(new PdirDto(dir)); });
+		
+		return dDtos;
 	}
 }
