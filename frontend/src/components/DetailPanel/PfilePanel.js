@@ -4,8 +4,21 @@ class PfilePanel extends Component {
 
     state = {
         isUpdate : false,
+    }    
+
+    onClickUpdateBts = (e) => {
+
+        e.preventDefault();
+        const {handleUpdateBts} = this.props;
+        handleUpdateBts({ detailViewLevel: 'pfileUpdate' });
     }
-    
+
+    onClickCancleBts = (e) => {
+        e.preventDefault();
+        const {handleUpdateBts} = this.props;
+        handleUpdateBts({ detailViewLevel: 'pfileUpdate' });
+
+    }
 
     render() {
 
@@ -30,12 +43,13 @@ class PfilePanel extends Component {
                 </div>
 
                 <div>
-                    <button type="button" className="btn btn-info btn-icon-split">
+                    <button type="button" className="btn btn-info btn-icon-split" onClick={this.onClickUpdateBts}>
                         <span className="icon text-white-50">
                             <i className="fas fa-info-circle"></i>
                         </span>
                         <span className="text">수정 하기</span>
                     </button>
+                    
                 </div>
             </div>
         );

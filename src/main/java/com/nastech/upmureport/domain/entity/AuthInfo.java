@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
-
 import com.nastech.upmureport.domain.dto.AuthInfoDto;
 
 import lombok.AllArgsConstructor;

@@ -28,8 +28,8 @@ public class AttachmentLog {
 	private BigInteger AttachmentLogId;
 		
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="attachmentNum")
-	private Attachment attachmentNum;
+	@JoinColumn(name="attachmentId")
+	private Attachment attachmentId;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="userId")

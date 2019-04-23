@@ -16,4 +16,5 @@ public interface PfileRepository extends JpaRepository<Pfile, BigInteger>{
 	
 	@Query("select p from Pfile p where p.pdir = :pdir and p.deleteFlag = 0")
 	List<Pfile> findByDirId(@Param(value = "pdir") Pdir pdir);
+	
 }
