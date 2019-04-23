@@ -58,7 +58,6 @@ class Collaborators extends Component {
                 }
             }
         }
-        console.log("project----------", this.props.project);
         
         if (!isSame) {
             const collaborators = [];
