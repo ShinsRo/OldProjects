@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as projectActions from '../stores/modules/projectState';
 import * as pfileAction from '../stores/modules/pfileState';
+import * as attachmentActions from '../stores/modules/attachmentState';
 
 
 
-import { ProjPanel, PfilePanel, Pfileform } from '../components/DetailPanel';
+import { ProjPanel, PfilePanel, Pfileform, AttachmentPanel } from '../components/DetailPanel';
 
 class DetailContanier extends Component {
     constructor(props) {
@@ -18,7 +19,7 @@ class DetailContanier extends Component {
 
 
     render() {
-        const { projectState, pfileState, pfileActions,ProjectActions  } = this.props;
+        const { projectState, pfileState, attachmentState, PfileActions,ProjectActions, AttachmentActions  } = this.props;
         const detailViewLevel = projectState.get('detailViewLevel');
     
         /**
@@ -51,19 +52,29 @@ class DetailContanier extends Component {
                 <Pfileform 
                     status='add'                    
                     selectedDirId = {projectState.get('selectedDirId')}
-                    savePfile = {pfileActions.savePfile}
+                    savePfile = {PfileActions.savePfile}
                 />
                 );
         }else if (detailViewLevel === 'pfileUpdate') {
             return (
                 <Pfileform 
                     status='update'
+                    saveItem = {ProjectActions.saveItem}
                     selectedDirId = {projectState.get('selectedDirId')}
                     pfile = {pfileState.get('pfile')}
-                    updatePfile = {pfileActions.updatePfile}
+                    updatePfile = {PfileActions.updatePfile}
                 />
                 );
-        }else {
+        }else if (detailViewLevel === 'attachment') {
+            return (
+                <AttachmentPanel 
+                    attachment = {attachmentState.get('attachment')}
+                    downloadAttachment = {AttachmentActions.downloadAttachment}
+                />
+                );
+        }
+        
+        else {
             return (<>프로젝트 혹은 업무를 선택하세요.</>);
         }        
     }
@@ -74,9 +85,11 @@ export default connect(
         projectState: state.projectState,
         pfileState: state.pfileState,
         userState: state.userState,
+        attachmentState: state.attachmentState,
     }),
     (dispatch) => ({
         ProjectActions: bindActionCreators(projectActions, dispatch),
-        pfileActions: bindActionCreators(pfileAction, dispatch),
+        PfileActions: bindActionCreators(pfileAction, dispatch),
+        AttachmentActions: bindActionCreators(attachmentActions, dispatch),
     })
 ) (DetailContanier);

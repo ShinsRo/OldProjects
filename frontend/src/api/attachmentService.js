@@ -8,3 +8,7 @@ export function saveAttachment(attachment, config){
 export function getAttachment(dirId){
     return axios.get(`http://localhost:8080/upmureport/attachment/${dirId}`);
 }
+
+export function downAttachment(attachmentId){
+    return axios.get(`http://localhost:8080/upmureport/attachment/download/${attachmentId}`);
+}

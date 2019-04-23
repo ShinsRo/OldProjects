@@ -15,26 +15,22 @@ class AttachmentItem extends Component {
     render() {
         const { attachment, idx } = this.props;
 
-        console.log('pfile Item render');
+        console.log('attachment Item render');
         return (
-            <tr key={idx} >
-                    <td>{attachment.attachmentName}</td>
-                    <td>{attachment.volume}</td>
-                    <td>첨부</td>
-                    <td>첨부</td>
-                    <td>첨부</td>
-                    <td>첨부</td>
-                        <td>
-                            <button class="btn btn-info btn-circle btn-sm">
-                                <i class="fas fa-info-circle"></i>
-                            </button>
-                        </td>
-                        <td>
-                            <button class="btn btn-danger btn-circle btn-sm">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                </tr>
+            <div class="row" key={idx} >
+                    <div class="col-8">{attachment.attachmentName}</div>
+                    <div class="col-2">첨부 파일</div>
+                    <div class="col-1">
+                        <button class="btn btn-info btn-circle btn-sm" onClick={() => this.props.onClickAttachment(attachment)}>
+                            <i class="fas fa-info-circle"></i>
+                        </button>
+                    </div>
+                    <div class="col-1">
+                        <button class="btn btn-danger btn-circle btn-sm">
+                             <i class="fas fa-divash"></i>
+                        </button>
+                    </div>
+                </div>
         );
     }
 }

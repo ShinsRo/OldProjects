@@ -64,11 +64,20 @@ class Pfileform extends Component {
         updatePfile(newPfile);
     }
 
+    handleCancle = (e) => {
+        e.preventDefault();
+
+        const { saveItem } = this.props;
+
+        saveItem({ detailViewLevel: 'pfile' })
+    }
+
     render(){
         const { pfile } = this.props;
-        let button;
+        let submitBts;
+        let cancleBts;
         if(this.props.status === 'add'){                
-            button =
+            submitBts =
                   <button type="button" className="btn btn-info btn-icon-split" onClick={this.handleInsert}>
                          <span className="icon text-white-50">
                             <i className="fas fa-info-circle"></i>
@@ -77,7 +86,7 @@ class Pfileform extends Component {
                     </button>;  
         } 
         else if(this.props.status === 'update'){
-            button =
+            submitBts =
                     <button type="button" className="btn btn-info btn-icon-split" onClick={this.handleUpdate}>
                         <span className="icon text-white-50">
                             <i className="fas fa-info-circle"></i>
@@ -85,6 +94,17 @@ class Pfileform extends Component {
                         <span className="text">수정 하기</span>
                     </button>;
         }
+
+        if(this.props.status === 'update'){                
+            cancleBts =
+                    <button type="button" className="btn btn-danger btn-icon-split" onClick={this.handleCancle}>
+                        <span className="icon text-white-50">
+                            <i className="fas fa-trash"></i>
+                        </span>
+                        <span className="text">취소 하기</span>
+                    </button>; 
+        } 
+
 
         return (
             <div className="card shadow mb-4">
@@ -102,7 +122,8 @@ class Pfileform extends Component {
                 </div>
                     
                 <div>
-                    {button}
+                    {submitBts}
+                    {cancleBts}                
                 </div>
             </div>
         );

@@ -13,6 +13,13 @@ class PfilePanel extends Component {
         handleUpdateBts({ detailViewLevel: 'pfileUpdate' });
     }
 
+    onClickCancleBts = (e) => {
+        e.preventDefault();
+        const {handleUpdateBts} = this.props;
+        handleUpdateBts({ detailViewLevel: 'pfileUpdate' });
+
+    }
+
     render() {
 
         const {pfileState} = this.props;
@@ -42,6 +49,7 @@ class PfilePanel extends Component {
                         </span>
                         <span className="text">수정 하기</span>
                     </button>
+                    
                 </div>
             </div>
         );

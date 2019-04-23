@@ -60,7 +60,7 @@ public class SettingData {
 		td.setProjectTestData();
 		td.setPdirTestData();
 		td.setPfileTestData();		
-	}	
+	}
 }
 
 

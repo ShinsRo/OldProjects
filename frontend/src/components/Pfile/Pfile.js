@@ -27,6 +27,7 @@ class Pfile extends Component {
     pfile: {}, 
   };
 
+
   handleClickPfile = (pfile) => {
     const {ProjectActions, PfileActions} = this.props;
 
@@ -36,7 +37,10 @@ class Pfile extends Component {
   }
 
   handleClickAttachment = (attachment) => {
-    
+    const {AttachmentActions, ProjectActions} = this.props;
+
+    AttachmentActions.setAttachment(attachment);
+    ProjectActions.saveItem({ detailViewLevel: 'attachment' });
 
   } 
 
@@ -67,7 +71,6 @@ class Pfile extends Component {
     e.preventDefault() // Stop form submit
     this.attachmentUpload(this.state.uploadAttachment)
     .then(()=>{
-      //console.log(response.data);
       this.setState({uploadAttachment:''})
     })
   }
@@ -89,7 +92,6 @@ class Pfile extends Component {
             'content-type': 'multipart/form-data'
         }
     }
-
     return  AttachmentActions.saveAttachment(formData, config)
   }
 
