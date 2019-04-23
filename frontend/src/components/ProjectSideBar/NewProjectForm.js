@@ -35,14 +35,17 @@ class NewProjectForm extends Component {
         e.preventDefault();
         const data = new FormData(e.target);
         const pDto = {};
+        
         data.forEach((value, key) => {
             if (key === 'stDate' || key === 'edDate') {
                 pDto[key] = new Date(value).toISOString();
+            } else if (key === 'deletedCollaborators' || key === 'collaborators') {
+                pDto[key] = JSON.parse(value);
             } else {
                 pDto[key] = value;
             }
         });
-        
+
         register(pDto).then((res) => {
             if (this.props.modalId) {
                 const $ = window.$;
@@ -71,7 +74,12 @@ class NewProjectForm extends Component {
         <h6 className="font-weight-bold">프로젝트 참여자</h6>
         <div className="form-group row">
             <div className="col">
-                <Collaborators collaborators={[{ name: memberInfo.name, mid: memberInfo.mid, prole: '관리자' }]}/>
+                <Collaborators
+                    type="NEW_PROJECT"
+                    collaborators={ [{ mid: memberInfo.mid, name: memberInfo.name, prole: '관리자' }] }
+                    reload={this.props.reload}
+                    memberInfo={memberInfo}
+                />
             </div>
         </div>
         <hr></hr>

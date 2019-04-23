@@ -31,6 +31,9 @@ public class ProjectDto {
 	private Integer progress;
 	
 	private List<PdirDto> dirs;
+	
+	private List<CollaboratorDto> collaborators;
+	private List<CollaboratorDto> deletedCollaborators;
 
 	public ProjectDto(MemberProject mp) {
 		Project p = mp.getProject();

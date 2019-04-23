@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nastech.upmureport.domain.dto.CollaboratorDto;
 import com.nastech.upmureport.domain.dto.PdirDto;
 import com.nastech.upmureport.domain.dto.ProjectDto;
 import com.nastech.upmureport.domain.entity.Member;
@@ -32,6 +33,47 @@ public class ProjectService {
 	private PdirRepository dr;
 	@Autowired
 	private PdirService ds;
+	
+	/**
+	 * 멤버 아이디에 따라 ProjectDto 리스트를 반환합니다.
+	 * @param mid
+	 * @return pDTOs
+	 */
+	public List<ProjectDto> listByMid(String mid) {
+		Member m = Member.builder()
+				.mid(Long.valueOf(mid))
+				.build();
+		
+		List<MemberProject> mpList = mpr.findAllByMemberAndDflagFalse(m);
+		
+		List<ProjectDto> pDTOs = new ArrayList<ProjectDto>();
+		for (MemberProject mp : mpList) {
+			ProjectDto pDTO = new ProjectDto(mp);
+			List<PdirDto> dirs = ds.listByPid(pDTO.getPid());
+			List<MemberProject> mpListByProject = mpr.findAllByProjectAndDflagFalse(mp.getProject());
+			
+			List<CollaboratorDto> collaborators = new ArrayList<>();
+			
+			mpListByProject.forEach((mpByProject -> {
+				String collabMid = mpByProject.getMember().getMid().toString();
+				String collabName = mpByProject.getMember().getName();
+				String collabProle = mpByProject.getProle().toString();
+				
+				collaborators.add(CollaboratorDto.builder()
+						.mid(collabMid)
+						.name(collabName)
+						.prole(collabProle)
+						.build()
+				);
+				
+			}));
+			pDTO.setDirs(dirs);
+			pDTO.setCollaborators(collaborators);
+			pDTOs.add(pDTO);
+		}
+		
+		return pDTOs;
+	}
 	
 	/**
 	 * 넘겨받은 프로젝트 정보에 의거해 프로젝트를 등록합니다. 이 때 요청한 유저는 프로젝트에 책임자로 소속합니다.
@@ -69,16 +111,48 @@ public class ProjectService {
 		} catch (IllegalArgumentException iae) {
 			ps = Pstat.대기;
 		}
-		
+		Prole prole = Prole.valueOf(pDto.getProle());
 		MemberProject mp = MemberProject.builder()
 				.member(member)
 				.project(project)
 				.pstat(ps)
-				.prole(Prole.책임자)
+				.prole(prole)
 				.progress(pDto.getProgress())
 				.build();
 		
-		ProjectDto returnDto = new ProjectDto(mpr.save(mp));
+		MemberProject savedMp = mpr.save(mp);
+		ProjectDto returnDto = new ProjectDto(savedMp);
+		
+		List<CollaboratorDto> collaborators = pDto.getCollaborators();
+		List<CollaboratorDto> returnCollabs = new ArrayList<>();
+		
+		returnCollabs.add(CollaboratorDto.builder()
+				.mid(savedMp.getMember().getMid().toString())
+				.name(savedMp.getMember().getName())
+				.prole(savedMp.getProle().toString())
+				.build());
+		
+		for(int idx = 0; idx < collaborators.size(); idx++ ) {
+			Long collabMid = Long.valueOf(collaborators.get(idx).getMid());
+			
+			if (collabMid == mid) continue;
+			
+			Member team = Member.builder().mid(collabMid).build();
+			Prole collabProle = Prole.valueOf(collaborators.get(idx).getProle());
+			
+			MemberProject collabMp = MemberProject.builder()
+					.member(team)
+					.project(mp.getProject())
+					.prole(collabProle)
+					.build();
+			
+			MemberProject savedCollabMp = mpr.save(collabMp);
+			returnCollabs.add(CollaboratorDto.builder()
+					.mid(savedCollabMp.getMember().getMid().toString())
+					.name(savedCollabMp.getMember().getName())
+					.prole(savedCollabMp.getProle().toString())
+					.build());
+		}
 		
 		Pdir rootDir = Pdir.builder()
 				.dname("/")
@@ -87,12 +161,13 @@ public class ProjectService {
 				.project(project)
 				.build();
 		
-		Pdir saved = dr.save(rootDir);
-		PdirDto rootDirDto = new PdirDto(saved);
+		Pdir savedDir = dr.save(rootDir);
+		PdirDto rootDirDto = new PdirDto(savedDir);
 		List<PdirDto> dirs= new ArrayList<PdirDto>();
 
 		dirs.add(rootDirDto);
 		returnDto.setDirs(dirs);
+		returnDto.setCollaborators(returnCollabs);
 		
 		return returnDto;
 	}
@@ -140,30 +215,47 @@ public class ProjectService {
 		Utils.overrideEntity(updated, pDto);
 		
 		mp.setProject(updated);
-		return new ProjectDto(mpr.save(mp));
-	}
-	
-	/**
-	 * 멤버 아이디에 따라 ProjectDto 리스트를 반환합니다.
-	 * @param mid
-	 * @return pDTOs
-	 */
-	public List<ProjectDto> listByMid(String mid) {
-		Member m = Member.builder()
-				.mid(Long.valueOf(mid))
-				.build();
+		MemberProject savedMp = mpr.save(mp);
 		
-		List<MemberProject> mpList = mpr.findAllByMemberAndDflagFalse(m);
-		
-		List<ProjectDto> pDTOs = new ArrayList<ProjectDto>();
-		for (MemberProject mp : mpList) {
-			ProjectDto pDTO = new ProjectDto(mp);
-			List<PdirDto> dirs = ds.listByPid(pDTO.getPid());
-			pDTO.setDirs(dirs);
-			pDTOs.add(pDTO);
+		if (pDto.getDeletedCollaborators() != null) {
+			List<CollaboratorDto> shouldDeleted = pDto.getDeletedCollaborators();
+			List<MemberProject> shouldDeletedMps = new ArrayList<>();
+			
+			Project targetProject = mp.getProject();
+			for (CollaboratorDto collabs : shouldDeleted) {
+				Member targetMember = Member.builder().mid(Long.valueOf(collabs.getMid())).build();
+				
+				MemberProject shouldDeletedMp = mpr.findOneByMemberAndProject(targetMember, targetProject);
+				shouldDeletedMps.add(shouldDeletedMp);
+			}
+			
+			mpr.deleteAll(shouldDeletedMps);
 		}
 		
-		return pDTOs;
+		if (pDto.getCollaborators() != null) {
+			List<CollaboratorDto> collaborators = pDto.getCollaborators();
+			for(int idx = 0; idx < collaborators.size(); idx++ ) {
+				Long collabMid = Long.valueOf(collaborators.get(idx).getMid());
+				Member collab = Member.builder().mid(collabMid).build();
+				
+				if (collabMid == m.getMid()) continue;
+				
+				MemberProject collabMp = MemberProject.builder()
+						.member(collab)
+						.project(mp.getProject())
+						.build();
+				
+				MemberProject originalCollab = mpr.findOneByMemberAndProject(collab, mp.getProject());
+				if (originalCollab != null) collabMp = originalCollab;
+				
+				Prole collabProle = Prole.valueOf(collaborators.get(idx).getProle());
+				collabMp.setProle(collabProle);
+				
+				mpr.save(collabMp);
+			}
+		}
+		
+		return new ProjectDto(savedMp);
 	}
 	
 	@Transactional

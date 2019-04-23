@@ -14,13 +14,20 @@ class ProjPanel extends Component {
             edDate: new Date(),
             progress: 0,
             gubun: 'project',
+            reload: false,
+            loadCnt: 0,
         }
         this.onStartDateChange = this.onStartDateChange.bind(this);
         this.onEndDateChange = this.onEndDateChange.bind(this);
         this.onProgressChange = this.onProgressChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.disable = this.disable.bind(this);
+        this.reload = this.reload.bind(this);
         // this.progressColor = this.progressColor.bind(this);
+    }
+
+    reload() {
+        this.setState({ reload: !this.state.reload });
     }
 
     disable(e, project) {
@@ -60,9 +67,12 @@ class ProjPanel extends Component {
         e.preventDefault();
         const data = new FormData(e.target);
         const pDto = {};
+        
         data.forEach((value, key) => {
             if (key === 'stDate' || key === 'edDate') {
                 pDto[key] = new Date(value).toISOString();
+            } else if (key === 'deletedCollaborators' || key === 'collaborators') {
+                pDto[key] = JSON.parse(value);
             } else {
                 pDto[key] = value;
             }
@@ -120,7 +130,7 @@ class ProjPanel extends Component {
             dirContainer.projectMap[tempProjectData.pid] = {...tempProjectData};
         }
 
-        const userInfo = stores.getState().userState.userInfo;
+        const { memberInfo } = stores.getState().userState.userInfo;
         const strStDate = this.dateFormater(project.stDate);
         const strEdDate = this.dateFormater(project.edDate);
         // const isEditable = prole === '관리자' || prole === '책임자' || prole === '';
@@ -141,7 +151,7 @@ class ProjPanel extends Component {
                             ></input>
                             {/* <input name="pname" type="hidden" value={project.pname}/> */}
                             <input name="pid" type="hidden" value={project.pid}/>
-                            <input name="mid" type="hidden" value={userInfo.memberInfo.mid}/>
+                            <input name="mid" type="hidden" value={memberInfo.mid}/>
                             <input name="prole" type="hidden" value={project.prole}/>
                         </div>
                         <div className="text-right col-2 pt-1">
@@ -160,7 +170,15 @@ class ProjPanel extends Component {
                 </div>
                 <div className="card-body">
                     <div className="form-group row mb-3">
-                    <div className="col-auto"><Collaborators collaborators={[{ mid: '임시 데이터', name: '김승신', prole: project.prole }]}/></div>
+                        <div className="col-auto">
+                            <Collaborators
+                                type="CURRECT_PROJECT"
+                                project={project}
+                                collaborators={project.collaborators}
+                                memberInfo={memberInfo}
+                                reload={this.reload}
+                            />
+                        </div>
                     </div>
                     <hr></hr>
                     <div className="form-group row mb-3">

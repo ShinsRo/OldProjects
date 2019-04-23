@@ -196,6 +196,10 @@ input.text-darkblue {
     cursor: pointer;
 }
 
+.autocomplete-highlight {
+    background-color: khaki;
+}
+
 /* .member-circle::before{
     border: 1px solid black;
     border-radius: 50% !important;

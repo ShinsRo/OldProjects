@@ -1,3 +1,5 @@
+import React from 'react';
+
 class KssAutocompletor {
     constructor(name, type, ...arg) {
         this.name = name;
@@ -31,7 +33,14 @@ class KssAutocompletor {
                 return false;
             }
         }).map( data => {
-           return data; 
+            const idxOf = data.msg.indexOf(keyword);
+            data.tag = 
+                <span>
+                    {data.msg.substring(0, idxOf)}
+                    <span className="autocomplete-highlight">{keyword}</span>
+                    {data.msg.substring(idxOf + keyword.length)}
+                </span>;
+            return data;
         });
 
         if (cnt > maxLength) {
