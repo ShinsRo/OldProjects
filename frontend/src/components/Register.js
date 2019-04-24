@@ -34,19 +34,22 @@ const Register = () => {
                                 </div>
                                 <form className="User" action="" method="post">
                                     <div className="form-group">
-                                    <input value='' onChange type="text" className="form-control form-control-user" name="userId" placeholder="사번" />
+                                    <input value='' onChange type="text" className="form-control form-control-user" name="username" placeholder="아이디" />
                                     </div>
                                     <div className="form-group">
-                                    <input value='' onChange type="text" className="form-control form-control-user" name="userName" placeholder="이름" />
+                                    <input value='' onChange type="text" className="form-control form-control-user" name="password" placeholder="비밀번호" />
                                     </div>
                                     <div className="form-group">
-                                    <input value='' onChange type="text" className="form-control form-control-user" name="userPass" placeholder="비밀번호" />
+                                    <input value='' onChange type="text" className="form-control form-control-user" name="eid" placeholder="사번" />
                                     </div>
                                     <div className="form-group">
-                                    <input value='' onChange type="text" className="form-control form-control-user" name="dept" placeholder="부서" />
+                                    <input value='' onChange type="text" className="form-control form-control-user" name="name" placeholder="이름" />
                                     </div>
                                     <div className="form-group">
-                                    <input value='' onChange type="text" className="form-control form-control-user" name="posi" placeholder="직급" />
+                                    <input value='' onChange type="text" className="form-control form-control-user" name="birth" placeholder="생일" />
+                                    </div>
+                                    <div className="form-group">
+                                    <input value='' onChange type="text" className="form-control form-control-user" name="phoneNum" placeholder="핸드폰" />
                                     </div>
                                 
                                     <div className="form-group">

@@ -27,10 +27,10 @@ class PasswordModify extends Component {
         console.log("보낸다 가라아아앗",this.props.selectUser)
         console.log("보낸다 가라아아앗2",authInfo)
     
-        return axios.post('http://localhost:8080/upmureport/api/career/modify',
+        return axios.post('http://localhost:8080/upmureport/api/users/modify',
         {
           mem:this.props.selectUser,
-          newCar:authInfo
+          authInfo:authInfo
         }
         )
       }
@@ -39,7 +39,7 @@ class PasswordModify extends Component {
 
     render() {
         return (
-            <div> <b>비밀번호변경:  </b>
+            <div className="text-gray-900 p-3 m-0"> <b>비밀번호변경:  </b>
                 <input type="password" value={this.state.posi} name="posi" onChange={e => this.handleChangeInput(e, 'password')} ></input>
                 <input type="button" value=" Change " name="authInfo" onClick={this.modifyPasswordAPI.bind(this)} class="btn btn-success btn-icon-split"></input>
             </div>

@@ -41,6 +41,7 @@ public class MemberService {
 	public MemberDto userRegister(MemberDto member) {
 		Member newMember = member.toEntity();
 		if ( memberRepository.findOneByMid(newMember.getMid()) == null) {
+			newMember.setJoinDate(LocalDate.now());
 			memberRepository.save(newMember);
 			return member;
 		}

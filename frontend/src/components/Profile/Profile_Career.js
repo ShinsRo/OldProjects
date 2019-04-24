@@ -120,7 +120,7 @@ class Profile_Career extends Component {
           </div>
         </div>
 
-        <input type="button" value=" Change " name="dept" onClick={this.changeCareerAPI.bind(this)} class="btn btn-success btn-icon-split"></input>
+        {/* <input type="button" value=" Change " name="dept" onClick={this.changeCareerAPI.bind(this)} class="btn btn-success btn-icon-split"></input> */}
       </div>
 
     );

@@ -45,7 +45,7 @@ class ProFilePage extends Component {
           <div id="content">
             <HeaderContainer history={this.props.history}/>
             {/* Page Content  */}
-            임시 테스트 { userState.selectedUser.name }
+            임시 { userState.selectedUser.name }
             <div className="container-fluid">
             <div className="row">
               <div className="col-xl-6">
