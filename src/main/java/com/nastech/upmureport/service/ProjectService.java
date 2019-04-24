@@ -134,14 +134,14 @@ public class ProjectService {
 		
 		for(int idx = 0; idx < collaborators.size(); idx++ ) {
 			Long collabMid = Long.valueOf(collaborators.get(idx).getMid());
-			
+			String collabName = collaborators.get(idx).getName();
 			if (collabMid == mid) continue;
 			
-			Member team = Member.builder().mid(collabMid).build();
+			Member collab = Member.builder().mid(collabMid).name(collabName).build();
 			Prole collabProle = Prole.valueOf(collaborators.get(idx).getProle());
 			
 			MemberProject collabMp = MemberProject.builder()
-					.member(team)
+					.member(collab)
 					.project(mp.getProject())
 					.prole(collabProle)
 					.build();
