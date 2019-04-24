@@ -62,16 +62,16 @@ public class PdirService {
 		BigInteger did = Utils.StrToBigInt(dto.getDid());
 		String parentDid = dto.getParentDid();
 		Pdir dir = dr.findByDidAndDflagFalse(did);
-		Pdir parentDir = null;
 		
 		switch (gubun) {
-		case "수정":
+		case "rename":
 			Utils.overrideEntity(dir, dto);
-		case "이동":			
+			break;
+		case "move":			
 			if (parentDid.equals("root")) { /* 최상위 루트 디렉토리 ("/")는 수정 불가하므로 익셉션 처리 할 것 */ }
 			else { 
-				parentDir = dr.findByDidAndDflagFalse(Utils.StrToBigInt(parentDid)); 
-				dir.setParentDir(parentDir);
+				dir.setParentDir(Pdir.builder().did(Utils.StrToBigInt(parentDid)).build());
+				dir.setProject(Project.builder().pid(Utils.StrToBigInt(dto.getPid())).build());
 			}
 		default:			
 			break;
@@ -80,10 +80,14 @@ public class PdirService {
 		return new PdirDto(dr.save(dir));
 	}
 	
-	public PdirDto disable(PdirDto dto) {
+	public List<PdirDto> disable(PdirDto dto) {
 		BigInteger did = Utils.StrToBigInt(dto.getDid());
-		Pdir dir = dr.findByDidAndDflagFalse(did);
-		dir.setDflag(true);
-		return new PdirDto(dr.save(dir));
+		List<Pdir> dirs = dr.findAllByDidOrParentDirAndDflagFalse(did, Pdir.builder().did(did).build());
+		List<PdirDto> dDtos = new ArrayList<PdirDto>();
+		
+		dirs.forEach(dir -> { dir.setDflag(true); });		
+		dr.saveAll(dirs).forEach(dir -> { dDtos.add(new PdirDto(dir)); });
+		
+		return dDtos;
 	}
 }

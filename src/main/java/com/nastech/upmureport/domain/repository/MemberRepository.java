@@ -1,6 +1,7 @@
 package com.nastech.upmureport.domain.repository;
 
 import java.math.BigInteger;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,4 +12,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	public Member findOneByName(String name);
 	public Member findOneByEid(String eid);
 	public Member findOneByEidAndDflagFalse(String eid);
+	public List<Member> findAllByDflagFalse();
 }

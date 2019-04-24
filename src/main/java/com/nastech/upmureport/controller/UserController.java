@@ -8,12 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -125,6 +127,7 @@ public class UserController {
     	}
     }
     
+
     @PostMapping(value= "/register")
     public void userRegister(@RequestBody MemAuthDto memAuth) {
     	Member mem=memAuth.getMem();
@@ -137,6 +140,12 @@ public class UserController {
     
     
     
+
+    @GetMapping(value = "/listAll")
+    public ResponseEntity<List<MemberDto>> listAll() {
+    	return ResponseEntity.ok().body(memberService.listAll());
+    }
+
 //    
 //    @CrossOrigin
 //    @GetMapping(value = "/regi")

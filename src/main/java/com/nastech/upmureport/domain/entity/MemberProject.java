@@ -45,7 +45,7 @@ public class MemberProject {
 	private Project project;
 	
 	@NotNull
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	private Prole prole;
 	
 	@NotNull

@@ -2490,7 +2490,7 @@ concat-map@0.0.1:
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=
 
-concat-stream@^1.5.0:
+concat-stream@^1.4.7, concat-stream@^1.5.0:
   version "1.6.2"
   resolved "https://registry.yarnpkg.com/concat-stream/-/concat-stream-1.6.2.tgz#904bdf194cd3122fc675c77fc4ac3d4ff0fd1a34"
   integrity sha512-27HBghJxjiZtIk3Ycvn/4kbJk/1uZuJFfuPEns6LaEvpvG1f0hTea8lilrouyo9mVc2GWdcEZ8OLoGmSADlrCw==
@@ -2636,6 +2636,11 @@ cosmiconfig@^5.0.0, cosmiconfig@^5.0.5, cosmiconfig@^5.0.7:
     js-yaml "^3.9.0"
     lodash.get "^4.4.2"
     parse-json "^4.0.0"
+
+cpsenize@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/cpsenize/-/cpsenize-1.0.0.tgz#76e0352120726aaf5aa9160a4baee5e6727de0d3"
+  integrity sha1-duA1ISByaq9aqRYKS67l5nJ94NM=
 
 create-ecdh@^4.0.0:
   version "4.0.3"
@@ -3964,6 +3969,22 @@ file-loader@2.0.0:
     loader-utils "^1.0.2"
     schema-utils "^1.0.0"
 
+file-saver@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/file-saver/-/file-saver-2.0.1.tgz#7fe2242af1cbc559a29d8176078a8b56d781fa79"
+  integrity sha512-dCB3K7/BvAcUmtmh1DzFdv0eXSVJ9IAFt1mw3XZfAexodNRoE29l3xB2EX4wH2q8m/UTzwzEPq/ArYk98kUkBQ==
+
+file-server@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/file-server/-/file-server-2.1.0.tgz#f220f1aed43bf0aaf7a184f97464e96f7d6768ad"
+  integrity sha512-P6lCMKq3AYHEiTo7b5eqQ1YbZe9SYXGaSKNSBjtCUuLu9NGW++o2MmBMkRbMnOHcOMeHJVGXh0KTMl5dPMX5aQ==
+  dependencies:
+    chokidar "^2.0.4"
+    graceful-fs "^4.1.11"
+    hashr "^1.0.2"
+    kgo "^4.0.3"
+    stream-catcher "^1.0.5"
+
 filename-regex@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/filename-regex/-/filename-regex-2.0.1.tgz#c1c4b9bee3e09725ddb106b75c1e301fe2f18b26"
@@ -4520,6 +4541,11 @@ hash.js@^1.0.0, hash.js@^1.0.3:
   dependencies:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
+
+hashr@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/hashr/-/hashr-1.0.2.tgz#09ec6350fff228fdfc448f419d0840228b0f9825"
+  integrity sha1-CexjUP/yKP38RI9BnQhAIosPmCU=
 
 hast-util-from-parse5@^5.0.0:
   version "5.0.0"
@@ -5957,6 +5983,13 @@ just-curry-it@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/just-curry-it/-/just-curry-it-3.1.0.tgz#ab59daed308a58b847ada166edd0a2d40766fbc5"
   integrity sha512-mjzgSOFzlrurlURaHVjnQodyPNvrHrf1TbQP2XU9NSqBtHQPuHZ+Eb6TAJP7ASeJN9h9K0KXoRTs8u6ouHBKvg==
+
+kgo@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/kgo/-/kgo-4.0.3.tgz#1c575f203b320ecdbcc9bdb49bc5ec874a6b35b6"
+  integrity sha1-HFdfIDsyDs28yb20m8Xsh0prNbY=
+  dependencies:
+    cpsenize "^1.0.0"
 
 killable@^1.0.0:
   version "1.0.1"
@@ -9383,6 +9416,15 @@ stream-browserify@^2.0.1:
   dependencies:
     inherits "~2.0.1"
     readable-stream "^2.0.2"
+
+stream-catcher@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/stream-catcher/-/stream-catcher-1.0.5.tgz#a27c42dcfb908410b507cb0b8614b1b35aee3b5b"
+  integrity sha1-onxC3PuQhBC1B8sLhhSxs1ruO1s=
+  dependencies:
+    concat-stream "^1.4.7"
+    lru-cache "^4.0.1"
+    through "^2.3.6"
 
 stream-each@^1.1.0:
   version "1.2.3"

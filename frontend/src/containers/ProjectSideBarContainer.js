@@ -14,7 +14,7 @@ import { ProjectSideBar } from '../components/ProjectSideBar';
 class ProjectSideBarContainer extends Component {
     constructor(props) {
         super(props);
-        this.handleDirItemClick = this.handleDirItemClick.bind(this);
+        this.handlers = this.handlers.bind(this);
     }
     componentDidMount() {
         const { userInfo } = store.getState().userState;
@@ -22,16 +22,29 @@ class ProjectSideBarContainer extends Component {
         
         const { ProjectActions } = this.props;
         ProjectActions.list(memberInfo.mid, memberInfo.name);
+        ProjectActions.setMemberAutocompletor();
     }
-    
-    handleDirItemClick (selectedDirId) {
+
+    handlers(cmd, params) {
         const { ProjectActions, PfileActions, AttachmentAction, projectState } = this.props;
-        if(projectState.get('selectedDirId') && projectState.get('selectedDirId') !== selectedDirId){
-            PfileActions.getPfile(selectedDirId);
-            AttachmentAction.getAttachment(selectedDirId);
+        switch (cmd) {
+            case "handleDirItemClick":  // (selectedDirId)
+                const { selectedDirId } = params;
+                if(projectState.get('selectedDirId') && projectState.get('selectedDirId') !== selectedDirId){
+                    PfileActions.getPfile(selectedDirId);
+                    AttachmentAction.getAttachment(selectedDirId);
+                }
+
+                if(this.props.mainContentViewLevel === 'default') {
+                    this.props.setMainContent('detail');
+                }
+
+                ProjectActions.saveItem({ selectedDirId, detailViewLevel: 'project' });        
+                break;
+            default:
+                break;
         }
-        ProjectActions.saveItem({ selectedDirId, detailViewLevel: 'project' });        
-    };
+    }
 
     render() {
         const { projectState } = store.getState();
@@ -42,7 +55,7 @@ class ProjectSideBarContainer extends Component {
             <ProjectSideBar 
                 projectState={projectState} 
                 ProjectActions={ProjectActions}
-                handleDirItemClick={this.handleDirItemClick}
+                handlers={this.handlers}
             ></ProjectSideBar>
         );
     }

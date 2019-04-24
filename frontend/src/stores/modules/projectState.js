@@ -1,8 +1,9 @@
 import { createAction, handleActions } from 'redux-actions';
 import { Map, List } from 'immutable';
 import axios from 'axios';
-import KssTree from './kss-tree';
-import { URL } from './API_CONSTANT';
+import KssTree from '../supports/kss-tree';
+import KssAutocompletor from '../supports/kss-autocompletor';
+import { URL } from '../supports/API_CONSTANT';
 //Actions
 export const REQUEST = 'project/REQUEST';
 export const RECEIVE = 'project/RECEIVE';   // { endPoint, items }
@@ -50,6 +51,10 @@ export default handleActions({
                 const dirContainer = new KssTree(items[key]);
                 projectState = projectState.set('dirContainer', dirContainer);
             }
+            if (key === 'members') {
+                const memberAutocompletor = new KssAutocompletor("memberAutocompletor", "member", items[key]);
+                projectState = projectState.set('memberAutocompletor', memberAutocompletor);
+            }
         }
 
         projectState = projectState.set('receivedAt', Date.now());
@@ -90,16 +95,29 @@ export function list(mid, name) {
         return (dispatch) => {
             dispatch(request());
             return axios.get(`${URL.PROJECT.LIST}?mid=${mid}`)
-                .then   (res => {
-                    const items = { 
-                        projects: res.data, 
-                        breadcrumb: [name, "내 프로젝트"],
-                    }
-                    dispatch(receive(items));
-                })
-                .catch  (err => { dispatch(pusherr(err)) });
+                .then   (res => { dispatch(receive({ projects: res.data, })); })
+                .catch  (err => { dispatch(pusherr(err)); });
         }
 };
+export function setMemberAutocompletor() {
+    return (dispatch) => {
+        dispatch(request());
+        return axios.get(`${URL.MEMBER.LIST_ALL}`)
+            .then   (res => { dispatch(receive({ members: res.data, })); })
+            .catch  (err => { dispatch(pusherr(err)) });
+    }
+};
+
 export function register(pDto) { return axios.post(`${URL.PROJECT.REGISTER}`, pDto); };
-export function correct(pDto) { axios.put(`${URL.PROJECT.CORRECT}`, pDto) };
-export function disable(pDto) { axios.patch(`${URL.PROJECT.DISABLE}`, pDto) };
+export function correct(pDto) { return axios.put(`${URL.PROJECT.CORRECT}`, pDto) };
+export function disable(pDto) { return axios.patch(`${URL.PROJECT.DISABLE}`, pDto) };
+
+export const pdir_api = {
+    register: dDto => {
+        return axios.post(`${URL.PDIR.REGISTER}`, dDto);
+    },
+    correct: (dDto, gubun) => {
+        return axios.put(`${URL.PDIR.CORRECT}?gubun=${gubun}`, dDto);
+    },
+    disable: dDto => axios.patch(`${URL.PDIR.DISABLE}`, dDto),
+};

@@ -39,7 +39,7 @@ class LoginContainer extends Component {
             if ( userState.error ) {
                 alert('통신 상태가 원활하지 않습니다. 잠시 후 다시 시도해주세요.');
             } else if ( userInfo ) {
-                history.push('/dashboard')
+                history.push('/main')
             } else {
                 alert('아이디, 혹은 비밀번호가 일치하지 않습니다.');
             }

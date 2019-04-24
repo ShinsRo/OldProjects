@@ -1,3 +1,6 @@
+
+
+
 .bg-darkblue {
     background-color: #243377;
 }
@@ -184,6 +187,20 @@ input.sm-input {
 }
 .react-datepicker__input-container {
     display: block !important;
+}
+
+input.text-darkblue {
+    color: #243377 !important;
+    border: none;
+    background-color: rgba(255,255,255,0);
+}
+
+.cusor-pointer {
+    cursor: pointer;
+}
+
+.autocomplete-highlight {
+    background-color: khaki;
 }
 
 /* .member-circle::before{

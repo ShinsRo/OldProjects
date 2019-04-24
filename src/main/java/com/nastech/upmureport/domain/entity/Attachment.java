@@ -1,6 +1,8 @@
 package com.nastech.upmureport.domain.entity;
 
 import java.math.BigInteger;
+import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -16,17 +18,18 @@ import org.hibernate.annotations.CreationTimestamp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity 
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class Attachment {
 	
 	@Id @GeneratedValue(strategy= GenerationType.AUTO)
-	private BigInteger attachmentNum;
+	private BigInteger attachmentId;
 	
 	private String name;
 	
@@ -35,7 +38,7 @@ public class Attachment {
 	private String localPath;
 	
 	@CreationTimestamp
-	private Date newDate;
+	private LocalDate newDate;
 	
 	private Long volume;
 	
