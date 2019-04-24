@@ -14,7 +14,8 @@ class ProjTreeView extends React.Component {
         this.onAddClick = this.onAddClick.bind(this);
         this.dirDisable = this.dirDisable.bind(this);
         this.dirCorrect = this.dirCorrect.bind(this);
-        
+        this.reloadFromParent = this.reloadFromParent.bind(this);
+
         this.state = {
             treeMap: {},
             projectMap: {},
@@ -23,6 +24,10 @@ class ProjTreeView extends React.Component {
             showDirCorrectModal: false,
             reload: false,
         };
+    }
+
+    reloadFromParent() {
+        this.props.handlers("reload");
     }
 
     reload() {
@@ -106,11 +111,28 @@ class ProjTreeView extends React.Component {
     
     drawTree(trees, handleDirItemClick) {
         const selectedDirId = this.props.projectState.get('selectedDirId');
+        const { projectState } = this.props;
+        const dirContainer = projectState.get("dirContainer");
 
         if (!trees) return (<></>);
         else {
             return trees.map((dir, idx) => {
+                if (!dir.filter) return (<></>);
+
                 const isRoot = dir.parent === 'root';
+                const keyword = dirContainer.filterKeyword;
+                const idxOf = dir.title.indexOf(keyword);
+
+                let itemTitle = dir.title;
+                if (keyword && idxOf !== -1) {
+                    itemTitle = (
+                        <span>
+                            {dir.title.substring(0, idxOf)}
+                            <span className="autocomplete-highlight" style={{ color: 'black' }}>{keyword}</span>
+                            {dir.title.substring(idxOf + keyword.length)}
+                        </span>
+                    );
+                }
 
                 return (<div key={dir.id}>
                     <div className="kss-tree-item" 
@@ -160,7 +182,7 @@ class ProjTreeView extends React.Component {
                             // suppressContentEditableWarning={true} 
                             // contentEditable="true" 
                         >
-                            {dir.title}
+                            {itemTitle}
                         </span>
                         </div>
                         <span className="enterChar" style={{ float: 'right' }}></span>
@@ -182,6 +204,8 @@ class ProjTreeView extends React.Component {
         const { projectState } = this.props;
         const dirContainer = projectState.get("dirContainer");
         dirContainer.treeMap[did].isOpen = !dirContainer.treeMap[did].isOpen;
+        dirContainer.setChildVisble(did);
+        
         this.props.handlers("handleDirItemClick", { selectedDirId: did });
     }
     
@@ -189,6 +213,17 @@ class ProjTreeView extends React.Component {
         // const { projectState } = this.props;
         // const dirContainer = projectState.get("dirContainer");
         this.setState({ showAddModal: true });
+    }
+
+    onFilterInputChange(e) {
+        const keyword = e.target.value;
+        const { projectState } = this.props;
+        const dirContainer = projectState.get("dirContainer");
+
+        dirContainer.filterKeyword = keyword;
+        dirContainer.filterTree();
+
+        this.reload();
     }
 
     render() {
@@ -205,7 +240,12 @@ class ProjTreeView extends React.Component {
                     {/* filter */}
                     <div className="kss-tree-filter">
                         <i className="fas fa-filter filter-icon"></i>
-                        <input type="text" placeholder="filter" className="kss-tree-filter-input"/>
+                        <input 
+                            type="text" 
+                            placeholder="filter" 
+                            className="kss-tree-filter-input" 
+                            onChange={this.onFilterInputChange.bind(this)}
+                        />
                     </div>
                 </div>
                 <div className="kss-tree">

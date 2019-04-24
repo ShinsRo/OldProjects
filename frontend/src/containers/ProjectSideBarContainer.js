@@ -14,6 +14,9 @@ import { ProjectSideBar } from '../components/ProjectSideBar';
 class ProjectSideBarContainer extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            reload: false,
+        };
         this.handlers = this.handlers.bind(this);
     }
     componentDidMount() {
@@ -28,6 +31,9 @@ class ProjectSideBarContainer extends Component {
     handlers(cmd, params) {
         const { ProjectActions, PfileActions, AttachmentAction, projectState } = this.props;
         switch (cmd) {
+            case "reload":
+                this.setState({ reload: !this.state.reload });
+                break;
             case "handleDirItemClick":  // (selectedDirId)
                 const { selectedDirId } = params;
                 if(projectState.get('selectedDirId') && projectState.get('selectedDirId') !== selectedDirId){
