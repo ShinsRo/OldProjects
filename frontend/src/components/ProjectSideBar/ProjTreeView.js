@@ -2,6 +2,7 @@ import React from 'react';
 import stores from '../../stores';
 import { pdir_api } from '../../stores/modules/projectState';
 import AddModal from './AddModal';
+import DirCorrectModal from './DirCorrectModal';
 // import jQuery from 'jquery';
 // window.$ = window.jQuery = jQuery;
 
@@ -56,7 +57,7 @@ class ProjTreeView extends React.Component {
     }
 
     dirCorrect(e, dir) {
-        this.state()
+        this.setState({ showDirCorrectModal: true });
     }
 
     onDropDir(e, dir) {
@@ -162,7 +163,10 @@ class ProjTreeView extends React.Component {
                                 }
                                 <div className="dropdown-menu">
                                 <div className="dropdown-item" onClick={(e) => { this.dirDisable(e, dir); }}>삭제</div>
-                                <div className="dropdown-item" onClick={(e) => { this.dirCorrect(e, dir); }}>수정</div>
+                                <div className="dropdown-item" onClick={(e) => { this.dirCorrect(e, dir); }}
+                                    data-toggle="modal" 
+                                    data-target="#dirCorrectModal"
+                                >수정</div>
                                 </div>
                             </div>
                         </div>
@@ -261,6 +265,7 @@ class ProjTreeView extends React.Component {
                     { this.drawTree(dirTrees, handleDirItemClick) }
                 </div>
                 <AddModal reload={this.reload.bind(this)}></AddModal>
+                <DirCorrectModal reload={this.reload.bind(this)}></DirCorrectModal>
                 {/* {this.state.showAddModal && } */}
             </div>
         );
