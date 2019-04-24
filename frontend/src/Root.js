@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, BrowserRouter, withRouter, Switch } from 'react-router-dom';
-import { Dashboard, NotFound, LoginContainer, AdminPage } from "./containers";
+import { MainPage, NotFound, LoginContainer, AdminPage } from "./containers";
 import Register from "./components/Register"
 import { Provider } from 'react-redux';
 import store from './stores'
@@ -21,8 +21,8 @@ const RouteAsUserInfo = withRouter(({ match, location, history }) => {
         ]
     } else {
         routes = [
-            { path: '/', component: Dashboard },
-            { path: '/dashboard', component: Dashboard },
+            { path: '/', component: MainPage },
+            { path: '/main', component: MainPage },
             { path: '/adminpage', component: AdminPage },
         ]
     }

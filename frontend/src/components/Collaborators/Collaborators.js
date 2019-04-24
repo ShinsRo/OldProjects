@@ -4,7 +4,7 @@ import stores from '../../stores';
 class Collaborators extends Component {
     constructor(props) {
         super(props);
-        
+
         let {collaborators, memberInfo} = this.props;
         collaborators = collaborators || [];
         const collaboratorsMap = {};
@@ -28,7 +28,8 @@ class Collaborators extends Component {
                 책임자: '읽기/쓰기/초대',
                 관리자: '읽기/쓰기/초대/권한',
             },
-            type: "",
+            type: this.props.type,
+            nowPid: this.props.type === 'CURRECT_PROJECT' && this.props.project.pid,
             collaboratorsMap,
             deletedCollaborators: [],
             memberQuery: '',

@@ -16,8 +16,6 @@ class DetailContanier extends Component {
         this.state = {};
     }
 
-
-
     render() {
         const { projectState, pfileState, attachmentState, PfileActions,ProjectActions, AttachmentActions  } = this.props;
         const detailViewLevel = projectState.get('detailViewLevel');

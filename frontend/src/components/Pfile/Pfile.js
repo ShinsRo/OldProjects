@@ -125,8 +125,7 @@ class Pfile extends Component {
         </div>
         )
 
-        return (
-            <div className="card shadow mb-4">              
+        return (<>        
               <div>
               <h2>프로젝트</h2>
               </div>
@@ -143,8 +142,7 @@ class Pfile extends Component {
                 handleClickAttachment = {this.handleClickAttachment}
               />
             </div>
-          </div>
-          );
+          </>);
     }
 };
 

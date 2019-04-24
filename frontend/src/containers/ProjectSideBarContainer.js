@@ -34,6 +34,11 @@ class ProjectSideBarContainer extends Component {
                     PfileActions.getPfile(selectedDirId);
                     AttachmentAction.getAttachment(selectedDirId);
                 }
+
+                if(this.props.mainContentViewLevel === 'default') {
+                    this.props.setMainContent('detail');
+                }
+
                 ProjectActions.saveItem({ selectedDirId, detailViewLevel: 'project' });        
                 break;
             default:
