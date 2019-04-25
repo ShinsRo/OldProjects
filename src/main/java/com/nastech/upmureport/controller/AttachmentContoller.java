@@ -75,9 +75,10 @@ public class AttachmentContoller {
 		//return AttachmentDto.AttachmentDownDto.builder().file(resFile).build();
     }
 	
-	@DeleteMapping("/attachment")
-	public void deleteAttachment()  {
+	@DeleteMapping("/attachment/{attachmentId}")
+	public List<AttachmentDto.AttachmentResDto> deleteAttachment(@PathVariable String attachmentId)  {
 		
+		return attachmentService.deleteAttachment(attachmentId);
 		
 	}
 	

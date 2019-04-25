@@ -32,17 +32,17 @@ public class AttachmentDto {
 		private BigInteger attachmentId;
 		private String attachmentName;
 		private Long volume;
-		private LocalDate newDate;				
+		private LocalDate newDate;		
+		private String contentType;
 	}
 	
 	@Getter
 	@Builder
 	@NoArgsConstructor
 	@AllArgsConstructor
-	public static class AttachmentDownDto {
-		
+	public static class AttachmentDownDto {		
 		
 		private List<String> file;
-						
+
 	}
 }

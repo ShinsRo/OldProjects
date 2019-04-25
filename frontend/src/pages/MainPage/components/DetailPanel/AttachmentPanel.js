@@ -33,11 +33,12 @@ class AttachmentPanel extends Component {
             strList.forEach(element => {
                 console.log(element.length);
             });
-
+            
             var str = strList.join('');
             
             console.log(str.length);
             console.log(str);
+       
 
             var decoded = base64.decode(str);
 
@@ -62,20 +63,20 @@ class AttachmentPanel extends Component {
                 <div className="card-header py-3">
                     <div className="m-0 font-weight-bold text-darkblue">
                         <h2>제목</h2>
-                        <div>{attachment.attachmentName}</div>
+                        <a>{attachment.attachmentName}</a>
                     </div>
                 </div>
                 <div className="card-body">
                     <div className="m-0 font-weight-bold text-darkblue">
                     <h2>용량</h2>
-                    <div>{attachment.volume}</div>
+                    <a>{attachment.volume}</a>
                     </div>
                 </div>
 
                 <div className="card-body">
                     <div className="m-0 font-weight-bold text-darkblue">
                     <h2>생성일</h2>
-                    <div>{attachment.newDate}</div>
+                    <a>{attachment.newDate}</a>
                     </div>
                 </div>
                 
