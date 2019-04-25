@@ -62,43 +62,18 @@ public class AttachmentContoller {
 	}
 	
 	@GetMapping("/attachment/download/{attachmentId}")
-	public byte[] downloadAttachment(@PathVariable String attachmentId,HttpServletResponse resp) throws Exception {
+	public List<String> downloadAttachment(@PathVariable String attachmentId,HttpServletResponse resp) throws Exception {
 		
-		LOG.info(resp.getHeaderNames());
+//		LOG.info(resp.getHeaderNames());
+//		
+//		List<String> resFile = attachmentService.downloadAttachment(attachmentId, resp);
+//		
+//		LOG.info(resFile);
+		
+        return attachmentService.downloadAttachment(attachmentId, resp);
 
-//		Resource resource = attachmentService.downloadAttachment(attachmentId);
-		return attachmentService.downloadAttachment(attachmentId, resp);
-			
-		
-		//return new FileSystemResource(new File(attachment.getLocalPath())); 
-//		// Try to determine file's content type
-//        String contentType = null;
-//        try {
-//            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-//        } catch (IOException ex) {
-//            LOG.info("Could not determine file type.");
-//        }
-//
-//        // Fallback to the default content type if type could not be determined
-//        if(contentType == null) {
-//            contentType = "application/octet-stream";
-//        }
-//        
-//        
-//        LOG.info("content type: " + MediaType.parseMediaType(contentType));
-//        LOG.info("file name : " + resource.getFilename());
-//        LOG.info("resource : " + resource);     
-        
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.parseMediaType("application/octet-stream"))
-//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-//                //.header("Access-Control-Expose-Headers", HttpHeaders.CONTENT_DISPOSITION + "," + HttpHeaders.CONTENT_LENGTH)
-//                .body(resource);
-//        return resource;
+		//return AttachmentDto.AttachmentDownDto.builder().file(resFile).build();
     }
-	
-	
-	
 	
 	@DeleteMapping("/attachment")
 	public void deleteAttachment()  {

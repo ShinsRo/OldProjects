@@ -2,6 +2,7 @@ package com.nastech.upmureport.domain.dto;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,8 +41,8 @@ public class AttachmentDto {
 	@AllArgsConstructor
 	public static class AttachmentDownDto {
 		
-		private String attachmentName;
-		private byte[] file;
+		
+		private List<String> file;
 						
 	}
 }

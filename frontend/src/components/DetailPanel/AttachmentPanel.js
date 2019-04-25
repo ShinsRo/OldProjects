@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
+import base64 from 'base-64'
+import utf8 from 'utf8'
 
 class AttachmentPanel extends Component {
+
+    state = {
+        
+    }
 
     onClickDownload = (attachmentId) => {
         const {downloadAttachment} = this.props;
@@ -19,19 +25,34 @@ class AttachmentPanel extends Component {
             method: 'GET',
             
           }).then((response) => {
-            const blob = new Blob([response.data], {type: "octet/stream"});
-            console.log(blob);
-            saveAs(blob, attachment.attachmentName);
-            // const url = URL.createObjectURL(blob);
-            // const link = document.createElement('a');
-            console.log(response.data);
-            // console.log(url);
 
-            // link.href = url;
-            // link.setAttribute('download', attachment.attachmentName);
-            // document.body.appendChild(link);
-            // link.click();
-          });
+            var strList = response.data;
+            
+            console.log(typeof strList);
+            console.log(strList.length);
+            
+            strList.forEach(element => {
+                console.log(element.length);
+            });
+
+            var str = strList.join('');
+            
+            console.log(str.length);
+            console.log(str);
+       
+
+            var decoded = base64.decode(str);
+
+            var blob = new Blob([base64.decode(str)], {type: "octet/stream"});
+            // var url = URL.createObjectURL(blob);
+            // var a = document.createElement("a");
+            // a.href = url;
+            // a.url = "file-" + new Date().getTime();
+            // document.body.appendChild(a);
+            // a.click()
+
+            saveAs(blob, attachment.attachmentName);
+        })
     }
 
     render() {
