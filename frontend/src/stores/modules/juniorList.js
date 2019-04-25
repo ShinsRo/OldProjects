@@ -16,7 +16,7 @@ function getjuniorAPI(loginUser) {
     }
     console.log("토큰",token)
 
-    return axios.post('http://localhost:8080/upmureport/api/users/userlist', loginUser,config);
+    return axios.post('http://localhost:8080/upmureport/api/users/userlist', loginUser);
 }
 
 const GET_JUNIOR_PENDING = 'GET_JUNIOR_PENDING';
@@ -31,7 +31,7 @@ export const getJuniors = (loginUser) => dispatch => {
     // 여기서 만든 promise 를 return 해줘야, 나중에 컴포넌트에서 호출 할 때 getJUNIOR().then(...) 을 할 수 있습니다
     return getjuniorAPI(loginUser).then(
         (response) => {
-            // console.log("요청성공", response)
+             console.log("요청성공", response)
             // 요청이 성공했을경우, 서버 응답내용을 payload 로 설정하여 GET_JUNIOR_SUCCESS 액션을 디스패치합니다.
             dispatch({
                 type: GET_JUNIOR_SUCCESS,

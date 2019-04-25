@@ -123,6 +123,15 @@ public class TestData {
 				.build();
 		mList.add(m3);
 		
+		Member m0 = Member.builder()
+				.eid("0001")
+				.name("김팀장")
+				.birth("19910201")
+				.phoneNum("01011351121")
+				.joinDate(LocalDate.now())
+				.build();
+		mList.add(m0);
+		
 		List<Career> cList = new ArrayList<Career>();
 		
 		Career c0 = Career.builder()
@@ -137,11 +146,15 @@ public class TestData {
 		Career c3 = Career.builder()
 				.dept("인턴부").posi("인턴").active(true).startDate(LocalDate.now()).member(m3)
 				.build();
+		Career c4 = Career.builder()
+				.dept("연구소").posi("팀장").active(true).startDate(LocalDate.now()).member(m0)
+				.build();
 		
 		cList.add(c0);
 		cList.add(c1);
 		cList.add(c2);
 		cList.add(c3);
+		cList.add(c4);
 		
 		List<AuthInfo> aList = new ArrayList<AuthInfo>();
 		
@@ -149,31 +162,38 @@ public class TestData {
 		AuthInfo a1 = AuthInfo.builder().member(m1).username("m1111").password("1111").role(Role.ROLE_USER).build();
 		AuthInfo a2 = AuthInfo.builder().member(m2).username("m1112").password("1111").role(Role.ROLE_USER).build();
 		AuthInfo a3 = AuthInfo.builder().member(m3).username("m1113").password("1111").role(Role.ROLE_USER).build();
+		AuthInfo a4 = AuthInfo.builder().member(m0).username("m0000").password("1111").role(Role.ROLE_USER).build();
 		
 		aList.add(a0);
 		aList.add(a1);
 		aList.add(a2);
 		aList.add(a3);
+		aList.add(a4);
 		
 		List<MemberSystem> msList = new ArrayList<MemberSystem>();
-		MemberSystem ms1 = MemberSystem.builder().senior(admin).junior(m1).build();
-		MemberSystem ms2 = MemberSystem.builder().senior(admin).junior(m2).build();
-		MemberSystem ms3 = MemberSystem.builder().senior(admin).junior(m3).build();
+		MemberSystem ms1 = MemberSystem.builder().senior(m0).junior(m1).build();
+		MemberSystem ms2 = MemberSystem.builder().senior(m0).junior(m2).build();
+		MemberSystem ms3 = MemberSystem.builder().senior(m0).junior(m3).build();
+		MemberSystem ms4 = MemberSystem.builder().senior(admin).junior(m0).build();
 		
+		msList.add(ms4);
 		msList.add(ms3);
 		msList.add(ms2);
 		msList.add(ms1);
+		
 		
 		List<UserRole> usRoleList = new ArrayList<UserRole>();
 		UserRole ur1 = UserRole.builder().role(Role.ROLE_ADMIN).username("admin").build();
 		UserRole ur2 = UserRole.builder().role(Role.ROLE_USER).username("m1111").build();
 		UserRole ur3 = UserRole.builder().role(Role.ROLE_USER).username("m1112").build();
 		UserRole ur4 = UserRole.builder().role(Role.ROLE_USER).username("m1113").build();
+		UserRole ur5 = UserRole.builder().role(Role.ROLE_USER).username("m0000").build();
 
 		usRoleList.add(ur1);
 		usRoleList.add(ur2);
 		usRoleList.add(ur3);
 		usRoleList.add(ur4);
+		usRoleList.add(ur5);
 
 		memberRepository.saveAll(mList);
 		authinfoRepository.saveAll(aList);

@@ -5,7 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "deni-react-treeview": "^0.2.15",
-    "file-saver": "^2.0.1",
+    "file-saver": "2.0.1",
     "file-server": "^2.1.0",
     "fontawesome": "^5.6.3",
     "immutable": "^4.0.0-rc.12",

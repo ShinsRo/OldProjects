@@ -21,8 +21,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nastech.upmureport.domain.dto.MemAuthDto;
+import com.nastech.upmureport.domain.dto.MemCareerDto;
 import com.nastech.upmureport.domain.dto.MemberDto;
 import com.nastech.upmureport.domain.entity.AuthInfo;
+import com.nastech.upmureport.domain.entity.Member;
+import com.nastech.upmureport.domain.entity.Role;
 import com.nastech.upmureport.domain.entity.UserRole;
 import com.nastech.upmureport.domain.repository.AuthInfoRepository;
 import com.nastech.upmureport.domain.repository.UserRoleRepository;
@@ -92,9 +96,20 @@ public class UserController {
 		
 		return returnObj;
     }
-	@PostMapping(value = "/test")
-	public void a() {
-		System.out.println("test");
+	@PostMapping(value ="/modify")
+	public void authModifyAPI(@RequestBody MemAuthDto memAuthDto) {
+//		System.out.println(mem); 
+		Member m=memAuthDto.getMem();
+		AuthInfo modifyAuthInfo = memAuthDto.getAuthInfo();
+		AuthInfo basicAuthInfo = authInfoRepository.findOneByMember(m);
+		System.out.println(basicAuthInfo);
+		System.out.println(m);
+		
+		basicAuthInfo.setPassword(modifyAuthInfo.getPassword());
+		
+		System.out.println("변경 될 계정"+basicAuthInfo);
+		authInfoRepository.save(basicAuthInfo);
+		
 	}
 	
     @CrossOrigin
@@ -112,10 +127,25 @@ public class UserController {
     	}
     }
     
+
+    @PostMapping(value= "/register")
+    public void userRegister(@RequestBody MemAuthDto memAuth) {
+    	Member mem=memAuth.getMem();
+    	AuthInfo auth = memAuth.getAuthInfo();
+    	MemberDto savedMem= memberService.userRegister(mem.toDto());
+    	auth.setRole(Role.ROLE_USER);
+    	UserRole ur1 = UserRole.builder().role(Role.ROLE_USER).username(auth.getUsername()).build();
+    	
+  	}
+    
+    
+    
+
     @GetMapping(value = "/listAll")
     public ResponseEntity<List<MemberDto>> listAll() {
     	return ResponseEntity.ok().body(memberService.listAll());
     }
+
 //    
 //    @CrossOrigin
 //    @GetMapping(value = "/regi")

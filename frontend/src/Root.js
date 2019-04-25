@@ -4,6 +4,7 @@ import { MainPage, NotFound, LoginContainer, AdminPage } from "./containers";
 import Register from "./components/Register"
 import { Provider } from 'react-redux';
 import store from './stores'
+import ProfilePage from './containers/ProfilePage';
 
 // 상태가 바뀔때마다 기록합니다.
 store.subscribe(() =>
@@ -24,6 +25,7 @@ const RouteAsUserInfo = withRouter(({ match, location, history }) => {
             { path: '/', component: MainPage },
             { path: '/main', component: MainPage },
             { path: '/adminpage', component: AdminPage },
+            { path: '/profile', component: ProfilePage},
         ]
     }
     return (
