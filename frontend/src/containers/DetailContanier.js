@@ -53,6 +53,8 @@ class DetailContanier extends Component {
                     status='add'                    
                     selectedDirId = {projectState.get('selectedDirId')}
                     savePfile = {PfileActions.savePfile}
+                    setPfile = {PfileActions.setPfile}
+                    saveItem = {ProjectActions.saveItem}
                 />
                 );
         }else if (detailViewLevel === 'pfileUpdate') {
@@ -63,6 +65,7 @@ class DetailContanier extends Component {
                     selectedDirId = {projectState.get('selectedDirId')}
                     pfile = {pfileState.get('pfile')}
                     updatePfile = {PfileActions.updatePfile}
+                    setPfile = {PfileActions.setPfile}
                 />
                 );
         }else if (detailViewLevel === 'attachment') {

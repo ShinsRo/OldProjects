@@ -23,12 +23,9 @@ class PfilePanel extends Component {
     render() {
 
         const {pfileState} = this.props;
-        const {pfile} = pfileState.get('pfile');
-        const {isUpdate} = this.state;
 
         console.log(pfileState.get('pfile').name);
-//value={pfile.contents}
-//<text className="form-control" value={pfileState.get('pfile').name}/>
+        
         return (
             <div className="card shadow mb-4">
                 <div className="card-header py-3">

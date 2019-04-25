@@ -29,13 +29,15 @@ const initialState = Map({
 })
 
 export const savePfile = (pfile) => dispatch => {
-    dispatch(pending());
+    dispatch(pending());   
 
-    return pfileService.savePfile(pfile).then( (response) => { dispatch(pfileSaveSuccess(response.data))}).catch(error => { dispatch(senderr(error)); })
+    return pfileService.savePfile(pfile).then( (response) => { 
+        dispatch(pfileSaveSuccess(response.data))
+    }).catch(error => { dispatch(senderr(error)); })
 }
 
 export const updatePfile = (pfile) => dispatch => {
-    dispatch(pending());
+    dispatch(pending());    
 
     return pfileService.updatePfile(pfile).then((response) => { dispatch(sendSuccess(response.data))}).catch(error => { dispatch(senderr(error)); })
 }

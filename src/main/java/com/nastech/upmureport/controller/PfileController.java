@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nastech.upmureport.domain.dto.PfileReqDto;
-import com.nastech.upmureport.domain.dto.PfileResDto;
+import com.nastech.upmureport.domain.dto.PfileDto;
+import com.nastech.upmureport.domain.dto.PfileDto.PfileResDto;
 import com.nastech.upmureport.service.PfileService;
 
 @RestController
@@ -30,18 +30,18 @@ public class PfileController {
 	
 	// pfile 추가 
 	@PostMapping(value= "/pfile")
-	public PfileResDto addPfile(@RequestBody PfileReqDto pfileReqDto) {
+	public PfileDto.PfileResDto addPfile(@RequestBody PfileDto.PfileReqDto pfileReqDto) {
 		LOG.info("==========================/pfile");
 		LOG.info(pfileReqDto.toString());
 		
-		PfileResDto pfileResDto = pfileService.addPfile(pfileReqDto);
+		PfileDto.PfileResDto pfileResDto = pfileService.addPfile(pfileReqDto);
 				
 		return pfileResDto;
 	}
 	
 	// pdirId 별 pfile 조회 후 리턴
 	@GetMapping(value="/pfile/{pdirId}")
-	public List<PfileResDto> getPfile(@PathVariable String pdirId){
+	public List<PfileDto.PfileResDto> getPfile(@PathVariable String pdirId){
 		LOG.info("=========get=============/pfile");
 		LOG.info("dir id = " + pdirId);
 		return pfileService.getPfiles(BigInteger.valueOf(Long.parseLong(pdirId)));		
@@ -50,7 +50,7 @@ public class PfileController {
 
 	// pfile 수정
 	@PutMapping(value= "/pfile")
-	public List<PfileResDto> updatePfile(@RequestBody PfileReqDto pfileReqDto) {
+	public List<PfileDto.PfileResDto> updatePfile(@RequestBody PfileDto.PfileReqDto pfileReqDto) {
 		LOG.info("===========update========/pfile");
 		
 		pfileService.updatePfile(pfileReqDto);
@@ -60,7 +60,7 @@ public class PfileController {
 	
 	
 	@DeleteMapping(value= "/pfile/{pfileId}")
-	public List<PfileResDto> deletePfile(@PathVariable String pfileId) {
+	public List<PfileDto.PfileResDto> deletePfile(@PathVariable String pfileId) {
 		LOG.info("===========delete========/pfile/" + pfileId);
 		return pfileService.deletePfile(pfileId);
 	}

@@ -34,7 +34,7 @@ class AttachmentPanel extends Component {
             strList.forEach(element => {
                 console.log(element.length);
             });
-
+            
             var str = strList.join('');
             
             console.log(str.length);
