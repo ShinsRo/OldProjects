@@ -23,6 +23,7 @@
     <org.aspectj-version>1.9.3</org.aspectj-version>
     <jcloverslf4j.version>1.7.6</jcloverslf4j.version>
     <logback.version>1.1.1</logback.version>
+    <jackson.version>2.9.8</jackson.version>
   </properties>
 
   <dependencies>
@@ -199,27 +200,28 @@
 	<dependency>
 	    <groupId>com.fasterxml.jackson.core</groupId>
 	    <artifactId>jackson-databind</artifactId>
-	    <version>2.9.8</version>
+	    <version>${jackson.version}</version>
 	</dependency>
 	
 	<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
 	<dependency>
 	    <groupId>com.fasterxml.jackson.core</groupId>
 	    <artifactId>jackson-core</artifactId>
-	    <version>2.9.8</version>
+	    <version>${jackson.version}</version>
 	</dependency>
 	
-	<!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-mapper-asl -->
+	<!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-core-asl -->
 	<dependency>
 	    <groupId>org.codehaus.jackson</groupId>
-	    <artifactId>jackson-mapper-asl</artifactId>
+	    <artifactId>jackson-core-asl</artifactId>
 	    <version>1.9.13</version>
-	</dependency>	
+	</dependency>
+
 
 	<dependency>
 	  <groupId>com.fasterxml.jackson.datatype</groupId>
 	  <artifactId>jackson-datatype-jsr310</artifactId>
-	  <version>2.9.8</version>
+	  <version>${jackson.version}</version>
 	</dependency>
 	
 	<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->

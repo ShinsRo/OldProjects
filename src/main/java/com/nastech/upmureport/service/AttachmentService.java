@@ -22,6 +22,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Base64.Decoder;
+import java.util.Base64.Encoder;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -89,118 +92,62 @@ public class AttachmentService {
 		return attachmentResDtos;
 	}
 	
-	public byte[] downloadAttachment(String attachmentId, HttpServletResponse resp) throws Exception {
+	public List<String> downloadAttachment(String attachmentId, HttpServletResponse resp) throws Exception {
 		
 		HttpServletResponse response = resp; // down
 		byte[] fileByte = null;
-		
+//		
 		Attachment attachment = attachmentRepository.findById(Utils.StrToBigInt(attachmentId)).get();
 		
 		
 		try {
             fileByte = FileUtils.readFileToByteArray(new File(attachment.getLocalPath()));
-            response.setContentType("application/octet-stream");
-            response.setContentLength(fileByte.length);
+            //response.setContentType("application/octet-stream");
+            //response.setContentLength(fileByte.length);
             // 다운로드시 변경할 파일명
-            response.addHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(attachment.getName(), "UTF-8") + "\";");
-            response.addHeader("Content-Transfer-Encoding", "binary");
+            //response.addHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(attachment.getName(), "UTF-8") + "\";");
+            //response.addHeader("Content-Transfer-Encoding", "binary");
         } catch (IOException e) {
             e.printStackTrace();
         }
-		
-		AttachmentDto.AttachmentDownDto res = AttachmentDto.AttachmentDownDto.builder().file(fileByte).attachmentName(attachment.getName()).build();
-		
-		LOG.info(res.getFile());
-		LOG.info(res.getAttachmentName());
-		LOG.info(response.getHeaderNames());
-		LOG.info(fileByte.length);
 
-		return fileByte;
+		
+		Encoder encoder = Base64.getEncoder();
+		Decoder decoder = Base64.getDecoder();
+		
+		byte[] encoded = encoder.encode(fileByte);
+		String encodedString = new String(encoded);
+		
+		List<String> resStrings = new ArrayList<String>();
+		
+		int encodedStringLength = encodedString.length();
+		int opp = 0;
+		while(true) {
+			if(opp+6000 < encodedStringLength) {
+				resStrings.add(encodedString.substring(opp, opp+6000));
+				LOG.info("opp--" + opp);
+				opp += 6000;
+			} else {
+				resStrings.add(encodedString.substring(opp, encodedStringLength));
+				LOG.info("last" + opp + "last opp--" + encodedStringLength);
+				break;
+			}			
+		}
+		
+		int i= 0;
+		
+		resStrings.forEach(str -> {
+			LOG.info(str.length());
+		});
+		
+		
+		LOG.info("encoded ===== " + encoded);
+		LOG.info("encodedString ===== " + encodedString);
+		LOG.info("encodedString.length() ===== " + encodedString.length());
+		LOG.info("resStrings.size() ===== " + resStrings.size());
+		
+		return resStrings;
 	}
-	
-	
-//	@SuppressWarnings("deprecation")
-//	public void downloadAttachment(String attachmentId) throws Exception {		
-//			
-//		Attachment attachment = attachmentRepository.findById(Utils.StrToBigInt(attachmentId)).get();
-//		File file = new File(attachment.getLocalPath());
-//		
-//		
-//		String name = attachment.getName();
-//		name = URLEncoder.encode(name);
-//		URL newUrl = new URL("http",PREFIX_URL,name);
-//		
-//		URLConnection urlCon = newUrl.openConnection();
-//		urlCon.setDoOutput(true);	
-//		
-//
-//		//urlCon.connect();
-//		//BufferedReader reader = new BufferedReader(new InputStreamReader(((HttpURLConnection) (new URL(urlString)).openConnection()).getInputStream(), Charset.forName("UTF-8")));
-//		
-//		BufferedReader in = new BufferedReader(new InputStreamReader(urlCon.getInputStream(), Charset.forName("UTF-8")));
-//		String inputLine;
-//        BufferedWriter psout = new BufferedWriter(new FileWriter(file));
-//		
-//        while ((inputLine = in.readLine()) != null) {
-//            psout.write(inputLine);
-//            System.out.println(inputLine);
-//        }
-//        in.close();
-//        psout.close();
-//				
-//		LOG.info(newUrl);
-//		
-//		//return attachment;
-////		Path filePath = Paths.get(attachment.getLocalPath()).normalize();
-////		
-////		Resource resource = new UrlResource(filePath.toUri());
-////		
-////		return resource;
-//	
-//		
-////		
-////		 File file = new File(attachment.getLocalPath());
-////		 byte[] bytesArray = new byte[(int) file.length()]; 
-//
-////		 FileInputStream fis = new FileInputStream(file);
-//		 
-////		 LOG.info(attachment.getLocalPath());
-////		 
-////		 InputStream in = getClass()
-////			      .getResourceAsStream(attachment.getLocalPath());
-////		 
-//		 
-////		 return IOUtils.toByteArray(attachment.getLocalPath());
-//		 
-//		 
-////		 fis.read(bytesArray); //read file into bytes[]
-////		 fis.close();
-////		 
-////		 LOG.info(bytesArray.length);
-////		 
-////		 
-////		 
-////		 FileOutputStream fos = new FileOutputStream(file);
-////		 DataOutputStream outStream = new DataOutputStream(new BufferedOutputStream(fos));
-////		 outStream.write(bytesArray);
-////		 //outStream.writeUTF(value);
-////		 outStream.close();
-//		 
-//		 
-////		 Path path = Paths.get(attachment.getLocalPath());
-////		 
-////		 InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
-////		 
-////		 
-////		 return ResponseEntity.ok()
-////	                // Content-Disposition
-////	                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getName())
-////	                // Content-Type
-////	                .contentType(MediaType.parseMediaType("application/download; utf-8"))
-////	                // Contet-Length
-////	                .contentLength(file.length()) //
-////	                .body(resource);		
-//	}
 	
 	private Attachment buildAttachment(File destinationFile, String fileName, Pdir pdir) {
 		return Attachment.builder()
