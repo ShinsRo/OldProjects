@@ -6,32 +6,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import lombok.extern.java.Log;
-
 @Controller
-@Log
 public class HomeController {
 	
 	@GetMapping(value = "/")
     public String index(HttpServletRequest req, HttpServletResponse res) {
-        return "index";
+        return "index.html";
     }
-
-    @GetMapping(value = "/temp")
-    public String temp() {
-        return "_template";
-    }
-    
-    @GetMapping(value= "/test")
-    //@RequestMapping(value="/test")
-    public String goAddUpmu() {
-    	log.info("==========================/test");
-    	return "addUpmu";
-    }
-    
-//    @PostMapping(value="/upmu")
-//    public String addUpmu(UpmuContents upmuContents ) {
-//    	log.info("==========================/upmu");
-//    	return upmuContents.getName();    	
-//    }
 }

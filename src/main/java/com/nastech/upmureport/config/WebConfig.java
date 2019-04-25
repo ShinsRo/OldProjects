@@ -11,7 +11,6 @@ import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.http.converter.json.JsonbHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -20,7 +19,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -28,32 +27,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ComponentScan(basePackages = {"com.nastech.upmureport", "com.nastech.upmureport.jpa"})
 @EnableAspectJAutoProxy
 public class WebConfig implements WebMvcConfigurer {
-
-	@Override
-	public void configureViewResolvers (ViewResolverRegistry registry) {
-		registry.jsp("/WEB-INF/jsp/", ".jsp");
-	}
 	
 	@Override
 	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-	    registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-	    registry.addResourceHandler("/css/**").addResourceLocations("/resources/css/");
-	    registry.addResourceHandler("/js/**").addResourceLocations("/resources/js/");
-	    registry.addResourceHandler("/img/**").addResourceLocations("/resources/img/");
-	    registry.addResourceHandler("/scss/**").addResourceLocations("/resources/scss/");
-	    registry.addResourceHandler("/vendor/**").addResourceLocations("/resources/vendor/");
-	    registry.addResourceHandler("/resources/**")
-        	.addResourceLocations("/WEB-INF/resources/");	    
 
 	    registry.addResourceHandler("swagger-ui.html")
-        .addResourceLocations("classpath:/META-INF/resources/");
+        	.addResourceLocations("classpath:/META-INF/resources/");
 
 	    registry.addResourceHandler("/webjars/**")
-        .addResourceLocations("classpath:/META-INF/resources/webjars/");
-
+        	.addResourceLocations("classpath:/META-INF/resources/webjars/");
 	}
-	
-
 
 	@Override
     public void addCorsMappings(CorsRegistry registry) {

@@ -5,7 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "base-64": "^0.1.0",
-    "deni-react-treeview": "^0.2.15",
+    "dotenv": "^7.0.0",
     "file-saver": "2.0.1",
     "file-server": "^2.1.0",
     "fontawesome": "^5.6.3",
@@ -24,6 +24,7 @@
     "redux-actions": "^2.6.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "utf-8": "^2.0.0",
     "utf8": "^3.0.0"
   },
   "scripts": {

@@ -1,5 +1,3 @@
-import React from 'react';
-
 const SORTBY = {
     ASCENT: 1,
     DESCENT: 2,
@@ -18,7 +16,6 @@ const titleAscent = (a, b) => {
 };
 
 const titleDescent = (a, b) => { titleAscent(b, a) };
-
 
 class KssTree {
     constructor(projects) {
