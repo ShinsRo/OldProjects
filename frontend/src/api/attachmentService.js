@@ -12,3 +12,7 @@ export function getAttachment(dirId){
 export function downAttachment(attachmentId){
     return axios.get(`http://localhost:8080/upmureport/attachment/download/${attachmentId}`);
 }
+
+export function deleteAttachment(attachmentId){
+    return axios.delete(`http://localhost:8080/upmureport/attachment/${attachmentId}`);
+}

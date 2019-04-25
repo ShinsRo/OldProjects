@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as projectActions from '../../../stores/modules/projectState';
-import * as pfileAction from '../../../stores/modules/pfileState';
-import * as attachmentActions from '../../../stores/modules/attachmentState';
+import * as projectActions from '../stores/modules/projectState';
+import * as pfileAction from '../stores/modules/pfileState';
+import * as attachmentActions from '../stores/modules/attachmentState';
 
 
 

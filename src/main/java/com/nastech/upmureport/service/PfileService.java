@@ -10,13 +10,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
-import com.nastech.upmureport.domain.dto.PfileReqDto;
-import com.nastech.upmureport.domain.dto.PfileResDto;
+import com.nastech.upmureport.domain.dto.PfileDto;
 import com.nastech.upmureport.domain.entity.Pdir;
 import com.nastech.upmureport.domain.entity.Pfile;
 import com.nastech.upmureport.domain.entity.PfileLog.LogStat;
 import com.nastech.upmureport.domain.repository.PdirRepository;
-import com.nastech.upmureport.domain.repository.PfileLogRepository;
 import com.nastech.upmureport.domain.repository.PfileRepository;
 import com.nastech.upmureport.support.Utils;
 
@@ -41,7 +39,7 @@ public class PfileService {
 	
 	
 	// 업무 일지 등록
-	public PfileResDto addPfile(PfileReqDto pfileReqDto) {
+	public PfileDto.PfileResDto addPfile(PfileDto.PfileReqDto pfileReqDto) {
 		Pdir pdir;
 		try {		
 			pdir = pdirRepository.findById(pfileReqDto.getPdirId()).get();
@@ -71,7 +69,7 @@ public class PfileService {
 		}
 	}
 	
-	public PfileResDto updatePfile(PfileReqDto pfileReqDto) {
+	public PfileDto.PfileResDto updatePfile(PfileDto.PfileReqDto pfileReqDto) {
 		LOG.info("updatePfile pfileId-----" +  pfileReqDto.getPfileId());
 		
 		Pfile pfile = pfileRepository.findById(pfileReqDto.getPfileId()).get();
@@ -87,7 +85,7 @@ public class PfileService {
 		return pfile2PfileResDto(pfileRepository.save(pfile));
 	}
 	
-	public List<PfileResDto> getPfiles(BigInteger pdirId){
+	public List<PfileDto.PfileResDto> getPfiles(BigInteger pdirId){
 		
 		Pdir pdir = pdirRepository.findById(pdirId).get();
 		
@@ -95,10 +93,10 @@ public class PfileService {
 		
 		LOG.info("size ==== " + pfiles.size());
 		
-		List<PfileResDto> pfileResDtos = new ArrayList<>();
+		List<PfileDto.PfileResDto> pfileResDtos = new ArrayList<>();
 		
 		pfiles.forEach(pfile -> {
-			PfileResDto pfileResDto = pfile2PfileResDto(pfile);
+			PfileDto.PfileResDto pfileResDto = pfile2PfileResDto(pfile);
 			pfileResDtos.add(pfileResDto);
 		});
 		
@@ -111,7 +109,7 @@ public class PfileService {
 	}
 	
 	
-	public List<PfileResDto> deletePfile(String pfileId) {
+	public List<PfileDto.PfileResDto> deletePfile(String pfileId) {
 		
 		//Pfile pfile = pfileRepository.findById(BigInteger.valueOf(Long.parseLong(pfileId))).get();
 		
@@ -130,8 +128,8 @@ public class PfileService {
 		//upmuContentRepository.findByDirId(dirId)
 	}
 	
-	public PfileResDto pfile2PfileResDto(Pfile pfile) {
-		PfileResDto pfileResDto = PfileResDto.builder()
+	public PfileDto.PfileResDto pfile2PfileResDto(Pfile pfile) {
+		PfileDto.PfileResDto pfileResDto = PfileDto.PfileResDto.builder()
 				.pfileId(pfile.getFId())
 				.pdirId(pfile.getPdir().getDid())
 				.name(pfile.getName())
