@@ -58,7 +58,7 @@ div.kss-tree-item {
 div.kss-tree-item .overlay {
     position: absolute; 
     left: 0; top: 0; width: 100%; height: 100%;
-    background-color: #3b4e97; 
+    background-color: var(--main-color-bright-1); 
     display: none; 
     right: -8px; width: 314px; left: auto !important;
 }
@@ -68,7 +68,7 @@ div.kss-tree-item:hover .overlay { display: block; }
 div.kss-tree-item .active { 
     position: absolute; 
     left: 0; top: 0; width: 100%; height: 100%;
-    background-color: #4366f3; 
+    background-color: var(--main-color-dark-2); 
     display: none; 
     right: -8px; width: 314px; left: auto !important;
 }

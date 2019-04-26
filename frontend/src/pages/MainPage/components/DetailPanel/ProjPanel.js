@@ -15,6 +15,7 @@ class ProjPanel extends Component {
             progress: 0,
             gubun: 'project',
             reload: false,
+            isCorrected: false,
             loadCnt: 0,
         }
         this.onStartDateChange = this.onStartDateChange.bind(this);
@@ -60,7 +61,7 @@ class ProjPanel extends Component {
             project.isOrigin = false;
         }
         project[e.target.name] = e.target.value;
-        this.setState({progress: this.state.progress + 1})
+        this.setState({isCorrected: true})
     }
 
     handleSubmit(e) {
@@ -79,7 +80,12 @@ class ProjPanel extends Component {
         });
 
         correct(pDto).then((res) => {
-            window.location.href = "/";
+            const { projectState } = this.props;
+            const dirContainer = projectState.get("dirContainer");
+            
+            dirContainer.correctProject(pDto);
+
+            this.setState({isCorrected: false});
         });
     }
 
@@ -116,14 +122,12 @@ class ProjPanel extends Component {
     }
 
     render() {
-        console.log("Rendering: ProjPanel");
 
         const { projectState } = this.props;
         const selectedDirId = projectState.get('selectedDirId');
         const dirContainer = projectState.get("dirContainer");
         const pid = dirContainer.treeMap[selectedDirId].pid;
         const project = dirContainer.projectMap[pid];
-        console.log(dirContainer.tempProjectData);
         
         if (dirContainer.tempProjectData.pid !== project.pid) {
             const tempProjectData = dirContainer.tempProjectData;
@@ -180,7 +184,7 @@ class ProjPanel extends Component {
                             />
                         </div>
                     </div>
-                    <div className="form-group row mb-2 pb-1 bg-dark-2 rounded">
+                    <div className="form-group row mb-2 pb-1 bg-dark-1 rounded">
 
                         <div className="col-3">
                             <div className="row">

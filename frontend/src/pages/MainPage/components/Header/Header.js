@@ -1,8 +1,6 @@
 import React from "react";
 
 const Header = ({handleLogout, userInfo}) => {
-    console.log("헤더 유저",userInfo.memberInfo.name)
-
     return (
         <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
         
@@ -11,9 +9,12 @@ const Header = ({handleLogout, userInfo}) => {
                 <i className="fa fa-bars"></i>
             </button>
             <div style={{ width: '100%', textAlign: 'center', position: 'absolute'}}>
-                <img src={process.env.PUBLIC_URL + '/resources/img/nastech.png'} alt="main_logo" style={{ 
-                    width: 100, height: 47,
-                }}/>
+                <img 
+                    alt="main_logo" 
+                    src={process.env.PUBLIC_URL + '/resources/img/nastech.png'} 
+                    style={{ width: 100, height: 47, cursor: 'pointer', }} 
+                    onClick={(e) => {  window.location.href="/"; }}
+                ></img>
             </div>
             {/* Topbar Navbar */}
             <ul className="navbar-nav ml-auto">

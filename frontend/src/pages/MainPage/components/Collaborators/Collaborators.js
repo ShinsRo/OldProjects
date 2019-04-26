@@ -162,14 +162,14 @@ class Collaborators extends Component {
                 <span key={idx} className="member mr-2 align-center">
                     <span className="dropdown">
                         <span className="text-black">{collab.name}</span>
-                        <span data-toggle="dropdown" className="badge btn-dark-2 bg-darkblue ml-1 dropdown-toggle">{collab.prole}</span>
+                        <span data-toggle="dropdown" className="badge btn-dark-1 bg-darkblue ml-1 dropdown-toggle">{collab.prole}</span>
                         <div className="dropdown-menu">
                             {this.state.PROLES_DEF.map(prole => {
                                 return (
                                 <div
                                     onClick={(e) => { this.changeProle(collab, prole) }}
                                     className="dropdown-item" key={prole} >
-                                    <span className="badge badge-primary">{prole}</span> {this.state.privileges[prole]}
+                                    <span className="badge btn-dark-2">{prole}</span> {this.state.privileges[prole]}
                                 </div>    
                                 );
                             })}
@@ -214,9 +214,9 @@ class Collaborators extends Component {
         return (<>
             {this.list(collaborators)}
             <span className="dropdown">
-                <span data-toggle="dropdown" className="fas fa-plus-circle"></span>
+                <span data-toggle="dropdown" className="fas fa-plus-circle text-dark-2" style={{cursor:'pointer'}}></span>
                 <div className="dropdown-menu">
-                    <div className="row mb-1">
+                    <div className="row mb-1 p-1">
                         <div className="col">
                             <input type="text" className="form-control sm-text" placeholder="멤버 검색..." onChange={(e) => {this.onMemberSearch(e)}}/>
                         </div>

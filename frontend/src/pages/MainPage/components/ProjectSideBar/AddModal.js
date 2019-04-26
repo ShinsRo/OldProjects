@@ -29,13 +29,13 @@ class AddModal extends React.Component {
         let header;
 
         if (this.state.gubun === 'project') {
-            projectBtnClass = "btn btn-primary";
+            projectBtnClass = "btn btn-dark-1";
             dirBtnClass = "btn btn-secondary";
             contentForm = (<NewProjectForm reload={this.props.reload} memberInfo={memberInfo} modalId="addModal"/>);
             header = "새로운 프로젝트를 추가합니다.";
         } else {
             projectBtnClass = "btn btn-secondary";
-            dirBtnClass = "btn btn-primary";
+            dirBtnClass = "btn btn-dark-1";
             contentForm = (<NewDirForm reload={this.props.reload} memberInfo={memberInfo} selectedDirId={selectedDirId} modalId="addModal"/>);
             header = "선택한 경로에 디렉토리를 추가합니다.";
         }
@@ -47,7 +47,7 @@ class AddModal extends React.Component {
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
-                        <h5 className="modal-title font-weight-bold" id="exampleModalLabel">{header}</h5>
+                        <h5 className="modal-title font-weight-bold text-dark-2" id="exampleModalLabel">{header}</h5>
                         <button className="close" type="button" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>

@@ -11,6 +11,7 @@ class MainPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isSynced: false,
       mainContentViewLevel: 'default',
     }
   }
@@ -19,7 +20,13 @@ class MainPage extends Component {
     this.setState({ mainContentViewLevel: to });
   }
 
+  syncIt() {
+    this.setState({ isSynced: true });
+    window.location.href = '/';
+  }
+
   render() {
+    if (!this.state.isSynced) { }
     const {mainContentViewLevel} = this.state;
     let mainContent;
 
