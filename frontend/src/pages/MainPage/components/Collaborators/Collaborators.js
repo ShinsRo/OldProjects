@@ -193,7 +193,7 @@ class Collaborators extends Component {
         if (! this.state.memberQuery) {
             autocompletedDropDown = (
                 <div className="col-12">
-                    <div className="dropdown-item sm-text">공공 프로젝트로 등록</div>
+                    <div className="dropdown-item sm-text" onClick={(e) => { alert("구현 중"); }}>공공 프로젝트로 등록</div>
                 </div>
             );
         } else {
