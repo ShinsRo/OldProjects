@@ -26,10 +26,6 @@ class DetailContanier extends Component {
         );
     }
 
-    reload() {
-        this.setState({ reload: !this.state.reload })
-    }
-
     render() {
         const { projectState, pfileState, attachmentState, PfileActions,ProjectActions, AttachmentActions  } = this.props;
         const { wrapWithCard } = this
@@ -55,7 +51,7 @@ class DetailContanier extends Component {
          */
         if (detailViewLevel === 'project') {
             return wrapWithCard(<ProjPanel 
-                    reload={this.reload.bind(this)}
+                    reload={this.props.reloadPage}
                     projectState={projectState}
                 />);
         } else if (detailViewLevel === 'pfile') {

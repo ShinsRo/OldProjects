@@ -34,6 +34,7 @@ class Collaborators extends Component {
             deletedCollaborators: [],
             memberQuery: '',
             suggests: [],
+            isCorrected: false,
         };
 
         this.list = this.list.bind(this);
@@ -92,6 +93,21 @@ class Collaborators extends Component {
         
     }
 
+    setProjectNotOrigin() {
+        const { projectState } = stores.getState();
+        const dirContainer = projectState.get("dirContainer");
+        const selectedDirId = projectState.get("selectedDirId");
+        const selectedDir = dirContainer.treeMap[selectedDirId];
+        const project = dirContainer.projectMap[selectedDir.pid];
+
+        if (project.isOrigin) {
+            dirContainer.tempProjectData = {...project};
+            project.isOrigin = false;
+        }
+
+        this.setState({isCorrected: true});
+    }
+
     onAutocompleteClick(e, mDto) {
         const { collaborators, collaboratorsMap, deletedCollaborators } = this.state;
         if (collaboratorsMap[mDto.mid]) {
@@ -107,7 +123,7 @@ class Collaborators extends Component {
                 break;
             }
         }
-        
+        this.setProjectNotOrigin();
         collaboratorsMap[mDto.mid] = { mid: mDto.mid, name: mDto.name, prole: '구성원' };
         collaborators.push(collaboratorsMap[mDto.mid]);
         this.setState({ collaborators });
@@ -122,7 +138,7 @@ class Collaborators extends Component {
             this.setState( { adminCnt: this.state.adminCnt + 1 } );
         }
         collab.prole = prole;
-
+        this.setProjectNotOrigin();
         this.props.reload();
     }
 
@@ -150,6 +166,7 @@ class Collaborators extends Component {
                 break; 
             }
         }
+        this.setProjectNotOrigin();
         this.setState({ deletedCollaborators });
         this.props.reload();
     }

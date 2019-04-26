@@ -215,6 +215,7 @@ public class ProjectService {
 		Utils.overrideEntity(updated, pDto);
 		
 		mp.setProject(updated);
+		mp.setProgress(pDto.getProgress());
 		MemberProject savedMp = mpr.save(mp);
 		
 		if (pDto.getDeletedCollaborators() != null) {
@@ -232,11 +233,20 @@ public class ProjectService {
 			mpr.deleteAll(shouldDeletedMps);
 		}
 		
+		List<CollaboratorDto> returnCollabs = new ArrayList<>();
+		returnCollabs.add(CollaboratorDto.builder()
+				.mid(savedMp.getMember().getMid().toString())
+				.name(savedMp.getMember().getName())
+				.prole(savedMp.getProle().toString())
+				.build());
+		
 		if (pDto.getCollaborators() != null) {
 			List<CollaboratorDto> collaborators = pDto.getCollaborators();
+			
 			for(int idx = 0; idx < collaborators.size(); idx++ ) {
 				Long collabMid = Long.valueOf(collaborators.get(idx).getMid());
-				Member collab = Member.builder().mid(collabMid).build();
+				String collabName = collaborators.get(idx).getName();
+				Member collab = Member.builder().mid(collabMid).name(collabName).build();
 				
 				if (collabMid == m.getMid()) continue;
 				
@@ -251,8 +261,16 @@ public class ProjectService {
 				Prole collabProle = Prole.valueOf(collaborators.get(idx).getProle());
 				collabMp.setProle(collabProle);
 				
-				mpr.save(collabMp);
+				MemberProject savedCollabMp = mpr.save(collabMp);
+				returnCollabs.add(CollaboratorDto.builder()
+						.mid(savedCollabMp.getMember().getMid().toString())
+						.name(savedCollabMp.getMember().getName())
+						.prole(savedCollabMp.getProle().toString())
+						.build());
 			}
+			ProjectDto returnDto = new ProjectDto(savedMp);
+			returnDto.setCollaborators(returnCollabs);
+			return returnDto;
 		}
 		
 		return new ProjectDto(savedMp);

@@ -12,12 +12,17 @@ class MainPage extends Component {
     super(props);
     this.state = {
       isSynced: false,
+      reload: 0,
       mainContentViewLevel: 'default',
     }
   }
 
   setMainContent(to) {
     this.setState({ mainContentViewLevel: to });
+  }
+
+  reloadPage() {
+    this.setState({ reload: ~this.state.reload });
   }
 
   syncIt() {
@@ -40,7 +45,7 @@ class MainPage extends Component {
           </div>
           <div className="col-6">
             <div className="row"  style={{ height: '61.5%' }}>
-              <DetailContanier />
+              <DetailContanier reloadPage={this.reloadPage.bind(this)}/>
             </div>
             <div className="row"  style={{ height: '2%' }}></div>
             <div className="row"  style={{ height: '36.5%' }}>
