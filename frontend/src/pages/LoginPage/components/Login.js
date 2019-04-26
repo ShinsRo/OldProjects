@@ -19,10 +19,12 @@ const Login = ({inputId,inputPass,user,onChangeInput,onLogin}) => {
                 <div className="form-group">
                 <div className="custom-control custom-checkbox small">
                     <input type="checkbox" className="custom-control-input" id="customCheck" />
-                    <label className="custom-control-label" htmlFor="customCheck">Remember Me</label>
+                    <label className="custom-control-label" htmlFor="customCheck">사번 기억하기</label>
                 </div>
                 </div>
-                <input type="button" onClick={onLogin} className="btn btn-darkblue btn-user btn-block" value="LOGIN" />
+                <button type="button" onClick={onLogin} className="btn btn-user btn-block btn-dark-1">
+                    <span className="font-weight-bold">로 그 인</span>
+                </button>
             </form>
         );    
 }   

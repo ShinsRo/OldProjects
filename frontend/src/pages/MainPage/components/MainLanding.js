@@ -14,7 +14,7 @@ class DashboardLanding extends Component {
                 <p> 좀 더 자세한 튜토리얼/가이드를 원하신다면 아래 버튼을 클릭해 문서를 다운로드해주세요. </p>
                 
                 <br/>
-                <button className="btn btn-primary">가이드 문서 다운로드 하기</button>
+                <button className="btn btn-bright-1">가이드 문서 다운로드 하기</button>
             </div>
         </>);
     }

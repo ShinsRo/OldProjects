@@ -99,21 +99,21 @@ class ProjPanel extends Component {
      * 정확한 의미가 다시 부여되지 않는 한 포함하지 않는다.
      * 단, 추후 지시가 있을 수 있으므로 코드를 남겨놓는다.
      */
-    // progressColor(progress) {
-    //     const toInt = Number(progress);
+    progressColor(progress) {
+        const toInt = Number(progress);
 
-    //     if (toInt === 100) {
-    //         return 'bg-darkblue';
-    //     } else if (toInt >= 70){
-    //         return 'bg-success';
-    //     } else if (toInt >= 40){
-    //         return 'bg-info';
-    //     } else if (toInt >= 20){
-    //         return 'bg-warning';
-    //     } else {
-    //         return 'bg-danger';
-    //     }
-    // }
+        if (toInt === 100) {
+            return 'bg-dark-2';
+        } else if (toInt >= 70){
+            return 'bg-success';
+        } else if (toInt >= 40){
+            return 'bg-info';
+        } else if (toInt >= 20){
+            return 'bg-warning';
+        } else {
+            return 'bg-danger';
+        }
+    }
 
     render() {
         console.log("Rendering: ProjPanel");
@@ -139,22 +139,22 @@ class ProjPanel extends Component {
             <form onSubmit={this.handleSubmit}>
                 <div className="card-header py-3">
                     <div className="row">
-                        <div className="m-0 font-weight-bold text-darkblue col-10">
+                        <div className="m-0 col-10">
                             <input
                                 name="pname" 
-                                className="text-darkblue font-weight-bold"
+                                className="text-dark-1 font-weight-bold"
                                 // suppressContentEditableWarning={true} 
                                 // contentEditable="true"
                                 value={project.pname}
                                 onChange={(e) => { this.onFormFieldChange(e, project); }}
-                                style={{border: 'none', backgroundColor: 'none'}}
+                                style={{border: 'none', backgroundColor: '#F8F9FC', fontSize: '25px'}}
                             ></input>
                             {/* <input name="pname" type="hidden" value={project.pname}/> */}
                             <input name="pid" type="hidden" value={project.pid}/>
                             <input name="mid" type="hidden" value={memberInfo.mid}/>
                             <input name="prole" type="hidden" value={project.prole}/>
                         </div>
-                        <div className="text-right col-2 pt-1">
+                        <div className="text-right col-2 pt-3">
                             <div 
                                 className="dropdown"
                                 data-toggle="dropdown" role="button" 
@@ -180,18 +180,49 @@ class ProjPanel extends Component {
                             />
                         </div>
                     </div>
-                    <hr></hr>
+                    <div className="form-group row mb-2 pb-1 bg-dark-2 rounded">
+
+                        <div className="col-3">
+                            <div className="row">
+                                <div className="col-12 text-right">
+                                    <span className="text-white md-text">프로젝트 시작일</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-3">
+                            <div className="row">
+                                <div className="col-12 text-right">
+                                    <span className="text-white md-text">프로젝트 마감일</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div className="col-4">
+                            <div className="row">
+                                <div className="col-12 text-right">
+                                    <span className="text-white md-text">프로젝트 진행률</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-2">
+                            <div className="row">
+                                <div className="col-12 text-right">
+                                    <span className="text-white md-text">프로젝트 상태</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div className="form-group row mb-3">
 
                         <div className="col-3">
                             <div className="row">
                                 <div className="col-2 text-right pr-0">
                                     {/* <span className="pr-1 pb-1" style={{ fontSize: '.8rem' }}>시작일</span> */}
-                                    <span className="fas fa-calendar-week pr-1" style={{ fontSize: '1rem', paddingTop: '6px' }}></span>
+                                    <span className="fas fa-calendar-week pr-1 text-dark-2" style={{ fontSize: '1rem', paddingTop: '6px' }}></span>
                                 </div>
                                 <div className="col-10">
                                     <DatePicker
-                                        className=" form-control sm-input text-right"
+                                        className=" form-control sm-input text-right text-black"
                                         selected={this.state.stDate}
                                         dateFormat="yyyy년 MM월 dd일"
                                         selectsStart
@@ -208,11 +239,11 @@ class ProjPanel extends Component {
                             <div className="row">
                                 <div className="col-2 text-right pr-0">
                                 {/* <span className="pr-1 pb-1" style={{ fontSize: '.8rem' }}>마감일</span> */}
-                                    <span className="fas fa-calendar-check pr-1" style={{ fontSize: '1rem', paddingTop: '6px' }}></span>
+                                    <span className="fas fa-calendar-check pr-1 text-dark-2" style={{ fontSize: '1rem', paddingTop: '6px' }}></span>
                                 </div>
                                 <div className="col-10">
                                     <DatePicker
-                                        className="sm-input form-control text-right" 
+                                        className="sm-input form-control text-right text-black" 
                                         dateFormat="yyyy년 MM월 dd일"
                                         selected={this.state.edDate}
                                         selectsEnd
@@ -228,7 +259,7 @@ class ProjPanel extends Component {
                         </div>
                         <div className="col-4">
                                 {/* 진행률 표시 */}
-                                {/* <div className="col-12">
+                                <div className="col-12 text-right pr-0">
                                     <div className="progress mt-2">
                                         <div 
                                             className={`${this.progressColor(project.progress)}`} 
@@ -237,23 +268,20 @@ class ProjPanel extends Component {
                                             >
                                         </div>
                                     </div>
-                                </div> */}
+                                </div>
                         </div>
                         <div className="col-2">
                             <select 
                                 name="pstat" 
                                 value={project.pstat} 
-                                className="form-control sm-text" 
+                                className="form-control sm-text text-black" 
                                 style={{ width: '100%' }}
                                 onChange={(e) => { this.onFormFieldChange(e, project);}}
                                 >
                                 <option value="">상태</option>
                                 <option value="대기">대기</option>
-                                <option value="접수">접수</option>
                                 <option value="진행">진행</option>
-                                <option value="할당">할당</option>
                                 <option value="완료">완료</option>
-                                <option value="보류">보류</option>
                                 <option value="폐기">폐기</option>
                             </select>
                         </div>
@@ -266,13 +294,17 @@ class ProjPanel extends Component {
                                 className="form-control" 
                                 value={project.description}
                                 onChange={(e) => { this.onFormFieldChange(e, project); }}
+                                style={{ minHeight: "150px", maxHeight: "150px" }}
                             ></textarea>
                         </div>
                     </div>
                     <br></br>
-                    { !project.isOrigin && (<div className="modal-footer">
-                        <input className="btn btn-darkblue" type="submit" value="수정하기"></input>
-                    </div>)}
+                    { !project.isOrigin && (
+                        <div className="text-right">
+                            <button className="btn btn-dark mr-2" onClick={(e) => {e.preventDefault(); alert("구현중");}}>취소</button>
+                            <input className="btn btn-dark-2" type="submit" value="수정하기"></input>
+                        </div>
+                    )}
                 </div>
             </form>
         </>);
