@@ -63,20 +63,20 @@ class AttachmentPanel extends Component {
                 <div className="card-header py-3">
                     <div className="m-0 font-weight-bold text-darkblue">
                         <h2>제목</h2>
-                        <a>{attachment.attachmentName}</a>
+                        <div>{attachment.attachmentName}</div>
                     </div>
                 </div>
                 <div className="card-body">
                     <div className="m-0 font-weight-bold text-darkblue">
                     <h2>용량</h2>
-                    <a>{attachment.volume}</a>
+                    <div>{attachment.volume}</div>
                     </div>
                 </div>
 
                 <div className="card-body">
                     <div className="m-0 font-weight-bold text-darkblue">
                     <h2>생성일</h2>
-                    <a>{attachment.newDate}</a>
+                    <div>{attachment.newDate}</div>
                     </div>
                 </div>
                 

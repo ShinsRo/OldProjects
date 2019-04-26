@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import LoginContainer from './containers/LoginContainer';
 
-const styleCenter = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)' 
-};
+// const styleCenter = {
+//     position: 'absolute',
+//     top: '50%',
+//     left: '50%',
+//     marginRight: '-50%',
+//     transform: 'translate(-50%, -50%)' 
+// };
+// const mainTitleStyle = {  marginLeft: '40%', transform: 'translate(0%, -50%)' }
+// const logoStyle = { transform: 'translate(60%, 100%)', width: 100, height: 47, position: "absolute" };
 const loginFormCardStyle = { marginLeft: '30%', transform: 'translate(120%, -10%)', width: '426px'};
-const mainTitleStyle = {  marginLeft: '40%', transform: 'translate(0%, -50%)' }
 const fullHeightStyle = { height: '91.9vh', width: '100%', padding: '0px', overflow: 'hidden' };
-const logoStyle = { transform: 'translate(60%, 100%)', width: 100, height: 47, position: "absolute" };
 
 class LoginPage extends Component {
 

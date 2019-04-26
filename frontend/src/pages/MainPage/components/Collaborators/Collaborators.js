@@ -190,8 +190,6 @@ class Collaborators extends Component {
         const { collaborators, deletedCollaborators } = this.state;
         let autocompletedDropDown;
 
-        console.log("Rendering: Collaborators");        
-
         if (! this.state.memberQuery) {
             autocompletedDropDown = (
                 <div className="col-12">

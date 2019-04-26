@@ -4,7 +4,6 @@ import ProjTreeView from './ProjTreeView';
 
 class ProjectSideBar extends React.Component {
     render() {
-        console.log("Rendering: ProjectSideBar");
         const { projectState, handlers } = this.props;
         
         const errObj = projectState.get('errObj');

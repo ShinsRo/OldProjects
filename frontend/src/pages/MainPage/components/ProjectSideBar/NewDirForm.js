@@ -39,8 +39,6 @@ class NewDirForm extends Component {
     }
 
     render() {
-        console.log("Rendering: NewDirForm");
-        
         const { memberInfo, selectedDirId } = this.props;
         const { projectState } = store.getState();
         const dirContainer = projectState.get('dirContainer');
