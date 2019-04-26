@@ -43,12 +43,15 @@ class KssTree {
         this.buildDirTrees();
     }
 
-    addProject(project) {
+    correctProject(pDto) {
         let projectMap = this.projectMap;
-        project['isOrigin'] = true;
-        projectMap[project.pid] = project;
-        project.dirs.forEach(dir => {
-            this.addOne(dir);
+        pDto['isOrigin'] = true;
+        const original = projectMap[pDto.pid];
+        
+        Object.keys(pDto).forEach(key => {
+            if (pDto[key]) {
+                original[key] = pDto[key];
+            }
         });
     }
 
