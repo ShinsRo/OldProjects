@@ -19,7 +19,7 @@ public class AttachmentDto {
 	public static class AttachmentReqDto {
 		
 		private String pdir;
-		
+		private String coment;
 	}
 	
 	
@@ -34,6 +34,8 @@ public class AttachmentDto {
 		private Long volume;
 		private LocalDate newDate;		
 		private String contentType;
+		private String coment;
+		
 	}
 	
 	@Getter

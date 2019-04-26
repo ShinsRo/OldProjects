@@ -21,14 +21,14 @@ class AttachmentItem extends Component {
                     <div class="col-8">{attachment.attachmentName}</div>
                     <div class="col-2">첨부 파일</div>
                     <div class="col-1">
-                        <button class="btn btn-info btn-circle btn-sm" onClick={() => this.props.onClickAttachment(attachment)}>
-                            <i class="fas fa-info-circle"></i>
-                        </button>
+                        <span class="badge badge-primary bg-darkblue" onClick={() => this.props.onClickAttachment(attachment)}>
+                            보기
+                        </span>
                     </div>
                     <div class="col-1">
-                        <button class="btn btn-danger btn-circle btn-sm">
-                             <i class="fas fa-divash"></i>
-                        </button>
+                        <span class="badge badge-danger bg-danger btn-sm" onClick={() => this.props.onClickDeleteAttachment(attachment.attachmentId)}>
+                             삭제
+                        </span>
                     </div>
                 </div>
         );

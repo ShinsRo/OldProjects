@@ -34,11 +34,16 @@ class PfileTable extends React.Component {
         handleClickAttachment(attahment);
     }
 
+    onClickDeleteAttachment = (attachmentId) => {
+        const {handleDeleteAttachment} = this.props;
+
+        handleDeleteAttachment(attachmentId);
+    }
+
     render() {
         const {pfiles, attachments, selectedDirId} = this.props;
         return (
             <div overflow-x = "auto">
-                <h2>{selectedDirId}</h2>
                 <div className="container" id="PfileTable" cellSpacing="0" width="100%">
                     <div className="row">
                         
@@ -66,6 +71,7 @@ class PfileTable extends React.Component {
                                 idx = {idx}
                                 attachment = {attachment}
                                 onClickAttachment = {this.onClickAttachment}
+                                onClickDeleteAttachment = {this.onClickDeleteAttachment}
                             />
                             )
                         })}     

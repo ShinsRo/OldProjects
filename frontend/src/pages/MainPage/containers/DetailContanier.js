@@ -8,7 +8,7 @@ import * as attachmentActions from '../../../stores/modules/attachmentState';
 
 
 
-import { ProjPanel, PfilePanel, Pfileform, AttachmentPanel } from '../components/DetailPanel';
+import { ProjPanel, PfilePanel, Pfileform, AttachmentPanel, AttachmentForm } from '../components/DetailPanel';
 
 class DetailContanier extends Component {
     constructor(props) {
@@ -74,7 +74,16 @@ class DetailContanier extends Component {
                     attachment = {attachmentState.get('attachment')}
                     downloadAttachment = {AttachmentActions.downloadAttachment}
                 />
-                );
+            );
+        }else if (detailViewLevel === 'attachmentAdd') {
+            return (
+                <AttachmentForm 
+                    saveAttachment= {AttachmentActions.saveAttachment}
+                    selectedDirId = {projectState.get('selectedDirId')}
+                    setAttachment = {AttachmentActions.setAttachment}
+                    saveItem = {ProjectActions.saveItem}
+                />
+            );
         }
         
         else {

@@ -7,12 +7,14 @@ const ATTACH_SAVE_SUCCESS = 'ATTACH_SAVE_SUCCESS';
 const ATTACH_SEND_ERROR = 'ATTACH_SEND_ERROR';
 const ATTACH_SEND_SUCCESS = 'ATTACH_SEND_SUCCESS';
 const SET_ATTACHMENT = 'SET_ATTACHMENT';
+const DELETE_ATTACHMENT = 'DELETE_ATTACHMENT';
 
 export const attPending = createAction(ATTACH_SEND_PENDING);
 export const attachmentSaveSuccess = createAction(ATTACH_SAVE_SUCCESS);
 export const attSendSuccess = createAction(ATTACH_SEND_SUCCESS);
 export const attSenderr = createAction(ATTACH_SEND_ERROR);
 export const setAttachment = createAction(SET_ATTACHMENT);
+
 
 const initialState = Map({
     isFetching: false,
@@ -53,6 +55,17 @@ export const downloadAttachment = (attachmentId) => dispatch => {
 
     }).catch(error => { dispatch(attSenderr(error)); })
 }
+
+export const deleteAttachment = (attachmentId) => dispatch => {
+    dispatch(attPending());
+
+    return attachmentService.deleteAttachment(attachmentId).then( (response) => {
+
+        dispatch(attSendSuccess(response.data))
+    }).catch(error => { dispatch(attSenderr(error)); })
+}
+
+
 
 export default handleActions({
     // 통신 초기화

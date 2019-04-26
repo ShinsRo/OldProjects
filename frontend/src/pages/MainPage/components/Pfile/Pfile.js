@@ -39,7 +39,11 @@ class Pfile extends Component {
     const {ProjectActions, projectState} = this.props;
     console.log(projectState.get('selectedDirId'))
     ProjectActions.saveItem({ detailViewLevel: 'pfileAdd' });
+  }
 
+  handleAttachmentAddForm = () => {
+    const {ProjectActions} = this.props;
+    ProjectActions.saveItem({ detailViewLevel: 'attachmentAdd' });
   }
 
   handlePfileUpdateForm = () => {
@@ -58,72 +62,54 @@ class Pfile extends Component {
     PfileActions.deletePfile(pfileId);
   }
 
-  onFormSubmit = (e) => {
-    e.preventDefault() // Stop form submit
-    this.attachmentUpload(this.state.uploadAttachment)
-    .then(()=>{
-      this.setState({uploadAttachment:''})
-    })
-  }
 
-  onChange = (e) => {
-    this.setState({uploadAttachment:e.target.files[0]})
-    console.log(e.target.files[0]);
-  }
+  handleDeleteAttachment = (attachmentId) => {
+    const {AttachmentActions} = this.props;
 
-  attachmentUpload = (file) => {
-    const {projectState, AttachmentActions} = this.props;
-    // const url = 'http://localhost:8080/upmureport/attachment';
-    console.log(file)
-    const formData = new FormData();
-    formData.append('file',file);
-    formData.append('json', projectState.get('selectedDirId'));
-    const config = {
-        headers: {
-            'content-type': 'multipart/form-data'
-        }
-    }
-    return  AttachmentActions.saveAttachment(formData, config)
+    if (!window.confirm('ㄹㅇ?')) return;
+
+    console.log('delete attachment --' , attachmentId)
+    AttachmentActions.deleteAttachment(attachmentId);
   }
 
     render(){
       const {pfileState, projectState, attachmentState } = this.props;
 
-      // console.log(this.state.addModalIsOpen);
-      // const addModal = this.state.addModalIsOpen && 
-      //             <AddPfileModal
-      //               onClose={this.handleCloseModal} 
-      //               handleTitleChange = {this.handleTitleChange}
-      //               handleContentChange = {this.handleContentChange}
-      //               handleInsert = {this.handleInsert}
-      //               />;
-
       const addButton =  projectState.get('selectedDirId') &&(
         <div>
-          <button type="button" className="btn btn-info btn-icon-split" onClick= {this.handlePfileAddForm}>
-            <span className="icon text-white-50">
-              <i className="fas fa-info-circle"></i>
-            </span>
-            <span className="text">파일 추가</span>
-          </button>
-
-          <span className="filebox"> 
-              <label htmlFor="ex_file">파일 가져오기</label>
-              <input type="file" id="ex_file" onChange={this.onChange}/>
-              <button type="submit" onClick={this.onFormSubmit} >Upload</button>
-              {this.state.uploadAttachment && this.state.uploadAttachment.name}
-            </span>
+          <div className="row">
+            <div class="col-2">
+              <button type="button" className="btn btn-primary bg-darkblue p-2 " onClick= {this.handlePfileAddForm}>
+                파일추가
+              </button>
+            </div>
+            <div class="col-3">
+              <button type="button" className="btn btn-primary bg-darkblue p-2" onClick= {this.handleAttachmentAddForm}>
+                첨부파일 추가
+              </button>
+            </div>
+          </div>
         </div>
         )
 
-        return (<>        
-              <div>
-              <h2>프로젝트</h2>
+        return (
+          
+        <div> 
+          <div className="card-header py-3">
+            <div className="row">
+              <div className="font-weight-bold text-darkblue col-10">
+                <h1>프로젝트</h1>
               </div>
-              <div>
+            </div>
+            <hr/>
+            <div>
+              
                 {addButton}                
-              </div>
-            <div className="card-body">
+              
+            </div> 
+            
+          </div>       
+          <div className="card-body">
               <PfileTable
                 pfiles={pfileState.get('pfiles')}
                 attachments = {attachmentState.get('attachments')}
@@ -131,9 +117,11 @@ class Pfile extends Component {
                 handleDeletePfile = {this.handleDeletePfile}                
                 handleClickPfile = {this.handleClickPfile}
                 handleClickAttachment = {this.handleClickAttachment}
+                handleDeleteAttachment = {this.handleDeleteAttachment}
               />
             </div>
-          </>);
+          </div>
+          );
     }
 };
 

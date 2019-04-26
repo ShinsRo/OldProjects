@@ -18,14 +18,14 @@ class PfileItem extends Component {
                     <div class="col-8">{pfile.name}</div>
                     <div class="col-2">업무 일지</div>
                         <div class="col-1">
-                            <button onClick={() => this.props.onClickPfile(pfile) } class="btn btn-info btn-circle btn-sm">
-                                <i class="fas fa-info-circle"></i>
-                            </button>
+                            <span onClick={() => this.props.onClickPfile(pfile) } class="badge badge-primary bg-darkblue">
+                                보기
+                            </span>
                         </div>
                         <div class="col-1">
-                            <button onClick={() => this.props.onClickPfileDelete(pfile.pfileId)} class="btn btn-danger btn-circle btn-sm">
-                                <i class="fas fa-trash"></i>
-                            </button>
+                            <span onClick={() => this.props.onClickPfileDelete(pfile.pfileId)} class="badge badge-danger bg-danger btn-sm">
+                                삭제
+                            </span>
                         </div>
                 </div>
                 );

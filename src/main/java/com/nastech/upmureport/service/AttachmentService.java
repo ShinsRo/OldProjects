@@ -68,13 +68,13 @@ public class AttachmentService {
 		this.pdirRepository = pdirRepository;
 	}
 
-	public AttachmentDto.AttachmentResDto saveAttachment(MultipartFile file, String pid) throws Exception {
+	public AttachmentDto.AttachmentResDto saveAttachment(MultipartFile file, AttachmentDto.AttachmentReqDto attachmentReqDto) throws Exception {
 
 		File destinationFile = saveFile(file);
 		String fileName = file.getOriginalFilename();
-		Pdir pdir = pdirRepository.findById(Utils.StrToBigInt(pid)).get();
+		Pdir pdir = pdirRepository.findById(Utils.StrToBigInt(attachmentReqDto.getPdir())).get();
 
-		Attachment attachment = buildAttachment(destinationFile, fileName, pdir);
+		Attachment attachment = buildAttachment(destinationFile, fileName, pdir, attachmentReqDto);
 
 		return attachment2AttachmentResDto(attachmentRepository.save(attachment));
 	}
@@ -153,9 +153,10 @@ public class AttachmentService {
 		return resStrings;
 	}
 
-	private Attachment buildAttachment(File destinationFile, String fileName, Pdir pdir) {
+	private Attachment buildAttachment(File destinationFile, String fileName, Pdir pdir,AttachmentDto.AttachmentReqDto attachmentReqDto) {
 		return Attachment.builder().name(fileName).url(PREFIX_URL + fileName).localPath(destinationFile.getPath())
-				.volume(destinationFile.length()).dId(pdir).build();
+				.volume(destinationFile.length()).dId(pdir).coment(attachmentReqDto.getComent())
+				.deleteFlag(false).build();
 	}
 
 	private File saveFile(MultipartFile file) throws Exception{
@@ -185,6 +186,7 @@ public class AttachmentService {
 			AttachmentDto.AttachmentResDto attachmentResDto = AttachmentDto.AttachmentResDto.builder()
 					.attachmentId(attachment.getAttachmentId()).attachmentName(attachment.getName())
 					.volume(attachment.getVolume()).newDate(attachment.getNewDate())
+					.coment(attachment.getComent())
 					.contentType(attachment.getContentType()).build();
 
 			attachmentResDtos.add(attachmentResDto);
@@ -198,6 +200,7 @@ public class AttachmentService {
 		AttachmentDto.AttachmentResDto attachmentResDto = AttachmentDto.AttachmentResDto.builder()
 				.attachmentId(attachment.getAttachmentId()).attachmentName(attachment.getName())
 				.volume(attachment.getVolume()).newDate(attachment.getNewDate())
+				.coment(attachment.getComent())
 				.contentType(attachment.getContentType()).build();
 
 		return attachmentResDto;

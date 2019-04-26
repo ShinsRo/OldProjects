@@ -35,14 +35,12 @@ public class Attachment {
 	private BigInteger attachmentId;
 	
 	@NotNull
-	@Column(unique = true)
 	private String name;
 	
 	@NotNull	
 	private String url;
 	
 	@NotNull 
-	@Column(unique = true)
 	private String localPath;
 	
 	@CreationTimestamp @NotNull
@@ -52,9 +50,11 @@ public class Attachment {
 	private Long volume;
 	
 	@NotNull
-	private Boolean deleteFlag = false;
+	private Boolean deleteFlag;
 	
 	private String contentType;
+	
+	private String coment;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="pdirId")

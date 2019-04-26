@@ -40,11 +40,8 @@ class PfilePanel extends Component {
                 </div>
 
                 <div>
-                    <button type="button" className="btn btn-info btn-icon-split" onClick={this.onClickUpdateBts}>
-                        <span className="icon text-white-50">
-                            <i className="fas fa-info-circle"></i>
-                        </span>
-                        <span className="text">수정 하기</span>
+                    <button type="button" className="btn btn-primary bg-darkblue p-2" onClick={this.onClickUpdateBts}>
+                        수정 하기
                     </button>
                     
                 </div>
