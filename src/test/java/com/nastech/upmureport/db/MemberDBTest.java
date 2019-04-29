@@ -3,43 +3,33 @@ package com.nastech.upmureport.db;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.AnnotationConfigWebContextLoader;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import com.nastech.upmureport.TestData;
-import com.nastech.upmureport.config.PersistenceJPAConfig;
-import com.nastech.upmureport.config.WebConfig;
 import com.nastech.upmureport.domain.dto.MemberDto;
 import com.nastech.upmureport.domain.entity.AuthInfo;
 import com.nastech.upmureport.domain.entity.Career;
 import com.nastech.upmureport.domain.entity.Member;
-import com.nastech.upmureport.domain.entity.Role;
-import com.nastech.upmureport.domain.entity.UserRole;
 import com.nastech.upmureport.domain.repository.AuthInfoRepository;
 import com.nastech.upmureport.domain.repository.CareerRepository;
 import com.nastech.upmureport.domain.repository.MemberRepository;
 import com.nastech.upmureport.domain.repository.MemberSystemRepository;
 import com.nastech.upmureport.domain.repository.UserRoleRepository;
-import com.nastech.upmureport.domain.security.CustomUserDetails;
 import com.nastech.upmureport.domain.security.UserService;
 import com.nastech.upmureport.service.AuthInfoService;
 import com.nastech.upmureport.service.CareerService;
 import com.nastech.upmureport.service.MemberService;
 import com.nastech.upmureport.service.MemberSystemService;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
-@ContextConfiguration(classes = {WebConfig.class, PersistenceJPAConfig.class}, loader=AnnotationConfigWebContextLoader.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class MemberDBTest {
 	
 	@Autowired

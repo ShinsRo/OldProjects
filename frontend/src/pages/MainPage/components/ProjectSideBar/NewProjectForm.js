@@ -129,6 +129,20 @@ class NewProjectForm extends Component {
             </div>
         </div>
         <div className="form-group row">
+                <div className="col-3">
+                    <input type="text" className="form-control" placeholder="기존진행률" readOnly/>
+                </div>
+                <div className="col-7">
+                <input name="progress" type="range" className="form-control" 
+                    min="0" max="100"
+                    value={this.state.progress}
+                    onChange={this.onProgressChange}/>
+                </div>
+                <div className="col-2">
+                    <input type="text" className="form-control" value={`${this.state.progress}%`} readOnly/>
+                </div>
+        </div>
+        <div className="form-group row">
             <div className="col">
                 <textarea name="description" id="description" cols="30" rows="10" className="form-control" placeholder="프로젝트 설명">
                 </textarea>
@@ -136,18 +150,6 @@ class NewProjectForm extends Component {
         </div>
         {/* 진행률 row */}
         {/* <div className="form-group row">
-            <div className="col-3">
-                <input type="text" className="form-control" placeholder="진행률 :" readOnly/>
-            </div>
-            <div className="col-7">
-            <input name="progress" type="range" className="form-control" 
-                min="0" max="100"
-                value={this.state.progress}
-                onChange={this.onProgressChange}/>
-            </div>
-            <div className="col-2">
-                <input type="text" className="form-control" value={`${this.state.progress}%`} readOnly/>
-            </div>
         </div> */}
         <div className="row mb-3">
             <div className="col">

@@ -12,11 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,6 +45,7 @@ public class Pfile implements Serializable{
 	@UpdateTimestamp
 	private LocalDateTime updateDate;
 	
+	@Builder.Default
 	private Boolean deleteFlag=false;
 	
 	
