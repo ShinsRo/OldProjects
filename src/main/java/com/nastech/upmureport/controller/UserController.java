@@ -1,5 +1,6 @@
 package com.nastech.upmureport.controller;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,7 +101,7 @@ public class UserController {
 	public void authModifyAPI(@RequestBody MemAuthDto memAuthDto) {
 //		System.out.println(mem); 
 		Member m=memAuthDto.getMem();
-		AuthInfo modifyAuthInfo = memAuthDto.getAuthInfo();
+		AuthInfo modifyAuthInfo = memAuthDto.getAuth();
 		AuthInfo basicAuthInfo = authInfoRepository.findOneByMember(m);
 		System.out.println(basicAuthInfo);
 		System.out.println(m);
@@ -131,11 +132,17 @@ public class UserController {
     @PostMapping(value= "/register")
     public void userRegister(@RequestBody MemAuthDto memAuth) {
     	Member mem=memAuth.getMem();
-    	AuthInfo auth = memAuth.getAuthInfo();
-    	MemberDto savedMem= memberService.userRegister(mem.toDto());
-    	auth.setRole(Role.ROLE_USER);
-    	UserRole ur1 = UserRole.builder().role(Role.ROLE_USER).username(auth.getUsername()).build();
+    	AuthInfo auth = memAuth.getAuth();
     	
+    	mem.setJoinDate(LocalDate.now());
+    	MemberDto savedMem= memberService.userRegister(mem.toDto());  //MemberInfo 등록
+    	auth.setRole(Role.ROLE_USER);
+    	auth.setMember(savedMem.toEntity());
+    	UserRole ur1 = UserRole.builder().role(Role.ROLE_USER).username(auth.getUsername()).build();
+    	authInfoRepository.save(auth);
+    	userRoleRepository.save(ur1);
+    	
+    	System.out.println(savedMem+"auth"+auth);
   	}
     
     
