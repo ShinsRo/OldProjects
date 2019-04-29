@@ -1,14 +1,13 @@
 import React from 'react';
 import { Route, BrowserRouter, withRouter, Switch } from 'react-router-dom';
-// import { MainPage, NotFound, LoginPage, AdminPage } from "./containers";
 import { MainPage, NotFound, LoginPage, AdminPage, RegisterPage, ProfilePage } from "./pages";
 import { Provider } from 'react-redux';
 import store from './stores';
 
 // 상태가 바뀔때마다 기록합니다.
-store.subscribe(() =>
-  console.log('상태 변동 감지 >> ', store.getState())
-);
+// store.subscribe(() =>
+//   console.log('상태 변동 감지 >> ', store.getState())
+// );
 
 const RouteAsUserInfo = withRouter(({ match, location, history }) => {
     const { userState } = store.getState();
@@ -45,10 +44,6 @@ export default class Root extends React.Component {
                 { path: '/', component: LoginPage },
             ]
         };
-    }
-
-    componentDidMount() {
-        
     }
 
     render() {

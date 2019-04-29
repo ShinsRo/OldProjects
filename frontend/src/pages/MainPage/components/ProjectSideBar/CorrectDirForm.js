@@ -60,8 +60,6 @@ class CorrectDirForm extends Component {
     }
 
     render() {
-        console.log("Rendering: CorrectDirForm");
-        
         const { memberInfo, selectedDirId } = this.props;
         const { projectState } = store.getState();
         const dirContainer = projectState.get('dirContainer');

@@ -25,6 +25,7 @@ import com.nastech.upmureport.support.Utils;
 
 @RestController 
 @MultipartConfig(maxFileSize = 5120)
+@RequestMapping("/attachment")
 public class AttachmentContoller {
 	
 	private final AttachmentService attachmentService;
@@ -35,7 +36,7 @@ public class AttachmentContoller {
 		this.attachmentService = attachmentService;
 	}
 	
-	@RequestMapping(value = "/attachment", method= RequestMethod.POST, 
+	@RequestMapping(method= RequestMethod.POST, 
 	headers = ("content-type=multipart/*"))
 	public AttachmentDto.AttachmentResDto addAttachment(@RequestParam("file") MultipartFile file, @RequestParam String json) throws Exception {
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -44,14 +45,14 @@ public class AttachmentContoller {
 		return attachmentService.saveAttachment(file, attachmentReqDto);
 	}
 	
-	@GetMapping("/attachment/{pdirId}")
+	@GetMapping("/{pdirId}")
 	public List<AttachmentDto.AttachmentResDto> getAttachment(@PathVariable String pdirId) throws MalformedURLException {
 		
 		return attachmentService.getAttachment(Utils.StrToBigInt(pdirId));
 		
 	}
 	
-	@GetMapping("/attachment/download/{attachmentId}")
+	@GetMapping("/download/{attachmentId}")
 	public List<String> downloadAttachment(@PathVariable String attachmentId,HttpServletResponse resp) throws Exception {
 		
 //		LOG.info(resp.getHeaderNames());
@@ -65,7 +66,7 @@ public class AttachmentContoller {
 		//return AttachmentDto.AttachmentDownDto.builder().file(resFile).build();
     }
 	
-	@DeleteMapping("/attachment/{attachmentId}")
+	@DeleteMapping("/{attachmentId}")
 	public List<AttachmentDto.AttachmentResDto> deleteAttachment(@PathVariable String attachmentId)  {
 		
 		return attachmentService.deleteAttachment(attachmentId);

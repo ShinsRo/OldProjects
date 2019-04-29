@@ -1,6 +1,7 @@
 package com.nastech.upmureport.domain.entity;
 
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -29,22 +30,18 @@ public class AttachmentLog {
 		
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="attachmentId")
-	private Attachment attachmentId;
+	private Attachment attachment;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="userId")
-	private Member mId;
-	
-	private Date newDate;
+	private LocalDateTime newDate;
 		
 	private String name;
 	
-	private String path;
+	private String coment;
 	
 	private String localPath;	
 	
-	private double volume;
+	private Double volume;
 	
-	private boolean deleteFlag;
+	private Boolean deleteFlag;
 
 }

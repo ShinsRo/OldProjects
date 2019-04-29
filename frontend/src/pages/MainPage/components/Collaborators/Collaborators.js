@@ -161,8 +161,8 @@ class Collaborators extends Component {
             return (
                 <span key={idx} className="member mr-2 align-center">
                     <span className="dropdown">
-                        {collab.name}
-                        <span data-toggle="dropdown" className="badge badge-primary bg-darkblue ml-1 dropdown-toggle">{collab.prole}</span>
+                        <span className="text-black">{collab.name}</span>
+                        <span data-toggle="dropdown" className="badge btn-dark-2 bg-darkblue ml-1 dropdown-toggle">{collab.prole}</span>
                         <div className="dropdown-menu">
                             {this.state.PROLES_DEF.map(prole => {
                                 return (
@@ -189,8 +189,6 @@ class Collaborators extends Component {
     render() {
         const { collaborators, deletedCollaborators } = this.state;
         let autocompletedDropDown;
-
-        console.log("Rendering: Collaborators");        
 
         if (! this.state.memberQuery) {
             autocompletedDropDown = (

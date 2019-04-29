@@ -16,12 +16,19 @@ class DetailContanier extends Component {
         this.state = {};
     }
 
-
+    wrapWithCard(panel) {
+        return (
+            <div className="card shadow mb-4" style={{ height: '100%', width: '100%'}}>
+                {panel}
+            </div>
+        );
+    }
 
     render() {
         const { projectState, pfileState, attachmentState, PfileActions,ProjectActions, AttachmentActions  } = this.props;
+        const { wrapWithCard } = this
         const detailViewLevel = projectState.get('detailViewLevel');
-    
+        
         /**
          * @author 김승신
          * projectState에서 관리하는 디테일 뷰 레벨에 따라 디테일 패널 내용을 분기합니다.
@@ -41,14 +48,14 @@ class DetailContanier extends Component {
          *      파일을 수정 할 수 있는 form으로 렌더링 됩니다.
          */
         if (detailViewLevel === 'project') {
-            return (<ProjPanel projectState={projectState}/>);
+            return wrapWithCard(<ProjPanel projectState={projectState}/>);
         } else if (detailViewLevel === 'pfile') {
-            return (<PfilePanel 
+            return wrapWithCard(<PfilePanel 
                 pfileState={pfileState}
                 handleUpdateBts = {ProjectActions.saveItem}
                 />);
         } else if (detailViewLevel === 'pfileAdd') {
-            return (
+            return wrapWithCard(
                 <Pfileform 
                     status='add'                    
                     selectedDirId = {projectState.get('selectedDirId')}
@@ -58,7 +65,7 @@ class DetailContanier extends Component {
                 />
                 );
         }else if (detailViewLevel === 'pfileUpdate') {
-            return (
+            return wrapWithCard(
                 <Pfileform 
                     status='update'
                     saveItem = {ProjectActions.saveItem}
@@ -69,7 +76,7 @@ class DetailContanier extends Component {
                 />
                 );
         }else if (detailViewLevel === 'attachment') {
-            return (
+            return wrapWithCard(
                 <AttachmentPanel 
                     attachment = {attachmentState.get('attachment')}
                     downloadAttachment = {AttachmentActions.downloadAttachment}
@@ -87,7 +94,7 @@ class DetailContanier extends Component {
         }
         
         else {
-            return (<>프로젝트 혹은 업무를 선택하세요.</>);
+            return wrapWithCard(<>프로젝트 혹은 업무를 선택하세요.</>);
         }        
     }
 }

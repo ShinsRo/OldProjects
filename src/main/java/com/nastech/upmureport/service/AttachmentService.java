@@ -74,7 +74,7 @@ public class AttachmentService {
 		String fileName = file.getOriginalFilename();
 		Pdir pdir = pdirRepository.findById(Utils.StrToBigInt(attachmentReqDto.getPdir())).get();
 
-		Attachment attachment = buildAttachment(destinationFile, fileName, pdir, attachmentReqDto);
+		Attachment attachment = buildAttachment(destinationFile, fileName, pdir, attachmentReqDto, file);
 
 		return attachment2AttachmentResDto(attachmentRepository.save(attachment));
 	}
@@ -153,9 +153,14 @@ public class AttachmentService {
 		return resStrings;
 	}
 
-	private Attachment buildAttachment(File destinationFile, String fileName, Pdir pdir,AttachmentDto.AttachmentReqDto attachmentReqDto) {
-		return Attachment.builder().name(fileName).url(PREFIX_URL + fileName).localPath(destinationFile.getPath())
-				.volume(destinationFile.length()).dId(pdir).coment(attachmentReqDto.getComent())
+	private Attachment buildAttachment(File destinationFile, String fileName, Pdir pdir,AttachmentDto.AttachmentReqDto attachmentReqDto, MultipartFile file) {
+		return Attachment.builder()
+				.name(fileName)
+				.url(PREFIX_URL + fileName)
+				.localPath(destinationFile.getPath())
+				.volume(destinationFile.length()).dId(pdir)
+				.coment(attachmentReqDto.getComent())
+				.contentType(file.getContentType())
 				.deleteFlag(false).build();
 	}
 
@@ -170,6 +175,7 @@ public class AttachmentService {
 		String savedPath = calcPath(UPLOAD_PATH);
 		
 		File destinationFile = new File(UPLOAD_PATH + savedPath,fileName);
+		
 		file.transferTo(destinationFile);
 		
 		LOG.info(file.getContentType());

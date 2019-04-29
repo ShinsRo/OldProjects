@@ -1,31 +1,72 @@
 
 
+:root {
+    --main-color-dark-2: #2F2E41;
+    --main-color-dark-1: #3F3D56;
+    --main-color-bright-1: #4C4988;
+    --main-color-bright-2: #6C63FF;
 
-.bg-darkblue {
-    background-color: #243377;
 }
 
-.bg-gradient-darkblue {
-    background-color: #243377;
+.bg-dark-2 {
+    background-color: var(--main-color-dark-2);
+}
+.bg-dark-1 {
+    background-color: var(--main-color-dark-1);
+}
+.bg-bright-1 {
+    background-color: var(--main-color-bright-1);
+}
+.bg-bright-2 {
+    background-color: var(--main-color-bright-2);
+}
+
+.bg-gradient-dark-2 {
+    background-color: var(--main-color-bright-2);
     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(10%, #4e73df), to(#102153));
-    background-image: linear-gradient(180deg, #243377 10%, #102153 100%);
+    background-image: linear-gradient(180deg, var(--main-color-dark-1) 20%, var(--main-color-dark-2) 100%);
     background-size: cover;
   }
 
-.btn-darkblue {
+.btn-dark-2 {
     color: #fff;
-    background-color: #243377;
-    border-color: #243377;
+    background-color: var(--main-color-dark-2);
+    border-color: var(--main-color-dark-1);
+}
+.btn-dark-1 {
+    color: #fff;
+    background-color: var(--main-color-dark-1);
+    border-color: var(--main-color-dark-2);
+}
+.btn-bright-1 {
+    color: #fff;
+    background-color: var(--main-color-bright-1);
+    border-color: var(--main-bright-bright-2);
+}
+.btn-bright-2 {
+    color: #fff;
+    background-color: var(--main-color-bright-2);
 }
 
-.text-darkblue {
-    color: #243377 !important;
+.text-dark-2 {
+    color: var(--main-color-dark-2) !important;
+    background-color: 'none';
 }
-
+.text-dark-1 {
+    color: var(--main-color-dark-1) !important;
+}
+.text-bright-1 {
+    color: var(--main-color-bright-1) !important;
+}
+.text-bright-2 {
+    color: var(--main-color-bright-2) !important;
+}
+.text-black {
+    color: #000 !important;
+}
 .text-white {
     color: #fff !important;
 }
-
 .filebox label { 
     display: inline-block; 
     padding: .5em .75em; 
@@ -166,11 +207,14 @@
 }
 
 .sm-text {
-    font-size: 0.1rem;
+    font-size: 0.4rem;
+}
+.md-text {
+    font-size: 0.8rem;
 }
 
 .sm-input {
-    font-size: 0.1rem;
+    font-size: 0.4rem;
     margin-right: 0px !important;
 }
 

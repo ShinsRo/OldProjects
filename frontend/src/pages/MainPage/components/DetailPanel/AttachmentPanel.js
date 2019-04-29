@@ -60,33 +60,45 @@ class AttachmentPanel extends Component {
         return (
             <div className="card shadow mb-4">
                 <div className="card-header py-3">
-                    <div className="m-0 font-weight-bold text-darkblue">
-                        <h2>제목</h2>
-                        <div>{attachment.attachmentName}</div>
+                    <div className="m-0 font-weight-bold text-bright-1">
+                        <div className="row text-bright-1">
+                            <h2 >제목</h2>
+                            <div className="col-4">
+                                <button type="button" className="btn btn-bright-1 p-2" onClick={this.download}>                        
+                                    다운로드
+                                </button>
+                            </div>
+                        </div>
+                            <hr/>
+                        <div className="text-bright-2">{attachment.attachmentName}</div>
                     </div>
                 </div>
+                <hr/>
                 <div className="card-body">
-                    <div className="m-0 font-weight-bold text-darkblue">
-                    <h2>용량</h2>
-                    <div>{attachment.volume} byte</div>
+                    <div className="m-0 font-weight-bold text-bright-1">
+                        <div className="text-bright-1"><h2 >용량</h2></div>
+                            <hr/>
+                    <div className="text-bright-2">{attachment.volume} byte</div>
+
+                    </div>
+                </div>
+                <hr/>
+                <div className="card-body">
+                    <div className="m-0 font-weight-bold">
+                        <div className="text-bright-1"><h2>생성일</h2></div>
+                        <hr/>
+                        <div className="text-bright-2">{attachment.newDate[0]}년 {attachment.newDate[1]}월 {attachment.newDate[2]}일</div>
                     </div>
                 </div>
 
                 <div className="card-body">
-                    <div className="m-0 font-weight-bold text-darkblue">
-                    <h2>생성일</h2>
-                    <div>{attachment.newDate}</div>
+                    <div className="m-0 font-weight-bold">
+                        <div className="text-bright-1"><h2>타입</h2></div>
+                        <hr/>
+                        <div className="text-bright-2">{attachment.contentType}</div>
                     </div>
                 </div>
-                
-                <div>
-                <button type="button" className="btn btn-info btn-icon-split" onClick={this.download}>
-                        <span className="icon text-white-50">
-                            <i className="fas fa-info-circle"></i>
-                        </span>
-                        <span className="text">다운로드</span>
-                    </button>
-                </div>
+            
             </div>
         );
     }

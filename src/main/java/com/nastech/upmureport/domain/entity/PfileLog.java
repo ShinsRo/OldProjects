@@ -4,6 +4,8 @@ import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.nastech.upmureport.domain.entity.support.LogStat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,25 +43,16 @@ public class PfileLog {
 	@JoinColumn(name="fId")
 	private Pfile pfile;
 	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="dId")
+	private Pdir pdir;
+	
+	private String name;
+	
 	private String contents;	
 	
+	@Enumerated(EnumType.STRING)
 	private LogStat stat;	
 
-	public enum LogStat{
-		CREATE("create"), UPDATE("update"), DELETE("delete");
-		
-		private String value;
-		
-		LogStat(String value){
-			this.value = value;
-		}
-		
-		public String getKey() {
-            return name();
-        }
-
-        public String getValue() {
-            return value;
-        }
-	}
+	
 }

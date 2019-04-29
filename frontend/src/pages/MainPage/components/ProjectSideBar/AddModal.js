@@ -40,9 +40,6 @@ class AddModal extends React.Component {
             header = "선택한 경로에 디렉토리를 추가합니다.";
         }
 
-
-        console.log("Rendering: AddModal");
-        
         return (
             <div>
                 {/* 디렉토리 추가 모달 */}
