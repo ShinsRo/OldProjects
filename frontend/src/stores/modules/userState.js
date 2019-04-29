@@ -5,7 +5,7 @@ function loginPostAPI(loginInfo){
     //const loginTemp = []
     //loginTemp.push(loginInfo);
 
-    return axios.post('http://localhost:8080/upmureport/api/users/login',loginInfo.toJS());
+    return axios.post('http://localhost:8080/api/users/login',loginInfo.toJS());
 }
 
 const GET_POST_PENDING = 'GET_POST_PENDING';

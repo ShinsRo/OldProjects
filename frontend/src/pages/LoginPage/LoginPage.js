@@ -21,7 +21,7 @@ class LoginPage extends Component {
             <div className="container-fluid d-flex align-items-center flex-wrap" style={ fullHeightStyle }>
                 <div className="row flex-grow-1">
                     <div className="col-12 p-0">
-                        <row>
+                        <>
                             <img
                                 src={process.env.PUBLIC_URL + '/resources/img/undraw_setup_analytics_8qkl.svg'} 
                                 alt="main_ill"
@@ -36,13 +36,13 @@ class LoginPage extends Component {
                                         <LoginContainer history={this.props.history}/>
                                 </div>
                             </div>
-                        </row>
+                        </>
                     </div>
                 </div>
             </div>
-            <footer class="sticky-footer bg-dark-2">
-                <div class="container my-auto">
-                <div class="copyright text-center my-auto">
+            <footer className="sticky-footer bg-dark-2">
+                <div className="container my-auto">
+                <div className="copyright text-center my-auto">
                     <span>Copyright © [비고] UPMUREPORT 2019</span>
                 </div>
                 </div>

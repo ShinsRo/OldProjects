@@ -13,7 +13,9 @@ import { ProjPanel, PfilePanel, Pfileform, AttachmentPanel, AttachmentForm } fro
 class DetailContanier extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            reload: false,
+        };
     }
 
     wrapWithCard(panel) {
@@ -48,11 +50,14 @@ class DetailContanier extends Component {
          *      파일을 수정 할 수 있는 form으로 렌더링 됩니다.
          */
         if (detailViewLevel === 'project') {
-            return wrapWithCard(<ProjPanel projectState={projectState}/>);
+            return wrapWithCard(<ProjPanel 
+                    reload={this.props.reloadPage}
+                    projectState={projectState}
+                />);
         } else if (detailViewLevel === 'pfile') {
             return wrapWithCard(<PfilePanel 
-                pfileState={pfileState}
-                handleUpdateBts = {ProjectActions.saveItem}
+                    pfileState={pfileState}
+                    handleUpdateBts = {ProjectActions.saveItem}
                 />);
         } else if (detailViewLevel === 'pfileAdd') {
             return wrapWithCard(

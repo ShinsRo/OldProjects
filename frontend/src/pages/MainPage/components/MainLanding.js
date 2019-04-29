@@ -6,7 +6,7 @@ class DashboardLanding extends Component {
         return (<>
                 <div className="row" style={{ height: '100%', }}>
                     <div className="jumbotron shadow" style={{ width: '100%', backgroundColor: 'white', color: 'black'}}>
-                        <h1 className="display-4 font-weight-bold">HELLO, UPMUREPORT-WEB!</h1>
+                        <h1 className="display-4 font-weight-bold">HELLO, UPMUREPORT-<span className="text-bright-1">WEB</span>!</h1>
                         <p className="lead">
                             안녕하세요, 업무리포트 웹버전 프로젝트 관리 패널입니다.
                         </p>

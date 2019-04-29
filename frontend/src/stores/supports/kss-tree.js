@@ -29,13 +29,39 @@ class KssTree {
         this.init();
     }
 
+    arrayDateFormatter(arrDate) {
+        if (!arrDate) return '';
+        arrDate = arrDate.map(e => {
+            if (!e) e = 0;
+
+            if (e < 10) {
+                e = '0' + e;
+            }
+
+            return e;
+        });
+        const year = arrDate[0];
+        const month = arrDate[1];
+        const day = arrDate[2];
+        const hour = arrDate[3];
+        const min = arrDate[4];
+        const mill = arrDate[5] || '00';
+        
+        return `${year}-${month}-${day}T${hour}:${min}:${mill}`;
+    }
+
     init() {
         let projects = this.projects;
         let projectMap = this.projectMap;
         
         projects.forEach(project => {
-            project['isOrigin'] = true;
+            project.stDate = new Date(project.stDate);
+            project.edDate = new Date(project.edDate);
+            project.cdate =  new Date(project.cdate);
+            project.udate =  new Date(project.udate);
+            
             projectMap[project.pid] = project;
+            projectMap[project.pid].isOrigin = true;
             project.dirs.forEach(dir => {
                 this.addOne(dir);
             });
@@ -45,11 +71,38 @@ class KssTree {
 
     addProject(project) {
         let projectMap = this.projectMap;
-        project['isOrigin'] = true;
+        project.stDate = new Date(project.stDate);
+        project.edDate = new Date(project.edDate);
+        project.cdate =  new Date(project.cdate);
+        project.udate =  new Date(project.udate);
+        
         projectMap[project.pid] = project;
+        projectMap[project.pid].isOrigin = true;
         project.dirs.forEach(dir => {
             this.addOne(dir);
         });
+    }
+
+    correctProject(project) {
+        const origianl = this.projectMap[project.pid];
+        
+        const tempStDate = origianl.stDate;
+        const tempEdDate = origianl.edDate;
+        const tempUdate = origianl.udate;
+        const tempCdate = origianl.cdate;
+
+        const tempDirs = this.projectMap[project.pid].dirs;
+        this.projectMap[project.pid] = project;
+        
+        this.projectMap[project.pid].dirs = tempDirs;
+        this.projectMap[project.pid].stDate = tempStDate;
+        this.projectMap[project.pid].edDate = tempEdDate;
+        this.projectMap[project.pid].udate = tempUdate;
+        this.projectMap[project.pid].cdate = tempCdate;
+        
+        this.projectMap[project.pid].isOrigin = true;
+        this.tempProjectData = {};
+        this.buildDirTrees();
     }
 
     deleteProject(project) {
