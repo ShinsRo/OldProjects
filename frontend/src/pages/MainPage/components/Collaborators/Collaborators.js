@@ -22,11 +22,12 @@ class Collaborators extends Component {
             collaborators: collaborators || [],
             adminCnt,
             PROLES_DEF: ['관리자', '책임자', '구성원', '게스트'],
+            PRIVILEGES_DEF: ['읽기', '쓰기', '팀원추가'],
             privileges: {
-                게스트: '읽기',
-                구성원: '읽기/쓰기',
-                책임자: '읽기/쓰기/초대',
-                관리자: '읽기/쓰기/초대/권한',
+                게스트: ['읽기'],
+                구성원: ['읽기', '쓰기'],
+                책임자: ['읽기', '쓰기', '팀원추가'],
+                관리자: ['읽기', '쓰기', '팀원추가'],
             },
             type: this.props.type,
             nowPid: this.props.type === 'CURRECT_PROJECT' && this.props.project.pid,
@@ -123,7 +124,8 @@ class Collaborators extends Component {
                 break;
             }
         }
-        this.setProjectNotOrigin();
+        if (this.props.type === 'NEW_PROJECT') this.setProjectNotOrigin();
+        
         collaboratorsMap[mDto.mid] = { mid: mDto.mid, name: mDto.name, prole: '구성원' };
         collaborators.push(collaboratorsMap[mDto.mid]);
         this.setState({ collaborators });
@@ -138,7 +140,8 @@ class Collaborators extends Component {
             this.setState( { adminCnt: this.state.adminCnt + 1 } );
         }
         collab.prole = prole;
-        this.setProjectNotOrigin();
+        
+        if (this.props.type === 'NEW_PROJECT') this.setProjectNotOrigin();
         this.props.reload();
     }
 
@@ -166,35 +169,56 @@ class Collaborators extends Component {
                 break; 
             }
         }
-        this.setProjectNotOrigin();
+        if (this.props.type === 'NEW_PROJECT') this.setProjectNotOrigin();
+
         this.setState({ deletedCollaborators });
         this.props.reload();
     }
 
-    list(collaborators) {
-        // {!idx   && (<span className="badge badge-primary bg-darkblue ml-1">{collab.prole}</span>)}
-        const { memberInfo } = this.props;
-        return collaborators.map((collab, idx) => {
+    privilegeDropdownRenderer(collab) {
+        const { project } = this.props
+        const privileges = this.state.privileges;
+
+        if (project && !privileges[project.prole].includes('팀원추가')) {
             return (
-                <span key={idx} className="member mr-2 align-center">
-                    <span className="dropdown">
-                        <span className="text-black">{collab.name}</span>
-                        <span data-toggle="dropdown" className="badge btn-dark-1 bg-darkblue ml-1 dropdown-toggle">{collab.prole}</span>
-                        <div className="dropdown-menu">
-                            {this.state.PROLES_DEF.map(prole => {
-                                return (
+                <span className="">
+                    <span className="text-black">{collab.name}</span>
+                    <span className="badge btn-dark-1 bg-darkblue ml-1">{collab.prole}</span>
+                </span>
+            
+            );
+        }
+        return (
+            <span className="dropdown">
+                <span className="text-black">{collab.name}</span>
+                    <span data-toggle="dropdown" className="badge btn-dark-1 bg-darkblue ml-1 dropdown-toggle">{collab.prole}</span>
+                    <div className="dropdown-menu">
+                        {this.state.PROLES_DEF.map(prole => {
+                            return (
                                 <div
                                     onClick={(e) => { this.changeProle(collab, prole) }}
                                     className="dropdown-item" key={prole} >
-                                    <span className="badge btn-dark-2">{prole}</span> {this.state.privileges[prole]}
+                                    <span className="badge btn-dark-2">{prole}</span> {this.state.privileges[prole].join('/')}
                                 </div>    
-                                );
-                            })}
-                            <div className="dropdown-item" onClick={(e) => this.deleteCollaborator(e, collab)}>
-                                삭제
-                            </div>
-                        </div>
-                    </span>
+                            );
+                        })}
+                <div className="dropdown-item" onClick={(e) => this.deleteCollaborator(e, collab)}>
+                    삭제
+                </div>
+            </div>
+                        
+            </span>
+        );
+    }
+
+    list(collaborators) {
+        const { memberInfo } = this.props;
+
+        return collaborators.map((collab, idx) => {
+            return (
+                <span key={idx} className="member mr-2 align-center">
+                    {this.privilegeDropdownRenderer(collab)}
+                    
                     <input name="mids" type="hidden" value={collab.mid}/>
                     <input name="proles" type="hidden" value={collab.prole}/>
                     { `${collab.mid}` === `${memberInfo.mid}` && <input name="prole" type="hidden" value={collab.prole}/> }
