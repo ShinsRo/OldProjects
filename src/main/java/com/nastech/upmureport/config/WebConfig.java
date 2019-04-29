@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -55,11 +54,6 @@ public class WebConfig implements WebMvcConfigurer {
 	    
 	    converters.add(new ByteArrayHttpMessageConverter());	    
 	}
-	
-//	@Bean
-//	public AnnotationMethodHandlerAdapter annotationMethodHandlerAdapter() {
-//		
-//	}
 	
 	@Bean
 	public MultipartResolver multipartResolver() {
