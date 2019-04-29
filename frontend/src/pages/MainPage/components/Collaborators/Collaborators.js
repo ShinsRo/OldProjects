@@ -34,6 +34,7 @@ class Collaborators extends Component {
             deletedCollaborators: [],
             memberQuery: '',
             suggests: [],
+            isCorrected: false,
         };
 
         this.list = this.list.bind(this);
@@ -92,6 +93,21 @@ class Collaborators extends Component {
         
     }
 
+    setProjectNotOrigin() {
+        const { projectState } = stores.getState();
+        const dirContainer = projectState.get("dirContainer");
+        const selectedDirId = projectState.get("selectedDirId");
+        const selectedDir = dirContainer.treeMap[selectedDirId];
+        const project = dirContainer.projectMap[selectedDir.pid];
+
+        if (project.isOrigin) {
+            dirContainer.tempProjectData = {...project};
+            project.isOrigin = false;
+        }
+
+        this.setState({isCorrected: true});
+    }
+
     onAutocompleteClick(e, mDto) {
         const { collaborators, collaboratorsMap, deletedCollaborators } = this.state;
         if (collaboratorsMap[mDto.mid]) {
@@ -107,7 +123,7 @@ class Collaborators extends Component {
                 break;
             }
         }
-        
+        this.setProjectNotOrigin();
         collaboratorsMap[mDto.mid] = { mid: mDto.mid, name: mDto.name, prole: '구성원' };
         collaborators.push(collaboratorsMap[mDto.mid]);
         this.setState({ collaborators });
@@ -122,7 +138,7 @@ class Collaborators extends Component {
             this.setState( { adminCnt: this.state.adminCnt + 1 } );
         }
         collab.prole = prole;
-
+        this.setProjectNotOrigin();
         this.props.reload();
     }
 
@@ -150,6 +166,7 @@ class Collaborators extends Component {
                 break; 
             }
         }
+        this.setProjectNotOrigin();
         this.setState({ deletedCollaborators });
         this.props.reload();
     }
@@ -161,15 +178,15 @@ class Collaborators extends Component {
             return (
                 <span key={idx} className="member mr-2 align-center">
                     <span className="dropdown">
-                        {collab.name}
-                        <span data-toggle="dropdown" className="badge badge-primary bg-darkblue ml-1 dropdown-toggle">{collab.prole}</span>
+                        <span className="text-black">{collab.name}</span>
+                        <span data-toggle="dropdown" className="badge btn-dark-1 bg-darkblue ml-1 dropdown-toggle">{collab.prole}</span>
                         <div className="dropdown-menu">
                             {this.state.PROLES_DEF.map(prole => {
                                 return (
                                 <div
                                     onClick={(e) => { this.changeProle(collab, prole) }}
                                     className="dropdown-item" key={prole} >
-                                    <span className="badge badge-primary">{prole}</span> {this.state.privileges[prole]}
+                                    <span className="badge btn-dark-2">{prole}</span> {this.state.privileges[prole]}
                                 </div>    
                                 );
                             })}
@@ -190,12 +207,10 @@ class Collaborators extends Component {
         const { collaborators, deletedCollaborators } = this.state;
         let autocompletedDropDown;
 
-        console.log("Rendering: Collaborators");        
-
         if (! this.state.memberQuery) {
             autocompletedDropDown = (
                 <div className="col-12">
-                    <div className="dropdown-item sm-text">공공 프로젝트로 등록</div>
+                    <div className="dropdown-item sm-text" onClick={(e) => { alert("구현 중"); }}>공공 프로젝트로 등록</div>
                 </div>
             );
         } else {
@@ -216,9 +231,9 @@ class Collaborators extends Component {
         return (<>
             {this.list(collaborators)}
             <span className="dropdown">
-                <span data-toggle="dropdown" className="fas fa-plus-circle"></span>
+                <span data-toggle="dropdown" className="fas fa-plus-circle text-dark-2" style={{cursor:'pointer'}}></span>
                 <div className="dropdown-menu">
-                    <div className="row mb-1">
+                    <div className="row mb-1 p-1">
                         <div className="col">
                             <input type="text" className="form-control sm-text" placeholder="멤버 검색..." onChange={(e) => {this.onMemberSearch(e)}}/>
                         </div>

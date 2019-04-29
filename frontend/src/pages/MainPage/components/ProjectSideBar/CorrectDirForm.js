@@ -60,8 +60,6 @@ class CorrectDirForm extends Component {
     }
 
     render() {
-        console.log("Rendering: CorrectDirForm");
-        
         const { memberInfo, selectedDirId } = this.props;
         const { projectState } = store.getState();
         const dirContainer = projectState.get('dirContainer');
@@ -113,7 +111,7 @@ class CorrectDirForm extends Component {
         </div>
         <div className="modal-footer">
             <button className="btn btn-secondary" type="button" data-dismiss="modal">취소하기</button>
-            <input className="btn btn-primary" type="submit" value="수정하기"></input>
+            <input className="btn btn-dark-1" type="submit" value="수정하기"></input>
         </div>
         </form>
         );

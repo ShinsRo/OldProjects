@@ -22,9 +22,6 @@ class DirCorrectModal extends React.Component {
         contentForm = (<CorrectDirForm reload={this.props.reload} memberInfo={memberInfo} selectedDirId={selectedDirId} modalId="dirCorrectModal"/>);
         header = "선택한 경로의 디렉토리명을 수정합니다.";
 
-
-        console.log("Rendering: DirCorrectModal");
-        
         return (
             <div>
                 {/* 디렉토리 추가 모달 */}

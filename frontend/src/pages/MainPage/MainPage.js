@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ProjectSideBarContainer from "./containers/ProjectSideBarContainer";
 import HeaderContainer from "./containers/HeaderContainer";
 import DetailContanier from './containers/DetailContanier';
+import LogContainer from './containers/LogContainer';
 import Pfile from "./components/Pfile/Pfile";
 import MainLanding from './components/MainLanding';
 
@@ -10,6 +11,8 @@ class MainPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isSynced: false,
+      reload: 0,
       mainContentViewLevel: 'default',
     }
   }
@@ -18,21 +21,35 @@ class MainPage extends Component {
     this.setState({ mainContentViewLevel: to });
   }
 
+  reloadPage() {
+    this.setState({ reload: ~this.state.reload });
+  }
+
+  syncIt() {
+    this.setState({ isSynced: true });
+    window.location.href = '/';
+  }
+
   render() {
+    if (!this.state.isSynced) { }
     const {mainContentViewLevel} = this.state;
     let mainContent;
 
     if (mainContentViewLevel === 'detail') {
       mainContent = (
         <div className="row"                  style={{ height: '100%' }}>
-          <div className="col-xl-6">
+          <div className="col-6">
             <div className="card shadow mb-4" style={{ height: '100%' }}>      
               <Pfile />
             </div>
           </div>
-          <div className="col-xl-6">
-            <div className="card shadow mb-4" style={{ height: '100%' }}>
-              <DetailContanier />
+          <div className="col-6">
+            <div className="row"  style={{ height: '61.5%' }}>
+              <DetailContanier reloadPage={this.reloadPage.bind(this)}/>
+            </div>
+            <div className="row"  style={{ height: '2%' }}></div>
+            <div className="row"  style={{ height: '36.5%' }}>
+              <LogContainer />
             </div>
           </div>
         </div>
