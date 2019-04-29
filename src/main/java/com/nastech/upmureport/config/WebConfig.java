@@ -22,14 +22,12 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@EnableWebMvc
 @ComponentScan(basePackages = {"com.nastech.upmureport", "com.nastech.upmureport.jpa"})
 @EnableAspectJAutoProxy
 public class WebConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-
 	    registry.addResourceHandler("swagger-ui.html")
         	.addResourceLocations("classpath:/META-INF/resources/");
 
@@ -49,9 +47,7 @@ public class WebConfig implements WebMvcConfigurer {
 
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-		
 		converters.add(new MappingJackson2HttpMessageConverter());
-		
 		// http
 	    converters.add(new StringHttpMessageConverter());	    
 	    // string

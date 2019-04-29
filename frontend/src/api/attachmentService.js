@@ -2,17 +2,17 @@ import axios from 'axios';
 
 export function saveAttachment(attachment, config){
     console.log(attachment);
-    return axios.post('http://localhost:8080/upmureport/attachment', attachment, config);
+    return axios.post('http://localhost:8080/attachment', attachment, config);
 }
 
 export function getAttachment(dirId){
-    return axios.get(`http://localhost:8080/upmureport/attachment/${dirId}`);
+    return axios.get(`http://localhost:8080/attachment/${dirId}`);
 }
 
 export function downAttachment(attachmentId){
-    return axios.get(`http://localhost:8080/upmureport/attachment/download/${attachmentId}`);
+    return axios.get(`http://localhost:8080/attachment/download/${attachmentId}`);
 }
 
 export function deleteAttachment(attachmentId){
-    return axios.delete(`http://localhost:8080/upmureport/attachment/${attachmentId}`);
+    return axios.delete(`http://localhost:8080/attachment/${attachmentId}`);
 }
