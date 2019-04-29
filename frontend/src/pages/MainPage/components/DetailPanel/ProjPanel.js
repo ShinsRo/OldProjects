@@ -131,6 +131,7 @@ class ProjPanel extends Component {
         const pid = dirContainer.treeMap[selectedDirId].pid;
         const project = dirContainer.projectMap[pid];
 
+        if (!project) return (<></>);
         return (<>
             <form onSubmit={this.handleSubmit}>
                 <div className="card-header py-3">
