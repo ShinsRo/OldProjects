@@ -43,8 +43,8 @@ public class MemberService {
 		Member newMember = member.toEntity();
 		if ( memberRepository.findOneByMid(newMember.getMid()) == null) {
 			newMember.setJoinDate(LocalDate.now());
-			memberRepository.save(newMember);
-			return member;
+			Member savedMem = memberRepository.save(newMember);
+			return savedMem.toDto();
 		}
 		else
 			return null;

@@ -30,7 +30,7 @@ public class AuthInfo {
 	@Enumerated(EnumType.STRING)
     private Role role;
 
-	@OneToOne(cascade= {CascadeType.ALL})
+	@OneToOne(cascade= {CascadeType.REFRESH})
 	@JoinColumn(name = "mid")
 	private Member member;
 	
