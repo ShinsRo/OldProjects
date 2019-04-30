@@ -55,10 +55,10 @@ class KssTree {
         let projectMap = this.projectMap;
         
         projects.forEach(project => {
-            project.stDate = new Date(this.arrayDateFormatter(project.stDate));
-            project.edDate = new Date(this.arrayDateFormatter(project.edDate));
-            project.cdate =  new Date(this.arrayDateFormatter(project.cdate));
-            project.udate =  new Date(this.arrayDateFormatter(project.udate));
+            project.stDate = new Date(project.stDate);
+            project.edDate = new Date(project.edDate);
+            project.cdate =  new Date(project.cdate);
+            project.udate =  new Date(project.udate);
             
             projectMap[project.pid] = project;
             projectMap[project.pid].isOrigin = true;
@@ -71,10 +71,10 @@ class KssTree {
 
     addProject(project) {
         let projectMap = this.projectMap;
-        project.stDate = new Date(this.arrayDateFormatter(project.stDate));
-        project.edDate = new Date(this.arrayDateFormatter(project.edDate));
-        project.cdate =  new Date(this.arrayDateFormatter(project.cdate));
-        project.udate =  new Date(this.arrayDateFormatter(project.udate));
+        project.stDate = new Date(project.stDate);
+        project.edDate = new Date(project.edDate);
+        project.cdate =  new Date(project.cdate);
+        project.udate =  new Date(project.udate);
         
         projectMap[project.pid] = project;
         projectMap[project.pid].isOrigin = true;

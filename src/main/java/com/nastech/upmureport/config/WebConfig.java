@@ -16,20 +16,17 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@EnableWebMvc
 @ComponentScan(basePackages = {"com.nastech.upmureport", "com.nastech.upmureport.jpa"})
 @EnableAspectJAutoProxy
 public class WebConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-
 	    registry.addResourceHandler("swagger-ui.html")
         	.addResourceLocations("classpath:/META-INF/resources/");
 
@@ -49,9 +46,7 @@ public class WebConfig implements WebMvcConfigurer {
 
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-		
 		converters.add(new MappingJackson2HttpMessageConverter());
-		
 		// http
 	    converters.add(new StringHttpMessageConverter());	    
 	    // string
@@ -59,11 +54,6 @@ public class WebConfig implements WebMvcConfigurer {
 	    
 	    converters.add(new ByteArrayHttpMessageConverter());	    
 	}
-	
-//	@Bean
-//	public AnnotationMethodHandlerAdapter annotationMethodHandlerAdapter() {
-//		
-//	}
 	
 	@Bean
 	public MultipartResolver multipartResolver() {
