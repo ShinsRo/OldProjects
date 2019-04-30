@@ -81,31 +81,29 @@ class Pfileform extends Component {
         let cancleBts;
         if(this.props.status === 'add'){                
             submitBts =
-                  <button type="button" className="btn btn-info btn-icon-split" onClick={this.handleInsert}>
-                         <span className="icon text-white-50">
-                            <i className="fas fa-info-circle"></i>
-                        </span>
-                        <span className="text">추가 하기</span>
-                    </button>;  
+                    <div className="col">
+                        <button type="button" className="btn btn-dark-1 p-2" onClick={this.handleInsert}>
+                            추가 하기
+                        </button>
+                    </div>
         } 
         else if(this.props.status === 'update'){
             submitBts =
-                    <button type="button" className="btn btn-info btn-icon-split" onClick={this.handleUpdate}>
-                        <span className="icon text-white-50">
-                            <i className="fas fa-info-circle"></i>
-                        </span>
-                        <span className="text">수정 하기</span>
-                    </button>;
+                    <div className="col-2">
+                        <button type="button" className="btn btn-dark-1 p-2" onClick={this.handleUpdate}>
+                            수정 하기
+                        </button>
+                    </div>
         }
 
+        
         if(this.props.status === 'update'){                
             cancleBts =
-                    <button type="button" className="btn btn-danger btn-icon-split" onClick={this.handleCancle}>
-                        <span className="icon text-white-50">
-                            <i className="fas fa-trash"></i>
-                        </span>
-                        <span className="text">취소 하기</span>
-                    </button>; 
+                    <div className="col-2">
+                        <button type="button" className="btn btn-danger bg-danger p-2" onClick={this.handleCancle}>
+                            취소 하기
+                        </button>
+                    </div>
         } 
 
 
@@ -114,17 +112,19 @@ class Pfileform extends Component {
                 <div className="card-header py-3">
                     <div className="m-0 font-weight-bold text-darkblue">
                         <h2>제목</h2>
-                        <textarea defaultValue={pfile.name} onChange={this.handleTitleChange}/> 
+                        <hr/>
+                        <textarea className="form-control" defaultValue={pfile.name} onChange={this.handleTitleChange}/> 
                     </div>
                 </div>
                 <div className="card-body">
                     <div className="m-0 font-weight-bold text-darkblue">
                     <h2>내용</h2>
-                    <textarea defaultValue={pfile.contents} onChange={this.handleContentChange}/> 
+                    <hr/>
+                    <textarea className="form-control" defaultValue={pfile.contents} onChange={this.handleContentChange}/> 
                     </div>
                 </div>
-                    
-                <div>
+                    <hr/>
+                <div className="row">
                     {submitBts}
                     {cancleBts}                
                 </div>

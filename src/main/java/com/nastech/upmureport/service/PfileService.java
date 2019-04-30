@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.nastech.upmureport.domain.dto.PfileDto;
 import com.nastech.upmureport.domain.entity.Pdir;
 import com.nastech.upmureport.domain.entity.Pfile;
-import com.nastech.upmureport.domain.entity.PfileLog.LogStat;
+import com.nastech.upmureport.domain.entity.support.LogStat;
 import com.nastech.upmureport.domain.repository.PdirRepository;
 import com.nastech.upmureport.domain.repository.PfileRepository;
 import com.nastech.upmureport.support.Utils;
@@ -25,13 +25,13 @@ public class PfileService {
 	
 	PdirRepository pdirRepository;
 	
-	PfileLogService pfileLogService;
+	PLogService pfileLogService;
 	
 	private static final Log LOG = LogFactory.getLog(PfileService.class);
 	
 	// 생성자로 빈 등록
 	public PfileService(PfileRepository pfileRepository, PdirRepository pdirRepository
-			, PfileLogService pfileLogService) {
+			, PLogService pfileLogService) {
 		this.pfileRepository = pfileRepository;
 		this.pdirRepository = pdirRepository;
 		this.pfileLogService = pfileLogService;

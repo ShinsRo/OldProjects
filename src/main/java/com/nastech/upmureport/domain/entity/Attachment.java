@@ -1,11 +1,8 @@
 package com.nastech.upmureport.domain.entity;
 
 import java.math.BigInteger;
-import java.nio.file.Path;
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,52 +10,51 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@ToString
 public class Attachment {
 	
 	@Id @GeneratedValue(strategy= GenerationType.AUTO)
 	private BigInteger attachmentId;
 	
 	@NotNull
-	@Column(unique = true)
 	private String name;
 	
-	@NotNull	
 	private String url;
 	
 	@NotNull 
-	@Column(unique = true)
 	private String localPath;
 	
 	@CreationTimestamp @NotNull
-	private LocalDate newDate;
+	private LocalDateTime newDate;
 	
 	@NotNull
 	private Long volume;
 	
 	@NotNull
-	private Boolean deleteFlag = false;
+	private Boolean deleteFlag;
 	
 	private String contentType;
 	
+	private String coment;
+	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="pdirId")
-	private Pdir dId;
+	@JoinColumn(name="pdir_id")
+	private Pdir pdir;
 	
 	public void deleteAttachment() {
 		this.deleteFlag = true;

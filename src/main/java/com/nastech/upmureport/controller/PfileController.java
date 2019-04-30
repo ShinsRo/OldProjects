@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nastech.upmureport.domain.dto.PfileDto;
@@ -18,6 +19,7 @@ import com.nastech.upmureport.domain.dto.PfileDto.PfileResDto;
 import com.nastech.upmureport.service.PfileService;
 
 @RestController
+@RequestMapping("/pfile")
 public class PfileController {
 	
 	PfileService pfileService;
@@ -29,7 +31,7 @@ public class PfileController {
 	}
 	
 	// pfile 추가 
-	@PostMapping(value= "/pfile")
+	@PostMapping()
 	public PfileDto.PfileResDto addPfile(@RequestBody PfileDto.PfileReqDto pfileReqDto) {
 		LOG.info("==========================/pfile");
 		LOG.info(pfileReqDto.toString());
@@ -40,16 +42,15 @@ public class PfileController {
 	}
 	
 	// pdirId 별 pfile 조회 후 리턴
-	@GetMapping(value="/pfile/{pdirId}")
+	@GetMapping(value="/{pdirId}")
 	public List<PfileDto.PfileResDto> getPfile(@PathVariable String pdirId){
 		LOG.info("=========get=============/pfile");
 		LOG.info("dir id = " + pdirId);
 		return pfileService.getPfiles(BigInteger.valueOf(Long.parseLong(pdirId)));		
 	}
-
-
+	
 	// pfile 수정
-	@PutMapping(value= "/pfile")
+	@PutMapping()
 	public List<PfileDto.PfileResDto> updatePfile(@RequestBody PfileDto.PfileReqDto pfileReqDto) {
 		LOG.info("===========update========/pfile");
 		
@@ -57,16 +58,10 @@ public class PfileController {
 		
 		return pfileService.getPfiles(BigInteger.valueOf((pfileReqDto.getPdirId()).longValue())); 
 	}
-	
-	
-	@DeleteMapping(value= "/pfile/{pfileId}")
+		
+	@DeleteMapping(value= "/{pfileId}")
 	public List<PfileDto.PfileResDto> deletePfile(@PathVariable String pfileId) {
 		LOG.info("===========delete========/pfile/" + pfileId);
 		return pfileService.deletePfile(pfileId);
-	}
-	
-	
-//	@GetMapping(value="/upmu")
-//	public List<>
-		
+	}		
 }

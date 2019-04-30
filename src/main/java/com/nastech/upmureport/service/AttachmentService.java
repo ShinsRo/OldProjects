@@ -1,26 +1,10 @@
 package com.nastech.upmureport.service;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.math.BigInteger;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
@@ -29,26 +13,18 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nastech.upmureport.domain.dto.AttachmentDto;
 import com.nastech.upmureport.domain.entity.Attachment;
 import com.nastech.upmureport.domain.entity.Pdir;
+import com.nastech.upmureport.domain.entity.support.LogStat;
 import com.nastech.upmureport.domain.repository.AttachmentRepository;
 import com.nastech.upmureport.domain.repository.PdirRepository;
 import com.nastech.upmureport.support.Utils;
@@ -62,21 +38,32 @@ public class AttachmentService {
 
 	AttachmentRepository attachmentRepository;
 	PdirRepository pdirRepository;
+	PLogService pLogService;
 
-	public AttachmentService(AttachmentRepository attachmentRepository, PdirRepository pdirRepository) {
+	public AttachmentService(AttachmentRepository attachmentRepository, PdirRepository pdirRepository, PLogService pLogService) {
 		this.attachmentRepository = attachmentRepository;
 		this.pdirRepository = pdirRepository;
+		this.pLogService = pLogService;
 	}
 
-	public AttachmentDto.AttachmentResDto saveAttachment(MultipartFile file, String pid) throws Exception {
+	public AttachmentDto.AttachmentResDto saveAttachment(MultipartFile file, AttachmentDto.AttachmentReqDto attachmentReqDto) throws Exception {
 
 		File destinationFile = saveFile(file);
 		String fileName = file.getOriginalFilename();
-		Pdir pdir = pdirRepository.findById(Utils.StrToBigInt(pid)).get();
+		Pdir pdir = pdirRepository.findById(Utils.StrToBigInt(attachmentReqDto.getPdir())).get();
 
-		Attachment attachment = buildAttachment(destinationFile, fileName, pdir);
+		Attachment attachment = buildAttachment(destinationFile, fileName, pdir, attachmentReqDto, file);
+		
+		LOG.info(attachment.toString());
+		
+		try{			
+			attachment = attachmentRepository.save(attachment);
+			pLogService.createAttachmentLog(attachment, LogStat.CREATE);
+		} catch (Exception e) {
+			throw new Exception();
+		}			
 
-		return attachment2AttachmentResDto(attachmentRepository.save(attachment));
+		return attachment2AttachmentResDto(attachment);
 	}
 
 	public List<AttachmentDto.AttachmentResDto> getAttachment(BigInteger pdirId) {
@@ -93,9 +80,14 @@ public class AttachmentService {
 		
 		attachment.deleteAttachment();
 		
-		attachmentRepository.save(attachment);
+		try{			
+			attachment = attachmentRepository.save(attachment);
+			pLogService.createAttachmentLog(attachment, LogStat.DELETE);
+		} catch (Exception e) {
+			LOG.info(e.getMessage());
+		}	
 		
-		return getAttachment(attachment.getDId().getDid());
+		return getAttachment(attachment.getPdir().getDid());
 	}
 
 	public List<String> downloadAttachment(String attachmentId, HttpServletResponse resp) throws Exception {
@@ -153,9 +145,17 @@ public class AttachmentService {
 		return resStrings;
 	}
 
-	private Attachment buildAttachment(File destinationFile, String fileName, Pdir pdir) {
-		return Attachment.builder().name(fileName).url(PREFIX_URL + fileName).localPath(destinationFile.getPath())
-				.volume(destinationFile.length()).dId(pdir).build();
+	private Attachment buildAttachment(File destinationFile, String fileName, Pdir pdir,AttachmentDto.AttachmentReqDto attachmentReqDto, MultipartFile file) {
+		return Attachment.builder()
+				.name(fileName)
+				.url(PREFIX_URL + fileName)
+				.localPath(destinationFile.getPath())
+				.volume(destinationFile.length())
+				.pdir(pdir)
+				.coment(attachmentReqDto.getComent())
+				.contentType(file.getContentType())
+				.newDate(LocalDateTime.now())
+				.deleteFlag(false).build();
 	}
 
 	private File saveFile(MultipartFile file) throws Exception{
@@ -169,6 +169,7 @@ public class AttachmentService {
 		String savedPath = calcPath(UPLOAD_PATH);
 		
 		File destinationFile = new File(UPLOAD_PATH + savedPath,fileName);
+		
 		file.transferTo(destinationFile);
 		
 		LOG.info(file.getContentType());
@@ -185,6 +186,7 @@ public class AttachmentService {
 			AttachmentDto.AttachmentResDto attachmentResDto = AttachmentDto.AttachmentResDto.builder()
 					.attachmentId(attachment.getAttachmentId()).attachmentName(attachment.getName())
 					.volume(attachment.getVolume()).newDate(attachment.getNewDate())
+					.coment(attachment.getComent())
 					.contentType(attachment.getContentType()).build();
 
 			attachmentResDtos.add(attachmentResDto);
@@ -197,7 +199,9 @@ public class AttachmentService {
 
 		AttachmentDto.AttachmentResDto attachmentResDto = AttachmentDto.AttachmentResDto.builder()
 				.attachmentId(attachment.getAttachmentId()).attachmentName(attachment.getName())
-				.volume(attachment.getVolume()).newDate(attachment.getNewDate())
+				.volume(attachment.getVolume())
+				.newDate(attachment.getNewDate())
+				.coment(attachment.getComent())
 				.contentType(attachment.getContentType()).build();
 
 		return attachmentResDto;

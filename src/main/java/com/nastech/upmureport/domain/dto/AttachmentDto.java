@@ -1,7 +1,7 @@
 package com.nastech.upmureport.domain.dto;
 
 import java.math.BigInteger;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -19,7 +19,7 @@ public class AttachmentDto {
 	public static class AttachmentReqDto {
 		
 		private String pdir;
-		
+		private String coment;
 	}
 	
 	
@@ -32,8 +32,10 @@ public class AttachmentDto {
 		private BigInteger attachmentId;
 		private String attachmentName;
 		private Long volume;
-		private LocalDate newDate;		
+		private LocalDateTime newDate;		
 		private String contentType;
+		private String coment;
+		
 	}
 	
 	@Getter
