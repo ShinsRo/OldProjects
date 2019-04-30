@@ -23,11 +23,11 @@ public class MemberSystem {
 	
 	@Id
 	@ManyToOne
-	@JoinColumn(name="seniorId")
+	@JoinColumn(name="senior_id")
 	private Member senior;
 	
 	@Id
 	@ManyToOne
-	@JoinColumn(name="juniorId")
+	@JoinColumn(name="junior_id")
 	private Member junior;
 }

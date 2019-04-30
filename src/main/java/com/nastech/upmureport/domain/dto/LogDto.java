@@ -1,6 +1,9 @@
 package com.nastech.upmureport.domain.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import com.nastech.upmureport.domain.entity.support.LogStat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +23,37 @@ public class LogDto {
 		
 		private LocalDateTime newDate;
 		
-		private String state;
+		private LogStat stat;
 	}
+	
+	
+	@Getter
+	@Builder
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class AttachmentLogDto {
+		private String name;
+		
+		private String coment;
+		
+		private LocalDateTime newDate;
+		
+		private String contentType;
+		
+		private LogStat stat;
+	}
+	
+	@Getter
+	@Builder
+	@AllArgsConstructor
+	@NoArgsConstructor
+	public static class PLogDto {
+		
+		private List<PfileLogDto> pfileLogs;
+		
+		private List<AttachmentLogDto> attachmentLogs;
+	}
+	
+	
 
 }

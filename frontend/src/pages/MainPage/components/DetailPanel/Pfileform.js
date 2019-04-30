@@ -82,7 +82,7 @@ class Pfileform extends Component {
         if(this.props.status === 'add'){                
             submitBts =
                     <div className="col">
-                        <button type="button" className="btn btn-primary bg-darkblue p-2" onClick={this.handleInsert}>
+                        <button type="button" className="btn btn-dark-1 p-2" onClick={this.handleInsert}>
                             추가 하기
                         </button>
                     </div>
@@ -90,12 +90,13 @@ class Pfileform extends Component {
         else if(this.props.status === 'update'){
             submitBts =
                     <div className="col-2">
-                        <button type="button" className="btn btn-primary bg-darkblue p-2" onClick={this.handleUpdate}>
+                        <button type="button" className="btn btn-dark-1 p-2" onClick={this.handleUpdate}>
                             수정 하기
                         </button>
                     </div>
         }
 
+        
         if(this.props.status === 'update'){                
             cancleBts =
                     <div className="col-2">

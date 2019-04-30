@@ -20,7 +20,7 @@ class AttachmentPanel extends Component {
         //var FileSaver = require('file-saver');
 
         axios({
-            url: `http://localhost:8080/upmureport/attachment/download/${attachment.attachmentId}`,
+            url: `http://localhost:8080/attachment/download/${attachment.attachmentId}`,
             method: 'GET',
             
           }).then((response) => {
@@ -64,7 +64,7 @@ class AttachmentPanel extends Component {
                         <div className="row text-bright-1">
                             <h2 >제목</h2>
                             <div className="col-4">
-                                <button type="button" className="btn btn-bright-1 p-2" onClick={this.download}>                        
+                                <button type="button" className="btn btn-dark-1 p-2" onClick={this.download}>                        
                                     다운로드
                                 </button>
                             </div>

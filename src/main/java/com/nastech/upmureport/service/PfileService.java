@@ -25,13 +25,13 @@ public class PfileService {
 	
 	PdirRepository pdirRepository;
 	
-	PfileLogService pfileLogService;
+	PLogService pfileLogService;
 	
 	private static final Log LOG = LogFactory.getLog(PfileService.class);
 	
 	// 생성자로 빈 등록
 	public PfileService(PfileRepository pfileRepository, PdirRepository pdirRepository
-			, PfileLogService pfileLogService) {
+			, PLogService pfileLogService) {
 		this.pfileRepository = pfileRepository;
 		this.pdirRepository = pdirRepository;
 		this.pfileLogService = pfileLogService;

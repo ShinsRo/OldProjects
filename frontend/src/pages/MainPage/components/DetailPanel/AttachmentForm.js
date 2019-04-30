@@ -73,7 +73,7 @@ class AttachmentForm extends Component {
         return (
             <div className="card shadow mb-4">
                 <div className="card-header py-3">
-                    <span className="filebox"> 
+                    <span className="filebox btn-dark-1"> 
                         <label htmlFor="ex_file">파일 가져오기</label>
                         <input type="file" id="ex_file" onChange={this.onFileChange}/>                        
                         {this.state.uploadAttachment && this.state.uploadAttachment.name}

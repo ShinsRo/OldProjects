@@ -79,11 +79,11 @@ class Pfile extends Component {
         <div>
           <div className="row justify-content-end">
             <div className="col-4">
-              <button type="button" className="btn btn-bright-1 p-2 " onClick= {this.handlePfileAddForm}>
+              <button type="button" className="btn btn-dark-1 p-2 " onClick= {this.handlePfileAddForm}>
                 파일추가
               </button>           
             
-              <button type="button" className="btn btn-bright-1 p-2" onClick= {this.handleAttachmentAddForm}>
+              <button type="button" className="btn btn-dark-1 p-2" onClick= {this.handleAttachmentAddForm}>
                 첨부파일 추가
               </button>
             </div>

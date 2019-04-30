@@ -42,6 +42,9 @@ public class AttachmentContoller {
 		ObjectMapper objectMapper = new ObjectMapper();
 		AttachmentDto.AttachmentReqDto attachmentReqDto = objectMapper.readValue(json, AttachmentDto.AttachmentReqDto.class);
 		
+		LOG.info(file.getSize());
+		LOG.info(attachmentReqDto.toString());
+		
 		return attachmentService.saveAttachment(file, attachmentReqDto);
 	}
 	

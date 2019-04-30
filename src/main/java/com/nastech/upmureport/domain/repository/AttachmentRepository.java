@@ -16,6 +16,6 @@ import com.nastech.upmureport.domain.entity.Pdir;
 @Repository
 public interface AttachmentRepository extends JpaRepository<Attachment, BigInteger>{
 
-	@Query("select a from Attachment a where a.dId = :dId and a.deleteFlag = false")
-	List<Attachment> findByDid(@Param(value="dId") Pdir dId);
+	@Query("select a from Attachment a where a.pdir = :pdir and a.deleteFlag = false")
+	List<Attachment> findByDid(@Param(value="pdir") Pdir pdir);
 }

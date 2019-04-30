@@ -9,6 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
 import com.nastech.upmureport.domain.dto.LogDto;
+import com.nastech.upmureport.domain.dto.LogDto.AttachmentLogDto;
 import com.nastech.upmureport.domain.entity.Attachment;
 import com.nastech.upmureport.domain.entity.AttachmentLog;
 import com.nastech.upmureport.domain.entity.Pdir;
@@ -22,16 +23,16 @@ import com.nastech.upmureport.support.Utils;
 
 
 @Service
-public class PfileLogService {
+public class PLogService {
 
-	private static final Log log = LogFactory.getLog(PfileLogService.class);
+	private static final Log log = LogFactory.getLog(PLogService.class);
 	
 	private PfileLogRepository pfileLogRepository;
 	private PdirRepository pdirRepository;
 	private AttachmentLogRepository attachmentLogRepository;
 	
 	
-	public PfileLogService(PfileLogRepository pfileLogRepository, PdirRepository pdirRepository,
+	public PLogService(PfileLogRepository pfileLogRepository, PdirRepository pdirRepository,
 			AttachmentLogRepository attachmentLogRepository) {
 		this.pfileLogRepository = pfileLogRepository;
 		this.pdirRepository = pdirRepository;
@@ -54,27 +55,31 @@ public class PfileLogService {
 		return pfileLogRepository.save(pfileLog);		
 	}
 	
-	public AttachmentLog createAttachmentLog(Attachment attachment) {
+	public AttachmentLog createAttachmentLog(Attachment attachment, LogStat logStat) {
 		
 		AttachmentLog attachmentLog = AttachmentLog.builder()
 				.attachment(attachment)
 				.newDate(LocalDateTime.now())
 				.deleteFlag(false)
+				.stat(logStat)
+				.pdir(attachment.getPdir())
 				.build();
 		
 		return attachmentLogRepository.save(attachmentLog);
-				
-		
-		
+						
 	}
 	
-	public List<LogDto.PfileLogDto> getPfileLogs(String pdirId) {
+	public LogDto.PLogDto getPLogs(String pdirId) {
 		
 		Pdir pdir = pdirRepository.findByDidAndDflagFalse(Utils.StrToBigInt(pdirId));
 		
 		List<PfileLog> pfileLogs = pfileLogRepository.findAllByPdir(pdir);
 		
+		List<AttachmentLog> attachmentLogs = attachmentLogRepository.findAllByPdir(pdir);
+		
 		List<LogDto.PfileLogDto> pfileLogDtos = new ArrayList<LogDto.PfileLogDto>();
+		
+		List<LogDto.AttachmentLogDto> attachmentLogDtos = new ArrayList<LogDto.AttachmentLogDto>();
 		
 		pfileLogs.forEach(pfileLog -> pfileLogDtos.add(
 					LogDto.PfileLogDto
@@ -82,11 +87,20 @@ public class PfileLogService {
 					.name(pfileLog.getName())
 					.contents(pfileLog.getContents())
 					.newDate(pfileLog.getNewDate())
-					.state(pfileLog.getStat().getValue()).build()				
-				
+					.stat(pfileLog.getStat()).build()						
 				));
 		
-		return pfileLogDtos;
+		attachmentLogs.forEach(attachmentLog -> attachmentLogDtos.add(
+					LogDto.AttachmentLogDto.builder()
+					.name(attachmentLog.getAttachment().getName())
+					.contentType(attachmentLog.getAttachment().getContentType())
+					.coment(attachmentLog.getAttachment().getComent())
+					.newDate(attachmentLog.getNewDate())
+					.stat(attachmentLog.getStat())
+					.build()
+				));
+		
+		return new LogDto.PLogDto(pfileLogDtos, attachmentLogDtos);
 	}
 	
 	

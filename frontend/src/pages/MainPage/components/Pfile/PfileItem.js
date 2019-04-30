@@ -18,7 +18,7 @@ class PfileItem extends Component {
                     <div class="col-8">{pfile.name}</div>
                     <div class="col-2">업무 일지</div>
                         <div class="col-1">
-                            <span onClick={() => this.props.onClickPfile(pfile) } class="badge badge-primary bg-darkblue">
+                            <span onClick={() => this.props.onClickPfile(pfile) } class="badge badge-primary btn-dark-1">
                                 보기
                             </span>
                         </div>
