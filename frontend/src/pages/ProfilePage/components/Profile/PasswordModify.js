@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { BASE_URL } from '../../../../supports/API_CONSTANT';
 
 class PasswordModify extends Component {
     constructor(props) {
@@ -20,7 +21,7 @@ class PasswordModify extends Component {
         console.log("보낸다 가라아아앗",this.props.selectUser)
         console.log("보낸다 가라아아앗2",authInfo)
     
-        return axios.post('http://localhost:8080/upmureport/api/users/modify',
+        return axios.post(`${BASE_URL}/upmureport/api/users/modify`,
         {
           mem:this.props.selectUser,
           authInfo:authInfo
