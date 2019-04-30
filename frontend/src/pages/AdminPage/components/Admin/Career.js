@@ -15,7 +15,7 @@ class Career extends Component {
   }
   handleChangeInput(e, target) {
     //인풋 값 변경
-    console.log(e.target.value)
+    // console.log(e.target.value)
     this.setState({ [target]: e.target.value });
 }
   

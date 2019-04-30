@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import HeaderContainer from "./containers/HeaderContainer";
-import Member from "./components/Admin/Member"
+import HeaderContainer from "../AdminPage/containers/HeaderContainer";
+import Member from "../AdminPage/components/Admin/Member"
 import ProfileCareer from "./components/Profile/ProfileCareer"
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux'
 import * as userActions from '../../stores/modules/userState'
 import PasswordModify from "./components/Profile/PasswordModify"
+import Sidebar from "./Sidebar"
 
 class ProFilePage extends Component {
   constructor(props) {
@@ -31,9 +32,9 @@ class ProFilePage extends Component {
     //const this.setState = userState.selectedUser.memberInfo || userState.selectedUser
     return (
       <div id="wrapper">
+      <Sidebar></Sidebar>
         {/* Content Wrapper */}
         <div id="content-wrapper" className="d-flex flex-column">
-
           {/* Main Content */}
           <div id="content">
             <HeaderContainer history={this.props.history}/>
@@ -41,22 +42,19 @@ class ProFilePage extends Component {
             임시 { userState.selectedUser.name }
             <div className="container-fluid">
             <div className="row">
-              <div className="col-xl-6">
-              <Member selectUser={myInfo}/>
-                왼쪽
+              <div className="col-xl-2">
+              <Member selectUser={myInfo}/> 
               </div>
-              <div className="col-xl-6">
+              <div className="col-xl-2">
               <ProfileCareer selectUser={myInfo}
                       deptList={deptList}
               />
-                  오른쪽 
+                  
                 </div>
                 </div>
             </div>
-
+            <PasswordModify selectUser={myInfo} />
           </div>
-          <PasswordModify selectUser={myInfo} />
-
           <div>하 단 </div>
 
         </div>

@@ -14,5 +14,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MemAuthDto {
 	Member mem;
-	AuthInfo authInfo;
+	AuthInfo auth;
 }

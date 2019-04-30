@@ -7,7 +7,7 @@ const defaultProps = {
 const Sidebar = ({depts,select,userInfo}) => {
     
     return (
-        <ul className="navbar-nav bg-gradient-darkblue sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul className="navbar-nav bg-gradient-darkblue sidebar bg-dark-1 accordion" id="accordionSidebar">
             {/* rotate-n-15 */}
             {/* Sidebar - Brand */}
             {/* <a className="sidebar-brand d-flex align-items-center justify-content-center" href="/">
@@ -21,7 +21,7 @@ const Sidebar = ({depts,select,userInfo}) => {
             <hr className="sidebar-divider"/>
 
             {/* Heading */}
-            <li className="nav-item active">
+            <li className="nav-item active text-white">
                 <div className="nav-link" href="index.html">
                 <i className="fas fa-fw fa-building"></i>
                 <span>부서명</span></div>
@@ -40,7 +40,7 @@ const Sidebar = ({depts,select,userInfo}) => {
                     const usersInDept = depts[key];
                     return (
                         <li className="nav-item" key={idx}>
-                            <a className="nav-link collapsed" href="/" data-toggle="collapse" data-target={"#collapse"+key} aria-expanded="true" aria-controls="collapsePages">
+                            <a className="nav-link collapsed text-white" href="/" data-toggle="collapse" data-target={"#collapse"+key} aria-expanded="true" aria-controls="collapsePages">
                                 <i className="fas fa-fw fa-folder"></i>
                                 <span>{key}</span>
                             </a>

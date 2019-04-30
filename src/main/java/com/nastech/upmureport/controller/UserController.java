@@ -1,5 +1,6 @@
 package com.nastech.upmureport.controller;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,13 +23,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nastech.upmureport.domain.dto.MemAuthDto;
-import com.nastech.upmureport.domain.dto.MemCareerDto;
 import com.nastech.upmureport.domain.dto.MemberDto;
 import com.nastech.upmureport.domain.entity.AuthInfo;
 import com.nastech.upmureport.domain.entity.Member;
+import com.nastech.upmureport.domain.entity.MemberSystem;
 import com.nastech.upmureport.domain.entity.Role;
 import com.nastech.upmureport.domain.entity.UserRole;
 import com.nastech.upmureport.domain.repository.AuthInfoRepository;
+import com.nastech.upmureport.domain.repository.MemberRepository;
+import com.nastech.upmureport.domain.repository.MemberSystemRepository;
 import com.nastech.upmureport.domain.repository.UserRoleRepository;
 import com.nastech.upmureport.domain.security.AuthenticationToken;
 import com.nastech.upmureport.domain.security.CustomUserDetails;
@@ -41,6 +44,10 @@ import com.nastech.upmureport.service.MemberService;
 public class UserController {
 	@Autowired
 	MemberService memberService;
+	@Autowired
+	MemberRepository memRepo;
+	@Autowired
+	MemberSystemRepository memSys;
 	@Autowired
 	AuthInfoService authInfoService;
 	@Autowired
@@ -100,7 +107,7 @@ public class UserController {
 	public void authModifyAPI(@RequestBody MemAuthDto memAuthDto) {
 //		System.out.println(mem); 
 		Member m=memAuthDto.getMem();
-		AuthInfo modifyAuthInfo = memAuthDto.getAuthInfo();
+		AuthInfo modifyAuthInfo = memAuthDto.getAuth();
 		AuthInfo basicAuthInfo = authInfoRepository.findOneByMember(m);
 		System.out.println(basicAuthInfo);
 		System.out.println(m);
@@ -131,11 +138,20 @@ public class UserController {
     @PostMapping(value= "/register")
     public void userRegister(@RequestBody MemAuthDto memAuth) {
     	Member mem=memAuth.getMem();
-    	AuthInfo auth = memAuth.getAuthInfo();
-    	MemberDto savedMem= memberService.userRegister(mem.toDto());
-    	auth.setRole(Role.ROLE_USER);
-    	UserRole ur1 = UserRole.builder().role(Role.ROLE_USER).username(auth.getUsername()).build();
+    	AuthInfo auth = memAuth.getAuth();
     	
+    	mem.setJoinDate(LocalDate.now());
+    	MemberDto savedMem= memberService.userRegister(mem.toDto());  //MemberInfo 등록
+    	if(savedMem == null) return;
+    	auth.setRole(Role.ROLE_USER);
+    	auth.setMember(savedMem.toEntity());
+    	UserRole ur1 = UserRole.builder().role(Role.ROLE_USER).username(auth.getUsername()).build();
+    	authInfoRepository.save(auth);
+    	userRoleRepository.save(ur1);
+    	Member admin = memRepo.findOneByName("관리자");
+    	MemberSystem ms1 = MemberSystem.builder().senior(admin).junior(savedMem.toEntity()).build();
+    	memSys.save(ms1);
+    	System.out.println(savedMem+"auth"+auth);
   	}
     
     

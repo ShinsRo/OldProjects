@@ -2,6 +2,7 @@ package com.nastech.upmureport.domain.entity;
 
 import java.math.BigInteger;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -29,7 +30,7 @@ public class AuthInfo {
 	@Enumerated(EnumType.STRING)
     private Role role;
 
-	@OneToOne
+	@OneToOne(cascade= {CascadeType.REFRESH})
 	@JoinColumn(name = "mid")
 	private Member member;
 	

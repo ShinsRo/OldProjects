@@ -3,7 +3,7 @@ import { Map, List } from 'immutable';
 import axios from 'axios';
 
 function getjuniorAPI(loginUser) {
-    return axios.post('http://localhost:8080/upmureport/api/users/userlist', loginUser);
+    return axios.post('http://localhost:8080/api/users/userlist', loginUser);
 }
 
 const GET_JUNIOR_PENDING = 'GET_JUNIOR_PENDING';

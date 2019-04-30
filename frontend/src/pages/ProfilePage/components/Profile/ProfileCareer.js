@@ -60,9 +60,9 @@ class ProfileCareer extends Component {
 
     return (
 
-      <div className="card shadow mb-4">
+      <div class="card border-left-success shadow h-100 py-2">
 
-        <nav className="navbar navbar-expand navbar-light bg-light mb-4">
+        {/* <nav className="navbar navbar-expand navbar-light bg-light mb-4">
           <a className="navbar-brand" href="/">커리어</a>
           <ul className="navbar-nav ml-auto">
             <li className="nav-item dropdown">
@@ -77,6 +77,9 @@ class ProfileCareer extends Component {
               </div>
             </li>
           </ul>
+        </nav> */}
+        <nav className="navbar navbar-expand navbar-light bg-light mb-1">
+          <div className="navbar-brand" >Career</div>
         </nav>
 
 
@@ -86,9 +89,7 @@ class ProfileCareer extends Component {
               <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">시작일</div>
               <div className="h5 mb-0 font-weight-bold text-gray-800">{currentCarrer && currentCarrer.startDate}</div>
             </div>
-            <div className="col-auto">
-              <i className="fas fa-calendar fa-2x text-gray-300"></i>
-            </div>
+        
           </div>
         </div>
 
@@ -99,9 +100,7 @@ class ProfileCareer extends Component {
               <div className="h5 mb-0 font-weight-bold text-gray-800"> {currentCarrer && currentCarrer.dept}</div>
 
             </div>
-            <div className="col-auto">
-              <i className="fas fa-calendar fa-2x text-gray-300"></i>
-            </div>
+            
           </div>
         </div>
 
@@ -112,9 +111,7 @@ class ProfileCareer extends Component {
               <div className="h5 mb-0 font-weight-bold text-gray-800"> {currentCarrer && currentCarrer.posi}</div>
              
             </div>
-            <div className="col-auto">
-              <i className="fas fa-calendar fa-2x text-gray-300"></i>
-            </div>
+            
           </div>
         </div>
 
