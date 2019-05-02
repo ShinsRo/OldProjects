@@ -4,42 +4,24 @@ variables:
 
 # 캐시 init
 cache:
-  stage: cache
   paths:
     - .m2/repository/
     - target/
-  
-  script:
-    - echo -e 
-        "
-        $CI_JOB_STAGE; START\\n
-        *****************************************\\n
-        'Checking variables'\\n
-        $MAVEN_CLI_OPTS     \\n
-        $MAVEN_OPTS         \\n
-        *****************************************\\n
-        $CI_JOB_STAGE; END
-        "
-  only:
-    - dist
-    - pre_dist
 
 # Java source 컴파일
 compile:
-  stage: compile
+  stage: build
 
   script:
     - echo -e 
         "
-        $CI_JOB_STAGE; START\\n
-        *****************************************\\n
-        'TRIGGER MAVEN COMPILE'
+        ***************************************** \n
+        'TRIGGER MAVEN COMPILE'                   \n
         "
     - mvn $MAVEN_CLI_OPTS compile
     - echo -e 
         "
-        *****************************************\\n
-        $CI_JOB_STAGE; END
+        ***************************************** \n
         "
   only:
     - dist
@@ -53,39 +35,36 @@ compile:
 
 # frontend 빌드
 build-frontend:
-  stage: build-frontend
+  stage: build
 
   script:
     - echo -e 
         "
-        $CI_JOB_STAGE START\\n
-        *****************************************\\n
-        'INSTALL AND BUILD NODE PACKAGE VIA NPM'
+        ***************************************** \n
+        'INSTALL AND BUILD NODE PACKAGE VIA NPM'  \n
         "
     - mvn $MAVEN_CLI_OPTS frontend:npm
     - echo -e 
         "
-        *****************************************\\n
-        $CI_JOB_STAGE END
+        ***************************************** \n
         "
   only:
     - dist
 
 # 리소스 copy to target
 resource-copy:
-  stage: resource-copy
+  stage: build
 
   script:
     - echo -e 
         "
-        $CI_JOB_STAGE START\\n
-        *****************************************\n
-        'COPY ALL RESOURCES INTO TARGET'
+        ***************************************** \n
+        'COPY ALL RESOURCES INTO TARGET'          \n
         "
     - mvn $MAVEN_CLI_OPTS resources:copy-resources
     - echo -e 
         "
-        *****************************************\n
+        ***************************************** \n
         $CI_JOB_STAGE END
         "
   only:
@@ -93,20 +72,18 @@ resource-copy:
 
 # 패키징
 package:
-  stage: package
+  stage: build
 
   script:
     - echo -e 
         "
-        $CI_JOB_STAGE; START\\n
-        *****************************************\n
-        'MAKE JAR PACKAGE'
+        ***************************************** \n
+        'MAKE JAR PACKAGE'                        \n
         "
     - mvn $MAVEN_CLI_OPTS package spring-boot:repackage
     - echo -e 
         "
-        *****************************************\n
-        $CI_JOB_STAGE; END
+        ***************************************** \n
         "
   only:
     - dist
