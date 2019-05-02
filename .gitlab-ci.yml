@@ -20,14 +20,17 @@ set-app-props:
   stage: pre-compile
   
   script:
-    - mvn clean
-    - printf 'spring.application.name=UPMUREPORT_WEB\n' >  src/main/resources/application.properties
-    - printf 'server.port='                             >> src/main/resources/application.properties
-    - printf $SERVER_PORT                               >> src/main/resources/application.properties
-    - printf '\n'                                       >> src/main/resources/application.properties
-    - printf $DATASOURCE_PROPS                          >> src/main/resources/application.properties
-    - printf '\n'                                       >> src/main/resources/application.properties
-    - printf $HIBERNATE_PROPS                           >> src/main/resources/application.properties
+    - echo $PWD
+    - ls
+    # - mvn clean
+    - echo $SERVER_PORT
+    - echo 'spring.application.name=UPMUREPORT_WEB\n' >  src/main/resources/application.properties
+    - echo 'server.port='                             >> src/main/resources/application.properties
+    - echo $SERVER_PORT                               >> src/main/resources/application.properties
+    - echo "  \n"                                     >> src/main/resources/application.properties
+    - echo $DATASOURCE_PROPS                          >> src/main/resources/application.properties
+    - echo "  \n"                                     >> src/main/resources/application.properties
+    - echo $HIBERNATE_PROPS                           >> src/main/resources/application.properties
     - cat src/main/resources/application.properties
 
   only:

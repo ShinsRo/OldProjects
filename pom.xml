@@ -213,6 +213,14 @@
 			
 			아래 주석처리한 executions 은 로컬에서 빌드할 때 주석 해제하여 사용한다.
 		-->
+		<plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <executable>${project.basedir}/jdk1.8.0/bin/javac</executable>
+              <compilerVersion>1.8</compilerVersion>
+            </configuration>
+        </plugin>
 
 	  	<!-- 테스트 코드 스킵 설정-->
 		<plugin>
