@@ -21,10 +21,10 @@ set-app-props:
   
   script:
     - ls
-    - printf 'spring.application.name=UPMUREPORT_WEB\n' > target/application.properties
-    - printf 'server.port=$SERVER_PORT              \n' > target/application.properties
-    - printf '$DATASOURCE_PROPS                     \n' > target/application.properties
-    - printf '$HIBERNATE_PROPS                      \n' > target/application.properties
+    - printf 'spring.application.name=UPMUREPORT_WEB\n' > application.properties
+    - printf 'server.port=$SERVER_PORT              \n' > application.properties
+    - printf '$DATASOURCE_PROPS                     \n' > application.properties
+    - printf '$HIBERNATE_PROPS                      \n' > application.properties
     - cat target/application.properties
 
   only:
