@@ -8,45 +8,42 @@ cache:
   paths:
     - .m2/repository/
     - target/
+  
+  script:
+    - echo -e 
+        "
+        $CI_JOB_STAGE; START\\n
+        *****************************************\\n
+        'Checking variables'\\n
+        $MAVEN_CLI_OPTS     \\n
+        $MAVEN_OPTS         \\n
+        *****************************************\\n
+        $CI_JOB_STAGE; END
+        "
   only:
     - dist
     - pre_dist
-  
-  script:
-    - >
-      echo -e 
-      "
-      $CI_JOB_STAGE; START
-      *****************************************
-      'Checking variables'
-      $MAVEN_CLI_OPTS
-      $MAVEN_OPTS
-      *****************************************
-      $CI_JOB_STAGE; END
-      "
 
 # Java source 컴파일
 compile:
   stage: compile
+
+  script:
+    - echo -e 
+        "
+        $CI_JOB_STAGE; START\\n
+        *****************************************\\n
+        'TRIGGER MAVEN COMPILE'
+        "
+    - mvn $MAVEN_CLI_OPTS compile
+    - echo -e 
+        "
+        *****************************************\\n
+        $CI_JOB_STAGE; END
+        "
   only:
     - dist
     - pre_dist
-
-  script:
-    - >
-      echo -e 
-      "
-      $CI_JOB_STAGE; START
-      *****************************************
-      'TRIGGER MAVEN COMPILE'
-      "
-    - mvn $MAVEN_CLI_OPTS compile
-    - >
-      echo -e 
-      "
-      *****************************************
-      $CI_JOB_STAGE; END
-      "
 
 # 유닛 테스트
 # test:
@@ -58,68 +55,61 @@ compile:
 build-frontend:
   stage: build-frontend
 
+  script:
+    - echo -e 
+        "
+        $CI_JOB_STAGE START\\n
+        *****************************************\\n
+        'INSTALL AND BUILD NODE PACKAGE VIA NPM'
+        "
+    - mvn $MAVEN_CLI_OPTS frontend:npm
+    - echo -e 
+        "
+        *****************************************\\n
+        $CI_JOB_STAGE END
+        "
   only:
     - dist
-
-  script:
-    - >
-      echo -e 
-      "
-      $CI_JOB_STAGE; START
-      *****************************************
-      'INSTALL AND BUILD NODE PACKAGE VIA NPM'
-      "
-    - mvn $MAVEN_CLI_OPTS frontend:npm
-    - >
-      echo -e 
-      "
-      *****************************************
-      $CI_JOB_STAGE; END
-      "
 
 # 리소스 copy to target
 resource-copy:
-  stage: resource-copy:
-  only:
-    - dist
+  stage: resource-copy
 
   script:
-    - >
-      echo -e 
-      "
-      $CI_JOB_STAGE; START
-      *****************************************
-      'COPY ALL RESOURCES INTO TARGET'
-      "
+    - echo -e 
+        "
+        $CI_JOB_STAGE START\\n
+        *****************************************\n
+        'COPY ALL RESOURCES INTO TARGET'
+        "
     - mvn $MAVEN_CLI_OPTS resources:copy-resources
-    - >
-      echo -e 
-      "
-      *****************************************
-      $CI_JOB_STAGE; END
-      "
+    - echo -e 
+        "
+        *****************************************\n
+        $CI_JOB_STAGE END
+        "
+  only:
+    - dist
 
 # 패키징
 package:
   stage: package
-  only:
-    - dist
 
   script:
-    - >
-      echo -e 
-      "
-      $CI_JOB_STAGE; START
-      *****************************************
-      'MAKE JAR PACKAGE'
-      "
+    - echo -e 
+        "
+        $CI_JOB_STAGE; START\\n
+        *****************************************\n
+        'MAKE JAR PACKAGE'
+        "
     - mvn $MAVEN_CLI_OPTS package spring-boot:repackage
-    - >
-      echo -e 
-      "
-      *****************************************
-      $CI_JOB_STAGE; END
-      "
+    - echo -e 
+        "
+        *****************************************\n
+        $CI_JOB_STAGE; END
+        "
+  only:
+    - dist
 
 # deploy:
 #   stage: deploy
