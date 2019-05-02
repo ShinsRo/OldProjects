@@ -20,12 +20,11 @@ set-app-props:
   stage: pre-compile
   
   script:
-    - ls
-    - printf 'spring.application.name=UPMUREPORT_WEB\n' > application.properties
-    - printf 'server.port=$SERVER_PORT              \n' > application.properties
-    - printf '$DATASOURCE_PROPS                     \n' > application.properties
-    - printf '$HIBERNATE_PROPS                      \n' > application.properties
-    - cat target/application.properties
+    - printf 'spring.application.name=UPMUREPORT_WEB\n' > src/main/resources/repoapplication.properties
+    - printf 'server.port=$SERVER_PORT              \n' > src/main/resources/repoapplication.properties
+    - printf '$DATASOURCE_PROPS                     \n' > src/main/resources/repoapplication.properties
+    - printf '$HIBERNATE_PROPS                      \n' > src/main/resources/repoapplication.properties
+    - cat src/main/resources/repoapplication.properties
 
   only:
     - dist
