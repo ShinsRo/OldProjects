@@ -2,19 +2,42 @@ variables:
   MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
+stages:
+  - pre-compile
+  - compile
+  - build-frontend
+  - prepare-package
+  - package
+
 # 캐시 init
 cache:
   paths:
     - .m2/repository/
     - target/
 
+# Spring boot 민감정보 작성
+set-app-props:
+  stage: pre-compile
+  
+  script:
+    - printf 'spring.application.name=UPMUREPORT_WEB\n' > target/application.properties
+    - printf 'server.port=$SERVER_PORT              \n' > target/application.properties
+    - printf '$DATASOURCE_PROPS                     \n' > target/application.properties
+    - printf '$HIBERNATE_PROPS                      \n' > target/application.properties
+    - ls
+    - cat target/application.properties
+
+  only:
+    - dist
+    - pre_dist
+    
 # Java source 컴파일
 compile:
-  stage: build
+  stage: compile
 
   script:
     - echo -e 
-        "
+        "$CI_JOB_STAGE
         ***************************************** \n
         'TRIGGER MAVEN COMPILE'                   \n
         "
@@ -35,7 +58,7 @@ compile:
 
 # frontend 빌드
 build-frontend:
-  stage: build
+  stage: build-frontend
 
   script:
     - echo -e 
@@ -50,10 +73,11 @@ build-frontend:
         "
   only:
     - dist
+    - pre_dist
 
 # 리소스 copy to target
 resource-copy:
-  stage: build
+  stage: prepare-package
 
   script:
     - echo -e 
@@ -69,10 +93,11 @@ resource-copy:
         "
   only:
     - dist
+    - pre_dist
 
 # 패키징
 package:
-  stage: build
+  stage: package
 
   script:
     - echo -e 
@@ -87,6 +112,7 @@ package:
         "
   only:
     - dist
+    - pre_dist
 
 # deploy:
 #   stage: deploy
