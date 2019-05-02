@@ -209,7 +209,6 @@
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-surefire-plugin</artifactId>
-			<version>2.12.4</version>
 			<configuration>
 			  	<skipTests>true</skipTests>
 			</configuration>
@@ -273,7 +272,6 @@
 		 -->
 		<plugin>
 		    <artifactId>maven-resources-plugin</artifactId>
-		    <version>3.0.1</version>
 		    <executions>
 		        <execution>
 		            <id>position-react-build</id>
@@ -312,4 +310,14 @@
 		</plugin>
       </plugins>
   </build>
+
+  <distributionManagement>
+    <repository>
+      <uniqueVersion>false</uniqueVersion>
+      <id>central</id>
+      <name>${project.name}-${project.version}-release</name>
+      <url>${env.MAVEN_REPO_URL}/relases</url>
+      <layout>default</layout>
+    </repository>
+  </distributionManagement>
 </project>
