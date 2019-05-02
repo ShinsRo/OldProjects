@@ -1,4 +1,5 @@
-const BASE_URL = 'http://localhost:8080';
+import { BASE_URL } from '../../supports/API_CONSTANT';
+
 const PROJECT_URL = `${BASE_URL}/api/project`;
 const PDIR_URL = `${BASE_URL}/api/pdir`;
 const MEMBER_URL = `${BASE_URL}/api/users`;

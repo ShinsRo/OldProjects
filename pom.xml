@@ -7,7 +7,7 @@
 	<groupId>com.nastech.ict</groupId>
 	<artifactId>upmureport</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	
 	<name>upmureport Webapp</name>
 	<!-- FIXME change it to the project's website -->
@@ -15,9 +15,16 @@
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<org.swagger-version>2.9.2</org.swagger-version>
+		
+		<!-- 프론트엔드 Pre-installing 할 node/yarn 버전 프로퍼티 및 프로젝트 경로-->
+		<frontendSrcDir>${project.basedir}/frontend</frontendSrcDir>
+		<node.version>v10.11.0</node.version>
+		<npm.version>6.4.1</npm.version>
+		<yarn.version>v1.7.0</yarn.version>
+		<frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
 	</properties>
 
 	<parent>
@@ -31,6 +38,11 @@
 	<dependency>
 	    <groupId>org.springframework.boot</groupId>
 	    <artifactId>spring-boot-starter-web</artifactId>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-tomcat</artifactId>
 	</dependency>
 	
 	<dependency>
@@ -192,38 +204,112 @@
 
   <build>
     <finalName>upmureport</finalName>
-    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
-        <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>3.1.0</version>
-        </plugin>
-        <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_war_packaging -->
-        <plugin>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>3.0.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.22.1</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-war-plugin</artifactId>
-          <version>3.2.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>2.5.2</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.8.2</version>
-        </plugin>
+	  	<!-- 테스트 코드 스킵 설정-->
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<version>2.12.4</version>
+			<configuration>
+			  	<skipTests>true</skipTests>
+			</configuration>
+		</plugin>
+
+        <!-- 프론트엔드(react) 메이븐 빌드 설정 -->
+      	<!-- 
+      		배포 시 사전 설치 설정
+      		author: 김승신
+      		1. NodeJS와 Yarn을 프로젝트 로컬에 사전 설치
+      		2. yarn install을 실행하여 배포 시 의존성 설치 보장
+      		3. yarn build을 통한 최적화 빌드
+      	 -->
+      	<plugin>
+		    <groupId>com.github.eirslett</groupId>
+		    <artifactId>frontend-maven-plugin</artifactId>
+		    <version>${frontend-maven-plugin.version}</version>
+		
+		    <configuration>
+		        <nodeVersion>${node.version}</nodeVersion>
+		        <yarnVersion>${yarn.version}</yarnVersion>
+		        <workingDirectory>${frontendSrcDir}</workingDirectory>
+		        <installDirectory>${project.build.directory}</installDirectory>
+		    </configuration>
+		
+		    <executions>
+		        <execution>
+		            <id>install-frontend-tools</id>
+		            <goals>
+		                <goal>install-node-and-yarn</goal>
+		            </goals>
+		        </execution>
+		
+		        <execution>
+		            <id>yarn-install</id>
+		            <goals>
+		                <goal>yarn</goal>
+		            </goals>
+		            <configuration>
+		                <arguments>install</arguments>
+		            </configuration>
+		        </execution>
+		
+		        <execution>
+		            <id>build-frontend</id>
+		            <goals>
+		                <goal>yarn</goal>
+		            </goals>
+		            <phase>prepare-package</phase>
+		            <configuration>
+		                <arguments>build</arguments>
+		            </configuration>
+		        </execution>
+		    </executions>
+		</plugin>
+		
+		<!-- 
+			리소스 파일을 빌드에 포함하는 메이븐 플러그인 설정
+      		author: 김승신
+      		 - frontend 프로젝트 내 resource를 실제 배포 장소의 static으로 옮김
+		 -->
+		<plugin>
+		    <artifactId>maven-resources-plugin</artifactId>
+		    <version>3.0.1</version>
+		    <executions>
+		        <execution>
+		            <id>position-react-build</id>
+		            <goals>
+		                <goal>copy-resources</goal>
+		            </goals>
+		            <phase>prepare-package</phase>
+		            <configuration>
+		                <outputDirectory>${project.build.outputDirectory}/static</outputDirectory>
+		                <resources>
+		                    <resource>
+		                        <directory>${frontendSrcDir}/build</directory>
+		                        <filtering>false</filtering>
+		                    </resource>
+		                </resources>
+		            </configuration>
+		        </execution>
+		    </executions>
+		</plugin>
+      	<!-- 프론트엔드(react) 메이븐 빌드 설정 끝 -->
+      	
+      	<!-- Spring boot maven 빌드 플러그인 설정 -->
+      	<plugin>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-maven-plugin</artifactId>
+			<configuration>
+				<mainClass>com.nastech.upmureport.Application</mainClass> 
+			</configuration>
+			<executions>
+		        <execution>
+		            <goals>
+		                <goal>repackage</goal>
+		            </goals>
+		        </execution>
+		    </executions>
+		</plugin>
       </plugins>
-    </pluginManagement>
   </build>
 </project>

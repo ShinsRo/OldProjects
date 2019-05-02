@@ -1,9 +1,10 @@
 import { handleActions } from 'redux-actions';
 import { Map, List } from 'immutable';
 import axios from 'axios';
+import { BASE_URL } from '../../supports/API_CONSTANT';
 
 function getjuniorAPI(loginUser) {
-    return axios.post('http://localhost:8080/api/users/userlist', loginUser);
+    return axios.post(`${BASE_URL}/api/users/userlist`, loginUser);
 }
 
 const GET_JUNIOR_PENDING = 'GET_JUNIOR_PENDING';

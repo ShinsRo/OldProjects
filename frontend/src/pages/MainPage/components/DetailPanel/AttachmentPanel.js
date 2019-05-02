@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 import base64 from 'base-64'
+import { BASE_URL } from '../../../../supports/API_CONSTANT';
 
 class AttachmentPanel extends Component {
 
@@ -20,7 +21,7 @@ class AttachmentPanel extends Component {
         //var FileSaver = require('file-saver');
 
         axios({
-            url: `http://localhost:8080/attachment/download/${attachment.attachmentId}`,
+            url: `${BASE_URL}/attachment/download/${attachment.attachmentId}`,
             method: 'GET',
             
           }).then((response) => {

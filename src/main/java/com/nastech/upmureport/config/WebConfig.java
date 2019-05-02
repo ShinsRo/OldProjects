@@ -18,12 +18,23 @@ import org.springframework.web.servlet.config.annotation.ContentNegotiationConfi
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @ComponentScan(basePackages = {"com.nastech.upmureport", "com.nastech.upmureport.jpa"})
 @EnableAspectJAutoProxy
 public class WebConfig implements WebMvcConfigurer {
+	
+	  @Override
+	  public void addViewControllers(ViewControllerRegistry registry) {
+	      registry.addViewController("/{spring:\\w+}")
+	            .setViewName("forward:/");
+	      registry.addViewController("/**/{spring:\\w+}")
+	            .setViewName("forward:/");
+	      registry.addViewController("/{spring:\\w+}/**{spring:?!(\\.js|\\.css)$}")
+	            .setViewName("forward:/");
+	  }
 	
 	@Override
 	public void addResourceHandlers(final ResourceHandlerRegistry registry) {

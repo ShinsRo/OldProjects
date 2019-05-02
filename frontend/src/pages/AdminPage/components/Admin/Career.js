@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { BASE_URL } from '../../../../supports/API_CONSTANT';
 
 class Career extends Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class Career extends Component {
       posi: this.state.posi
     }
 
-    return axios.post('http://localhost:8080/upmureport/api/career/modify',
+    return axios.post(`${BASE_URL}/upmureport/api/career/modify`,
     {
       mem:this.props.selectUser,
       newCar:careerInfo
