@@ -180,21 +180,18 @@
    	 <version>${org.swagger-version}</version>
 	</dependency>
 	
-	<!-- https://mvnrepository.com/artifact/com.cedarsoft.commons/io -->
 	<dependency>
     	<groupId>com.cedarsoft.commons</groupId>
     	<artifactId>io</artifactId>
     	<version>8.8.1</version>
 	</dependency>
 
-	<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
 	<dependency>
     	<groupId>commons-io</groupId>
 	    <artifactId>commons-io</artifactId>
     	<version>2.6</version>
 	</dependency>
 
-	<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
 	<dependency>
 	    <groupId>commons-fileupload</groupId>
 	    <artifactId>commons-fileupload</artifactId>
@@ -203,8 +200,20 @@
   </dependencies>
 
   <build>
-    <finalName>upmureport</finalName>
       <plugins>
+		<!--
+			2019-05-02 김승신
+			phase에 바인딩하여 사용하지 않는 것을 원칙으로 한다.
+				maven-${prefix}-plugin (공식 and maven team 플러그인)
+				${prefix}-maven-plugin (비공식 or other team 플러그인)
+			에 의거하여
+
+			mvn prefix:goal 처럼 쉘 스크립트 상 직접 명시하여 빌드한다.
+			(이는 gitlab-cl 상 echo 로그 편의를 도모하기 위함이다.)
+			
+			아래 주석처리한 executions 은 로컬에서 빌드할 때 주석 해제하여 사용한다.
+		-->
+
 	  	<!-- 테스트 코드 스킵 설정-->
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
@@ -222,30 +231,32 @@
       		2. yarn install을 실행하여 배포 시 의존성 설치 보장
       		3. yarn build을 통한 최적화 빌드
       	 -->
-      	<plugin>
+		<plugin>
 		    <groupId>com.github.eirslett</groupId>
 		    <artifactId>frontend-maven-plugin</artifactId>
 		    <version>${frontend-maven-plugin.version}</version>
 		
 		    <configuration>
 		        <nodeVersion>${node.version}</nodeVersion>
-		        <yarnVersion>${yarn.version}</yarnVersion>
+		        <npmVersion>${npm.version}</npmVersion>
+		        <!-- <yarnVersion>${yarn.version}</yarnVersion> -->
 		        <workingDirectory>${frontendSrcDir}</workingDirectory>
 		        <installDirectory>${project.build.directory}</installDirectory>
 		    </configuration>
-		
-		    <executions>
+
+		    <!-- 
+			<executions>
 		        <execution>
 		            <id>install-frontend-tools</id>
 		            <goals>
-		                <goal>install-node-and-yarn</goal>
+		                <goal>install-node-and-npm</goal>
 		            </goals>
 		        </execution>
 		
 		        <execution>
-		            <id>yarn-install</id>
+		            <id>npm-install</id>
 		            <goals>
-		                <goal>yarn</goal>
+		                <goal>npm</goal>
 		            </goals>
 		            <configuration>
 		                <arguments>install</arguments>
@@ -255,30 +266,31 @@
 		        <execution>
 		            <id>build-frontend</id>
 		            <goals>
-		                <goal>yarn</goal>
+		                <goal>npm</goal>
 		            </goals>
-		            <phase>prepare-package</phase>
 		            <configuration>
 		                <arguments>build</arguments>
 		            </configuration>
 		        </execution>
-		    </executions>
-		</plugin>
-		
+		    </executions> 
+			-->
+		</plugin> 
+
 		<!-- 
 			리소스 파일을 빌드에 포함하는 메이븐 플러그인 설정
       		author: 김승신
       		 - frontend 프로젝트 내 resource를 실제 배포 장소의 static으로 옮김
+			   resources:
 		 -->
 		<plugin>
 		    <artifactId>maven-resources-plugin</artifactId>
-		    <executions>
+		    <!-- 
+			<executions>
 		        <execution>
 		            <id>position-react-build</id>
 		            <goals>
 		                <goal>copy-resources</goal>
 		            </goals>
-		            <phase>prepare-package</phase>
 		            <configuration>
 		                <outputDirectory>${project.build.outputDirectory}/static</outputDirectory>
 		                <resources>
@@ -289,7 +301,8 @@
 		                </resources>
 		            </configuration>
 		        </execution>
-		    </executions>
+		    </executions> 
+			-->
 		</plugin>
       	<!-- 프론트엔드(react) 메이븐 빌드 설정 끝 -->
       	
@@ -300,13 +313,15 @@
 			<configuration>
 				<mainClass>com.nastech.upmureport.Application</mainClass> 
 			</configuration>
+			<!-- 
 			<executions>
 		        <execution>
 		            <goals>
 		                <goal>repackage</goal>
 		            </goals>
 		        </execution>
-		    </executions>
+		    </executions> 
+			-->
 		</plugin>
       </plugins>
   </build>

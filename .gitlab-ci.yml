@@ -2,24 +2,128 @@ variables:
   MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
+# 캐시 init
 cache:
+  stage: cache
   paths:
     - .m2/repository/
     - target/
-
-build:
-  stage: build
+  only:
+    - dist
+    - pre_dist
+  
   script:
-    - mvn $MAVEN_CLI_OPTS compile
+    - >
+      echo -e 
+      "
+      $CI_JOB_STAGE; START
+      *****************************************
+      'Checking variables'
+      $MAVEN_CLI_OPTS
+      $MAVEN_OPTS
+      *****************************************
+      $CI_JOB_STAGE; END
+      "
 
+# Java source 컴파일
+compile:
+  stage: compile
+  only:
+    - dist
+    - pre_dist
+
+  script:
+    - >
+      echo -e 
+      "
+      $CI_JOB_STAGE; START
+      *****************************************
+      'TRIGGER MAVEN COMPILE'
+      "
+    - mvn $MAVEN_CLI_OPTS compile
+    - >
+      echo -e 
+      "
+      *****************************************
+      $CI_JOB_STAGE; END
+      "
+
+# 유닛 테스트
 # test:
 #   stage: test
 #   script:
 #     - mvn $MAVEN_CLI_OPTS test
 
-deploy:
-  stage: deploy
-  script:
-    - mvn $MAVEN_CLI_OPTS deploy
+# frontend 빌드
+build-frontend:
+  stage: build-frontend
+
   only:
     - dist
+
+  script:
+    - >
+      echo -e 
+      "
+      $CI_JOB_STAGE; START
+      *****************************************
+      'INSTALL AND BUILD NODE PACKAGE VIA NPM'
+      "
+    - mvn $MAVEN_CLI_OPTS frontend:npm
+    - >
+      echo -e 
+      "
+      *****************************************
+      $CI_JOB_STAGE; END
+      "
+
+# 리소스 copy to target
+resource-copy:
+  stage: resource-copy:
+  only:
+    - dist
+
+  script:
+    - >
+      echo -e 
+      "
+      $CI_JOB_STAGE; START
+      *****************************************
+      'COPY ALL RESOURCES INTO TARGET'
+      "
+    - mvn $MAVEN_CLI_OPTS resources:copy-resources
+    - >
+      echo -e 
+      "
+      *****************************************
+      $CI_JOB_STAGE; END
+      "
+
+# 패키징
+package:
+  stage: package
+  only:
+    - dist
+
+  script:
+    - >
+      echo -e 
+      "
+      $CI_JOB_STAGE; START
+      *****************************************
+      'MAKE JAR PACKAGE'
+      "
+    - mvn $MAVEN_CLI_OPTS package spring-boot:repackage
+    - >
+      echo -e 
+      "
+      *****************************************
+      $CI_JOB_STAGE; END
+      "
+
+# deploy:
+#   stage: deploy
+#   script:
+#     - mvn $MAVEN_CLI_OPTS deploy
+#   only:
+#     - dist

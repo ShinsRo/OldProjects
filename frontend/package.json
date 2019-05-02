@@ -34,8 +34,7 @@
     "eject": "react-scripts eject",
     "watch": "webpack --watch -d"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "eslintConfig": {
     "extends": "react-app"
   },
