@@ -11,7 +11,7 @@ import LoginContainer from './containers/LoginContainer';
 // const mainTitleStyle = {  marginLeft: '40%', transform: 'translate(0%, -50%)' }
 // const logoStyle = { transform: 'translate(60%, 100%)', width: 100, height: 47, position: "absolute" };
 const loginFormCardStyle = { marginLeft: '30%', transform: 'translate(120%, -10%)', width: '426px'};
-const fullHeightStyle = { height: '91.9vh', width: '100%', padding: '0px', overflow: 'hidden' };
+const fullHeightStyle = { height: '92.2vh', width: '100%', padding: '0px', overflow: 'hidden' };
 
 class LoginPage extends Component {
 
@@ -43,7 +43,7 @@ class LoginPage extends Component {
             <footer className="sticky-footer bg-dark-2">
                 <div className="container my-auto">
                 <div className="copyright text-center my-auto">
-                    <span>Copyright © [비고] UPMUREPORT 2019</span>
+                    <span>2019 UPMUREPORT | 김승신 | 김윤상 | 마규석 |</span>
                 </div>
                 </div>
             </footer>
