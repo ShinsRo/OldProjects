@@ -65,8 +65,6 @@
 	    <artifactId>spring-data-jpa</artifactId>
 	</dependency>
 	<!-- 스프링 관련 의존성 끝 -->
-    
-	
 	
 	<!-- JPA 관련 의존성 시작 -->
 	<dependency>
@@ -103,8 +101,7 @@
         <groupId>ch.qos.logback</groupId>
         <artifactId>logback-classic</artifactId>
     </dependency>
-	<!-- 로그 관련 의존성 끝 --> 
-    
+	<!-- 로그 관련 의존성 끝 -->
 	
 	<!-- lombok -->
 	<dependency>
@@ -206,7 +203,7 @@
 			phase에 바인딩하여 사용하지 않는 것을 원칙으로 한다.
 				maven-${prefix}-plugin (공식 and maven team 플러그인)
 				${prefix}-maven-plugin (비공식 or other team 플러그인)
-			에 의거하여
+			를 참고하여
 
 			mvn prefix:goal 처럼 쉘 스크립트 상 직접 명시하여 빌드한다.
 			(이는 gitlab-cl 상 echo 로그 편의를 도모하기 위함이다.)
