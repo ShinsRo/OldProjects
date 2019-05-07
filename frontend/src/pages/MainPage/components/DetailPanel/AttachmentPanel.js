@@ -40,9 +40,9 @@ class AttachmentPanel extends Component {
             console.log(str.length);
             console.log(str);
 
-            var decoded = base64.decode(str);
+            // var decoded = base64.decode(str);
 
-            var blob = new Blob([base64.decode(str)], {type: "octet/stream"});
+            var blob = new Blob([base64.decode(str)], {type: "image/jpeg"});
             // var url = URL.createObjectURL(blob);
             // var a = document.createElement("a");
             // a.href = url;
