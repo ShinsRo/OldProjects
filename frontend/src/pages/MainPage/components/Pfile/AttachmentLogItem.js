@@ -20,7 +20,6 @@ class AttachmentLogItem extends Component {
         return (
             <div class="row" key={idx} >
                     <div class="col-6">{attachmentLog.name}</div>
-                    <div class="col-2">{attachmentLog.contentType}</div>
                     <div class="col-2">{attachmentLog.stat}</div>
                     <div class="col-2">{attachmentLog.newDate}</div>
                 </div>
