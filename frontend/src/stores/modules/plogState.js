@@ -5,10 +5,14 @@ import * as plogService from '../../api/PLogService';
 const PLOG_SEND_PENDING = 'PLOG_SEND_PENDING';
 const PLOG_SEND_SUCCESS = 'PLOG_SEND_SUCCESS';
 const PLOG_SEND_ERROR = 'PLOG_SEND_ERROR';
+const SET_PFILE_LOG = 'SET_PFILE_LOG';
+const SET_ATTACHMENT_LOG = 'SET_ATTACHMENT_LOG';
 
 export const plogPending = createAction(PLOG_SEND_PENDING);
 export const plogSendSuccess = createAction(PLOG_SEND_SUCCESS);
 export const plogSenderr = createAction(PLOG_SEND_ERROR);
+export const setPfileLog = createAction(SET_PFILE_LOG);
+export const setAttachmentLog = createAction(SET_ATTACHMENT_LOG);
 
 
 const initialState = Map({
@@ -41,4 +45,11 @@ export default handleActions({
     [PLOG_SEND_ERROR]: (state, action) => {
         return state.set('isFetching', false).set('error', true);
     },
+    [SET_PFILE_LOG]: (state, action) => {
+        return state.set('pfileLog', action.payload);
+    },
+    [SET_ATTACHMENT_LOG]: (state, action) => {
+        return state.set('attachmentLog', action.payload);
+    },
+
 }, initialState);

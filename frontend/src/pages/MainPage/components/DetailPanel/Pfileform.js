@@ -9,10 +9,9 @@ class Pfileform extends Component {
         selectedDirId: '',
     }
 
-    componentDidMount() {
+    componentWillReceiveProps() {
         this.setState({
-            name: this.props.pfile.name,
-            contents: this.props.pfile.contents,
+            pfile: this.props
         })
     }
 
@@ -61,6 +60,7 @@ class Pfileform extends Component {
             name: this.state.name,
             contents: this.state.contents,
         }
+
         setPfile(newPfile);
         console.log(newPfile);
         updatePfile(newPfile);
@@ -76,62 +76,82 @@ class Pfileform extends Component {
     }
 
     render() {
-        const { pfile } = this.props;
+
         let submitBts;
         let cancleBts;
+        let nameTextArea;
+        let contentsTextArea;
+
+
         if (this.props.status === 'add') {
+
             submitBts =
                 <button type="button" className="btn btn-dark-1 p-2" onClick={this.handleInsert}>
                     추가 하기
                         </button>
 
+            nameTextArea =
+                <textarea className="form-control" rows='1' style={{ resize: 'none' }} value={this.state.name} onChange={this.handleTitleChange} />
+
+            contentsTextArea =
+                <textarea className="form-control" rows='13' style={{ resize: 'none' }} value={this.state.contents} onChange={this.handleContentChange} />
+
         }
+
         else if (this.props.status === 'update') {
+
             submitBts =
                 <button type="button" className="btn btn-dark-1 p-2" onClick={this.handleUpdate}>
                     수정 하기
-                        </button>
+                </button>
 
-        }
-
-
-        if (this.props.status === 'update') {
             cancleBts =
                 <button type="button" className="btn btn-danger bg-danger p-2" onClick={this.handleCancle}>
                     취소 하기
                 </button>
 
+            nameTextArea =
+                <textarea className="form-control" rows='1' style={{ resize: 'none' }} defaultValue={this.props.pfile.name} onChange={this.handleTitleChange} />
+
+            contentsTextArea =
+                <textarea className="form-control" rows='13' style={{ resize: 'none' }} defaultValue={this.props.pfile.contents} onChange={this.handleContentChange} />
         }
 
 
+
         return (
-            
-                <div className="card shadow mb-4">
-                    <div className="card-body">
-                        <div className="m-0 font-weight-bold text-darkblue">
+
+            <div className="card shadow mb-4">
+                <div className="card-body">
+                    <div className="row">
+                        <div className="col-2 font-weight-bold text-darkblue">
                             <h2>제목</h2>
-                            <hr />
-                            <textarea className="form-control" defaultValue={pfile.name} onChange={this.handleTitleChange} />
                         </div>
-                    </div>
-                    <div className="card-body">
-                        <div className="m-0 font-weight-bold text-darkblue">
-                            <h2>내용</h2>
-                            <hr />
-                            <textarea className="form-control" defaultValue={pfile.contents} onChange={this.handleContentChange} />
+                        <div className="col-10">
+                            {nameTextArea}
                         </div>
                     </div>
 
-                    <div className="card-body">
-                        <div className="row justify-content-end">
-                            <div className="btn-group" role="group" aria-label="Basic example">
-                                {submitBts}
-                                {cancleBts}
-                            </div>
+
+                    <div className="row mb-4">
+                        <div className="col-2 font-weight-bold text-darkblue">
+                            <h2>내용</h2>
+                        </div>
+
+                        <div className="col-10">
+                            {contentsTextArea}
+                        </div>
+                    </div>
+
+                    <div className="row justify-content-end">
+                        <div className="btn-group" role="group" aria-label="Basic example">
+                            {submitBts}
+                            {cancleBts}
                         </div>
                     </div>
                 </div>
-            
+            </div>
+
         );
     }
 }

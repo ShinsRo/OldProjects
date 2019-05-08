@@ -40,20 +40,22 @@ class PfileTable extends React.Component {
         handleDeleteAttachment(attachmentId);
     }
 
+    
+
     render() {
         const {pfiles, attachments, selectedDirId} = this.props;
         return (
-            <div overflow-x = "auto">
-                <div className="container" id="PfileTable" cellSpacing="0" width="100%">
+            <div height="100px">
+                <div className="container" id="PfileTable" cellSpacing="0" width="100%" >
                     <div className="row">
-                        
+
+                            <div className="col-1">이미지</div>
                             <div className="col-8">제목</div>
-                            <div className="col-2">유형</div>
-                            <div className="col-1">상세정보</div>
+                            <div className="col-2">유형</div>                            
                             <div className="col-1">삭제</div>
                             
                     </div>
-                    <div>
+                    <div >
                         
                         {pfiles && pfiles.map((pfile, idx) => {
                             return(  

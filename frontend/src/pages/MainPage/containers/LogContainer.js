@@ -24,18 +24,18 @@ class LogContainer extends Component {
 
     wrapWithCard(panel) {
         return (
-            <div className="container">
-            <div className="card shadow mb-4" style={{ height: '100%', width: '100%'}}>
+            // <div className="container" style={{ height: '100%' , overflowX :'auto', overflowY:'scroll' }}>
+            <div className="card shadow mb-4"  style={{ height: '100%', width: '100%'}}>
                 {panel}
             </div>
-            </div>
+            // </div>
         );
     }
 
     render() {
         const { wrapWithCard } = this
         // const { projectState, pfileState, attachmentState, PfileActions,ProjectActions, AttachmentActions  } = this.props;
-        const { plogState  } = this.props;
+        const { plogState,  PLogActions, ProjectActions } = this.props;
         const pfileLogs =  plogState.get('pfileLogs');
         const attachmentLogs = plogState.get('attachmentLogs');
         console.log('log containner ==================');
@@ -59,16 +59,19 @@ class LogContainer extends Component {
         } else {
             return wrapWithCard(<>
                 <div className="card-body">
-                    <div className= "font-weight-bold text-darkblue col-10" >
+                    
+                    <div className= "row font-weight-bold text-darkblue col-10" >
                         <h1> 로그 </h1>
                     </div>
 
-                    <div className="container">
+                    <div className="container"  style={{ height: '270px', width: '100%', overflowX :'auto', overflowY:'scroll'}}>
                     {pfileLogs && pfileLogs.map((pfileLog, idx) => {
                             return(
                             <PfileLogItem 
                                 idx = {idx}
                                 pfileLog = {pfileLog}
+                                setPfileLog = {PLogActions.setPfileLog}
+                                projSaveItem = {ProjectActions.saveItem}
                             />
                             )
                         })} 
@@ -78,6 +81,8 @@ class LogContainer extends Component {
                             <AttachmentLogItem 
                                 idx = {idx}
                                 attachmentLog = {attachmentLog}
+                                setAttachmentLog= {PLogActions.setAttachmentLog}
+                                projSaveItem = {ProjectActions.saveItem}
                             />
                             )
                         })} 

@@ -37,18 +37,18 @@ class MainPage extends Component {
 
     if (mainContentViewLevel === 'detail') {
       mainContent = (
-        <div className="row"                  style={{ height: '100%' }}>
+        <div className="row"  >
           <div className="col-6">
-            <div className="card shadow mb-4" style={{ height: '100%' }}>      
+            <div className="card shadow mb-4" style={{ height: '850px'}}>      
               <Pfile />
             </div>
           </div>
           <div className="col-6">
-            <div className="row"  style={{ height: '61.5%' }}>
+            <div className="row"  style={{ height: '480px' }}>
               <DetailContanier reloadPage={this.reloadPage.bind(this)}/>
             </div>
-            <div className="row"  style={{ height: '2%' }}></div>
-            <div className="row"  style={{ height: '36.5%' }}>
+            <div className="row"  style={{ height: '20px' }}></div>
+            <div className="row"  style={{ height: '350px' }}>
               <LogContainer />
             </div>
           </div>
@@ -74,7 +74,7 @@ class MainPage extends Component {
           <div id="content">
             {/* Page Content  */}
             <HeaderContainer history={this.props.history}/>
-            <div className="container-fluid pb-4"   style={{ height: '90%' }}>
+            <div className="container-fluid pb-0"   style={{ height: '90%', maxHeight: '880px', overflow: 'hidden'}}>
               {mainContent}
             </div>
           </div>

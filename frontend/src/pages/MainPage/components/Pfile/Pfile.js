@@ -38,6 +38,8 @@ class Pfile extends Component {
   handlePfileAddForm = () => {
     const {ProjectActions, projectState} = this.props;
     console.log(projectState.get('selectedDirId'))
+
+    
     ProjectActions.saveItem({ detailViewLevel: 'pfileAdd' });
   }
 
@@ -50,7 +52,6 @@ class Pfile extends Component {
     const {ProjectActions} = this.props;
 
     ProjectActions.saveItem({ detailViewLevel: 'pfileUpdate' });
-
   }
 
   handleDeletePfile = (pfileId) => {
@@ -107,7 +108,7 @@ class Pfile extends Component {
             </div> 
             
           </div>       
-          <div className="card-body">
+          <div className="card-body" style={{ height: '650px' , overflowX :'auto', overflowY:'scroll' }}>
               <PfileTable
                 pfiles={pfileState.get('pfiles')}
                 attachments = {attachmentState.get('attachments')}

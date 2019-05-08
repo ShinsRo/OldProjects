@@ -3,6 +3,7 @@ import PfilePanel from "./PfilePanel";
 import Pfileform from "./Pfileform" ;
 import AttachmentPanel from "./AttachmentPanel";
 import AttachmentForm from "./AttachmentForm";
+import LogPanel from "./LogPanel";
 
 export {
     ProjPanel,
@@ -10,4 +11,5 @@ export {
     Pfileform,
     AttachmentPanel,
     AttachmentForm,
+    LogPanel,
 }
