@@ -55,13 +55,13 @@ public class PfileService {
 				.newDate(LocalDateTime.now())
 				.updateDate(LocalDateTime.now())
 				.deleteFlag(false)
-				.build();
+				.build();	
 		
-		pfile = pfileRepository.save(pfile);
-		
-		pfileLogService.createPfileLog(pfile, LogStat.CREATE);
-		
-		try {
+		try {			
+			pfile = pfileRepository.save(pfile);
+			
+			pfileLogService.createPfileLog(pfile, LogStat.CREATE);
+			
 			return pfile2PfileResDto(pfile);
 		}catch(Exception e){
 			e.getMessage();
