@@ -60,7 +60,7 @@ class ProfileCareer extends Component {
 
     return (
 
-      <div class="card border-left-success shadow h-100 py-2">
+      <div class="card  h-100" align="">
 
         {/* <nav className="navbar navbar-expand navbar-light bg-light mb-4">
           <a className="navbar-brand" href="/">커리어</a>
@@ -78,11 +78,10 @@ class ProfileCareer extends Component {
             </li>
           </ul>
         </nav> */}
-        <nav className="navbar navbar-expand navbar-light bg-light mb-1">
-          <div className="navbar-brand" >Career</div>
-        </nav>
-
-
+        {/* <nav className="navbar navbar-expand navbar-light bg-light mb-1"> 
+          <div className="navbar-brand" align="middle">Career</div>
+        </nav> */}
+        <div className="card-header font-weight-bold text-black" >현재 커리어</div>
         <div className="card-body">
           <div className="row no-gutters align-items-center">
             <div className="col mr-2">

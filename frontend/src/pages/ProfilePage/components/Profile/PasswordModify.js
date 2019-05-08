@@ -15,16 +15,19 @@ class PasswordModify extends Component {
     }
 
     modifyPasswordAPI(){
-        const authInfo={
-          password: this.state.password
+        const auth={
+          password: this.state.password,
+          mid: this.props.selectUser.mid
         }
         console.log("보낸다 가라아아앗",this.props.selectUser)
-        console.log("보낸다 가라아아앗2",authInfo)
+        console.log("보낸다 가라아아앗2",auth)
+
+        if(auth.password==='') return alert("변경할 비밀번호를 입력하세요")
     
-        return axios.post(`${BASE_URL}/upmureport/api/users/modify`,
+        return axios.post(`${BASE_URL}/api/users/modify`,
         {
           mem:this.props.selectUser,
-          authInfo:authInfo
+          auth:auth
         }
         )
       }
