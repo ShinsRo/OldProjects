@@ -24,8 +24,10 @@ class LogContainer extends Component {
 
     wrapWithCard(panel) {
         return (
+            <div className="container">
             <div className="card shadow mb-4" style={{ height: '100%', width: '100%'}}>
                 {panel}
+            </div>
             </div>
         );
     }

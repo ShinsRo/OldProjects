@@ -51,6 +51,7 @@ class PfileTable extends React.Component {
                             <div className="col-2">유형</div>
                             <div className="col-1">상세정보</div>
                             <div className="col-1">삭제</div>
+                            
                     </div>
                     <div>
                         

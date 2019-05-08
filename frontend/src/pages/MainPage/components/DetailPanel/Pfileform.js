@@ -4,7 +4,7 @@ class Pfileform extends Component {
 
 
     static defaultProps = {
-        status : 'add',
+        status: 'add',
         pfile: '',
         selectedDirId: '',
     }
@@ -17,10 +17,10 @@ class Pfileform extends Component {
     }
 
     state = {
-        name : '',
-        contents : '',
+        name: '',
+        contents: '',
     }
-    
+
     handleTitleChange = (e) => {
         //const {PfileActions} = this.props;
         //PfileActions.changeTitleInput(e.target.value);
@@ -33,11 +33,11 @@ class Pfileform extends Component {
         this.setState({ contents: e.target.value })
     }
 
-    handleInsert = (e) => {    
+    handleInsert = (e) => {
         e.preventDefault();
 
         // const {pfileState, projectState} = store.getState();
-        const {selectedDirId, savePfile, saveItem, setPfile} = this.props;
+        const { selectedDirId, savePfile, saveItem, setPfile } = this.props;
 
         const pfile = {
             name: this.state.name,
@@ -47,19 +47,19 @@ class Pfileform extends Component {
 
         setPfile(pfile);
         console.log(pfile);
-        savePfile(pfile);  
+        savePfile(pfile);
         saveItem({ detailViewLevel: 'pfile' });
     }
 
     handleUpdate = (e) => {
         e.preventDefault();
 
-        const {updatePfile, pfile, saveItem, setPfile} = this.props;
+        const { updatePfile, pfile, saveItem, setPfile } = this.props;
 
         const newPfile = {
             ...pfile,
             name: this.state.name,
-            contents : this.state.contents,
+            contents: this.state.contents,
         }
         setPfile(newPfile);
         console.log(newPfile);
@@ -75,62 +75,65 @@ class Pfileform extends Component {
         saveItem({ detailViewLevel: 'pfile' })
     }
 
-    render(){
+    render() {
         const { pfile } = this.props;
         let submitBts;
         let cancleBts;
-        if(this.props.status === 'add'){                
+        if (this.props.status === 'add') {
             submitBts =
-                    <div className="col">
-                        <button type="button" className="btn btn-dark-1 p-2" onClick={this.handleInsert}>
-                            추가 하기
+                <button type="button" className="btn btn-dark-1 p-2" onClick={this.handleInsert}>
+                    추가 하기
                         </button>
-                    </div>
-        } 
-        else if(this.props.status === 'update'){
+
+        }
+        else if (this.props.status === 'update') {
             submitBts =
-                    <div className="col-2">
-                        <button type="button" className="btn btn-dark-1 p-2" onClick={this.handleUpdate}>
-                            수정 하기
+                <button type="button" className="btn btn-dark-1 p-2" onClick={this.handleUpdate}>
+                    수정 하기
                         </button>
-                    </div>
+
         }
 
-        
-        if(this.props.status === 'update'){                
+
+        if (this.props.status === 'update') {
             cancleBts =
-                    <div className="col-2">
-                        <button type="button" className="btn btn-danger bg-danger p-2" onClick={this.handleCancle}>
-                            취소 하기
-                        </button>
-                    </div>
-        } 
+                <button type="button" className="btn btn-danger bg-danger p-2" onClick={this.handleCancle}>
+                    취소 하기
+                </button>
+
+        }
 
 
         return (
-            <div className="card shadow mb-4">
-                <div className="card-header py-3">
-                    <div className="m-0 font-weight-bold text-darkblue">
-                        <h2>제목</h2>
-                        <hr/>
-                        <textarea className="form-control" defaultValue={pfile.name} onChange={this.handleTitleChange}/> 
+            
+                <div className="card shadow mb-4">
+                    <div className="card-body">
+                        <div className="m-0 font-weight-bold text-darkblue">
+                            <h2>제목</h2>
+                            <hr />
+                            <textarea className="form-control" defaultValue={pfile.name} onChange={this.handleTitleChange} />
+                        </div>
+                    </div>
+                    <div className="card-body">
+                        <div className="m-0 font-weight-bold text-darkblue">
+                            <h2>내용</h2>
+                            <hr />
+                            <textarea className="form-control" defaultValue={pfile.contents} onChange={this.handleContentChange} />
+                        </div>
+                    </div>
+
+                    <div className="card-body">
+                        <div className="row justify-content-end">
+                            <div className="btn-group" role="group" aria-label="Basic example">
+                                {submitBts}
+                                {cancleBts}
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div className="card-body">
-                    <div className="m-0 font-weight-bold text-darkblue">
-                    <h2>내용</h2>
-                    <hr/>
-                    <textarea className="form-control" defaultValue={pfile.contents} onChange={this.handleContentChange}/> 
-                    </div>
-                </div>
-                    <hr/>
-                <div className="row">
-                    {submitBts}
-                    {cancleBts}                
-                </div>
-            </div>
+            
         );
-    }    
+    }
 }
 
 export default Pfileform;

@@ -49,6 +49,7 @@ class DetailContanier extends Component {
          * 4. pfile의 경우
          *      파일을 수정 할 수 있는 form으로 렌더링 됩니다.
          */
+        
         if (detailViewLevel === 'project') {
             return wrapWithCard(<ProjPanel 
                     reload={this.props.reloadPage}
