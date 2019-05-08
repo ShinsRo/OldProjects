@@ -11,7 +11,7 @@ import com.nastech.upmureport.domain.entity.Project;
 
 public interface MemberProjectRepository extends JpaRepository<MemberProject, BigInteger> {
 
-	MemberProject findOneByMemberAndProject(Member m, Project p);
+	MemberProject findOneByMemberAndProjectAndDflagFalse(Member m, Project p);
 	
 	List<MemberProject> findAllByMemberAndDflagFalse(Member m);
 	List<MemberProject> findAllByProjectAndDflagFalse(Project p);

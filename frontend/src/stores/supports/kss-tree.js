@@ -18,15 +18,17 @@ const titleAscent = (a, b) => {
 const titleDescent = (a, b) => { titleAscent(b, a) };
 
 class KssTree {
-    constructor(projects) {
-        this.projects = projects;
+    constructor() {
+        this.projects = [];
         this.treeMap = {};
         this.projectMap = {};
         this.dirTrees = [];
         this.tempProjectData = {};
         this.filterKeyword = '';
+    }
 
-        this.init();
+    setProjects(projects) {
+        this.projects = projects;
     }
 
     arrayDateFormatter(arrDate) {
@@ -40,12 +42,12 @@ class KssTree {
 
             return e;
         });
-        const year = arrDate[0];
+        const year  = arrDate[0];
         const month = arrDate[1];
-        const day = arrDate[2];
-        const hour = arrDate[3];
-        const min = arrDate[4];
-        const mill = arrDate[5] || '00';
+        const day   = arrDate[2];
+        const hour  = arrDate[3];
+        const min   = arrDate[4];
+        const mill  = arrDate[5] || '00';
         
         return `${year}-${month}-${day}T${hour}:${min}:${mill}`;
     }
@@ -84,22 +86,22 @@ class KssTree {
     }
 
     correctProject(project) {
-        const origianl = this.projectMap[project.pid];
+        // const origianl = this.projectMap[project.pid];
+        // const tempStDate = origianl.stDate;
+        // const tempEdDate = origianl.edDate;
+        // const tempUdate = origianl.udate;
+        // const tempCdate = origianl.cdate;
+        console.log("CCCC", project);
         
-        const tempStDate = origianl.stDate;
-        const tempEdDate = origianl.edDate;
-        const tempUdate = origianl.udate;
-        const tempCdate = origianl.cdate;
-
         const tempDirs = this.projectMap[project.pid].dirs;
         this.projectMap[project.pid] = project;
         
         this.projectMap[project.pid].dirs = tempDirs;
-        this.projectMap[project.pid].stDate = tempStDate;
-        this.projectMap[project.pid].edDate = tempEdDate;
-        this.projectMap[project.pid].udate = tempUdate;
-        this.projectMap[project.pid].cdate = tempCdate;
-        
+        this.projectMap[project.pid].stDate = new Date(project.stDate);
+        this.projectMap[project.pid].edDate = new Date(project.edDate);
+        this.projectMap[project.pid].cdate =  new Date(project.cdate);
+        this.projectMap[project.pid].udate =  new Date(project.udate);
+
         this.projectMap[project.pid].isOrigin = true;
         this.tempProjectData = {};
         this.buildDirTrees();

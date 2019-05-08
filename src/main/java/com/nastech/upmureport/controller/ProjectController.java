@@ -2,10 +2,12 @@ package com.nastech.upmureport.controller;
 
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nastech.upmureport.config.MessageSessionContainer;
+import com.nastech.upmureport.domain.dto.CollaboratorDto;
 import com.nastech.upmureport.domain.dto.ProjectDto;
 import com.nastech.upmureport.service.ProjectService;
 
@@ -20,12 +24,14 @@ import com.nastech.upmureport.service.ProjectService;
 @RestController
 @RequestMapping(value = "/api/project")
 public class ProjectController {
+	Log Logger = LogFactory.getLog(ProjectController.class);
+	
 	@Autowired
 	private ProjectService ps;
 	
+	
 	@GetMapping(value = "/list")
 	ResponseEntity<List<ProjectDto>> list(@RequestParam(value = "mid", required=true) String mid) {
-		System.out.println(ps.listByMid(mid));
 		return ResponseEntity.ok().body(ps.listByMid(mid));
 	}
 	
@@ -39,7 +45,7 @@ public class ProjectController {
 		return ResponseEntity.ok().body(ps.correct(pDto));
 	}
 	
-	@PatchMapping(value = "/disable")
+	@PutMapping(value = "/disable")
 	ResponseEntity<ProjectDto> disable(@RequestBody ProjectDto pDto)  {
 		return ResponseEntity.ok().body(ps.disable(pDto));
 	}

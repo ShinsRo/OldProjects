@@ -38,7 +38,6 @@ public class ProjectDto {
 	public ProjectDto(MemberProject mp) {
 		Project p = mp.getProject();
 		Member m = mp.getMember();
-		
 		this.pid = p.getPid().toString();
 		this.pname = p.getPname();
 		this.description = p.getDescription();

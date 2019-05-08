@@ -59,13 +59,13 @@ class ProjectSideBarContainer extends Component {
         
         const { ProjectActions } = this.props;
         
-        return (
+        return (<>
             <ProjectSideBar 
                 projectState={projectState} 
                 ProjectActions={ProjectActions}
                 handlers={this.handlers}
             ></ProjectSideBar>
-        );
+        </>);
     }
 }
 
