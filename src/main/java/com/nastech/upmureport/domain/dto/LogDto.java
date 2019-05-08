@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 
 public class LogDto {
 	
@@ -47,6 +49,7 @@ public class LogDto {
 	@Builder
 	@AllArgsConstructor
 	@NoArgsConstructor
+	@ToString
 	public static class PLogDto {
 		
 		private List<PfileLogDto> pfileLogs;

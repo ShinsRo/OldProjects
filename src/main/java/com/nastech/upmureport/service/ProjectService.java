@@ -1,14 +1,19 @@
 package com.nastech.upmureport.service;
 
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nastech.upmureport.config.MessageSessionContainer;
 import com.nastech.upmureport.domain.dto.CollaboratorDto;
 import com.nastech.upmureport.domain.dto.PdirDto;
 import com.nastech.upmureport.domain.dto.ProjectDto;
@@ -21,10 +26,12 @@ import com.nastech.upmureport.domain.entity.support.Pstat;
 import com.nastech.upmureport.domain.repository.MemberProjectRepository;
 import com.nastech.upmureport.domain.repository.MemberRepository;
 import com.nastech.upmureport.domain.repository.PdirRepository;
+import com.nastech.upmureport.domain.repository.ProjectRepository;
 import com.nastech.upmureport.support.Utils;
 
 @Service
 public class ProjectService {
+	private static final Log Logger = LogFactory.getLog(ProjectService.class);
 	@Autowired
 	private MemberRepository mr;
 	@Autowired
@@ -33,6 +40,8 @@ public class ProjectService {
 	private PdirRepository dr;
 	@Autowired
 	private PdirService ds;
+	@Autowired
+	private ProjectNotificationService pns;
 	
 	/**
 	 * 멤버 아이디에 따라 ProjectDto 리스트를 반환합니다.
@@ -71,7 +80,6 @@ public class ProjectService {
 			pDTO.setCollaborators(collaborators);
 			pDTOs.add(pDTO);
 		}
-		
 		return pDTOs;
 	}
 	
@@ -81,7 +89,7 @@ public class ProjectService {
 	 * @return 등록자와 프로젝트 연결 객체, 해당 유저가 존재하지 않을 경우 익셉션
 	 */
 	@Transactional
-	public ProjectDto register(ProjectDto pDto) throws NoSuchElementException {
+	public ProjectDto register(ProjectDto pDto) {
 		Member member = null;
 
 		Project project = Project.builder()
@@ -90,7 +98,7 @@ public class ProjectService {
 				.stDate(pDto.getStDate())
 				.edDate(pDto.getEdDate())
 				.build();
-		
+
 		BigInteger BigIntegerPid = null;
 		String pid = pDto.getPid();
 		if (pid != null && pid.equals("")) {
@@ -105,13 +113,14 @@ public class ProjectService {
 			throw new NoSuchElementException();
 		}
 		
-		Pstat ps = null;
+		Pstat ps = Pstat.대기;
+		Prole prole = Prole.관리자;
 		try {
 			ps = Pstat.valueOf(pDto.getPstat());
-		} catch (IllegalArgumentException iae) {
-			ps = Pstat.대기;
-		}
-		Prole prole = Prole.valueOf(pDto.getProle());
+			prole = Prole.valueOf(pDto.getProle());
+		} catch (IllegalArgumentException iae) {}
+		
+		
 		MemberProject mp = MemberProject.builder()
 				.member(member)
 				.project(project)
@@ -119,8 +128,8 @@ public class ProjectService {
 				.prole(prole)
 				.progress(pDto.getProgress())
 				.build();
-		
 		MemberProject savedMp = mpr.save(mp);
+		
 		ProjectDto returnDto = new ProjectDto(savedMp);
 		
 		List<CollaboratorDto> collaborators = pDto.getCollaborators();
@@ -135,7 +144,7 @@ public class ProjectService {
 		for(int idx = 0; idx < collaborators.size(); idx++ ) {
 			Long collabMid = Long.valueOf(collaborators.get(idx).getMid());
 			String collabName = collaborators.get(idx).getName();
-			if (collabMid == mid) continue;
+			if (collabMid.equals(mid)) continue;
 			
 			Member collab = Member.builder().mid(collabMid).name(collabName).build();
 			Prole collabProle = Prole.valueOf(collaborators.get(idx).getProle());
@@ -144,6 +153,8 @@ public class ProjectService {
 					.member(collab)
 					.project(mp.getProject())
 					.prole(collabProle)
+					.pstat(Pstat.대기)
+					.progress(0)
 					.build();
 			
 			MemberProject savedCollabMp = mpr.save(collabMp);
@@ -169,6 +180,8 @@ public class ProjectService {
 		returnDto.setDirs(dirs);
 		returnDto.setCollaborators(returnCollabs);
 		
+		pns.notifyTo(pDto.getMid(), returnDto, "NEW");
+		
 		return returnDto;
 	}
 	
@@ -189,28 +202,29 @@ public class ProjectService {
 				.build();
 		
 		//원본 유저, 프로젝트
-		MemberProject mp = mpr.findOneByMemberAndProject(m, p);
+		MemberProject mp = mpr.findOneByMemberAndProjectAndDflagFalse(m, p);
 		p = mp.getProject();
 		m = mp.getMember();
 		
-		Pstat ps;
+		Pstat pstat;
 		try {
-			ps = Pstat.valueOf(pDto.getPstat());
+			pstat = Pstat.valueOf(pDto.getPstat());
 		} catch (IllegalArgumentException iae) {
-			ps = Pstat.대기;
+			pstat = Pstat.대기;
 		}
-		mp.setPstat(ps);
+		mp.setPstat(pstat);
 		
-		Prole pr;
+		Prole prole;
 		try {
-			pr = Prole.valueOf(pDto.getProle());
+			prole = Prole.valueOf(pDto.getProle());
 		} catch (IllegalArgumentException iae) {
-			pr = mp.getProle();
+			prole = mp.getProle();
 		}
-		mp.setProle(pr);
+		mp.setProle(prole);
 		
 		Project updated = Project.builder()
 				.pid(p.getPid())
+				.udate(LocalDateTime.now())
 				.build();
 		Utils.overrideEntity(updated, pDto);
 		
@@ -218,6 +232,7 @@ public class ProjectService {
 		mp.setProgress(pDto.getProgress());
 		MemberProject savedMp = mpr.save(mp);
 		
+		// 삭제해야할 팀원
 		if (pDto.getDeletedCollaborators() != null) {
 			List<CollaboratorDto> shouldDeleted = pDto.getDeletedCollaborators();
 			List<MemberProject> shouldDeletedMps = new ArrayList<>();
@@ -226,7 +241,7 @@ public class ProjectService {
 			for (CollaboratorDto collabs : shouldDeleted) {
 				Member targetMember = Member.builder().mid(Long.valueOf(collabs.getMid())).build();
 				
-				MemberProject shouldDeletedMp = mpr.findOneByMemberAndProject(targetMember, targetProject);
+				MemberProject shouldDeletedMp = mpr.findOneByMemberAndProjectAndDflagFalse(targetMember, targetProject);
 				shouldDeletedMps.add(shouldDeletedMp);
 			}
 			
@@ -240,6 +255,7 @@ public class ProjectService {
 				.prole(savedMp.getProle().toString())
 				.build());
 		
+		ProjectDto returnDto = null;
 		if (pDto.getCollaborators() != null) {
 			List<CollaboratorDto> collaborators = pDto.getCollaborators();
 			
@@ -248,14 +264,16 @@ public class ProjectService {
 				String collabName = collaborators.get(idx).getName();
 				Member collab = Member.builder().mid(collabMid).name(collabName).build();
 				
-				if (collabMid == m.getMid()) continue;
+				if (collabMid.equals(m.getMid())) continue;
 				
 				MemberProject collabMp = MemberProject.builder()
 						.member(collab)
 						.project(mp.getProject())
+						.pstat(Pstat.대기)
+						.progress(0)
 						.build();
 				
-				MemberProject originalCollab = mpr.findOneByMemberAndProject(collab, mp.getProject());
+				MemberProject originalCollab = mpr.findOneByMemberAndProjectAndDflagFalse(collab, mp.getProject());
 				if (originalCollab != null) collabMp = originalCollab;
 				
 				Prole collabProle = Prole.valueOf(collaborators.get(idx).getProle());
@@ -268,12 +286,15 @@ public class ProjectService {
 						.prole(savedCollabMp.getProle().toString())
 						.build());
 			}
-			ProjectDto returnDto = new ProjectDto(savedMp);
+			returnDto = new ProjectDto(savedMp);
 			returnDto.setCollaborators(returnCollabs);
-			return returnDto;
+			
 		}
 		
-		return new ProjectDto(savedMp);
+		if (returnDto == null) returnDto = new ProjectDto(savedMp);
+		
+		pns.notifyTo(pDto.getMid(), returnDto, "/updateProject");
+		return returnDto;
 	}
 	
 	@Transactional
@@ -286,7 +307,7 @@ public class ProjectService {
 				.pid(Utils.StrToBigInt(pDto.getPid()))
 				.build();
 		
-		MemberProject mp = mpr.findOneByMemberAndProject(m, p);
+		MemberProject mp = mpr.findOneByMemberAndProjectAndDflagFalse(m, p);
 		mp.setDflag(true);
 		
 		return new ProjectDto(mpr.save(mp));

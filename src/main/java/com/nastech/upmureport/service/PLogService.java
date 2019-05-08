@@ -25,11 +25,12 @@ import com.nastech.upmureport.support.Utils;
 @Service
 public class PLogService {
 
-	private static final Log log = LogFactory.getLog(PLogService.class);
+	private static final Log LOG = LogFactory.getLog(PLogService.class);
 	
 	private PfileLogRepository pfileLogRepository;
 	private PdirRepository pdirRepository;
 	private AttachmentLogRepository attachmentLogRepository;
+
 	
 	
 	public PLogService(PfileLogRepository pfileLogRepository, PdirRepository pdirRepository,
@@ -41,7 +42,7 @@ public class PLogService {
 	
 	public PfileLog createPfileLog(Pfile pfile, LogStat logStat) {
 		
-		log.info("========create pfile log");
+		LOG.info("========create pfile log");
 		
 		PfileLog pfileLog = PfileLog.builder()
 				.newDate(LocalDateTime.now())
@@ -100,7 +101,12 @@ public class PLogService {
 					.build()
 				));
 		
-		return new LogDto.PLogDto(pfileLogDtos, attachmentLogDtos);
+		LogDto.PLogDto plogDto = new LogDto.PLogDto(pfileLogDtos, attachmentLogDtos); 
+		
+		
+		LOG.info("=====================================plog dto" + plogDto.getPfileLogs().toString());
+		
+		return plogDto;
 	}
 	
 	

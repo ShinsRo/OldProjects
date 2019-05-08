@@ -103,10 +103,11 @@ class Collaborators extends Component {
 
         if (project.isOrigin) {
             dirContainer.tempProjectData = {...project};
+            dirContainer.tempProjectData.collaborators = [...project.collaborators];
+            dirContainer.tempProjectData.deletedCollaborators = [];
             project.isOrigin = false;
         }
-
-        this.setState({isCorrected: true});
+        this.props.reload();
     }
 
     onAutocompleteClick(e, mDto) {
@@ -124,7 +125,7 @@ class Collaborators extends Component {
                 break;
             }
         }
-        if (this.props.type === 'NEW_PROJECT') this.setProjectNotOrigin();
+        if (this.props.type === 'CURRECT_PROJECT') this.setProjectNotOrigin();
         
         collaboratorsMap[mDto.mid] = { mid: mDto.mid, name: mDto.name, prole: '구성원' };
         collaborators.push(collaboratorsMap[mDto.mid]);
@@ -141,7 +142,7 @@ class Collaborators extends Component {
         }
         collab.prole = prole;
         
-        if (this.props.type === 'NEW_PROJECT') this.setProjectNotOrigin();
+        if (this.props.type === 'CURRECT_PROJECT') this.setProjectNotOrigin();
         this.props.reload();
     }
 
@@ -169,7 +170,7 @@ class Collaborators extends Component {
                 break; 
             }
         }
-        if (this.props.type === 'NEW_PROJECT') this.setProjectNotOrigin();
+        if (this.props.type === 'CURRECT_PROJECT') this.setProjectNotOrigin();
 
         this.setState({ deletedCollaborators });
         this.props.reload();

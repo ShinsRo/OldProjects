@@ -27,9 +27,8 @@ public class PLogController {
 	@GetMapping(value = "/{pdirId}")
 	public LogDto.PLogDto getPfileLog(@PathVariable String pdirId){
 	
-		LOG.info("----------get log");
+		LOG.info("----------get log ---  " + pdirId);
 		
-		return pfileLogService.getPLogs(pdirId);
-		
+		return pfileLogService.getPLogs(pdirId);		
 	}
 }

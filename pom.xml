@@ -64,6 +64,11 @@
 	    <groupId>org.springframework.data</groupId>
 	    <artifactId>spring-data-jpa</artifactId>
 	</dependency>
+	
+	<dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-websocket</artifactId>
+    </dependency>
 	<!-- 스프링 관련 의존성 끝 -->
 	
 	<!-- JPA 관련 의존성 시작 -->
@@ -150,6 +155,25 @@
 	</dependency>
 	<!-- AspectJ 관련 의존성 끝 -->
 
+	<!-- 웹 소켓 관련 의존성 -->
+	 <dependency>
+          <groupId>org.webjars</groupId>
+          <artifactId>webjars-locator-core</artifactId>
+      </dependency>
+      
+      <dependency>
+          <groupId>org.webjars</groupId>
+          <artifactId>sockjs-client</artifactId>
+          <version>1.0.2</version>
+      </dependency>
+      
+      <dependency>
+          <groupId>org.webjars</groupId>
+          <artifactId>stomp-websocket</artifactId>
+          <version>2.3.3</version>
+      </dependency>
+	<!-- 웹 소켓 관련 의존성 끝-->
+	
 	<!-- 테스트 코드 관련 의존성 시작 -->
 	<dependency>
 		<groupId>junit</groupId>
@@ -164,6 +188,7 @@
 	    <scope>test</scope>
 	</dependency>
 	<!-- 테스트 코드 관련 의존성 끝 -->
+	
 	
 	<dependency>
     	<groupId>io.springfox</groupId>

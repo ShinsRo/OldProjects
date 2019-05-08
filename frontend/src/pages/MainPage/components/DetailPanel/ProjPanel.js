@@ -51,6 +51,7 @@ class ProjPanel extends Component {
         if (!window.confirm("정말 삭제하시겠습니까?")) {
             return;
         }
+        
         disable(project).then(res => {
             
         }).catch(err => {
@@ -306,6 +307,7 @@ class ProjPanel extends Component {
                         </div>
                     </div>
                     <br></br>
+                    { `* 최근 프로젝트 내용 수정일 : ${project.udate}` }
                     { !project.isOrigin && (
                         <div className="text-right">
                             <button className="btn btn-dark mr-2" onClick={(e) => {e.preventDefault(); alert("구현중");}}>취소</button>

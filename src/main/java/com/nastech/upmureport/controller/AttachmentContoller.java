@@ -8,6 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,18 +59,25 @@ public class AttachmentContoller {
 		
 	}
 	
+//	@GetMapping("/download/{attachmentId}")
+//	public List<String> downloadAttachment(@PathVariable String attachmentId,HttpServletResponse resp) throws Exception {
+//		
+////		LOG.info(resp.getHeaderNames());
+////		
+////		List<String> resFile = attachmentService.downloadAttachment(attachmentId, resp);
+////		
+////		LOG.info(resFile);
+//		
+//        return attachmentService.downloadAttachment(attachmentId, resp);
+//
+//		//return AttachmentDto.AttachmentDownDto.builder().file(resFile).build();
+//    }
+	
 	@GetMapping("/download/{attachmentId}")
-	public List<String> downloadAttachment(@PathVariable String attachmentId,HttpServletResponse resp) throws Exception {
+	public ResponseEntity<Resource> downloadAttachment(@PathVariable String attachmentId,HttpServletResponse resp) throws Exception {
 		
-//		LOG.info(resp.getHeaderNames());
-//		
-//		List<String> resFile = attachmentService.downloadAttachment(attachmentId, resp);
-//		
-//		LOG.info(resFile);
+       return attachmentService.downloadAttachment(attachmentId, resp);
 		
-        return attachmentService.downloadAttachment(attachmentId, resp);
-
-		//return AttachmentDto.AttachmentDownDto.builder().file(resFile).build();
     }
 	
 	@DeleteMapping("/{attachmentId}")

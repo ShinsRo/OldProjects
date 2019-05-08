@@ -1,9 +1,11 @@
 package com.nastech.upmureport.domain.entity;
 
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -45,22 +47,28 @@ public class MemberProject {
 	
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	private Prole prole;
+	@Builder.Default
+	private Prole prole = Prole.게스트;
 	
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	private Pstat pstat;
+	@Builder.Default
+	private Pstat pstat = Pstat.대기;
 	
 	@NotNull
 	@Max(100)
 	@Min(0)
-	private Integer progress;
+	@Builder.Default
+	private Integer progress = 0;
 	
+	@Column(updatable=false)
 	@CreationTimestamp
-	private Date cdate;
+	@Builder.Default
+	private LocalDateTime cdate = LocalDateTime.now();
 	
 	@UpdateTimestamp
-	private Date udate;
+	@Builder.Default
+	private LocalDateTime udate = LocalDateTime.now();
 
 	@Builder.Default
 	private Boolean dflag = false;
