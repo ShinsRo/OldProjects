@@ -8,7 +8,7 @@ import * as attachmentActions from '../../../stores/modules/attachmentState';
 
 
 
-import { ProjPanel, PfilePanel, Pfileform, AttachmentPanel, AttachmentForm } from '../components/DetailPanel';
+import { ProjPanel, PfilePanel, Pfileform, AttachmentPanel, AttachmentForm, LogPanel } from '../components/DetailPanel';
 
 class DetailContanier extends Component {
     constructor(props) {
@@ -27,7 +27,7 @@ class DetailContanier extends Component {
     }
 
     render() {
-        const { projectState, pfileState, attachmentState, PfileActions,ProjectActions, AttachmentActions  } = this.props;
+        const { projectState, pfileState, attachmentState, PfileActions,ProjectActions, AttachmentActions, plogState  } = this.props;
         const { wrapWithCard } = this
         const detailViewLevel = projectState.get('detailViewLevel');
         
@@ -46,9 +46,23 @@ class DetailContanier extends Component {
          * 3. pfileAdd의 경우
          *      파일을 추가 할 수 있는 form으로 렌더링 됩니다.
          * 
-         * 4. pfile의 경우
+         * 4. pfileUpdate의 경우
          *      파일을 수정 할 수 있는 form으로 렌더링 됩니다.
+         * 
+         * 5. attachment 경우
+         *      첨부 파일의 자세한 정보를 보여줍니다.
+         * 
+         * 6. attachmentAdd 경우
+         *      첨부 파일을 추가 할 수 있는 form으로 렌더링 됩니다.
+         * 
+         * 7. pfileLog의 경우
+         *      파일의 로그를 자세한 정보를 보여줍니다.
+         * 
+         * 8. attachmentLog의 경우
+         *      첨부파일의 로그를 자세한 정보를 보여줍니다.
+         * 
          */
+        
         if (detailViewLevel === 'project') {
             return wrapWithCard(<ProjPanel 
                     reload={this.props.reloadPage}
@@ -67,6 +81,7 @@ class DetailContanier extends Component {
                     savePfile = {PfileActions.savePfile}
                     setPfile = {PfileActions.setPfile}
                     saveItem = {ProjectActions.saveItem}
+                    pfile = {{name : '' , contents: ''}}
                 />
                 );
         }else if (detailViewLevel === 'pfileUpdate') {
@@ -93,6 +108,22 @@ class DetailContanier extends Component {
                     saveAttachment= {AttachmentActions.saveAttachment}
                     selectedDirId = {projectState.get('selectedDirId')}
                     setAttachment = {AttachmentActions.setAttachment}
+                    
+                />
+            );
+        } else if (detailViewLevel === 'pfileLog') {
+            return (
+                <LogPanel 
+                    status = {'pfile'}
+                    pfileLog = {plogState.get('pfileLog')}
+                    saveItem = {ProjectActions.saveItem}
+                />
+            );
+        } else if (detailViewLevel === 'attachmentLog') {
+            return (
+                <LogPanel 
+                    status = {'attachment'}
+                    attachmentLog = {plogState.get('attachmentLog')}
                     saveItem = {ProjectActions.saveItem}
                 />
             );
@@ -110,6 +141,7 @@ export default connect(
         pfileState: state.pfileState,
         userState: state.userState,
         attachmentState: state.attachmentState,
+        plogState: state.plogState,
     }),
     (dispatch) => ({
         ProjectActions: bindActionCreators(projectActions, dispatch),
