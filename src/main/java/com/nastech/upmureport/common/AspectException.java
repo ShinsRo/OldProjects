@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -53,5 +54,10 @@ public class AspectException {
 			
 		//Around를 사용할 경우 반드시 Object를 리턴해야 한다.
 		return result;
+	}
+	
+	@AfterThrowing("execution(* com.nastech.upmureport.service.*.*(..))")
+	public void logAfterThrowingAllMethods () throws Throwable {
+		
 	}
 }

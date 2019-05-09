@@ -41,12 +41,8 @@ public class PfileService {
 	// 업무 일지 등록
 	public PfileDto.PfileResDto addPfile(PfileDto.PfileReqDto pfileReqDto) {
 		Pdir pdir;
-		try {		
-			pdir = pdirRepository.findById(pfileReqDto.getPdirId()).get();
-		} catch(Exception e){
-			LOG.warn(e.getMessage());
-			return null;
-		}
+			
+		pdir = pdirRepository.findById(pfileReqDto.getPdirId()).get();
 		
 		Pfile pfile = Pfile.builder()
 				.pdir(pdir)
@@ -56,25 +52,21 @@ public class PfileService {
 				.updateDate(LocalDateTime.now())
 				.deleteFlag(false)
 				.build();	
-		
-		try {			
-			pfile = pfileRepository.save(pfile);
-			
-			pfileLogService.createPfileLog(pfile, LogState.CREATE);
-			
-			return pfile2PfileResDto(pfile);
-		}catch(Exception e){
-			e.getMessage();
-			return null;
-		}
+				
+		pfile = pfileRepository.save(pfile);
+
+		pfileLogService.createPfileLog(pfile, LogState.CREATE);
+
+		return pfile2PfileResDto(pfile);
+
 	}
 	
 	public PfileDto.PfileResDto updatePfile(PfileDto.PfileReqDto pfileReqDto) {
-		LOG.info("updatePfile pfileId-----" +  pfileReqDto.getPfileId());
+		
 		
 		Pfile pfile = pfileRepository.findById(pfileReqDto.getPfileId()).get();
 		
-		LOG.info("updatePfile -----" +  pfile);
+		
 		
 		pfile.changeName(pfileReqDto.getName());
 		pfile.changeContents(pfileReqDto.getContents());
@@ -91,7 +83,6 @@ public class PfileService {
 		
 		List<Pfile> pfiles = pfileRepository.findByDirId(pdir);
 		
-		LOG.info("size ==== " + pfiles.size());
 		
 		List<PfileDto.PfileResDto> pfileResDtos = new ArrayList<>();
 		
@@ -100,24 +91,15 @@ public class PfileService {
 			pfileResDtos.add(pfileResDto);
 		});
 		
-//		for(Pfile pfile : pfiles) {
-//			PfileResDto pfileResDto = pfile2PfileResDto(pfile);
-//			pfileResDtos.add(pfileResDto);		
-//		}
-		
 		return pfileResDtos;
 	}
 	
 	
 	public List<PfileDto.PfileResDto> deletePfile(String pfileId) {
 		
-		//Pfile pfile = pfileRepository.findById(BigInteger.valueOf(Long.parseLong(pfileId))).get();
 		
 		Pfile pfile = pfileRepository.findById(Utils.StrToBigInt(pfileId)).get();
 		pfile.deletePfile();
-		
-		LOG.info(pfile.toString());
-		LOG.info(pfile.getDeleteFlag() + "");
 		
 		pfileLogService.createPfileLog(pfile, LogState.DELETE);
 		
@@ -125,7 +107,6 @@ public class PfileService {
 		
 		return getPfiles(pfile.getPdir().getDid());
 		
-		//upmuContentRepository.findByDirId(dirId)
 	}
 	
 	public PfileDto.PfileResDto pfile2PfileResDto(Pfile pfile) {
@@ -139,11 +120,6 @@ public class PfileService {
 				.build();
 		
 		return pfileResDto;
-	}
-	
-	
-	public void apoTest() {
-		LOG.info("test====================");
 	}
 		
 }
