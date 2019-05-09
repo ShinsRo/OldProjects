@@ -1,4 +1,3 @@
-import { Map } from 'immutable';
 import axios from 'axios';
 import React, { Component } from 'react';
 import { BASE_URL } from '../../supports/API_CONSTANT'
@@ -105,7 +104,7 @@ class RegisterPage extends Component {
                                                 <form className="User" action="" method="post">
                                                     <div className="form-group">
                                                         <div className="form-group">
-                                                            <input type='text' disabled={this.state.checked} value={this.state.username} onChange={e => this.handleChangeInput(e, 'username')} type="text" className="form-control form-control-user" name="username" placeholder="아이디" />
+                                                            <input type='text' disabled={this.state.checked} value={this.state.username} onChange={e => this.handleChangeInput(e, 'username')} className="form-control form-control-user" name="username" placeholder="아이디" />
                                                             <input type='button' className=" btn btn-primary mt-2" value="중복검사" onClick={() => this.checkIdAPI()}></input>
                                                             <input type='button' className=" btn btn-primary mt-2 ml-2" value="재입력" onClick={() => this.click()}></input>
                                                         </div>

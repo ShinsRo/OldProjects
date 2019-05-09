@@ -208,7 +208,10 @@ class ProjTreeView extends React.Component {
         dirContainer.treeMap[did].isOpen = !dirContainer.treeMap[did].isOpen;
         dirContainer.setChildVisble(did);
         
-        this.props.handlers("handleDirItemClick", { selectedDirId: did });
+        const selectedPid = dirContainer.treeMap[did].pid;
+        const selectedProject = dirContainer.projectMap[selectedPid];
+        
+        this.props.handlers("handleDirItemClick", { selectedDirId: did, selectedProject, });
     }
     
     onAddClick() {
