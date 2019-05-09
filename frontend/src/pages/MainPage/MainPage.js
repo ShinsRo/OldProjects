@@ -5,6 +5,7 @@ import DetailContanier from './containers/DetailContanier';
 import LogContainer from './containers/LogContainer';
 import Pfile from "./components/Pfile/Pfile";
 import MainLanding from './components/MainLanding';
+import Toast from "./components/Toast";
 
 class MainPage extends Component {
   
@@ -13,7 +14,7 @@ class MainPage extends Component {
     this.state = {
       isSynced: false,
       reload: 0,
-      mainContentViewLevel: 'detail',
+      mainContentViewLevel: 'default',
     }
   }
 
@@ -64,6 +65,7 @@ class MainPage extends Component {
 
     return (
       <div id="wrapper">
+        <Toast/>
         <ProjectSideBarContainer 
           setMainContent={ this.setMainContent.bind(this) } 
           mainContentViewLevel={ this.state.mainContentViewLevel }/>

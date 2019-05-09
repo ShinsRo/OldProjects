@@ -60,6 +60,7 @@ class PfileTable extends React.Component {
                         {pfiles && pfiles.map((pfile, idx) => {
                             return(  
                             <PfileItem
+                                key = {idx}
                                 idx = {idx}
                                 pfile = {pfile}
                                 onClickPfile = {this.onClickPfile}
@@ -71,6 +72,7 @@ class PfileTable extends React.Component {
                         {attachments && attachments.map((attachment, idx) => {
                             return(
                             <AttachmentItem 
+                                key = {idx}
                                 idx = {idx}
                                 attachment = {attachment}
                                 onClickAttachment = {this.onClickAttachment}
