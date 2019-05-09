@@ -3,14 +3,11 @@ import HeaderContainer from "./containers/HeaderContainer";
 import SidebarContainer from "./containers/SidebarContainer"
 import Member from "./components/Admin/Member"
 import Career from "./components/Admin/Career"
-import Dept from "./components/Admin/Dept"
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import * as userActions from '../../stores/modules/userState'
 import axios from 'axios';
 import { BASE_URL } from '../../supports/API_CONSTANT';
-import Posi from "./components/Admin/Posi";
-import Modal from 'react-awesome-modal'
 import UserTable from './components/Admin/UserTable'
 
 class AdminPage extends Component {
@@ -61,7 +58,6 @@ class AdminPage extends Component {
     const { juniorState } = this.props;
     let deptList = [];
     let posiList = []
-    const members = juniorState.get('users')
     // if (members) {
     //   members.forEach(member => {
     //     let Careers = member.career
@@ -77,7 +73,6 @@ class AdminPage extends Component {
       deptList = this.state.list.deptList
       posiList = this.state.list.posiList
     }
-    console.log("리스트들", deptList)
     // const {userState} = store.getState();
     //const this.setState = userState.selectedUser.memberInfo || userState.selectedUser
     return (

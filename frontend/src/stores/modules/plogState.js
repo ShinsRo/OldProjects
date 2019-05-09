@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions';
-import { Map, List } from 'immutable';
+import { Map } from 'immutable';
 import * as plogService from '../../api/PLogService';
 
 const PLOG_SEND_PENDING = 'PLOG_SEND_PENDING';
@@ -18,14 +18,14 @@ export const setAttachmentLog = createAction(SET_ATTACHMENT_LOG);
 const initialState = Map({
     isFetching: false,
     error: false,
-    pfileLogs: List(),
-    attachmentLogs: List(),
+    pfileLogs: [],
+    attachmentLogs: [],
 })
 
-export const getPLog = (pdirId) => dispatch => {
+export const getPLog = (pid) => dispatch => {
     dispatch(plogPending());
 
-    return plogService.getPLog(pdirId)
+    return plogService.getPLog(pid)
     .then((response) => {
         dispatch(plogSendSuccess(response.data))
     }).catch(error => {dispatch(plogSenderr(error));});
@@ -38,8 +38,7 @@ export default handleActions({
     },
     // 통신 성공
     [PLOG_SEND_SUCCESS] : (state, action) => {
-        console.log("-------------------", action.payload);
-        return state.set('pfileLogs', action.payload.pfileLogs).set('attachmentLogs',action.payload.attachmentLogs ).set('isFetching', false);
+        return state.set('pLogs', action.payload).set('isFetching', false);
     },
     // 통신 실패
     [PLOG_SEND_ERROR]: (state, action) => {

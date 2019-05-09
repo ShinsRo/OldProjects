@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.nastech.upmureport.domain.dto.PfileDto;
 import com.nastech.upmureport.domain.entity.Pdir;
 import com.nastech.upmureport.domain.entity.Pfile;
-import com.nastech.upmureport.domain.entity.support.LogStat;
+import com.nastech.upmureport.domain.entity.support.LogState;
 import com.nastech.upmureport.domain.repository.PdirRepository;
 import com.nastech.upmureport.domain.repository.PfileRepository;
 import com.nastech.upmureport.support.Utils;
@@ -60,7 +60,7 @@ public class PfileService {
 		try {			
 			pfile = pfileRepository.save(pfile);
 			
-			pfileLogService.createPfileLog(pfile, LogStat.CREATE);
+			pfileLogService.createPfileLog(pfile, LogState.CREATE);
 			
 			return pfile2PfileResDto(pfile);
 		}catch(Exception e){
@@ -80,7 +80,7 @@ public class PfileService {
 		pfile.changeContents(pfileReqDto.getContents());
 		pfile.updateDate();
 		
-		pfileLogService.createPfileLog(pfile, LogStat.UPDATE);
+		pfileLogService.createPfileLog(pfile, LogState.UPDATE);
 		
 		return pfile2PfileResDto(pfileRepository.save(pfile));
 	}
@@ -119,7 +119,7 @@ public class PfileService {
 		LOG.info(pfile.toString());
 		LOG.info(pfile.getDeleteFlag() + "");
 		
-		pfileLogService.createPfileLog(pfile, LogStat.DELETE);
+		pfileLogService.createPfileLog(pfile, LogState.DELETE);
 		
 		pfileRepository.save(pfile);
 		

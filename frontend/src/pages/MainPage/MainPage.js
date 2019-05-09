@@ -13,7 +13,7 @@ class MainPage extends Component {
     this.state = {
       isSynced: false,
       reload: 0,
-      mainContentViewLevel: 'default',
+      mainContentViewLevel: 'detail',
     }
   }
 

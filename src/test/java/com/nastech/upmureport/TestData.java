@@ -16,15 +16,12 @@ import com.nastech.upmureport.domain.entity.MemberProject;
 import com.nastech.upmureport.domain.entity.MemberSystem;
 import com.nastech.upmureport.domain.entity.Pdir;
 import com.nastech.upmureport.domain.entity.Pfile;
-import com.nastech.upmureport.domain.entity.PfileLog;
 import com.nastech.upmureport.domain.entity.Posi;
 import com.nastech.upmureport.domain.entity.Project;
 import com.nastech.upmureport.domain.entity.Role;
 import com.nastech.upmureport.domain.entity.UserRole;
-import com.nastech.upmureport.domain.entity.support.LogStat;
 import com.nastech.upmureport.domain.entity.support.Prole;
 import com.nastech.upmureport.domain.entity.support.Pstat;
-import com.nastech.upmureport.domain.repository.AttachmentLogRepository;
 import com.nastech.upmureport.domain.repository.AttachmentRepository;
 import com.nastech.upmureport.domain.repository.AuthInfoRepository;
 import com.nastech.upmureport.domain.repository.CareerRepository;
@@ -33,7 +30,6 @@ import com.nastech.upmureport.domain.repository.MemberProjectRepository;
 import com.nastech.upmureport.domain.repository.MemberRepository;
 import com.nastech.upmureport.domain.repository.MemberSystemRepository;
 import com.nastech.upmureport.domain.repository.PdirRepository;
-import com.nastech.upmureport.domain.repository.PfileLogRepository;
 import com.nastech.upmureport.domain.repository.PfileRepository;
 import com.nastech.upmureport.domain.repository.PosiRepository;
 import com.nastech.upmureport.domain.repository.ProjectRepository;
@@ -60,14 +56,14 @@ public class TestData {
 		
 		//pfile, pfile log, attachment, attachment log
 		PfileRepository pfileRepository;
-		PfileLogRepository pfileLogRepository;
+		
 		AttachmentRepository attachmentRepository;
-		AttachmentLogRepository attachmentLogRepository;
+		
 	
 	
 	public TestData(MemberRepository memberRepository, MemberSystemRepository memberSystemRepository,
-			AuthInfoRepository authinfoRepository, CareerRepository careerRepository, PfileRepository pfileRepository, PfileLogRepository pfileLogRepository,
-			AttachmentRepository attachmentRepository, AttachmentLogRepository attachmentLogRepository,
+			AuthInfoRepository authinfoRepository, CareerRepository careerRepository, PfileRepository pfileRepository,
+			AttachmentRepository attachmentRepository, 
 			MemberProjectRepository memberProjectRepository, ProjectRepository projectRepository, PdirRepository pdirRepository, UserRoleRepository userRoleRepository) {
 
 		this.memberRepository = memberRepository;
@@ -80,9 +76,9 @@ public class TestData {
 		this.pdirRepository = pdirRepository;
 		
 		this.pfileRepository = pfileRepository;
-		this.pfileLogRepository = pfileLogRepository;
+		
 		this.attachmentRepository = attachmentRepository;
-		this.attachmentLogRepository = attachmentLogRepository;
+		
 		this.userRoleRepository= userRoleRepository;
 		
 	}
@@ -387,7 +383,7 @@ public class TestData {
 		List<Member> members = memberRepository.findAll();
 		
 		List<Pfile> pfiles = new ArrayList<Pfile>();
-		List<PfileLog> pfileLogs = new ArrayList<PfileLog>();
+		
 		
 		Pfile pfile1 = Pfile.builder().pdir(pdirs.get(0))
 				.name("0408업무일지")
@@ -409,29 +405,8 @@ public class TestData {
 		pfiles.add(pfile3);
 		
 		
-		PfileLog pfileLog1 = PfileLog.builder().mId(members.get(0))
-				.pfile(pfile1)
-				.contents("로그 생성~~~~")
-				.stat(LogStat.CREATE)
-				.build();
-		
-		PfileLog pfileLog2 = PfileLog.builder().mId(members.get(0))
-				.pfile(pfile2)
-				.contents("로그 생성2222~~~~")
-				.stat(LogStat.CREATE)
-				.build();
-		
-		PfileLog pfileLog3 = PfileLog.builder().mId(members.get(0))
-				.pfile(pfile3)
-				.contents("로그 생성33333~~~~")
-				.stat(LogStat.CREATE)
-				.build();
-		
-		pfileLogs.add(pfileLog1);
-		pfileLogs.add(pfileLog2);
-		pfileLogs.add(pfileLog3);
 		
 		pfileRepository.saveAll(pfiles);
-		pfileLogRepository.saveAll(pfileLogs);		
+		
 	}
 }

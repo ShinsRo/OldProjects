@@ -82,7 +82,6 @@ export default handleActions({
     [CONNECT] : (state, action) => {
         let projectState = state;
         const pushMsgReceiver = new KssPushMsgReceiver(action.payload.mid);
-        console.log("COOOO", state.get('dirContainer'));
         
         pushMsgReceiver.connect(state.get('dirContainer'));
 

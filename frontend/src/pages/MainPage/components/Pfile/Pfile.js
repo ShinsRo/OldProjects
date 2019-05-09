@@ -36,10 +36,8 @@ class Pfile extends Component {
   } 
 
   handlePfileAddForm = () => {
-    const {ProjectActions, projectState} = this.props;
-    console.log(projectState.get('selectedDirId'))
+    const {ProjectActions} = this.props;
 
-    
     ProjectActions.saveItem({ detailViewLevel: 'pfileAdd' });
   }
 
@@ -59,7 +57,6 @@ class Pfile extends Component {
 
     if (!window.confirm('ㄹㅇ?')) return;
 
-    console.log('delete pfile --' , pfileId)
     PfileActions.deletePfile(pfileId);
   }
 
@@ -69,7 +66,6 @@ class Pfile extends Component {
 
     if (!window.confirm('ㄹㅇ?')) return;
 
-    console.log('delete attachment --' , attachmentId)
     AttachmentActions.deleteAttachment(attachmentId);
   }
 

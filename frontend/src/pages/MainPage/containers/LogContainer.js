@@ -7,8 +7,7 @@ import * as pfileAction from '../../../stores/modules/pfileState';
 import * as attachmentActions from '../../../stores/modules/attachmentState';
 import * as plogActions from '../../../stores/modules/plogState';
 
-import PfileLogItem from '../components/Pfile/PfileLogItem';
-import AttachmentLogItem from '../components/Pfile/AttachmentLogItem';
+import { LogPanel } from "../components/LogPanel";
 
 class LogContainer extends Component {
     constructor(props) {
@@ -16,80 +15,18 @@ class LogContainer extends Component {
         this.state = {};
     }
 
-    // componentWillMount(){
-    //     const { PLogActions, projectState } = this.props;
-
-    //     PLogActions.getPLog(projectState.get('selectedDirId'));
-    // }
-
-    wrapWithCard(panel) {
-        return (
-            // <div className="container" style={{ height: '100%' , overflowX :'auto', overflowY:'scroll' }}>
-            <div className="card shadow mb-4"  style={{ height: '100%', width: '100%'}}>
-                {panel}
-            </div>
-            // </div>
-        );
-    }
-
     render() {
-        const { wrapWithCard } = this
-        // const { projectState, pfileState, attachmentState, PfileActions,ProjectActions, AttachmentActions  } = this.props;
-        const { plogState,  PLogActions, ProjectActions } = this.props;
-        const pfileLogs =  plogState.get('pfileLogs');
-        const attachmentLogs = plogState.get('attachmentLogs');
-        console.log('log containner ==================');
-        console.log('pfileLogs ==================' , pfileLogs);
-        console.log('attachmentLogs ==================', attachmentLogs);
-        // const detailViewLevel = projectState.get('detailViewLevel');
+        const { plogState } = this.props;
         
-        if(pfileLogs.length === 0 && attachmentLogs.length === 0) {
-            return wrapWithCard(<>
-                <div className="card-body text-center">
-                    
-                    <img
-                        src={process.env.PUBLIC_URL + '/resources/img/undraw_no_data_qbuo.svg'} 
-                        alt="log does not exist"
-                        style={{ width: '200px' }}
-                    />
-                    <div>로그가 없습니다!</div>
-                </div>
-            </>);
-        
-        } else {
-            return wrapWithCard(<>
-                <div className="card-body">
-                    
-                    <div className= "row font-weight-bold text-darkblue col-10" >
-                        <h1> 로그 </h1>
-                    </div>
+        const pLogs =  plogState.get('pLogs');
+        const logs = pLogs || []
 
-                    <div className="container"  style={{ height: '270px', width: '100%', overflowX :'auto', overflowY:'scroll'}}>
-                    {pfileLogs && pfileLogs.map((pfileLog, idx) => {
-                            return(
-                            <PfileLogItem 
-                                idx = {idx}
-                                pfileLog = {pfileLog}
-                                setPfileLog = {PLogActions.setPfileLog}
-                                projSaveItem = {ProjectActions.saveItem}
-                            />
-                            )
-                        })} 
-
-                    {attachmentLogs && attachmentLogs.map((attachmentLog, idx) => {
-                            return(
-                            <AttachmentLogItem 
-                                idx = {idx}
-                                attachmentLog = {attachmentLog}
-                                setAttachmentLog= {PLogActions.setAttachmentLog}
-                                projSaveItem = {ProjectActions.saveItem}
-                            />
-                            )
-                        })} 
-                    </div>
-                </div>
-            </>);
-        }
+        return (
+            <LogPanel
+                logs={logs}
+                handler={''}
+            />
+        );
     }
 }
 
