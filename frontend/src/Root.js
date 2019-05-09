@@ -16,7 +16,6 @@ const RouteAsUserInfo = withRouter(({ match, location, history }) => {
     if ( !(userState && userState.hasOwnProperty('userInfo') && userState.userInfo)) {
         routes = [
             { path: '/', component: LoginPage },
-            { path: '/register', component : RegisterPage},
         ]
     } else {
         routes = [
@@ -24,6 +23,7 @@ const RouteAsUserInfo = withRouter(({ match, location, history }) => {
             { path: '/main', component: MainPage },
             { path: '/adminpage', component: AdminPage },
             { path: '/profile', component: ProfilePage },
+            { path: '/register', component : RegisterPage},
         ]
     }
     return (

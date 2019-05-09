@@ -25,11 +25,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nastech.upmureport.domain.dto.MemAuthDto;
 import com.nastech.upmureport.domain.dto.MemberDto;
 import com.nastech.upmureport.domain.entity.AuthInfo;
+import com.nastech.upmureport.domain.entity.Career;
 import com.nastech.upmureport.domain.entity.Member;
 import com.nastech.upmureport.domain.entity.MemberSystem;
 import com.nastech.upmureport.domain.entity.Role;
 import com.nastech.upmureport.domain.entity.UserRole;
 import com.nastech.upmureport.domain.repository.AuthInfoRepository;
+import com.nastech.upmureport.domain.repository.CareerRepository;
 import com.nastech.upmureport.domain.repository.MemberRepository;
 import com.nastech.upmureport.domain.repository.MemberSystemRepository;
 import com.nastech.upmureport.domain.repository.UserRoleRepository;
@@ -57,6 +59,9 @@ public class UserController {
 	@Autowired UserService userService;
 	@Autowired
 	UserRoleRepository userRoleRepository;
+	@Autowired
+	CareerRepository careerRepository;
+	
     /*
     @GetMapping(value = "/login")
     public String login(User user){
@@ -112,6 +117,8 @@ public class UserController {
 		System.out.println(basicAuthInfo);
 		System.out.println(m);
 		
+		System.out.println("들어온 것"+modifyAuthInfo);
+		
 		basicAuthInfo.setPassword(modifyAuthInfo.getPassword());
 		
 		System.out.println("변경 될 계정"+basicAuthInfo);
@@ -136,13 +143,13 @@ public class UserController {
     
 
     @PostMapping(value= "/register")
-    public void userRegister(@RequestBody MemAuthDto memAuth) {
+    public MemberDto userRegister(@RequestBody MemAuthDto memAuth) {
     	Member mem=memAuth.getMem();
     	AuthInfo auth = memAuth.getAuth();
     	
     	mem.setJoinDate(LocalDate.now());
     	MemberDto savedMem= memberService.userRegister(mem.toDto());  //MemberInfo 등록
-    	if(savedMem == null) return;
+    	if(savedMem == null) return null;
     	auth.setRole(Role.ROLE_USER);
     	auth.setMember(savedMem.toEntity());
     	UserRole ur1 = UserRole.builder().role(Role.ROLE_USER).username(auth.getUsername()).build();
@@ -151,8 +158,31 @@ public class UserController {
     	Member admin = memRepo.findOneByName("관리자");
     	MemberSystem ms1 = MemberSystem.builder().senior(admin).junior(savedMem.toEntity()).build();
     	memSys.save(ms1);
+    	Career c1 = Career.builder().active(true).dept("미등록").posi("미등록").member(savedMem.toEntity())
+    			.startDate(LocalDate.now())
+    			.build();
+    	careerRepository.save(c1);
     	System.out.println(savedMem+"auth"+auth);
+    	return savedMem;
   	}
+    
+    @PostMapping(value="/idcheck")
+    public AuthInfo idCheck(@RequestBody AuthInfo auth) {
+    	System.out.println(auth);
+    	String name=auth.getUsername();
+    	AuthInfo temp= authInfoRepository.findOneByUsername(name);
+    	System.out.println(temp);
+    	if (temp != null) {  // 이미 있는 아이디이므로 null반환
+    		return null;
+    	}
+    	else
+    		return auth;
+    }
+    
+    @GetMapping(value="/getRetire")
+    public void getRetire() {
+    	
+    }
     
     
     

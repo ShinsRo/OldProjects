@@ -10,12 +10,14 @@ import org.springframework.stereotype.Service;
 
 import com.nastech.upmureport.domain.entity.AuthInfo;
 import com.nastech.upmureport.domain.entity.Career;
+import com.nastech.upmureport.domain.entity.Dept;
 import com.nastech.upmureport.domain.entity.Member;
 import com.nastech.upmureport.domain.entity.MemberProject;
 import com.nastech.upmureport.domain.entity.MemberSystem;
 import com.nastech.upmureport.domain.entity.Pdir;
 import com.nastech.upmureport.domain.entity.Pfile;
 import com.nastech.upmureport.domain.entity.PfileLog;
+import com.nastech.upmureport.domain.entity.Posi;
 import com.nastech.upmureport.domain.entity.Project;
 import com.nastech.upmureport.domain.entity.Role;
 import com.nastech.upmureport.domain.entity.UserRole;
@@ -26,12 +28,14 @@ import com.nastech.upmureport.domain.repository.AttachmentLogRepository;
 import com.nastech.upmureport.domain.repository.AttachmentRepository;
 import com.nastech.upmureport.domain.repository.AuthInfoRepository;
 import com.nastech.upmureport.domain.repository.CareerRepository;
+import com.nastech.upmureport.domain.repository.DeptRepository;
 import com.nastech.upmureport.domain.repository.MemberProjectRepository;
 import com.nastech.upmureport.domain.repository.MemberRepository;
 import com.nastech.upmureport.domain.repository.MemberSystemRepository;
 import com.nastech.upmureport.domain.repository.PdirRepository;
 import com.nastech.upmureport.domain.repository.PfileLogRepository;
 import com.nastech.upmureport.domain.repository.PfileRepository;
+import com.nastech.upmureport.domain.repository.PosiRepository;
 import com.nastech.upmureport.domain.repository.ProjectRepository;
 import com.nastech.upmureport.domain.repository.UserRoleRepository;
 
@@ -44,7 +48,10 @@ public class TestData {
 		CareerRepository careerRepository;
 		@Autowired
 		UserRoleRepository userRoleRepository;
-		
+		@Autowired
+		DeptRepository deptRepository;
+		@Autowired
+		PosiRepository posiRepository;
 		
 		//Project and pdir repositories
 		MemberProjectRepository memberProjectRepository;
@@ -194,7 +201,27 @@ public class TestData {
 		usRoleList.add(ur3);
 		usRoleList.add(ur4);
 		usRoleList.add(ur5);
-
+		
+		List<Dept> deptList = new ArrayList<Dept>();
+		Dept dept1 = Dept.builder().deptName("연구소").build();
+		Dept dept2 = Dept.builder().deptName("인턴부").build();
+		Dept dept3 = Dept.builder().deptName("관리").build();
+		deptList.add(dept1);
+		deptList.add(dept2);
+		deptList.add(dept3);
+		
+		List<Posi> posiList = new ArrayList<Posi>();
+		Posi posi1 = Posi.builder().posiName("관리").build();
+		Posi posi2 = Posi.builder().posiName("팀장").build();
+		Posi posi3 = Posi.builder().posiName("인턴").build();
+		Posi posi4 = Posi.builder().posiName("사원").build();
+		posiList.add(posi1);
+		posiList.add(posi2);
+		posiList.add(posi3);
+		posiList.add(posi4);
+		
+		posiRepository.saveAll(posiList);
+		deptRepository.saveAll(deptList);
 		memberRepository.saveAll(mList);
 		authinfoRepository.saveAll(aList);
 		careerRepository.saveAll(cList);

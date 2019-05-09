@@ -13,7 +13,9 @@ const Header = ({handleLogout, userInfo}) => {
             <div style={{ width: '100%', textAlign: 'center', position: 'absolute'}}>
                 <img src={process.env.PUBLIC_URL + '/resources/img/nastech.png'} alt="main_logo" style={{ 
                     width: 100, height: 47,
-                }}/>
+                }}
+                onClick={(e) => {  window.location.href="/"; }}
+                />
             </div>
             {/* Topbar Navbar */}
             <ul className="navbar-nav ml-auto">

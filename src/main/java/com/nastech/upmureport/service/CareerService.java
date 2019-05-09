@@ -42,7 +42,7 @@ public class CareerService {
 	
 	
 	
-	public void careerModify(Member mem, Career newCar) {
+	public Career careerModify(Member mem, Career newCar) {
 //		List<Career> cList =careerRepository.findAllByMember(mem);
 //		for (Career career : cList) {
 //			if(career.getActive() == true) {
@@ -67,6 +67,7 @@ public class CareerService {
 		System.out.println(newCar.getActive());
 		System.out.println(newCar.getStartDate());
 		careerRepository.save(newCar);
+		return newCar;
 	}
 	
 }

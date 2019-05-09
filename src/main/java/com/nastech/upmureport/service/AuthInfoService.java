@@ -60,5 +60,15 @@ public class AuthInfoService {
 		else
 			return null;
 	}
+	public AuthInfo deleteAuth(AuthInfo auth) {
+		String id = auth.getUsername();
+		AuthInfo findAuth = authInfoRepository.findOneByUsername(id);
+		if (findAuth != null) {
+			authInfoRepository.delete(findAuth);
+			return findAuth;
+		}
+		else
+			return null;	
+	}
 	
 }
