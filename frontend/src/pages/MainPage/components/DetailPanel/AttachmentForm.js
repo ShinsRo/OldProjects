@@ -14,7 +14,7 @@ class AttachmentForm extends Component {
 
     onFormSubmit = (e) => {
 
-        const { saveItem } = this.props;
+        // const { saveItem } = this.props;
         e.preventDefault() // Stop form submit
         this.attachmentUpload(this.state.uploadAttachment)
             .then(() => {
@@ -33,7 +33,6 @@ class AttachmentForm extends Component {
 
     onFileChange = (e) => {
         this.setState({ uploadAttachment: e.target.files[0] })
-        console.log(e.target.files[0]);
     }
 
     attachmentUpload = (file) => {

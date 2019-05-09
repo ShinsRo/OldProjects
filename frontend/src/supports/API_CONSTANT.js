@@ -1,6 +1,10 @@
 // DEV ENV
 const BASE_URL = 'http://localhost:8304';
 
+// KYS ENV
+
+// const BASE_URL = "http://133.9.100.129:8304";
+
 // DIST ENV
 //const BASE_URL = 'http://133.9.100.214:8304';
 
