@@ -6,9 +6,9 @@ export function savePfile(pfile){
     return axios.post(`${BASE_URL}/pfile`, pfile);    
 }
 
-export function getPfile(dirId){
-    console.log(typeof dirId);
-    return axios.get(`${BASE_URL}/pfile/${dirId}`);    
+export function getPfile(pdirId){
+    console.log(typeof pdirId);
+    return axios.get(`${BASE_URL}/pfile/${pdirId}`);    
 }
 
 export function updatePfile(pfile){

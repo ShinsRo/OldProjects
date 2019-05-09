@@ -38,6 +38,8 @@ class Pfile extends Component {
   handlePfileAddForm = () => {
     const {ProjectActions, projectState} = this.props;
     console.log(projectState.get('selectedDirId'))
+
+    
     ProjectActions.saveItem({ detailViewLevel: 'pfileAdd' });
   }
 
@@ -50,7 +52,6 @@ class Pfile extends Component {
     const {ProjectActions} = this.props;
 
     ProjectActions.saveItem({ detailViewLevel: 'pfileUpdate' });
-
   }
 
   handleDeletePfile = (pfileId) => {
@@ -76,19 +77,18 @@ class Pfile extends Component {
       const {pfileState, projectState, attachmentState } = this.props;
 
       const addButton =  projectState.get('selectedDirId') &&(
-        <div>
+        <nav>
           <div className="row justify-content-end">
-            <div className="col-4">
-              <button type="button" className="btn btn-dark-1 p-2 " onClick= {this.handlePfileAddForm}>
-                파일추가
-              </button>           
-            
-              <button type="button" className="btn btn-dark-1 p-2" onClick= {this.handleAttachmentAddForm}>
-                첨부파일 추가
-              </button>
+            <div class="btn-group" role="group" aria-label="Basic example">              
+                <button type="button" className="btn btn-dark-1 p-2 " onClick= {this.handlePfileAddForm}>
+                  파일추가
+                </button>           
+                <button type="button" className="btn btn-dark-1 p-2" onClick= {this.handleAttachmentAddForm}>
+                  첨부파일 추가
+                </button>
             </div>
           </div>
-        </div>
+        </nav>
         )
 
         return (
@@ -108,7 +108,7 @@ class Pfile extends Component {
             </div> 
             
           </div>       
-          <div className="card-body">
+          <div className="card-body" style={{ height: '650px' , overflowX :'auto', overflowY:'scroll' }}>
               <PfileTable
                 pfiles={pfileState.get('pfiles')}
                 attachments = {attachmentState.get('attachments')}

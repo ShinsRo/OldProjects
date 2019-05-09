@@ -3,6 +3,7 @@ package com.nastech.upmureport.domain.entity;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,11 +32,14 @@ public class Project {
 	
 	private LocalDateTime edDate;
 	
+	@Column(updatable=false)
 	@CreationTimestamp
-	private LocalDateTime cdate;
+	@Builder.Default
+	private LocalDateTime cdate = LocalDateTime.now();
 	
 	@UpdateTimestamp
-	private LocalDateTime udate;
+	@Builder.Default
+	private LocalDateTime udate = LocalDateTime.now();
 
 	@Builder.Default
 	private Boolean dflag = false;

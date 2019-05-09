@@ -3,6 +3,8 @@ package com.nastech.upmureport.service;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,6 +20,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -90,59 +97,76 @@ public class AttachmentService {
 		return getAttachment(attachment.getPdir().getDid());
 	}
 
-	public List<String> downloadAttachment(String attachmentId, HttpServletResponse resp) throws Exception {
+//	public List<String> downloadAttachment(String attachmentId, HttpServletResponse resp) throws Exception {
+//
+//		HttpServletResponse response = resp; // down
+//		byte[] fileByte = null;
+////		
+//		Attachment attachment = attachmentRepository.findById(Utils.StrToBigInt(attachmentId)).get();
+//
+//		try {
+//			fileByte = FileUtils.readFileToByteArray(new File(attachment.getLocalPath()));
+//			// response.setContentType("application/octet-stream");
+//			// response.setContentLength(fileByte.length);
+//			// 다운로드시 변경할 파일명
+//			// response.addHeader("Content-Disposition", "attachment; fileName=\"" +
+//			// URLEncoder.encode(attachment.getName(), "UTF-8") + "\";");
+//			// response.addHeader("Content-Transfer-Encoding", "binary");
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//		Encoder encoder = Base64.getEncoder();
+//		Decoder decoder = Base64.getDecoder();
+//
+//		byte[] encoded = encoder.encode(fileByte);
+//		String encodedString = new String(encoded);
+//
+//		List<String> resStrings = new ArrayList<String>();
+//
+//		int encodedStringLength = encodedString.length();
+//		int opp = 0;
+//		while (true) {
+//			if (opp + 6000 < encodedStringLength) {
+//				resStrings.add(encodedString.substring(opp, opp + 6000));
+//				LOG.info("opp--" + opp);
+//				opp += 6000;
+//			} else {
+//				resStrings.add(encodedString.substring(opp, encodedStringLength));
+//				LOG.info("last" + opp + "last opp--" + encodedStringLength);
+//				break;
+//			}
+//		}
+//
+//		int i = 0;
+//
+//		resStrings.forEach(str -> {
+//			LOG.info(str.length());
+//		});
+//
+//		LOG.info("encoded ===== " + encoded);
+//		LOG.info("encodedString ===== " + encodedString);
+//		LOG.info("encodedString.length() ===== " + encodedString.length());
+//		LOG.info("resStrings.size() ===== " + resStrings.size());
+//
+//		return resStrings;
+//	}
+	
+	public ResponseEntity<Resource> downloadAttachment(String attachmentId, HttpServletResponse resp) throws Exception {
 
-		HttpServletResponse response = resp; // down
-		byte[] fileByte = null;
+		
 //		
 		Attachment attachment = attachmentRepository.findById(Utils.StrToBigInt(attachmentId)).get();
+		
+		Path filePath = Paths.get(attachment.getLocalPath()).normalize();
+		
+		Resource resource = new UrlResource(filePath.toUri());
+		
+		return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(attachment.getContentType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
 
-		try {
-			fileByte = FileUtils.readFileToByteArray(new File(attachment.getLocalPath()));
-			// response.setContentType("application/octet-stream");
-			// response.setContentLength(fileByte.length);
-			// 다운로드시 변경할 파일명
-			// response.addHeader("Content-Disposition", "attachment; fileName=\"" +
-			// URLEncoder.encode(attachment.getName(), "UTF-8") + "\";");
-			// response.addHeader("Content-Transfer-Encoding", "binary");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		Encoder encoder = Base64.getEncoder();
-		Decoder decoder = Base64.getDecoder();
-
-		byte[] encoded = encoder.encode(fileByte);
-		String encodedString = new String(encoded);
-
-		List<String> resStrings = new ArrayList<String>();
-
-		int encodedStringLength = encodedString.length();
-		int opp = 0;
-		while (true) {
-			if (opp + 6000 < encodedStringLength) {
-				resStrings.add(encodedString.substring(opp, opp + 6000));
-				LOG.info("opp--" + opp);
-				opp += 6000;
-			} else {
-				resStrings.add(encodedString.substring(opp, encodedStringLength));
-				LOG.info("last" + opp + "last opp--" + encodedStringLength);
-				break;
-			}
-		}
-
-		int i = 0;
-
-		resStrings.forEach(str -> {
-			LOG.info(str.length());
-		});
-
-		LOG.info("encoded ===== " + encoded);
-		LOG.info("encodedString ===== " + encodedString);
-		LOG.info("encodedString.length() ===== " + encodedString.length());
-		LOG.info("resStrings.size() ===== " + resStrings.size());
-
-		return resStrings;
 	}
 
 	private Attachment buildAttachment(File destinationFile, String fileName, Pdir pdir,AttachmentDto.AttachmentReqDto attachmentReqDto, MultipartFile file) {

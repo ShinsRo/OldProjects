@@ -3,17 +3,18 @@ import { Map, List } from 'immutable';
 import axios from 'axios';
 import KssTree from '../supports/kss-tree';
 import KssAutocompletor from '../supports/kss-autocompletor';
+import KssPushMsgReceiver from '../supports/kss-push-msg-receiver';
 import { URL } from '../supports/API_CONSTANT';
 //Actions
 export const REQUEST = 'project/REQUEST';
 export const RECEIVE = 'project/RECEIVE';   // { endPoint, items }
 export const PUSHERR = 'project/PUSHERR';
-export const UPDATE_BREADCRUMB = 'project/UPDATE_BREADCRUMB';
+export const CONNECT = 'project/CONNECT';
 
 export const request = createAction(REQUEST);
 export const receive = createAction(RECEIVE);
 export const pusherr = createAction(PUSHERR);
-export const updateBreadcrumb = createAction(UPDATE_BREADCRUMB);
+export const connect = createAction(CONNECT);
 
 //init state
 const initialState = Map({
@@ -28,6 +29,8 @@ const initialState = Map({
     }),
     selectedProject: '',
     selectedDirId: '',
+    pushMsgReceiver: '',
+    dirContainer: new KssTree(),
 });
 
 //액션 핸들링
@@ -48,8 +51,9 @@ export default handleActions({
         for (const key in items) {
             projectState = projectState.set(key, items[key]);
             if (key === 'projects') {
-                const dirContainer = new KssTree(items[key]);
-                projectState = projectState.set('dirContainer', dirContainer);
+                const dirContainer = projectState.get('dirContainer');
+                dirContainer.setProjects(items[key]);
+                dirContainer.init();
             }
             if (key === 'members') {
                 const memberAutocompletor = new KssAutocompletor("memberAutocompletor", "member", items[key]);
@@ -75,9 +79,14 @@ export default handleActions({
 
         return projectState;
     },
-    [UPDATE_BREADCRUMB] : (state, action) => {
+    [CONNECT] : (state, action) => {
         let projectState = state;
-        projectState = projectState.set('breadcrumb', action.payload);
+        const pushMsgReceiver = new KssPushMsgReceiver(action.payload.mid);
+        console.log("COOOO", state.get('dirContainer'));
+        
+        pushMsgReceiver.connect(state.get('dirContainer'));
+
+        projectState = projectState.set('pushMsgReceiver', pushMsgReceiver);
 
         return projectState;
     }
@@ -94,8 +103,11 @@ export function saveItem(items) {
 export function list(mid, name) {
         return (dispatch) => {
             dispatch(request());
+            dispatch(connect({ mid, }));
             return axios.get(`${URL.PROJECT.LIST}?mid=${mid}`)
-                .then   (res => { dispatch(receive({ projects: res.data, })); })
+                .then   (res => { 
+                    dispatch(receive({ projects: res.data, })); 
+                })
                 .catch  (err => { dispatch(pusherr(err)); });
         }
 };
@@ -110,7 +122,7 @@ export function setMemberAutocompletor() {
 
 export function register(pDto) { return axios.post(`${URL.PROJECT.REGISTER}`, pDto); };
 export function correct(pDto) { return axios.put(`${URL.PROJECT.CORRECT}`, pDto) };
-export function disable(pDto) { return axios.patch(`${URL.PROJECT.DISABLE}`, pDto) };
+export function disable(pDto) { return axios.put(`${URL.PROJECT.DISABLE}`, pDto) };
 
 export const pdir_api = {
     register: dDto => {
@@ -119,5 +131,5 @@ export const pdir_api = {
     correct: (dDto, gubun) => {
         return axios.put(`${URL.PDIR.CORRECT}?gubun=${gubun}`, dDto);
     },
-    disable: dDto => axios.patch(`${URL.PDIR.DISABLE}`, dDto),
+    disable: dDto => axios.put(`${URL.PDIR.DISABLE}`, dDto),
 };

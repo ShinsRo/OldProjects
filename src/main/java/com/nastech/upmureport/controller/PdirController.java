@@ -39,7 +39,7 @@ public class PdirController {
 		return ResponseEntity.ok().body(ds.correct(pDto, gubun));
 	}
 	
-	@PatchMapping(value = "/disable")
+	@PutMapping(value = "/disable")
 	ResponseEntity<List<PdirDto>> disable(@RequestBody PdirDto pDto)  {
 		return ResponseEntity.ok().body(ds.disable(pDto));
 	}

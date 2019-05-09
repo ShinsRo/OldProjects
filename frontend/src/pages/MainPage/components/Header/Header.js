@@ -8,14 +8,14 @@ const Header = ({handleLogout, userInfo}) => {
             <button id="sidebarToggleTop" className="btn btn-link btn-dark-2 rounded-circle mr-3">
                 <i className="fa fa-bars"></i>
             </button>
-            <div style={{ width: '100%', textAlign: 'center', position: 'absolute'}}>
+            {/* <div style={{ width: '100%', textAlign: 'center', position: 'absolute'}}>
                 <img 
                     alt="main_logo" 
                     src={process.env.PUBLIC_URL + '/resources/img/nastech.png'} 
                     style={{ width: 100, height: 47, cursor: 'pointer', }} 
                     onClick={(e) => {  window.location.href="/"; }}
                 ></img>
-            </div>
+            </div> */}
             {/* Topbar Navbar */}
             <ul className="navbar-nav ml-auto">
                 {/* Nav Item - User Information */}

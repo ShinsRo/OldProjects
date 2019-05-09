@@ -6,6 +6,7 @@
     "axios": "^0.18.0",
     "base-64": "^0.1.0",
     "dotenv": "^7.0.0",
+    "file-base64": "^1.0.0",
     "file-saver": "2.0.1",
     "file-server": "^2.1.0",
     "fontawesome": "^5.6.3",

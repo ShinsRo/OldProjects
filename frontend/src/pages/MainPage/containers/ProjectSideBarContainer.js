@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import * as projectActions from '../../../stores/modules/projectState';
 import * as pfileAction from '../../../stores/modules/pfileState'
 import * as attachmentAction from '../../../stores/modules/attachmentState'
+import * as plogActions from '../../../stores/modules/plogState';
 
 
 import { ProjectSideBar } from '../components/ProjectSideBar';
@@ -29,7 +30,7 @@ class ProjectSideBarContainer extends Component {
     }
 
     handlers(cmd, params) {
-        const { ProjectActions, PfileActions, AttachmentAction, projectState } = this.props;
+        const { ProjectActions, PfileActions, AttachmentAction, projectState, PLogActions } = this.props;
         switch (cmd) {
             case "reload":
                 this.setState({ reload: !this.state.reload });
@@ -39,6 +40,7 @@ class ProjectSideBarContainer extends Component {
                 if(projectState.get('selectedDirId') && projectState.get('selectedDirId') !== selectedDirId){
                     PfileActions.getPfile(selectedDirId);
                     AttachmentAction.getAttachment(selectedDirId);
+                    PLogActions.getPLog(selectedDirId);
                 }
 
                 if(this.props.mainContentViewLevel === 'default') {
@@ -57,13 +59,13 @@ class ProjectSideBarContainer extends Component {
         
         const { ProjectActions } = this.props;
         
-        return (
+        return (<>
             <ProjectSideBar 
                 projectState={projectState} 
                 ProjectActions={ProjectActions}
                 handlers={this.handlers}
             ></ProjectSideBar>
-        );
+        </>);
     }
 }
 
@@ -76,5 +78,6 @@ export default connect(
         ProjectActions: bindActionCreators(projectActions, dispatch),
         PfileActions: bindActionCreators(pfileAction, dispatch),
         AttachmentAction: bindActionCreators(attachmentAction, dispatch),
+        PLogActions : bindActionCreators(plogActions, dispatch),
     })
 ) (ProjectSideBarContainer);
