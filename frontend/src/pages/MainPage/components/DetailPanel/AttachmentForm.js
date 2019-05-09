@@ -71,8 +71,7 @@ class AttachmentForm extends Component {
         }
 
         return (
-            <div className="container">
-                <div className="card shadow mb-4">
+                <div className="card shadow mb-4" style={{ width: '100%' }}>
                     <div className="card-header py-3">
                         <div class="custom-file">
                             <input type="file"
@@ -88,7 +87,7 @@ class AttachmentForm extends Component {
                     <div className="card-body">
                         <div className="m-0 font-weight-bold text-darkblue">
                             <h2>코멘트</h2>
-                            <textarea className="form-control" onChange={this.handleContentChange} />
+                            <textarea rows='10' style={{ resize: 'none' }} className="form-control" onChange={this.handleContentChange} />
                         </div>
                     </div>
 
@@ -98,7 +97,6 @@ class AttachmentForm extends Component {
                         </div>
                     </div>
                 </div>
-            </div>
         );
     }
 }

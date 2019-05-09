@@ -1,11 +1,11 @@
 package com.nastech.upmureport.domain.entity.support;
 
-public enum LogStat{
+public enum LogState{
 	CREATE("create"), UPDATE("update"), DELETE("delete");
 	
 	private String value;
 	
-	LogStat(String value){
+	LogState(String value){
 		this.value = value;
 	}
 	

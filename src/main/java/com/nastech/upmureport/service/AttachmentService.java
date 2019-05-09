@@ -31,7 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.nastech.upmureport.domain.dto.AttachmentDto;
 import com.nastech.upmureport.domain.entity.Attachment;
 import com.nastech.upmureport.domain.entity.Pdir;
-import com.nastech.upmureport.domain.entity.support.LogStat;
+import com.nastech.upmureport.domain.entity.support.LogState;
 import com.nastech.upmureport.domain.repository.AttachmentRepository;
 import com.nastech.upmureport.domain.repository.PdirRepository;
 import com.nastech.upmureport.support.Utils;
@@ -65,7 +65,7 @@ public class AttachmentService {
 		
 		try{			
 			attachment = attachmentRepository.save(attachment);
-			pLogService.createAttachmentLog(attachment, LogStat.CREATE);
+			pLogService.createAttachmentLog(attachment, LogState.CREATE);
 		} catch (Exception e) {
 			throw new Exception();
 		}			
@@ -89,7 +89,7 @@ public class AttachmentService {
 		
 		try{			
 			attachment = attachmentRepository.save(attachment);
-			pLogService.createAttachmentLog(attachment, LogStat.DELETE);
+			pLogService.createAttachmentLog(attachment, LogState.DELETE);
 		} catch (Exception e) {
 			LOG.info(e.getMessage());
 		}	
