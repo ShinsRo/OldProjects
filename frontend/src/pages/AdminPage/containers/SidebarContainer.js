@@ -63,8 +63,6 @@ class SidebarContainer extends Component {
         const {userState} = store.getState()
         const {userInfo} = userState
         const {memberInfo} = userInfo
-        const {posiList} = this.props;
-        const {deptList} = this.props;
         //const deptName=this.state.deptName
         //console.log("사이드바 컨테이너",this.props)
         return(
@@ -73,8 +71,6 @@ class SidebarContainer extends Component {
                 depts={depts}
                 select={select}
                 userInfo={memberInfo}
-                deptList={deptList}
-                posiList={posiList}
                 //deptName={deptName}
             />
         );

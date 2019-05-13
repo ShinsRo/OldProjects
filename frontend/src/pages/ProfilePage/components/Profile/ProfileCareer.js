@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+/////// 커리어를 멤버 정보에 합쳐서 사용되지 않을 듯??
 class ProfileCareer extends Component {
   constructor(props) {
     super(props);

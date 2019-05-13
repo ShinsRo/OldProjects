@@ -30,9 +30,6 @@ class Sidebar extends Component {
         const { depts } = this.props;
         const { select } = this.props;
         const { userInfo } = this.props;
-        const {posiList} = this.props;
-        const {deptList} = this.props;
-        console.log("사이드",deptList)
 
         return (
             <ul className="navbar-nav bg-gradient-darkblue sidebar bg-dark-1 accordion" id="accordionSidebar">
@@ -69,7 +66,7 @@ class Sidebar extends Component {
                         return (
                             <li className="nav-item" key={idx}>
                                 <a className="nav-link collapsed text-white" href="/" data-toggle="collapse" data-target={"#collapse" + key} aria-expanded="true" aria-controls="collapsePages">
-                                    <i className="fas fa-fw fa-folder"></i>
+                                    <i className="fas fa-fw fa-landmark"></i>
                                     <span>{key}</span>
                                 </a>
                                 <div id={"collapse" + key} className="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -90,8 +87,7 @@ class Sidebar extends Component {
                     })
                 }
 
-                {/* 사원등록 메뉴 */}
-                <input type="button" className="btn btn-primary btn-icon-split mb-3 mt-3" value="  신규 사원 등록   " onClick={() => this.openModal('visible')} />
+                {/* <input type="button" className="btn btn-primary btn-icon-split mb-3 mt-3" value="  신규 사원 등록   " onClick={() => this.openModal('visible')} />
                 <Modal visible={this.state.visible} width="900px" height="700px" effect="fadeInLeft" onClickAway={() => this.closeModal('visible')}>
                   <div >
                     <Register/>
@@ -99,7 +95,6 @@ class Sidebar extends Component {
                   </div>
                 </Modal>
                 
-                {/* 부서 및 관리 메뉴 */}
                 <input type="button" className="btn btn-primary btn-icon-split mb-3" value="   부서 및 직책 관리   " onClick={() => this.openModal('visible1')} />
                 <Modal visible={this.state.visible1} width="400" height="300" effect="fadeInLeft" onClickAway={() => this.closeModal('visible1')}>
                   <div>
@@ -107,7 +102,7 @@ class Sidebar extends Component {
                     <Posi posiList={posiList}></Posi>
                   </div>
                   <input type="button" value=" Close " className="btn btn-primary btn-icon-split" onClick={() => this.closeModal('visible1')}></input>
-                </Modal>
+                </Modal> */}
                         
                 {/* Divider */}
                 <hr className="sidebar-divider d-none d-md-block" />
