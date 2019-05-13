@@ -60,12 +60,12 @@ class Posi extends Component {
         return (
             <div>
                 <div className="row text-gray-900 p-3 m-0"> <b>직책 추가:  </b>
-                    <input type="text" value={this.state.posi} name="PosiName" onChange={e => this.handleChangeInput(e, 'posi')} placeholder=" 직책명" ></input>
-                    <MDBBtn outline rounded size="sm" className="ml-3" color="primary" onClick={this.addPosiAPI.bind(this)} ><MDBIcon icon="plus" className="mr-2"/>추가</MDBBtn>
+                    <input type="text" className="ml-1" value={this.state.posi} name="PosiName" onChange={e => this.handleChangeInput(e, 'posi')} placeholder=" 직책명" ></input>
+                    <MDBBtn outline rounded size="sm" className="ml-3" color="primary" onClick={this.addPosiAPI.bind(this)} ><MDBIcon icon="plus" className="mr-1"/>추가</MDBBtn>
                     {/* <input type="button" value="  ADD  " name="authInfo" onClick={this.addPosiAPI.bind(this)} class="btn btn-success btn-icon-split"></input> */}
                 </div>
                 <form action="" className="row text-gray-900 p-3 m-0"><b>직책 제거: </b>
-                    <select value={this.state.value} onChange={e => this.onChange(e, 'value')}>
+                    <select className="col ml-1" value={this.state.value}  onChange={e => this.onChange(e, 'value')}>
                         {
                             posiList && posiList.map(posi => {
                                 return (

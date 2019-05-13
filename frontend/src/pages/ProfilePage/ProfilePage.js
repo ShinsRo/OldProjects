@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux'
 import * as userActions from '../../stores/modules/userState'
 import ProfileModify from "./components/Profile/ProfileModify"
 import Sidebar from "./Sidebar"
+/////모달로 변경해서 사용되지 않을 듯..?
 
 class ProFilePage extends Component {
   constructor(props) {

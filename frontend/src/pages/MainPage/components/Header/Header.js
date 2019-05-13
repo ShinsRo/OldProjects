@@ -6,14 +6,12 @@ import { MDBBtn, MDBIcon } from "mdbreact"
 class Header extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            
+        this.state = { 
         };
     }
     
-
     render() {
-        const { handleLogout, userInfo ,openModal,closeModal} = this.props;
+        const { handleLogout, userInfo ,openModal} = this.props;
 
 
         return (
@@ -45,24 +43,18 @@ class Header extends Component {
                                 <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 HOME
                         </a>
-
+{/* 
                             <a className="dropdown-item" href="/profile">
                                 <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Profile
-                    </a>
+                    </a> */}
 
                             {/* 프로필 메뉴 */}
                             {/* <input type="button" className="btn btn-primary btn-icon-split ml-3" value="   부서 및 직책 관리   " onClick={() => this.openModal('visible1')} /> */}
                             
-                            <MDBBtn size="sm" className="ml-3" color="" onClick={() => openModal('visible')}><MDBIcon icon="user" className="mr-2 text-gray-400" />Profile</MDBBtn>
-                            <Modal visible={this.state.visible} width="" height="" effect="fadeInLeft" onClickAway={() => closeModal('visible')}>
-                                <div >
-                                    <Member selectUser={userInfo.memberInfo}></Member>
-                                </div>
-                                {/* <input type="button" value=" Close " className="btn btn-primary btn-icon-split" onClick={() => this.closeModal('visible1')}></input> */}
-                                <MDBBtn rounded size="sm" className="" color="primary" onClick={() => closeModal('visible')}><MDBIcon icon="times" className="mr-2 justify-content-end" />close</MDBBtn>
-                            </Modal>
-
+                            <MDBBtn size="sm" className="ml-3 text-dark-2" color="" onClick={() => openModal('visible')}><MDBIcon icon="user" className="mr-2 text-gray-400" />Profile</MDBBtn>
+                            
+                            
                             {
                                 userInfo.memberInfo.name === "관리자" && <a className="dropdown-item" href="/adminpage">
                                     <i className="fas fa-user-cog fa-sm fa-fw mr-2 text-gray-400"></i>

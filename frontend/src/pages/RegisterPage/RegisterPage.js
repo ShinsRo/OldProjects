@@ -2,7 +2,7 @@ import { Map } from 'immutable';
 import axios from 'axios';
 import React, { Component } from 'react';
 import { BASE_URL } from '../../supports/API_CONSTANT'
-import {MDBBtn,MDBIcon} from 'mdbreact'
+import { MDBBtn, MDBIcon } from 'mdbreact'
 var fullScreen = {
     // height: '100%',
     // width: '100%',
@@ -14,13 +14,40 @@ class RegisterPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: '', password: '', eid: '', name: '', birth: '', phoneNum: ''
-            , checked: false
+            username: '', password: '', password2: '', eid: '', name: '', birth: '', phoneNum: ''
+            , checked: false , confirm:true,
         };
     }
     handleChangeInput(e, target) {
         //인풋 값 변경
         // console.log(target,e.target.value)
+        if (target === "password") {
+
+        } else if (target === "password2") {
+
+            if (this.state.password !== e.target.value) {
+                //jquery 사용 직접 DOM에 접근 
+                //node.js 안의 window에 있음 jquery     # => id 
+                const $ = window.$;
+                $("#validation").html("비밀번호가 일치하지 않습니다.");
+                this.setState({ confirm:true })
+                // this.setState({ });
+                /*
+                 변경 버튼 비활성화
+                */
+            } else {
+                const $ = window.$;
+                $("#validation").html("비밀번호가 일치합니다.");
+                this.setState({ confirm:false })
+                // this.setState({ });
+                /**
+                 * 활성화
+                 */
+            }
+        } else {
+
+        }
+
         this.setState({ [target]: e.target.value });
     }
     checkIdAPI() {
@@ -59,6 +86,7 @@ class RegisterPage extends Component {
         console.log("auth:", auth)
         console.log("mem:", mem)
         if (!this.state.checked) return alert("ID중복 검사를 먼저 하세요")
+        if (this.state.password != this.state.password2) return alert("비밀번호를 올바르게 입력하세요")
 
         return axios.post(`${BASE_URL}/api/users/register`,
             {
@@ -81,53 +109,57 @@ class RegisterPage extends Component {
     render() {
 
         return (
-                <div className="card o-hidden border-0 shadow-lg">
-                    <div className="card-header text-center">
-                            <h1 className="h4 text-gray-700 pt-2 font-weight-bold text-dark-2">신규 사원 등록</h1>
-                    </div>
-                    <div className="card-body">
-                        {/* <!-- Nested Row within Card Body --> */}
-                        <div className="row">
-                            {/* <div className="col-lg-6 d-none d-lg-block bg-login-image"></div> */}
-                            <div className="col">
-                                <div className="">
-                                    
-                                    <form className="User" action="" method="post">
-                                        <div className="form-group row">
-                                                <div className="col-8">
-                                                    <input type='text' disabled={this.state.checked} value={this.state.username} onChange={e => this.handleChangeInput(e, 'username')} type="text" className="form-control form-control-user" name="username" placeholder="아이디" />
-                                                </div>
-                                                <div className="col-2">
-                                                    <input type='button' className=" btn-sm btn-primary mt-1" value="중복검사" onClick={() => this.checkIdAPI()}></input>
-                                                </div>
-                                                <div className="col-2">
-                                                    <input type='button' className=" btn-sm btn-primary mt-1" value="재입력" onClick={() => this.click()}></input>
-                                                </div>
+            <div className="card o-hidden border-0 shadow-lg">
+                <div className="card-header text-center">
+                    <h1 className="h4 text-gray-700 pt-2 font-weight-bold text-dark-2">신규 사원 등록</h1>
+                </div>
+                <div className="card-body">
+                    {/* <!-- Nested Row within Card Body --> */}
+                    <div className="row">
+                        {/* <div className="col-lg-6 d-none d-lg-block bg-login-image"></div> */}
+                        <div className="col">
+                            <div className="">
+
+                                <form className="User" action="" method="post">
+                                    <div className="form-group row">
+                                        <div className="col-7">
+                                            <input type='text' disabled={this.state.checked} value={this.state.username} onChange={e => this.handleChangeInput(e, 'username')} type="text" className="form-control form-control-user" name="username" maxlength="10" placeholder="아이디" />
                                         </div>
-                                        <div className="form-group">
-                                            <input value={this.state.password} onChange={e => this.handleChangeInput(e, 'password')} type="password" className="form-control form-control-user" name="password" placeholder="비밀번호" />
+                                        <div className="col-2">
+                                            <input type='button' className=" btn-sm btn-primary mt-1 ml-1" value="중복검사" onClick={() => this.checkIdAPI()}></input>
                                         </div>
-                                        <div className="form-group">
-                                            <input value={this.state.eid} onChange={e => this.handleChangeInput(e, 'eid')} type="text" className="form-control form-control-user" name="eid" placeholder="사번" />
+                                        <div className="col-2">
+                                            <input type='button' className=" btn-sm btn-primary mt-1 ml-3" value="재입력" onClick={() => this.click()}></input>
                                         </div>
-                                        <div className="form-group">
-                                            <input value={this.state.name} onChange={e => this.handleChangeInput(e, 'name')} type="text" className="form-control form-control-user" name="name" placeholder="이름" />
-                                        </div>
-                                        <div className="form-group">
-                                            <input value={this.state.birth} onChange={e => this.handleChangeInput(e, 'birth')} type="text" className="form-control form-control-user" name="birth" placeholder="생일" />
-                                        </div>
-                                        <div className="form-group">
-                                            <input value={this.state.phoneNum} onChange={e => this.handleChangeInput(e, 'phoneNum')} type="text" className="form-control form-control-user" name="phoneNum" placeholder="핸드폰" />
-                                        </div>
-                                        {/* <input type="button" onClick={this.registUserAPI.bind(this)} className="btn btn-darkblue btn-user btn-block" value="등록" /> */}
-                                        <MDBBtn outline rounded size="sm" className="col" color="primary" onClick={this.registUserAPI.bind(this)}><MDBIcon icon="user-plus" className="mr-2"/>사원 등록</MDBBtn>
-                                        
-                                    </form>
-                                </div>
+                                    </div>
+                                    <div className="form-group">
+                                        <input value={this.state.password} onChange={e => this.handleChangeInput(e, 'password')} type="password" className="form-control form-control-user" name="password" placeholder="비밀번호" />
+                                    </div>
+                                    <div className="form-group">
+                                        <input value={this.state.password2} onChange={e => this.handleChangeInput(e, 'password2')} type="password" className="form-control form-control-user" name="password" placeholder="비밀번호 확인" />
+                                    </div>
+                                    <span id="validation"></span>
+                                    <div className="form-group">
+                                        <input value={this.state.eid} onChange={e => this.handleChangeInput(e, 'eid')} type="text" className="form-control form-control-user" name="eid" placeholder="사번" />
+                                    </div>
+                                    <div className="form-group">
+                                        <input value={this.state.name} onChange={e => this.handleChangeInput(e, 'name')} type="text" className="form-control form-control-user" name="name" placeholder="이름" />
+                                    </div>
+                                    <div className="form-group">
+                                        <input value={this.state.birth} onChange={e => this.handleChangeInput(e, 'birth')} type="text" className="form-control form-control-user" name="birth" placeholder="생일" />
+                                    </div>
+                                    <div className="form-group">
+                                        <input value={this.state.phoneNum} onChange={e => this.handleChangeInput(e, 'phoneNum')} type="text" className="form-control form-control-user" name="phoneNum" placeholder="핸드폰" />
+                                    </div>
+                                    {/* <input type="button" onClick={this.registUserAPI.bind(this)} className="btn btn-darkblue btn-user btn-block" value="등록" /> */}
+                                    <MDBBtn outline rounded size="sm" className="col" color="primary" disabled={this.state.confirm} onClick={this.registUserAPI.bind(this)}><MDBIcon icon="user-plus" className="mr-2" />사원 등록</MDBBtn>
+
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
         );
     }
 }

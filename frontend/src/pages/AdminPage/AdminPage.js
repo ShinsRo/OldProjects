@@ -124,7 +124,7 @@ class AdminPage extends Component {
             <div className="row">
               {/* <input type="button" className="btn btn-primary btn-icon-split ml-4" value="  신규 사원 등록   " onClick={() => this.openModal('visible')} /> */}
               <MDBBtn outline rounded size="sm" className="ml-4" color="primary" onClick={() => this.openModal('visible')}><MDBIcon icon="user-plus" className="mr-2" onClick={() => this.openModal('visible')} />신규 사원 등록</MDBBtn>
-              <Modal visible={this.state.visible} width="500px" height="480px" effect="fadeInLeft" onClickAway={() => this.closeModal('visible')}>
+              <Modal visible={this.state.visible} width="420px" height="450px" effect="fadeInLeft" onClickAway={() => this.closeModal('visible')}>
                 <div className="">
                   <Register />
                   <MDBBtn rounded size="sm" className="" color="primary" onClick={() => this.closeModal('visible')}><MDBIcon icon="times" className="mr-2 justify-content-end" />close</MDBBtn>
@@ -144,7 +144,6 @@ class AdminPage extends Component {
               </Modal>
             </div>
             {/* Page Content  */}
-            {/* 임시 테스트 { userState.selectedUser.name } */}
             <div className="container-fluid mt-5" >
               <div className="row" >
                 <div className="col-xl-7 card">
@@ -167,6 +166,7 @@ class AdminPage extends Component {
                     </div>
                   </Modal>
                   </div>
+                  {/* 퇴사 메뉴 모달 */}
                   <div className="">
                   <MDBContainer>
                   <MDBBtn outline rounded size="sm" color="danger" onClick={this.toggle}><MDBIcon icon="user-cog" className=""/>퇴사</MDBBtn>

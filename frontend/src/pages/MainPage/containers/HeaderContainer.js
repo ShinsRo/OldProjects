@@ -32,14 +32,15 @@ class HeaderContainer extends Component {
 
     render() {
         const { userState } = store.getState();
-        const {openModal,closeModal} = this.props;
+        const {openModal,closeModal,visible} = this.props;
         
         return (
             <div>
                 {this.renderRedirect()}
                 <Header handleLogout={this.handleLogout} userInfo={userState.userInfo}
                         openModal={openModal}
-                        closeModal={closeModal}/>
+                        closeModal={closeModal}
+                        visible={visible}/>
             </div>
         );
     }

@@ -36,7 +36,7 @@ class ProfileModify extends Component {
                 if (!response.data) alert("오류 입니다")
                 else {
                     alert("변경 되었습니다.")
-                    window.location.href = "/profile";
+                    window.location.href = "/";
                 }
             }
         )

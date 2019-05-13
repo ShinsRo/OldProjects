@@ -114,7 +114,7 @@ class UserTable extends Component {
       hover 
       //theadColor="indigo"
       entriesOptions={[ 5, 10, 15 ]}
-      entries={10}
+      entries={15}
       searchLabel="찾기"
       // order={['eid','asc']}
       order={['name','asc']}

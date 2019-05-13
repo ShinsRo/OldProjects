@@ -54,11 +54,6 @@ class Header extends Component {
                                 <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 HOME
                         </a>
-
-                            <a className="dropdown-item" href="/profile">
-                                <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Profile
-                    </a>
                             {
                                 userInfo.memberInfo.name === "관리자" && <a className="dropdown-item" href="/adminpage">
                                     <i className="fas fa-user-cog fa-sm fa-fw mr-2 text-gray-400"></i>

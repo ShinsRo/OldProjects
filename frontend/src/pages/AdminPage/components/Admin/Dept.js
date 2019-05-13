@@ -62,17 +62,17 @@ class Dept extends Component {
         return (
             <div>
                 <div className="row text-gray-900 p-3 m-0"> <b>부서 추가:  </b>
-                    <input type="text" value={this.state.dept} name="deptName" onChange={e => this.handleChangeInput(e, 'deptInput')} placeholder=" 부서명" ></input>
+                    <input type="text" className="ml-1" value={this.state.dept} name="deptName" onChange={e => this.handleChangeInput(e, 'deptInput')} placeholder=" 부서명" ></input>
                     {/* <input type="button" value="  ADD  " name="authInfo" onClick={this.addDeptAPI.bind(this)} class="btn btn-success btn-icon-split"></input> */}
-                    <MDBBtn outline rounded size="sm" className="ml-3" color="primary" onClick={this.addDeptAPI.bind(this)} ><MDBIcon icon="plus" className="mr-2"/>추가</MDBBtn>
+                    <MDBBtn outline rounded size="sm" className="ml-3" color="primary" onClick={this.addDeptAPI.bind(this)} ><MDBIcon icon="plus" className="mr-1"/>추가</MDBBtn>
                 </div>
 
                 <form action="" className="row text-gray-900 p-3 m-0"><b>부서 제거: </b>
-                    <select value={this.state.value} onChange={e => this.onChange(e, 'value')}>
+                    <select className="col ml-1" value={this.state.value} onChange={e => this.onChange(e, 'value')}>
                         {
                             deptList && deptList.map(dept => {
                                 return (
-                                    <option className="col-2" value={dept.deptName}>{dept.deptName}</option>
+                                    <option  value={dept.deptName}>{dept.deptName}</option>
                                 )
                             })
                         }

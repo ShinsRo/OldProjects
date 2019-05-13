@@ -27,7 +27,7 @@ class Career extends Component {
       posi: this.state.posi
     }
     if (careerInfo.dept === "" | careerInfo.posi === "") {
-      return alert("변경할 커리어를 선택하세요")
+      return alert("변경할 커리어를 모두 선택하세요")
     }
 
     return axios.post(`${BASE_URL}/api/career/modify`,
