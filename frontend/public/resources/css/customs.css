@@ -255,3 +255,29 @@ input.text-darkblue {
 /* .member-circle .member-name {
     position: absolute;
 } */
+
+.toast {
+    position: absolute;
+    left: 50%;
+    margin-top: 1rem;
+}
+
+.toast.show {
+    z-index: 10;
+}
+
+.toast.fade {
+    z-index: 10;
+}
+
+.toast-header {
+    background-color: #f8f9fc;
+}
+
+.toast-body {
+    background-color: white;
+}
+
+.card {
+    overflow-y: auto;
+}

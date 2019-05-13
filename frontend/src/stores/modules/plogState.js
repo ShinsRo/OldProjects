@@ -29,9 +29,8 @@ export const setProject = createAction(SET_PROJECT);
 const initialState = Map({
     isFetching: false,
     error: false,
-    // pfileLogs: [],
-    // attachmentLogs: [],
-    logViewLevel : 'logList',
+    pfileLogs: [],
+    attachmentLogs: [],
 })
 
 export const getPLog = (pid) => dispatch => {
@@ -65,17 +64,11 @@ export default handleActions({
     [PLOG_SEND_ERROR]: (state, action) => {
         return state.set('isFetching', false).set('error', true);
     },
-    // [SET_PFILE_LOG]: (state, action) => {
-    //     return state.set('pfileLog', action.payload);
-    // },
-    // [SET_ATTACHMENT_LOG]: (state, action) => {
-    //     return state.set('attachmentLog', action.payload);
-    // },
-    [SET_LOG]: (state, action) => {
-            return state.set('pLog', action.payload);
-        },
-    [SET_LOG_VIEW_LEVEL]: (state, action) => {
-        return state.set('logViewLevel', action.payload);
+    [SET_PFILE_LOG]: (state, action) => {
+        return state.set('pfileLog', action.payload);
+    },
+    [SET_ATTACHMENT_LOG]: (state, action) => {
+        return state.set('attachmentLog', action.payload);
     },
     [SET_PROJECT] : (state, action) => {
         return state.set('selectedProject', action.payload);

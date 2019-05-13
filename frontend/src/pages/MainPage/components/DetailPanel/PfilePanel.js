@@ -25,9 +25,9 @@ class PfilePanel extends Component {
 
         return (
 
-            <div className="card shadow mb-4" style={{height: "100%"}}>
+            <div className="card shadow mb-4">
                 <div className="card-header py-3">
-                    <div className="m-0 font-weight-bold text-dark-1" style={{textAlign: "center"}}>
+                    <div className="m-0 font-weight-bold text-darkblue">
                         파일
                         </div>
                 </div>
@@ -35,10 +35,10 @@ class PfilePanel extends Component {
                 <div className="card-body">
                     <div className="row">
                         <div className="col-2">
-                            <div className="font-weight-bold text-dark-1" style={{textAlign: "center"}}>제목</div>
+                            <div className="font-weight-bold text-darkblue"><h2 >제목</h2></div>
                         </div>
                         <div className="col-10">
-                            <textarea className="form-control text-dark-1 " readOnly rows='1' style={{ resize: 'none' }} value={pfile.name}/>
+                            <div className="text-darkblue">{pfile.name}</div>
                         </div>
                     </div>
 
@@ -46,17 +46,17 @@ class PfilePanel extends Component {
 
                     <div className="row">
                         <div className="col-2">
-                            <div className="font-weight-bold text-dark-1"  style={{textAlign: "center"}}>내용</div>
+                            <div className="font-weight-bold text-darkblue"><h2 >내용</h2></div>
                         </div>
-                        <div className="col-10">
-                            <textarea className="form-control text-dark-1" rows="10" readOnly value={pfile.contents} style={{ resize: 'none' }}/>
+                        <div className="col-10" style={{ height:'240px'  ,overflowY:'scroll'}}>
+                            <div className="text-darkblue">{pfile.contents}</div>
                         </div>
                     </div>
 
 
-                    <div className="row justify-content-center">
+                    <div className="row justify-content-end">
                         <div className="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" className="btn btn-dark-1 p-2 mt-3" onClick={this.onClickUpdateBts}>
+                            <button type="button" className="btn btn-dark-1 p-2" onClick={this.onClickUpdateBts}>
                                 수정 하기
                             </button>
                         </div>
@@ -67,5 +67,4 @@ class PfilePanel extends Component {
         );
     }
 }
-
 export default PfilePanel;
