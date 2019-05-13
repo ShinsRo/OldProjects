@@ -1,4 +1,3 @@
-import { Map } from 'immutable';
 import axios from 'axios';
 import React, { Component } from 'react';
 import { BASE_URL } from '../../supports/API_CONSTANT'

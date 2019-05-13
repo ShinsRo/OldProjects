@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { BASE_URL } from '../../../../supports/API_CONSTANT';
 
 class LogPanel extends Component {
 

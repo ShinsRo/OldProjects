@@ -13,12 +13,10 @@ class Dept extends Component {
         this.setState({
             [target]: e.target.value
         })
-        console.log(e.target.value)
     }
 
     handleChangeInput = (e, target) => {
         //인풋 값 변경
-        console.log(e.target.value)
         this.setState({ [target]: e.target.value });
     }
 
@@ -26,7 +24,6 @@ class Dept extends Component {
         const deptName = {
             deptName: this.state.deptInput
         }
-        console.log("보낸다 가라아아앗", deptName)
         if (deptName.deptName === '') return alert("추가할 부서명을 쓰세요")
 
         return axios.post(`${BASE_URL}/api/career/adddept`, deptName).then(

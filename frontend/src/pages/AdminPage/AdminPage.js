@@ -3,14 +3,11 @@ import HeaderContainer from "./containers/HeaderContainer";
 import SidebarContainer from "./containers/SidebarContainer"
 import Member from "./components/Admin/Member"
 import Career from "./components/Admin/Career"
-import Dept from "./components/Admin/Dept"
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import * as userActions from '../../stores/modules/userState'
 import axios from 'axios';
 import { BASE_URL } from '../../supports/API_CONSTANT';
-import Posi from "./components/Admin/Posi";
-import Modal from 'react-awesome-modal'
 import UserTable from './components/Admin/UserTable'
 import Register from '../RegisterPage/index'
 import { MDBBtn, MDBIcon } from 'mdbreact'
@@ -89,7 +86,6 @@ class AdminPage extends Component {
     const { juniorState } = this.props;
     let deptList = [];
     let posiList = []
-    const members = juniorState.get('users')
     // if (members) {
     //   members.forEach(member => {
     //     let Careers = member.career

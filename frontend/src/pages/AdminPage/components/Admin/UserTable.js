@@ -3,11 +3,9 @@ import {MDBDataTable} from 'mdbreact';
 import {MDBInput} from 'mdbreact';
 import { BASE_URL } from '../../../../supports/API_CONSTANT';
 import axios from 'axios';
-import { bgBlack } from 'ansi-colors';
 class UserTable extends Component {
     constructor(props) {
         super(props);
-        const {select}= this.props
         this.getUsersAPI()
     }
     click(user){
@@ -24,12 +22,11 @@ class UserTable extends Component {
         )
     }
     render() {
-        console.log("aaa",this.props.select)
         const sta=this.state&&this.state.users
         let rowsData=[]
         let infos=[]
         if(sta){
-            sta.map((user,idx)=> {
+            sta.forEach((user,idx) => {
                 //console.log("한명",user)
                 const temp={
                     eid: user.eid,

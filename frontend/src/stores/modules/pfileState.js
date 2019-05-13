@@ -85,7 +85,6 @@ export default handleActions({
     // 통신 성공
     [SEND_SUCCESS] : (state, action) => {
         const pfiles = action.payload;
-        console.log("-------------------pfiles ", pfiles);
 
         return state.set('pfiles', pfiles).set('isFetching', false);
     },

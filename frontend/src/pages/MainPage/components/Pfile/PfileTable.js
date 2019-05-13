@@ -43,7 +43,7 @@ class PfileTable extends React.Component {
     
 
     render() {
-        const {pfiles, attachments, selectedDirId} = this.props;
+        const {pfiles, attachments} = this.props;
         return (
             <div height="100px">
                 <div className="container" id="PfileTable" cellSpacing="0" width="100%" >
@@ -60,6 +60,7 @@ class PfileTable extends React.Component {
                         {pfiles && pfiles.map((pfile, idx) => {
                             return(  
                             <PfileItem
+                                key = {idx}
                                 idx = {idx}
                                 pfile = {pfile}
                                 onClickPfile = {this.onClickPfile}
@@ -71,6 +72,7 @@ class PfileTable extends React.Component {
                         {attachments && attachments.map((attachment, idx) => {
                             return(
                             <AttachmentItem 
+                                key = {idx}
                                 idx = {idx}
                                 attachment = {attachment}
                                 onClickAttachment = {this.onClickAttachment}
