@@ -90,4 +90,3 @@ export default handleActions({
         return state.set('attachment', action.payload);
     },
 }, initialState);
-

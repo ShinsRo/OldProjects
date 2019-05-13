@@ -22,7 +22,7 @@ export const plogSenderr = createAction(PLOG_SEND_ERROR);
 
 export const setLog = createAction(SET_LOG);
 export const setLogViewLevel = createAction(SET_LOG_VIEW_LEVEL);
-// export const setProject = createAction(SET_PROJECT);
+export const setProject = createAction(SET_PROJECT);
 
 
 
@@ -43,16 +43,14 @@ export const getPLog = (pid) => dispatch => {
     }).catch(error => {dispatch(plogSenderr(error));});
 }
 
-// export const reloadPLog = (pid) => dispatch => {
+export const reloadPLog = () => dispatch => {
+    dispatch(plogPending());
 
-//     dispatch(plogPending());
-
-//     return plogService.getPLog(pid)
-//     .then((response) => {
-//         dispatch(plogSendSuccess(response.data))
-//     }).catch(error => {dispatch(plogSenderr(error));});
-
-// }
+    return plogService.getPLog(this.state.get('selectedProject'))
+    .then((response) => {
+        dispatch(plogSendSuccess(response.data))
+    }).catch(error => {dispatch(plogSenderr(error));});
+}
 
 export default handleActions({
     // 통신 초기화
@@ -79,8 +77,8 @@ export default handleActions({
     [SET_LOG_VIEW_LEVEL]: (state, action) => {
         return state.set('logViewLevel', action.payload);
     },
-    // [SET_PROJECT] : (state, action) => {
-    //     return state.set('selectedProject', action.payload);
-    // }
+    [SET_PROJECT] : (state, action) => {
+        return state.set('selectedProject', action.payload);
+    }
 
 }, initialState);

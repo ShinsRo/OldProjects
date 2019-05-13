@@ -14,8 +14,6 @@ class AttachmentForm extends Component {
 
     onFormSubmit = (e) => {
 
-        const { reloadPLog, selectedProject } =this.props;
-
         // const { saveItem } = this.props;
         e.preventDefault() // Stop form submit
         this.attachmentUpload(this.state.uploadAttachment)
@@ -25,8 +23,6 @@ class AttachmentForm extends Component {
             })
 
         this.setState({ 'isSuccess': true })
-        reloadPLog(selectedProject);
-        
     }
 
     handleContentChange = (e) => {
@@ -76,9 +72,9 @@ class AttachmentForm extends Component {
         return (
                 <div className="card shadow mb-4" style={{ width: '100%' }}>
                     <div className="card-header py-3">
-                        <div class="custom-file">
+                        <div class="custom-file ">
                             <input type="file"
-                                class="custom-file-input" id="inputGroupFile01"
+                                class="custom-file-input m-3" id="inputGroupFile01"
                                 aria-describedby="inputGroupFileAddon01"
                                 onChange={this.onFileChange} />
                             <label class="custom-file-label" for="inputGroupFile01">
@@ -88,14 +84,16 @@ class AttachmentForm extends Component {
                     </div>
 
                     <div className="card-body">
-                        <div className="m-0 font-weight-bold text-darkblue">
-                            <h2>코멘트</h2>
-                            <textarea rows='10' style={{ resize: 'none' }} className="form-control" onChange={this.handleContentChange} />
+                        <div className="row" style={{ width: '100%' }}>
+                            <div className="col-2 text-lg font-weight-bold text-darkblue" style={{textAlign: "center"}}>
+                                코멘트
+                            </div>
+                            <div className="col">
+                                <textarea rows='12' style={{ resize: 'none' }} className="form-control" onChange={this.handleContentChange} />
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="card-body">
-                        <div className="row justify-content-end">
+                        <div className="row justify-content-center mt-3">
                             <button className="btn btn-dark-1 p-2" onClick={this.onFormSubmit} >Upload</button>
                         </div>
                     </div>
