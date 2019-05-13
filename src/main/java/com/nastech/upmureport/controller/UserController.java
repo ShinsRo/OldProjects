@@ -124,7 +124,7 @@ public class UserController {
 			basicAuthInfo.setPassword(modifyAuthInfo.getPassword());
 		}
 		
-//		//아이디가 변경되었다면 아이디 변경 보류
+//		//아이디가 변경되었다면 아이디 변경 보 류
 //		if(modifyAuthInfo.getUsername()!=null) {
 //			basicAuthInfo.setUsername(modifyAuthInfo.getUsername());
 //		}
