@@ -56,6 +56,7 @@ class Career extends Component {
     let pastCareer = [];
     const selectUser1 = this.props.selectUser;
     const careers = selectUser1.career;
+    let i =0; let j =0;  //리스트 키값
     // 있으면 //
     if (careers) {
       careers.forEach(car => {
@@ -71,7 +72,7 @@ class Career extends Component {
     return (
 
       <div className="card" align="">
-        <h className="card-header font-weight-bold text-black">{selectUser1.name}님 커리어 </h>
+        <h5 className="card-header font-weight-bold text-black">{selectUser1.name}님 커리어 </h5>
 
         <div className="card-body">
           <div className="row no-gutters align-items-center">
@@ -87,7 +88,7 @@ class Career extends Component {
                     {
                       deptList && deptList.map(dept => {
                         return (
-                          <option value={dept.deptName}>{dept.deptName}</option>
+                          <option key={++i} value={dept.deptName}>{dept.deptName}</option>
                         )
                       })
                     }
@@ -104,7 +105,7 @@ class Career extends Component {
                     {
                       posiList && posiList.map(posi => {
                         return (
-                          <option value={posi.posiName}>{posi.posiName}</option>
+                          <option key={++j} value={posi.posiName}>{posi.posiName}</option>
                         )
                       })
                     }

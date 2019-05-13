@@ -11,7 +11,7 @@ class ProfileModify extends Component {
 
     handleChangeInput = (e, target) => {
         //인풋 값 변경
-        console.log(e.target.value)
+        // console.log(e.target.value)
         this.setState({ [target]: e.target.value });
     }
 
@@ -20,8 +20,8 @@ class ProfileModify extends Component {
             password: this.state.password,
             mid: this.props.selectUser.mid
         }
-        console.log("보낸다 가라아아앗", this.props.selectUser)
-        console.log("보낸다 가라아아앗2", auth)
+        // console.log("보낸다 가라아아앗", this.props.selectUser)
+        // console.log("보낸다 가라아아앗2", auth)
 
         if (auth.password === '') return alert("변경할 비밀번호를 입력하세요")
 

@@ -111,7 +111,7 @@ class RegisterPage extends Component {
         return (
             <div className="card o-hidden border-0 shadow-lg">
                 <div className="card-header text-center">
-                    <h1 className="h4 text-gray-700 pt-2 font-weight-bold text-dark-2">신규 사원 등록</h1>
+                <h4 align="center" className="card-header text-primary"><MDBIcon icon="user-edit" className="mr-2" />신규 사원 등록</h4>
                 </div>
                 <div className="card-body">
                     {/* <!-- Nested Row within Card Body --> */}
@@ -123,7 +123,7 @@ class RegisterPage extends Component {
                                 <form className="User" action="" method="post">
                                     <div className="form-group row">
                                         <div className="col-7">
-                                            <input type='text' disabled={this.state.checked} value={this.state.username} onChange={e => this.handleChangeInput(e, 'username')} type="text" className="form-control form-control-user" name="username" maxlength="10" placeholder="아이디" />
+                                            <input type='text' disabled={this.state.checked} value={this.state.username} onChange={e => this.handleChangeInput(e, 'username')} type="text" className="form-control form-control-user" name="username" maxLength="10" placeholder="아이디" />
                                         </div>
                                         <div className="col-2">
                                             <input type='button' className=" btn-sm btn-primary mt-1 ml-1" value="중복검사" onClick={() => this.checkIdAPI()}></input>

@@ -134,8 +134,9 @@ class AdminPage extends Component {
               {/* 부서 및 관리 메뉴 */}
               {/* <input type="button" className="btn btn-primary btn-icon-split ml-3" value="   부서 및 직책 관리   " onClick={() => this.openModal('visible1')} /> */}
               <MDBBtn outline rounded size="sm" className="ml-3" color="primary" onClick={() => this.openModal('visible1')}><MDBIcon icon="landmark" className="mr-2" />부서 및 직책 관리</MDBBtn>
-              <Modal visible={this.state.visible1} width="400" height="290" effect="fadeInLeft" onClickAway={() => this.closeModal('visible1')}>
+              <Modal visible={this.state.visible1} width="400" height="305" effect="fadeInLeft" onClickAway={() => this.closeModal('visible1')}>
                 <div >
+                  <h4 align="center" className="card-header text-primary"><MDBIcon icon="landmark" className="mr-2" />부서 및 직책 관리</h4>
                   <Dept deptList={deptList}></Dept>
                   <Posi posiList={posiList}></Posi>
                 </div>
@@ -169,7 +170,7 @@ class AdminPage extends Component {
                   {/* 퇴사 메뉴 모달 */}
                   <div className="">
                   <MDBContainer>
-                  <MDBBtn outline rounded size="sm" color="danger" onClick={this.toggle}><MDBIcon icon="user-cog" className=""/>퇴사</MDBBtn>
+                  <MDBBtn outline rounded size="sm" color="danger" onClick={this.toggle}><MDBIcon icon="user-slash" className=""/> 퇴사</MDBBtn>
                     <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
                       <MDBModalHeader toggle={this.toggle}> 퇴사 </MDBModalHeader>
                       <MDBModalBody>

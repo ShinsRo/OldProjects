@@ -7,16 +7,16 @@ class Posi extends Component {
         super(props);
         this.state = { posi: '' ,value:''};
     }
+    // select option 용
     onChange(e, target) {
         this.setState({
             [target]: e.target.value
         })
-        console.log(e.target.value)
     }
 
+    //일반 input 용 
     handleChangeInput = (e, target) => {
         //인풋 값 변경
-        console.log(e.target.value)
         this.setState({ [target]: e.target.value });
     }
 
@@ -42,9 +42,7 @@ class Posi extends Component {
         const posiName = {
             posiName: this.state.value
         }
-        console.log("보낸다 가라아아앗", posiName)
-        // if (deptName.deptName === '') return alert("추가할 부서명을 쓰세요")
-
+        // console.log("보낸다 가라아아앗", posiName)
         return axios.post(`${BASE_URL}/api/career/delposi`, posiName).then(
             (response) => {
                 if (!response.data) alert("잘못 된 요청입니다")
@@ -56,6 +54,7 @@ class Posi extends Component {
         )
     }
     render() {
+        let i = 0
         const{posiList}= this.props
         return (
             <div>
@@ -69,7 +68,7 @@ class Posi extends Component {
                         {
                             posiList && posiList.map(posi => {
                                 return (
-                                    <option className="col-2" value={posi.posiName}>{posi.posiName}</option>
+                                    <option key={++i} className="col-2" value={posi.posiName}>{posi.posiName}</option>
                                 )
                             })
                         }

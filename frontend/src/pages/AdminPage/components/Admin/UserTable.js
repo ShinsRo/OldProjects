@@ -24,7 +24,6 @@ class UserTable extends Component {
         )
     }
     render() {
-        console.log("aaa",this.props.select)
         const sta=this.state&&this.state.users
         let rowsData=[]
         let infos=[]

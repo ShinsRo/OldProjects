@@ -23,7 +23,6 @@ class MainPage extends Component {
     }
   }
   openModal(target) {
-    console.log("눌려", this.state.visible)
     this.setState({
       [target]: true
     });

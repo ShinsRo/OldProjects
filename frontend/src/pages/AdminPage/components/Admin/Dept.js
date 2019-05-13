@@ -13,12 +13,10 @@ class Dept extends Component {
         this.setState({
             [target]: e.target.value
         })
-        console.log(e.target.value)
     }
 
     handleChangeInput = (e, target) => {
         //인풋 값 변경
-        console.log(e.target.value)
         this.setState({ [target]: e.target.value });
     }
 
@@ -26,7 +24,7 @@ class Dept extends Component {
         const deptName = {
             deptName: this.state.deptInput
         }
-        console.log("보낸다 가라아아앗", deptName)
+        // console.log("보낸다 가라아아앗", deptName)
         if (deptName.deptName === '') return alert("추가할 부서명을 쓰세요")
 
         return axios.post(`${BASE_URL}/api/career/adddept`, deptName).then(
@@ -59,6 +57,7 @@ class Dept extends Component {
     }
     render() {
         const { deptList } = this.props
+        let i = 0
         return (
             <div>
                 <div className="row text-gray-900 p-3 m-0"> <b>부서 추가:  </b>
@@ -72,7 +71,7 @@ class Dept extends Component {
                         {
                             deptList && deptList.map(dept => {
                                 return (
-                                    <option  value={dept.deptName}>{dept.deptName}</option>
+                                    <option key={++i} value={dept.deptName}>{dept.deptName}</option>
                                 )
                             })
                         }

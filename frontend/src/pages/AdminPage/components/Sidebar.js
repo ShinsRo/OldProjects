@@ -30,9 +30,6 @@ class Sidebar extends Component {
         const { depts } = this.props;
         const { select } = this.props;
         const { userInfo } = this.props;
-        const {posiList} = this.props;
-        const {deptList} = this.props;
-        console.log("사이드",deptList)
 
         return (
             <ul className="navbar-nav bg-gradient-darkblue sidebar bg-dark-1 accordion" id="accordionSidebar">
