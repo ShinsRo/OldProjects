@@ -123,6 +123,20 @@ class ProjPanel extends Component {
         // }
     }
 
+    timeFormatter(time) {
+        let year = time.getFullYear().toString();
+        let month = (time.getMonth() + 1).toString();
+        let day = time.getDate().toString();
+        let hour = time.getHours().toString();
+        let min = time.getMinutes().toString();
+        let sec = time.getSeconds().toString();
+
+        if (hour.length < 2) hour = '0' + hour;
+        if (min.length < 2) min = '0' + min;
+        if (sec.length < 2) sec = '0' + sec;
+        return `${year}년 ${month}월 ${day}일 ${hour}:${min}:${sec}`;
+    };
+
     render() {
         const { memberInfo } = stores.getState().userState.userInfo;
         
@@ -306,8 +320,8 @@ class ProjPanel extends Component {
                             ></textarea>
                         </div>
                     </div>
+                    <span className="sm-text">{ `Last update : ${this.timeFormatter(project.udate)}` }</span>
                     <br></br>
-                    { `* 최근 프로젝트 내용 수정일 : ${project.udate}` }
                     { !project.isOrigin && (
                         <div className="text-right">
                             <button className="btn btn-dark mr-2" onClick={(e) => {e.preventDefault(); alert("구현중");}}>취소</button>

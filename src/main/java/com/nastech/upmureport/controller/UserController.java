@@ -109,20 +109,15 @@ public class UserController {
 		return returnObj;
     }
 	@PostMapping(value ="/modify")
-	public AuthInfo authModifyAPI(@RequestBody MemAuthDto memAuthDto) {
+	public void authModifyAPI(@RequestBody MemAuthDto memAuthDto) {
 //		System.out.println(mem); 
 		Member m=memAuthDto.getMem();
 		AuthInfo modifyAuthInfo = memAuthDto.getAuth();
 		AuthInfo basicAuthInfo = authInfoRepository.findOneByMember(m);
-		if(basicAuthInfo==null) return null;
 		System.out.println(basicAuthInfo);
 		System.out.println(m);
 		
 		System.out.println("들어온 것"+modifyAuthInfo);
-		//비밀번호가 변경되었다면 비밀번호 변경!
-		if(modifyAuthInfo.getPassword() != null){
-			basicAuthInfo.setPassword(modifyAuthInfo.getPassword());
-		}
 		
 //		//아이디가 변경되었다면 아이디 변경 보류
 //		if(modifyAuthInfo.getUsername()!=null) {
@@ -130,7 +125,7 @@ public class UserController {
 //		}
 		System.out.println("변경 될 계정"+basicAuthInfo);
 		authInfoRepository.save(basicAuthInfo);
-		return basicAuthInfo;
+		
 	}
 	
     @CrossOrigin
@@ -186,17 +181,14 @@ public class UserController {
     		return auth;
     }
     
-    @PostMapping(value="/retire")
-    public MemberDto retire(@RequestBody MemberDto memDto) {
-    	System.out.println(memDto);
-    	MemberDto retireMem = memberService.retireMember(memDto);
-    	if(retireMem==null) return null;
-    	else return retireMem;
+    @GetMapping(value="/getRetire")
+    public void getRetire() {
+    	
     }
     
     
     
-    ////현재 사원들만 (퇴사x)
+
     @GetMapping(value = "/listAll")
     public ResponseEntity<List<MemberDto>> listAll() {
     	return ResponseEntity.ok().body(memberService.listAll());

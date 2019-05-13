@@ -67,6 +67,7 @@ class Career extends Component {
         }
       })
     }
+    console.log("posiList", posiList)
 
     return (
 
@@ -130,6 +131,10 @@ class Career extends Component {
             </div>
           </div>
         </div> */}
+
+
+
+
       </div>
 
     );

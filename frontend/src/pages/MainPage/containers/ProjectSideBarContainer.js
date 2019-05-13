@@ -36,11 +36,16 @@ class ProjectSideBarContainer extends Component {
                 this.setState({ reload: !this.state.reload });
                 break;
             case "handleDirItemClick":  // (selectedDirId)
-                const { selectedDirId } = params;
+                const { selectedDirId, selectedProject } = params;
+
                 if(projectState.get('selectedDirId') && projectState.get('selectedDirId') !== selectedDirId){
                     PfileActions.getPfile(selectedDirId);
                     AttachmentAction.getAttachment(selectedDirId);
-                    PLogActions.getPLog(selectedDirId);
+                }
+
+                
+                if(selectedProject.isOrigin) {
+                    PLogActions.getPLog(selectedProject.pid);
                 }
 
                 if(this.props.mainContentViewLevel === 'default') {

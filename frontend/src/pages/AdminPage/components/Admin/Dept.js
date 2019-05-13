@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { BASE_URL } from '../../../../supports/API_CONSTANT';
-import { isNull } from 'util';
-import {MDBBtn,MDBIcon} from 'mdbreact'
 
 class Dept extends Component {
     constructor(props) {
@@ -13,12 +11,10 @@ class Dept extends Component {
         this.setState({
             [target]: e.target.value
         })
-        console.log(e.target.value)
     }
 
     handleChangeInput = (e, target) => {
         //인풋 값 변경
-        console.log(e.target.value)
         this.setState({ [target]: e.target.value });
     }
 
@@ -26,7 +22,6 @@ class Dept extends Component {
         const deptName = {
             deptName: this.state.deptInput
         }
-        console.log("보낸다 가라아아앗", deptName)
         if (deptName.deptName === '') return alert("추가할 부서명을 쓰세요")
 
         return axios.post(`${BASE_URL}/api/career/adddept`, deptName).then(
@@ -61,18 +56,17 @@ class Dept extends Component {
         const { deptList } = this.props
         return (
             <div>
-                <div className="row text-gray-900 p-3 m-0"> <b>부서 추가:  </b>
-                    <input type="text" value={this.state.dept} name="deptName" onChange={e => this.handleChangeInput(e, 'deptInput')} placeholder=" 부서명" ></input>
-                    {/* <input type="button" value="  ADD  " name="authInfo" onClick={this.addDeptAPI.bind(this)} class="btn btn-success btn-icon-split"></input> */}
-                    <MDBBtn outline rounded size="sm" className="ml-3" color="primary" onClick={this.addDeptAPI.bind(this)} ><MDBIcon icon="plus" className="mr-2"/>추가</MDBBtn>
+                <div className="text-gray-900 p-3 m-0"> <b>부서 추가:  </b>
+                    <input type="text" value={this.state.dept} name="deptName" onChange={e => this.handleChangeInput(e, 'deptInput')} ></input>
+                    <input type="button" value="  ADD  " name="authInfo" onClick={this.addDeptAPI.bind(this)} class="btn btn-success btn-icon-split"></input>
                 </div>
 
-                <form action="" className="row text-gray-900 p-3 m-0"><b>부서 제거: </b>
+                <form action="" className="text-gray-900 p-3 m-0"><b>부서 제거: </b>
                     <select value={this.state.value} onChange={e => this.onChange(e, 'value')}>
                         {
                             deptList && deptList.map(dept => {
                                 return (
-                                    <option className="col-2" value={dept.deptName}>{dept.deptName}</option>
+                                    <option value={dept.deptName}>{dept.deptName}</option>
                                 )
                             })
                         }
@@ -81,9 +75,8 @@ class Dept extends Component {
                                 <option value="coconut">Coconut</option>
                                 <option value="mango">Mango</option> */}
                     </select>
-                    <div className="col"></div>
-                    {/* <input type="button" value="delete" name="dept" onClick={this.delDeptAPI.bind(this)} className="col align-self-end btn btn-success btn-icon-split"></input> */}
-                    <MDBBtn outline rounded size="sm" className="ml-3" color="primary" onClick={this.delDeptAPI.bind(this)} ><MDBIcon icon="trash" className="mr-2"/>제거</MDBBtn>
+                    <input type="button" value=" delete " name="dept" onClick={this.delDeptAPI.bind(this)} className="ml-5 btn btn-success btn-icon-split"></input>
+
                 </form>
 
 

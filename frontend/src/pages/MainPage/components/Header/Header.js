@@ -5,7 +5,7 @@ const Header = ({handleLogout, userInfo}) => {
         <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
         
             {/* Sidebar Toggle (Topbar) */}
-            <button id="sidebarToggleTop" className="btn btn-link btn-dark-2 rounded-circle mr-3">
+            <button id="sidebarToggleTop" className="btn btn-link btn-dark-2 rounded-circle mr-3" style={ {zIndex: 2} }>
                 <i className="fa fa-bars"></i>
             </button>
             {/* <div style={{ width: '100%', textAlign: 'center', position: 'absolute'}}>
@@ -37,7 +37,7 @@ const Header = ({handleLogout, userInfo}) => {
                     </a>
                     {
                         userInfo.memberInfo.name === "관리자" && <a className="dropdown-item" href="/adminpage">
-                        <i className="fas fa-user-cog fa-sm fa-fw mr-2 text-gray-400"></i>
+                        <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                         AdminPage
                     </a>
     

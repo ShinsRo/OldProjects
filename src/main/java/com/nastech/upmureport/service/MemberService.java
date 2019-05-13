@@ -10,14 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nastech.upmureport.domain.dto.MemberDto;
-import com.nastech.upmureport.domain.entity.AuthInfo;
 import com.nastech.upmureport.domain.entity.Member;
 import com.nastech.upmureport.domain.entity.MemberSystem;
-import com.nastech.upmureport.domain.entity.UserRole;
-import com.nastech.upmureport.domain.repository.AuthInfoRepository;
 import com.nastech.upmureport.domain.repository.MemberRepository;
 import com.nastech.upmureport.domain.repository.MemberSystemRepository;
-import com.nastech.upmureport.domain.repository.UserRoleRepository;
 
 @Service
 public class MemberService {
@@ -26,10 +22,6 @@ public class MemberService {
 	MemberSystemRepository memberSystemRepository;
 	@Autowired
 	MemberRepository memberRepository;
-	@Autowired
-	AuthInfoRepository authInfoRepository;
-	@Autowired
-	UserRoleRepository userRoleRepository;
 	
 	
 	public MemberDto searchMemberByMid(MemberDto memberDto) {
@@ -71,22 +63,10 @@ public class MemberService {
 		users=memberRepository.findAll();
 		return users;
 	}
-	public MemberDto retireMember(MemberDto memDto) {
-		Long mid= memDto.getMid();
-		Member retireMem=memberRepository.findOneByMid(mid);
-		AuthInfo retireAuth=authInfoRepository.findOneByMember(retireMem);
-		List<UserRole> retireRole = userRoleRepository.findAllByUsername(retireAuth.getUsername());
-		retireMem.setDflag(true);
-		retireMem.setRetireDate(LocalDate.now());
-		if(retireAuth == null | retireMem==null)
-		{
-			System.out.println("retireMember 오류");
-			return null;
-		}
-		memberRepository.save(retireMem);
-		authInfoRepository.delete(retireAuth);
-		userRoleRepository.deleteInBatch(retireRole);
-		return retireMem.toDto();
+	public void retireMember(MemberDto memDto) {
+		memDto.setDflag(true);
+		memDto.setRetireDate(LocalDate.now());
+		memberRepository.save(memDto.toEntity());
 	}
 //	public MemberDto userLogin(MemberDto user) {
 //		String id = user.getUserId();
@@ -117,18 +97,12 @@ public class MemberService {
 		while( !(q.isEmpty()) ) {
 			temp=memberSystemRepository.findAllBySenior(q.poll().toEntity());
 			for (MemberSystem memberSystem : temp) {
-				//// 퇴사 안한사람들만 가져오기
-				MemberDto activeMem = memberSystem.getJunior().toDto();
-				if(activeMem.getDflag()==false) {   //// 퇴사 안한사람들만 가져오기
-					q.add(memberSystem.getJunior().toDto());
-					juniorList.add(memberSystem.getJunior().toDto());
-				}
+				q.add(memberSystem.getJunior().toDto());
+				juniorList.add(memberSystem.getJunior().toDto());
 			}
 		}
 		return juniorList;
 	}
-	
-    ////현재 사원들만 (퇴사x)
 	public List<MemberDto> listAll() {
 		List<MemberDto> mDtos = new ArrayList<MemberDto>();
 		List<Member> members = memberRepository.findAllByDflagFalse();

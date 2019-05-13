@@ -13,10 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
-
-import com.nastech.upmureport.domain.entity.support.LogStat;
+import com.nastech.upmureport.domain.entity.support.LogState;
+import com.nastech.upmureport.domain.entity.support.LogType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,33 +29,44 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PfileLog {
+public class PLog {
 	
 	@Id @GeneratedValue(strategy= GenerationType.AUTO)
-	private BigInteger LogId;
+	private BigInteger logId;
 	
 	@CreationTimestamp
-	private LocalDateTime newDate;
+	@NotNull
+	private LocalDateTime newDate;	
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="mId")
-	private Member mId;
+	@NotNull
+	private String name;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="fId")
-	private Pfile pfile;
+	@Lob
+	private String contents;
+	
+	@Enumerated(EnumType.STRING)
+	@NotNull
+	private LogState logState;
+	
+	@Enumerated(EnumType.STRING)
+	@NotNull
+	private LogType logType;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="dId")
 	private Pdir pdir;
 	
-	private String name;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="pId")
+	private Project project;
 	
-	@Lob
-	private String contents;	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="fId")
+	private Pfile pfile;
 	
-	@Enumerated(EnumType.STRING)
-	private LogStat stat;	
-
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="attachment_id")
+	private Attachment attachment;
 	
+	private Boolean deleteFlag;
 }
