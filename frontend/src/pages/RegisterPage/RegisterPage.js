@@ -1,3 +1,4 @@
+import { Map } from 'immutable';
 import axios from 'axios';
 import React, { Component } from 'react';
 import { BASE_URL } from '../../supports/API_CONSTANT'
@@ -49,26 +50,26 @@ class RegisterPage extends Component {
 
         this.setState({ [target]: e.target.value });
     }
-    checkIdAPI(){
+    checkIdAPI() {
         const auth = {
             username: this.state.username,
         }
-        if(this.state.username==="") return alert("ID를 입력하세요")
-        
+        if (this.state.username === "") return alert("ID를 입력하세요")
+
         return axios.post(`${BASE_URL}/api/users/idcheck`, auth).then(
             (response) => {
                 //js 는 빈 문자열 빈오브젝트 false 
-                if(!response.data) alert("이미 존재하는 아이디입니다")
+                if (!response.data) alert("이미 존재하는 아이디입니다")
                 else {
                     alert("사용 가능한 아이디입니다")
-                    this.setState({ checked:true });
+                    this.setState({ checked: true });
                 }
             }
         )
     }
     click() {   //재입력 하는 버튼 이벤트
 
-        this.setState({ ...this.state ,checked:false,username:'' });
+        this.setState({ ...this.state, checked: false, username: '' });
     }
 
     registUserAPI() {
@@ -95,15 +96,14 @@ class RegisterPage extends Component {
         ).then(
             (response) => {
                 //js 는 빈 문자열 빈오브젝트 false 
-                if(!response.data) alert("등록에 에러가 생겼습니다.")
+                if (!response.data) alert("등록에 에러가 생겼습니다.")
                 else {
-                    alert(response.data.name+" 등록 되었습니다")
-                    window.location.href="/adminpage";
+                    alert(response.data.name + " 등록 되었습니다")
+                    window.location.href = "/adminpage";
                 }
             }
         )
     }
-
 
 
     render() {
@@ -156,11 +156,8 @@ class RegisterPage extends Component {
 
                                 </form>
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
             </div>
         );

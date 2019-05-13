@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { BASE_URL } from '../../../../supports/API_CONSTANT';
+import { isNull } from 'util';
+import {MDBBtn,MDBIcon} from 'mdbreact'
 
 class Dept extends Component {
     constructor(props) {
@@ -78,8 +80,9 @@ class Dept extends Component {
                                 <option value="coconut">Coconut</option>
                                 <option value="mango">Mango</option> */}
                     </select>
-                    <input type="button" value=" delete " name="dept" onClick={this.delDeptAPI.bind(this)} className="ml-5 btn btn-success btn-icon-split"></input>
-
+                    <div className="col"></div>
+                    {/* <input type="button" value="delete" name="dept" onClick={this.delDeptAPI.bind(this)} className="col align-self-end btn btn-success btn-icon-split"></input> */}
+                    <MDBBtn outline rounded size="sm" className="ml-3" color="primary" onClick={this.delDeptAPI.bind(this)} ><MDBIcon icon="trash" className="mr-2"/>제거</MDBBtn>
                 </form>
 
 

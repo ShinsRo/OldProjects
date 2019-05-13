@@ -3,21 +3,34 @@ import HeaderContainer from "./containers/HeaderContainer";
 import SidebarContainer from "./containers/SidebarContainer"
 import Member from "./components/Admin/Member"
 import Career from "./components/Admin/Career"
+import Dept from "./components/Admin/Dept"
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import * as userActions from '../../stores/modules/userState'
 import axios from 'axios';
 import { BASE_URL } from '../../supports/API_CONSTANT';
+import Posi from "./components/Admin/Posi";
+import Modal from 'react-awesome-modal'
 import UserTable from './components/Admin/UserTable'
+import Register from '../RegisterPage/index'
+import { MDBBtn, MDBIcon } from 'mdbreact'
+import { MDBContainer, MDBModal, MDBModalBody, MDBModalFooter, MDBModalHeader } from 'mdbreact'
 
 class AdminPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selectUser: '',
-      visible: false
-    };
+      visible: false,        //신규 사원 등록 모달
+      visible1: false,      //부서 및 직책 관리 모달
+      visible2: false,      //커리어 변경 모달
 
+    };
+  }
+  toggle = () => {
+    this.setState({
+      modal: !this.state.modal
+    });
   }
   componentWillMount() {
     this.getDeptPosiAPI();
@@ -38,15 +51,33 @@ class AdminPage extends Component {
       }
     )
   }
-  openModal() {
+  retireAPI() {
+    const { userState } = this.props;
+    const memberDto = userState.selectedUser
+    //console.log("보낸다 가라아아앗", memberDto)
+    if (memberDto.memberDto === '') return alert("오류 입니다")
+    return axios.post(`${BASE_URL}/api/users/retire`, memberDto)
+    .then(
+        (response) => {
+            //js 는 빈 문자열 빈오브젝트 false 
+            if(!response.data) alert("에러 입니다")
+            else {
+                alert(memberDto.name+" 퇴사 처리 되었습니다")
+                window.location.href="/adminpage";
+            }
+        }
+    )
+}
+
+  openModal(target) {
     this.setState({
-      visible: true
+      [target]: true
     });
   }
 
-  closeModal() {
+  closeModal(target) {
     this.setState({
-      visible: false
+      [target]: false
     });
   }
 
@@ -58,6 +89,7 @@ class AdminPage extends Component {
     const { juniorState } = this.props;
     let deptList = [];
     let posiList = []
+    const members = juniorState.get('users')
     // if (members) {
     //   members.forEach(member => {
     //     let Careers = member.career
@@ -73,6 +105,7 @@ class AdminPage extends Component {
       deptList = this.state.list.deptList
       posiList = this.state.list.posiList
     }
+    // console.log("리스트들", deptList)
     // const {userState} = store.getState();
     //const this.setState = userState.selectedUser.memberInfo || userState.selectedUser
     return (
@@ -84,7 +117,6 @@ class AdminPage extends Component {
         />
         {/* Content Wrapper */}
         <div id="content-wrapper" className="d-flex flex-column">
-
           {/* Main Content */}
           <div id="content">
             <HeaderContainer history={this.props.history} />
@@ -158,36 +190,20 @@ class AdminPage extends Component {
                     <input type="button" className="btn btn-danger btn-icon-split" value="   퇴사   " onClick={() => this.openModal()} />
                   </div> */}
                 </div>
-                <div className="col-xl-4">
+                {/* <div className="col-xl-4">
                   <Career selectUser={userState.selectedUser}
                     deptList={deptList}
                     posiList={posiList}
-                  />
-                                    
-                  {/* <section>
-                    <div className="text-xl font-weight-bold text-primary">부서 및 직책 관리</div>
-                    <input type="button" className="btn btn-primary btn-icon-split" value="   Open   " onClick={() => this.openModal()} />
-                    <Modal visible={this.state.visible} width="400" height="300" effect="fadeInUp" onClickAway={() => this.closeModal()}>
-                      <div>
-                        <Dept deptList={deptList}></Dept>
-                        <Posi posiList={posiList}></Posi>
-                        <a href="javascript:void(0);" onClick={() => this.closeModal()}>Close</a>
-                      </div>
-                    </Modal>
-                  </section> */}
+                  />              
+                </div> */}
 
-                  {/* 오른쪽  */}
-                </div>
-                <div className="col-xl">
-                <input type="button" className="btn btn-danger btn-icon-split" value="   퇴사   " onClick={() => this.openModal()} />
-                </div>
-                {/* <Dept></Dept>
-                <Posi></Posi> */}
+
               </div>
 
 
+
             </div>
-            <UserTable select={handleLogin}></UserTable>
+
 
           </div>
         </div>
@@ -208,3 +224,14 @@ export default connect(
     userActions: bindActionCreators(userActions, dispatch),
   })
 )(AdminPage);
+{/* <section>
+                    <div className="text-xl font-weight-bold text-primary">부서 및 직책 관리</div>
+                    <input type="button" className="btn btn-primary btn-icon-split" value="   Open   " onClick={() => this.openModal()} />
+                    <Modal visible={this.state.visible} width="400" height="300" effect="fadeInUp" onClickAway={() => this.closeModal()}>
+                      <div>
+                        <Dept deptList={deptList}></Dept>
+                        <Posi posiList={posiList}></Posi>
+                        <a href="javascript:void(0);" onClick={() => this.closeModal()}>Close</a>
+                      </div>
+                    </Modal>
+                  </section> */}
