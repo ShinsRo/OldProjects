@@ -20,8 +20,9 @@ class LogPanel extends Component {
 
     render() {
         const { HEADER_ORDER, HEADER_NAME } = this.state;
-        const { logs } = this.props;
-
+        const { logs, onClickLog } = this.props;
+        
+        
         let content = (
             <div className="text-center">
                     
@@ -30,6 +31,7 @@ class LogPanel extends Component {
                     alt="log does not exist"
                     style={{ width: '200px' }}
                 />
+
                 <div>로그가 없습니다!</div>
             </div>
         );
@@ -64,8 +66,9 @@ class LogPanel extends Component {
                             </div>
                             );
                         })}
-                    </tbody>
-                </table>
+                    </div>
+                    
+                </div>
                     
             </>);
         }

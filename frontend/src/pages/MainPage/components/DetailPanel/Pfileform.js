@@ -44,10 +44,11 @@ class Pfileform extends Component {
             pdirId: selectedDirId,
         };
 
-        setPfile(pfile);
-        
-        savePfile(pfile);
+        setPfile(pfile);        
+                savePfile(pfile);
         saveItem({ detailViewLevel: 'pfile' });
+
+
     }
 
     handleUpdate = (e) => {
@@ -122,20 +123,21 @@ class Pfileform extends Component {
         return (
 
             <div className="card shadow mb-4">
-                <div className="card-body">
+                <div className="card-header py-3">
                     <div className="row">
-                        <div className="col-2 font-weight-bold text-darkblue">
-                            <h2>제목</h2>
+                        <div className="col-2 text-lg font-weight-bold text-dark-1" style={{textAlign: "center"}}>
+                            제목
                         </div>
                         <div className="col-10">
                             {nameTextArea}
                         </div>
                     </div>
 
-
-                    <div className="row mb-4">
-                        <div className="col-2 font-weight-bold text-darkblue">
-                            <h2>내용</h2>
+                </div>
+                <div className="card-body">
+                    <div className="row">
+                        <div className="col-2 text-lg font-weight-bold text-dark-1" style={{textAlign: "center"}}>
+                            내용
                         </div>
 
                         <div className="col-10">
@@ -143,7 +145,7 @@ class Pfileform extends Component {
                         </div>
                     </div>
 
-                    <div className="row justify-content-end">
+                    <div className="row justify-content-center mt-3">
                         <div className="btn-group" role="group" aria-label="Basic example">
                             {submitBts}
                             {cancleBts}
