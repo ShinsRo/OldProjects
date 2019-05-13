@@ -11,6 +11,7 @@ const PLOG_SEND_ERROR = 'PLOG_SEND_ERROR';
 
 const SET_LOG = 'SET_LOG';
 const SET_LOG_VIEW_LEVEL = 'SET_LOG_VIEW_LEVEL';
+const SET_PROJECT = 'SET_PROJECT';
 
 export const plogPending = createAction(PLOG_SEND_PENDING);
 export const plogSendSuccess = createAction(PLOG_SEND_SUCCESS);
@@ -20,6 +21,7 @@ export const plogSenderr = createAction(PLOG_SEND_ERROR);
 
 export const setLog = createAction(SET_LOG);
 export const setLogViewLevel = createAction(SET_LOG_VIEW_LEVEL);
+export const setProject = createAction(SET_PROJECT);
 
 
 const initialState = Map({
@@ -64,5 +66,8 @@ export default handleActions({
     [SET_LOG_VIEW_LEVEL]: (state, action) => {
         return state.set('logViewLevel', action.payload);
     },
+    [SET_PROJECT] : (state, action) => {
+        return state.set('selectedProject', action.payload);
+    }
 
 }, initialState);
