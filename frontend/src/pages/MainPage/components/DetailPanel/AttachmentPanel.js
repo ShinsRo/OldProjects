@@ -30,67 +30,54 @@ class AttachmentPanel extends Component {
         return (
             <div className="card shadow mb-4">
                 <div className="card-header py-3">
-                    <div className="m-0 font-weight-bold text-dark-1">
-                        <div className="row text-dark-1 justify-content-center">
-                            <div className="col" style={{textAlign: "center"}}>
+                    <div className="m-0 font-weight-bold text-darkblue">
+                        <div className="row text-darkblue justify-content-between">
+                            <div className="col-4">
                                 첨부파일
                             </div>
-                            
+                            <div className="col-2">
+                                <button type="button" className="btn btn-dark-1 p-2" onClick={this.download}>
+                                    다운로드
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div className="card-body">
                     <div className="row">
-                        <div className="col-2">
-                            <div className="font-weight-bold text-dark-1" style={{textAlign: "center"}}>제목</div>
-                        </div>
-
-                        <div className="col-10">
-                            <textarea className="form-control text-dark-1" rows='1' value={attachment.attachmentName} readOnly style={{ resize: 'none' }}/>
+                        <div className="col">
+                            <div className="font-weight-bold text-darkblue"><h2 >제목</h2></div>
+                            <div className="text-darkblue">{attachment.attachmentName}</div>
                         </div>
                     </div>
 
                     <hr/>
 
                     <div className="row">
-                        <div className="col-2">
-                            <div className="font-weight-bold text-dark-1" style = {{textAlign: "center"}}>코멘트</div>
-                        </div>
-
-                        <div className="col-10">
-                            <textarea className="form-control text-dark-1" rows="6" readOnly value={attachment.coment ? attachment.coment : "내용 없음"} style={{ resize: 'none' }}/>
+                        <div className="col">
+                            <div className="font-weight-bold text-darkblue"><h2 >코멘트</h2></div>
+                            <div className="text-darkblue">{attachment.coment ? attachment.coment : "내용 없음"}</div>
                         </div>
                     </div>
 
                     <hr />
 
                     <div className="row">
-                        <div className="col-2">
-                            <div className="font-weight-bold text-dark-1" style = {{textAlign: "center"}}>용량</div>
+                        <div className="col">
+                            <div className="font-weight-bold text-darkblue"><h2 >용량</h2></div>
+
+                            <div className="text-darkblue">{attachment.volume} byte</div>
                         </div>
 
-                        <div className="col-4">
-                            <textarea className="form-control text-dark-1" value={attachment.volume + ' byte'} readOnly rows='1' style={{ resize: 'none' }}/>
-                        </div>                        
+                        <div className="col">
+                            <div className="font-weight-bold text-darkblue"><h2>생성일</h2></div>
 
-                        <div className="col-2">
-                            <div className="font-weight-bold text-dark-1" style = {{textAlign: "center"}}>생성일시</div>
+                            <div className="text-darkblue">{attachment.newDate[0]}년 {attachment.newDate[1]}월 {attachment.newDate[2]}일</div>
                         </div>
-
-                        <div className="col-4">
-                            <textarea className="form-control text-dark-1" rows='1' readOnly value={attachment.newDate} style={{ resize: 'none' }}/>
-                        </div>
-                    </div>
-
-                    <hr></hr>
-
-                    <div className="row justify-content-center">                    
-                        <button type="button" className="btn btn-dark-1 p-2" onClick={this.download}>
-                            다운로드
-                        </button>                
                     </div>
                 </div>
+
             </div>
         );
     }

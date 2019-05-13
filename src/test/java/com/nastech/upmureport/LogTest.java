@@ -23,6 +23,6 @@ public class LogTest {
 	@Test
 	public void logTest() {
 		LOG.info("info log");
-		//pfileService.apoTest();
+		pfileService.apoTest();
 	}	
 }
