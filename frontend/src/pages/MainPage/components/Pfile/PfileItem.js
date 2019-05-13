@@ -23,20 +23,17 @@ class PfileItem extends Component {
 
         console.log('pfile Item render');
         return (
-                <div className="row" id="pfileRow" key={idx} onClick={() => this.props.onClickPfile(pfile) } 
+                <div class="row" id="pfileRow" key={idx} onClick={() => this.props.onClickPfile(pfile) } 
                     onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
-                    <div className="col-1">
-                        <span className="badge badge-primary btn-dark-1" >
-                            이미지
+                    
+                    <div class="col-9 text-dark-1">{pfile.name}</div>
+                    <div class="col-2 text-dark-1">업무 일지</div>
+                    <div class="col-1">
+                        <span onClick={() => this.props.onClickPfileDelete(pfile.pfileId)} class="badge badge-danger bg-danger btn-sm">
+                            삭제
                         </span>
                     </div>
-                    <div className="col-8">{pfile.name}</div>
-                    <div className="col-2">업무 일지</div>
-                        <div className="col-1">
-                            <span onClick={() => this.props.onClickPfileDelete(pfile.pfileId)} className="badge badge-danger bg-danger btn-sm">
-                                삭제
-                            </span>
-                        </div>
+                    <hr></hr>
                 </div>
                 );
     }

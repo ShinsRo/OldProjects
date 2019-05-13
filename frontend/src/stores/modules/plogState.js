@@ -12,6 +12,7 @@ const PLOG_SEND_ERROR = 'PLOG_SEND_ERROR';
 const SET_LOG = 'SET_LOG';
 const SET_LOG_VIEW_LEVEL = 'SET_LOG_VIEW_LEVEL';
 const SET_PROJECT = 'SET_PROJECT';
+const RELOAD_PLOG = 'RELOAD_PLOG';
 
 export const plogPending = createAction(PLOG_SEND_PENDING);
 export const plogSendSuccess = createAction(PLOG_SEND_SUCCESS);
@@ -24,17 +25,28 @@ export const setLogViewLevel = createAction(SET_LOG_VIEW_LEVEL);
 export const setProject = createAction(SET_PROJECT);
 
 
+
 const initialState = Map({
     isFetching: false,
     error: false,
-    pfileLogs: [],
-    attachmentLogs: [],
+    // pfileLogs: [],
+    // attachmentLogs: [],
+    logViewLevel : 'logList',
 })
 
 export const getPLog = (pid) => dispatch => {
     dispatch(plogPending());
 
     return plogService.getPLog(pid)
+    .then((response) => {
+        dispatch(plogSendSuccess(response.data))
+    }).catch(error => {dispatch(plogSenderr(error));});
+}
+
+export const reloadPLog = () => dispatch => {
+    dispatch(plogPending());
+
+    return plogService.getPLog(this.state.get('selectedProject'))
     .then((response) => {
         dispatch(plogSendSuccess(response.data))
     }).catch(error => {dispatch(plogSenderr(error));});
@@ -53,11 +65,17 @@ export default handleActions({
     [PLOG_SEND_ERROR]: (state, action) => {
         return state.set('isFetching', false).set('error', true);
     },
-    [SET_PFILE_LOG]: (state, action) => {
-        return state.set('pfileLog', action.payload);
-    },
-    [SET_ATTACHMENT_LOG]: (state, action) => {
-        return state.set('attachmentLog', action.payload);
+    // [SET_PFILE_LOG]: (state, action) => {
+    //     return state.set('pfileLog', action.payload);
+    // },
+    // [SET_ATTACHMENT_LOG]: (state, action) => {
+    //     return state.set('attachmentLog', action.payload);
+    // },
+    [SET_LOG]: (state, action) => {
+            return state.set('pLog', action.payload);
+        },
+    [SET_LOG_VIEW_LEVEL]: (state, action) => {
+        return state.set('logViewLevel', action.payload);
     },
     [SET_PROJECT] : (state, action) => {
         return state.set('selectedProject', action.payload);

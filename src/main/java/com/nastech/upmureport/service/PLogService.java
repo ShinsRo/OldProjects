@@ -39,8 +39,6 @@ public class PLogService {
 	
 	public PLog createPfileLog(Pfile pfile, LogState logState) {
 		
-		LOG.info("========create pfile log");
-		
 		PLog pLog = PLog.builder()
 				.newDate(LocalDateTime.now())
 				.pfile(pfile)
@@ -69,20 +67,14 @@ public class PLogService {
 				.logState(logState)
 				.build();
 		
-		return pLogRepository.save(pLog);
-						
-	}	
+		return pLogRepository.save(pLog);						
+	}
 	
 	public List<PLogDto> getPLogs(String projectId) {
 		Project project = null;
 		
-		try {
-			project = projectRepository.findById(Utils.StrToBigInt(projectId)).get();
-			LOG.info("-----------------------plog project" + project.getPname());
-		} catch (Exception e) {
-			LOG.error(e.getMessage());
-			// TODO: handle exception
-		}
+		
+		project = projectRepository.findById(Utils.StrToBigInt(projectId)).get();
 		
 		List<PLog> pLogs = pLogRepository.findAllByProject(project);
 				
@@ -119,49 +111,6 @@ public class PLogService {
 		});		
 		
 		return pLogDtos;
-	}
-	
-	
-//	public PLogDto.PLogDto getPLogs(String pdirId) {
-//		
-//		Pdir pdir = pdirRepository.findByDidAndDflagFalse(Utils.StrToBigInt(pdirId));
-//		
-//		List<PfileLog> pfileLogs = pfileLogRepository.findAllByPdir(pdir);
-//		
-//		List<AttachmentLog> attachmentLogs = attachmentLogRepository.findAllByPdir(pdir);
-//		
-//		List<PLogDto.PfileLogDto> pfileLogDtos = new ArrayList<PLogDto.PfileLogDto>();
-//		
-//		List<PLogDto.AttachmentLogDto> attachmentLogDtos = new ArrayList<PLogDto.AttachmentLogDto>();
-//		
-//		pfileLogs.forEach(pfileLog -> pfileLogDtos.add(
-//					PLogDto.PfileLogDto
-//					.builder()
-//					.name(pfileLog.getName())
-//					.contents(pfileLog.getContents())
-//					.newDate(pfileLog.getNewDate())
-//					.stat(pfileLog.getStat()).build()						
-//				));
-//		
-//		attachmentLogs.forEach(attachmentLog -> attachmentLogDtos.add(
-//					PLogDto.AttachmentLogDto.builder()
-//					.name(attachmentLog.getAttachment().getName())
-//					.contentType(attachmentLog.getAttachment().getContentType())
-//					.coment(attachmentLog.getAttachment().getComent())
-//					.newDate(attachmentLog.getNewDate())
-//					.stat(attachmentLog.getStat())
-//					.build()
-//				));
-//		
-//		PLogDto.PLogDto plogDto = new PLogDto.PLogDto(pfileLogDtos, attachmentLogDtos); 
-//		
-//		
-//		LOG.info("=====================================plog dto" + plogDto.getPfileLogs().toString());
-//		
-//		return plogDto;
-//	}
-	
-	
-	
+	}	
 	
 }

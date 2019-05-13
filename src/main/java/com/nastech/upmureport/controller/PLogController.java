@@ -28,8 +28,6 @@ public class PLogController {
 	
 	@GetMapping(value = "/{projectId}")
 	public List<PLogDto> getPfileLog(@PathVariable String projectId){
-	
-		LOG.info("----------get log projectId : " + projectId);
 		
 		return pLogService.getPLogs(projectId);
 	}
