@@ -73,9 +73,10 @@ class Pfile extends Component {
       const {pfileState, projectState, attachmentState } = this.props;
 
       const addButton =  projectState.get('selectedDirId') &&(
-          <div className="row justify-content-end mr-3">       
-            <div className="col-1.5 mr-4">
-                <button type="button" className="btn btn-light-1 p-2 " onClick= {this.handlePfileAddForm}>
+        <nav>
+          <div className="row justify-content-end">
+            <div className="btn-group" role="group" aria-label="Basic example">              
+                <button type="button" className="btn btn-dark-1 p-2 " onClick= {this.handlePfileAddForm}>
                   파일추가
                 </button>   
                 </div>
