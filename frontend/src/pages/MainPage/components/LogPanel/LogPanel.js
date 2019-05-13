@@ -20,8 +20,9 @@ class LogPanel extends Component {
 
     render() {
         const { HEADER_ORDER, HEADER_NAME } = this.state;
-        const { logs } = this.props;
-
+        const { logs, onClickLog } = this.props;
+        
+        
         let content = (
             <div className="text-center">
                     
@@ -30,6 +31,7 @@ class LogPanel extends Component {
                     alt="log does not exist"
                     style={{ width: '200px' }}
                 />
+
                 <div>로그가 없습니다!</div>
             </div>
         );
@@ -37,34 +39,41 @@ class LogPanel extends Component {
         if (logs.length) {
             content = (<>
                 
-                <table className="table table-sm text-sm">
-                    <thead>
-                        <tr>
-                            {HEADER_NAME.map((hn, idx) => {
-                                return (<th key={idx} colspan={hn.colspan} scope="col">{hn.title}</th>)
-                            })}
-                        </tr>
-                    </thead>
-                    <tbody>
+                <div className="container" id="LogTable" style={{ width:'100%'}}>
+                    <div className="row" style={{ width:'100%',textAlign:"center", fontSize:"15px"}}>
+                        <div className="col-1">NO</div>
+                        <div className="col-3">시간</div>
+                        <div className="col-5">이름</div>
+                        <div className="col-1">대상</div>
+                        <div className="col-1">분류</div>
+                        <div className="col-1">행동</div>                                                     
+                    </div>
+
+                    <hr className="m-0"></hr>
+
+                    <div className="row m-0" style={{ width:'100%' , overflowX :'auto', overflowY:'scroll' }}>
                         {logs.map((log, idx) => {
                             return (
-                            <tr key={idx}>
-                                <td>{idx}</td>
-                                {HEADER_ORDER.map((ho, jdx) => {
-                                    return (<td key={ho} colspan={HEADER_NAME[jdx + 1].colspan}>{log[ho]}</td>)
-                                })}
-                            </tr>
+                            <div className="row" onClick={() => {onClickLog(log)}} style={{ width:'100%', textAlign:"center"}}>
+                                <div className="col-1">{idx + 1}</div>
+                                <div className="col-3" style={{ textAlign:"center"}}>{log.newDate}</div>
+                                <div className="col-5" style={{ textAlign:"center"}}>{log.name}</div>
+                                <div className="col-1" style={{ textAlign:"center"}}>{log.pdirName}</div>
+                                <div className="col-1" style={{ textAlign:"center"}}>{log.logType}</div>
+                                <div className="col-1" style={{ textAlign:"center"}}>{log.logState}</div>
+                            </div>
                             );
                         })}
-                    </tbody>
-                </table>
+                    </div>
+                    
+                </div>
                     
             </>);
         }
 
         return (<>
             <div className="card shadow mb-4"  style={{ height: '100%', width: '100%'}}>
-                <div className="card-header">로그</div>
+                <div className="card-header font-weight-bold text-dark-1" style={{textAlign: "center"}}>로그</div>
                 <div className="card-body">
                     {content}
                 </div>

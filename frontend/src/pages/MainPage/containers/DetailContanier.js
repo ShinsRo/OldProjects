@@ -8,7 +8,7 @@ import * as attachmentActions from '../../../stores/modules/attachmentState';
 
 
 
-import { ProjPanel, PfilePanel, Pfileform, AttachmentPanel, AttachmentForm, LogPanel } from '../components/DetailPanel';
+import { ProjPanel, PfilePanel, Pfileform, AttachmentPanel, AttachmentForm } from '../components/DetailPanel';
 
 class DetailContanier extends Component {
     constructor(props) {
@@ -27,7 +27,7 @@ class DetailContanier extends Component {
     }
 
     render() {
-        const { projectState, pfileState, attachmentState, PfileActions,ProjectActions, AttachmentActions, plogState  } = this.props;
+        const { projectState, pfileState, attachmentState, PfileActions,ProjectActions, AttachmentActions } = this.props;
         const { wrapWithCard } = this
         const detailViewLevel = projectState.get('detailViewLevel');
         
@@ -53,14 +53,7 @@ class DetailContanier extends Component {
          *      첨부 파일의 자세한 정보를 보여줍니다.
          * 
          * 6. attachmentAdd 경우
-         *      첨부 파일을 추가 할 수 있는 form으로 렌더링 됩니다.
-         * 
-         * 7. pfileLog의 경우
-         *      파일의 로그를 자세한 정보를 보여줍니다.
-         * 
-         * 8. attachmentLog의 경우
-         *      첨부파일의 로그를 자세한 정보를 보여줍니다.
-         * 
+         *      첨부 파일을 추가 할 수 있는 form으로 렌더링 됩니다.         * 
          */
         
         if (detailViewLevel === 'project') {
@@ -111,24 +104,7 @@ class DetailContanier extends Component {
                     
                 />
             );
-        } else if (detailViewLevel === 'pfileLog') {
-            return (
-                <LogPanel 
-                    status = {'pfile'}
-                    pfileLog = {plogState.get('pfileLog')}
-                    saveItem = {ProjectActions.saveItem}
-                />
-            );
-        } else if (detailViewLevel === 'attachmentLog') {
-            return (
-                <LogPanel 
-                    status = {'attachment'}
-                    attachmentLog = {plogState.get('attachmentLog')}
-                    saveItem = {ProjectActions.saveItem}
-                />
-            );
-        }
-        
+        }        
         else {
             return wrapWithCard(<>프로젝트 혹은 업무를 선택하세요.</>);
         }        

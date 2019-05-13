@@ -61,14 +61,10 @@ public class AttachmentService {
 
 		Attachment attachment = buildAttachment(destinationFile, fileName, pdir, attachmentReqDto, file);
 		
-		LOG.info(attachment.toString());
-		
-		try{			
-			attachment = attachmentRepository.save(attachment);
-			pLogService.createAttachmentLog(attachment, LogState.CREATE);
-		} catch (Exception e) {
-			throw new Exception();
-		}			
+			
+		attachment = attachmentRepository.save(attachment);
+		pLogService.createAttachmentLog(attachment, LogState.CREATE);
+				
 
 		return attachment2AttachmentResDto(attachment);
 	}
@@ -87,75 +83,16 @@ public class AttachmentService {
 		
 		attachment.deleteAttachment();
 		
-		try{			
-			attachment = attachmentRepository.save(attachment);
-			pLogService.createAttachmentLog(attachment, LogState.DELETE);
-		} catch (Exception e) {
-			LOG.info(e.getMessage());
-		}	
+			
+		attachment = attachmentRepository.save(attachment);
+		pLogService.createAttachmentLog(attachment, LogState.DELETE);
 		
 		return getAttachment(attachment.getPdir().getDid());
 	}
-
-//	public List<String> downloadAttachment(String attachmentId, HttpServletResponse resp) throws Exception {
-//
-//		HttpServletResponse response = resp; // down
-//		byte[] fileByte = null;
-////		
-//		Attachment attachment = attachmentRepository.findById(Utils.StrToBigInt(attachmentId)).get();
-//
-//		try {
-//			fileByte = FileUtils.readFileToByteArray(new File(attachment.getLocalPath()));
-//			// response.setContentType("application/octet-stream");
-//			// response.setContentLength(fileByte.length);
-//			// 다운로드시 변경할 파일명
-//			// response.addHeader("Content-Disposition", "attachment; fileName=\"" +
-//			// URLEncoder.encode(attachment.getName(), "UTF-8") + "\";");
-//			// response.addHeader("Content-Transfer-Encoding", "binary");
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//
-//		Encoder encoder = Base64.getEncoder();
-//		Decoder decoder = Base64.getDecoder();
-//
-//		byte[] encoded = encoder.encode(fileByte);
-//		String encodedString = new String(encoded);
-//
-//		List<String> resStrings = new ArrayList<String>();
-//
-//		int encodedStringLength = encodedString.length();
-//		int opp = 0;
-//		while (true) {
-//			if (opp + 6000 < encodedStringLength) {
-//				resStrings.add(encodedString.substring(opp, opp + 6000));
-//				LOG.info("opp--" + opp);
-//				opp += 6000;
-//			} else {
-//				resStrings.add(encodedString.substring(opp, encodedStringLength));
-//				LOG.info("last" + opp + "last opp--" + encodedStringLength);
-//				break;
-//			}
-//		}
-//
-//		int i = 0;
-//
-//		resStrings.forEach(str -> {
-//			LOG.info(str.length());
-//		});
-//
-//		LOG.info("encoded ===== " + encoded);
-//		LOG.info("encodedString ===== " + encodedString);
-//		LOG.info("encodedString.length() ===== " + encodedString.length());
-//		LOG.info("resStrings.size() ===== " + resStrings.size());
-//
-//		return resStrings;
-//	}
+	
 	
 	public ResponseEntity<Resource> downloadAttachment(String attachmentId, HttpServletResponse resp) throws Exception {
-
-		
-//		
+	
 		Attachment attachment = attachmentRepository.findById(Utils.StrToBigInt(attachmentId)).get();
 		
 		Path filePath = Paths.get(attachment.getLocalPath()).normalize();
@@ -166,7 +103,6 @@ public class AttachmentService {
                 .contentType(MediaType.parseMediaType(attachment.getContentType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
-
 	}
 
 	private Attachment buildAttachment(File destinationFile, String fileName, Pdir pdir,AttachmentDto.AttachmentReqDto attachmentReqDto, MultipartFile file) {

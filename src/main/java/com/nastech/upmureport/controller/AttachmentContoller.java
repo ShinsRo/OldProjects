@@ -46,8 +46,6 @@ public class AttachmentContoller {
 		ObjectMapper objectMapper = new ObjectMapper();
 		AttachmentDto.AttachmentReqDto attachmentReqDto = objectMapper.readValue(json, AttachmentDto.AttachmentReqDto.class);
 		
-		LOG.info(file.getSize());
-		LOG.info(attachmentReqDto.toString());
 		
 		return attachmentService.saveAttachment(file, attachmentReqDto);
 	}
@@ -58,20 +56,6 @@ public class AttachmentContoller {
 		return attachmentService.getAttachment(Utils.StrToBigInt(pdirId));
 		
 	}
-	
-//	@GetMapping("/download/{attachmentId}")
-//	public List<String> downloadAttachment(@PathVariable String attachmentId,HttpServletResponse resp) throws Exception {
-//		
-////		LOG.info(resp.getHeaderNames());
-////		
-////		List<String> resFile = attachmentService.downloadAttachment(attachmentId, resp);
-////		
-////		LOG.info(resFile);
-//		
-//        return attachmentService.downloadAttachment(attachmentId, resp);
-//
-//		//return AttachmentDto.AttachmentDownDto.builder().file(resFile).build();
-//    }
 	
 	@GetMapping("/download/{attachmentId}")
 	public ResponseEntity<Resource> downloadAttachment(@PathVariable String attachmentId,HttpServletResponse resp) throws Exception {
