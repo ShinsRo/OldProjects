@@ -22,15 +22,16 @@ export const plogSenderr = createAction(PLOG_SEND_ERROR);
 
 export const setLog = createAction(SET_LOG);
 export const setLogViewLevel = createAction(SET_LOG_VIEW_LEVEL);
-export const setProject = createAction(SET_PROJECT);
+// export const setProject = createAction(SET_PROJECT);
 
 
 
 const initialState = Map({
     isFetching: false,
     error: false,
-    pfileLogs: [],
-    attachmentLogs: [],
+    // pfileLogs: [],
+    // attachmentLogs: [],
+    logViewLevel : 'logList',
 })
 
 export const getPLog = (pid) => dispatch => {
@@ -42,14 +43,16 @@ export const getPLog = (pid) => dispatch => {
     }).catch(error => {dispatch(plogSenderr(error));});
 }
 
-export const reloadPLog = () => dispatch => {
-    dispatch(plogPending());
+// export const reloadPLog = (pid) => dispatch => {
 
-    return plogService.getPLog(this.state.get('selectedProject'))
-    .then((response) => {
-        dispatch(plogSendSuccess(response.data))
-    }).catch(error => {dispatch(plogSenderr(error));});
-}
+//     dispatch(plogPending());
+
+//     return plogService.getPLog(pid)
+//     .then((response) => {
+//         dispatch(plogSendSuccess(response.data))
+//     }).catch(error => {dispatch(plogSenderr(error));});
+
+// }
 
 export default handleActions({
     // 통신 초기화
@@ -64,14 +67,20 @@ export default handleActions({
     [PLOG_SEND_ERROR]: (state, action) => {
         return state.set('isFetching', false).set('error', true);
     },
-    [SET_PFILE_LOG]: (state, action) => {
-        return state.set('pfileLog', action.payload);
+    // [SET_PFILE_LOG]: (state, action) => {
+    //     return state.set('pfileLog', action.payload);
+    // },
+    // [SET_ATTACHMENT_LOG]: (state, action) => {
+    //     return state.set('attachmentLog', action.payload);
+    // },
+    [SET_LOG]: (state, action) => {
+            return state.set('pLog', action.payload);
+        },
+    [SET_LOG_VIEW_LEVEL]: (state, action) => {
+        return state.set('logViewLevel', action.payload);
     },
-    [SET_ATTACHMENT_LOG]: (state, action) => {
-        return state.set('attachmentLog', action.payload);
-    },
-    [SET_PROJECT] : (state, action) => {
-        return state.set('selectedProject', action.payload);
-    }
+    // [SET_PROJECT] : (state, action) => {
+    //     return state.set('selectedProject', action.payload);
+    // }
 
 }, initialState);

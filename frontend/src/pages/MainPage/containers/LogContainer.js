@@ -24,6 +24,7 @@ class LogContainer extends Component {
         return (
             <LogPanel
                 logs={logs}
+                
                 handler={''}
             />
         );

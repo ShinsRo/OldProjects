@@ -14,6 +14,8 @@ class AttachmentForm extends Component {
 
     onFormSubmit = (e) => {
 
+        const { reloadPLog, selectedProject } =this.props;
+
         // const { saveItem } = this.props;
         e.preventDefault() // Stop form submit
         this.attachmentUpload(this.state.uploadAttachment)
@@ -23,6 +25,8 @@ class AttachmentForm extends Component {
             })
 
         this.setState({ 'isSuccess': true })
+        reloadPLog(selectedProject);
+        
     }
 
     handleContentChange = (e) => {

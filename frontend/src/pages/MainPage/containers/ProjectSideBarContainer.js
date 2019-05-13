@@ -46,7 +46,6 @@ class ProjectSideBarContainer extends Component {
                 
                 if(selectedProject.isOrigin) {
                     PLogActions.getPLog(selectedProject.pid);
-                    PLogActions.setProject(selectedProject.pid);
                 }
 
                 if(this.props.mainContentViewLevel === 'default') {

@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import * as projectActions from '../../../stores/modules/projectState';
 import * as pfileAction from '../../../stores/modules/pfileState';
 import * as attachmentActions from '../../../stores/modules/attachmentState';
+import * as plogActions from '../../../stores/modules/plogState';
 
 
 
@@ -27,7 +28,7 @@ class DetailContanier extends Component {
     }
 
     render() {
-        const { projectState, pfileState, attachmentState, PfileActions,ProjectActions, AttachmentActions, plogState  } = this.props;
+        const { projectState, pfileState, attachmentState, PfileActions, ProjectActions, AttachmentActions, plogState, PLogAction  } = this.props;
         const { wrapWithCard } = this
         const detailViewLevel = projectState.get('detailViewLevel');
         
@@ -82,6 +83,8 @@ class DetailContanier extends Component {
                     setPfile = {PfileActions.setPfile}
                     saveItem = {ProjectActions.saveItem}
                     pfile = {{name : '' , contents: ''}}
+                    reloadPLog = {PLogAction.getPLog}
+                    selectedProject = {projectState.get('selectedProject')}
                 />
                 );
         }else if (detailViewLevel === 'pfileUpdate') {
@@ -93,6 +96,8 @@ class DetailContanier extends Component {
                     pfile = {pfileState.get('pfile')}
                     updatePfile = {PfileActions.updatePfile}
                     setPfile = {PfileActions.setPfile}
+                    reloadPLog = {PLogAction.getPLog}
+                    selectedProject = {projectState.get('selectedProject')}
                 />
                 );
         }else if (detailViewLevel === 'attachment') {
@@ -108,7 +113,8 @@ class DetailContanier extends Component {
                     saveAttachment= {AttachmentActions.saveAttachment}
                     selectedDirId = {projectState.get('selectedDirId')}
                     setAttachment = {AttachmentActions.setAttachment}
-                    
+                    reloadPLog = {PLogAction.getPLog}
+                    selectedProject = {projectState.get('selectedProject')}                    
                 />
             );
         } else if (detailViewLevel === 'pfileLog') {
@@ -147,5 +153,6 @@ export default connect(
         ProjectActions: bindActionCreators(projectActions, dispatch),
         PfileActions: bindActionCreators(pfileAction, dispatch),
         AttachmentActions: bindActionCreators(attachmentActions, dispatch),
+        PLogAction : bindActionCreators(plogActions, dispatch),
     })
 ) (DetailContanier);

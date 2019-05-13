@@ -36,7 +36,7 @@ class Pfileform extends Component {
         e.preventDefault();
 
         // const {pfileState, projectState} = store.getState();
-        const { selectedDirId, savePfile, saveItem, setPfile } = this.props;
+        const { selectedDirId, savePfile, saveItem, setPfile, reloadPLog, selectedProject } = this.props;
 
         const pfile = {
             name: this.state.name,
@@ -47,6 +47,7 @@ class Pfileform extends Component {
         setPfile(pfile);        
                 savePfile(pfile);
         saveItem({ detailViewLevel: 'pfile' });
+        reloadPLog(selectedProject);
 
 
     }
@@ -54,7 +55,7 @@ class Pfileform extends Component {
     handleUpdate = (e) => {
         e.preventDefault();
 
-        const { updatePfile, pfile, saveItem, setPfile } = this.props;
+        const { updatePfile, pfile, saveItem, setPfile, reloadPLog, selectedProject } = this.props;
 
         const newPfile = {
             ...pfile,
@@ -66,6 +67,7 @@ class Pfileform extends Component {
         console.log(newPfile);
         updatePfile(newPfile);
         saveItem({ detailViewLevel: 'pfile' });
+        reloadPLog(selectedProject);
     }
 
     handleCancle = (e) => {
