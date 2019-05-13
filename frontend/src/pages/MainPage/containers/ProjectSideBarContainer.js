@@ -35,7 +35,7 @@ class ProjectSideBarContainer extends Component {
             case "reload":
                 this.setState({ reload: !this.state.reload });
                 break;
-            case "handleDirItemClick":  // (selectedDirId)
+            case "handleDirItemClick":  // (selectedDirId, selectedProject)
                 const { selectedDirId, selectedProject } = params;
 
                 if(projectState.get('selectedDirId') && projectState.get('selectedDirId') !== selectedDirId){
@@ -53,7 +53,7 @@ class ProjectSideBarContainer extends Component {
                     this.props.setMainContent('detail');
                 }
 
-                ProjectActions.saveItem({ selectedDirId, detailViewLevel: 'project' });        
+                ProjectActions.saveItem({ selectedProject, selectedDirId, detailViewLevel: 'project' });        
                 break;
             default:
                 break;
