@@ -67,7 +67,6 @@ class Career extends Component {
         }
       })
     }
-    console.log("posiList", posiList)
 
     return (
 

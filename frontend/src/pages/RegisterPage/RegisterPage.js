@@ -82,23 +82,27 @@ class RegisterPage extends Component {
 
         return (
                 <div className="card o-hidden border-0 shadow-lg">
+                    <div className="card-header text-center">
+                            <h1 className="h4 text-gray-700 pt-2 font-weight-bold text-dark-2">신규 사원 등록</h1>
+                    </div>
                     <div className="card-body">
                         {/* <!-- Nested Row within Card Body --> */}
                         <div className="row">
                             {/* <div className="col-lg-6 d-none d-lg-block bg-login-image"></div> */}
                             <div className="col">
                                 <div className="">
-                                    <hr />
-                                    <div className="text-center">
-                                        <h1 className="h4 text-gray-700 ">신규 사원 등록</h1>
-                                    </div>
+                                    
                                     <form className="User" action="" method="post">
-                                        <div className="form-group">
-                                            <div className="form-group">
-                                                <input type='text' disabled={this.state.checked} value={this.state.username} onChange={e => this.handleChangeInput(e, 'username')} type="text" className="form-control form-control-user" name="username" placeholder="아이디" />
-                                                <input type='button' className=" btn btn-primary mt-2" value="중복검사" onClick={() => this.checkIdAPI()}></input>
-                                                <input type='button' className=" btn btn-primary mt-2 ml-2" value="재입력" onClick={() => this.click()}></input>
-                                            </div>
+                                        <div className="form-group row">
+                                                <div className="col-8">
+                                                    <input type='text' disabled={this.state.checked} value={this.state.username} onChange={e => this.handleChangeInput(e, 'username')} type="text" className="form-control form-control-user" name="username" placeholder="아이디" />
+                                                </div>
+                                                <div className="col-2">
+                                                    <input type='button' className=" btn-sm btn-primary mt-1" value="중복검사" onClick={() => this.checkIdAPI()}></input>
+                                                </div>
+                                                <div className="col-2">
+                                                    <input type='button' className=" btn-sm btn-primary mt-1" value="재입력" onClick={() => this.click()}></input>
+                                                </div>
                                         </div>
                                         <div className="form-group">
                                             <input value={this.state.password} onChange={e => this.handleChangeInput(e, 'password')} type="password" className="form-control form-control-user" name="password" placeholder="비밀번호" />
@@ -117,7 +121,7 @@ class RegisterPage extends Component {
                                         </div>
                                         {/* <input type="button" onClick={this.registUserAPI.bind(this)} className="btn btn-darkblue btn-user btn-block" value="등록" /> */}
                                         <MDBBtn outline rounded size="sm" className="col" color="primary" onClick={this.registUserAPI.bind(this)}><MDBIcon icon="user-plus" className="mr-2"/>사원 등록</MDBBtn>
-                                        <hr />
+                                        
                                     </form>
                                 </div>
                             </div>
