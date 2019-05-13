@@ -119,8 +119,10 @@ public class UserController {
 		
 		System.out.println("들어온 것"+modifyAuthInfo);
 		
-		basicAuthInfo.setPassword(modifyAuthInfo.getPassword());
-		
+//		//아이디가 변경되었다면 아이디 변경 보류
+//		if(modifyAuthInfo.getUsername()!=null) {
+//			basicAuthInfo.setUsername(modifyAuthInfo.getUsername());
+//		}
 		System.out.println("변경 될 계정"+basicAuthInfo);
 		authInfoRepository.save(basicAuthInfo);
 		

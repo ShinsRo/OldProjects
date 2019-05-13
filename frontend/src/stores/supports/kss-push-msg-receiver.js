@@ -48,13 +48,26 @@ class KssPushMsgReceiver {
         stompClient.subscribe('/globalChannel/notify', message => { /* 글로벌 메세지 */ });
             // 프로젝트 변동 알림 채널
             stompClient.subscribe(`/user.${sessionId}/updateProject`, message => {
-                let pDto = JSON.parse(message.body);
-                // const $ = window.$;
-
-                // const $globalToast = $("#globalToast");
-                // console.log($globalToast);
                 
-                // $globalToast.toast('show');
+                let pDto = JSON.parse(message.body);
+                // const original = dirContainer.projectMap[pDto.pid];
+
+                let timePassed;
+                try {
+                    timePassed = Date.now() - new Date(pDto.udate);
+                    timePassed = this.timeFormatter(timePassed);
+                } catch (err) {
+                    timePassed = '';
+                }
+                
+                const $ = window.$;
+                const $tc = $("#toastContainer");
+
+                $tc.find('#toastHeader').html(`프로젝트 수정 알림`);
+                $tc.find('#toastTime').html(`${timePassed} 전`);
+                $tc.find('#toastBody').html(`<span class="font-weight-bold">${pDto.pname}</span>가 최근 수정되었습니다.`);
+                
+                $tc.toast('show');
                 
                 dirContainer.correctProject(pDto);
             });
@@ -86,6 +99,19 @@ class KssPushMsgReceiver {
     setConnected(connected) {
         this.connected = connected;
     }
+
+    timeFormatter(raw) {
+        const time = new Date(raw);
+        
+        let min = time.getMinutes().toString();
+        let sec = time.getSeconds().toString();
+        let msec = time.getMilliseconds().toString();
+        
+        if (min.length < 2) min = '0' + min;
+        if (sec.length < 2) sec = '0' + sec;
+        while (msec.length < 3) msec = '0' + msec;
+        return `${sec}.${msec}초`;
+    };
 }
 
 export default KssPushMsgReceiver;

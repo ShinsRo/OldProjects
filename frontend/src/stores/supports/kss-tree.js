@@ -91,7 +91,6 @@ class KssTree {
         // const tempEdDate = origianl.edDate;
         // const tempUdate = origianl.udate;
         // const tempCdate = origianl.cdate;
-        console.log("CCCC", project);
         
         const tempDirs = this.projectMap[project.pid].dirs;
         this.projectMap[project.pid] = project;
