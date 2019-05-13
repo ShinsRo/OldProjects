@@ -1,25 +1,9 @@
 import React, { Component } from 'react';
 
 class LogPanel extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            HEADER_ORDER: ['newDate', 'name', 'pdirName', 'logType', 'logState'],
-            // '시간', '이름', '대상', '분류', '행동'
-            HEADER_NAME: [
-                { title: 'NO', colspan: '1' },
-                { title: '시간', colspan: '3' },
-                { title: '이름', colspan: '4' },
-                { title: '대상', colspan: '1' },
-                { title: '분류', colspan: '1' },
-                { title: '행동', colspan: '1' },
-            ]
-        };
-    }
-
+    
     render() {
-        const { HEADER_ORDER, HEADER_NAME } = this.state;
+
         const { logs, onClickLog } = this.props;
         
         

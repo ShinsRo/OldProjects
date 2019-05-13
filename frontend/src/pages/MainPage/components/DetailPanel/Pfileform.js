@@ -2,22 +2,40 @@ import React, { Component } from 'react';
 
 class Pfileform extends Component {
 
-
-    static defaultProps = {
-        status: 'add',
-        pfile: '',
-        selectedDirId: '',
+    componentWillMount(){
+        if(this.props.status === 'update'){            
+            this.setTitle(this.props.pfile.name)
+            this.setContent(this.props.pfile.contents)
+        } else {
+            this.setTitle('')
+            this.setContent('')
+        }
     }
 
-    componentWillReceiveProps() {
-        this.setState({
-            pfile: this.props
-        })
+    componentWillReceiveProps(nextProps) {        
+        if(nextProps.status === 'update'){            
+            this.setTitle(this.props.pfile.name)
+            this.setContent(this.props.pfile.contents)
+        } else {
+            this.setTitle('')
+            this.setContent('')
+        }
     }
 
-    state = {
-        name: '',
-        contents: '',
+    shouldComponentUpdate(nextProps, nextState){
+        return true;
+    }
+
+    setTitle = (input) => {
+        //const {PfileActions} = this.props;
+        //PfileActions.changeTitleInput(e.target.value);
+        this.setState({ name: input })
+    }
+
+    setContent = (input) => {
+        // const {PfileActions} = this.props;
+        // PfileActions.changeContentInput(e.target.value);
+        this.setState({ contents: input })
     }
 
     handleTitleChange = (e) => {
@@ -36,24 +54,26 @@ class Pfileform extends Component {
         e.preventDefault();
 
         // const {pfileState, projectState} = store.getState();
-        const { selectedDirId, savePfile, saveItem, setPfile } = this.props;
+        const { selectedDirId, savePfile, saveItem, reloadPLog,setPfile, selectedProject } = this.props;
 
         const pfile = {
             name: this.state.name,
             contents: this.state.contents,
             pdirId: selectedDirId,
         };
-
-        setPfile(pfile);
-        
+        console.log("selectedProject ----------", selectedProject)
+        reloadPLog(selectedProject)
         savePfile(pfile);
+        setPfile(pfile);
         saveItem({ detailViewLevel: 'pfile' });
     }
 
     handleUpdate = (e) => {
         e.preventDefault();
 
-        const { updatePfile, pfile, saveItem, setPfile } = this.props;
+        const { updatePfile, pfile,setPfile, saveItem } = this.props;
+
+
 
         const newPfile = {
             ...pfile,
@@ -61,9 +81,8 @@ class Pfileform extends Component {
             contents: this.state.contents,
         }
 
-        setPfile(newPfile);
-        console.log(newPfile);
         updatePfile(newPfile);
+        setPfile(newPfile);
         saveItem({ detailViewLevel: 'pfile' });
     }
 
@@ -82,19 +101,21 @@ class Pfileform extends Component {
         let nameTextArea;
         let contentsTextArea;
 
-
+        console.log('pfile form rendering --------------')
+        
+        
         if (this.props.status === 'add') {
 
             submitBts =
-                <button type="button" className="btn btn-dark-1 p-2" onClick={this.handleInsert}>
-                    추가 하기
-                        </button>
+                    <button type="button" className="btn btn-dark-1 p-2" onClick={this.handleInsert}>
+                        추가 하기
+                    </button>
 
             nameTextArea =
-                <textarea className="form-control" rows='1' style={{ resize: 'none' }} value={this.state.name} onChange={this.handleTitleChange} />
+                <textarea className="form-control" rows='1' style={{ resize: 'none' }} defaultValue='' value={this.state.name} onChange={this.handleTitleChange} />
 
             contentsTextArea =
-                <textarea className="form-control" rows='13' style={{ resize: 'none' }} value={this.state.contents} onChange={this.handleContentChange} />
+                <textarea className="form-control" rows='12' style={{ resize: 'none' }} defaultValue='' value={this.state.contents} onChange={this.handleContentChange} />
 
         }
 
@@ -111,10 +132,10 @@ class Pfileform extends Component {
                 </button>
 
             nameTextArea =
-                <textarea className="form-control" rows='1' style={{ resize: 'none' }} defaultValue={this.props.pfile.name} onChange={this.handleTitleChange} />
+                <textarea className="form-control" rows='1' style={{ resize: 'none' }} defaultValue={this.state.name} onChange={this.handleTitleChange} />
 
             contentsTextArea =
-                <textarea className="form-control" rows='13' style={{ resize: 'none' }} defaultValue={this.props.pfile.contents} onChange={this.handleContentChange} />
+                <textarea className="form-control" rows='12' style={{ resize: 'none' }} defaultValue={this.state.contents} onChange={this.handleContentChange} />
         }
 
 
