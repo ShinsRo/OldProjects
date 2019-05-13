@@ -5,14 +5,23 @@ import * as plogService from '../../api/PLogService';
 const PLOG_SEND_PENDING = 'PLOG_SEND_PENDING';
 const PLOG_SEND_SUCCESS = 'PLOG_SEND_SUCCESS';
 const PLOG_SEND_ERROR = 'PLOG_SEND_ERROR';
-const SET_PFILE_LOG = 'SET_PFILE_LOG';
-const SET_ATTACHMENT_LOG = 'SET_ATTACHMENT_LOG';
+// const SET_PFILE_LOG = 'SET_PFILE_LOG';
+// const SET_ATTACHMENT_LOG = 'SET_ATTACHMENT_LOG';
+
+
+const SET_LOG = 'SET_LOG';
+const SET_LOG_VIEW_LEVEL = 'SET_LOG_VIEW_LEVEL';
+const SET_PROJECT = 'SET_PROJECT';
 
 export const plogPending = createAction(PLOG_SEND_PENDING);
 export const plogSendSuccess = createAction(PLOG_SEND_SUCCESS);
 export const plogSenderr = createAction(PLOG_SEND_ERROR);
-export const setPfileLog = createAction(SET_PFILE_LOG);
-export const setAttachmentLog = createAction(SET_ATTACHMENT_LOG);
+// export const setPfileLog = createAction(SET_PFILE_LOG);
+// export const setAttachmentLog = createAction(SET_ATTACHMENT_LOG);
+
+export const setLog = createAction(SET_LOG);
+export const setLogViewLevel = createAction(SET_LOG_VIEW_LEVEL);
+export const setProject = createAction(SET_PROJECT);
 
 
 const initialState = Map({
@@ -50,5 +59,8 @@ export default handleActions({
     [SET_ATTACHMENT_LOG]: (state, action) => {
         return state.set('attachmentLog', action.payload);
     },
+    [SET_PROJECT] : (state, action) => {
+        return state.set('selectedProject', action.payload);
+    }
 
 }, initialState);

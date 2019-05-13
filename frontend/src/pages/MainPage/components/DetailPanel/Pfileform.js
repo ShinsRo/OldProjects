@@ -45,7 +45,7 @@ class Pfileform extends Component {
         };
 
         setPfile(pfile);
-        console.log(pfile);
+        
         savePfile(pfile);
         saveItem({ detailViewLevel: 'pfile' });
     }
