@@ -148,7 +148,7 @@ class AdminPage extends Component {
             <div className="container-fluid mt-5" >
               <div className="row" >
                 <div className="col-xl-7 card">
-                  <UserTable select={handleLogin}></UserTable>
+                  <UserTable select={handleLogin} style={{ height: '100%'}}></UserTable>
                 </div>
                 <div className="col-xl-5">
                   <Member selectUser={userState.selectedUser} />

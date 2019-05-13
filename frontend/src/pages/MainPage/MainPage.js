@@ -14,8 +14,20 @@ class MainPage extends Component {
       isSynced: false,
       reload: 0,
       mainContentViewLevel: 'default',
+      visible: false,        //프로필 모달
     }
   }
+  openModal(target) {
+    this.setState({
+        [target]: true
+    });
+}
+
+closeModal(target) {
+    this.setState({
+        [target]: false
+    });
+}
 
   setMainContent(to) {
     this.setState({ mainContentViewLevel: to });
@@ -73,7 +85,10 @@ class MainPage extends Component {
           {/* Main Content */}
           <div id="content">
             {/* Page Content  */}
-            <HeaderContainer history={this.props.history}/>
+            <HeaderContainer history={this.props.history}
+                            openModal={this.openModal}
+                            closeModal={this.closeModal}
+            />
             <div className="container-fluid pb-0"   style={{ height: '90%', maxHeight: '880px', overflow: 'hidden'}}>
               {mainContent}
             </div>
