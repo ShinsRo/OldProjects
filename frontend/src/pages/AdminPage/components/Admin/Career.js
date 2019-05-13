@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { BASE_URL } from '../../../../supports/API_CONSTANT';
-import {MDBBtn,MDBIcon} from 'mdbreact'
 
 class Career extends Component {
   constructor(props) {
@@ -67,12 +66,13 @@ class Career extends Component {
         }
       })
     }
+    console.log("posiList", posiList)
 
     return (
 
       <div className="card mb-4" align="">
 
-        <h className="card-header font-weight-bold text-black">{selectUser1.name}님 커리어 </h>
+        <h className="card-header font-weight-bold text-black"> 커리어 </h>
 
         <div className="card-body">
           <div className="row no-gutters align-items-center">
@@ -139,8 +139,10 @@ class Career extends Component {
 
           </div>
         </div>
-        {/* <input type="button" value=" Change " name="dept" onClick={this.changeCareerAPI.bind(this)} class="btn btn-primary btn-icon-split"></input> */}
-        <MDBBtn outline rounded size="sm" className="" color="primary" onClick={this.changeCareerAPI.bind(this)}><MDBIcon icon="check" className=""/>  변경  </MDBBtn>
+        <input type="button" value=" Change " name="dept" onClick={this.changeCareerAPI.bind(this)} class="btn btn-primary btn-icon-split"></input>
+
+
+
         {/* <div className="card-body">  직접 입력 버전
           <div className="row no-gutters align-items-center">
             <div className="col mr-2">
@@ -150,6 +152,10 @@ class Career extends Component {
             </div>
           </div>
         </div> */}
+
+
+
+
       </div>
 
     );
