@@ -43,18 +43,18 @@ class PfileTable extends React.Component {
     
 
     render() {
-        const {pfiles, attachments, selectedDirId} = this.props;
+        const {pfiles, attachments} = this.props;
         return (
             <div height="100px">
                 <div className="container" id="PfileTable" cellSpacing="0" width="100%" >
                     <div className="row">
 
-                            <div className="col-1">이미지</div>
-                            <div className="col-8">제목</div>
-                            <div className="col-2">유형</div>                            
-                            <div className="col-1">삭제</div>
+                            <div className="col-9 text-dark-1">제목</div>
+                            <div className="col-2 text-dark-1">유형</div>                            
+                            <div className="col-1 text-dark-1">삭제</div>
                             
                     </div>
+                    <hr className="mb-0"></hr>
                     <div >
                         
                         {pfiles && pfiles.map((pfile, idx) => {

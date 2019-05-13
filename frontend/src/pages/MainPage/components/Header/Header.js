@@ -18,7 +18,7 @@ class Header extends Component {
             <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                 {/* Sidebar Toggle (Topbar) */}
-                <button id="sidebarToggleTop" className="btn btn-link btn-dark-2 rounded-circle mr-3">
+                <button id="sidebarToggleTop" className="btn btn-link btn-dark-2 rounded-circle mr-3" style={ {zIndex: 2} }>
                     <i className="fa fa-bars"></i>
                 </button>
                 {/* <div style={{ width: '100%', textAlign: 'center', position: 'absolute'}}>
@@ -43,11 +43,11 @@ class Header extends Component {
                                 <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 HOME
                         </a>
-{/* 
+                            {/* 
                             <a className="dropdown-item" href="/profile">
                                 <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Profile
-                    </a> */}
+                            </a> */}
 
                             {/* 프로필 메뉴 */}
                             {/* <input type="button" className="btn btn-primary btn-icon-split ml-3" value="   부서 및 직책 관리   " onClick={() => this.openModal('visible1')} /> */}
@@ -59,8 +59,7 @@ class Header extends Component {
                                 userInfo.memberInfo.name === "관리자" && <a className="dropdown-item" href="/adminpage">
                                     <i className="fas fa-user-cog fa-sm fa-fw mr-2 text-gray-400"></i>
                                     AdminPage
-                    </a>
-
+                                </a>
                             }
 
                             <div className="dropdown-divider"></div>
@@ -73,9 +72,6 @@ class Header extends Component {
                                     <span className="text">로그아웃</span>
                                 </a>
                             </div>
-                            {}
-
-
                         </div>
                     </li>
                 </ul>

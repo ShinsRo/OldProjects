@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { BASE_URL } from '../../../../supports/API_CONSTANT';
-import {MDBBtn,MDBIcon} from 'mdbreact'
+
 class Posi extends Component {
     constructor(props) {
         super(props);
@@ -73,9 +73,8 @@ class Posi extends Component {
                             })
                         }
                     </select>
-                    <div className="col"></div>
-                    {/* <input type="button" value=" delete " name="dept"  onClick={this.delPosiAPI.bind(this)} className="ml-5 btn btn-success btn-icon-split"></input> */}
-                    <MDBBtn outline rounded size="sm" className="ml-3" color="primary" onClick={this.delPosiAPI.bind(this)} ><MDBIcon icon="trash" className="mr-2"/>제거</MDBBtn>
+                    <input type="button" value=" delete " name="dept"  onClick={this.delPosiAPI.bind(this)} className="ml-5 btn btn-success btn-icon-split"></input>
+
                 </form>
             </div>
         );

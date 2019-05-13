@@ -36,10 +36,8 @@ class Pfile extends Component {
   } 
 
   handlePfileAddForm = () => {
-    const {ProjectActions, projectState} = this.props;
-    console.log(projectState.get('selectedDirId'))
+    const {ProjectActions} = this.props;
 
-    
     ProjectActions.saveItem({ detailViewLevel: 'pfileAdd' });
   }
 
@@ -59,7 +57,6 @@ class Pfile extends Component {
 
     if (!window.confirm('ㄹㅇ?')) return;
 
-    console.log('delete pfile --' , pfileId)
     PfileActions.deletePfile(pfileId);
   }
 
@@ -69,7 +66,6 @@ class Pfile extends Component {
 
     if (!window.confirm('ㄹㅇ?')) return;
 
-    console.log('delete attachment --' , attachmentId)
     AttachmentActions.deleteAttachment(attachmentId);
   }
 
@@ -77,37 +73,34 @@ class Pfile extends Component {
       const {pfileState, projectState, attachmentState } = this.props;
 
       const addButton =  projectState.get('selectedDirId') &&(
-        <nav>
-          <div className="row justify-content-end">
-            <div class="btn-group" role="group" aria-label="Basic example">              
-                <button type="button" className="btn btn-dark-1 p-2 " onClick= {this.handlePfileAddForm}>
+          <div className="row justify-content-end mr-3">       
+            <div className="col-1.5 mr-4">
+                <button type="button" className="btn btn-light-1 p-2 " onClick= {this.handlePfileAddForm}>
                   파일추가
-                </button>           
-                <button type="button" className="btn btn-dark-1 p-2" onClick= {this.handleAttachmentAddForm}>
+                </button>   
+                </div>
+              <div className="col-2.7">     
+                <button type="button" className="btn btn-light-1 p-2" onClick= {this.handleAttachmentAddForm}>
                   첨부파일 추가
                 </button>
+              </div>
             </div>
-          </div>
-        </nav>
         )
 
         return (
           
         <div> 
-          <div className="card-header py-3">
-            <div className="row">
-              <div className="font-weight-bold text-darkblue col-10">
-                <h1>프로젝트</h1>
-              </div>
+          <div className="card-header py-3">  
+            {addButton}
+            <div className="row justify-content-center text-xl text-dark-1">   
+                        
+                파일 목록
             </div>
-            <hr/>
-            <div>
-              
-                {addButton}                
-              
-            </div> 
             
-          </div>       
+                        
+          </div>   
+
+
           <div className="card-body" style={{ height: '650px' , overflowX :'auto', overflowY:'scroll' }}>
               <PfileTable
                 pfiles={pfileState.get('pfiles')}

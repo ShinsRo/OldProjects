@@ -7,8 +7,8 @@ import * as pfileAction from '../../../stores/modules/pfileState';
 import * as attachmentActions from '../../../stores/modules/attachmentState';
 import * as plogActions from '../../../stores/modules/plogState';
 
-import PfileLogItem from '../components/Pfile/PfileLogItem';
-import AttachmentLogItem from '../components/Pfile/AttachmentLogItem';
+import { LogPanel, LogDetailPanel } from "../components/LogPanel";
+
 
 class LogContainer extends Component {
     constructor(props) {
@@ -16,80 +16,69 @@ class LogContainer extends Component {
         this.state = {};
     }
 
-    // componentWillMount(){
-    //     const { PLogActions, projectState } = this.props;
+    handleLogClick = (log) => {
+        const {PLogActions} = this.props;
 
-    //     PLogActions.getPLog(projectState.get('selectedDirId'));
-    // }
+        PLogActions.setLog(log);
+        this.handleLogViewLevel('logDetail');
+    }
 
-    wrapWithCard(panel) {
-        return (
-            // <div className="container" style={{ height: '100%' , overflowX :'auto', overflowY:'scroll' }}>
-            <div className="card shadow mb-4"  style={{ height: '100%', width: '100%'}}>
-                {panel}
-            </div>
-            // </div>
-        );
+    handleLogViewLevel = (level) => {
+        const {PLogActions} = this.props;
+
+        PLogActions.setLogViewLevel(level);
     }
 
     render() {
-        const { wrapWithCard } = this
-        // const { projectState, pfileState, attachmentState, PfileActions,ProjectActions, AttachmentActions  } = this.props;
-        const { plogState,  PLogActions, ProjectActions } = this.props;
-        const pfileLogs =  plogState.get('pfileLogs');
-        const attachmentLogs = plogState.get('attachmentLogs');
-        console.log('log containner ==================');
-        console.log('pfileLogs ==================' , pfileLogs);
-        console.log('attachmentLogs ==================', attachmentLogs);
-        // const detailViewLevel = projectState.get('detailViewLevel');
+        const { plogState } = this.props;
+
+        const pLogs = plogState.get('pLogs');
+        const pLog = plogState.get('pLog');
+
+
+        const logs = pLogs || []
+        const log = pLog || '';
+
+        const logViewLevel = plogState.get('logViewLevel');
+
+        /**
+         * @author 김윤상
+         * plogState에서 관리하는 디테일 뷰 레벨에 따라 디테일 패널 내용을 분기합니다.
+         * 1. logList 의 경우
+         *      해당 프로젝트의 로그들을 리스트 형태로 보여줍니다. 
+         * 
+         * 2. logDetail 의 경우
+         *      로그 클릭 시 해당 로그의 디테일한 정보를 보여주는 패널로 변경 됩니다.
+         * 
+         */
         
-        if(pfileLogs.length === 0 && attachmentLogs.length === 0) {
-            return wrapWithCard(<>
-                <div className="card-body text-center">
-                    
-                    <img
-                        src={process.env.PUBLIC_URL + '/resources/img/undraw_no_data_qbuo.svg'} 
-                        alt="log does not exist"
-                        style={{ width: '200px' }}
-                    />
-                    <div>로그가 없습니다!</div>
-                </div>
-            </>);
         
+        if (logViewLevel ===  'logList') {
+            return (
+                <LogPanel
+                    logs={logs}
+                    handler={''}
+                    setLogViewLevel={this.handleLogViewLevel}
+                    onClickLog = {this.handleLogClick}
+                />
+            );
+        } else if (logViewLevel === 'logDetail') {
+            return (
+                <LogDetailPanel
+                    log = {log}
+                    handleLogViewLevel ={this.handleLogViewLevel}
+                />
+            );
         } else {
-            return wrapWithCard(<>
-                <div className="card-body">
-                    
-                    <div className= "row font-weight-bold text-darkblue col-10" >
-                        <h1> 로그 </h1>
-                    </div>
+            return (
+                <div>
 
-                    <div className="container"  style={{ height: '270px', width: '100%', overflowX :'auto', overflowY:'scroll'}}>
-                    {pfileLogs && pfileLogs.map((pfileLog, idx) => {
-                            return(
-                            <PfileLogItem 
-                                idx = {idx}
-                                pfileLog = {pfileLog}
-                                setPfileLog = {PLogActions.setPfileLog}
-                                projSaveItem = {ProjectActions.saveItem}
-                            />
-                            )
-                        })} 
-
-                    {attachmentLogs && attachmentLogs.map((attachmentLog, idx) => {
-                            return(
-                            <AttachmentLogItem 
-                                idx = {idx}
-                                attachmentLog = {attachmentLog}
-                                setAttachmentLog= {PLogActions.setAttachmentLog}
-                                projSaveItem = {ProjectActions.saveItem}
-                            />
-                            )
-                        })} 
-                    </div>
                 </div>
-            </>);
+            );
         }
+
+
+
     }
 }
 
@@ -99,12 +88,12 @@ export default connect(
         pfileState: state.pfileState,
         userState: state.userState,
         attachmentState: state.attachmentState,
-        plogState : state.plogState,
+        plogState: state.plogState,
     }),
     (dispatch) => ({
         ProjectActions: bindActionCreators(projectActions, dispatch),
         PfileActions: bindActionCreators(pfileAction, dispatch),
         AttachmentActions: bindActionCreators(attachmentActions, dispatch),
-        PLogActions : bindActionCreators(plogActions, dispatch),
+        PLogActions: bindActionCreators(plogActions, dispatch),
     })
-) (LogContainer);
+)(LogContainer);

@@ -8,17 +8,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
-import com.nastech.upmureport.domain.dto.LogDto;
-import com.nastech.upmureport.domain.dto.LogDto.AttachmentLogDto;
+import com.nastech.upmureport.domain.dto.PLogDto;
 import com.nastech.upmureport.domain.entity.Attachment;
-import com.nastech.upmureport.domain.entity.AttachmentLog;
-import com.nastech.upmureport.domain.entity.Pdir;
+import com.nastech.upmureport.domain.entity.PLog;
 import com.nastech.upmureport.domain.entity.Pfile;
-import com.nastech.upmureport.domain.entity.PfileLog;
-import com.nastech.upmureport.domain.entity.support.LogStat;
-import com.nastech.upmureport.domain.repository.AttachmentLogRepository;
-import com.nastech.upmureport.domain.repository.PdirRepository;
-import com.nastech.upmureport.domain.repository.PfileLogRepository;
+import com.nastech.upmureport.domain.entity.Project;
+import com.nastech.upmureport.domain.entity.support.LogState;
+import com.nastech.upmureport.domain.entity.support.LogType;
+import com.nastech.upmureport.domain.repository.PLogRepository;
+import com.nastech.upmureport.domain.repository.ProjectRepository;
 import com.nastech.upmureport.support.Utils;
 
 
@@ -27,89 +25,92 @@ public class PLogService {
 
 	private static final Log LOG = LogFactory.getLog(PLogService.class);
 	
-	private PfileLogRepository pfileLogRepository;
-	private PdirRepository pdirRepository;
-	private AttachmentLogRepository attachmentLogRepository;
+	
+	private PLogRepository pLogRepository;
+	private ProjectRepository projectRepository;
 
-	
-	
-	public PLogService(PfileLogRepository pfileLogRepository, PdirRepository pdirRepository,
-			AttachmentLogRepository attachmentLogRepository) {
-		this.pfileLogRepository = pfileLogRepository;
-		this.pdirRepository = pdirRepository;
-		this.attachmentLogRepository = attachmentLogRepository;
+		
+	public PLogService(PLogRepository pLogRepository, ProjectRepository projectRepository) {		
+		
+		this.pLogRepository = pLogRepository;
+		this.projectRepository = projectRepository;
+		
 	}
 	
-	public PfileLog createPfileLog(Pfile pfile, LogStat logStat) {
+	public PLog createPfileLog(Pfile pfile, LogState logState) {
 		
-		LOG.info("========create pfile log");
-		
-		PfileLog pfileLog = PfileLog.builder()
+		PLog pLog = PLog.builder()
 				.newDate(LocalDateTime.now())
 				.pfile(pfile)
-				.stat(logStat)
+				.project(pfile.getPdir().getProject())
+				.pdir(pfile.getPdir())
 				.name(pfile.getName())
 				.contents(pfile.getContents())
-				.pdir(pfile.getPdir())
+				.logType(LogType.PFILE)
+				.deleteFlag(Boolean.FALSE)
+				.logState(logState)
 				.build();
 		
-		return pfileLogRepository.save(pfileLog);		
+		return pLogRepository.save(pLog);		
 	}
 	
-	public AttachmentLog createAttachmentLog(Attachment attachment, LogStat logStat) {
+	public PLog createAttachmentLog(Attachment attachment, LogState logState) {
 		
-		AttachmentLog attachmentLog = AttachmentLog.builder()
-				.attachment(attachment)
+		PLog pLog = PLog.builder()
 				.newDate(LocalDateTime.now())
-				.deleteFlag(false)
-				.stat(logStat)
+				.attachment(attachment)
+				.project(attachment.getPdir().getProject())
 				.pdir(attachment.getPdir())
+				.name(attachment.getName())
+				.contents(attachment.getComent())
+				.logType(LogType.ATTACHMENT)
+				.logState(logState)
 				.build();
 		
-		return attachmentLogRepository.save(attachmentLog);
-						
+		return pLogRepository.save(pLog);						
 	}
 	
-	public LogDto.PLogDto getPLogs(String pdirId) {
-		
-		Pdir pdir = pdirRepository.findByDidAndDflagFalse(Utils.StrToBigInt(pdirId));
-		
-		List<PfileLog> pfileLogs = pfileLogRepository.findAllByPdir(pdir);
-		
-		List<AttachmentLog> attachmentLogs = attachmentLogRepository.findAllByPdir(pdir);
-		
-		List<LogDto.PfileLogDto> pfileLogDtos = new ArrayList<LogDto.PfileLogDto>();
-		
-		List<LogDto.AttachmentLogDto> attachmentLogDtos = new ArrayList<LogDto.AttachmentLogDto>();
-		
-		pfileLogs.forEach(pfileLog -> pfileLogDtos.add(
-					LogDto.PfileLogDto
-					.builder()
-					.name(pfileLog.getName())
-					.contents(pfileLog.getContents())
-					.newDate(pfileLog.getNewDate())
-					.stat(pfileLog.getStat()).build()						
-				));
-		
-		attachmentLogs.forEach(attachmentLog -> attachmentLogDtos.add(
-					LogDto.AttachmentLogDto.builder()
-					.name(attachmentLog.getAttachment().getName())
-					.contentType(attachmentLog.getAttachment().getContentType())
-					.coment(attachmentLog.getAttachment().getComent())
-					.newDate(attachmentLog.getNewDate())
-					.stat(attachmentLog.getStat())
-					.build()
-				));
-		
-		LogDto.PLogDto plogDto = new LogDto.PLogDto(pfileLogDtos, attachmentLogDtos); 
+	public List<PLogDto> getPLogs(String projectId) {
+		Project project = null;
 		
 		
-		LOG.info("=====================================plog dto" + plogDto.getPfileLogs().toString());
+		project = projectRepository.findById(Utils.StrToBigInt(projectId)).get();
 		
-		return plogDto;
-	}
-	
-	
-	
+		List<PLog> pLogs = pLogRepository.findAllByProject(project);
+				
+		List<PLogDto> pLogDtos = new ArrayList<>();
+		
+		pLogs.forEach(pLog -> {
+			
+			PLogDto pLogDto;
+			
+			if(pLog.getLogType().equals(LogType.ATTACHMENT)) {
+				pLogDto = PLogDto.builder()
+						.name(pLog.getName())
+						.contents(pLog.getContents())
+						.newDate(pLog.getNewDate())
+						.logType(pLog.getLogType().getKey())
+						.logState(pLog.getLogState().getKey())
+						.pdirName(pLog.getPdir().getDname())
+						.dId(pLog.getPdir().getDid())
+						.contentType(pLog.getAttachment().getContentType())
+						.build();				
+			} else {
+				pLogDto = PLogDto.builder()
+						.name(pLog.getName())
+						.contents(pLog.getContents())
+						.newDate(pLog.getNewDate())
+						.logType(pLog.getLogType().getKey())
+						.logState(pLog.getLogState().getKey())
+						.pdirName(pLog.getPdir().getDname())
+						.dId(pLog.getPdir().getDid())
+						.build();
+			}
+			
+			pLogDtos.add(pLogDto);				
+		});		
+		
+		return pLogDtos;
+	}	
 	
 }

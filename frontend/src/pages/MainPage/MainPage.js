@@ -10,6 +10,7 @@ import { MDBBtn, MDBIcon } from 'mdbreact';
 import Member from '../AdminPage/components/Admin/Member'
 import store from '../../stores'
 import ProfileModify from '../ProfilePage/components/Profile/ProfileModify'
+import Toast from "./components/Toast";
 
 class MainPage extends Component {
 
@@ -83,9 +84,10 @@ class MainPage extends Component {
 
     return (
       <div id="wrapper">
-        <ProjectSideBarContainer
-          setMainContent={this.setMainContent.bind(this)}
-          mainContentViewLevel={this.state.mainContentViewLevel} />
+        <Toast/>
+        <ProjectSideBarContainer 
+          setMainContent={ this.setMainContent.bind(this) } 
+          mainContentViewLevel={ this.state.mainContentViewLevel }/>
         {/* Content Wrapper */}
         <div id="content-wrapper" className="d-flex flex-column">
 

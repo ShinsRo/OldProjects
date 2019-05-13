@@ -3,11 +3,9 @@ import {MDBDataTable} from 'mdbreact';
 import {MDBInput} from 'mdbreact';
 import { BASE_URL } from '../../../../supports/API_CONSTANT';
 import axios from 'axios';
-import { bgBlack } from 'ansi-colors';
 class UserTable extends Component {
     constructor(props) {
         super(props);
-        const {select}= this.props
         this.getUsersAPI()
     }
     click(user){
@@ -28,7 +26,7 @@ class UserTable extends Component {
         let rowsData=[]
         let infos=[]
         if(sta){
-            sta.map((user,idx)=> {
+            sta.forEach((user,idx) => {
                 //console.log("한명",user)
                 const temp={
                     eid: user.eid,
@@ -36,8 +34,8 @@ class UserTable extends Component {
                     birth: user.birth,
                     phoneNum: user.phoneNum,
                     joinDate: user.joinDate,
-                    // retireDate: user.retireDate,
-                    // check: user.dflag && <MDBInput label=" " checked disabled type="checkbox" id="checkbox2" />,
+                    retireDate: user.retireDate,
+                    check: user.dflag && <MDBInput label=" " checked disabled type="checkbox" id="checkbox2" />,
                     clickEvent:()=> this.click(user),
                 }
                 rowsData.push(temp)
@@ -56,40 +54,40 @@ class UserTable extends Component {
               {
                 label: '이름',
                 field: 'name',
-                //sort: 'asc',
+                sort: 'asc',
                 width: 150
               },
               
               {
                 label: '생일',
                 field: 'birth',
-                //sort: 'asc',
+                sort: 'asc',
                 width: 150
               },
               {
                 label: '핸드폰',
                 field: 'phoneNum',
-                //sort: 'asc',
+                sort: 'asc',
                 width: 100
               },
               {
                 label: '입사일',
                 field: 'joinDate',
-                //sort: 'asc',
+                sort: 'asc',
                 width: 180
               },
-              // {
-              //   label: '퇴사일',
-              //   field: 'retireDate',
-              //   //sort: 'asc',
-              //   width: 180
-              // },
-              // {
-              //   label: '퇴사',
-              //   field: 'check',
-              //   //sort: 'asc',
-              //   width: 100
-              // },
+              {
+                label: '퇴사일',
+                field: 'retireDate',
+                sort: 'asc',
+                width: 180
+              },
+              {
+                label: '퇴사',
+                field: 'check',
+                sort: 'asc',
+                width: 100
+              },
             ],
             // rows: [
             //   {
@@ -111,13 +109,16 @@ class UserTable extends Component {
       striped
       bordered
       hover 
-      //theadColor="indigo"
+      theadColor="indigo"
       entriesOptions={[ 5, 10, 15 ]}
       entries={15}
       searchLabel="찾기"
       // order={['eid','asc']}
       order={['name','asc']}
       data={data}
+      searchLabel="찾기" 
+      scrollY
+      maxHeight="280px"
     />
         );
     }

@@ -1,5 +1,7 @@
 package com.nastech.upmureport.controller;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nastech.upmureport.domain.dto.LogDto;
+import com.nastech.upmureport.domain.dto.PLogDto;
 import com.nastech.upmureport.service.PLogService;
 
 @RestController
@@ -16,19 +18,17 @@ public class PLogController {
 	
 	private static final Log LOG = LogFactory.getLog(PLogController.class);
 	
-	private PLogService pfileLogService;
+	private PLogService pLogService;
 	
 	
 	public PLogController(PLogService pfileLogService) {
 		
-		this.pfileLogService = pfileLogService;
+		this.pLogService = pfileLogService;
 	}
 	
-	@GetMapping(value = "/{pdirId}")
-	public LogDto.PLogDto getPfileLog(@PathVariable String pdirId){
-	
-		LOG.info("----------get log ---  " + pdirId);
+	@GetMapping(value = "/{projectId}")
+	public List<PLogDto> getPfileLog(@PathVariable String projectId){
 		
-		return pfileLogService.getPLogs(pdirId);		
+		return pLogService.getPLogs(projectId);
 	}
 }
