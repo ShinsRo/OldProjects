@@ -12,6 +12,7 @@ const PLOG_SEND_ERROR = 'PLOG_SEND_ERROR';
 const SET_LOG = 'SET_LOG';
 const SET_LOG_VIEW_LEVEL = 'SET_LOG_VIEW_LEVEL';
 const SET_PROJECT = 'SET_PROJECT';
+const RELOAD_PLOG = 'RELOAD_PLOG';
 
 export const plogPending = createAction(PLOG_SEND_PENDING);
 export const plogSendSuccess = createAction(PLOG_SEND_SUCCESS);
@@ -22,6 +23,7 @@ export const plogSenderr = createAction(PLOG_SEND_ERROR);
 export const setLog = createAction(SET_LOG);
 export const setLogViewLevel = createAction(SET_LOG_VIEW_LEVEL);
 export const setProject = createAction(SET_PROJECT);
+
 
 
 const initialState = Map({
@@ -36,6 +38,15 @@ export const getPLog = (pid) => dispatch => {
     dispatch(plogPending());
 
     return plogService.getPLog(pid)
+    .then((response) => {
+        dispatch(plogSendSuccess(response.data))
+    }).catch(error => {dispatch(plogSenderr(error));});
+}
+
+export const reloadPLog = () => dispatch => {
+    dispatch(plogPending());
+
+    return plogService.getPLog(this.state.get('selectedProject'))
     .then((response) => {
         dispatch(plogSendSuccess(response.data))
     }).catch(error => {dispatch(plogSenderr(error));});
