@@ -2,58 +2,65 @@ import React, { Component } from 'react';
 
 class Pfileform extends Component {
 
-
-    static defaultProps = {
-        status: 'add',
-        pfile: '',
-        selectedDirId: '',
+    componentWillMount(){
+        if(this.props.status === 'update'){            
+            this.setTitle(this.props.pfile.name)
+            this.setContent(this.props.pfile.contents)
+        } else {
+            this.setTitle('')
+            this.setContent('')
+        }
     }
 
-    componentWillReceiveProps() {
-        this.setState({
-            pfile: this.props
-        })
+    componentWillReceiveProps(nextProps) {        
+        if(nextProps.status === 'update'){            
+            this.setTitle(this.props.pfile.name)
+            this.setContent(this.props.pfile.contents)
+        } else {
+            this.setTitle('')
+            this.setContent('')
+        }
     }
 
-    state = {
-        name: '',
-        contents: '',
+    shouldComponentUpdate(nextProps, nextState){
+        return true;
+    }
+
+    setTitle = (input) => {
+        this.setState({ name: input })
+    }
+
+    setContent = (input) => {
+        this.setState({ contents: input })
     }
 
     handleTitleChange = (e) => {
-        //const {PfileActions} = this.props;
-        //PfileActions.changeTitleInput(e.target.value);
         this.setState({ name: e.target.value })
     }
 
     handleContentChange = (e) => {
-        // const {PfileActions} = this.props;
-        // PfileActions.changeContentInput(e.target.value);
         this.setState({ contents: e.target.value })
     }
 
     handleInsert = (e) => {
         e.preventDefault();
-
-        // const {pfileState, projectState} = store.getState();
-        const { selectedDirId, savePfile, saveItem, setPfile } = this.props;
+        const { selectedDirId, savePfile, saveItem, reloadPLog, setPfile, selectedProject } = this.props;
 
         const pfile = {
             name: this.state.name,
             contents: this.state.contents,
             pdirId: selectedDirId,
         };
-
-        setPfile(pfile);
         
-        savePfile(pfile);
+        savePfile(pfile).then(() => {reloadPLog(selectedProject.pid);});
+        setPfile(pfile);
         saveItem({ detailViewLevel: 'pfile' });
     }
 
     handleUpdate = (e) => {
         e.preventDefault();
 
-        const { updatePfile, pfile, saveItem, setPfile } = this.props;
+        const { updatePfile, pfile,setPfile, saveItem, reloadPLog, selectedProject } = this.props;
 
         const newPfile = {
             ...pfile,
@@ -61,9 +68,8 @@ class Pfileform extends Component {
             contents: this.state.contents,
         }
 
+        updatePfile(newPfile).then(() => {reloadPLog(selectedProject.pid);});
         setPfile(newPfile);
-        console.log(newPfile);
-        updatePfile(newPfile);
         saveItem({ detailViewLevel: 'pfile' });
     }
 
@@ -77,28 +83,30 @@ class Pfileform extends Component {
 
     render() {
 
+        let title;
         let submitBts;
         let cancleBts;
         let nameTextArea;
         let contentsTextArea;
-
-
+        
         if (this.props.status === 'add') {
+            title = "파일을 추가 합니다."
 
             submitBts =
-                <button type="button" className="btn btn-dark-1 p-2" onClick={this.handleInsert}>
-                    추가 하기
-                        </button>
+                    <button type="button" className="btn btn-dark-1 p-2" onClick={this.handleInsert}>
+                        추가 하기
+                    </button>
 
             nameTextArea =
-                <textarea className="form-control" rows='1' style={{ resize: 'none' }} value={this.state.name} onChange={this.handleTitleChange} />
+                <textarea className="form-control" rows='1' style={{ resize: 'none' }} defaultValue='' value={this.state.name} onChange={this.handleTitleChange} />
 
             contentsTextArea =
-                <textarea className="form-control" rows='13' style={{ resize: 'none' }} value={this.state.contents} onChange={this.handleContentChange} />
+                <textarea className="form-control" rows='11' style={{ resize: 'none' }} defaultValue='' value={this.state.contents} onChange={this.handleContentChange} />
 
         }
 
         else if (this.props.status === 'update') {
+            title = "파일을 수정 합니다."
 
             submitBts =
                 <button type="button" className="btn btn-dark-1 p-2" onClick={this.handleUpdate}>
@@ -111,10 +119,10 @@ class Pfileform extends Component {
                 </button>
 
             nameTextArea =
-                <textarea className="form-control" rows='1' style={{ resize: 'none' }} defaultValue={this.props.pfile.name} onChange={this.handleTitleChange} />
+                <textarea className="form-control" rows='1' style={{ resize: 'none' }} defaultValue={this.state.name} onChange={this.handleTitleChange} />
 
             contentsTextArea =
-                <textarea className="form-control" rows='13' style={{ resize: 'none' }} defaultValue={this.props.pfile.contents} onChange={this.handleContentChange} />
+                <textarea className="form-control" rows='11' style={{ resize: 'none' }} defaultValue={this.state.contents} onChange={this.handleContentChange} />
         }
 
 
@@ -123,7 +131,16 @@ class Pfileform extends Component {
 
             <div className="card shadow mb-4">
                 <div className="card-header py-3">
-                    <div className="row">
+                    <div className="row text-lg font-weight-bold text-dark-1" style={{textAlign: "center" ,marginLeft:"10px"}}>
+                        {title}
+                        {/* <div className="col-2 text-lg font-weight-bold text-dark-1" style={{textAlign: "right"}}>
+                            {title}
+                        </div>                         */}
+                    </div>                    
+
+                </div>
+                <div className="card-body">
+                    <div className="row mb-2">
                         <div className="col-2 text-lg font-weight-bold text-dark-1" style={{textAlign: "center"}}>
                             제목
                         </div>
@@ -132,8 +149,6 @@ class Pfileform extends Component {
                         </div>
                     </div>
 
-                </div>
-                <div className="card-body">
                     <div className="row">
                         <div className="col-2 text-lg font-weight-bold text-dark-1" style={{textAlign: "center"}}>
                             내용
@@ -152,7 +167,6 @@ class Pfileform extends Component {
                     </div>
                 </div>
             </div>
-
         );
     }
 }

@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import * as projectActions from '../../../stores/modules/projectState';
 import * as pfileAction from '../../../stores/modules/pfileState';
 import * as attachmentActions from '../../../stores/modules/attachmentState';
+import * as plogActions from '../../../stores/modules/plogState';
 
 
 
@@ -27,7 +28,7 @@ class DetailContanier extends Component {
     }
 
     render() {
-        const { projectState, pfileState, attachmentState, PfileActions,ProjectActions, AttachmentActions } = this.props;
+        const { projectState, pfileState, attachmentState, PfileActions, ProjectActions, AttachmentActions, PLogActions } = this.props;
         const { wrapWithCard } = this
         const detailViewLevel = projectState.get('detailViewLevel');
         
@@ -53,7 +54,7 @@ class DetailContanier extends Component {
          *      첨부 파일의 자세한 정보를 보여줍니다.
          * 
          * 6. attachmentAdd 경우
-         *      첨부 파일을 추가 할 수 있는 form으로 렌더링 됩니다.         * 
+         *      첨부 파일을 추가 할 수 있는 form으로 렌더링 됩니다.
          */
         
         if (detailViewLevel === 'project') {
@@ -75,17 +76,21 @@ class DetailContanier extends Component {
                     setPfile = {PfileActions.setPfile}
                     saveItem = {ProjectActions.saveItem}
                     pfile = {{name : '' , contents: ''}}
+                    reloadPLog = {PLogActions.getPLog}
+                    selectedProject = {projectState.get('selectedProject')}
                 />
                 );
         }else if (detailViewLevel === 'pfileUpdate') {
             return wrapWithCard(
-                <Pfileform 
+                <Pfileform
                     status='update'
                     saveItem = {ProjectActions.saveItem}
                     selectedDirId = {projectState.get('selectedDirId')}
                     pfile = {pfileState.get('pfile')}
                     updatePfile = {PfileActions.updatePfile}
                     setPfile = {PfileActions.setPfile}
+                    reloadPLog = {PLogActions.getPLog}
+                    selectedProject = {projectState.get('selectedProject')}
                 />
                 );
         }else if (detailViewLevel === 'attachment') {
@@ -101,7 +106,9 @@ class DetailContanier extends Component {
                     saveAttachment= {AttachmentActions.saveAttachment}
                     selectedDirId = {projectState.get('selectedDirId')}
                     setAttachment = {AttachmentActions.setAttachment}
-                    
+                    reloadPLog = {PLogActions.getPLog}
+                    saveItem = {ProjectActions.saveItem}
+                    selectedProject = {projectState.get('selectedProject')}
                 />
             );
         }        
@@ -123,5 +130,6 @@ export default connect(
         ProjectActions: bindActionCreators(projectActions, dispatch),
         PfileActions: bindActionCreators(pfileAction, dispatch),
         AttachmentActions: bindActionCreators(attachmentActions, dispatch),
+        PLogActions: bindActionCreators(plogActions, dispatch),
     })
 ) (DetailContanier);

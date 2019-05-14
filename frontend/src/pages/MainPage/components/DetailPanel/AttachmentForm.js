@@ -5,29 +5,21 @@ class AttachmentForm extends Component {
     state = {
         pfile: {},
         coment: '',
-        isSuccess: '',
     };
-
-    componentWillMount() {
-        this.setState({ 'isSuccess': false })
-    }
 
     onFormSubmit = (e) => {
 
-        // const { saveItem } = this.props;
+        const { saveItem, reloadPLog, selectedProject } = this.props;
         e.preventDefault() // Stop form submit
         this.attachmentUpload(this.state.uploadAttachment)
             .then(() => {
                 this.setState({ uploadAttachment: '' })
-                //saveItem({ detailViewLevel: 'attachment'})
+                reloadPLog(selectedProject.pid);
+                saveItem({ detailViewLevel: 'attachment' });
             })
-
-        this.setState({ 'isSuccess': true })
     }
 
     handleContentChange = (e) => {
-        // const {PfileActions} = this.props;
-        // PfileActions.changeContentInput(e.target.value);
         this.setState({ coment: e.target.value })
     }
 
@@ -36,7 +28,7 @@ class AttachmentForm extends Component {
     }
 
     attachmentUpload = (file) => {
-        const { saveAttachment, selectedDirId, setAttachment } = this.props;
+        const { saveAttachment, selectedDirId } = this.props;
 
         const formData = new FormData();
 
@@ -45,7 +37,7 @@ class AttachmentForm extends Component {
             'coment': this.state.coment,
         }
 
-        setAttachment(file);
+        //setAttachment(file);
 
         formData.append('file', file);
         formData.append('json', JSON.stringify(AttachmentReqDto));
@@ -60,38 +52,38 @@ class AttachmentForm extends Component {
 
     render() {
 
-
-        if (this.state.isSuccess) {
-            return (
-                <div>
-                    <div>성공!!</div>
-                </div>
-            );
-        }
-
         return (
                 <div className="card shadow mb-4" style={{ width: '100%' }}>
                     <div className="card-header py-3">
-                        <div class="custom-file ">
-                            <input type="file"
-                                class="custom-file-input m-3" id="inputGroupFile01"
-                                aria-describedby="inputGroupFileAddon01"
-                                onChange={this.onFileChange} />
-                            <label class="custom-file-label" for="inputGroupFile01">
-                                {this.state.uploadAttachment ? this.state.uploadAttachment.name : "Choose file"}
-                            </label>
-                        </div>
+                    <div className="row text-lg font-weight-bold text-dark-1" style={{textAlign: "center" ,marginLeft:"10px"}}>
+                        첨부파일을 추가합니다
+                    </div>  
                     </div>
 
-                    <div className="card-body">
-                        <div className="row" style={{ width: '100%' }}>
-                            <div className="col-2 text-lg font-weight-bold text-darkblue" style={{textAlign: "center"}}>
+                    <div className="card-body"> 
+                        <div className="row justify-content-end mb-2">
+                            <div class="custom-file" style={{ width: '77%', marginRight:"40px" }}>
+                                <input type="file"
+                                    class="custom-file-input" id="inputGroupFile01"
+                                    aria-describedby="inputGroupFileAddon01"
+                                    onChange={this.onFileChange}/>
+
+                                <label class="custom-file-label" htmlFor="inputGroupFile01">
+                                    {this.state.uploadAttachment ? this.state.uploadAttachment.name : "Choose file"}
+                                </label>
+                            </div>
+                        </div>  
+
+                        <div className="row mb-4" style={{ width: '100%' }}>
+                            <div className="col-2 text-lg font-weight-bold text-dark-1" style={{textAlign: "center"}}>
                                 코멘트
                             </div>
                             <div className="col">
-                                <textarea rows='12' style={{ resize: 'none' }} className="form-control" onChange={this.handleContentChange} />
+                                <textarea rows='11' style={{ resize: 'none' }} className="form-control" onChange={this.handleContentChange} />
                             </div>
                         </div>
+
+                        
 
                         <div className="row justify-content-center mt-3">
                             <button className="btn btn-dark-1 p-2" onClick={this.onFormSubmit} >Upload</button>

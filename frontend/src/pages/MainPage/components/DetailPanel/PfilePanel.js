@@ -49,7 +49,7 @@ class PfilePanel extends Component {
                             <div className="font-weight-bold text-dark-1"  style={{textAlign: "center"}}>내용</div>
                         </div>
                         <div className="col-10">
-                            <textarea className="form-control text-dark-1" rows="10" readOnly value={pfile.contents} style={{ resize: 'none' }}/>
+                            <textarea className="form-control text-dark-1" rows="9" readOnly value={pfile.contents} style={{ resize: 'none' }}/>
                         </div>
                     </div>
 
