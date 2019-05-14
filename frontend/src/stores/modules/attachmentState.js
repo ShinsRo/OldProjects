@@ -75,7 +75,7 @@ export default handleActions({
         const attachments = state.get('attachments');
         attachments.push(action.payload);
 
-        return state.set('isFetching', false).set('attachments', attachments);
+        return state.set('isFetching', false).set('attachments', attachments).set('attachment', action.payload);
     },
     // 통신 성공
     [ATTACH_SEND_SUCCESS] : (state, action) => {

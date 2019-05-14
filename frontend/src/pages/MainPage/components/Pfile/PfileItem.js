@@ -26,9 +26,17 @@ class PfileItem extends Component {
                 <div class="row" id="pfileRow" key={idx} onClick={() => this.props.onClickPfile(pfile) } 
                     onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
                     
-                    <div class="col-9 text-dark-1">{pfile.name}</div>
-                    <div class="col-2 text-dark-1">업무 일지</div>
-                    <div class="col-1">
+                
+                    <div className="col-9 text-dark-1">{pfile.name}</div>
+                    <div className="col-2 text-dark-1">
+                        {/* <img
+                            src={process.env.PUBLIC_URL + '/resources/img/file.PNG'} 
+                            alt="log does not exist"
+                            style={{ width: '31px', height:'18px' }}
+                        /> */}
+                        파일
+                    </div>
+                    <div className="col-1">
                         <span onClick={() => this.props.onClickPfileDelete(pfile.pfileId)} class="badge badge-danger bg-danger btn-sm">
                             삭제
                         </span>

@@ -89,6 +89,8 @@ class DetailContanier extends Component {
                     pfile = {pfileState.get('pfile')}
                     updatePfile = {PfileActions.updatePfile}
                     setPfile = {PfileActions.setPfile}
+                    reloadPLog = {PLogActions.getPLog}
+                    selectedProject = {projectState.get('selectedProject')}
                 />
                 );
         }else if (detailViewLevel === 'attachment') {
@@ -104,7 +106,9 @@ class DetailContanier extends Component {
                     saveAttachment= {AttachmentActions.saveAttachment}
                     selectedDirId = {projectState.get('selectedDirId')}
                     setAttachment = {AttachmentActions.setAttachment}
-                    
+                    reloadPLog = {PLogActions.getPLog}
+                    saveItem = {ProjectActions.saveItem}
+                    selectedProject = {projectState.get('selectedProject')}
                 />
             );
         }        

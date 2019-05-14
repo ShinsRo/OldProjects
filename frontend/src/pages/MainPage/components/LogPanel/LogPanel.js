@@ -1,6 +1,30 @@
 import React, { Component } from 'react';
 
 class LogPanel extends Component {
+
+    handleMouseOver = (e) => {
+        e.target.parentNode.style.backgroundColor = "rgb(154, 154, 172)"
+    }
+
+    handleMouseOut = (e) => {
+        e.target.parentNode.style.backgroundColor = ""
+    }
+
+    handleType = (type) => {
+        if(type === 'PFILE'){
+            return '파일'
+        } else {
+            return '첨부파일'
+        }
+    }
+
+    handleName = (name) => {
+        if(name.length >= 25){
+            return name.substring(0,25) + ' ...'
+        } else {
+            return name;
+        }
+    }
     
     render() {
 
@@ -24,7 +48,7 @@ class LogPanel extends Component {
             content = (<>
                 
                 <div className="container m-0 p-0" id="LogTable" style={{ width:'100%' }}>
-                    <div className="row" style={{ width:'100%',textAlign:"center", fontSize:"15px"}}>
+                    <div className="row text-dark-1 text-bold" style={{ width:'100%',textAlign:"center", fontSize:"18px"}}>
                         <div className="col-1">NO</div>
                         <div className="col-4">이름</div>
                         <div className="col-3">시간</div>
@@ -37,21 +61,20 @@ class LogPanel extends Component {
                 <div className="container m-0 p-0" style={{ width:'100%', overflowY:'auto', height:"240px" }}>
                     <hr className="m-0"></hr>
 
-                    <div className="row m-0 p-0" style={{ width:'100%', overflowX :'auto' }}>
+                    <div className="row m-0 p-0 text-dark-1" style={{ width:'100%', overflowX :'auto' }} onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}> 
                         {logs.map((log, idx) => {
                             return (
                             <div className="row" onClick={() => {onClickLog(log)}} style={{ width:'100%',  textAlign:"center", fontSize: '15px'}}>
                                 <div className="col-1">{idx + 1}</div>
-                                <div className="col-4" style={{ textAlign:"center"}}>{log.name}</div>
+                                <div className="col-4" style={{ textAlign:"center"}}>{this.handleName(log.name)}</div>
                                 <div className="col-3" style={{ textAlign:"center"}}>{log.newDate}</div>
                                 <div className="col-2" style={{ textAlign:"center"}}>{log.pdirName}</div>
-                                <div className="col-2" style={{ textAlign:"center"}}>{log.logType}</div>
+                                <div className="col-2" style={{ textAlign:"center"}}>{this.handleType(log.logType)}</div>
                                 {/* <div className="col-1" style={{ textAlign:"center"}}>{log.logState}</div> */}
                             </div>
                             );
                         })}
-                    </div>
-                    
+                    </div>                    
                 </div>
                     
             </>);

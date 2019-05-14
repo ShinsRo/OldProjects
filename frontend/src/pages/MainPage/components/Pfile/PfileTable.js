@@ -42,8 +42,13 @@ class PfileTable extends React.Component {
 
     
 
+    
+
     render() {
         const {pfiles, attachments} = this.props;
+
+
+
         return (
             <div height="100px">
                 <div className="container" id="PfileTable" cellSpacing="0" width="100%" >

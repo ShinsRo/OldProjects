@@ -64,6 +64,7 @@ public class PLogService {
 				.name(attachment.getName())
 				.contents(attachment.getComent())
 				.logType(LogType.ATTACHMENT)
+				.deleteFlag(Boolean.FALSE)
 				.logState(logState)
 				.build();
 		
