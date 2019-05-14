@@ -22,7 +22,6 @@ const RouteAsUserInfo = withRouter(({ match, location, history }) => {
             { path: '/', component: MainPage },
             { path: '/main', component: MainPage },
             { path: '/adminpage', component: AdminPage },
-            { path: '/profile', component: ProfilePage },
             { path: '/register', component : RegisterPage},
         ]
     }

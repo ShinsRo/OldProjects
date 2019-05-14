@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { BASE_URL } from '../../../../supports/API_CONSTANT';
-
+import {MDBBtn,MDBIcon} from 'mdbreact'
 class Posi extends Component {
     constructor(props) {
         super(props);
         this.state = { posi: '' ,value:''};
     }
+    // select option 용
     onChange(e, target) {
         this.setState({
             [target]: e.target.value
         })
-        console.log(e.target.value)
     }
 
+    //일반 input 용 
     handleChangeInput = (e, target) => {
         //인풋 값 변경
-        console.log(e.target.value)
         this.setState({ [target]: e.target.value });
     }
 
@@ -42,9 +42,7 @@ class Posi extends Component {
         const posiName = {
             posiName: this.state.value
         }
-        console.log("보낸다 가라아아앗", posiName)
-        // if (deptName.deptName === '') return alert("추가할 부서명을 쓰세요")
-
+        // console.log("보낸다 가라아아앗", posiName)
         return axios.post(`${BASE_URL}/api/career/delposi`, posiName).then(
             (response) => {
                 if (!response.data) alert("잘못 된 요청입니다")
@@ -56,25 +54,28 @@ class Posi extends Component {
         )
     }
     render() {
+        let i = 0
         const{posiList}= this.props
         return (
             <div>
-                <div className="text-gray-900 p-3 m-0"> <b>직책 추가:  </b>
-                    <input type="text" value={this.state.posi} name="PosiName" onChange={e => this.handleChangeInput(e, 'posi')} ></input>
-                    <input type="button" value="  ADD  " name="authInfo" onClick={this.addPosiAPI.bind(this)} class="btn btn-success btn-icon-split"></input>
+                <div className="row text-gray-900 p-3 m-0"> <b>직책 추가:  </b>
+                    <input type="text" className="ml-1" value={this.state.posi} name="PosiName" onChange={e => this.handleChangeInput(e, 'posi')} placeholder=" 직책명" ></input>
+                    <MDBBtn outline rounded size="sm" className="ml-3" color="primary" onClick={this.addPosiAPI.bind(this)} ><MDBIcon icon="plus" className="mr-1"/>추가</MDBBtn>
+                    {/* <input type="button" value="  ADD  " name="authInfo" onClick={this.addPosiAPI.bind(this)} class="btn btn-success btn-icon-split"></input> */}
                 </div>
-                <form action="" className="text-gray-900 p-3 m-0"><b>직책 제거: </b>
-                    <select value={this.state.value} onChange={e => this.onChange(e, 'value')}>
+                <form action="" className="row text-gray-900 p-3 m-0"><b>직책 제거: </b>
+                    <select className="col ml-1" value={this.state.value}  onChange={e => this.onChange(e, 'value')}>
                         {
                             posiList && posiList.map(posi => {
                                 return (
-                                    <option value={posi.posiName}>{posi.posiName}</option>
+                                    <option key={++i} className="col-2" value={posi.posiName}>{posi.posiName}</option>
                                 )
                             })
                         }
                     </select>
-                    <input type="button" value=" delete " name="dept"  onClick={this.delPosiAPI.bind(this)} className="ml-5 btn btn-success btn-icon-split"></input>
-
+                    <div className="col"></div>
+                    {/* <input type="button" value=" delete " name="dept"  onClick={this.delPosiAPI.bind(this)} className="ml-5 btn btn-success btn-icon-split"></input> */}
+                    <MDBBtn outline rounded size="sm" className="ml-3" color="primary" onClick={this.delPosiAPI.bind(this)} ><MDBIcon icon="trash" className="mr-2"/>제거</MDBBtn>
                 </form>
             </div>
         );
