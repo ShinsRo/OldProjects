@@ -92,8 +92,7 @@ class Pfile extends Component {
         <div> 
           <div className="card-header py-3">  
             {addButton}
-            <div className="row justify-content-center text-xl text-dark-1">   
-                        
+            <div className="row justify-content-center text-xl text-dark-1">                          
                 파일 목록
             </div>
             
