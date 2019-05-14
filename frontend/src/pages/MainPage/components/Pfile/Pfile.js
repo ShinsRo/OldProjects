@@ -92,11 +92,11 @@ class Pfile extends Component {
         <div> 
           <div className="card-header py-3">  
             {addButton}
-            <div className="row justify-content-center text-xl text-dark-1">   
-                        
-                파일 목록
-            </div>
-            
+            <div className="row">
+              <div className="col text-dark-1 font-weight-bold" style={{fontSize: "25px"}}>
+                업무 목록
+              </div>
+            </div>      
                         
           </div>   
 

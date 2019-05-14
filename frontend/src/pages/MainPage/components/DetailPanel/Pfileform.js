@@ -90,7 +90,7 @@ class Pfileform extends Component {
         let contentsTextArea;
         
         if (this.props.status === 'add') {
-            title = "파일을 추가 합니다."
+            title = "업무를 추가 합니다."
 
             submitBts =
                     <button type="button" className="btn btn-dark-1 p-2" onClick={this.handleInsert}>
@@ -101,12 +101,12 @@ class Pfileform extends Component {
                 <textarea className="form-control" rows='1' style={{ resize: 'none' }} defaultValue='' value={this.state.name} onChange={this.handleTitleChange} />
 
             contentsTextArea =
-                <textarea className="form-control" rows='11' style={{ resize: 'none' }} defaultValue='' value={this.state.contents} onChange={this.handleContentChange} />
+                <textarea className="form-control" rows='9' style={{ resize: 'none' }} defaultValue='' value={this.state.contents} onChange={this.handleContentChange} />
 
         }
 
         else if (this.props.status === 'update') {
-            title = "파일을 수정 합니다."
+            title = "업무를 수정 합니다."
 
             submitBts =
                 <button type="button" className="btn btn-dark-1 p-2" onClick={this.handleUpdate}>
@@ -122,16 +122,16 @@ class Pfileform extends Component {
                 <textarea className="form-control" rows='1' style={{ resize: 'none' }} defaultValue={this.state.name} onChange={this.handleTitleChange} />
 
             contentsTextArea =
-                <textarea className="form-control" rows='11' style={{ resize: 'none' }} defaultValue={this.state.contents} onChange={this.handleContentChange} />
+                <textarea className="form-control" rows='9' style={{ resize: 'none' }} defaultValue={this.state.contents} onChange={this.handleContentChange} />
         }
 
-
+ 
 
         return (
 
-            <div className="card shadow mb-4">
+            <div>
                 <div className="card-header py-3">
-                    <div className="row text-lg font-weight-bold text-dark-1" style={{textAlign: "center" ,marginLeft:"10px"}}>
+                    <div className="row font-weight-bold text-dark-1" style={{marginLeft:"10px", fontSize:'25px'}}>
                         {title}
                         {/* <div className="col-2 text-lg font-weight-bold text-dark-1" style={{textAlign: "right"}}>
                             {title}
@@ -139,9 +139,9 @@ class Pfileform extends Component {
                     </div>                    
 
                 </div>
-                <div className="card-body">
+                <div className="card-body" >
                     <div className="row mb-2">
-                        <div className="col-2 text-lg font-weight-bold text-dark-1" style={{textAlign: "center"}}>
+                        <div className="col-2 font-weight-bold text-dark-1" style={{textAlign: "center"}}>
                             제목
                         </div>
                         <div className="col-10">
@@ -149,8 +149,10 @@ class Pfileform extends Component {
                         </div>
                     </div>
 
+                    <hr/>
+
                     <div className="row">
-                        <div className="col-2 text-lg font-weight-bold text-dark-1" style={{textAlign: "center"}}>
+                        <div className="col-2 font-weight-bold text-dark-1" style={{textAlign: "center"}}>
                             내용
                         </div>
 
@@ -159,7 +161,7 @@ class Pfileform extends Component {
                         </div>
                     </div>
 
-                    <div className="row justify-content-center mt-3">
+                    <div className="row justify-content-end mt-3 mr-1">
                         <div className="btn-group" role="group" aria-label="Basic example">
                             {submitBts}
                             {cancleBts}

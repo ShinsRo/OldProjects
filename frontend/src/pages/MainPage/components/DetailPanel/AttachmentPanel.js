@@ -28,11 +28,11 @@ class AttachmentPanel extends Component {
         console.log(attachment);
 
         return (
-            <div className="card shadow mb-4">
+            <div>
                 <div className="card-header py-3">
                     <div className="m-0 font-weight-bold text-dark-1">
-                        <div className="row text-dark-1 justify-content-center">
-                            <div className="col" style={{textAlign: "center"}}>
+                        <div className="row text-dark-1">
+                            <div className="col" style={{fontSize:'25px'}}>
                                 첨부파일
                             </div>
                             
@@ -83,9 +83,9 @@ class AttachmentPanel extends Component {
                         </div>
                     </div>
 
-                    <hr></hr>
+                    <hr className="m-2"></hr>
 
-                    <div className="row justify-content-center">                    
+                    <div className="row justify-content-end mt-3 mr-1">                    
                         <button type="button" className="btn btn-dark-1 p-2" onClick={this.download}>
                             다운로드
                         </button>                

@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
@@ -209,7 +210,7 @@ public class AttachmentService {
 		attachments.forEach(attachment -> {
 			AttachmentDto.AttachmentResDto attachmentResDto = AttachmentDto.AttachmentResDto.builder()
 					.attachmentId(attachment.getAttachmentId()).attachmentName(attachment.getName())
-					.volume(attachment.getVolume()).newDate(attachment.getNewDate())
+					.volume(attachment.getVolume()).newDate(attachment.getNewDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
 					.coment(attachment.getComent())
 					.contentType(attachment.getContentType()).build();
 
@@ -224,7 +225,7 @@ public class AttachmentService {
 		AttachmentDto.AttachmentResDto attachmentResDto = AttachmentDto.AttachmentResDto.builder()
 				.attachmentId(attachment.getAttachmentId()).attachmentName(attachment.getName())
 				.volume(attachment.getVolume())
-				.newDate(attachment.getNewDate())
+				.newDate(attachment.getNewDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
 				.coment(attachment.getComent())
 				.contentType(attachment.getContentType()).build();
 

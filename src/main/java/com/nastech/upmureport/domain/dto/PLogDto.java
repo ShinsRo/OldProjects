@@ -21,7 +21,7 @@ public class PLogDto {
 	private String contents;
 	
 	// 생성 일시
-	private LocalDateTime newDate;
+	private String newDate;
 	
 	// 로그 상태  create, update ...
 	private String logState;

@@ -25,11 +25,11 @@ class PfilePanel extends Component {
 
         return (
 
-            <div className="card shadow mb-4" style={{height: "100%"}}>
+            <div>
                 <div className="card-header py-3">
-                    <div className="m-0 font-weight-bold text-dark-1" style={{textAlign: "center"}}>
-                        파일
-                        </div>
+                    <div className="m-0 font-weight-bold text-dark-1" style={{fontSize:'25px'}}>
+                        업무
+                    </div>
                 </div>
 
                 <div className="card-body">
@@ -54,7 +54,7 @@ class PfilePanel extends Component {
                     </div>
 
 
-                    <div className="row justify-content-center">
+                    <div className="row justify-content-end mr-1">
                         <div className="btn-group" role="group" aria-label="Basic example">
                             <button type="button" className="btn btn-dark-1 p-2 mt-3" onClick={this.onClickUpdateBts}>
                                 수정 하기
