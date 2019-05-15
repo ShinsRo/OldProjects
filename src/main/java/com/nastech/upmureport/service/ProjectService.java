@@ -288,10 +288,18 @@ public class ProjectService {
 			}
 			returnDto = new ProjectDto(savedMp);
 			returnDto.setCollaborators(returnCollabs);
-			
 		}
 		
 		if (returnDto == null) returnDto = new ProjectDto(savedMp);
+		
+		
+		List<Pdir> rawDirs = dr.findAllByProjectAndDflagFalse(p);
+		List<PdirDto> dirs = new ArrayList<PdirDto>();
+		
+		for (Pdir dir : rawDirs) {
+			dirs.add(new PdirDto(dir));
+		}
+		returnDto.setDirs(dirs);
 		
 		pns.notifyTo(pDto.getMid(), returnDto, "/updateProject");
 		return returnDto;

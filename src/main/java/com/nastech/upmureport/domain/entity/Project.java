@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -26,6 +27,7 @@ public class Project {
 	
 	private String pname;
 	
+	@Lob @Column(columnDefinition = "text", length = 52428800)
 	private String description;
 	
 	private LocalDateTime stDate;
