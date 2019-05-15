@@ -238,7 +238,7 @@ class Collaborators extends Component {
      * @param {*} collab 제거할 Target 공동작업자 정보 객체
      */
     deleteCollaborator(e, collab) {
-
+        
         /* 프로젝트 내 관리자 한 명 이상일 것을 보장하기 위한 작업 */
         if (collab.prole === this.state.PROLES_DEF[0] && this.state.adminCnt - 1 === 0)  {
             alert("관리자는 한 명 이상 존재해야합니다.");
@@ -252,7 +252,7 @@ class Collaborators extends Component {
             this.setState( { adminCnt: this.state.adminCnt - 1 } );
         }
         /* 프로젝트 내 관리자가 한 명 이상일 것을 보장하기 위한 작업 끝 */
-
+        
         const { collaborators, collaboratorsMap, deletedCollaborators } = this.state;
         
         /* 타깃 공동작업자를 deleteCollaborators state에 추가하는 작업 */
@@ -278,7 +278,7 @@ class Collaborators extends Component {
      * @param {Object} collab 타깃 공동작업자 
      */
     privilegeDropdownRenderer(collab) {
-        const { project } = this.props
+        const { project, memberInfo } = this.props
         const privileges = this.state.privileges;       // 권한별 제한명
 
         /* 드롭다운 렌더링 */
@@ -295,26 +295,54 @@ class Collaborators extends Component {
         // 팀원추가 권한이 있는 경우 권한을 변경할 수 있도록 드롭다운을 렌더한다.
         return (
             <span className="dropdown">
-                    <span className="text-black">{collab.name}</span>
-                    <span data-toggle="dropdown" className="badge btn-dark-1 bg-darkblue ml-1 dropdown-toggle">{collab.prole}</span>
-                    <div className="dropdown-menu">
-                        {this.state.PROLES_DEF.map(prole => {
-                            return (
-                                <div
-                                    onClick={(e) => { this.changeProle(collab, prole) }}
-                                    className="dropdown-item" key={prole} >
-                                    <span className="badge btn-dark-2">{prole}</span> {this.state.privileges[prole].join('/')}
-                                </div>    
-                            );
-                        })}
+                <span className="text-black">{collab.name}</span>
+                <span data-toggle="dropdown" className="badge btn-dark-1 bg-darkblue ml-1 dropdown-toggle">{collab.prole}</span>
+                <div className="dropdown-menu">
+                    {this.state.PROLES_DEF.map(prole => {
+                        return (
+                            <div
+                                onClick={(e) => { this.changeProle(collab, prole) }}
+                                className="dropdown-item" key={prole} >
+                                <span className="badge btn-dark-2">{prole}</span> {this.state.privileges[prole].join('/')}
+                            </div>    
+                        );
+                    })}
+                {(`${collab.mid}` !== `${memberInfo.mid}`) &&
                 <div className="dropdown-item" onClick={(e) => this.deleteCollaborator(e, collab)}>
                     삭제
-                </div>
+                </div>}
             </div>
-                        
             </span>
         );
         /* 드롭다운 렌더링 끝 */
+    }
+
+    /**
+     * 멤버 검색 (자동완성) 시 특수 입력(Enter 등)에 대한 핸들링을 수행한다.
+     * 
+     * @param {Event} e 이벤트 객체
+     */
+    memberSearchKeyPressHandler(e) {
+        e.stopPropagation();
+        e.cancelBubble = true;
+        if (e.charCode !== 13 ) { return; }
+        if (this.state.suggests.length === 0) { return; }
+
+        alert("검색어와 가장 근접한 사원을 추가합니다.");
+        this.onAutocompleteClick(e, this.state.suggests[0].mDto);
+        return;
+    }
+
+    /**
+     * 엔터로 인한 서브밋 트리거를 막는다.
+     * 
+     * @param {Event} e 
+     */
+    preventEnterSubmit(e) {
+        if(e.keyCode === 13) {
+            e.preventDefault();
+            return false;
+        }
     }
 
     /**
@@ -345,8 +373,13 @@ class Collaborators extends Component {
 
     /* 렌더 함수 */
     render() {
-        const { collaborators, deletedCollaborators } = this.state;
+        const { collaborators, deletedCollaborators, privileges} = this.state;
+        const { type, project } = this.props;
+
+        if (!collaborators) return <></>;
+
         let autocompletedDropDown;
+        let memberAddBtn;
 
         if (!this.state.memberQuery) {
             autocompletedDropDown = (
@@ -368,23 +401,34 @@ class Collaborators extends Component {
                 });
         }
 
-        if (!collaborators) return <></>;
-        return (<>
-            {this.list(collaborators)}
-            <span className="dropdown">
-                <span data-toggle="dropdown" className="fas fa-plus-circle text-dark-2" style={{cursor:'pointer'}}></span>
-                <div className="dropdown-menu">
-                    <div className="row mb-1 p-1">
-                        <div className="col">
-                            <input type="text" className="form-control sm-text" placeholder="멤버 검색..." onChange={(e) => {this.onMemberSearch(e)}}/>
+        if (type === "NEW_PROJECT" || privileges[project.prole].includes('팀원추가')) {
+            memberAddBtn = (
+                <span className="dropdown">
+                    <span data-toggle="dropdown" className="fas fa-plus-circle text-dark-2" style={{cursor:'pointer'}}></span>
+                    <div className="dropdown-menu">
+                        <div className="row mb-1 p-1">
+                            <div className="col">
+                                <input type="text" className="form-control sm-text" 
+                                    placeholder="멤버 검색..." 
+                                    onChange={(e) => {this.onMemberSearch(e)}}
+                                    // 엔터 입력 시 
+                                    // onKeyPress={(e) => {this.memberSearchKeyPressHandler(e)}}
+                                    onKeyDown={this.preventEnterSubmit}
+                                />
+                            </div>
+                        </div>
+                        <div className="dropdown-divider"></div>
+                        <div className="row">
+                            {autocompletedDropDown}
                         </div>
                     </div>
-                    <div className="dropdown-divider"></div>
-                    <div className="row">
-                        {autocompletedDropDown}
-                    </div>
-                </div>
-            </span>
+                </span>
+            );
+        }
+
+        return (<>
+            {this.list(collaborators)}
+            {memberAddBtn}
             <input type="hidden" name="deletedCollaborators" value={JSON.stringify(deletedCollaborators || [])} readOnly/>
             <input type="hidden" name="collaborators" value={JSON.stringify(collaborators || [])} readOnly/>
         </>);

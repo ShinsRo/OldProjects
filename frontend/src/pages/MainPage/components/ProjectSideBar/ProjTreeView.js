@@ -61,7 +61,10 @@ class ProjTreeView extends React.Component {
     onDropDir(e, dir) {
         const enterChar = e.target.getElementsByClassName('enterChar')[0];
         if (enterChar) enterChar.innerHTML = "";
-
+        
+        if (e.dataTransfer.getData('draggable') === 'false') return;
+        if (!e.dataTransfer.getData('from')) return;
+        
         const from = JSON.parse(e.dataTransfer.getData('from'));
         const to = dir;
         
@@ -93,14 +96,18 @@ class ProjTreeView extends React.Component {
         
     }
 
-    onDirEnter(e) { 
+    onDirEnter(e) {
+
         const enterChar = e.target.getElementsByClassName('enterChar')[0];
         if (enterChar) enterChar.innerHTML = "↵";
     }
 
     onDragStart(e, dir) {
-        e.dataTransfer.setData('from', JSON.stringify(dir));
-        e.dataTransfer.setData('fromId', dir.id);
+        if (e.target.draggable) {
+            e.dataTransfer.setData('from', JSON.stringify(dir));
+            e.dataTransfer.setData('fromId', dir.id);
+        }
+        e.dataTransfer.setData('draggable', e.target.draggable);
     }
 
     onDirLeave(e) {
@@ -132,7 +139,6 @@ class ProjTreeView extends React.Component {
                         </span>
                     );
                 }
-
                 return (<div key={dir.id}>
                     <div className="kss-tree-item" 
                         draggable={dir.parent !== 'root'}
@@ -168,7 +174,9 @@ class ProjTreeView extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div key={dir.id} onClick={() => { this.onDirClick(dir.id) }} className="kss-tree-item-title"
+                        <div key={dir.id} 
+                            className="kss-tree-item-title"
+                            onClick={() => { this.onDirClick(dir.id) }}
                             onDragLeave={(e) => { this.onDirLeave(e); }}
                             onDragEnter={(e) => { this.onDirEnter(e); }}
                             onDrop={(e) => { this.onDropDir(e, dir); }}
@@ -222,6 +230,7 @@ class ProjTreeView extends React.Component {
 
     onFilterInputChange(e) {
         const keyword = e.target.value;
+
         const { projectState } = this.props;
         const dirContainer = projectState.get("dirContainer");
 
@@ -248,7 +257,7 @@ class ProjTreeView extends React.Component {
                         <input 
                             type="text" 
                             placeholder="filter" 
-                            className="kss-tree-filter-input" 
+                            className="kss-tree-filter-input"
                             onChange={this.onFilterInputChange.bind(this)}
                         />
                     </div>

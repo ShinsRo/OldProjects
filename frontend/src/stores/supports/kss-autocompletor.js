@@ -58,13 +58,14 @@ class KssAutocompletor {
      * @return {Array} JSX 컴포넌트(.tag)를 포함한 데이터 원소 집합
      */
     autocompleted(keyword, maxLength) {
-        const regex = RegExp(keyword);
+        // const regex = RegExp(keyword);
         let cnt = 0;
         
         /* 정규식 검색 */
         const autocompleted = this.dataSet.filter(data => {
             // 검색에 실패하거나 갯수가 제한을 넘으면 필터링한다.
-            if (regex.test(data.msg)) {
+            // if (regex.test(data.msg)) {
+            if (data.msg.indexOf(keyword) > -1) {
                 return (cnt++ < maxLength);
             } else { 
                 return false;
