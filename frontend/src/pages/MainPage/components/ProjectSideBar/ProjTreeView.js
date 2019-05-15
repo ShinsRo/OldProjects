@@ -8,12 +8,15 @@ class ProjTreeView extends React.Component {
 
     constructor(props) {
         super(props);
+        this.onDrop = this.onDrop.bind(this);
+
         this.drawTree = this.drawTree.bind(this);
         this.onDirClick = this.onDirClick.bind(this);
         this.onAddClick = this.onAddClick.bind(this);
         this.dirDisable = this.dirDisable.bind(this);
         this.dirCorrect = this.dirCorrect.bind(this);
         this.reloadFromParent = this.reloadFromParent.bind(this);
+        // this.moveFile = this.moveFile.bind(this);
 
         this.state = {
             treeMap: {},
@@ -58,15 +61,31 @@ class ProjTreeView extends React.Component {
         this.setState({ showDirCorrectModal: true });
     }
 
-    onDropDir(e, dir) {
+    onDrop(e, targetDir) { 
         const enterChar = e.target.getElementsByClassName('enterChar')[0];
         if (enterChar) enterChar.innerHTML = "";
         
         if (e.dataTransfer.getData('draggable') === 'false') return;
         if (!e.dataTransfer.getData('from')) return;
-        
+
+        const type = e.dataTransfer.getData('type');
         const from = JSON.parse(e.dataTransfer.getData('from'));
-        const to = dir;
+
+        switch (type) {
+            case "DIRECTORY":
+                this.moveDir(from, targetDir);
+                break;
+            
+            case "FILE":
+                //this.moveFile(from, targetDir);
+                break;
+            default:
+                break;
+        }
+     }
+
+    moveDir(from, to) {
+        if(!from.id) return;
         
         const { projectState } = this.props;
         const dirContainer = projectState.get("dirContainer");
@@ -93,17 +112,16 @@ class ProjTreeView extends React.Component {
             }).catch( err => {
                 alert("오류로 인해 디렉토리를 바꿀 수 없습니다.");
             });
-        
     }
 
     onDirEnter(e) {
-
         const enterChar = e.target.getElementsByClassName('enterChar')[0];
         if (enterChar) enterChar.innerHTML = "↵";
     }
 
     onDragStart(e, dir) {
-        if (e.target.draggable) {
+        if (e.target.draggable && dir) {
+            e.dataTransfer.setData('type', 'DIRECTORY');
             e.dataTransfer.setData('from', JSON.stringify(dir));
             e.dataTransfer.setData('fromId', dir.id);
         }
@@ -148,7 +166,7 @@ class ProjTreeView extends React.Component {
                         onDragStart={(e) => { this.onDragStart(e, dir); }}
                         onDragLeave={(e) => { this.onDirLeave(e); }}
                         onDragEnter={(e) => { this.onDirEnter(e); }}
-                        onDrop={(e) => { this.onDropDir(e, dir); }}
+                        onDrop={(e) => { this.onDrop(e, dir); }}
                     >
                         <span className="kss-tree-icon" onClick={() => { this.toggleFold(dir.id) }}>
                             {(() => {
@@ -179,7 +197,7 @@ class ProjTreeView extends React.Component {
                             onClick={() => { this.onDirClick(dir.id) }}
                             onDragLeave={(e) => { this.onDirLeave(e); }}
                             onDragEnter={(e) => { this.onDirEnter(e); }}
-                            onDrop={(e) => { this.onDropDir(e, dir); }}
+                            onDrop={(e) => { this.moveDir(e, dir); }}
                         >
                         {(() => {
                             if (!isRoot) {
