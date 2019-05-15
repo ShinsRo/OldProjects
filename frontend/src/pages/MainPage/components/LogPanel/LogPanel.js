@@ -49,7 +49,7 @@ class LogPanel extends Component {
                 
                 <div className="container m-0 p-0" id="LogTable" style={{ width:'100%' }}>
                     <div className="row text-dark-1 text-bold" style={{ width:'100%', fontSize:"18px"}}>
-                        <div className="col-1">NO</div>
+                        <div className="col-1" style={{textAlign:"center"}}>NO</div>
                         <div className="col-4">제목</div>
                         <div className="col-3">일시</div>
                         <div className="col-2 pl-0">대상</div>
@@ -65,7 +65,7 @@ class LogPanel extends Component {
                         {logs.map((log, idx) => {
                             return (
                             <div className="row" onClick={() => {onClickLog(log)}} style={{ width:'100%', fontSize: '15px'}}>
-                                <div className="col-1">{idx + 1}</div>
+                                <div className="col-1" style={{textAlign:"center"}}>{idx + 1}</div>
                                 <div className="col-4">{this.handleName(log.name)}</div>
                                 <div className="col-3">{log.newDate}</div>
                                 <div className="col-2">{log.pdirName}</div>

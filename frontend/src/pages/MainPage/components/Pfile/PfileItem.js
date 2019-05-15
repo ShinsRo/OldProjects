@@ -14,7 +14,7 @@ class PfileItem extends Component {
     }
 
     handleMouseOut = (e) => {
-        e.target.parentNode.style.backgroundColor = ""
+            e.target.parentNode.style.backgroundColor = ""
     }
 
 
@@ -23,14 +23,14 @@ class PfileItem extends Component {
 
         console.log('pfile Item render');
         return (
-                <div class="row" id="pfileRow" key={idx} onClick={() => this.props.onClickPfile(pfile) } 
-                    onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
+                <div class="row" id="pfileRow" key={idx} onClick={() => this.props.onClickPfile(pfile) }
+                    draggable>
                     
-                
-                    <div className="col-9 text-dark-1">{pfile.name}</div>
-                    <div className="col-2 text-dark-1">
+                    <div className="col-1 text-dark-1"/>
+                    <div className="col-8 text-dark-1" onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>{pfile.name}</div>
+                    <div className="col-2 text-dark-1" onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
                         {/* <img
-                            src={process.env.PUBLIC_URL + '/resources/img/file.PNG'} 
+                            src={process.env.PUBLIC_URL + '/resources/img/file.PNG'}
                             alt="log does not exist"
                             style={{ width: '31px', height:'18px' }}
                         /> */}

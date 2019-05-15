@@ -47,10 +47,12 @@ class AttachmentItem extends Component {
 
         console.log('attachment Item render');
         return (
-            <div class="row" key={idx} onClick={() => this.props.onClickAttachment(attachment)}
-                onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
-                    <div class="col-9 text-dark-1">{attachment.attachmentName}</div>
-                    <div class="col-2 text-dark-1">
+            <div class="row" key={idx} onClick={() => this.props.onClickAttachment(attachment)}>
+                    <div class="col-1 ml-0.5 text-dark-1 align-self-center">
+                        <input type="checkbox" aria-label="Checkbox for following text input" style={{width:"17px", height:"17px", alignSelf:"center"}}/>
+                    </div>
+                    <div class="col-8 text-dark-1" onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>{attachment.attachmentName}</div>
+                    <div class="col-2 text-dark-1" onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
                         {/* <img
                             src={process.env.PUBLIC_URL + '/resources/img/' + image} 
                             alt="log does not exist"

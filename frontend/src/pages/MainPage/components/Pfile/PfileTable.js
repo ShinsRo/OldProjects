@@ -53,13 +53,13 @@ class PfileTable extends React.Component {
             <div height="100px">
                 <div className="container" id="PfileTable" cellSpacing="0" width="100%" >
                     <div className="row">
-
-                            <div className="col-9 text-dark-1">제목</div>
+                            <div className="col-1 text-dark-1"/>
+                            <div className="col-8 text-dark-1">제목</div>
                             <div className="col-2 text-dark-1">유형</div>                            
                             <div className="col-1 text-dark-1">삭제</div>
                             
                     </div>
-                    <hr className="mb-0"></hr>
+                    <hr></hr>
                     <div >
                         
                         {pfiles && pfiles.map((pfile, idx) => {
@@ -72,6 +72,8 @@ class PfileTable extends React.Component {
                                 />
                             )
                         })}
+
+                        <hr></hr>
 
                         {attachments && attachments.map((attachment, idx) => {
                             return(
