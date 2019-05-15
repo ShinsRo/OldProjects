@@ -66,7 +66,7 @@ class NewDirForm extends Component {
         });
 
         return (
-        <form className="user" onSubmit={this.handleSubmit}>
+        <form id="newDirForm" className="user" onSubmit={this.handleSubmit}>
         <input name="parentDid" type="hidden" value={selectedDirId}/>
         <input name="mid" type="hidden" value={memberInfo.mid}/>
         <input name="mname" type="hidden" value={memberInfo.mname}/>
@@ -82,7 +82,7 @@ class NewDirForm extends Component {
             </div>
         </div>
         <div className="text-right mt-3">
-            <button className="btn btn-secondary mr-2" type="button" data-dismiss="modal">취소하기</button>
+            <button className="btn btn-secondary mr-2" type="button" data-dismiss="modal">취소</button>
             <input className="btn btn-dark-1" type="submit" value="추가하기"></input>
         </div>
         </form>

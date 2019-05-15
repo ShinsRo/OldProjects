@@ -28,8 +28,14 @@ class AddModal extends React.Component {
         let dirBtnClass;
         let header;
 
+        const newProjectFormElement = document.getElementById("newProjectForm");
+        const newDirFormElement = document.getElementById("newDirForm");
+
+        if (newProjectFormElement)  { newProjectFormElement.reset();    }
+        if (newDirFormElement)      { newDirFormElement.reset();        }
+
         if (this.state.gubun === 'project') {
-            projectBtnClass = "btn btn-dark-1";
+        projectBtnClass = "btn btn-dark-1";
             dirBtnClass = "btn btn-secondary";
             contentForm = (<NewProjectForm reload={this.props.reload} memberInfo={memberInfo} modalId="addModal"/>);
             header = "새로운 프로젝트를 추가합니다.";
