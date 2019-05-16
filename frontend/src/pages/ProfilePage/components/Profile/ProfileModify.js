@@ -20,9 +20,6 @@ class ProfileModify extends Component {
             password: this.state.password,
             mid: this.props.selectUser.mid
         }
-        // console.log("보낸다 가라아아앗", this.props.selectUser)
-        // console.log("보낸다 가라아아앗2", auth)
-
         if (auth.password === '') return alert("변경할 비밀번호를 입력하세요")
 
         return axios.post(`${BASE_URL}/api/users/modify`,
@@ -47,8 +44,6 @@ class ProfileModify extends Component {
             username: this.state.username,
             mid: this.props.selectUser.mid
         }
-        console.log("보낸다 가라아아앗", this.props.selectUser)
-        console.log("보낸다 가라아아앗2", auth)
 
         if (auth.username === '') return alert("변경할 아이디를 입력하세요")
 
