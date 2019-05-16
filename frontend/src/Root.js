@@ -11,7 +11,11 @@ import store from './stores';
 
 const RouteAsUserInfo = withRouter(({ match, location, history }) => {
     const { userState } = store.getState();
-    
+    const {userInfo} = userState;
+    let authToken;
+    if(userInfo){
+        authToken = userInfo.authToken;
+    }
     let routes = [];
     if ( !(userState && userState.hasOwnProperty('userInfo') && userState.userInfo)) {
         routes = [
@@ -21,9 +25,9 @@ const RouteAsUserInfo = withRouter(({ match, location, history }) => {
         routes = [
             { path: '/', component: MainPage },
             { path: '/main', component: MainPage },
-            { path: '/adminpage', component: AdminPage },
             { path: '/register', component : RegisterPage},
         ]
+        if(authToken.authorities[0].authority=="ROLE_ADMIN") routes.push({ path: '/adminpage', component: AdminPage })
     }
     return (
         <Switch>

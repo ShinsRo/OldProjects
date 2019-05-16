@@ -39,6 +39,7 @@ import com.nastech.upmureport.support.Utils;
 @Service
 public class AttachmentService {
 
+	//private final String UPLOAD_PATH = "C:\\\\Users\\\\nastech\\\\Desktop\\\\attachment";
 	private final String UPLOAD_PATH = "C:\\\\Users\\\\nastech\\\\Desktop\\\\attachment";
 	private final String PREFIX_URL = "localhost.com";
 	private static final Log LOG = LogFactory.getLog(AttachmentService.class);

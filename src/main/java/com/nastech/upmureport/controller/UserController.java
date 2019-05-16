@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nastech.upmureport.domain.dto.MemAuthDto;
+import com.nastech.upmureport.domain.dto.MemAuthCareerDto;
 import com.nastech.upmureport.domain.dto.MemberDto;
 import com.nastech.upmureport.domain.entity.AuthInfo;
 import com.nastech.upmureport.domain.entity.Career;
@@ -39,6 +39,7 @@ import com.nastech.upmureport.domain.security.AuthenticationToken;
 import com.nastech.upmureport.domain.security.CustomUserDetails;
 import com.nastech.upmureport.domain.security.UserService;
 import com.nastech.upmureport.service.AuthInfoService;
+import com.nastech.upmureport.service.CareerService;
 import com.nastech.upmureport.service.MemberService;
 
 @RestController
@@ -61,6 +62,8 @@ public class UserController {
 	UserRoleRepository userRoleRepository;
 	@Autowired
 	CareerRepository careerRepository;
+	@Autowired
+	CareerService careerService;
 	
     /*
     @GetMapping(value = "/login")
@@ -109,7 +112,7 @@ public class UserController {
 		return returnObj;
     }
 	@PostMapping(value ="/modify")
-	public AuthInfo authModifyAPI(@RequestBody MemAuthDto memAuthDto) {
+	public AuthInfo authModifyAPI(@RequestBody MemAuthCareerDto memAuthDto) {
 //		System.out.println(mem); 
 		Member m=memAuthDto.getMem();
 		AuthInfo modifyAuthInfo = memAuthDto.getAuth();
@@ -150,9 +153,10 @@ public class UserController {
     
 
     @PostMapping(value= "/register")
-    public MemberDto userRegister(@RequestBody MemAuthDto memAuth) {
-    	Member mem=memAuth.getMem();
-    	AuthInfo auth = memAuth.getAuth();
+    public MemberDto userRegister(@RequestBody MemAuthCareerDto memAuthCareer) {
+    	Member mem=memAuthCareer.getMem();
+    	AuthInfo auth = memAuthCareer.getAuth();
+    	
     	
     	mem.setJoinDate(LocalDate.now());
     	MemberDto savedMem= memberService.userRegister(mem.toDto());  //MemberInfo 등록
@@ -165,11 +169,14 @@ public class UserController {
     	Member admin = memRepo.findOneByName("관리자");
     	MemberSystem ms1 = MemberSystem.builder().senior(admin).junior(savedMem.toEntity()).build();
     	memSys.save(ms1);
-    	Career c1 = Career.builder().active(true).dept("미등록").posi("미등록").member(savedMem.toEntity())
+    	Career c1 = Career.builder().active(true).dept(memAuthCareer.getNewCar().getDept()).posi(memAuthCareer.getNewCar().getPosi()).member(savedMem.toEntity())
     			.startDate(LocalDate.now())
     			.build();
     	careerRepository.save(c1);
-    	System.out.println(savedMem+"auth"+auth);
+    	
+    	//Career newCar=careerService.careerModify(mem, memAuthCareer.getNewCar());
+
+    	System.out.println(savedMem+"auth"+auth+"career"+c1);
     	return savedMem;
   	}
     
@@ -184,6 +191,18 @@ public class UserController {
     	}
     	else
     		return auth;
+    }
+    @PostMapping(value="/eidcheck")
+    public Member eidCheck(@RequestBody Member mem) {
+    	System.out.println(mem);
+    	String eid=mem.getEid();
+    	Member temp = memRepo.findOneByEid(eid);
+    	System.out.println(temp);
+    	if (temp != null) {  // 이미 있는 사번이므로 null반환
+    		return null;
+    	}
+    	else
+    		return mem;
     }
     
     @PostMapping(value="/retire")

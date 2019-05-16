@@ -1,6 +1,7 @@
 package com.nastech.upmureport.domain.dto;
 
 import com.nastech.upmureport.domain.entity.AuthInfo;
+import com.nastech.upmureport.domain.entity.Career;
 import com.nastech.upmureport.domain.entity.Member;
 
 import lombok.AllArgsConstructor;
@@ -12,7 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemAuthDto {
+public class MemAuthCareerDto {
 	Member mem;
 	AuthInfo auth;
+	Career newCar;
 }
