@@ -74,8 +74,7 @@ public class PLogService {
 	
 	public List<PLogDto> getPLogs(String projectId) {
 		Project project = null;
-		
-		
+				
 		project = projectRepository.findById(Utils.StrToBigInt(projectId)).get();
 		
 		List<PLog> pLogs = pLogRepository.findAllByProject(project);

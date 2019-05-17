@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { BASE_URL } from '../../../../supports/API_CONSTANT';
 
 class AttachmentPanel extends Component {
 
@@ -13,14 +12,16 @@ class AttachmentPanel extends Component {
         downloadAttachment(attachmentId);
     }
 
-    download = () => {
-        const { attachment } = this.props;
-        const link = document.createElement('a');
-        link.href = `${BASE_URL}/attachment/download/${attachment.attachmentId}`;
-        link.download = "ffffffffffff";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+    download = (e) => {
+        const { downloadAttachment, attachment} = this.props;
+        // const link = document.createElement('a');
+        // link.href = `${BASE_URL}/attachment/download/${attachment.attachmentId}`;
+        // link.download = "ffffffffffff";
+        // document.body.appendChild(link);
+        // link.click();
+        // document.body.removeChild(link);
+        e.preventDefault();
+        downloadAttachment(attachment.attachmentId);
     }
 
     render() {

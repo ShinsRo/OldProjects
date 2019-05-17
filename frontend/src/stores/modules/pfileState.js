@@ -10,6 +10,9 @@ const SEND_SUCCESS = 'SEND_SUCCESS';
 const SAVE_SUCCESS = 'SAVE_SUCCESS';
 const SEND_ERROR = 'SEND_ERROR';
 const SET_PFILE = 'SET_PFILE';
+const SUCCESS = 'SUCCESS';
+
+
 
 // 액션 생성 함수
 export const changeTitleInput = createAction(CHANGE_TITLE_INPUT);
@@ -19,6 +22,9 @@ export const senderr = createAction(SEND_ERROR);
 export const pfileSaveSuccess = createAction(SAVE_SUCCESS);
 export const sendSuccess = createAction(SEND_SUCCESS);
 export const setPfile = createAction(SET_PFILE);
+export const success = createAction(SUCCESS);
+
+
 
 const initialState = Map({
     titleInput: '',
@@ -58,6 +64,22 @@ export const deletePfile = (pfileId) => dispatch => {
     return pfileService.deletePfile(pfileId).then((response) => { dispatch(sendSuccess(response.data))}).catch(error => { dispatch(senderr(error)); })
 }
 
+export const movePfile = (pfileId, pdirId) => dispatch =>{
+    dispatch(pending());
+
+    return pfileService.movePfile(pfileId, pdirId).then((response) => {
+        dispatch(sendSuccess(response.data))
+    }).catch(error => { dispatch(senderr(error)); })
+}
+
+export const copyPfile = (pfileId, pdirId) => dispatch =>{
+    dispatch(pending());
+
+    return pfileService.copyPfile(pfileId, pdirId).then((response) => {
+        dispatch(success(response.data))
+    }).catch(error => { dispatch(senderr(error)); })
+}
+
 export default handleActions({
     // 타이틀 입력
     [CHANGE_TITLE_INPUT]: (state, action) => {
@@ -91,5 +113,10 @@ export default handleActions({
     // 통신 실패
     [SEND_ERROR]: (state, action) => {
         return state.set('isFetching', false).set('error', true);
-    }
+    },
+    [SUCCESS] : (state, action) => {
+        
+
+        return state.set('isFetching', false);
+    },
 }, initialState);

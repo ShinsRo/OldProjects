@@ -11,10 +11,18 @@ export function getAttachment(dirId){
     return axios.get(`${BASE_URL}/attachment/${dirId}`);
 }
 
-export function downAttachment(attachmentId){
-    return axios.get(`${BASE_URL}/attachment/download/${attachmentId}`);
+export function downAttachment(attachmentId, header){
+    return axios.get(`${BASE_URL}/attachment/download/${attachmentId}`, header);
 }
 
 export function deleteAttachment(attachmentId){
     return axios.delete(`${BASE_URL}/attachment/${attachmentId}`);
+}
+
+export function moveAttachment(attachmentId, pdirId) {
+    return axios.put(`${BASE_URL}/attachment/move/${attachmentId}/${pdirId}`);    
+}
+
+export function copyAttachment(attachmentId, pdirId) {
+    return axios.put(`${BASE_URL}/attachment/copy/${attachmentId}/${pdirId}`);    
 }

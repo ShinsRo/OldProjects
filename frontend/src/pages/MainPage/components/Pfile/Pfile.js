@@ -3,10 +3,13 @@ import { List } from 'immutable';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+
 import PfileTable from './PfileTable';
 import * as pfileActions from '../../../../stores/modules/pfileState';
 import * as projectActions from '../../../../stores/modules/projectState';
 import * as attachmentActions from '../../../../stores/modules/attachmentState';
+
+
 
 class Pfile extends Component {
 
@@ -16,7 +19,22 @@ class Pfile extends Component {
 
   state = {
     pfile: {}, 
+    attachmentGroup: List(),
   };
+
+  componentWillMount(){
+    this.setState({'selectedProject': this.props.projectState.get('selectedProject')})
+  }
+
+  componentWillReceiveProps(nextProps){
+    const oldSelectedProject  = this.state.selectedProject.pid
+    const newSelectedProject = nextProps.projectState.get('selectedProject').pid
+
+    if(oldSelectedProject !== newSelectedProject){
+      this.state.attachmentGroup.clear();
+    }
+}
+
 
 
   handleClickPfile = (pfile) => {
@@ -32,8 +50,7 @@ class Pfile extends Component {
 
     AttachmentActions.setAttachment(attachment);
     ProjectActions.saveItem({ detailViewLevel: 'attachment' });
-
-  } 
+  }
 
   handlePfileAddForm = () => {
     const {ProjectActions} = this.props;
@@ -67,39 +84,40 @@ class Pfile extends Component {
     if (!window.confirm('ㄹㅇ?')) return;
 
     AttachmentActions.deleteAttachment(attachmentId);
+  } 
+
+  handleClickAttachmentGroupDownload = () => {
+    const {AttachmentActions} = this.props;
+    const attachmentGroup = this.props.attachmentState.get('attachmentGroup');   
+
+    let body = [];
+
+    attachmentGroup.map(attachment => {
+      body.push(attachment.attachmentId);
+    })
+
+    AttachmentActions.downloadAttachmentGroup(body);
+
   }
 
     render(){
-      const {pfileState, projectState, attachmentState } = this.props;
+      const {pfileState, projectState, attachmentState, AttachmentActions } = this.props;
+
 
       const addButton =  projectState.get('selectedDirId') &&(
-          // <div className="row justify-content-end mr-3">       
-          //   <div className="col-1.5 mr-4">
-          //       <button type="button" className="btn btn-light-1 p-2 " onClick= {this.handlePfileAddForm}>
-          //         파일추가
-          //       </button>   
-          //       </div>
-          //     <div className="col-2.7">     
-          //       <button type="button" className="btn btn-light-1 p-2" onClick= {this.handleAttachmentAddForm}>
-          //         첨부파일 추가
-          //       </button>
-          //     </div>
-          //   </div>
-
           <div className="dropdown">
-            <button class="btn dropdown-toggle text-dark-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button className="btn dropdown-toggle text-dark-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               목록 추가
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#" onClick= {this.handlePfileAddForm}>업무</a>
+            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a className="dropdown-item" href="#" onClick= {this.handlePfileAddForm}>업무</a>
               <div className="dropdown-divider"></div>
-              <a class="dropdown-item" href="#" onClick= {this.handleAttachmentAddForm}>첨부 파일</a>
+              <a className="dropdown-item" href="#" onClick= {this.handleAttachmentAddForm}>첨부 파일</a>
             </div>          
           </div>
         )
 
-        return (
-          
+        return (          
         <div> 
           <div className="card-header py-3">  
             
@@ -113,8 +131,9 @@ class Pfile extends Component {
               </div>
             </div>      
           </div>   
-          
-          <div className="card-body" style={{ height: '650px' , overflowX :'auto', overflowY:'scroll' }}>
+
+          <div className="card-body" >
+            
               <PfileTable
                 pfiles={pfileState.get('pfiles')}
                 attachments = {attachmentState.get('attachments')}
@@ -123,7 +142,18 @@ class Pfile extends Component {
                 handleClickPfile = {this.handleClickPfile}
                 handleClickAttachment = {this.handleClickAttachment}
                 handleDeleteAttachment = {this.handleDeleteAttachment}
+                //addDownloadGroup = {this.addDownloadGroup}
+                addDownloadGroup = { AttachmentActions.addGroup}
+                deleteDownloadGroup = { AttachmentActions.deleteGroup}
+                clearDownloadGroup = { AttachmentActions.clearGroup}
+                attachmentGroup = {attachmentState.get('attachmentGroup')}
               />
+            
+            
+            <button type="button" className="btn btn-dark-1 p-2" onClick={this.handleClickAttachmentGroupDownload}>
+                모두  다운로드
+            </button>            
+            
             </div>
           </div>
           );

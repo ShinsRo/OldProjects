@@ -17,27 +17,38 @@ class PfileItem extends Component {
             e.target.parentNode.style.backgroundColor = ""
     }
 
+    onDragStart(e, target) {
+        if (e.target.draggable && target) {
+            e.dataTransfer.setData('type', 'FILE');
+            e.dataTransfer.setData('from', JSON.stringify(target));
+            //e.dataTransfer.setData('fromId', target.id);
+        }
+        e.dataTransfer.setData('draggable', e.target.draggable);
+
+        console.log(e.dataTransfer)
+    }
+
 
     render() {
         const { pfile, idx } = this.props;
 
         console.log('pfile Item render');
         return (
-                <div class="row" id="pfileRow" key={idx} onClick={() => this.props.onClickPfile(pfile) }
-                    draggable>
+                <div className="row m-0" id="pfileRow" key={idx} style={{textAlign:"left"}}
+                    draggable={true} onDragStart={(e) => {this.onDragStart(e, pfile)}} >
                     
-                    <div className="col-1 text-dark-1"/>
-                    <div className="col-8 text-dark-1" onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>{pfile.name}</div>
-                    <div className="col-2 text-dark-1" onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
-                        {/* <img
-                            src={process.env.PUBLIC_URL + '/resources/img/file.PNG'}
-                            alt="log does not exist"
-                            style={{ width: '31px', height:'18px' }}
-                        /> */}
+                    <div className="col-1 text-dark-1 border-right"/>
+                    <div className="col-8 pr-0 text-dark-1 border-right justify-content-center" >
+                        <div className="m-0 p-0" style={{height:'100%', width: '100%', cursor: "pointer"}} onClick={() => this.props.onClickPfile(pfile) } 
+                        onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}>
+                            {pfile.name}
+                        </div>
+                    </div>
+                    <div className="col-2 text-dark-1 border-right">
                         파일
                     </div>
                     <div className="col-1">
-                        <span onClick={() => this.props.onClickPfileDelete(pfile.pfileId)} class="badge badge-danger bg-danger btn-sm">
+                        <span onClick={() => this.props.onClickPfileDelete(pfile.pfileId)} class="badge badge-danger bg-danger btn-sm" style={{cursor: 'pointer'}}>
                             삭제
                         </span>
                     </div>

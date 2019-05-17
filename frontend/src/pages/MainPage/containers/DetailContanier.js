@@ -109,6 +109,7 @@ class DetailContanier extends Component {
                     reloadPLog = {PLogActions.getPLog}
                     saveItem = {ProjectActions.saveItem}
                     selectedProject = {projectState.get('selectedProject')}
+                    downloadAttachment = {AttachmentActions.downloadAttachment}
                 />
             );
         }        

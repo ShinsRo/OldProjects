@@ -3,6 +3,9 @@ import stores from '../../../../stores';
 import { pdir_api } from '../../../../stores/modules/projectState';
 import AddModal from './AddModal';
 import DirCorrectModal from './DirCorrectModal';
+import BehaviorModal from '../Pfile/BehaviorModal'
+import * as $ from "jquery";
+import { th } from 'date-fns/esm/locale';
 
 class ProjTreeView extends React.Component {
 
@@ -16,7 +19,7 @@ class ProjTreeView extends React.Component {
         this.dirDisable = this.dirDisable.bind(this);
         this.dirCorrect = this.dirCorrect.bind(this);
         this.reloadFromParent = this.reloadFromParent.bind(this);
-        // this.moveFile = this.moveFile.bind(this);
+        this.showBehaviorModal = this.showBehaviorModal.bind(this);       
 
         this.state = {
             treeMap: {},
@@ -61,8 +64,9 @@ class ProjTreeView extends React.Component {
         this.setState({ showDirCorrectModal: true });
     }
 
-    onDrop(e, targetDir) { 
+    onDrop(e, targetDir) {         
         const enterChar = e.target.getElementsByClassName('enterChar')[0];
+
         if (enterChar) enterChar.innerHTML = "";
         
         if (e.dataTransfer.getData('draggable') === 'false') return;
@@ -77,11 +81,29 @@ class ProjTreeView extends React.Component {
                 break;
             
             case "FILE":
-                //this.moveFile(from, targetDir);
+                this.setState({ 
+                    dropInfo: {
+                        from: from, 
+                        to : targetDir, 
+                        type: 'pfile' 
+                    }}, this.showBehaviorModal());             
+                break;
+
+            case "ATTACHMENT" :
+                 this.setState({ 
+                    dropInfo: {
+                        from: from, 
+                        to : targetDir, 
+                        type: 'attachment' 
+                    }}, this.showBehaviorModal());     
                 break;
             default:
                 break;
         }
+     }
+
+     showBehaviorModal() {        
+        window.$('#BehaviorModal').modal('show');
      }
 
     moveDir(from, to) {
@@ -294,6 +316,17 @@ class ProjTreeView extends React.Component {
                 </div>
                 <AddModal reload={this.reload.bind(this)}></AddModal>
                 <DirCorrectModal reload={this.reload.bind(this)}></DirCorrectModal>
+
+                <BehaviorModal 
+                dropInfo = {this.state.dropInfo}
+                movePfile = {this.props.movePfile}
+                copyPfile = {this.props.copyPfile}
+                moveAttachment = {this.props.moveAttachment}
+                copyAttachment = {this.props.copyAttachment}
+                getPfile = {this.props.getPfile}
+                getAttachment = {this.props.getAttachment}
+                getPLog = {this.props.getPLog}/>
+
                 {/* {this.state.showAddModal && } */}
             </div>
         );

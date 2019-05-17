@@ -64,7 +64,7 @@ class LogPanel extends Component {
                     <div className="row m-0 p-0 text-dark-1" style={{ width:'100%', overflowX :'auto' }} onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}> 
                         {logs.map((log, idx) => {
                             return (
-                            <div className="row" onClick={() => {onClickLog(log)}} style={{ width:'100%', fontSize: '15px'}}>
+                            <div className="row" onClick={() => {onClickLog(log)}} style={{ width:'100%', fontSize: '15px'}} key={idx}>
                                 <div className="col-1" style={{textAlign:"center"}}>{idx + 1}</div>
                                 <div className="col-4">{this.handleName(log.name)}</div>
                                 <div className="col-3">{log.newDate}</div>
@@ -81,7 +81,7 @@ class LogPanel extends Component {
         }
 
         return (<>
-            <div className="card shadow mb-4"  style={{ width: '100%'}}>
+            <div className="card shadow mb-3"  style={{ width: '100%'}}>
                 <div className="card-header font-weight-bold text-dark-1 m-0" style={{fontSize:"25px"}}>로그</div>
                 <div className="card-body m-0">
                     {content}

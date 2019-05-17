@@ -1,7 +1,7 @@
 package com.nastech.upmureport.domain.entity.support;
 
 public enum LogState{
-	CREATE("create"), UPDATE("update"), DELETE("delete");
+	CREATE("create"), UPDATE("update"), DELETE("delete"), MOVE("move"), COPY("copy");
 	
 	private String value;
 	
