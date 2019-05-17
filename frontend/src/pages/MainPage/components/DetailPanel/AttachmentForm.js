@@ -24,7 +24,11 @@ class AttachmentForm extends Component {
     }
 
     onFileChange = (e) => {
-        this.setState({ uploadAttachment: e.target.files[0] })
+        if(e.target.files[0].size > 1048576){
+            window.alert('파일 용량이 초과하였습니다. \n최대 용량은 8388.608 KB 입니다.')
+        }else {
+            this.setState({ uploadAttachment: e.target.files[0] })
+        }
     }
 
     attachmentUpload = (file) => {

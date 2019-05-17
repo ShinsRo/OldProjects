@@ -86,7 +86,7 @@ class ProjTreeView extends React.Component {
                         from: from, 
                         to : targetDir, 
                         type: 'pfile' 
-                    }}, this.showBehaviorModal());             
+                    }}, this.showBehaviorModal());
                 break;
 
             case "ATTACHMENT" :
@@ -95,7 +95,7 @@ class ProjTreeView extends React.Component {
                         from: from, 
                         to : targetDir, 
                         type: 'attachment' 
-                    }}, this.showBehaviorModal());     
+                    }}, this.showBehaviorModal());
                 break;
             default:
                 break;
