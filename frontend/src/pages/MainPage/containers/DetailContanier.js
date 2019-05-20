@@ -66,6 +66,7 @@ class DetailContanier extends Component {
             return wrapWithCard(<PfilePanel 
                     pfileState={pfileState}
                     handleUpdateBts = {ProjectActions.saveItem}
+                    selectedProject = {projectState.get('selectedProject')}
                 />);
         } else if (detailViewLevel === 'pfileAdd') {
             return wrapWithCard(
@@ -98,6 +99,7 @@ class DetailContanier extends Component {
                 <AttachmentPanel 
                     attachment = {attachmentState.get('attachment')}
                     downloadAttachment = {AttachmentActions.downloadAttachment}
+                    selectedProject = {projectState.get('selectedProject')}
                 />
             );
         }else if (detailViewLevel === 'attachmentAdd') {

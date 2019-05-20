@@ -101,10 +101,10 @@ class Pfile extends Component {
   }
 
     render(){
-      const {pfileState, projectState, attachmentState, AttachmentActions } = this.props;
+      const { pfileState, projectState, attachmentState, AttachmentActions } = this.props;
 
 
-      const addButton =  projectState.get('selectedDirId') &&(
+      const addButton =  projectState.get('selectedDirId') && projectState.get('selectedProject') && (projectState.get('selectedProject').prole != '게스트') && (
           <div className="dropdown">
             <button className="btn dropdown-toggle text-dark-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               목록 추가
@@ -147,6 +147,7 @@ class Pfile extends Component {
                 deleteDownloadGroup = { AttachmentActions.deleteGroup}
                 clearDownloadGroup = { AttachmentActions.clearGroup}
                 attachmentGroup = {attachmentState.get('attachmentGroup')}
+                selectedProject = {projectState.get('selectedProject')}
               />
             
             
