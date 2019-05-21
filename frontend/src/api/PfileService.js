@@ -21,8 +21,10 @@ export function deletePfile(pfileId){
     return axios.delete(`${BASE_URL}/pfile/${pfileId}`);
 }
 
-export function getAttachment(pdirId){
-    console.log(pdirId);
-    return axios.get(`${BASE_URL}/attachment/${pdirId}`);
+export function movePfile(pfileId, pdirId) {
+    return axios.put(`${BASE_URL}/pfile/move/${pfileId}/${pdirId}`);    
 }
 
+export function copyPfile(pfileId, pdirId) {
+    return axios.put(`${BASE_URL}/pfile/copy/${pfileId}/${pdirId}`);    
+}

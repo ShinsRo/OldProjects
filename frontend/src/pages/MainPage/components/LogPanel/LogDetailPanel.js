@@ -13,7 +13,6 @@ class LogDetailPanel extends Component {
     }
 
 
-
     render() {
         // const { pfileLog, attachmentLog } = this.props;
         const { log } = this.props;
@@ -30,6 +29,7 @@ class LogDetailPanel extends Component {
                             </div>
                         </div>
                     </div>
+
                     <div className="card-body">
 
                         <div className="row mb-3">

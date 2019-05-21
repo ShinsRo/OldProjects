@@ -16,15 +16,16 @@ const EMPTY_USERINFORM = 'EMPTY_USERINFORM';
 const SELECTED_USERINFO = 'SELECTED_USERINFO';
 
 export const logout = () => dispatch => {
-    dispatch({type: EMPTY_USERINFORM});    
+    dispatch({type: EMPTY_USERINFORM});
 }
+
 export const select = (userInfo) => dispatch => {
     dispatch({
         type: SELECTED_USERINFO,
         payload: userInfo
-    });    
+    });
 }
-//
+
 export const getPost = (loginInfo) => dispatch => {
     // 먼저, 요청이 시작했다는것을 알립니다
     dispatch({type: GET_POST_PENDING});
@@ -110,4 +111,3 @@ export default handleActions({
     },
 
 },initialState);
-

@@ -32,7 +32,7 @@ public class AttachmentDto {
 		private BigInteger attachmentId;
 		private String attachmentName;
 		private Long volume;
-		private LocalDateTime newDate;		
+		private String newDate;		
 		private String contentType;
 		private String coment;
 		

@@ -1,16 +1,24 @@
 package com.nastech.upmureport.service;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.Base64.Encoder;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -20,17 +28,22 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.mockito.internal.util.io.IOUtil;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nastech.upmureport.domain.dto.AttachmentDto;
+import com.nastech.upmureport.domain.dto.PfileDto;
 import com.nastech.upmureport.domain.entity.Attachment;
 import com.nastech.upmureport.domain.entity.Pdir;
+import com.nastech.upmureport.domain.entity.Pfile;
 import com.nastech.upmureport.domain.entity.support.LogState;
 import com.nastech.upmureport.domain.repository.AttachmentRepository;
 import com.nastech.upmureport.domain.repository.PdirRepository;
@@ -53,6 +66,7 @@ public class AttachmentService {
 		this.pLogService = pLogService;
 	}
 
+	// 첨부파일 저장
 	public AttachmentDto.AttachmentResDto saveAttachment(MultipartFile file, AttachmentDto.AttachmentReqDto attachmentReqDto) throws Exception {
 
 		File destinationFile = saveFile(file);
@@ -73,6 +87,7 @@ public class AttachmentService {
 		return attachment2AttachmentResDto(attachment);
 	}
 
+	// 첨부파일 리스트 가져오기
 	public List<AttachmentDto.AttachmentResDto> getAttachment(BigInteger pdirId) {
 
 		Pdir pdir = pdirRepository.findById(pdirId).get();
@@ -82,6 +97,7 @@ public class AttachmentService {
 		return attachmentResDtos;
 	}
 	
+	// 첨부파일 삭제
 	public List<AttachmentDto.AttachmentResDto> deleteAttachment(String attachmentId) {
 		Attachment attachment = attachmentRepository.findById(Utils.StrToBigInt(attachmentId)).get();
 		
@@ -96,78 +112,106 @@ public class AttachmentService {
 		
 		return getAttachment(attachment.getPdir().getDid());
 	}
-
-//	public List<String> downloadAttachment(String attachmentId, HttpServletResponse resp) throws Exception {
-//
-//		HttpServletResponse response = resp; // down
-//		byte[] fileByte = null;
-////		
-//		Attachment attachment = attachmentRepository.findById(Utils.StrToBigInt(attachmentId)).get();
-//
-//		try {
-//			fileByte = FileUtils.readFileToByteArray(new File(attachment.getLocalPath()));
-//			// response.setContentType("application/octet-stream");
-//			// response.setContentLength(fileByte.length);
-//			// 다운로드시 변경할 파일명
-//			// response.addHeader("Content-Disposition", "attachment; fileName=\"" +
-//			// URLEncoder.encode(attachment.getName(), "UTF-8") + "\";");
-//			// response.addHeader("Content-Transfer-Encoding", "binary");
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//
-//		Encoder encoder = Base64.getEncoder();
-//		Decoder decoder = Base64.getDecoder();
-//
-//		byte[] encoded = encoder.encode(fileByte);
-//		String encodedString = new String(encoded);
-//
-//		List<String> resStrings = new ArrayList<String>();
-//
-//		int encodedStringLength = encodedString.length();
-//		int opp = 0;
-//		while (true) {
-//			if (opp + 6000 < encodedStringLength) {
-//				resStrings.add(encodedString.substring(opp, opp + 6000));
-//				LOG.info("opp--" + opp);
-//				opp += 6000;
-//			} else {
-//				resStrings.add(encodedString.substring(opp, encodedStringLength));
-//				LOG.info("last" + opp + "last opp--" + encodedStringLength);
-//				break;
-//			}
-//		}
-//
-//		int i = 0;
-//
-//		resStrings.forEach(str -> {
-//			LOG.info(str.length());
-//		});
-//
-//		LOG.info("encoded ===== " + encoded);
-//		LOG.info("encodedString ===== " + encodedString);
-//		LOG.info("encodedString.length() ===== " + encodedString.length());
-//		LOG.info("resStrings.size() ===== " + resStrings.size());
-//
-//		return resStrings;
-//	}
 	
+	// 첨부파일 하나 다운로드
 	public ResponseEntity<Resource> downloadAttachment(String attachmentId, HttpServletResponse resp) throws Exception {
-
 		
-//		
 		Attachment attachment = attachmentRepository.findById(Utils.StrToBigInt(attachmentId)).get();
 		
 		Path filePath = Paths.get(attachment.getLocalPath()).normalize();
 		
 		Resource resource = new UrlResource(filePath.toUri());
 		
+		
 		return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(attachment.getContentType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
-
 	}
+	
+	
+	// 첨부파일 여러개 다운로드 zip 형식 
+	public ResponseEntity<byte[]> downloadAttachmentGroup(List<String> attachmentIds) throws Exception {		
+
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(byteArrayOutputStream);
+		ZipOutputStream zipOutputStream = new ZipOutputStream(bufferedOutputStream);
+		List<Attachment> attachments = new ArrayList<Attachment>();
+				
+		attachmentIds.forEach(attachmentId -> {
+			Attachment attachment = attachmentRepository.findById(Utils.StrToBigInt(attachmentId)).get();
+			attachments.add(attachment);
+		});	
+		
+		attachments.forEach(attachment -> {
+			try {
+				File fileToZip = new File(attachment.getLocalPath());
+				FileInputStream fileInputStream = new FileInputStream(fileToZip);
+	            ZipEntry zipEntry = new ZipEntry(fileToZip.getName());
+	            zipOutputStream.putNextEntry(zipEntry);
+	            
+	            IOUtils.copy(fileInputStream, zipOutputStream);
+	            
+	            fileInputStream.close();
+	            zipOutputStream.closeEntry();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+		
+		if (zipOutputStream != null)
+	    {
+	      zipOutputStream.finish();
+	      zipOutputStream.flush();
+	      IOUtils.closeQuietly(zipOutputStream);
+	    }
+	    IOUtils.closeQuietly(bufferedOutputStream);
+	    IOUtils.closeQuietly(byteArrayOutputStream);		
+				
+		return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"download.zip\"")
+                .body(byteArrayOutputStream.toByteArray());
+	}
+	
+	// 첨부파일 이동
+	public List<AttachmentDto.AttachmentResDto> moveAttachment(String attachmentId, String pdirId) {
+		
+		Attachment attachment = attachmentRepository.findById(Utils.StrToBigInt(attachmentId)).get();
+		Pdir pdir = pdirRepository.findByDidAndDflagFalse(Utils.StrToBigInt(pdirId));
+		
+		Pdir originPdir = attachment.getPdir();
+		
+		attachment.moveAttachment(pdir);
+		pLogService.createAttachmentLog(attachment, LogState.MOVE);
+		
+		return getAttachment(originPdir.getDid());
+	}
+	
+	// 첨부파일 복사
+	public AttachmentDto.AttachmentResDto copyAttachment(String attachmentId, String targetPdirId) {
+		
+		Attachment originAttachment = attachmentRepository.findById(Utils.StrToBigInt(attachmentId)).get();
+		
+		Pdir targetPdir = pdirRepository.findByDidAndDflagFalse(Utils.StrToBigInt(targetPdirId));
+		
+		Attachment copyAttachment = Attachment.builder().pdir(targetPdir)
+				.name(originAttachment.getName())
+				.coment(originAttachment.getComent())
+				.contentType(originAttachment.getContentType())
+				.volume(originAttachment.getVolume())
+				.localPath(originAttachment.getLocalPath())
+				.deleteFlag(false)
+				.build();		
+		
+		pLogService.createAttachmentLog(copyAttachment, LogState.COPY);
+		
+		return attachment2AttachmentResDto(attachmentRepository.save(copyAttachment));
+	}
+	
+	
+	
 
 	private Attachment buildAttachment(File destinationFile, String fileName, Pdir pdir,AttachmentDto.AttachmentReqDto attachmentReqDto, MultipartFile file) {
 		return Attachment.builder()
@@ -198,10 +242,11 @@ public class AttachmentService {
 		
 		LOG.info(file.getContentType());
 		
-//		String formatName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1);
 				
 		return destinationFile;
 	}
+	
+
 
 	private List<AttachmentDto.AttachmentResDto> attachments2AttachmentResDtos(List<Attachment> attachments) {
 		List<AttachmentDto.AttachmentResDto> attachmentResDtos = new ArrayList<AttachmentDto.AttachmentResDto>();
@@ -209,7 +254,7 @@ public class AttachmentService {
 		attachments.forEach(attachment -> {
 			AttachmentDto.AttachmentResDto attachmentResDto = AttachmentDto.AttachmentResDto.builder()
 					.attachmentId(attachment.getAttachmentId()).attachmentName(attachment.getName())
-					.volume(attachment.getVolume()).newDate(attachment.getNewDate())
+					.volume(attachment.getVolume()).newDate(attachment.getNewDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
 					.coment(attachment.getComent())
 					.contentType(attachment.getContentType()).build();
 
@@ -224,7 +269,7 @@ public class AttachmentService {
 		AttachmentDto.AttachmentResDto attachmentResDto = AttachmentDto.AttachmentResDto.builder()
 				.attachmentId(attachment.getAttachmentId()).attachmentName(attachment.getName())
 				.volume(attachment.getVolume())
-				.newDate(attachment.getNewDate())
+				.newDate(attachment.getNewDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
 				.coment(attachment.getComent())
 				.contentType(attachment.getContentType()).build();
 

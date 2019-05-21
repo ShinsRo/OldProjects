@@ -9,12 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nastech.upmureport.domain.dto.AttachmentDto;
+import com.nastech.upmureport.domain.dto.PfileDto;
 import com.nastech.upmureport.service.AttachmentService;
 import com.nastech.upmureport.support.Utils;
 
@@ -46,8 +48,6 @@ public class AttachmentContoller {
 		ObjectMapper objectMapper = new ObjectMapper();
 		AttachmentDto.AttachmentReqDto attachmentReqDto = objectMapper.readValue(json, AttachmentDto.AttachmentReqDto.class);
 		
-		LOG.info(file.getSize());
-		LOG.info(attachmentReqDto.toString());
 		
 		return attachmentService.saveAttachment(file, attachmentReqDto);
 	}
@@ -59,20 +59,6 @@ public class AttachmentContoller {
 		
 	}
 	
-//	@GetMapping("/download/{attachmentId}")
-//	public List<String> downloadAttachment(@PathVariable String attachmentId,HttpServletResponse resp) throws Exception {
-//		
-////		LOG.info(resp.getHeaderNames());
-////		
-////		List<String> resFile = attachmentService.downloadAttachment(attachmentId, resp);
-////		
-////		LOG.info(resFile);
-//		
-//        return attachmentService.downloadAttachment(attachmentId, resp);
-//
-//		//return AttachmentDto.AttachmentDownDto.builder().file(resFile).build();
-//    }
-	
 	@GetMapping("/download/{attachmentId}")
 	public ResponseEntity<Resource> downloadAttachment(@PathVariable String attachmentId,HttpServletResponse resp) throws Exception {
 		
@@ -80,11 +66,31 @@ public class AttachmentContoller {
 		
     }
 	
+	@PostMapping("/download/group")
+	public ResponseEntity<byte[]> downloadAttachment(@RequestBody List<String> attachmentIds) throws Exception {
+		
+       return attachmentService.downloadAttachmentGroup(attachmentIds);
+
+    }
+
+	
 	@DeleteMapping("/{attachmentId}")
 	public List<AttachmentDto.AttachmentResDto> deleteAttachment(@PathVariable String attachmentId)  {
 		
 		return attachmentService.deleteAttachment(attachmentId);
 		
+	}
+	
+	@PutMapping("/move/{attachmentId}/{pdirId}")
+	public List<AttachmentDto.AttachmentResDto> moveAttachment(@PathVariable String attachmentId, @PathVariable String pdirId){
+		
+		return attachmentService.moveAttachment(attachmentId, pdirId);		
+	}
+	
+	@PutMapping("/copy/{attachmentId}/{pdirId}")
+	public AttachmentDto.AttachmentResDto copyAttachment(@PathVariable String attachmentId, @PathVariable String pdirId){
+		
+		return attachmentService.copyAttachment(attachmentId, pdirId);		
 	}
 	
 }

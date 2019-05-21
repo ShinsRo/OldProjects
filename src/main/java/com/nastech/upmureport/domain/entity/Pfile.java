@@ -65,4 +65,8 @@ public class Pfile implements Serializable{
 	public void updateDate() {
 		this.updateDate = LocalDateTime.now();
 	}
+	
+	public void movePdir(Pdir pdir) {
+		this.pdir = pdir;
+	}
 }

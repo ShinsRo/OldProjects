@@ -21,7 +21,17 @@ class ProjectSideBar extends React.Component {
                 </div>
             </a>
             
-            <ProjTreeView projectState={projectState} handlers={handlers}/>
+            <ProjTreeView 
+                projectState={projectState} 
+                handlers={handlers}
+                movePfile = {this.props.movePfile}
+                copyPfile = {this.props.copyPfile}
+                moveAttachment = {this.props.moveAttachment}
+                copyAttachment = {this.props.copyAttachment}
+                getPfile = {this.props.getPfile}
+                getAttachment = {this.props.getAttachment}
+                getPLog = {this.props.getPLog}
+                />
         </ul>
         );
     }

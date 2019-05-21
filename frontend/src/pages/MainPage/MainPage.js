@@ -59,7 +59,7 @@ class MainPage extends Component {
       mainContent = (
         <div className="row"  >
           <div className="col-6">
-            <div className="card shadow mb-4" style={{ height: '850px' }}>
+            <div className="card shadow mb-4" style={{ height: '700px' }}>
               <Pfile />
             </div>
           </div>

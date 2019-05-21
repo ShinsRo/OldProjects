@@ -62,4 +62,8 @@ public class Attachment {
 	public void deleteAttachment() {
 		this.deleteFlag = true;
 	}
+	
+	public void moveAttachment(Pdir pdir) {
+		this.pdir = pdir;
+	}
 }

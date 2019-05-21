@@ -1,6 +1,7 @@
 package com.nastech.upmureport.service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,8 +74,7 @@ public class PLogService {
 	
 	public List<PLogDto> getPLogs(String projectId) {
 		Project project = null;
-		
-		
+				
 		project = projectRepository.findById(Utils.StrToBigInt(projectId)).get();
 		
 		List<PLog> pLogs = pLogRepository.findAllByProject(project);
@@ -89,7 +89,7 @@ public class PLogService {
 				pLogDto = PLogDto.builder()
 						.name(pLog.getName())
 						.contents(pLog.getContents())
-						.newDate(pLog.getNewDate())
+						.newDate(pLog.getNewDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
 						.logType(pLog.getLogType().getKey())
 						.logState(pLog.getLogState().getKey())
 						.pdirName(pLog.getPdir().getDname())
@@ -100,7 +100,7 @@ public class PLogService {
 				pLogDto = PLogDto.builder()
 						.name(pLog.getName())
 						.contents(pLog.getContents())
-						.newDate(pLog.getNewDate())
+						.newDate(pLog.getNewDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
 						.logType(pLog.getLogType().getKey())
 						.logState(pLog.getLogState().getKey())
 						.pdirName(pLog.getPdir().getDname())
