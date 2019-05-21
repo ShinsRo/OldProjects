@@ -29,7 +29,7 @@ class KssPushMsgReceiver {
         this.transactionId = -1;                                // 메세지 교환 당 트랜젝션 아이디
 
         this.socket = new SockJS(`${BASE_URL}/ws`);             // 소켓 클래스 (SockJS)
-        this.stompClient = Stomp.over(this.socket);             // STOP client
+        this.stompClient = Stomp.over(this.socket);             // STOMP client
         this.currentMsg = 'NO MESSAGE';                         // 최근 메세지
 
         /* 이하 메서드 바인딩 */
@@ -64,12 +64,12 @@ class KssPushMsgReceiver {
     /**
      * 서버와 소켓 연결과 구독, 핸들링 콜백을 정의한다.
      * 
-     * @param {KssTree} dirContainer 
+     * @param {KssTree} dirContainer 프로젝트 디렉토리 관리 컨테이너
      */
     connect(dirContainer) {
         const { socket, stompClient, register } = this;
 
-        // Stop client 연결 및 콜백 정의
+        // STOMP client 연결 및 콜백 정의
         this.stompClient.connect({}, frame => {
             
             /* Sokcet URL로부터 sessionId 추출 */

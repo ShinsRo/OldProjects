@@ -18,13 +18,13 @@ public class PushMessageConfig implements WebSocketMessageBrokerConfigurer {
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
 		registry.enableSimpleBroker("/globalChannel", "/queue", "/user");
-		registry.setApplicationDestinationPrefixes("/app");
+		registry.setApplicationDestinationPrefixes("/app", "/");
 		registry.setPathMatcher(new AntPathMatcher("."));
 	}
 	
 	@Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").setAllowedOrigins(DEV_ORIGIN).withSockJS();
+        registry.addEndpoint("/ws").setAllowedOrigins("*").withSockJS();
     }
 	
 	@Bean

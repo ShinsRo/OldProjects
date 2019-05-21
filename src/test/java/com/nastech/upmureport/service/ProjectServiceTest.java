@@ -103,7 +103,12 @@ public class ProjectServiceTest {
 				.progress(0)
 				.build();
 		
-		ps.register(pDTO);
+		try {
+			ps.register(pDTO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		pDTOList = ps.listByMid(kssMid);
 		assertTrue(pDTOList.size() == size + 1);
@@ -121,7 +126,13 @@ public class ProjectServiceTest {
 		String pname = pDTO1.getPname();
 		pDTO1.setPname(pname + "_수정본");
 		
-		ProjectDto pDTOr = ps.correct(pDTO1);
+		ProjectDto pDTOr = null;
+		try {
+			pDTOr = ps.correct(pDTO1);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		assertTrue(pDTOr.getPname().equals(pname + "_수정본"));
 	}
 	
