@@ -30,7 +30,7 @@ class RegisterPage extends Component {
                 //node.js 안의 window에 있음 jquery     # => id 
                 const $ = window.$;
                 $("#validation").html("비밀번호가 일치하지 않습니다.");
-                this.setState({ confirm: true })
+                this.setState({ confirm: false })
                 // this.setState({ });
                 /*
                  변경 버튼 비활성화
@@ -38,7 +38,7 @@ class RegisterPage extends Component {
             } else {
                 const $ = window.$;
                 $("#validation").html("비밀번호가 일치합니다.");
-                this.setState({ confirm: false })
+                this.setState({ confirm: true })
                 // this.setState({ });
                 /**
                  * 활성화
@@ -95,6 +95,37 @@ class RegisterPage extends Component {
             [target]: e.target.value
         })
     }
+
+    validatePhoneNumber = phoneNumberInput => {
+        const phoneNumberRegExp = /^\d{3}-\d{3,4}-\d{4}$/;
+      
+        if (phoneNumberInput.match(phoneNumberRegExp)) {
+          this.setState({
+            isPhoneNumberValid: true,
+            phoneNum: phoneNumberInput
+          });
+        } else {
+          this.setState({
+            isPhoneNumberValid: false,
+            phoneNum: phoneNumberInput
+          });
+        }
+      }
+      validateBirth = birthInput => {   // 들어오는 값   생일 검증
+        const birthRegExp = /^(19[0-9][0-9]|20\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
+      
+        if (birthInput.match(birthRegExp)) {
+          this.setState({
+            isBirthValid: true,
+            birth: birthInput
+          });
+        } else {
+          this.setState({
+            isBirthValid: false,
+            birth: birthInput
+          });
+        }
+      }
 
     registUserAPI() {
         const auth = {
@@ -185,10 +216,22 @@ class RegisterPage extends Component {
                                     <input value={this.state.name} onChange={e => this.handleChangeInput(e, 'name')} type="text" className="form-control form-control-user" name="name" placeholder="이름" />
                                 </div>
                                 <div className="form-group">
-                                    <input value={this.state.birth} onChange={e => this.handleChangeInput(e, 'birth')} type="text" className="form-control form-control-user" name="birth" placeholder="생일" />
+                                    <input value={this.state.birth} onChange={e => this.validateBirth(e.target.value)} type="text" className="form-control form-control-user" name="birth" placeholder="생일    YYYY-MM-DD" />
+                                    { this.state.isBirthValid &&
+                                    <label>올바른 형식입니다</label>
+                                    }
+                                    { !this.state.isBirthValid &&
+                                    <label>올바르지 않은 형식입니다</label>
+                                    }
                                 </div>
                                 <div className="form-group">
-                                    <input value={this.state.phoneNum} onChange={e => this.handleChangeInput(e, 'phoneNum')} type="text" className="form-control form-control-user" name="phoneNum" placeholder="핸드폰" />
+                                    <input value={this.state.phoneNum} onChange={e => this.validatePhoneNumber(e.target.value)} type="text" className="form-control form-control-user" name="phoneNum" placeholder="핸드폰" />
+                                    { this.state.isPhoneNumberValid &&
+                                    <label>올바른 형식입니다</label>
+                                    }
+                                    { !this.state.isPhoneNumberValid &&
+                                    <label>올바르지 않은 형식입니다</label>
+                                    }
                                 </div>
 
                                 <div className="form-group">
@@ -217,13 +260,12 @@ class RegisterPage extends Component {
                                                 })
                                             }
                                         </select>
-
                                     </div>
                                 </div>
 
 
                                 {/* <input type="button" onClick={this.registUserAPI.bind(this)} className="btn btn-darkblue btn-user btn-block" value="등록" /> */}
-                                <MDBBtn outline rounded size="sm" className="col" color="primary" disabled={this.state.confirm} onClick={this.registUserAPI.bind(this)}><MDBIcon icon="user-plus" className="mr-2" />사원 등록</MDBBtn>
+                                <MDBBtn outline rounded size="sm" className="col" color="primary" disabled={ !(this.state.confirm && this.state.isPhoneNumberValid && this.state.isBirthValid) } onClick={this.registUserAPI.bind(this)}><MDBIcon icon="user-plus" className="mr-2" />사원 등록</MDBBtn>
 
                                 {/* </form> */}
                             </div>

@@ -18,6 +18,7 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -135,6 +136,14 @@ public class UserController {
 		authInfoRepository.save(basicAuthInfo);
 		return basicAuthInfo;
 	}
+	
+	@PutMapping(value="/modify/phone")
+	public Member phoneModifyAPI(@RequestBody Member mem) {
+		System.out.println("폰컨"+mem);
+		Member modifyMem=memberService.modifyPhone(mem);
+		return modifyMem;
+	}
+	
 	
     @CrossOrigin
     @PostMapping(value = "/userlist")

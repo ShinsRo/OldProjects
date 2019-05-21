@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import HeaderContainer from "./containers/HeaderContainer";
-import SidebarContainer from "./containers/SidebarContainer"
+// import SidebarContainer from "./containers/SidebarContainer"
 import Member from "./components/Admin/Member"
-import Career from "./components/Admin/Career"
 import AddDept from "./components/Admin/AddDept"
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
@@ -14,7 +13,6 @@ import Modal from 'react-awesome-modal'
 import UserTable from './components/Admin/UserTable'
 import Register from '../RegisterPage/index'
 import { MDBBtn, MDBIcon } from 'mdbreact'
-import { MDBContainer, MDBModal, MDBModalBody, MDBModalFooter, MDBModalHeader } from 'mdbreact'
 import DelDept from "./components/Admin/DelDept";
 import DelPosi from "./components/Admin/DelPosi";
 class AdminPage extends Component {
@@ -159,18 +157,18 @@ class AdminPage extends Component {
               {/* <MDBBtn outline rounded size="sm" className="ml-3" color="primary" onClick={() => this.openModal('visible1')}><MDBIcon icon="landmark" className="mr-2" />부서 및 직책 관리</MDBBtn> */}
               <Modal visible={this.state.visible1} width="400" height="190" effect="fadeInLeft" onClickAway={() => this.closeModal('visible1')}>
                 <div >
-                  <h4 align="center" className="card-header text-primary"><MDBIcon icon="landmark" className="mr-2" />부서 및 직책 관리</h4>
+                  <h4 align="center" className="card-header text-primary"><MDBIcon icon="angle-down" className="mr-2" />부서 및 직책 관리</h4>
                   {
-                    this.state.select==1 && <AddDept deptList={deptList}></AddDept>
+                    this.state.select===1 && <AddDept deptList={deptList}></AddDept>
                   }
                   {
-                    this.state.select==2 && <DelDept deptList={deptList}></DelDept>
+                    this.state.select===2 && <DelDept deptList={deptList}></DelDept>
                   }
                   {
-                    this.state.select==3 && <AddPosi posiList={posiList}></AddPosi>
+                    this.state.select===3 && <AddPosi posiList={posiList}></AddPosi>
                   }
                   {
-                    this.state.select==4 && <DelPosi posiList={posiList}></DelPosi>
+                    this.state.select===4 && <DelPosi posiList={posiList}></DelPosi>
                   }
                 </div>
                 {/* <input type="button" value=" Close " className="btn btn-primary btn-icon-split" onClick={() => this.closeModal('visible1')}></input> */}

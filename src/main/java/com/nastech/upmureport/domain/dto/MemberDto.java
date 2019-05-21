@@ -27,6 +27,7 @@ public class MemberDto {
 	private LocalDate retireDate;
 	private Boolean dflag = false;
 	private List<Career> career=new ArrayList<Career>();
+	private String retireEid;
 	
 	
 	public Member toEntity() {
@@ -38,6 +39,6 @@ public class MemberDto {
 				phoneNum(phoneNum).
 				joinDate(joinDate).
 				retireDate(retireDate).dflag(dflag).
-				career(career).build();
+				career(career).retireEid(retireEid).build();
 		}
 }
