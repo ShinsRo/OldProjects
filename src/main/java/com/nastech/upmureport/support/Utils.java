@@ -3,8 +3,6 @@ package com.nastech.upmureport.support;
 import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.TimeZone;
 
@@ -35,13 +33,15 @@ public class Utils {
 		return BigInteger.valueOf(Integer.valueOf(target));
 	}
 	
+	
 	/**
 	 * dto의 이름이 같은 필드에 대해 dto로 덮어쓰기한 entity를 반환합니다.
+	 * 
 	 * @param entity
 	 * @param dto
 	 * @return
 	 */
-	public static <Entity, DTO> void overrideEntity(Entity entity, DTO dto){
+	public static <Entity, DTO> void overwriteEntity(Entity entity, DTO dto){
 		
 		Field[] entityFields = entity.getClass().getDeclaredFields();
 		Field[] dtoFields = dto.getClass().getDeclaredFields();

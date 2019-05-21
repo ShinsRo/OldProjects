@@ -12,7 +12,7 @@ class LogPanel extends Component {
 
     handleType = (type) => {
         if(type === 'PFILE'){
-            return '파일'
+            return '업무'
         } else {
             return '첨부파일'
         }
@@ -48,10 +48,10 @@ class LogPanel extends Component {
             content = (<>
                 
                 <div className="container m-0 p-0" id="LogTable" style={{ width:'100%' }}>
-                    <div className="row text-dark-1 text-bold" style={{ width:'100%',textAlign:"center", fontSize:"18px"}}>
-                        <div className="col-1">NO</div>
-                        <div className="col-4">이름</div>
-                        <div className="col-3">시간</div>
+                    <div className="row text-dark-1 text-bold" style={{ width:'100%', fontSize:"18px"}}>
+                        <div className="col-1" style={{textAlign:"center"}}>NO</div>
+                        <div className="col-4">제목</div>
+                        <div className="col-3">일시</div>
                         <div className="col-2 pl-0">대상</div>
                         <div className="col-2 pl-0">분류</div>
                         {/* <div className="col-1">행동</div>                                                      */}
@@ -64,12 +64,12 @@ class LogPanel extends Component {
                     <div className="row m-0 p-0 text-dark-1" style={{ width:'100%', overflowX :'auto' }} onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}> 
                         {logs.map((log, idx) => {
                             return (
-                            <div className="row" onClick={() => {onClickLog(log)}} style={{ width:'100%',  textAlign:"center", fontSize: '15px'}}>
-                                <div className="col-1">{idx + 1}</div>
-                                <div className="col-4" style={{ textAlign:"center"}}>{this.handleName(log.name)}</div>
-                                <div className="col-3" style={{ textAlign:"center"}}>{log.newDate}</div>
-                                <div className="col-2" style={{ textAlign:"center"}}>{log.pdirName}</div>
-                                <div className="col-2" style={{ textAlign:"center"}}>{this.handleType(log.logType)}</div>
+                            <div className="row" onClick={() => {onClickLog(log)}} style={{ width:'100%', fontSize: '15px'}} key={idx}>
+                                <div className="col-1" style={{textAlign:"center"}}>{idx + 1}</div>
+                                <div className="col-4">{this.handleName(log.name)}</div>
+                                <div className="col-3">{log.newDate}</div>
+                                <div className="col-2">{log.pdirName}</div>
+                                <div className="col-2">{this.handleType(log.logType)}</div>
                                 {/* <div className="col-1" style={{ textAlign:"center"}}>{log.logState}</div> */}
                             </div>
                             );
@@ -81,8 +81,8 @@ class LogPanel extends Component {
         }
 
         return (<>
-            <div className="card shadow mb-4"  style={{ width: '100%'}}>
-                <div className="card-header font-weight-bold text-dark-1 m-0" style={{textAlign: "center"}}>로그</div>
+            <div className="card shadow mb-3"  style={{ width: '100%'}}>
+                <div className="card-header font-weight-bold text-dark-1 m-0" style={{fontSize:"25px"}}>로그</div>
                 <div className="card-body m-0">
                     {content}
                 </div>

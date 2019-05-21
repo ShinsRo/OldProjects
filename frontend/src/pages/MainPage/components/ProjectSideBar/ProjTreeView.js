@@ -3,17 +3,23 @@ import stores from '../../../../stores';
 import { pdir_api } from '../../../../stores/modules/projectState';
 import AddModal from './AddModal';
 import DirCorrectModal from './DirCorrectModal';
+import BehaviorModal from '../Pfile/BehaviorModal'
+import * as $ from "jquery";
+import { th } from 'date-fns/esm/locale';
 
 class ProjTreeView extends React.Component {
 
     constructor(props) {
         super(props);
+        this.onDrop = this.onDrop.bind(this);
+
         this.drawTree = this.drawTree.bind(this);
         this.onDirClick = this.onDirClick.bind(this);
         this.onAddClick = this.onAddClick.bind(this);
         this.dirDisable = this.dirDisable.bind(this);
         this.dirCorrect = this.dirCorrect.bind(this);
         this.reloadFromParent = this.reloadFromParent.bind(this);
+        this.showBehaviorModal = this.showBehaviorModal.bind(this);       
 
         this.state = {
             treeMap: {},
@@ -58,12 +64,50 @@ class ProjTreeView extends React.Component {
         this.setState({ showDirCorrectModal: true });
     }
 
-    onDropDir(e, dir) {
+    onDrop(e, targetDir) {         
         const enterChar = e.target.getElementsByClassName('enterChar')[0];
-        if (enterChar) enterChar.innerHTML = "";
 
+        if (enterChar) enterChar.innerHTML = "";
+        
+        if (e.dataTransfer.getData('draggable') === 'false') return;
+        if (!e.dataTransfer.getData('from')) return;
+
+        const type = e.dataTransfer.getData('type');
         const from = JSON.parse(e.dataTransfer.getData('from'));
-        const to = dir;
+
+        switch (type) {
+            case "DIRECTORY":
+                this.moveDir(from, targetDir);
+                break;
+            
+            case "FILE":
+                this.setState({ 
+                    dropInfo: {
+                        from: from, 
+                        to : targetDir, 
+                        type: 'pfile' 
+                    }}, this.showBehaviorModal());
+                break;
+
+            case "ATTACHMENT" :
+                 this.setState({ 
+                    dropInfo: {
+                        from: from, 
+                        to : targetDir, 
+                        type: 'attachment' 
+                    }}, this.showBehaviorModal());
+                break;
+            default:
+                break;
+        }
+     }
+
+     showBehaviorModal() {        
+        window.$('#BehaviorModal').modal('show');
+     }
+
+    moveDir(from, to) {
+        if(!from.id) return;
         
         const { projectState } = this.props;
         const dirContainer = projectState.get("dirContainer");
@@ -90,17 +134,20 @@ class ProjTreeView extends React.Component {
             }).catch( err => {
                 alert("오류로 인해 디렉토리를 바꿀 수 없습니다.");
             });
-        
     }
 
-    onDirEnter(e) { 
+    onDirEnter(e) {
         const enterChar = e.target.getElementsByClassName('enterChar')[0];
         if (enterChar) enterChar.innerHTML = "↵";
     }
 
     onDragStart(e, dir) {
-        e.dataTransfer.setData('from', JSON.stringify(dir));
-        e.dataTransfer.setData('fromId', dir.id);
+        if (e.target.draggable && dir) {
+            e.dataTransfer.setData('type', 'DIRECTORY');
+            e.dataTransfer.setData('from', JSON.stringify(dir));
+            e.dataTransfer.setData('fromId', dir.id);
+        }
+        e.dataTransfer.setData('draggable', e.target.draggable);
     }
 
     onDirLeave(e) {
@@ -132,7 +179,6 @@ class ProjTreeView extends React.Component {
                         </span>
                     );
                 }
-
                 return (<div key={dir.id}>
                     <div className="kss-tree-item" 
                         draggable={dir.parent !== 'root'}
@@ -142,7 +188,7 @@ class ProjTreeView extends React.Component {
                         onDragStart={(e) => { this.onDragStart(e, dir); }}
                         onDragLeave={(e) => { this.onDirLeave(e); }}
                         onDragEnter={(e) => { this.onDirEnter(e); }}
-                        onDrop={(e) => { this.onDropDir(e, dir); }}
+                        onDrop={(e) => { this.onDrop(e, dir); }}
                     >
                         <span className="kss-tree-icon" onClick={() => { this.toggleFold(dir.id) }}>
                             {(() => {
@@ -168,10 +214,12 @@ class ProjTreeView extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div key={dir.id} onClick={() => { this.onDirClick(dir.id) }} className="kss-tree-item-title"
+                        <div key={dir.id} 
+                            className="kss-tree-item-title"
+                            onClick={() => { this.onDirClick(dir.id) }}
                             onDragLeave={(e) => { this.onDirLeave(e); }}
                             onDragEnter={(e) => { this.onDirEnter(e); }}
-                            onDrop={(e) => { this.onDropDir(e, dir); }}
+                            onDrop={(e) => { this.moveDir(e, dir); }}
                         >
                         {(() => {
                             if (!isRoot) {
@@ -222,6 +270,7 @@ class ProjTreeView extends React.Component {
 
     onFilterInputChange(e) {
         const keyword = e.target.value;
+
         const { projectState } = this.props;
         const dirContainer = projectState.get("dirContainer");
 
@@ -248,7 +297,7 @@ class ProjTreeView extends React.Component {
                         <input 
                             type="text" 
                             placeholder="filter" 
-                            className="kss-tree-filter-input" 
+                            className="kss-tree-filter-input"
                             onChange={this.onFilterInputChange.bind(this)}
                         />
                     </div>
@@ -267,6 +316,17 @@ class ProjTreeView extends React.Component {
                 </div>
                 <AddModal reload={this.reload.bind(this)}></AddModal>
                 <DirCorrectModal reload={this.reload.bind(this)}></DirCorrectModal>
+
+                <BehaviorModal 
+                dropInfo = {this.state.dropInfo}
+                movePfile = {this.props.movePfile}
+                copyPfile = {this.props.copyPfile}
+                moveAttachment = {this.props.moveAttachment}
+                copyAttachment = {this.props.copyAttachment}
+                getPfile = {this.props.getPfile}
+                getAttachment = {this.props.getAttachment}
+                getPLog = {this.props.getPLog}/>
+
                 {/* {this.state.showAddModal && } */}
             </div>
         );

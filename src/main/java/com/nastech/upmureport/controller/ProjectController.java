@@ -1,12 +1,13 @@
 package com.nastech.upmureport.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nastech.upmureport.config.MessageSessionContainer;
-import com.nastech.upmureport.domain.dto.CollaboratorDto;
 import com.nastech.upmureport.domain.dto.ProjectDto;
 import com.nastech.upmureport.service.ProjectService;
 
@@ -29,24 +28,67 @@ public class ProjectController {
 	@Autowired
 	private ProjectService ps;
 	
-	
 	@GetMapping(value = "/list")
-	ResponseEntity<List<ProjectDto>> list(@RequestParam(value = "mid", required=true) String mid) {
-		return ResponseEntity.ok().body(ps.listByMid(mid));
+	ResponseEntity<?> list(@RequestParam(value = "mid", required=true) String mid) {
+		List<ProjectDto> returnBody = null;
+		ResponseEntity<?> response = null;
+		
+		try {			
+			returnBody = ps.listByMid(mid);
+			response = ResponseEntity.ok().body(returnBody);
+		}
+		catch (IllegalArgumentException iae) 	{ response = ResponseEntity.badRequest().body("입력 형식이 올바르지 않습니다."); } 
+		catch (NoSuchElementException nee) 		{ response = ResponseEntity.badRequest().body("알 수 없는 유저 정보입니다."); }
+		catch (Exception e) 					{ response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e); }
+		
+		return response;
 	}
 	
 	@PostMapping(value = "/register")
-	ResponseEntity<ProjectDto> register(@RequestBody ProjectDto pDto) {
-		return ResponseEntity.ok().body(ps.register(pDto));
+	ResponseEntity<?> register(@RequestBody ProjectDto pDto) {
+		ProjectDto returnBody = null;
+		ResponseEntity<?> response = null;
+		
+		try {			
+			returnBody = ps.register(pDto);
+			response = ResponseEntity.ok().body(returnBody);
+		}
+		catch (IllegalArgumentException iae) 	{ response = ResponseEntity.badRequest().body("입력 형식이 올바르지 않습니다."); } 
+		catch (NoSuchElementException nee) 		{ response = ResponseEntity.badRequest().body("알 수 없는 유저 정보입니다."); }
+		catch (Exception e) 					{ response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e); }
+		
+		return response;
 	}
 	
 	@PutMapping(value = "/correct")
-	ResponseEntity<ProjectDto> correct(@RequestBody ProjectDto pDto) {
-		return ResponseEntity.ok().body(ps.correct(pDto));
+	ResponseEntity<?> correct(@RequestBody ProjectDto pDto) {
+		ProjectDto returnBody = null;
+		ResponseEntity<?> response = null;
+		
+		try {			
+			returnBody = ps.correct(pDto);
+			response = ResponseEntity.ok().body(returnBody);
+		}
+		catch (IllegalArgumentException iae) 	{ response = ResponseEntity.badRequest().body("입력 형식이 올바르지 않습니다."); } 
+		catch (NoSuchElementException nee) 		{ response = ResponseEntity.badRequest().body("알 수 없는 프로젝트 정보이거나 유저 정보입니다."); }
+		catch (Exception e) 					{ response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e); }
+		
+		return response;
 	}
 	
 	@PutMapping(value = "/disable")
-	ResponseEntity<ProjectDto> disable(@RequestBody ProjectDto pDto)  {
-		return ResponseEntity.ok().body(ps.disable(pDto));
+	ResponseEntity<?> disable(@RequestBody ProjectDto pDto)  {
+		ProjectDto returnBody = null;
+		ResponseEntity<?> response = null;
+		
+		try {			
+			returnBody = ps.disable(pDto);
+			response = ResponseEntity.ok().body(returnBody);
+		}
+		catch (IllegalArgumentException iae) 	{ response = ResponseEntity.badRequest().body("입력 형식이 올바르지 않습니다."); } 
+		catch (NoSuchElementException nee) 		{ response = ResponseEntity.badRequest().body("알 수 없는 프로젝트 정보이거나 유저 정보입니다."); }
+		catch (Exception e) 					{ response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e); }
+		
+		return response;
 	}
 }

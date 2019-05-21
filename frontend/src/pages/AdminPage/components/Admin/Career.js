@@ -47,8 +47,6 @@ class Career extends Component {
     )
   }
 
-
-
   render() {
     const { deptList } = this.props
     const { posiList } = this.props
@@ -109,10 +107,6 @@ class Career extends Component {
                         )
                       })
                     }
-                    {/* <option value="grapefruit">{currentCarrer&& currentCarrer.dept}</option>
-                                <option value="lime">Lime</option>
-                                <option value="coconut">Coconut</option>
-                                <option value="mango">Mango</option> */}
                   </select>
                 </form>
               </div>

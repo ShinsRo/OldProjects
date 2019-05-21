@@ -4,16 +4,16 @@ class Toast extends Component {
 
     render() {
         return(<>
-            <div id="toastContainer" class="toast" data-delay="3000">
-                <div class="toast-header">
+            <div id="toastContainer" className="toast" data-delay="3000">
+                <div className="toast-header">
                     <i className="fas fa-exclamation-triangle mr-2"></i>
-                    <strong id="toastHeader" class="mr-auto font-weight-bold text-black"></strong>
+                    <strong id="toastHeader" className="mr-auto font-weight-bold text-black"></strong>
                     <small id="toastTime"></small>
-                    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <button type="button" className="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="toast-body text-black">
+                <div className="toast-body text-black">
                     <span id="toastBody"></span>
                 </div>
             </div>

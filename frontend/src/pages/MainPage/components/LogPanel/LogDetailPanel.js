@@ -13,7 +13,6 @@ class LogDetailPanel extends Component {
     }
 
 
-
     render() {
         // const { pfileLog, attachmentLog } = this.props;
         const { log } = this.props;
@@ -30,6 +29,7 @@ class LogDetailPanel extends Component {
                             </div>
                         </div>
                     </div>
+
                     <div className="card-body">
 
                         <div className="row mb-3">
@@ -46,7 +46,7 @@ class LogDetailPanel extends Component {
                                 <div className="font-weight-bold text-dark-1" style={{textAlign: "center"}}>내용</div>
                             </div>
                             <div className="col-10">
-                                <textarea className="form-control text-dark-1 " readOnly rows='5' style={{ resize: 'none' }} value={log.contents}/>
+                                <textarea className="form-control text-dark-1 " readOnly rows='4' style={{ resize: 'none' }} value={log.contents}/>
                             </div>
                         </div>
 

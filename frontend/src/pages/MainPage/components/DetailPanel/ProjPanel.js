@@ -84,6 +84,9 @@ class ProjPanel extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
+
+        if (!window.confirm("이대로 수정할까요?")) return;
+
         const data = new FormData(e.target);
         const pDto = {};
         
@@ -98,6 +101,8 @@ class ProjPanel extends Component {
         });
 
         correct(pDto).then((res) => {
+            console.log(res);
+            
             const project = res.data;
             const { projectState } = this.props;
             const dirContainer = projectState.get("dirContainer");
@@ -324,7 +329,7 @@ class ProjPanel extends Component {
                     <br></br>
                     { !project.isOrigin && (
                         <div className="text-right">
-                            <button className="btn btn-dark mr-2" onClick={(e) => {e.preventDefault(); alert("구현중");}}>취소</button>
+                            {/* <div className="btn btn-dark mr-2" onClick={(e) => {e.preventDefault(); alert("구현중");}}>취소</div> */}
                             <input className="btn btn-dark-2" type="submit" value="수정하기"></input>
                         </div>
                     )}

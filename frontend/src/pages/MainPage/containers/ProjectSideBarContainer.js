@@ -63,13 +63,20 @@ class ProjectSideBarContainer extends Component {
     render() {
         const { projectState } = store.getState();
         
-        const { ProjectActions } = this.props;
+        const { ProjectActions, PfileActions, AttachmentAction, PLogActions } = this.props;
         
         return (<>
             <ProjectSideBar 
                 projectState={projectState} 
                 ProjectActions={ProjectActions}
                 handlers={this.handlers}
+                movePfile = {PfileActions.movePfile}
+                copyPfile = {PfileActions.copyPfile}
+                moveAttachment = {AttachmentAction.moveAttachment}
+                copyAttachment = {AttachmentAction.copyAttachment}
+                getPfile = {PfileActions.getPfile}
+                getAttachment = {AttachmentAction.getAttachment}
+                getPLog = {PLogActions.getPLog}
             ></ProjectSideBar>
         </>);
     }
@@ -82,7 +89,7 @@ export default connect(
     }),
     (dispatch) => ({
         ProjectActions: bindActionCreators(projectActions, dispatch),
-        PfileActions: bindActionCreators(pfileAction, dispatch),
+    PfileActions: bindActionCreators(pfileAction, dispatch),
         AttachmentAction: bindActionCreators(attachmentAction, dispatch),
         PLogActions : bindActionCreators(plogActions, dispatch),
     })

@@ -24,7 +24,11 @@ class AttachmentForm extends Component {
     }
 
     onFileChange = (e) => {
-        this.setState({ uploadAttachment: e.target.files[0] })
+        if(e.target.files[0].size > 1048576){
+            window.alert('파일 용량이 초과하였습니다. \n최대 용량은 1048.576 KB 입니다.')
+        }else {
+            this.setState({ uploadAttachment: e.target.files[0] })
+        }
     }
 
     attachmentUpload = (file) => {
@@ -53,16 +57,20 @@ class AttachmentForm extends Component {
     render() {
 
         return (
-                <div className="card shadow mb-4" style={{ width: '100%' }}>
+                <div className="card shadow mb-4" style={{ height: '100%', width: '100%'}}>
                     <div className="card-header py-3">
-                    <div className="row text-lg font-weight-bold text-dark-1" style={{textAlign: "center" ,marginLeft:"10px"}}>
+                    <div className="row font-weight-bold text-dark-1" style={{textAlign: "center" ,marginLeft:"10px", fontSize:'25px'}}>
                         첨부파일을 추가합니다
                     </div>  
                     </div>
 
                     <div className="card-body"> 
                         <div className="row justify-content-end mb-2">
-                            <div class="custom-file" style={{ width: '77%', marginRight:"40px" }}>
+                            <div className="col-2 font-weight-bold text-dark-1" style={{textAlign: "center"}}>
+                                첨부 파일
+                            </div>
+                            <div className="col-10 pr-5">
+                            <div class="custom-file">
                                 <input type="file"
                                     class="custom-file-input" id="inputGroupFile01"
                                     aria-describedby="inputGroupFileAddon01"
@@ -72,20 +80,23 @@ class AttachmentForm extends Component {
                                     {this.state.uploadAttachment ? this.state.uploadAttachment.name : "Choose file"}
                                 </label>
                             </div>
+                            </div>
                         </div>  
 
+                        <hr/>
+
                         <div className="row mb-4" style={{ width: '100%' }}>
-                            <div className="col-2 text-lg font-weight-bold text-dark-1" style={{textAlign: "center"}}>
+                            <div className="col-2 font-weight-bold text-dark-1" style={{textAlign: "center"}}>
                                 코멘트
                             </div>
                             <div className="col">
-                                <textarea rows='11' style={{ resize: 'none' }} className="form-control" onChange={this.handleContentChange} />
+                                <textarea rows='9' style={{ resize: 'none' }} className="form-control" onChange={this.handleContentChange} />
                             </div>
                         </div>
 
                         
 
-                        <div className="row justify-content-center mt-3">
+                        <div className="row justify-content-end mt-3 mr-4">
                             <button className="btn btn-dark-1 p-2" onClick={this.onFormSubmit} >Upload</button>
                         </div>
                     </div>

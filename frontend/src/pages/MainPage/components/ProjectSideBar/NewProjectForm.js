@@ -9,8 +9,8 @@ class NewProjectForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            stDate: null,
-            edDate: null,
+            stDate: new Date(),
+            edDate: new Date(),
             progress: 0,
             gubun: 'project',
             show: true,
@@ -22,9 +22,11 @@ class NewProjectForm extends Component {
     }
 
     onStartDateChange(date) {
+        if ( date.getTime() > this.state.edDate.getTime() ) { alert('마감일이 시작일보다 미래일 수 없습니다.'); return; }
         this.setState({ stDate: new Date(date) });
     }
     onEndDateChange(date) {
+        if ( date.getTime() < this.state.stDate.getTime() ) { alert('마감일이 시작일보다 미래일 수 없습니다.'); return; }
         this.setState({ edDate: new Date(date) });
     }
     onProgressChange(e) {
@@ -33,9 +35,14 @@ class NewProjectForm extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        const data = new FormData(e.target);
+        
+        if (!window.confirm("프로젝트를 이대로 등록할까요?")) return;
+
+        // const data = new FormData(e.target);
+        const data = new FormData(document.getElementById('newProjectForm'));
         const pDto = {};
         
+
         data.forEach((value, key) => {
             if (key === 'stDate' || key === 'edDate') {
                 pDto[key] = new Date(value).toISOString();
@@ -68,13 +75,14 @@ class NewProjectForm extends Component {
     render() {
         const { memberInfo } = this.props;
         return (
-        <form className="user" onSubmit={this.handleSubmit}>
+        <form id="newProjectForm" className="user" onSubmit={this.handleSubmit}>
         
         <hr></hr>
         <h6 className="font-weight-bold">프로젝트 참여자</h6>
         <div className="form-group row">
             <div className="col">
                 <Collaborators
+                    key={Date.now().toString()}
                     type="NEW_PROJECT"
                     collaborators={ [{ mid: memberInfo.mid, name: memberInfo.name, prole: '관리자' }] }
                     reload={this.props.reload}
@@ -111,6 +119,7 @@ class NewProjectForm extends Component {
                     endDate={this.state.edDate}
                     onChange={this.onStartDateChange}
                     placeholderText="프로젝트 시작일"
+                    required
                 />
                 <input name="stDate" type="hidden" value={this.state.stDate || "null"}/>
             </div>
@@ -124,6 +133,7 @@ class NewProjectForm extends Component {
                     endDate={this.state.edDate}
                     onChange={this.onEndDateChange}
                     placeholderText="프로젝트 마감일"
+                    required
                 />
                 <input name="edDate" type="hidden" value={this.state.edDate || "null"}/>
             </div>
@@ -144,7 +154,7 @@ class NewProjectForm extends Component {
         </div>
         <div className="form-group row">
             <div className="col">
-                <textarea name="description" id="description" cols="30" rows="10" className="form-control" placeholder="프로젝트 설명">
+                <textarea name="description" id="description" cols="30" rows="10" className="form-control" placeholder="프로젝트 설명" required>
                 </textarea>
             </div>
         </div>
@@ -153,7 +163,7 @@ class NewProjectForm extends Component {
         </div> */}
         <div className="row mb-3">
             <div className="col">
-                <select name="pstat" id="pstat" className="form-control">
+                <select name="pstat" id="pstat" className="form-control" required>
                     <option value="">상태</option>
                     <option value="대기">대기</option>
                     <option value="접수">접수</option>
@@ -171,8 +181,9 @@ class NewProjectForm extends Component {
             </div>
         </div>
         <div className="modal-footer">
-            <button className="btn btn-secondary" type="button" data-dismiss="modal">취소하기</button>
-            <input className="btn  btn-dark-1" type="submit" value="추가하기"></input>
+            <button className="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
+            <button className="btn btn-dark-1" type="submit">추가하기</button>
+            {/* <div className="btn btn-dark-1" onClick={this.handleSubmit}>추가하기</div> */}
         </div>
         </form>
         );

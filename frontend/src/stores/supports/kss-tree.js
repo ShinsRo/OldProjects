@@ -106,6 +106,13 @@ class KssTree {
      * @param {Object} project
      */
     correctProject(project) {
+        // project가 새로운 프로젝트인 경우 (타인의 초대)
+        if (!this.projectMap.hasOwnProperty(project.pid)) {
+            this.addProject(project);
+            this.buildDirTrees();
+            return;
+        }
+
         const tempDirs = this.projectMap[project.pid].dirs;     // 이전 프로젝트의 하위 디렉토리 배열
 
         this.projectMap[project.pid] = project;
@@ -175,7 +182,7 @@ class KssTree {
         dirTrees.forEach(dir => {
             // 키워드를 디렉토리 이름에서 검색한다.
             dir.filter = dir.title.indexOf(keyword) !== -1;
-
+            
             // 검색에 성공하면 지나온 부모 디렉토리를 모두 열고 보이도록 설정한다.
             if (dir.filter) {
                 path.forEach(dir => { dir.filter = true; dir.isOpen = true; });
