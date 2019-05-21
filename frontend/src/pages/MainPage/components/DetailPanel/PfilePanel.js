@@ -23,7 +23,7 @@ class PfilePanel extends Component {
         const { selectedProject } = this.props;
         const pfile = this.props.pfileState.get('pfile');
 
-        let updateBtn =  selectedProject && selectedProject.prole != '게스트' && (
+        let updateBtn =  selectedProject && selectedProject.prole !== '게스트' && (
             <div className="row justify-content-end mr-1">
                         <div className="btn-group" role="group" aria-label="Basic example">
                             <button type="button" className="btn btn-dark-1 p-2 mt-3" onClick={this.onClickUpdateBts}>

@@ -48,7 +48,7 @@ class PfileItem extends Component {
                         파일
                     </div>
                     <div className="col-1">
-                        <span onClick={() => this.props.onClickPfileDelete(pfile.pfileId)} class="badge badge-danger bg-danger btn-sm" style={{cursor: 'pointer'}}>
+                        <span onClick={() => this.props.onClickPfileDelete(pfile.pfileId)} className="badge badge-danger bg-danger btn-sm" style={{cursor: 'pointer'}}>
                             삭제
                         </span>
                     </div>
