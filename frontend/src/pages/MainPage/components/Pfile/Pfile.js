@@ -120,7 +120,6 @@ class Pfile extends Component {
         return (          
         <div> 
           <div className="card-header py-3">  
-            
             <div className="row">
               <div className="col text-dark-1 font-weight-bold" style={{fontSize: "25px"}}>
                 업무 목록
