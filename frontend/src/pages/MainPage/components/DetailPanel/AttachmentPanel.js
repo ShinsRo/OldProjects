@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { BASE_URL } from '../../../../supports/API_CONSTANT'
 class AttachmentPanel extends Component {
 
     state = {
@@ -20,7 +20,7 @@ class AttachmentPanel extends Component {
         // document.body.appendChild(link);
         // link.click();
         // document.body.removeChild(link);
-        e.preventDefault();
+        e.preventDefault(); 
         downloadAttachment(attachment.attachmentId);
     }
 

@@ -63,7 +63,7 @@ class PfileTable extends React.Component {
 
         const {pfiles, attachments} = this.props;
 
-        console.log(this.state)
+        console.log(this.props)
 
         return (
             <div height="100px">

@@ -204,6 +204,7 @@ public class AttachmentService {
 				.volume(originAttachment.getVolume())
 				.localPath(originAttachment.getLocalPath())
 				.deleteFlag(false)
+				.newDate(LocalDateTime.now())
 				.build();		
 		
 		pLogService.createAttachmentLog(copyAttachment, LogState.COPY);
