@@ -17,30 +17,91 @@ import com.nastech.upmureport.domain.dto.ProjectDto;
 
 @Service
 public class ProjectNotificationService {
-
+	public enum NOTIFICATION_TYPE {
+		NEW_PROJECT,
+		CORRECT_PROJECT,
+	}
+	
 	@Autowired
 	MessageSessionContainer msc;
 	
 	@Autowired
 	SimpMessagingTemplate smt;
 	
-	public void notifyTo(String from, ProjectDto projectDto, String type) {
-		List<CollaboratorDto> collaborators = projectDto.getCollaborators();
-		Map<String, MessageSession> msMap = msc.getContainer();
+	/**
+	 * 타입에 따라 메세지를 특정(혹은 불특정) 소켓을 통해 보낸다.
+	 * 
+	 * NEW_PROJECT: CORRECT_PROJECT:
+	 * 	프로젝트를 생성(수정)할 때, 접속 중인 클라이언트가 협업자로 포함되었으면
+	 * 	해당 클라이언트에 동기화하기위한 메세지를 보낸다.
+	 * 
+	 * NOTIFY:
+	 *  모든 접속 중인 클라이언트에게 소켓 메세지를 보낸다.
+	 * 
+	 * CHAT:
+	 * 	채팅 메세지를 관련한 사원에 브로드캐스트한다.
+	 * 
+	 * @author 김승신		2019.05.21.
+	 * @param fromMid	보내는 이 멤버 식별 아이디
+	 * @param dto		보낼 DTO		
+	 * @param type		메세지 타입
+	 */
+	public <MSG> void sendDtoByType(String fromMid, MSG dto, NOTIFICATION_TYPE type) {
+		Map<String, MessageSession> sessionMap 	= msc.getContainer();				// 현재 접속 중인 세션 맵 { mid : MessageSession }
 		
-		for (CollaboratorDto collaboratorDto : collaborators) {
-			if (collaboratorDto.getMid().equals(from)) continue;
+		switch(type) {
+		case NEW_PROJECT: case CORRECT_PROJECT:
 			
-			MessageSession collabSession = msMap.get(collaboratorDto.getMid());
-			if (collabSession != null) {
-				smt.convertAndSend("/user." + collabSession.getSessionId() + type, projectDto, createHeaders(collabSession.getSessionId()));
+			/* 에러처리 시작 */
+			if (dto == null || !(dto instanceof ProjectDto)) {
+				/* 올바르지 않은 인자 */
+				break;
 			}
+			
+			if (!sessionMap.containsKey(fromMid)) {
+				/* 유효하지 않은(이미 연결을 해제한) 멤버 식별 아이디 */
+				break;
+			}
+			/* 에러처리 시작 끝 */
+			
+			ProjectDto projectDto 					= (ProjectDto) dto;					// 보낼 프로젝트 내용
+			List<CollaboratorDto> collaborators 	= projectDto.getCollaborators();	// 프로젝트에서 관련한 협업자 리스트
+			
+			MessageSession fromSession 				= sessionMap.get(fromMid);			// 보내는 이
+			
+			/* 메세지 보내기 시작 */
+			for (CollaboratorDto collaboratorDto : collaborators) {
+				String collabMid = collaboratorDto.getMid();	// 메세지 받을 이 mid
+				
+				if (collaboratorDto.getMid().equals(fromMid)) 	continue;
+				if (!sessionMap.containsKey(collabMid)) 		continue;
+				
+				MessageSession collaboratorSession 	= sessionMap.get(collabMid);			// 받을 이
+				String collaboratorSessionId 		= collaboratorSession.getSessionId();	// 받을 이 소켓 세션 아이디
+				
+				// 보낸 이와 타입을 헤더에 첨부
+				MessageHeaders msgHeaders = createHeaders(fromSession.getSessionId(), type);
+								
+				/* 받는 이 주소 셋팅 "/user.{targetSocketId}:TYPE"  */
+				StringBuilder channelName = new StringBuilder("/user.");
+				channelName.append(collaboratorSessionId);
+				channelName.append(":PROJECT");
+				/* 받는 이 주소 셋팅 끝 */
+				
+				// 메세지 전송
+				smt.convertAndSend(channelName.toString(), projectDto, msgHeaders);
+			}
+			/* 메세지 보내기 끝 */
+			break;
+		default:
+			break;
 		}
 	}
 	
-	private MessageHeaders createHeaders(String sessionId) {
+	private MessageHeaders createHeaders(String sessionId, NOTIFICATION_TYPE type) {
 		SimpMessageHeaderAccessor ha = SimpMessageHeaderAccessor.create(SimpMessageType.MESSAGE);
 		ha.setSessionId(sessionId);
+		ha.setHeader("TYPE", type);
 		ha.setLeaveMutable(true);
 		return ha.getMessageHeaders();
 	}

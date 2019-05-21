@@ -53,7 +53,7 @@ public class PdirService {
 				.project(p)
 				.build();
 		
-		Utils.overrideEntity(pdir, dto);
+		Utils.overwriteEntity(pdir, dto);
 		return new PdirDto(dr.save(pdir));
 	}
 	
@@ -65,7 +65,7 @@ public class PdirService {
 		
 		switch (gubun) {
 		case "rename":
-			Utils.overrideEntity(dir, dto);
+			Utils.overwriteEntity(dir, dto);
 			break;
 		case "move":			
 			if (parentDid.equals("root")) { /* 최상위 루트 디렉토리 ("/")는 수정 불가하므로 익셉션 처리 할 것 */ }

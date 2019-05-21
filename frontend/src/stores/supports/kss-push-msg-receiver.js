@@ -82,7 +82,7 @@ class KssPushMsgReceiver {
             stompClient.subscribe('/globalChannel/notify', message => { /* 글로벌 메세지 */ });
 
             // 프로젝트 변동 알림 채널
-            stompClient.subscribe(`/user.${sessionId}/updateProject`, message => {
+            stompClient.subscribe(`/user.${sessionId}:PROJECT`, message => {
                 let pDto = JSON.parse(message.body);    // 프로젝트 DTO
                 let timePassed;                         // 변동 후 현재 클라이언트에 도달하기까지 걸린 시간
                 const $ = window.$;                     // Jquery 객체
