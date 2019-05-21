@@ -64,12 +64,11 @@ class Header extends Component {
 
                             <div className="dropdown-divider"></div>
 
-                            <div className="text-center">
-                                <a onClick={handleLogout} href="/" className="btn btn-danger btn-icon-split ml-1 mr-1">
-                                    <span className="icon text-white-50">
-                                        <i className="fas fa-sign-out-alt"></i>
-                                    </span>
-                                    <span className="text">로그아웃</span>
+                            <div className="">
+                                <a onClick={handleLogout} href="/" className="dropdown-item">
+
+                                    <i className="fas fa-sign-out-alt mr-2 text-gray-400"></i>
+                                    Logout
                                 </a>
                             </div>
                             {}

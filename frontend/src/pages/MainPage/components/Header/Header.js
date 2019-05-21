@@ -6,19 +6,19 @@ import { MDBBtn, MDBIcon } from "mdbreact"
 class Header extends Component {
     constructor(props) {
         super(props);
-        this.state = { 
+        this.state = {
         };
     }
-    
+
     render() {
-        const { handleLogout, userInfo ,openModal} = this.props;
+        const { handleLogout, userInfo, openModal } = this.props;
 
 
         return (
             <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                 {/* Sidebar Toggle (Topbar) */}
-                <button id="sidebarToggleTop" className="btn btn-link btn-dark-2 rounded-circle mr-3" style={ {zIndex: 2} }>
+                <button id="sidebarToggleTop" className="btn btn-link btn-dark-2 rounded-circle mr-3" style={{ zIndex: 2 }}>
                     <i className="fa fa-bars"></i>
                 </button>
                 {/* <div style={{ width: '100%', textAlign: 'center', position: 'absolute'}}>
@@ -51,10 +51,10 @@ class Header extends Component {
 
                             {/* 프로필 메뉴 */}
                             {/* <input type="button" className="btn btn-primary btn-icon-split ml-3" value="   부서 및 직책 관리   " onClick={() => this.openModal('visible1')} /> */}
-                            
+
                             <MDBBtn size="sm" className="ml-3 text-dark-2" color="" onClick={() => openModal('visible')}><MDBIcon icon="user" className="mr-2 text-gray-400" />Profile</MDBBtn>
-                            
-                            
+
+
                             {
                                 userInfo.memberInfo.name === "관리자" && <a className="dropdown-item" href="/adminpage">
                                     <i className="fas fa-user-cog fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -64,13 +64,12 @@ class Header extends Component {
 
                             <div className="dropdown-divider"></div>
 
-                            <div className="text-center">
-                                <a onClick={handleLogout} href="/" className="btn btn-danger btn-icon-split ml-1 mr-1">
-                                    <span className="icon text-white-50">
-                                        <i className="fas fa-sign-out-alt"></i>
-                                    </span>
-                                    <span className="text">로그아웃</span>
-                                </a>
+                            <div className="">
+                                <a onClick={handleLogout} href="/" className="dropdown-item">
+
+                                    <i className="fas fa-sign-out-alt mr-2 text-gray-400"></i>
+                                    Logout
+    </a>
                             </div>
                         </div>
                     </li>

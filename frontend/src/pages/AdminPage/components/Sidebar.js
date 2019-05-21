@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Modal from 'react-awesome-modal'
 import Register from '../../RegisterPage/index'
-import Dept from '../components/Admin/Dept'
-import Posi from '../components/Admin/Posi'
+import AddDept from './Admin/AddDept'
+import AddPosi from '../components/Admin/AddPosi'
 const defaultProps = {
     users: ['default']
 };
@@ -98,7 +98,7 @@ class Sidebar extends Component {
                 <input type="button" className="btn btn-primary btn-icon-split mb-3" value="   부서 및 직책 관리   " onClick={() => this.openModal('visible1')} />
                 <Modal visible={this.state.visible1} width="400" height="300" effect="fadeInLeft" onClickAway={() => this.closeModal('visible1')}>
                   <div>
-                  <Dept deptList={deptList}></Dept>
+                  <AddDept deptList={deptList}></AddDept>
                     <Posi posiList={posiList}></Posi>
                   </div>
                   <input type="button" value=" Close " className="btn btn-primary btn-icon-split" onClick={() => this.closeModal('visible1')}></input>

@@ -1,5 +1,6 @@
 package com.nastech.upmureport.service;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -78,6 +79,8 @@ public class MemberService {
 		List<UserRole> retireRole = userRoleRepository.findAllByUsername(retireAuth.getUsername());
 		retireMem.setDflag(true);
 		retireMem.setRetireDate(LocalDate.now());
+		retireMem.setRetireEid(retireMem.getEid());
+		retireMem.setEid(null);
 		if(retireAuth == null | retireMem==null)
 		{
 			System.out.println("retireMember 오류");
@@ -135,5 +138,14 @@ public class MemberService {
 		members.forEach(m -> { mDtos.add(m.toDto()); });
 		return mDtos;
 	}
-	
+	public Member modifyPhone(Member mem) {
+		Long mid= mem.getMid();
+		Member modifyMem=memberRepository.findOneByMid(mid);
+		if(modifyMem==null) return null;
+		else {
+			modifyMem.setPhoneNum(mem.getPhoneNum());
+			memberRepository.save(modifyMem);
+		}
+		return modifyMem;
+	}	
 }

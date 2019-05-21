@@ -37,6 +37,7 @@ public class Member {
 	private String phoneNum;
 	private LocalDate joinDate;
 	private LocalDate retireDate;
+	private String retireEid;
 	
 	@Builder.Default
 	private Boolean dflag = false;
@@ -54,7 +55,8 @@ public class Member {
 				phoneNum(phoneNum).
 				joinDate(joinDate).
 				retireDate(retireDate).dflag(dflag).
-				career(career).build();
+				career(career).retireEid(retireEid)
+				.build();
 		}
 	
 	
