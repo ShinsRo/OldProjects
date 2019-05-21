@@ -124,9 +124,10 @@ public class ProjectService {
 	 * @author 김승신		2019.05.16.
 	 * @param 	pDto 	프로젝트 등록할 정보
 	 * @return 			등록된 프로젝트 정보
+	 * @throws Exception 
 	 */
 	@Transactional
-	public ProjectDto register(ProjectDto pDto) {
+	public ProjectDto register(ProjectDto pDto) throws Exception {
 		/* 변수 정의 */
 		Long mid 	= null;	// 프로젝트 등록자 멤버 아이디
 
@@ -258,9 +259,10 @@ public class ProjectService {
  	 * @author 김승신		2019.05.16.
 	 * @param 	pDto	수정할 프로젝트 정보
 	 * @return 			변경한 MemberProject 오브젝트
+	 * @throws Exception 
 	 */
 	@Transactional
-	public ProjectDto correct(ProjectDto pDto) {
+	public ProjectDto correct(ProjectDto pDto) throws Exception {
 		/* 변수 정의 */
 		BigInteger pid 	= null;	// 대상 프로젝트 아이디
 		Long mid 		= null;	// 수정하는 이 사원 아이디

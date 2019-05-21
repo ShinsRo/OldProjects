@@ -224,8 +224,10 @@ class Collaborators extends Component {
         // 컴포넌트 타입이 CURRECT_PROJECT 일 때 해당 collaborators 데이터가 원본이 아님을 저장
         if (this.props.type === 'CURRECT_PROJECT') this.setProjectNotOrigin();
 
-        // 상위에서 리로딩(Triggering this compoenent's update cycle.)
-        this.props.reload();
+        // 상위에서 리로딩(Triggering this compoenent's update cycle)
+        // this.props.reload();
+
+        this.setState( { isCorrected: true } );
     }
 
     /**
