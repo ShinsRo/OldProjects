@@ -3,6 +3,7 @@ package com.nastech.upmureport.domain.entity;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -60,7 +61,7 @@ public class PLog {
 	@JoinColumn(name="pId")
 	private Project project;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
 	@JoinColumn(name="fId")
 	private Pfile pfile;
 	
