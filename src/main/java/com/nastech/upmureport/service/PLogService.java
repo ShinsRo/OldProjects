@@ -69,7 +69,7 @@ public class PLogService {
 				.logState(logState)
 				.build();
 		
-		return pLogRepository.save(pLog);						
+		return pLogRepository.save(pLog);
 	}
 	
 	public List<PLogDto> getPLogs(String projectId) {

@@ -115,8 +115,6 @@ export default handleActions({
         return state.set('isFetching', false).set('error', true);
     },
     [SUCCESS] : (state, action) => {
-        
-
         return state.set('isFetching', false);
     },
 }, initialState);

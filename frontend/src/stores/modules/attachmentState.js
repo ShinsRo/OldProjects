@@ -15,7 +15,7 @@ const DELETE_GROUP = 'DELETE_GROUP';
 const CLEAR_GROUP = 'CLEAR_GROUP';
 const DOWNLOAD_GROUP = 'DOWNLOAD_GROUP';
 const DOWNLOAD_GROUP_SETTING = 'DOWNLOAD_GROUP_SETTING';
-const SEND_SUCCESS = 'SEND_SUCCESS';
+const SEND_ATT_SUCCESS = 'SEND_ATT_SUCCESS';
 
 export const attPending = createAction(ATTACH_SEND_PENDING);
 export const attachmentSaveSuccess = createAction(ATTACH_SAVE_SUCCESS);
@@ -28,7 +28,7 @@ export const deleteGroup = createAction(DELETE_GROUP);
 export const clearGroup = createAction(CLEAR_GROUP);
 export const downloadGroupSetting = createAction(DOWNLOAD_GROUP_SETTING);
 export const downloadGroup = createAction(DOWNLOAD_GROUP);
-export const sendSuccess = createAction(SEND_SUCCESS);
+export const sendSuccess = createAction(SEND_ATT_SUCCESS);
 
 const initialState = Map({
     isFetching: false,
@@ -70,7 +70,6 @@ export const downloadAttachment = (attachmentId) => dispatch => {
 export const deleteAttachment = (attachmentId) => dispatch => {
     dispatch(attPending());
     
-
     return attachmentService.deleteAttachment(attachmentId).then( (response) => {
 
         dispatch(attSendSuccess(response.data))
@@ -120,8 +119,7 @@ export default handleActions({
         return state.set('attachments', action.payload).set('isFetching', false);
     },
     //  통신 성공
-    [SEND_SUCCESS] : (state, action) => {
-        
+    [SEND_ATT_SUCCESS] : (state, action) => {        
         return state.set('isFetching', false);
     },
     // 통신 실패
@@ -130,7 +128,7 @@ export default handleActions({
     },
     [SET_ATTACHMENT]: (state, action) => {
         return state.set('attachment', action.payload);
-    },      
+    },
     [DOWNLOAD_ATTACHMENT] : (state, action) => {
 
         var blob=new Blob([action.payload], {type: "application/octet-stream"});
