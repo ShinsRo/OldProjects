@@ -27,7 +27,7 @@ const RouteAsUserInfo = withRouter(({ match, location, history }) => {
             { path: '/main', component: MainPage },
             { path: '/register', component : RegisterPage},
         ]
-        if(authToken.authorities[0].authority=="ROLE_ADMIN") routes.push({ path: '/adminpage', component: AdminPage })
+        if(authToken.authorities[0].authority==="ROLE_ADMIN") routes.push({ path: '/adminpage', component: AdminPage })
     }
     return (
         <Switch>
