@@ -45,6 +45,13 @@ import com.nastech.upmureport.service.MemberService;
 
 @RestController
 @RequestMapping(value = "/api/users")
+/**
+ * 
+ * @author 마규석
+ * 유저(사원)과 관련 된 기능들을 위한 Controller
+ * 
+ */
+
 public class UserController {
 	@Autowired
 	MemberService memberService;
@@ -87,6 +94,12 @@ public class UserController {
 //    	}
 //    }
 	
+	/**
+	 * @author 마규석
+	 * @param user
+	 * @param request
+	 * @return 로그인에 성공 한 유저의 token 과 유저정보
+	 */
 	@PostMapping(value = "/login")
     public Map<?, ?> login(@RequestBody AuthInfo user, HttpServletRequest request){
 		String username = user.getUsername();
@@ -112,6 +125,7 @@ public class UserController {
 		
 		return returnObj;
     }
+	
 	@PostMapping(value ="/modify")
 	public AuthInfo authModifyAPI(@RequestBody MemAuthCareerDto memAuthDto) {
 //		System.out.println(mem); 
@@ -121,7 +135,6 @@ public class UserController {
 		if(basicAuthInfo==null) return null;
 		System.out.println(basicAuthInfo);
 		System.out.println(m);
-		
 		System.out.println("들어온 것"+modifyAuthInfo);
 		//비밀번호가 변경되었다면 비밀번호 변경!
 		if(modifyAuthInfo.getPassword() != null){
@@ -161,31 +174,42 @@ public class UserController {
     }
     
 
+    /**
+     * 새로운 사원 등록시 멤버 등록 auth 등록 userRole등록 career 등록 
+     * @author 마규석
+     * @param memAuthCareer 새로운 사원을 등록 위해 Member,Auth,Career가 모두 필요함
+     * @return 등록 된 사원의 정보
+     */
+    
     @PostMapping(value= "/register")
     public MemberDto userRegister(@RequestBody MemAuthCareerDto memAuthCareer) {
-    	Member mem=memAuthCareer.getMem();
-    	AuthInfo auth = memAuthCareer.getAuth();
+    	System.out.println("등록");
+    	Member mem=memAuthCareer.getMem();			//멤버정보를 꺼냄
+    	AuthInfo auth = memAuthCareer.getAuth();	//Auth 정보를 꺼냄 (아이디,비밀번호)
+    	Career career = memAuthCareer.getNewCar();	//커리어 정보를 꺼냄
+    	mem.setJoinDate(LocalDate.now());			//새로 등록 된 날짜를 지정
     	
-    	
-    	mem.setJoinDate(LocalDate.now());
+    	/*
+    	 * 멤버 정보 등록
+    	 */
     	MemberDto savedMem= memberService.userRegister(mem.toDto());  //MemberInfo 등록
-    	if(savedMem == null) return null;
-    	auth.setRole(Role.ROLE_USER);
-    	auth.setMember(savedMem.toEntity());
-    	UserRole ur1 = UserRole.builder().role(Role.ROLE_USER).username(auth.getUsername()).build();
-    	authInfoRepository.save(auth);
+    	if(savedMem == null) return null;								//MemberInfo 등록에 실패시 사원 등록 실패 
+    	//AuthInfo 등록
+    	AuthInfo savedAuth=authInfoService.registerAuth(auth, savedMem.toEntity());
+    	
+    	/*UserRole 등록 SpringSecurity를 사용하기 위함 */
+    	UserRole ur1 = UserRole.builder().role(Role.ROLE_USER).username(savedAuth.getUsername()).build();
     	userRoleRepository.save(ur1);
+    	
+    	
     	Member admin = memRepo.findOneByName("관리자");
     	MemberSystem ms1 = MemberSystem.builder().senior(admin).junior(savedMem.toEntity()).build();
     	memSys.save(ms1);
-    	Career c1 = Career.builder().active(true).dept(memAuthCareer.getNewCar().getDept()).posi(memAuthCareer.getNewCar().getPosi()).member(savedMem.toEntity())
-    			.startDate(LocalDate.now())
-    			.build();
-    	careerRepository.save(c1);
     	
-    	//Career newCar=careerService.careerModify(mem, memAuthCareer.getNewCar());
-
-    	System.out.println(savedMem+"auth"+auth+"career"+c1);
+    	/* 새로운 커리어 등록 */
+    	Career c1 = careerService.careerRegister(savedMem.toEntity(), career);
+    	
+    	System.out.println("확인11"+savedMem+"auth"+savedAuth+"career"+c1);
     	return savedMem;
   	}
     

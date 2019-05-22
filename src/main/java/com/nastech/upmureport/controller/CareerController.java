@@ -31,27 +31,18 @@ public class CareerController {
 	
 	@PostMapping(value ="/modify")
 	public Career careerModifyAPI(@RequestBody MemCareerDto memCareerDto) {
-//		System.out.println(mem); 
-		System.out.println(memCareerDto.getMem());
-		System.out.println(memCareerDto.getNewCar().getDept()+" "+memCareerDto.getNewCar().getPosi());
-		
 		Member mem = memCareerDto.getMem();
-		//System.out.println("컨트롤러변경요청 "+mem+" and \n");
 		Career newCar=careerService.careerModify(mem, memCareerDto.getNewCar());
 		return newCar;
 	}
+	
 	@PostMapping(value="/getdeptposi")
 	public DeptPosiDto getDeptPosiAPI() {
-		List<Dept> deptList= deptRepository.findAll();
-		List<Posi> posiList= posiRepository.findAll();
-		DeptPosiDto deptPosiDto = DeptPosiDto.builder()
-				.deptList(deptList).posiList(posiList)
-				.build();
-		System.out.println("dept posi 리스트들");
-		System.out.println(deptPosiDto);
-		
+		DeptPosiDto deptPosiDto = careerService.getDeptPosiList();
 		return deptPosiDto;
 	}
+	
+	
 	@PostMapping(value="/adddept")
 	public Dept addDeptAPI(@RequestBody Dept dept) {
 		System.out.println("adddept"+dept);

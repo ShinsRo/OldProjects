@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.nastech.upmureport.domain.dto.MemberDto;
 import com.nastech.upmureport.domain.entity.AuthInfo;
 import com.nastech.upmureport.domain.entity.Member;
+import com.nastech.upmureport.domain.entity.Role;
 import com.nastech.upmureport.domain.repository.AuthInfoRepository;
 
 @Service
@@ -69,6 +70,12 @@ public class AuthInfoService {
 		}
 		else
 			return null;	
+	}
+	public AuthInfo registerAuth(AuthInfo auth,Member mem) {
+		auth.setRole(Role.ROLE_USER);
+    	auth.setMember(mem);
+    	authInfoRepository.save(auth);
+    	return auth;
 	}
 	
 }

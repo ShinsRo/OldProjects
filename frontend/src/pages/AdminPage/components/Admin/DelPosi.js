@@ -41,7 +41,7 @@ class DelPosi extends Component {
         return (
             <div>
                 <div className="row text-gray-900 p-3 mt-3 ml-1"><b>직책 제거: </b>
-                    <select className="col ml-1" value={this.state.value}  onChange={e => this.onChange(e, 'value')}>
+                    <select className="col ml-1" value={this.state.posi}  onChange={e => this.onChange(e, 'posi')}>
                         {
                             posiList && posiList.map(posi => {
                                 return (
