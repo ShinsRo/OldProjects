@@ -318,16 +318,16 @@ class Member extends Component {
           </div>
         </div>
         <div>
-          <MDBContainer className="row">
+          <MDBContainer className="row mb-3">
             {
               !this.state.mode ?
-                <MDBBtn outline rounded size="sm" color="primary" onClick={() => this.toggle('mode', currentCarrer && currentCarrer.dept, currentCarrer && currentCarrer.posi)}><MDBIcon icon="user-cog" className="" />완료</MDBBtn>
+                <MDBBtn className="mr-2" outline rounded size="sm" color="primary" onClick={() => this.toggle('mode', currentCarrer && currentCarrer.dept, currentCarrer && currentCarrer.posi)}><MDBIcon icon="user-cog" className="" />완료</MDBBtn>
                 :
-                <MDBBtn outline rounded size="sm" color="primary" onClick={() => this.toggle('mode', currentCarrer && currentCarrer.dept, currentCarrer && currentCarrer.posi)}><MDBIcon icon="user-cog" className="" />변경</MDBBtn>
+                <MDBBtn className="mr-2" outline rounded size="sm" color="primary" onClick={() => this.toggle('mode', currentCarrer && currentCarrer.dept, currentCarrer && currentCarrer.posi)}><MDBIcon icon="user-cog" className="" />변경</MDBBtn>
             }
             {
               !this.state.mode &&
-              <MDBBtn outline rounded size="sm" color="primary" onClick={() => this.toggle('cancel', currentCarrer && currentCarrer.dept, currentCarrer && currentCarrer.posi)}><MDBIcon icon="ban" className="" />취소</MDBBtn>
+              <MDBBtn className="mr-2" outline rounded size="sm" color="primary" onClick={() => this.toggle('cancel', currentCarrer && currentCarrer.dept, currentCarrer && currentCarrer.posi)}><MDBIcon icon="ban" className="" />취소</MDBBtn>
             }
             {/* 퇴사 메뉴 모달 */}
             {
