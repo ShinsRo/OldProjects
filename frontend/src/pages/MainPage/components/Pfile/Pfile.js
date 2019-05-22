@@ -96,6 +96,11 @@ class Pfile extends Component {
 
     let body = [];
 
+    if(attachmentGroup.length <= 0){
+      window.alert('다운로드 할 첨부파일을 선택 해 주세요!');
+      return;
+    }
+
     attachmentGroup.map(attachment => {
       body.push(attachment.attachmentId);
     })
@@ -120,20 +125,29 @@ class Pfile extends Component {
           </div>
         )
 
+
+
         return (          
-        <div> 
-          <div className="card-header py-3">  
+        <div > 
+          <div className="card-header py-3 ">  
             
             <div className="row">
               <div className="col text-dark-1 font-weight-bold" style={{fontSize: "25px"}}>
                 업무 목록
               </div>
 
+              <div className="col-2.5 m-0 align-self-end">
+                <button className="btn text-dark-1" onClick={this.handleClickAttachmentGroupDownload}>
+                  모두  다운로드
+                </button>
+              </div>
+
               <div className="col-2 m-0 align-self-end">
                 {addButton}
               </div>
-            </div>      
-          </div>   
+
+            </div>
+          </div>
 
           <div className="card-body" >
             
@@ -152,12 +166,8 @@ class Pfile extends Component {
                 addDownloadGroup = { AttachmentActions.addGroup}
                 deleteDownloadGroup = { AttachmentActions.deleteGroup}
                 clearDownloadGroup = { AttachmentActions.clearGroup}
-              />
-            
-            
-            <button type="button" className="btn btn-dark-1 p-2" onClick={this.handleClickAttachmentGroupDownload}>
-                모두  다운로드
-            </button>            
+              />     
+                        
             
             </div>
           </div>
