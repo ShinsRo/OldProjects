@@ -121,7 +121,6 @@ public class UserController {
 		if(basicAuthInfo==null) return null;
 		System.out.println(basicAuthInfo);
 		System.out.println(m);
-		
 		System.out.println("들어온 것"+modifyAuthInfo);
 		//비밀번호가 변경되었다면 비밀번호 변경!
 		if(modifyAuthInfo.getPassword() != null){
