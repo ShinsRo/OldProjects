@@ -23,18 +23,29 @@ const RouteAsUserInfo = withRouter(({ match, location, history }) => {
     if(userInfo){
         authToken = userInfo.authToken;
     }
+
+    console.log("로그인",userInfo)
     let routes = [];
     if ( !(userState && userState.hasOwnProperty('userInfo') && userState.userInfo)) {
+        
         routes = [
             { path: '/', component: LoginPage },
         ]
     } else {
         routes = [
-            { path: '/', component: MainPage },
+            // { path: '/', component: MainPage },
             { path: '/main', component: MainPage },
             { path: '/register', component : RegisterPage},
-        ]
-        if(authToken.authorities[0].authority==="ROLE_ADMIN") routes.push({ path: '/adminpage', component: AdminPage })
+        ];
+        
+        if(authToken.authorities[0].authority==="ROLE_ADMIN") { 
+            routes.push({ path: '/adminpage', component: AdminPage })
+            routes.push({ path: '/', component: AdminPage })
+        }
+        else{
+            routes.push({ path: '/', component: MainPage })
+        }
+
     }
     return (
         <Switch>
