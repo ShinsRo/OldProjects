@@ -7,7 +7,6 @@ class PfilePanel extends Component {
     }
 
     onClickUpdateBts = (e) => {
-
         e.preventDefault();
         const { handleUpdateBts } = this.props;
         handleUpdateBts({ detailViewLevel: 'pfileUpdate' });

@@ -9,7 +9,12 @@ import * as pfileActions from '../../../../stores/modules/pfileState';
 import * as projectActions from '../../../../stores/modules/projectState';
 import * as attachmentActions from '../../../../stores/modules/attachmentState';
 
-
+/**
+ * @author : 김윤상		2019.05.22. 
+ * 
+ * @description
+ *  - 업무 리스트 컨테이너
+ */
 
 class Pfile extends Component {
 
@@ -29,14 +34,14 @@ class Pfile extends Component {
   componentWillReceiveProps(nextProps){
     const oldSelectedProject  = this.state.selectedProject.pid
     const newSelectedProject = nextProps.projectState.get('selectedProject').pid
-
-    if(oldSelectedProject !== newSelectedProject){
+    
+    // 이전 선택 된 프로젝트와  현재 선택 된 프로젝트가 다를 경우 선택 된 첨부파일들 초기화
+    if(oldSelectedProject !== newSelectedProject){ 
       this.state.attachmentGroup.clear();
     }
-}
+  }
 
-
-
+  // 업무 클릭 이벤트
   handleClickPfile = (pfile) => {
     const {ProjectActions, PfileActions} = this.props;
 
@@ -45,6 +50,7 @@ class Pfile extends Component {
     PfileActions.setPfile(pfile);
   }
 
+  // 첨부파일 클릭 이벤트
   handleClickAttachment = (attachment) => {
     const {AttachmentActions, ProjectActions} = this.props;
 
@@ -52,24 +58,21 @@ class Pfile extends Component {
     ProjectActions.saveItem({ detailViewLevel: 'attachment' });
   }
 
-  handlePfileAddForm = () => {
+  // 업무 추가 선택
+  handleClickPfileAddForm = () => {
     const {ProjectActions} = this.props;
 
     ProjectActions.saveItem({ detailViewLevel: 'pfileAdd' });
   }
 
-  handleAttachmentAddForm = () => {
+  // 첨부파일 추가 선택
+  handleClickAttachmentAddForm = () => {
     const {ProjectActions} = this.props;
     ProjectActions.saveItem({ detailViewLevel: 'attachmentAdd' });
   }
 
-  handlePfileUpdateForm = () => {
-    const {ProjectActions} = this.props;
-
-    ProjectActions.saveItem({ detailViewLevel: 'pfileUpdate' });
-  }
-
-  handleDeletePfile = (pfileId) => {
+  // 업무 삭제 클릭
+  handleClickDeletePfile = (pfileId) => {
     const {PfileActions} = this.props;
 
     if (!window.confirm('ㄹㅇ?')) return;
@@ -77,8 +80,8 @@ class Pfile extends Component {
     PfileActions.deletePfile(pfileId);
   }
 
-
-  handleDeleteAttachment = (attachmentId) => {
+  // 첨부파일 삭제 클릭
+  handleClickDeleteAttachment = (attachmentId) => {
     const {AttachmentActions} = this.props;
 
     if (!window.confirm('ㄹㅇ?')) return;
@@ -86,6 +89,7 @@ class Pfile extends Component {
     AttachmentActions.deleteAttachment(attachmentId);
   } 
 
+  // 모두 다운로드 버튼 클릭
   handleClickAttachmentGroupDownload = () => {
     const {AttachmentActions} = this.props;
     const attachmentGroup = this.props.attachmentState.get('attachmentGroup');   
@@ -97,7 +101,6 @@ class Pfile extends Component {
     })
 
     AttachmentActions.downloadAttachmentGroup(body);
-
   }
 
     render(){
@@ -110,9 +113,9 @@ class Pfile extends Component {
               목록 추가
             </button>
             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a className="dropdown-item" href="#" onClick= {this.handlePfileAddForm}>업무</a>
+              <a className="dropdown-item" href="#" onClick= {this.handleClickPfileAddForm}>업무</a>
               <div className="dropdown-divider"></div>
-              <a className="dropdown-item" href="#" onClick= {this.handleAttachmentAddForm}>첨부 파일</a>
+              <a className="dropdown-item" href="#" onClick= {this.handleClickAttachmentAddForm}>첨부 파일</a>
             </div>          
           </div>
         )
@@ -137,17 +140,18 @@ class Pfile extends Component {
               <PfileTable
                 pfiles={pfileState.get('pfiles')}
                 attachments = {attachmentState.get('attachments')}
-                selectedDirId = {projectState.get('selectedDirId')}
-                handleDeletePfile = {this.handleDeletePfile}                
+                selectedDirId = {projectState.get('selectedDirId')}                
+                attachmentGroup = {attachmentState.get('attachmentGroup')}
+                selectedProject = {projectState.get('selectedProject')}
+
+                handleClickDeletePfile = {this.handleClickDeletePfile}                
                 handleClickPfile = {this.handleClickPfile}
                 handleClickAttachment = {this.handleClickAttachment}
-                handleDeleteAttachment = {this.handleDeleteAttachment}
-                //addDownloadGroup = {this.addDownloadGroup}
+                handleClickDeleteAttachment = {this.handleClickDeleteAttachment}
+
                 addDownloadGroup = { AttachmentActions.addGroup}
                 deleteDownloadGroup = { AttachmentActions.deleteGroup}
                 clearDownloadGroup = { AttachmentActions.clearGroup}
-                attachmentGroup = {attachmentState.get('attachmentGroup')}
-                selectedProject = {projectState.get('selectedProject')}
               />
             
             

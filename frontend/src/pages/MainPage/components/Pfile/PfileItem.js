@@ -21,7 +21,6 @@ class PfileItem extends Component {
         if (e.target.draggable && target) {
             e.dataTransfer.setData('type', 'FILE');
             e.dataTransfer.setData('from', JSON.stringify(target));
-            //e.dataTransfer.setData('fromId', target.id);
         }
         e.dataTransfer.setData('draggable', e.target.draggable);
 

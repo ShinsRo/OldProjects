@@ -18,7 +18,7 @@ public class PLogController {
 	
 	private static final Log LOG = LogFactory.getLog(PLogController.class);
 	
-	private PLogService pLogService;
+	private final PLogService pLogService;
 	
 	
 	public PLogController(PLogService pfileLogService) {

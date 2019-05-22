@@ -32,14 +32,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PfileService {
 	
-	PfileRepository pfileRepository;
+	private final PfileRepository pfileRepository;
 	
-	PdirRepository pdirRepository;
+	private final PdirRepository pdirRepository;
 	
-	PLogService pfileLogService;
+	private final PLogService pfileLogService;
 	
 	private static final Log LOG = LogFactory.getLog(PfileService.class);
-	
 	
 	/* 업무 일지 등록 */
 	public PfileDto.PfileResDto addPfile(PfileDto.PfileReqDto pfileReqDto) {

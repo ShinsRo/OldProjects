@@ -29,9 +29,8 @@ public class PLogService {
 
 	private static final Log LOG = LogFactory.getLog(PLogService.class);
 	
-	
-	private PLogRepository pLogRepository;
-	private ProjectRepository projectRepository;
+	private final PLogRepository pLogRepository;
+	private final ProjectRepository projectRepository;
 	
 	/* 업무 상태 별 로그 생성 */
 	public PLog createPfileLog(Pfile pfile, LogState logState) {
@@ -71,6 +70,8 @@ public class PLogService {
 	
 	/* 프로젝트 별 로그 리스트 조회 */
 	public List<PLogDto> getPLogs(String projectId) {
+		
+		LOG.info(projectRepository);
 		
 		Project project = projectRepository.findById(Utils.StrToBigInt(projectId)).get(); // 로그 리스트를 조회 할 프로젝트 조회 
 		

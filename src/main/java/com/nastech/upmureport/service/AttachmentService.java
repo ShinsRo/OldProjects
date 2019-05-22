@@ -4,9 +4,6 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,36 +11,28 @@ import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Base64.Decoder;
-import java.util.Base64.Encoder;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.mockito.internal.util.io.IOUtil;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nastech.upmureport.domain.dto.AttachmentDto;
-import com.nastech.upmureport.domain.dto.PfileDto;
 import com.nastech.upmureport.domain.entity.Attachment;
 import com.nastech.upmureport.domain.entity.Pdir;
-import com.nastech.upmureport.domain.entity.Pfile;
 import com.nastech.upmureport.domain.entity.support.LogState;
 import com.nastech.upmureport.domain.repository.AttachmentRepository;
 import com.nastech.upmureport.domain.repository.PdirRepository;
@@ -235,7 +224,7 @@ public class AttachmentService {
 		File destinationFile = new File(UPLOAD_PATH + savedPath,fileName); // 파일 객제 생성
 		
 		file.transferTo(destinationFile); // 파일 로컬 서버에 저장		
-				
+
 		return destinationFile;
 	}
 	
