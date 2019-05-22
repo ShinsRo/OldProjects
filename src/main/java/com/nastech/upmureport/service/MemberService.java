@@ -32,7 +32,11 @@ public class MemberService {
 	@Autowired
 	UserRoleRepository userRoleRepository;
 	
-	
+	/**
+	 * @author 마규석
+	 * @param memberDto
+	 * @return 
+	 */
 	public MemberDto searchMemberByMid(MemberDto memberDto) {
 		Long id = memberDto.getMid();
 		Member member = memberRepository.findOneByMid(id);
@@ -48,6 +52,13 @@ public class MemberService {
 		else return null;
 	}
 	
+	
+	/**
+	 * @author 마규석
+	 * @param member
+	 * @return
+	 * 새로운 사원을 등록할 때 사원에 대한 정보를 등록 하는 것
+	 */
 	public MemberDto userRegister(MemberDto member) {
 		Member newMember = member.toEntity();
 		if ( memberRepository.findOneByMid(newMember.getMid()) == null) {
@@ -91,23 +102,7 @@ public class MemberService {
 		userRoleRepository.deleteInBatch(retireRole);
 		return retireMem.toDto();
 	}
-//	public MemberDto userLogin(MemberDto user) {
-//		String id = user.getUserId();
-//		String pass = user.getUserPass();
-//		System.out.println("id:"+id+"\npass:"+pass);
-//		Member loginedUser = memberRepository.findOneByUserId(id);
-//		if(loginedUser == null) return null;
-//		if(pass.equals(loginedUser.getUserPass())) {
-//			return loginedUser.toDto();
-//		}
-//		else
-//			return null;
-//	}
-//	public String searchPassword(UserDto userDto) {
-//		String id=userDto.getUserId();
-//		Member user = memberRepository.findOneByUserId(id);
-//		return user.getUserPass();
-//	}
+
 	public void deleteMember(Member member) {
 		memberRepository.delete(member);
 	}
@@ -147,5 +142,23 @@ public class MemberService {
 			memberRepository.save(modifyMem);
 		}
 		return modifyMem;
-	}	
+	}
+	
+//	public MemberDto userLogin(MemberDto user) {
+//	String id = user.getUserId();
+//	String pass = user.getUserPass();
+//	System.out.println("id:"+id+"\npass:"+pass);
+//	Member loginedUser = memberRepository.findOneByUserId(id);
+//	if(loginedUser == null) return null;
+//	if(pass.equals(loginedUser.getUserPass())) {
+//		return loginedUser.toDto();
+//	}
+//	else
+//		return null;
+//}
+//public String searchPassword(UserDto userDto) {
+//	String id=userDto.getUserId();
+//	Member user = memberRepository.findOneByUserId(id);
+//	return user.getUserPass();
+//}
 }

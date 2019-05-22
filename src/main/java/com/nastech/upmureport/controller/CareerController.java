@@ -42,6 +42,7 @@ public class CareerController {
 		return deptPosiDto;
 	}
 	
+	
 	@PostMapping(value="/adddept")
 	public Dept addDeptAPI(@RequestBody Dept dept) {
 		System.out.println("adddept"+dept);
