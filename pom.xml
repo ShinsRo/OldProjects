@@ -19,12 +19,13 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<org.swagger-version>2.9.2</org.swagger-version>
 		
+		
 		<!-- 프론트엔드 Pre-installing 할 node/yarn 버전 프로퍼티 및 프로젝트 경로-->
 		<frontendSrcDir>${project.basedir}/frontend</frontendSrcDir>
 		<node.version>v10.11.0</node.version>
 		<npm.version>6.4.1</npm.version>
 		<yarn.version>v1.7.0</yarn.version>
-		<frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
+		<frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>		
 	</properties>
 
 	<parent>
@@ -218,10 +219,11 @@
 	    <groupId>commons-fileupload</groupId>
 	    <artifactId>commons-fileupload</artifactId>
 	    <version>1.4</version>    
-	</dependency>
+	</dependency>	
+	
   </dependencies>
 
-  <build>
+  <build>  
       <plugins>
 		<!--
 			2019-05-02 김승신
@@ -353,6 +355,9 @@
 		    </executions> 
 			-->
 		</plugin>
+		
+		
+		
       </plugins>
   </build>
 

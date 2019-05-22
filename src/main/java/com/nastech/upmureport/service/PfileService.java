@@ -20,148 +20,116 @@ import com.nastech.upmureport.domain.repository.PdirRepository;
 import com.nastech.upmureport.domain.repository.PfileRepository;
 import com.nastech.upmureport.support.Utils;
 
+import lombok.RequiredArgsConstructor;
+
+
+/*
+ * @Author : 김윤상		2019.05.22. 
+ * 
+ * @Description : 업무 일지 ( Pfile ) CRUD 비즈니스 로직  
+ */
 @Service
+@RequiredArgsConstructor
 public class PfileService {
 	
-	PfileRepository pfileRepository;
+	private final PfileRepository pfileRepository;
 	
-	PdirRepository pdirRepository;
+	private final PdirRepository pdirRepository;
 	
-	PLogService pfileLogService;
+	private final PLogService pfileLogService;
 	
 	private static final Log LOG = LogFactory.getLog(PfileService.class);
 	
-	// 생성자로 빈 등록
-	public PfileService(PfileRepository pfileRepository, PdirRepository pdirRepository
-			, PLogService pfileLogService) {
-		this.pfileRepository = pfileRepository;
-		this.pdirRepository = pdirRepository;
-		this.pfileLogService = pfileLogService;
-	}
-	
-	
-	// 업무 일지 등록
+	/* 업무 일지 등록 */
 	public PfileDto.PfileResDto addPfile(PfileDto.PfileReqDto pfileReqDto) {
-		Pdir pdir;
-		try {		
-			pdir = pdirRepository.findById(pfileReqDto.getPdirId()).get();
-		} catch(Exception e){
-			LOG.warn(e.getMessage());
-			return null;
-		}
+		Pdir pdir = pdirRepository.findById(pfileReqDto.getPdirId()).get();		// 소속 디렉토리 조회
 		
-		Pfile pfile = Pfile.builder()
-				.pdir(pdir)
-				.name(pfileReqDto.getName())
-				.contents(pfileReqDto.getContents())
-				.newDate(LocalDateTime.now())
-				.updateDate(LocalDateTime.now())
-				.deleteFlag(false)
-				.build();	
+		Pfile pfile = pfileBuilder(pdir, pfileReqDto);		// 업무 빌드
+
+		pfile = pfileRepository.save(pfile);  // 업무 DB 저장
 		
-		try {			
-			pfile = pfileRepository.save(pfile);
-			
-			pfileLogService.createPfileLog(pfile, LogState.CREATE);
-			
-			return pfile2PfileResDto(pfile);
-		}catch(Exception e){
-			e.getMessage();
-			return null;
-		}
+		pfileLogService.createPfileLog(pfile, LogState.CREATE);  // 업무 등록 로그 생성
+		
+		return pfile2PfileResDto(pfile); // 업무 일지 DTO 변환 후 반환
 	}
 	
-	// file 수정
-	public PfileDto.PfileResDto updatePfile(PfileDto.PfileReqDto pfileReqDto) {
-		LOG.info("updatePfile pfileId-----" +  pfileReqDto.getPfileId());
+	/* 업무 일지 수정 */
+	public PfileDto.PfileResDto updatePfile(PfileDto.PfileReqDto pfileReqDto) {		
+		Pfile pfile = pfileRepository.findById(pfileReqDto.getPfileId()).get();   // 수정 할 업무 조회
 		
-		Pfile pfile = pfileRepository.findById(pfileReqDto.getPfileId()).get();
+		pfile.changeName(pfileReqDto.getName());   // 업무 이름 변경 
+		pfile.changeContents(pfileReqDto.getContents()); // 업무 내용 변경
+		pfile.updateDate(); // 수정 날짜 등록
 		
-		LOG.info("updatePfile -----" +  pfile);
+		pfileLogService.createPfileLog(pfile, LogState.UPDATE);  // 업무 수정 로그 생성
 		
-		pfile.changeName(pfileReqDto.getName());
-		pfile.changeContents(pfileReqDto.getContents());
-		pfile.updateDate();
-		
-		pfileLogService.createPfileLog(pfile, LogState.UPDATE);
-		
-		return pfile2PfileResDto(pfileRepository.save(pfile));
+		return pfile2PfileResDto(pfileRepository.save(pfile));  // 업무 DB 수정 -> DTO 변환 -> 반환 
 	}
 	
-	// get files
+	/* 업무 리스트 조회 */
 	public List<PfileDto.PfileResDto> getPfiles(BigInteger pdirId){
 		
-		Pdir pdir = pdirRepository.findById(pdirId).get();
+		Pdir pdir = pdirRepository.findById(pdirId).get();   // 해당 디렉토리 조회
 		
-		List<Pfile> pfiles = pfileRepository.findByDirId(pdir);
+		List<Pfile> pfiles = pfileRepository.findByDirId(pdir); //  DB에서 디렉토리 별 업무 리스트 조회
 		
-		LOG.info("size ==== " + pfiles.size());
+		List<PfileDto.PfileResDto> pfileResDtos = new ArrayList<>();  // 반환 할 리스트 객체 생성 
 		
-		List<PfileDto.PfileResDto> pfileResDtos = new ArrayList<>();
-		
-		pfiles.forEach(pfile -> {
+		pfiles.forEach(pfile -> {  // DB 조회 된 업무 엔티티 리스트를 업무 DTO로 변환 
 			PfileDto.PfileResDto pfileResDto = pfile2PfileResDto(pfile);
 			pfileResDtos.add(pfileResDto);
 		});
 		
-		return pfileResDtos;
+		return pfileResDtos;  // 업무 DTO 리스트 반환
 	}
 	
-	//file 삭제
+	/* 업무 삭제 */
 	public List<PfileDto.PfileResDto> deletePfile(String pfileId) {
 		
-		Pfile pfile = pfileRepository.findById(Utils.StrToBigInt(pfileId)).get();
-		pfile.deletePfile();
+		Pfile pfile = pfileRepository.findById(Utils.StrToBigInt(pfileId)).get(); // 삭제 할 업무 조회
+		pfile.deletePfile(); // 해당 업무의 삭제 플래그 수정
 		
-		LOG.info(pfile.toString());
-		LOG.info(pfile.getDeleteFlag() + "");
+		pfileLogService.createPfileLog(pfile, LogState.DELETE);  // 업무 삭제 로그 생성
 		
-		pfileLogService.createPfileLog(pfile, LogState.DELETE);
+		pfileRepository.save(pfile);  // 변경 된 삭제 플래그 DB 수정
 		
-		pfileRepository.save(pfile);
-		
-		return getPfiles(pfile.getPdir().getDid());
+		return getPfiles(pfile.getPdir().getDid()); // 삭제 된 후 해당 디렉토리의 업무 리스트 반환
 	}
 	
 	
-	// pfile 이동
+	/* 업무 이동 */
 	public List<PfileDto.PfileResDto> movePfile(String pfileId, String pdirId) {
 		
+		Pfile pfile = pfileRepository.findById(Utils.StrToBigInt(pfileId)).get(); // 이동 할 업무 조회
+		
+		Pdir targetPdir = pdirRepository.findByDidAndDflagFalse(Utils.StrToBigInt(pdirId)); // 업무가 이동 될 타겟 디렉토리 조회
 	
+		Pdir originPdir = pfile.getPdir(); // 업무가 원래 있던 디렉토리 조회
 		
-		Pfile pfile = pfileRepository.findById(Utils.StrToBigInt(pfileId)).get();
-		Pdir pdir = pdirRepository.findByDidAndDflagFalse(Utils.StrToBigInt(pdirId));
-	
-		Pdir originPdir = pfile.getPdir();
+		pfile.movePdir(targetPdir); // 해당 업무의 디렉토리 변경
 		
-		pfile.movePdir(pdir);
+		pfileLogService.createPfileLog(pfile, LogState.MOVE); // 업무 이동 로그 생성
 		
-		pfileLogService.createPfileLog(pfile, LogState.MOVE);
+		pfileRepository.save(pfile); // 업무의 디렉토리 변경 후 DB 저장
 		
-		pfileRepository.save(pfile);
-		
-		return getPfiles(originPdir.getDid());
+		return getPfiles(originPdir.getDid()); // 업무가 이동 하고 난 후 기존 디렉토리의 업무 리스트 조회 후 반환
 	}
 	
-	// pfile 복사
+	/* 업무 복사 */
 	public PfileDto.PfileResDto copyPfile(String pfileId, String targetPdirId) {
 		
-		Pfile originPfile = pfileRepository.findById(Utils.StrToBigInt(pfileId)).get();
+		Pfile originPfile = pfileRepository.findById(Utils.StrToBigInt(pfileId)).get(); // 복사 될 업무 조회
 		
-		Pdir targetPdir = pdirRepository.findByDidAndDflagFalse(Utils.StrToBigInt(targetPdirId));
+		Pdir targetPdir = pdirRepository.findByDidAndDflagFalse(Utils.StrToBigInt(targetPdirId)); // 업무가 복사 될 디렉토리 조회
 		
-		Pfile copyPfile = Pfile.builder().pdir(targetPdir)
-				.name(originPfile.getName())
-				.contents(originPfile.getContents())
-				.deleteFlag(false)
-				.build();
+		Pfile copyPfile = copyPfileBuilder(targetPdir, originPfile); // 업무 복사
 		
-		pfileLogService.createPfileLog(copyPfile, LogState.COPY);
+		pfileLogService.createPfileLog(copyPfile, LogState.COPY); // 업무 복사 로그 생성
 		
-		return pfile2PfileResDto(pfileRepository.save(copyPfile));
+		return pfile2PfileResDto(pfileRepository.save(copyPfile)); // 업무 복사 후 DB 저장 -> 복사 된 업무 반환
 	}
 	
-	// pfile -> pfileResDto
+	/* pfile -> pfileResDto 변환 */
 	private PfileDto.PfileResDto pfile2PfileResDto(Pfile pfile) {
 		PfileDto.PfileResDto pfileResDto = PfileDto.PfileResDto.builder()
 				.pfileId(pfile.getFId())
@@ -175,9 +143,24 @@ public class PfileService {
 		return pfileResDto;
 	}
 	
-	
-	public void apoTest() {
-		LOG.info("test====================");
+	/* 업무 빌더 */
+	private Pfile pfileBuilder(Pdir pdir, PfileDto.PfileReqDto pfileReqDto ) {
+		return Pfile.builder()
+				.pdir(pdir)
+				.name(pfileReqDto.getName())
+				.contents(pfileReqDto.getContents())
+				.newDate(LocalDateTime.now())
+				.updateDate(LocalDateTime.now())
+				.deleteFlag(false)
+				.build();	
 	}
-		
+	
+	/* 업무 복사 빌더 */
+	private Pfile copyPfileBuilder(Pdir targetPdir, Pfile originPfile) {
+		return Pfile.builder().pdir(targetPdir)
+				.name(originPfile.getName())
+				.contents(originPfile.getContents())
+				.deleteFlag(false)
+				.build();
+	}
 }
