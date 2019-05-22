@@ -72,6 +72,7 @@ public class ProjectNotificationService {
 		/* 만료된 세션 */
 		if (sessionMap.get(fromMid).isExpired()) {
 			Logger.error("만료된 세션으로부터의 요청입니다.");
+			msc.remove(fromMid);
 			throw new SessionExpiredExcepiton();
 		}
 		

@@ -19,7 +19,7 @@ class KssTree {
         this.dirTrees = [];             // 디렉토리 트리, 최종 반환 값
         this.tempProjectData = {};      // 트랜젝션을 위한 임시 저장 데이터
         this.filterKeyword = '';        // 필터링을 위한 current 키워드
-        this.filter = SORTBY.ASCENT;    // 필터링 기준
+        this.sortBy = SORTBY.ASCENT;    // 필터링 기준
 
         this.addProject = this.addProject.bind(this);
     }
@@ -73,7 +73,7 @@ class KssTree {
     }
 
     /**
-     * 클라이언트 상 자료구조에 새로운 프로젝트를 추가한다.
+     * projectMap에 새로운 프로젝트를 추가한다.
      * 
      * @param {Object} project 서버로부터의 원본 프로젝트 
      */
@@ -134,7 +134,7 @@ class KssTree {
     // }
 
     /**
-     * 원본 디렉토리 객체를 트리 구조에 맞게 재구성하고 추가한다.
+     * 원본 디렉토리 객체를 참고하여 재정의한 객체를 treeMap에 추가한다.
      * 
      * @param {Object} dir 원본 디렉토리 dto
      */
@@ -264,7 +264,7 @@ class KssTree {
 
         /* 소팅 기준에 따른 비교함수 등록과 소팅 */
         const _ = SORTBY;
-        switch (this.filter) {
+        switch (this.sortBy) {
             case _.DESCENT: 
                 this.compare = titleDescent;
                 break;
