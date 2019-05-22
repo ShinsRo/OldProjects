@@ -1,3 +1,10 @@
+/** 
+ * 로그인 페이지 정의
+ * 
+ * 2019.05.22
+ * @file LoginPage 정의
+ * @author 김승신, 마규석
+ */
 import React, { Component } from 'react';
 import LoginContainer from './containers/LoginContainer';
 

@@ -1,3 +1,10 @@
+/** 
+ * 새로운 디렉토리 추가 시 나타날 폼
+ * 
+ * 2019.05.22
+ * @file NewDirForm 정의
+ * @author 김승신
+ */
 import React, { Component } from 'react'
 import store from '../../../../stores';
 import "react-datepicker/dist/react-datepicker.css";

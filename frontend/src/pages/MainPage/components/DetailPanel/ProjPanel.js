@@ -1,3 +1,11 @@
+/** 
+ * 프로젝트 상세보기 및 수정 폼을 포함한 패널 정의
+ * 
+ * 2019.05.22
+ * @file ProjPanel 정의
+ * @author 김승신
+ */
+
 import React, { Component } from 'react';
 import { correct, disable } from '../../../../stores/modules/projectState';
 import stores from '../../../../stores';

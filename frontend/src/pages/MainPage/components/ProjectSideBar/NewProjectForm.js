@@ -1,3 +1,11 @@
+/** 
+ * 새로운 프로젝트 추가 시 나타날 폼
+ * 
+ * 2019.05.22
+ * @file NewProjectForm 정의
+ * @author 김승신
+ */
+
 import React, { Component } from 'react'
 import DatePicker from "react-datepicker";
 import Collaborators from '../Collaborators';

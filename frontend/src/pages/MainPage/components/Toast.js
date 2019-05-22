@@ -1,3 +1,10 @@
+/** 
+ * 전역 토스트 컴포넌트 정의
+ * 
+ * 2019.05.22
+ * @file Toast 정의
+ * @author 김승신
+ */
 import React, { Component } from 'react';
 
 class Toast extends Component {

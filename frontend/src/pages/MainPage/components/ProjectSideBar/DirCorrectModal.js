@@ -1,3 +1,10 @@
+/** 
+ * 디렉토리 수정 모달
+ * 
+ * 2019.05.22
+ * @file DirCorrectModal 정의
+ * @author 김승신
+ */
 import React from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import store from '../../../../stores';

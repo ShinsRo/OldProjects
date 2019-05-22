@@ -1,11 +1,16 @@
+/** 
+ * 프로젝트 트리 뷰 렌더 방식 등 정의
+ * 
+ * 2019.05.22
+ * @file ProjTreeView 정의
+ * @author 김승신
+ */
 import React from 'react';
 import stores from '../../../../stores';
 import { pdir_api } from '../../../../stores/modules/projectState';
 import AddModal from './AddModal';
 import DirCorrectModal from './DirCorrectModal';
 import BehaviorModal from '../Pfile/BehaviorModal'
-import * as $ from "jquery";
-import { th } from 'date-fns/esm/locale';
 
 class ProjTreeView extends React.Component {
 

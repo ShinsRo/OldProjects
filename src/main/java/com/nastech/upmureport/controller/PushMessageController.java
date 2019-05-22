@@ -1,3 +1,10 @@
+/** 
+ * 앱 소켓 목적지 매핑과 제어 정의
+ * 
+ * 2019.05.22.
+ * @file PushMessageController 정의
+ * @author 김승신
+ */
 package com.nastech.upmureport.controller;
 
 import org.apache.commons.logging.Log;

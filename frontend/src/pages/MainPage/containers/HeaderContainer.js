@@ -1,3 +1,11 @@
+/** 
+ * 헤더 컨테이너 정의
+ * 
+ * 2019.05.22
+ * @file HeaderContainer 정의
+ * @author 김승신, 마규석
+ */
+
 import React, { Component } from 'react';
 
 import { Redirect } from 'react-router-dom';

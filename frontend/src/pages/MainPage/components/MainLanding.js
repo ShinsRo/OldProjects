@@ -1,3 +1,11 @@
+/** 
+ * 메인 페이지 랜딩 뷰
+ * 
+ * 2019.05.22
+ * @file DashboardLanding 정의
+ * @author 김승신
+ */
+
 import React, { Component } from 'react';
 
 class DashboardLanding extends Component {

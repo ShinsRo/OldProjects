@@ -1,3 +1,9 @@
+/** 
+ * 서버의 메세지 브로커 정의 및 설정
+ * 
+ * 2019.05.22.
+ * @author 김승신
+ */
 package com.nastech.upmureport.config;
 
 import org.springframework.context.annotation.Bean;

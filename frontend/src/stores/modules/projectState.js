@@ -1,3 +1,11 @@
+/** 
+ * 프로젝트와 디렉토리에 관련한 리덕스 스토어 스테이트 정의 및 액션, 비동기 통신 정의
+ * 
+ * 2019.05.22
+ * @file projectState 정의
+ * @author 김승신
+ */
+
 import { createAction, handleActions } from 'redux-actions';
 import { Map, List } from 'immutable';
 import axios from 'axios';

@@ -1,3 +1,11 @@
+/** 
+ * 프로젝트 트리 뷰를 담을 사이드 바
+ * 
+ * 2019.05.22
+ * @file ProjectSideBar 정의
+ * @author 김승신
+ */
+
 import React from 'react';
 
 import ProjTreeView from './ProjTreeView';

@@ -1,3 +1,9 @@
+/** 
+ * 프로젝트의 기본 CRUD를 수행하는 ProjectService 정의.
+ * 
+ * 2019.05.22.
+ * @author 김승신
+ */
 package com.nastech.upmureport.service;
 
 import java.math.BigInteger;
@@ -44,7 +50,7 @@ public class ProjectService {
 	 * 
 	 * 각 DTO는 기본 프로젝트 정보, 소유한 디렉토리 정보 그리고 같은 프로젝트에 소속한 팀원 정보를 갖는다.
 	 * 
- 	 * @author 김승신	2019.05.16.
+ 	 * @author 김승신 2019.05.16.
 	 * @param 	mid	사원의 고유 식별 아이디
 	 * @return		프로젝트의 DTO 리스트 
 	 */

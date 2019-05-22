@@ -1,3 +1,9 @@
+/** 
+ * 웹 MVC 기본 설정 정의
+ * 
+ * 2019.05.22.
+ * @author 김승신, 김윤상, 마규석
+ */
 package com.nastech.upmureport.config;
 
 import java.util.List;
@@ -26,14 +32,19 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableAspectJAutoProxy
 public class WebConfig implements WebMvcConfigurer {
 	
-	  @Override
-	  public void addViewControllers(ViewControllerRegistry registry) {
-	      registry.addViewController("/{spring:\\w+}")
-	            .setViewName("forward:/");
-	      registry.addViewController("/**/{spring:\\w+}")
-	            .setViewName("forward:/");
-	      registry.addViewController("/{spring:\\w+}/**{spring:?!(\\.js|\\.css)$}")
-	            .setViewName("forward:/");
+	/**
+	 * SPA 형식의 라우팅을 지원하기 위해 모든 리소스 URL, 페이지 등을 루트로 포워딩한다.
+	 * 
+	 * @author 김승신 19.05.22.
+	 */
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/{spring:\\w+}")
+				.setViewName("forward:/");
+		registry.addViewController("/**/{spring:\\w+}")
+				.setViewName("forward:/");
+		registry.addViewController("/{spring:\\w+}/**{spring:?!(\\.js|\\.css)$}")
+				.setViewName("forward:/");
 	  }
 	
 	@Override
