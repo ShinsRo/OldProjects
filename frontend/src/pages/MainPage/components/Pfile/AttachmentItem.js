@@ -38,8 +38,6 @@ class AttachmentItem extends Component {
         console.log(e.dataTransfer)
     }
 
-        
-
     render() {
         const { attachment, idx } = this.props;
         
