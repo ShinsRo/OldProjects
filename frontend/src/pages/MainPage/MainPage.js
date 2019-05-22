@@ -1,3 +1,11 @@
+/** 
+ * 프로젝트/디렉토리/업무 관리 페이지 정의
+ * 
+ * 2019.05.22
+ * @file MainPage 정의
+ * @author 김승신, 김윤상
+ */
+
 import React, { Component } from "react";
 import ProjectSideBarContainer from "./containers/ProjectSideBarContainer";
 import HeaderContainer from "./containers/HeaderContainer";

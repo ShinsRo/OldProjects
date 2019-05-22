@@ -1,3 +1,10 @@
+/** 
+ * 프로젝트/디렉토리 추가 폼을 포함한 모달
+ * 
+ * 2019.05.22
+ * @file AddModal 정의
+ * @author 김승신
+ */
 import React from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import store from '../../../../stores';

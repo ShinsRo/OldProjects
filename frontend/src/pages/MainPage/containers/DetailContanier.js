@@ -1,3 +1,10 @@
+/** 
+ * 상세보기 패널 내용 제어 정의
+ * 
+ * 2019.05.22
+ * @file DetailContanier 정의
+ * @author 김승신, 김윤상
+ */
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';

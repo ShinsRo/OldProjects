@@ -1,3 +1,11 @@
+/** 
+ * 프로젝트 패널 사이드 바 컨테이너 정의
+ * 
+ * 2019.05.22
+ * @file ProjectSideBarContainer 정의
+ * @author 김승신, 김윤상
+ */
+
 import React, { Component } from 'react';
 
 import store from '../../../stores'

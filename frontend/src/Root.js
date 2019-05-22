@@ -1,6 +1,13 @@
+/** 
+ * Route 컴포넌트 정의
+ * 
+ * 2019.05.22
+ * @file 라우팅을 전담하는 Route 컴포넌트를 정의.
+ * @author 김승신
+ */
 import React from 'react';
 import { Route, BrowserRouter, withRouter, Switch } from 'react-router-dom';
-import { MainPage, NotFound, LoginPage, AdminPage, RegisterPage, ProfilePage } from "./pages";
+import { MainPage, NotFound, LoginPage, AdminPage, RegisterPage } from "./pages";
 import { Provider } from 'react-redux';
 import store from './stores';
 

@@ -1,3 +1,10 @@
+/** 
+ * 디렉토리 CRUD 관련 비동기 통신 URL 매핑 및 제어 정의
+ * 
+ * 2019.05.22.
+ * @file PdirController 정의
+ * @author 김승신
+ */
 package com.nastech.upmureport.controller;
 
 import java.util.List;

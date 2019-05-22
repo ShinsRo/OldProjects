@@ -1,3 +1,9 @@
+/** 
+ * 요청에 따라 클라이언트에 소켓 메세지를 보내는 ProjectNotificationService를 정의.
+ * 
+ * 2019.05.22.
+ * @author 김승신
+ */
 package com.nastech.upmureport.service;
 
 import java.util.List;
