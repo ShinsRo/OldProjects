@@ -13,6 +13,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
 	
+	/*
+	 * api 문서 자동화를 위한 swagger 설정
+	 */
+	
 	@Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)

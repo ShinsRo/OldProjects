@@ -85,7 +85,7 @@ public class ProjectServiceTest {
 	
 	@Test
 	@Transactional
-	public void 프로젝트_생성하기_테스트() {
+	public void 프로젝트_생성하기_테스트() throws Exception {
 		Member kss = memberRepository.findOneByEidAndDflagFalse("1111");
 		String kssMid = kss.getMid().toString();
 		
@@ -111,7 +111,7 @@ public class ProjectServiceTest {
 	
 	@Test
 	@Transactional
-	public void 프로젝트_수정하기_테스트() {
+	public void 프로젝트_수정하기_테스트() throws Exception {
 		Member kss = memberRepository.findOneByEidAndDflagFalse("1111");
 		String kssMid = kss.getMid().toString();
 		

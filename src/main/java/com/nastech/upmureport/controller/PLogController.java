@@ -26,6 +26,7 @@ public class PLogController {
 		this.pLogService = pfileLogService;
 	}
 	
+	// 프로젝트 별 로그 리스트 조회
 	@GetMapping(value = "/{projectId}")
 	public List<PLogDto> getPfileLog(@PathVariable String projectId){
 		
