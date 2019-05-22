@@ -20,8 +20,11 @@ import com.nastech.upmureport.domain.repository.PLogRepository;
 import com.nastech.upmureport.domain.repository.ProjectRepository;
 import com.nastech.upmureport.support.Utils;
 
+import lombok.RequiredArgsConstructor;
+
 
 @Service
+@RequiredArgsConstructor
 public class PLogService {
 
 	private static final Log LOG = LogFactory.getLog(PLogService.class);
@@ -29,15 +32,8 @@ public class PLogService {
 	
 	private PLogRepository pLogRepository;
 	private ProjectRepository projectRepository;
-
-		
-	public PLogService(PLogRepository pLogRepository, ProjectRepository projectRepository) {		
-		
-		this.pLogRepository = pLogRepository;
-		this.projectRepository = projectRepository;
-		
-	}
 	
+	/* 업무 상태 별 로그 생성 */
 	public PLog createPfileLog(Pfile pfile, LogState logState) {
 		
 		PLog pLog = PLog.builder()
@@ -52,9 +48,10 @@ public class PLogService {
 				.logState(logState)
 				.build();
 		
-		return pLogRepository.save(pLog);		
+		return pLogRepository.save(pLog);
 	}
 	
+	/* 첨부파일 상태 별  로그 생성 */
 	public PLog createAttachmentLog(Attachment attachment, LogState logState) {
 		
 		PLog pLog = PLog.builder()
@@ -72,20 +69,20 @@ public class PLogService {
 		return pLogRepository.save(pLog);
 	}
 	
+	/* 프로젝트 별 로그 리스트 조회 */
 	public List<PLogDto> getPLogs(String projectId) {
-		Project project = null;
-				
-		project = projectRepository.findById(Utils.StrToBigInt(projectId)).get();
 		
-		List<PLog> pLogs = pLogRepository.findAllByProject(project);
+		Project project = projectRepository.findById(Utils.StrToBigInt(projectId)).get(); // 로그 리스트를 조회 할 프로젝트 조회 
+		
+		List<PLog> pLogs = pLogRepository.findAllByProject(project); // 해당 프로젝트의 로그 리스트 조회
 				
-		List<PLogDto> pLogDtos = new ArrayList<>();
+		List<PLogDto> pLogDtos = new ArrayList<>(); // 로그 DTO 객체 생성
 		
 		pLogs.forEach(pLog -> {
 			
 			PLogDto pLogDto;
 			
-			if(pLog.getLogType().equals(LogType.ATTACHMENT)) {
+			if(pLog.getLogType().equals(LogType.ATTACHMENT)) { // 첨부파일에 대한 로그 일 경우
 				pLogDto = PLogDto.builder()
 						.name(pLog.getName())
 						.contents(pLog.getContents())
@@ -96,7 +93,7 @@ public class PLogService {
 						.dId(pLog.getPdir().getDid())
 						.contentType(pLog.getAttachment().getContentType())
 						.build();				
-			} else {
+			} else { // 업무에 대한 로그 일 경우
 				pLogDto = PLogDto.builder()
 						.name(pLog.getName())
 						.contents(pLog.getContents())
@@ -108,10 +105,10 @@ public class PLogService {
 						.build();
 			}
 			
-			pLogDtos.add(pLogDto);				
+			pLogDtos.add(pLogDto); // 리스트에 추가
 		});		
 		
-		return pLogDtos;
+		return pLogDtos; // 반환
 	}	
 	
 }
