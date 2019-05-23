@@ -27,15 +27,15 @@
 <table>
     <tr>
         <td colspan="2">
-            <img src="./docs/images/메인페이지.PNG">
+            <img src="./docs/images/MainPage.png">
         </td>
     </tr>
 	<tr>
 		<td>
-			<img src="./docs/images/로그인페이지.PNG">
+			<img src="./docs/images/LoginPage.png">
 		</td>
 		<td>
-			<img src="./docs/images/메인페이지2.PNG">
+			<img src="./docs/images/MainPage2.png">
 		</td>
 	</tr>
 </table>
