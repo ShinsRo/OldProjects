@@ -9,7 +9,7 @@
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	
-	<name>upmureport Webapp</name>
+	<name>UPMUREPORT-WEB</name>
 	<!-- FIXME change it to the project's website -->
 	<url>http://www.upmureport.com</url>
 	
@@ -225,26 +225,39 @@
       <plugins>
 		<!--
 			2019-05-02 김승신
-			phase에 바인딩하여 사용하지 않는 것을 원칙으로 한다.
+				mvn으로 골을 명시하여 실행할 때 참고 사항
+
 				maven-${prefix}-plugin (공식 and maven team 플러그인)
 				${prefix}-maven-plugin (비공식 or other team 플러그인)
-			를 참고하여
 
-			mvn prefix:goal 처럼 쉘 스크립트 상 직접 명시하여 빌드한다.
-			(이는 gitlab-cl 상 echo 로그 편의를 도모하기 위함이다.)
-			
-			아래 주석처리한 executions 은 로컬에서 빌드할 때 주석 해제하여 사용한다.
+			2019-05-22 김승신
+				Gilab CI의 Runner에 권한이 우리 인턴팀에 없고,
+				따라서 CI 환경에서 JDK 8을 사용할 수 없으므로
+				package 단계까지 실행해 직접 서버에 옮긴다.
 		-->
+
+	  	<!-- 테스트 빌드/실행 스킵 설정-->
 		<plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
+			<executions>
+				<execution>
+					<id>default-testCompile</id>
+                    <phase>test-compile</phase>
+                    <goals>
+                        <goal>testCompile</goal>
+                    </goals>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+				</execution>
+			</executions>
             <configuration>
               <executable>${project.basedir}/jdk1.8.0/bin/javac</executable>
               <compilerVersion>1.8</compilerVersion>
             </configuration>
         </plugin>
 
-	  	<!-- 테스트 코드 스킵 설정-->
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-surefire-plugin</artifactId>
@@ -253,13 +266,20 @@
 			</configuration>
 		</plugin>
 
-        <!-- 프론트엔드(react) 메이븐 빌드 설정 -->
+        <!-- _프론트엔드(react) 메이븐 빌드 설정 -->
       	<!-- 
-      		배포 시 사전 설치 설정
+			2019-05-02
       		author: 김승신
       		1. NodeJS와 Yarn을 프로젝트 로컬에 사전 설치
       		2. yarn install을 실행하여 배포 시 의존성 설치 보장
-      		3. yarn build을 통한 최적화 빌드
+      		3. yarn build을 통한 빌드
+
+		  	2019-05-22 이후
+			author: 김승신
+			Gitlab Runner에 JDK 8이 가용할 경우(CI가 가능한)를 대비해
+			메이븐을 통한 리액트 빌드 스크립트 실행 형식을 보존한다.
+
+      		배포 시 사전 설치 설정
       	 -->
 		<plugin>
 		    <groupId>com.github.eirslett</groupId>
@@ -269,24 +289,23 @@
 		    <configuration>
 		        <nodeVersion>${node.version}</nodeVersion>
 		        <npmVersion>${npm.version}</npmVersion>
-		        <!-- <yarnVersion>${yarn.version}</yarnVersion> -->
+		        <yarnVersion>${yarn.version}</yarnVersion>
 		        <workingDirectory>${frontendSrcDir}</workingDirectory>
 		        <installDirectory>${project.build.directory}</installDirectory>
 		    </configuration>
 
-		    <!-- 
 			<executions>
 		        <execution>
 		            <id>install-frontend-tools</id>
 		            <goals>
-		                <goal>install-node-and-npm</goal>
+		                <goal>install-node-and-yarn</goal>
 		            </goals>
 		        </execution>
 		
 		        <execution>
-		            <id>npm-install</id>
+		            <id>yarn-install</id>
 		            <goals>
-		                <goal>npm</goal>
+		                <goal>yarn</goal>
 		            </goals>
 		            <configuration>
 		                <arguments>install</arguments>
@@ -296,31 +315,30 @@
 		        <execution>
 		            <id>build-frontend</id>
 		            <goals>
-		                <goal>npm</goal>
+		                <goal>yarn</goal>
 		            </goals>
+					<phase>prepare-package</phase>
 		            <configuration>
 		                <arguments>build</arguments>
 		            </configuration>
 		        </execution>
 		    </executions> 
-			-->
 		</plugin> 
 
 		<!-- 
 			리소스 파일을 빌드에 포함하는 메이븐 플러그인 설정
       		author: 김승신
       		 - frontend 프로젝트 내 resource를 실제 배포 장소의 static으로 옮김
-			   resources:
 		 -->
 		<plugin>
 		    <artifactId>maven-resources-plugin</artifactId>
-		    <!-- 
 			<executions>
 		        <execution>
 		            <id>position-react-build</id>
 		            <goals>
 		                <goal>copy-resources</goal>
 		            </goals>
+					<phase>prepare-package</phase>
 		            <configuration>
 		                <outputDirectory>${project.build.outputDirectory}/static</outputDirectory>
 		                <resources>
@@ -332,7 +350,6 @@
 		            </configuration>
 		        </execution>
 		    </executions> 
-			-->
 		</plugin>
       	<!-- 프론트엔드(react) 메이븐 빌드 설정 끝 -->
       	
@@ -343,7 +360,6 @@
 			<configuration>
 				<mainClass>com.nastech.upmureport.Application</mainClass> 
 			</configuration>
-			<!-- 
 			<executions>
 		        <execution>
 		            <goals>
@@ -351,18 +367,21 @@
 		            </goals>
 		        </execution>
 		    </executions> 
-			-->
 		</plugin>
       </plugins>
   </build>
 
-  <distributionManagement>
-    <repository>
-      <uniqueVersion>false</uniqueVersion>
-      <id>central</id>
-      <name>${project.name}-${project.version}-release</name>
-      <url>${env.MAVEN_REPO_URL}/relases</url>
-      <layout>default</layout>
-    </repository>
-  </distributionManagement>
+  	<!-- 
+	**2019.05.22. 이후 미사용 설정**
+  
+	<distributionManagement>
+		<repository>
+		<uniqueVersion>false</uniqueVersion>
+		<id>central</id>
+		<name>${project.name}-${project.version}-release</name>
+		<url>${env.MAVEN_REPO_URL}/relases</url>
+		<layout>default</layout>
+		</repository>
+	</distributionManagement>
+	-->
 </project>
