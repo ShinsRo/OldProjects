@@ -27,15 +27,15 @@
 <table>
     <tr>
         <td colspan="2">
-            <img src="./docs/images/메인페이지.PNG">
+            <img src="./docs/images/MainPage.png">
         </td>
     </tr>
 	<tr>
 		<td>
-			<img src="./docs/images/로그인페이지.PNG">
+			<img src="./docs/images/LoginPage.png">
 		</td>
 		<td>
-			<img src="./docs/images/메인페이지2.PNG">
+			<img src="./docs/images/MainPage2.png">
 		</td>
 	</tr>
 </table>
@@ -76,7 +76,7 @@ UPMUREPORT-WEB은 아래와 같은 OS의 환경변수를 사용합니다.
 <table>
     <tr>
         <td colspan="2">
-            <img src="./docs/images/실행설정.PNG">
+            <img src="./docs/images/RunConfig.png">
         </td>
     </tr>
 </table>
