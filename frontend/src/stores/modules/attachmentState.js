@@ -4,6 +4,13 @@ import * as attachmentService from '../../api/attachmentService'
 import { BASE_URL } from '../../supports/API_CONSTANT';
 import axios from 'axios';
 
+/**
+ * @author : 김윤상		2019.05.22. 
+ * 
+ * @description
+ *  - 첨부 파일에 대한 데이터, state, 함수 관리
+ */
+
 const ATTACH_SEND_PENDING = 'ATTACH_SEND_PENDING';
 const ATTACH_SAVE_SUCCESS = 'ATTACH_SAVE_SUCCESS';
 const ATTACH_SEND_ERROR = 'ATTACH_SEND_ERROR';

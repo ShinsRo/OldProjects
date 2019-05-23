@@ -30,7 +30,7 @@ public class PfileController {
 		this.pfileService = pfileService;
 	}
 	
-	// pfile 추가 
+	// 업무 추가 
 	@PostMapping()
 	public PfileDto.PfileResDto addPfile(@RequestBody PfileDto.PfileReqDto pfileReqDto) {
 		
@@ -41,35 +41,36 @@ public class PfileController {
 		return pfileResDto;
 	}
 	
-	// pdirId 별 pfile 조회 후 리턴
+	// 디렉토리 별 업무 조회
 	@GetMapping(value="/{pdirId}")
 	public List<PfileDto.PfileResDto> getPfile(@PathVariable String pdirId){
 		
 		return pfileService.getPfiles(BigInteger.valueOf(Long.parseLong(pdirId)));		
 	}
 	
-	// pfile 수정
+	// 업무 수정
 	@PutMapping()
-	public List<PfileDto.PfileResDto> updatePfile(@RequestBody PfileDto.PfileReqDto pfileReqDto) {
-		
-		
+	public List<PfileDto.PfileResDto> updatePfile(@RequestBody PfileDto.PfileReqDto pfileReqDto) {		
 		pfileService.updatePfile(pfileReqDto);
 		
 		return pfileService.getPfiles(BigInteger.valueOf((pfileReqDto.getPdirId()).longValue())); 
 	}
-		
+	
+	// 업무 삭제
 	@DeleteMapping(value= "/{pfileId}")
 	public List<PfileDto.PfileResDto> deletePfile(@PathVariable String pfileId) {
 		
 		return pfileService.deletePfile(pfileId);
 	}
 	
+	// 디렉토리 간 업무 이동
 	@PutMapping("/move/{pfileId}/{pdirId}")
 	public List<PfileDto.PfileResDto> movePfile(@PathVariable String pfileId, @PathVariable String pdirId){
 		
 		return pfileService.movePfile(pfileId, pdirId);		
 	}
 	
+	// 디렉토리 간 업무 복사
 	@PutMapping("/copy/{pfileId}/{pdirId}")
 	public PfileDto.PfileResDto copyPfile(@PathVariable String pfileId, @PathVariable String pdirId){
 		

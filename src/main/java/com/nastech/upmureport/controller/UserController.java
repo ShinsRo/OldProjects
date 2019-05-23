@@ -72,33 +72,13 @@ public class UserController {
 	CareerRepository careerRepository;
 	@Autowired
 	CareerService careerService;
-	
-    /*
-    @GetMapping(value = "/login")
-    public String login(User user){
-    	//memberService.userLogin(user.getUserId(), user.getUserPass());
-    	System.out.println(user.getUserId());
-    	return "_template";
-    }*/
-//    @PostMapping(value = "/login")  //기존 로그인 서비스
-//    public MemberDto login(@RequestBody AuthInfo user, HttpServletRequest request){
-//    	MemberDto loginedUserDto = authInfoService.userLogin(user);
-//    	if(loginedUserDto != null) {
-//    		HttpSession session = request.getSession();
-//    		session.setAttribute("userDto", (Object)loginedUserDto);
-//    		return loginedUserDto;
-//    	}
-//    	else
-//    	{
-//    		return null;
-//    	}
-//    }
-	
+		
 	/**
 	 * @author 마규석
 	 * @param user
 	 * @param request
 	 * @return 로그인에 성공 한 유저의 token 과 유저정보
+	 * Spring Seuciry 를 이용한 Rest 방식의 로그인
 	 */
 	@PostMapping(value = "/login")
     public Map<?, ?> login(@RequestBody AuthInfo user, HttpServletRequest request){
@@ -106,7 +86,9 @@ public class UserController {
 		String password = user.getPassword();
 		HttpSession session = request.getSession();
 		
+		//Spring Security에서 제공하는 username(아이디)와 password를 통한 인증 ==> 인증 성공시 토큰 발급
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
+		
 		Authentication authentication = authenticationManager.authenticate(token);
 		SecurityContextHolder.getContext().setAuthentication(authentication);  //인증된것 contextHolder에 넣어줌
 		session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY , SecurityContextHolder.getContext());
@@ -119,7 +101,7 @@ public class UserController {
 		System.out.println("-----customUser"+customUser.getAuthorities());
 		
 		Map<String, Object> returnObj = new HashMap<String, Object>();
-		
+		//로그인 성공 후 발급 된 토큰과 멤버 정보를 Map으로 묶어 반환한다 
 		returnObj.put("authToken", new AuthenticationToken(customUser.getUsername(), customUser.getAuthorities(), session.getId()));
 		returnObj.put("memberInfo", authUser.getMember());
 		
@@ -150,9 +132,9 @@ public class UserController {
 		return basicAuthInfo;
 	}
 	
+	//// 핸드폰 번호 변경
 	@PutMapping(value="/modify/phone")
 	public Member phoneModifyAPI(@RequestBody Member mem) {
-		System.out.println("폰컨"+mem);
 		Member modifyMem=memberService.modifyPhone(mem);
 		return modifyMem;
 	}
@@ -213,6 +195,7 @@ public class UserController {
     	return savedMem;
   	}
     
+    //아이디 중복 체크
     @PostMapping(value="/idcheck")
     public AuthInfo idCheck(@RequestBody AuthInfo auth) {
     	System.out.println(auth);
@@ -225,6 +208,8 @@ public class UserController {
     	else
     		return auth;
     }
+    
+    //사번 중복 체크
     @PostMapping(value="/eidcheck")
     public Member eidCheck(@RequestBody Member mem) {
     	System.out.println(mem);
@@ -254,12 +239,18 @@ public class UserController {
     	return ResponseEntity.ok().body(memberService.listAll());
     }
 
-//    
-//    @CrossOrigin
-//    @GetMapping(value = "/regi")
-//    public String register() {
-//    	UserDto user= new UserDto("190313", "Test", "1q2w3e4r", "연구소", "사원", false);
-//    	memberService.userRegister(user);
-//    	return "redirect:/";
-//    }
+    
+//  @PostMapping(value = "/login")  //Spring Security 적용 전기존 로그인 서비스
+//  public MemberDto login(@RequestBody AuthInfo user, HttpServletRequest request){
+//  	MemberDto loginedUserDto = authInfoService.userLogin(user);
+//  	if(loginedUserDto != null) {
+//  		HttpSession session = request.getSession();
+//  		session.setAttribute("userDto", (Object)loginedUserDto);
+//  		return loginedUserDto;
+//  	}
+//  	else
+//  	{
+//  		return null;
+//  	}
+//  }
 }

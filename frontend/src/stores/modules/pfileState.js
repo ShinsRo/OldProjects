@@ -2,6 +2,13 @@ import { createAction, handleActions } from 'redux-actions';
 import { Map, List } from 'immutable';
 import * as pfileService from '../../api/PfileService'
 
+/**
+ * @author : 김윤상		2019.05.22. 
+ * 
+ * @description
+ *  - 업무에 대한 데이터, state, 함수 관리
+ */
+
 // 액션 타입
 const CHANGE_TITLE_INPUT = 'CHANGE_TITLE_INPUT';
 const CHANGE_CONTENT_INPUT = 'CHANGE_CONTENT_INPUT';
@@ -13,7 +20,6 @@ const SET_PFILE = 'SET_PFILE';
 const SUCCESS = 'SUCCESS';
 
 
-
 // 액션 생성 함수
 export const changeTitleInput = createAction(CHANGE_TITLE_INPUT);
 export const changeContentInput = createAction(CHANGE_CONTENT_INPUT);
@@ -23,8 +29,6 @@ export const pfileSaveSuccess = createAction(SAVE_SUCCESS);
 export const sendSuccess = createAction(SEND_SUCCESS);
 export const setPfile = createAction(SET_PFILE);
 export const success = createAction(SUCCESS);
-
-
 
 const initialState = Map({
     titleInput: '',

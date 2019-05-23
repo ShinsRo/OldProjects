@@ -2,13 +2,15 @@ import { createAction, handleActions } from 'redux-actions';
 import { Map } from 'immutable';
 import * as plogService from '../../api/PLogService';
 
+/**
+ * @author : 김윤상		2019.05.22. 
+ * 
+ * @description
+ *  - 로그에 대한 데이터, state, 함수 관리
+ */
 const PLOG_SEND_PENDING = 'PLOG_SEND_PENDING';
 const PLOG_SEND_SUCCESS = 'PLOG_SEND_SUCCESS';
 const PLOG_SEND_ERROR = 'PLOG_SEND_ERROR';
-// const SET_PFILE_LOG = 'SET_PFILE_LOG';
-// const SET_ATTACHMENT_LOG = 'SET_ATTACHMENT_LOG';
-
-
 const SET_LOG = 'SET_LOG';
 const SET_LOG_VIEW_LEVEL = 'SET_LOG_VIEW_LEVEL';
 const SET_PROJECT = 'SET_PROJECT';
