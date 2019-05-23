@@ -1,4 +1,4 @@
-// DEV ENV
+// ENV
 const BASE_URL = 'http://localhost:8304';
 
 // KYS ENV
