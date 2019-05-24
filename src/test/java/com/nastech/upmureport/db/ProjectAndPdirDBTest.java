@@ -2,20 +2,28 @@ package com.nastech.upmureport.db;
 
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
+import java.time.LocalDateTime;
+import java.util.Map;
+import java.util.Set;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.nastech.upmureport.TestData;
+import com.nastech.upmureport.domain.entity.MemberProject;
 import com.nastech.upmureport.domain.repository.AuthInfoRepository;
 import com.nastech.upmureport.domain.repository.CareerRepository;
 import com.nastech.upmureport.domain.repository.MemberProjectRepository;
 import com.nastech.upmureport.domain.repository.MemberRepository;
 import com.nastech.upmureport.domain.repository.MemberSystemRepository;
 import com.nastech.upmureport.domain.repository.PdirRepository;
+import com.nastech.upmureport.domain.repository.ProjectInfoRepository;
 import com.nastech.upmureport.domain.repository.ProjectRepository;
 
 @RunWith(SpringRunner.class)
@@ -39,11 +47,13 @@ public class ProjectAndPdirDBTest {
 	ProjectRepository projectRepository;
 	@Autowired
 	PdirRepository pdirRepository;
+	@Autowired
+	ProjectInfoRepository pir;
 	
 	@Autowired
 	TestData td;
 
-	@Before
+//	@Before
 	public void setUp() {
 		td.deleteAllPdirData();
 		td.deleteAllProjectData();
@@ -67,7 +77,43 @@ public class ProjectAndPdirDBTest {
 	}
 	
 	@Test
-	public void test01() {}
+	public void 프로젝트_정보_관리자조회_테스트() {
+		
+		Page<Map<String, Object>> groupedProjectInfo 
+			= pir.groupedProjectInfoPageByStDateBetween(
+				LocalDateTime.now().minusYears(1), 
+				LocalDateTime.now(),
+				PageRequest.of(0, 20));
+		assertTrue(groupedProjectInfo.getTotalElements() > 0);
+
+		Set<String> fields 
+			= groupedProjectInfo.getContent().get(0).keySet();
+		assertTrue(fields.size() > 0);
+
+		fields.stream().forEach(hd -> {
+			System.out.printf("%s\t\t", (hd.length() > 3)? hd.substring(0, 3) + "...": hd);
+		});
+		System.out.printf("\n===========================================================================");
+		System.out.printf("===========================================================================\n");
+		groupedProjectInfo.get().forEach(column -> {
+			fields.stream().forEach(hd -> {
+				String col = column.get(hd).toString();
+				
+				col = (col.length() > 3) ? col.substring(0, 3) + "...": col;
+				
+				System.out.printf("%s\t\t", col);
+			});
+			System.out.println();
+		});
+		System.out.println(groupedProjectInfo.getTotalElements());
+		
+		Page<MemberProject> mps = pir.projectInfoByStDateBetween(
+				LocalDateTime.now().minusMonths(12),
+				LocalDateTime.now(),
+				PageRequest.of(0, 20, Sort.by(Sort.Direction.ASC, "mpid")));
+		
+		System.out.println(mps);
+	}
 	
 //	@After
 	public void clearAll() {

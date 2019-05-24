@@ -2,7 +2,6 @@ package com.nastech.upmureport.domain.entity;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
