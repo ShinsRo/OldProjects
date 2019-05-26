@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.midas2018.root.repository.CafeMenuMapper">
+
+  <insert id="insertMenu" parameterType="map">
+    INSERT INTO cafe_menu (
+       name
+     , price
+     , content
+     , category
+     , created_time
+     , updated_time
+     , status
+     , image_url
+    )
+    VALUES (
+      #{name}
+    , #{price}
+    , #{content}
+    , #{category}
+    , now()
+    , now()
+    , #{status.value}
+    , #{imageURL}
+    )
+  </insert>
+
+  <update id="updateMenu" parameterType="map">
+    UPDATE
+      cafe_menu
+    SET
+        name = #{name}
+      , price = #{price}
+      , content = #{content}
+      , category = #{category}
+      , updated_time = now()
+      , status = #{status}
+      , image_url = #{imageURL}
+    WHERE
+      id = #{id}
+  </update>
+
+    <update id="deleteMenu" parameterType="map">
+        UPDATE
+          cafe_menu
+        SET
+            deleted_time = now()
+          , status = 1
+        WHERE
+          id = #{id}
+    </update>
+
+  <select id="selectMenu" parameterType="map" resultType="com.midas2018.root.model.CafeMenuVO">
+    SELECT
+      *
+    FROM
+      cafe_menu
+    WHERE
+      id = #{id};
+  </select>
+
+  <select id="selectAllMenu" resultType="com.midas2018.root.model.CafeMenuVO">
+    SELECT
+      *
+    FROM
+      cafe_menu
+  </select>
+
+  <!--<delete id="deleteMenu" parameterType="map">-->
+    <!--DELETE-->
+    <!--FROM-->
+      <!--cafe_menu-->
+    <!--WHERE-->
+      <!--id = #{id};-->
+  <!--</delete>-->
+
+</mapper>
