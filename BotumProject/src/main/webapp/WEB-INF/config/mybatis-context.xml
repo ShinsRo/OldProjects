@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- 로컬 데이터베이스 소스(명환 로컬 DB) -->
+<!-- 
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+	<property name="driverClass" value="org.mariadb.jdbc.Driver"/>
+	<property name="url" value="jdbc:mariadb://localhost:3306/bt"/>
+	<property name="username" value="root"/>
+	<property name="password" value="rla1593"/>
+</bean>
+ -->
+ <!-- 로컬 데이터베이스 소스(승신 로컬 DB) -->
+<!-- 
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+	<property name="driverClass" value="org.mariadb.jdbc.Driver"/>
+	<property name="url" value="jdbc:mariadb://localhost:3306/bt"/>
+	<property name="username" value="seungshin"/>
+	<property name="password" value="1031"/>
+</bean>
+ -->
+<!-- 원격 데이터베이스 소스 -->
+
+<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+	<property name="driverClass" value="org.mariadb.jdbc.Driver"/>
+	<property name="url" value="jdbc:mariadb://sejonghacker.iptime.org:3306/bt"/>
+	<property name="username" value="remoteController"/>
+	<property name="password" value="botum"/>
+</bean> 
+
+
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<property name="dataSource" ref="dataSource"/>
+	<property name="configLocation" value="classpath:/mybatis/config/SqlSessionConfig.xml"/>
+</bean>
+
+<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+	<constructor-arg index="0" name="sqlSessionFactory" ref="sqlSessionFactory"/>
+</bean>
+
+</beans>
