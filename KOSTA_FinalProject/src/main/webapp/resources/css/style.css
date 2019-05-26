@@ -1,0 +1,85 @@
+@CHARSET "UTF-8";
+.replyList{
+	border: 1px solid white;
+	padding: 5px;
+	width: 100%;
+}
+#writeReplyBtn{
+	background: #ffd100;
+	float: right;
+	height:50px;
+	width:10%;
+	border:none;
+	box-shadow: none;
+	border-radius: 5px;
+	font-weight: bold;
+}
+.reply_field{
+	width:89%;
+	height:50px;
+	resize:none;
+}
+
+.nickspan{
+	font-weight: bold;
+}
+.cmlist{
+	list-style:none;
+	padding:0;
+	margin:0;
+}
+.box_reply{
+	width:100%;
+}
+.cm_list_box{
+	min-height: 50px;
+}
+.cmdate{
+	font-size: 10pt;
+	color: gray;
+}
+.box_reply{
+	background-color: #FAFAAA;
+	margin-bottom: 50px;
+}
+
+
+#back-top {
+    position: fixed;
+    bottom: 30px;
+    margin-left:-80px;
+}
+ 
+#back-top a {
+    width: 108px;
+    display: block;
+    text-align: center;
+    font: 11px/100% Arial, Helvetica, sans-serif;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #bbb;
+    /* transition */
+    -webkit-transition: 1s;
+    -moz-transition: 1s;
+    transition: 1s;
+}
+#back-top a:hover {
+    color: #000;
+}
+ 
+
+#back-top a:hover span {
+    background-color: #777;
+}
+
+.top_btn{
+	width:50px;
+}
+
+.popup_btn{
+	background: #ffd100;
+	border:none;
+	box-shadow: none;
+	border-radius: 5px;
+	font-weight: bold;
+}

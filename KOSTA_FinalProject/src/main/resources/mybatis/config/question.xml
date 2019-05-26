@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sql Mapper -->
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="question">
+	<select id="getTotalQuestionCount" resultType="int">
+		select count(*)
+		from QUESTION
+	</select>
+	<select id="getQuestionList" resultType="questionVO">
+		SELECT * FROM
+		(
+		SELECT ROWNUM AS rnum, data.*
+		FROM
+			(
+				SELECT LEVEL as re_lev,qno,title,hit,
+				to_char(time_posted,'YYYY.MM.DD HH:mm') as
+				time_posted, id,content,is_secret,re_ref,q_parent
+				FROM QUESTION
+				START WITH q_parent=0
+				CONNECT BY PRIOR qno=q_parent
+				ORDER SIBLINGS BY re_ref desc
+			)
+		data
+		)
+		WHERE rnum between #{startRowNumber} and #{endRowNumber}
+	</select>
+	<insert id="registerQuestion" parameterType="questionVO">
+		<selectKey keyProperty="qno" resultType="String" order="BEFORE">
+			select Q_SEQ.nextval from dual
+		</selectKey>
+		INSERT INTO QUESTION(qno, title, hit, time_posted, id,
+		content,is_secret,re_ref)
+		VALUES(#{qno}, #{title}, 0, sysdate, #{id},
+		#{content},#{is_secret},#{qno})
+	</insert>
+	<select id="showQuestionDetail" parameterType="int" resultType="questionVO">
+		SELECT *
+		FROM QUESTION
+		WHERE qno=#{value}
+	</select>
+	<update id="updateHit" parameterType="int">
+		update QUESTION
+		set
+		hit=hit+1 where qno=#{value}
+	</update>
+	<update id="updateQuestion" parameterType="questionVO">
+		update QUESTION
+		set
+		title=#{title},content=#{content},is_secret=#{is_secret} where
+		qno=#{qno}
+	</update>
+	<delete id="deleteQuestion">
+		delete from QUESTION where qno=#{value}
+	</delete>
+	<select id="getNextQno" resultType="int">
+		select Q_SEQ.nextval from
+		dual
+	</select>
+	<insert id="registerAnswer" parameterType="questionVO">
+		<selectKey keyProperty="qno" resultType="String" order="BEFORE">
+			select Q_SEQ.nextval from dual
+		</selectKey>
+		INSERT INTO QUESTION(qno, title, hit, time_posted,
+		id,content,is_secret,re_ref,q_parent)
+		VALUES(#{qno}, #{title}, 0,
+		sysdate, #{id}, #{content},#{is_secret},#{re_ref},#{q_parent})
+	</insert>
+	<select id="getParentReRef" parameterType="int" resultType="int">
+		select re_ref from question where qno=#{value}
+	</select>
+	<select id="pwdVerification" parameterType="String" resultType="int">
+		select count(*) from QUESTION q,GD_MEMBER m
+		where q.id = m.id and m.password=#{value}
+	</select>
+</mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

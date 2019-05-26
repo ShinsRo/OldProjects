@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.14" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="org.kosta.goodmove.model.vo.SearchVO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/vo/SearchVO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="138" x="61" y="145"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="org.kosta.goodmove.model.vo.AddressVO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/vo/AddressVO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="138" x="276" y="145"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="org.kosta.goodmove.model.vo.BoardListVO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/vo/BoardListVO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="188" x="269" y="557"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="org.kosta.goodmove.model.vo.MemberVO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/vo/MemberVO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="143" x="765" y="702"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="org.kosta.goodmove.model.vo.CommentListVO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/vo/CommentListVO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="138" x="580" y="400"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="org.kosta.goodmove.model.vo.CommentReplyVO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/vo/CommentReplyVO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="138" x="481" y="145"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="org.kosta.goodmove.model.vo.BoardUpdateParamDTO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/vo/BoardUpdateParamDTO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="160" x="59" y="253"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="org.kosta.goodmove.model.vo.PagingBean" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/vo/PagingBean.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="143" x="768" y="525"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="org.kosta.goodmove.model.vo.ProductSetVO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/vo/ProductSetVO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="138" x="714" y="253"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="org.kosta.goodmove.model.vo.BoardVO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/vo/BoardVO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="138" x="57" y="557"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="org.kosta.goodmove.model.vo.ReportListVO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/vo/ReportListVO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="138" x="63" y="357"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="org.kosta.goodmove.model.vo.ReportVO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/vo/ReportVO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="138" x="52" y="456"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="org.kosta.goodmove.model.vo.QuestionListVO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/vo/QuestionListVO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="138" x="801" y="397"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="org.kosta.goodmove.model.vo.ApplicationVO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/vo/ApplicationVO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="138" x="56" y="657"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="org.kosta.goodmove.model.vo.QuestionVO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/vo/QuestionVO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="143" x="932" y="521"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="org.kosta.goodmove.model.vo.ReportPagingBean" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/vo/ReportPagingBean.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="138" x="225" y="456"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="org.kosta.goodmove.model.vo.CommentPictureVO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/vo/CommentPictureVO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="138" x="670" y="145"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="org.kosta.goodmove.model.vo.MemberListVO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/vo/MemberListVO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="138" x="767" y="618"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="org.kosta.goodmove.model.vo.BoardPagingBean" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/vo/BoardPagingBean.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="138" x="293" y="667"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="20" language="java" name="org.kosta.goodmove.model.vo.CommentVO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/vo/CommentVO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="143" x="576" y="527"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="21" language="java" name="org.kosta.goodmove.model.vo.DeliveryMatchVO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/vo/DeliveryMatchVO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="138" x="893" y="145"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="22" language="java" name="org.kosta.goodmove.model.vo.Authority" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/vo/Authority.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="144" x="895" y="253"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="23">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="24" name="list"/>      
+      <multiplicity id="25" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="26">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="27" name="aList"/>      
+      <multiplicity id="28" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="29">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="30" name="list"/>      
+      <multiplicity id="31" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="32">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="33" name="pagingBean"/>      
+      <multiplicity id="34" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="35">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="36" name="list"/>      
+      <multiplicity id="37" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="38">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="39" name="pagingBean"/>      
+      <multiplicity id="40" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="41">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="42" name="pagingBean"/>      
+      <multiplicity id="43" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="44">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="45" name="list"/>      
+      <multiplicity id="46" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="47">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="48" name="pagingBean"/>      
+      <multiplicity id="49" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="50">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="51" name="pagingBean"/>      
+      <multiplicity id="52" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="53">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="54" name="list"/>      
+      <multiplicity id="55" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

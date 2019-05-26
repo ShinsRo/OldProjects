@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Sql Mapper -->
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin">
+
+	<select id="getTotalReportCount" resultType="int">
+		select count(*) from report where category=#{value} and process='FALSE'
+	</select>
+	<select id="getReportList" resultType="reportVO" parameterType="hashMap">
+		select * from (select report_no, category, reno, id, reporter, why, to_char(time_posted,'YYYY.MM.DD
+		HH:mm:ss') as time_posted, process, row_number() over(order by report_no desc) as rnum from
+		report where category=#{category} and process='FALSE') where rnum between #{startRowNumber} and #{endRowNumber}
+	</select>
+	<select id="getTotalReportCountAll" resultType="int">
+		select count(*) from report where category=#{value}
+	</select>
+	<select id="getAllReportList" resultType="reportVO" parameterType="hashMap">
+		select * from (select report_no, category, reno, id, reporter, why, to_char(time_posted,'YYYY.MM.DD
+		HH:mm:ss') as time_posted, process, row_number() over(order by report_no desc) as rnum from
+		report where category=#{category}) where rnum between #{startRowNumber} and #{endRowNumber}
+	</select>
+	<insert id="replyReport" parameterType="reportVO">
+		INSERT INTO REPORT(REPORT_NO,CATEGORY,RENO,ID,REPORTER,WHY,TIME_POSTED,PROCESS) 
+		VALUES(RE_SEQ.nextval, #{category}, #{reno}, #{id}, #{reporter}, #{why}, sysdate, 'FALSE')
+	</insert>
+	<insert id="commentReport" parameterType="reportVO">
+		INSERT INTO REPORT(REPORT_NO,CATEGORY,RENO,ID,REPORTER,WHY,TIME_POSTED,PROCESS)
+		VALUES(RE_SEQ.nextval, #{category}, #{reno}, #{id}, #{reporter}, #{why}, sysdate, 'FALSE')
+	</insert>
+
+	<update id="deleteReport" parameterType="int">
+		update report set process=concat(to_char(sysdate,'YYYY.MM.DD HH24:MI'),' delete') where report_no=#{value}
+	</update>
+	<update id="rejectReport" parameterType="int">
+		update report set process=concat(to_char(sysdate,'YYYY.MM.DD HH24:MI'),' reject') where report_no=#{value}
+	</update>
+
+	<insert id="boardReport" parameterType="reportVO">
+		INSERT INTO REPORT(REPORT_NO,CATEGORY,RENO,ID,REPORTER,WHY,TIME_POSTED,PROCESS)
+		VALUES(RE_SEQ.nextval, #{category}, #{reno}, #{id}, #{reporter}, #{why}, sysdate, 'FALSE')
+	</insert>
+
+</mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

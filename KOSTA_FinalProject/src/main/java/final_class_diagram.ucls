@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.14" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="org.kosta.goodmove.controller.BoardController" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/controller/BoardController.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="137" x="878" y="905"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="org.kosta.goodmove.controller.QuestionController" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/controller/QuestionController.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="137" x="751" y="522"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="org.kosta.goodmove.controller.CommentController" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/controller/CommentController.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="137" x="715" y="901"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="org.kosta.goodmove.controller.DeliveryController" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/controller/DeliveryController.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="137" x="1036" y="909"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="org.kosta.goodmove.controller.SearchController" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/controller/SearchController.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="137" x="-226" y="917"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="org.kosta.goodmove.controller.CommonErrorController" 
+    project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/controller/CommonErrorController.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="160" x="1027" y="524"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="org.kosta.goodmove.controller.MemberController" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/controller/MemberController.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="137" x="-34" y="509"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="org.kosta.goodmove.controller.LoginCheckInterceptor" 
+    project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/controller/LoginCheckInterceptor.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="154" x="333" y="581"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="org.kosta.goodmove.controller.AdminController" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/controller/AdminController.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="137" x="346" y="909"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="org.kosta.goodmove.controller.HomeController" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/controller/HomeController.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="137" x="534" y="915"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="org.kosta.goodmove.model.dao.QuestionDAOImpl" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/dao/QuestionDAOImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="142" x="578" y="822"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="org.kosta.goodmove.model.dao.BoardDAOImpl" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/dao/BoardDAOImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="142" x="127" y="1231"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="13" language="java" name="org.kosta.goodmove.model.dao.QuestionDAO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/dao/QuestionDAO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="142" x="732" y="819"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="14" language="java" name="org.kosta.goodmove.model.dao.MemberDAO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/dao/MemberDAO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="142" x="-60" y="802"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="15" language="java" name="org.kosta.goodmove.model.dao.MemberDAOImpl" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/dao/MemberDAOImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="142" x="-218" y="803"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="org.kosta.goodmove.model.dao.CommentDAOImpl" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/dao/CommentDAOImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="142" x="-219" y="1235"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="17" language="java" name="org.kosta.goodmove.model.dao.AdminDAO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/dao/AdminDAO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="142" x="355" y="808"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="18" language="java" name="org.kosta.goodmove.model.dao.DeliveryDAOImpl" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/dao/DeliveryDAOImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="142" x="862" y="1229"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="19" language="java" name="org.kosta.goodmove.model.dao.CommentDAO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/dao/CommentDAO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="142" x="-59" y="1236"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="20" language="java" name="org.kosta.goodmove.model.dao.DeliveryDAO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/dao/DeliveryDAO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="142" x="1018" y="1228"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="21" language="java" name="org.kosta.goodmove.model.dao.BoardDAO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/dao/BoardDAO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="142" x="295" y="1238"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="22" language="java" name="org.kosta.goodmove.model.dao.SearchDAO" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/dao/SearchDAO.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="142" x="644" y="1228"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="23" language="java" name="org.kosta.goodmove.model.dao.SearchDAOImpl" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/dao/SearchDAOImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="142" x="478" y="1229"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="24" language="java" name="org.kosta.goodmove.model.dao.AdminDAOImpl" project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/dao/AdminDAOImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="142" x="201" y="813"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="25" language="java" name="org.kosta.goodmove.model.service.AdminService" 
+    project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/service/AdminService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="158" x="362" y="679"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="26" language="java" name="org.kosta.goodmove.model.service.DeliveryServiceImpl" 
+    project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/service/DeliveryServiceImpl.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="158" x="858" y="1098"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="27" language="java" name="org.kosta.goodmove.model.service.MemberService" 
+    project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/service/MemberService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="158" x="-51" y="671"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="28" language="java" name="org.kosta.goodmove.model.service.QuestionService" 
+    project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/service/QuestionService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="158" x="737" y="684"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="29" language="java" name="org.kosta.goodmove.model.service.QuestionServiceImpl" 
+    project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/service/QuestionServiceImpl.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="158" x="567" y="683"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="30" language="java" name="org.kosta.goodmove.model.service.SearchService" 
+    project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/service/SearchService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="158" x="295" y="1103"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="31" language="java" name="org.kosta.goodmove.model.service.CommentService" 
+    project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/service/CommentService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="158" x="-59" y="1109"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="32" language="java" name="org.kosta.goodmove.model.service.MemberServiceImpl" 
+    project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/service/MemberServiceImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="158" x="-219" y="668"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="33" language="java" name="org.kosta.goodmove.model.service.AdminServiceImpl" 
+    project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/service/AdminServiceImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="158" x="198" y="678"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="34" language="java" name="org.kosta.goodmove.model.service.CommentServiceImpl" 
+    project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/service/CommentServiceImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="158" x="-225" y="1108"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="35" language="java" name="org.kosta.goodmove.model.service.BoardService" 
+    project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/service/BoardService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="158" x="652" y="1105"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="36" language="java" name="org.kosta.goodmove.model.service.BoardServiceImpl" 
+    project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/service/BoardServiceImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="158" x="478" y="1106"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="37" language="java" name="org.kosta.goodmove.model.service.DeliveryService" 
+    project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/service/DeliveryService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="158" x="1022" y="1101"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="38" language="java" name="org.kosta.goodmove.model.service.SearchServiceImpl" 
+    project="goodMoveProject-origin" 
+    file="/goodMoveProject-origin/src/main/java/org/kosta/goodmove/model/service/SearchServiceImpl.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="158" x="127" y="1104"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="39">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="40" name="searchService"/>      
+      <multiplicity id="41" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="30" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="42">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="43" name="commentService"/>      
+      <multiplicity id="44" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="31" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="45">    
+    <end type="SOURCE" refId="33" navigable="false">      
+      <attribute id="46" name="adminDAO"/>      
+      <multiplicity id="47" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="48">    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="49" name="commentDAO"/>      
+      <multiplicity id="50" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="51">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="52" name="service"/>      
+      <multiplicity id="53" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="28" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="54">    
+    <end type="SOURCE" refId="24"/>    
+    <end type="TARGET" refId="17"/>  
+  </realization>  
+  <association id="55">    
+    <end type="SOURCE" refId="33" navigable="false">      
+      <attribute id="56" name="commentDAO"/>      
+      <multiplicity id="57" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="58">    
+    <end type="SOURCE" refId="38" navigable="false">      
+      <attribute id="59" name="boardDAO"/>      
+      <multiplicity id="60" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="61">    
+    <end type="SOURCE" refId="38"/>    
+    <end type="TARGET" refId="30"/>  
+  </realization>  
+  <association id="62">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="63" name="boardService"/>      
+      <multiplicity id="64" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="35" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="65">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="66" name="boardService"/>      
+      <multiplicity id="67" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="35" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="68">    
+    <end type="SOURCE" refId="29"/>    
+    <end type="TARGET" refId="28"/>  
+  </realization>  
+  <association id="69">    
+    <end type="SOURCE" refId="32" navigable="false">      
+      <attribute id="70" name="memberDAO"/>      
+      <multiplicity id="71" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="72">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="73" name="searchService"/>      
+      <multiplicity id="74" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="30" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="75">    
+    <end type="SOURCE" refId="26" navigable="false">      
+      <attribute id="76" name="dao"/>      
+      <multiplicity id="77" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="78">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="79" name="adminService"/>      
+      <multiplicity id="80" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="25" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="81">    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="37"/>  
+  </realization>  
+  <association id="82">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="83" name="commentService"/>      
+      <multiplicity id="84" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="31" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="85">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="86" name="memberService"/>      
+      <multiplicity id="87" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="88">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="89" name="boardService"/>      
+      <multiplicity id="90" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="35" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="91">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="92" name="commentService"/>      
+      <multiplicity id="93" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="31" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="94">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="95" name="service"/>      
+      <multiplicity id="96" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="37" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="97">    
+    <end type="SOURCE" refId="36"/>    
+    <end type="TARGET" refId="35"/>  
+  </realization>  
+  <association id="98">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="99" name="searchService"/>      
+      <multiplicity id="100" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="30" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="101">    
+    <end type="SOURCE" refId="38" navigable="false">      
+      <attribute id="102" name="commentDAO"/>      
+      <multiplicity id="103" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="104">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="20"/>  
+  </realization>  
+  <realization id="105">    
+    <end type="SOURCE" refId="32"/>    
+    <end type="TARGET" refId="27"/>  
+  </realization>  
+  <association id="106">    
+    <end type="SOURCE" refId="29" navigable="false">      
+      <attribute id="107" name="dao"/>      
+      <multiplicity id="108" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="109">    
+    <end type="SOURCE" refId="36" navigable="false">      
+      <attribute id="110" name="boardDAO"/>      
+      <multiplicity id="111" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="112">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="113" name="service"/>      
+      <multiplicity id="114" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="115">    
+    <end type="SOURCE" refId="38" navigable="false">      
+      <attribute id="116" name="searchDAO"/>      
+      <multiplicity id="117" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="22" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="118">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="119" name="boardService"/>      
+      <multiplicity id="120" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="35" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="121">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="122" name="deliveryService"/>      
+      <multiplicity id="123" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="37" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="124">    
+    <end type="SOURCE" refId="23"/>    
+    <end type="TARGET" refId="22"/>  
+  </realization>  
+  <realization id="125">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="21"/>  
+  </realization>  
+  <realization id="126">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="19"/>  
+  </realization>  
+  <realization id="127">    
+    <end type="SOURCE" refId="33"/>    
+    <end type="TARGET" refId="25"/>  
+  </realization>  
+  <association id="128">    
+    <end type="SOURCE" refId="33" navigable="false">      
+      <attribute id="129" name="boardDAO"/>      
+      <multiplicity id="130" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="131">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="14"/>  
+  </realization>  
+  <association id="132">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="133" name="ss"/>      
+      <multiplicity id="134" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="30" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="135">    
+    <end type="SOURCE" refId="34"/>    
+    <end type="TARGET" refId="31"/>  
+  </realization>  
+  <realization id="136">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="13"/>  
+  </realization>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

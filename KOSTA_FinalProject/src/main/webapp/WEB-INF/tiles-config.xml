@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC 
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" 
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+ <definition name="home.tiles"  template="/WEB-INF/views/templates/layout.jsp">   
+     <put-attribute name="title" value="kosta" />        
+     <put-attribute name="header" value="/WEB-INF/views/templates/header.jsp" />   
+     <put-attribute name="left" value="/WEB-INF/views/templates/left.jsp" />      
+     <put-attribute name="footer" value="/WEB-INF/views/templates/footer.jsp" /> 
+     <put-attribute name="main" value="/WEB-INF/views/home.jsp" />       
+  </definition>  
+
+	<!-- */* : {1}/{2} 예를 들어 컨트롤러에서 member/register로 응답하면 WEB-INF/views/member/register.jsp가 
+		메인화면으로 include 된다. -->
+	<definition name="*/*.tiles" extends="home.tiles">
+		<put-attribute name="title" value="{2}" /> <!-- 두번째 들어오는 value -->
+		<put-attribute name="main" value="/WEB-INF/views/{1}/{2}.jsp" />
+	</definition>
+	
+	<definition name="admin.tiles"  template="/WEB-INF/views/templates/layout.jsp">   
+     <put-attribute name="title" value="kosta" />        
+     <put-attribute name="header" value="/WEB-INF/views/templates/header_admin.jsp" />   
+     <put-attribute name="left" value="/WEB-INF/views/templates/left.jsp" />      
+     <put-attribute name="footer" value="/WEB-INF/views/templates/footer.jsp" /> 
+     <put-attribute name="main" value="/WEB-INF/views/admin.jsp" />       
+  </definition> 
+  <definition name="admin/*.tiles2" extends="admin.tiles">
+		<put-attribute name="title" value="{1}" /> <!-- 두번째 들어오는 value -->
+		<put-attribute name="main" value="/WEB-INF/views/admin/{1}.jsp" />
+	</definition>
+	
+</tiles-definitions>   

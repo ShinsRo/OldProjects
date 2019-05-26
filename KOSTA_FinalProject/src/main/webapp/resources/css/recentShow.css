@@ -1,0 +1,82 @@
+
+#rightSide #right_zzim {
+	border: 1px solid #B0B5BD;
+	width: 114px;
+	height: 543px;
+}
+
+#rightSide #right_zzim  div {
+	text-align: center;
+}
+
+#rightSide #right_zzim  div.recTit {
+	line-height: 1.5em;
+	padding: 5px;
+	color: blue;
+}
+
+#right_zzim #recentCnt {
+	color: blue;
+	font-weight: bold;
+}
+
+#rightSide #right_zzim ul#right-ul {
+	min-height: 495px;
+	padding:0px !important;
+}
+#ul#right-ul{
+	padding:0px !important;
+}
+#rightSide #right_zzim  li {
+	text-align: center;
+	padding: 5px;
+	position: relative;
+}
+
+#rightSide #right_zzim ul li img {
+	border: 1px solid #ccc;
+	height: 100px;
+	width : 100px;
+	overflow: hidden;
+}
+
+#right_zzim .detail {
+	display: none;
+	position: absolute;
+	top: 3px;
+	right: 20px;
+	xheight: 40px;
+	xpadding: 15px 11px 0;
+	xbackground: #404a59;
+	color: #fff;
+	xtext-align: left;
+	white-space: nowrap;
+}
+
+#right_zzim li:hover .detail {
+	display: block
+}
+
+#right_zzim li .btn_delete {
+	position: absolute;
+	top: 3px;
+	right: -1px;
+	width: 11px;
+	height: 11px;
+	background: url(/img/sp.png) no-repeat -193px -111px;
+	text-indent: -9000px;
+}
+
+.noData {
+	color: #ccc;
+	text-align: center;
+	margin-top: 223px;
+}
+
+#paging-wrap {
+	position: absolute;
+	top:800px;
+	margin: 0 auto;
+	padding:20px;
+	z-index: 3000;
+}
