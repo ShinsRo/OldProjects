@@ -63,7 +63,7 @@ class MainPage extends Component {
       mainContent = (
         <div className="row"  >
           <div className="col-6">
-            <div className="card shadow mb-4" style={{ height: '850px' }}>
+            <div className="card shadow mb-4" style={{ height: '840px' }}>
               <Pfile />
             </div>
           </div>
@@ -72,7 +72,7 @@ class MainPage extends Component {
               <DetailContanier reloadPage={this.reloadPage.bind(this)} />
             </div>
             <div className="row" style={{ height: '20px' }}></div>
-            <div className="row" style={{ height: '350px' }}>
+            <div className="row" style={{ height: '340px' }}>
               <LogContainer />
             </div>
           </div>
@@ -103,7 +103,7 @@ class MainPage extends Component {
               closeModal={this.closeModal.bind(this)}
               visible={this.state.visible}
             />
-            <div className="container-fluid pb-0" style={{ height: '90%', maxHeight: '880px', overflow: 'hidden' }}>
+            <div className="container-fluid pb-0" style={{ height: '90%', maxHeight: '840px', overflow: 'hidden' }}>
               {mainContent}
             </div>
           </div>

@@ -58,7 +58,7 @@ class LogPanel extends Component {
                     </div>
                 </div>
 
-                <div className="container m-0 p-0" style={{ width:'100%', overflowY:'auto', height:"240px" }}>
+                <div className="container m-0 p-0" style={{ width:'100%', overflowY:'auto', height:"220px" }}>
                     <hr className="m-0"></hr>
 
                     <div className="row m-0 p-0 text-dark-1" style={{ width:'100%', overflowX :'auto' }} onMouseOver={this.handleMouseOver} onMouseOut={this.handleMouseOut}> 
@@ -81,7 +81,7 @@ class LogPanel extends Component {
         }
 
         return (<>
-            <div className="card shadow mb-3"  style={{ width: '100%'}}>
+            <div className="card shadow mb-3"  style={{ width: '100%', height: '100%'}}>
                 <div className="card-header font-weight-bold text-dark-1 m-0" style={{fontSize:"25px"}}>로그</div>
                 <div className="card-body m-0">
                     {content}
