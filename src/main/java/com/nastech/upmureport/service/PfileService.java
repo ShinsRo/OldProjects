@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.deser.impl.ExternalTypeHandler.Builder;
 import com.nastech.upmureport.domain.dto.PfileDto;
 import com.nastech.upmureport.domain.entity.Pdir;
 import com.nastech.upmureport.domain.entity.Pfile;
-import com.nastech.upmureport.domain.entity.support.LogState;
+import com.nastech.upmureport.domain.enums.LogState;
 import com.nastech.upmureport.domain.repository.PdirRepository;
 import com.nastech.upmureport.domain.repository.PfileRepository;
 import com.nastech.upmureport.support.Utils;

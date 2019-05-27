@@ -1,4 +1,4 @@
-package com.nastech.upmureport.domain.entity.support;
+package com.nastech.upmureport.domain.enums;
 
 public enum LogType{
 	PFILE("pfile"), ATTACHMENT("attachment"), PROJECT("project");

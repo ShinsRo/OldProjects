@@ -17,8 +17,9 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
-import com.nastech.upmureport.domain.entity.support.LogState;
-import com.nastech.upmureport.domain.entity.support.LogType;
+
+import com.nastech.upmureport.domain.enums.LogState;
+import com.nastech.upmureport.domain.enums.LogType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

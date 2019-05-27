@@ -33,7 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.nastech.upmureport.domain.dto.AttachmentDto;
 import com.nastech.upmureport.domain.entity.Attachment;
 import com.nastech.upmureport.domain.entity.Pdir;
-import com.nastech.upmureport.domain.entity.support.LogState;
+import com.nastech.upmureport.domain.enums.LogState;
 import com.nastech.upmureport.domain.repository.AttachmentRepository;
 import com.nastech.upmureport.domain.repository.PdirRepository;
 import com.nastech.upmureport.support.Utils;
