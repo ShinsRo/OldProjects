@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import { MDBDataTable } from 'mdbreact';
-import { MDBInput } from 'mdbreact';
 import { BASE_URL } from '../../../../supports/API_CONSTANT';
 import axios from 'axios';
-import { bgBlack } from 'ansi-colors';
-import {MDBBtn,MDBIcon} from 'mdbreact';
-import {Modal} from 'react-awesome-modal'
 class UserTable extends Component {
   constructor(props) {
     super(props);
-    const { select } = this.props
+    // const { select } = this.props
     this.getUsersAPI()
   }
   click(user) {
@@ -33,7 +29,7 @@ class UserTable extends Component {
       sta.map((user, idx) => {
         // console.log("한명", user)
         user.career.map((car) => {
-          if (car.active == true) {
+          if (car.active === true) {
             // console.log("커리어", car)
             const temp = {
               eid: user.eid,

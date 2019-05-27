@@ -7,7 +7,7 @@
  */
 import React from 'react';
 import { Route, BrowserRouter, withRouter, Switch } from 'react-router-dom';
-import { MainPage, NotFound, LoginPage, AdminPage, RegisterPage } from "./pages";
+import { MainPage, NotFound, LoginPage, AdminPage } from "./pages";
 import { Provider } from 'react-redux';
 import store from './stores';
 
@@ -24,7 +24,7 @@ const RouteAsUserInfo = withRouter(({ match, location, history }) => {
         authToken = userInfo.authToken;
     }
 
-    console.log("로그인",userInfo)
+    // console.log("로그인",userInfo)
     let routes = [];
     if ( !(userState && userState.hasOwnProperty('userInfo') && userState.userInfo)) {
         
@@ -35,7 +35,7 @@ const RouteAsUserInfo = withRouter(({ match, location, history }) => {
         routes = [
             // { path: '/', component: MainPage },
             { path: '/main', component: MainPage },
-            { path: '/register', component : RegisterPage},
+            ,
         ];
         
         if(authToken.authorities[0].authority==="ROLE_ADMIN") { 

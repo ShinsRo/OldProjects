@@ -1,14 +1,13 @@
-import { Map } from 'immutable';
 import axios from 'axios';
 import React, { Component } from 'react';
-import { BASE_URL } from '../../supports/API_CONSTANT'
+import { BASE_URL } from '../../../../supports/API_CONSTANT'
 import { MDBBtn, MDBIcon } from 'mdbreact'
-var fullScreen = {
-    // height: '100%',
-    // width: '100%',
-    position: 'relative',
-    // top: 0, left: 0
-};
+// var fullScreen = {
+//     // height: '100%',
+//     // width: '100%',
+//     position: 'relative',
+//     // top: 0, left: 0
+// };
 
 class RegisterPage extends Component {
     constructor(props) {
@@ -147,7 +146,7 @@ class RegisterPage extends Component {
         console.log("car", newCar)
         if (!this.state.checked) return alert("ID중복 검사를 먼저 하세요")
         if (!this.state.checked2) return alert("사번중복 검사를 먼저 하세요")
-        if (this.state.password != this.state.password2) return alert("비밀번호를 올바르게 입력하세요")
+        if (this.state.password !== this.state.password2) return alert("비밀번호를 올바르게 입력하세요")
 
         return axios.post(`${BASE_URL}/api/users/register`,
             {
@@ -174,7 +173,7 @@ class RegisterPage extends Component {
         return (
             <div className="card o-hidden border-0 shadow-lg">
                 <div className="card-header text-center">
-                    <h4 align="center" className="card-header text-primary"><MDBIcon icon="user-edit" className="mr-2" />신규 사원 등록</h4>
+                    <h4 align="center" className="card-header text-primary"><MDBIcon icon="user-edit" className="mr-2" />신규 사원 등록 이거</h4>
                 </div>
                 <div className="card-body text-dark-2">
                     {/* <!-- Nested Row within Card Body --> */}
@@ -242,7 +241,7 @@ class RegisterPage extends Component {
                                             {
                                                 deptList && deptList.map(dept => {
                                                     return (
-                                                        this.state.dept == dept.posiName ?
+                                                        this.state.dept === dept.posiName ?
                                                             <option key={++i} value={this.state.dept}>{this.state.dept}</option> : <option key={++i} value={dept.deptName}>{dept.deptName}</option>
                                                     )
                                                 })
@@ -254,7 +253,7 @@ class RegisterPage extends Component {
                                             {
                                                 posiList && posiList.map(posi => {
                                                     return (
-                                                        this.state.posi == posi.posiName ?
+                                                        this.state.posi === posi.posiName ?
                                                             <option key={++j} value={this.state.posi}>{this.state.posi}</option> : <option key={++j} value={posi.posiName}>{posi.posiName}</option>
                                                     )
                                                 })
