@@ -21,8 +21,8 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.nastech.upmureport.domain.entity.support.Prole;
-import com.nastech.upmureport.domain.entity.support.Pstat;
+import com.nastech.upmureport.domain.enums.Prole;
+import com.nastech.upmureport.domain.enums.Pstat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

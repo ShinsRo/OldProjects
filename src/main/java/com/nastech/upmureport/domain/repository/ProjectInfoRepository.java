@@ -52,16 +52,16 @@ public interface ProjectInfoRepository extends JpaRepository<MemberProject, BigI
 					+ " WHERE ed_date BETWEEN (:from) AND (:to)"
 				+ ") p ON p.pid=mp.pid"
 	)
-	public Page<MemberProject> findAllByEdDateBetween(
+	public Page<MemberProject> projectInfoByEdDateBetween(
 			@Param(value="from") LocalDateTime from, 
 			@Param(value="to") LocalDateTime to, 
 			Pageable pageable);
 	
 	@Query(
 		nativeQuery = true,
-		value = "SELECT p.pid, p.pname, p.description, mp.progress, mp.mcnt, p.cdate, p.udate, p.st_date, p.ed_date, p.dflag"
+		value = "SELECT p.*, mp.progress_avg, mp.mcnt"
 				+ " FROM project p INNER JOIN ("
-				+ "SELECT pid, AVG(progress) as progress, COUNT(mid) as mcnt, dflag"
+				+ "SELECT pid, AVG(progress) as progress_avg, COUNT(mid) as mcnt, dflag"
 				+ " FROM member_project"
 				+ " GROUP BY pid"
 				+ " HAVING dflag=false"
@@ -75,9 +75,9 @@ public interface ProjectInfoRepository extends JpaRepository<MemberProject, BigI
 	
 	@Query(
 		nativeQuery = true,
-		value = "SELECT p.*, mp.progress, mp.mcnt"
+		value = "SELECT p.*, mp.progress_avg, mp.mcnt"
 				+ " FROM project p INNER JOIN ("
-					+ "SELECT pid, AVG(progress) as progress, COUNT(mid) as mcnt, dflag"
+					+ "SELECT pid, AVG(progress) as progress_avg, COUNT(mid) as mcnt, dflag"
 					+ " FROM member_project"
 					+ " GROUP BY pid"
 					+ " HAVING dflag=false"

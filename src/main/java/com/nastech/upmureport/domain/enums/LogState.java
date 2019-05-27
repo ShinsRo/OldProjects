@@ -1,4 +1,4 @@
-package com.nastech.upmureport.domain.entity.support;
+package com.nastech.upmureport.domain.enums;
 
 public enum LogState{
 	CREATE("create"), UPDATE("update"), DELETE("delete"), MOVE("move"), COPY("copy");
