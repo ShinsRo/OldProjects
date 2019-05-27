@@ -18,7 +18,7 @@ class LogDetailPanel extends Component {
         const { log } = this.props;
 
             return (
-                <div className="card shadow mb-4" style={{ width: '100%' , height: '100%'}}>
+                <div className="card shadow" style={{ width: '100%' , height: '100%'}}>
                     <div className="card-header py-3">
                         <div className="row">
                             <div className="col-2 m-0 font-weight-bold text-dark-1 justify-content-center">
