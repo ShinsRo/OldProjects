@@ -54,8 +54,6 @@ class AddPosi extends Component {
         )
     }
     render() {
-        let i = 0
-        const{posiList}= this.props
         return (
             <div>
                 <div className="row text-gray-900 p-3 mt-3 ml-1"> <b>직책 추가:  </b>
