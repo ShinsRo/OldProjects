@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { BASE_URL } from '../../../../supports/API_CONSTANT';
-import { isNull } from 'util';
 import {MDBBtn,MDBIcon} from 'mdbreact'
 
 class AddDept extends Component {
@@ -56,8 +55,6 @@ class AddDept extends Component {
         )
     }
     render() {
-        const { deptList } = this.props
-        let i = 0
         return (
             <div>
                 <div className="row text-gray-900 p-3 mt-3 ml-1"> <b>부서 추가:  </b>
