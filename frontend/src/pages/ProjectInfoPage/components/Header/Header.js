@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import Modal from "react-awesome-modal"
+import Member from "../../../AdminPage/components/Admin/Member"
 import { MDBBtn, MDBIcon } from "mdbreact"
 
 class Header extends Component {

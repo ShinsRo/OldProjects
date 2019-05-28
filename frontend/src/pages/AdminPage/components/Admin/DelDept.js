@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { BASE_URL } from '../../../../supports/API_CONSTANT';
-import { isNull } from 'util';
 import {MDBBtn,MDBIcon} from 'mdbreact'
 
 class DelDept extends Component {

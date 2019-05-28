@@ -10,7 +10,7 @@ import { BASE_URL } from '../../supports/API_CONSTANT';
 import AddPosi from "./components/Admin/AddPosi";
 import Modal from 'react-awesome-modal'
 import UserTable from './components/Admin/UserTable'
-import Register from '../RegisterPage/index'
+import Register from './components/Admin/RegisterPage';
 import { MDBBtn, MDBIcon } from 'mdbreact'
 import DelDept from "./components/Admin/DelDept";
 import DelPosi from "./components/Admin/DelPosi";
@@ -65,7 +65,7 @@ class AdminPage extends Component {
   render() {
     const { handleLogin } = this;
     const { userState } = this.props;
-    const { juniorState } = this.props;
+    // const { juniorState } = this.props;
     let deptList = [];
     let posiList = [];
     if (this.state.list) {
@@ -94,13 +94,13 @@ class AdminPage extends Component {
               <MDBBtn className="btn dropdown-toggle ml-3" outline rounded size="sm" color="primary" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><MDBIcon icon="landmark" className="mr-2" />부서 및 직책 관리</MDBBtn>
               {/* 목록 추가 */}
               <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a className="dropdown-item" href="#" onClick={() => this.openModal('visible1', 1)}>부서 추가</a>
+                <div className="dropdown-item" href="#" onClick={() => this.openModal('visible1', 1)}>부서 추가</div>
                 <div className="dropdown-divider"></div>
-                <a className="dropdown-item" href="#" onClick={() => this.openModal('visible1', 2)}>부서 제거</a>
+                <div className="dropdown-item" href="#" onClick={() => this.openModal('visible1', 2)}>부서 제거</div>
                 <div className="dropdown-divider"></div>
-                <a className="dropdown-item" href="#" onClick={() => this.openModal('visible1', 3)}>직책 추가</a>
+                <div className="dropdown-item" href="#" onClick={() => this.openModal('visible1', 3)}>직책 추가</div>
                 <div className="dropdown-divider"></div>
-                <a className="dropdown-item" href="#" onClick={() => this.openModal('visible1', 4)}>직책 제거</a>
+                <div className="dropdown-item" href="#" onClick={() => this.openModal('visible1', 4)}>직책 제거</div>
               </div>
             </div>
 

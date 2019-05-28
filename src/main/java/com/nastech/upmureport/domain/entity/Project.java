@@ -19,7 +19,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity 
-@Data @Builder @NoArgsConstructor @AllArgsConstructor 
+@Data @Builder @NoArgsConstructor @AllArgsConstructor
 public class Project {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,7 +31,6 @@ public class Project {
 	private String description;
 	
 	private LocalDateTime stDate;
-	
 	private LocalDateTime edDate;
 	
 	@Column(updatable=false)

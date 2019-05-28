@@ -81,7 +81,7 @@ class LogPanel extends Component {
         }
 
         return (<>
-            <div className="card shadow mb-3"  style={{ width: '100%', height: '100%'}}>
+            <div className="card shadow"  style={{ width: '100%'}}>
                 <div className="card-header font-weight-bold text-dark-1 m-0" style={{fontSize:"25px"}}>로그</div>
                 <div className="card-body m-0">
                     {content}
