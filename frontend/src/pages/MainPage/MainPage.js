@@ -103,7 +103,7 @@ class MainPage extends Component {
               closeModal={this.closeModal.bind(this)}
               visible={this.state.visible}
             />
-            <div className="container-fluid pb-0" style={{ height: '90%', maxHeight: '880px', overflow: 'hidden' }}>
+            <div className="container-fluid pb-0" style={{ height: '90%', maxHeight: '840px', overflow: 'hidden' }}>
               {mainContent}
             </div>
           </div>
