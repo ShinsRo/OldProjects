@@ -1,10 +1,12 @@
 package com.nastech.upmureport.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,13 +21,27 @@ public class ProjectInfoController {
 	@Autowired
 	ProjectInfoService pis;
 	
-	@GetMapping(value = "/fetch")
+	@PostMapping(value = "/fetch")
 	ResponseEntity<?> fetch(@RequestBody ProjectQueryDto pqDto) {
-		List<ProjectInfoDto> returnBody = null;
-		ResponseEntity<?> response = null;
+		Map<String, Object> returnBody 			= new HashMap<String, Object>();
+		ResponseEntity<?> response 				= null;
+		List<ProjectInfoDto> projectInfoDtos 	= null;
 		
-		returnBody = pis.getProjectInfosByOps(pqDto);
+		projectInfoDtos = pis.getProjectInfosByOps(pqDto);
+		
+		returnBody.put("projectInfoDtos", projectInfoDtos);
+		returnBody.put("queryOps", pqDto.getQueryOps());
 		response = ResponseEntity.ok().body(returnBody);
+		
+		return response;
+	}
+	
+	@PostMapping(value = "/deleteOne")
+	ResponseEntity<?> deleteOne(@RequestBody Integer queryOps, @RequestBody String id) {
+		ResponseEntity<?> response 	= null;
+		
+		pis.deleteOne(queryOps, id);
+		response = ResponseEntity.ok().body(true);
 		
 		return response;
 	}

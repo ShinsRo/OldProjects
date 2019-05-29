@@ -34,7 +34,6 @@ public class ProjectInfoDto {
 	private String progressAvg;
 	
 	private BigInteger mcnt;
-	private int queryOps;
 	private Boolean dflag;
 	
 	
@@ -42,7 +41,11 @@ public class ProjectInfoDto {
 	public ProjectInfoDto(MemberProject el, int queryOps) {
 		this.mpid = el.getMpid().toString();
 		this.pDto = new ProjectDto(el);
-		this.queryOps = queryOps;
+		this.mname = el.getMember().getName();
+		this.mid = el.getMember().getMid().toString();
+		this.prole = el.getProle().toString();
+		this.pstat = el.getPstat().toString();
+		this.dflag = el.getDflag();
 	}
 	
 	// p.*, mp.progress_avg, mp.mcnt
@@ -50,7 +53,6 @@ public class ProjectInfoDto {
 		Log Logger = LogFactory.getLog(ProjectController.class);
 
 		this.pDto = new ProjectDto();
-		this.queryOps = queryOps;
 		
 		for(String key : el.keySet()) {
 			Object value = el.get(key);

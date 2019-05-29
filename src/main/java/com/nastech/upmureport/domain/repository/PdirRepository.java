@@ -15,5 +15,7 @@ public interface PdirRepository extends JpaRepository<Pdir, BigInteger>{
 	Pdir findByDidAndDflagFalse(BigInteger did);
 
 	List<Pdir> findAllByDidOrParentDirAndDflagFalse(BigInteger did, Pdir parentDir);
+
+	void deleteAllByProject(Project project);
 }
 

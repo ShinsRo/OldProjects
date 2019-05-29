@@ -21,11 +21,9 @@ public class ProjectInfoServiceTest {
 	public void 프로젝트쿼리_테스트() {
 		System.out.println(pis.getProjectInfosByOps(
 				ProjectQueryDto.builder()
-					.queryOps(0b01)
-					.size(20)
+					.queryOps("01")
 					.from(LocalDateTime.now().minusYears(1))
 					.to(LocalDateTime.now())
-					.page(0)
 				.build()));
 	}
 }

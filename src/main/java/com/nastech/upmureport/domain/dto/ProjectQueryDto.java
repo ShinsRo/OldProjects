@@ -12,10 +12,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProjectQueryDto {
-	private int queryOps;
-	private int page;
-	private int size;
+	private String queryOps;
 	
 	private LocalDateTime from;
 	private LocalDateTime to;
+	
+	public int getQueryOps() {
+		return Integer.parseInt(this.queryOps, 2);
+	}
 }

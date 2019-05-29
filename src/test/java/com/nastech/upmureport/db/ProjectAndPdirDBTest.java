@@ -3,6 +3,7 @@ package com.nastech.upmureport.db;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -79,15 +80,14 @@ public class ProjectAndPdirDBTest {
 	@Test
 	public void 프로젝트_정보_관리자조회_테스트() {
 		
-		Page<Map<String, Object>> groupedProjectInfo 
+		List<Map<String, Object>> groupedProjectInfo 
 			= pir.groupedProjectInfoPageByStDateBetween(
 				LocalDateTime.now().minusYears(1), 
-				LocalDateTime.now(),
-				PageRequest.of(0, 20));
-		assertTrue(groupedProjectInfo.getTotalElements() > 0);
+				LocalDateTime.now());
+		assertTrue(groupedProjectInfo.size() > 0);
 
 		Set<String> fields 
-			= groupedProjectInfo.getContent().get(0).keySet();
+			= groupedProjectInfo.get(0).keySet();
 		assertTrue(fields.size() > 0);
 
 		fields.stream().forEach(hd -> {
@@ -95,22 +95,24 @@ public class ProjectAndPdirDBTest {
 		});
 		System.out.printf("\n===========================================================================");
 		System.out.printf("===========================================================================\n");
-		groupedProjectInfo.get().forEach(column -> {
+		groupedProjectInfo.stream().forEach(column -> {
 			fields.stream().forEach(hd -> {
-				String col = column.get(hd).toString();
+				String col = "null";
+				if (column.get(hd) != null) {
+					col = column.get(hd).toString();
+					col = (col.length() > 3) ? col.substring(0, 3) + "...": col;
+				}
 				
-				col = (col.length() > 3) ? col.substring(0, 3) + "...": col;
 				
 				System.out.printf("%s\t\t", col);
 			});
 			System.out.println();
 		});
-		System.out.println(groupedProjectInfo.getTotalElements());
+		System.out.println(groupedProjectInfo.size());
 		
-		Page<MemberProject> mps = pir.projectInfoByStDateBetween(
+		List<MemberProject> mps = pir.projectInfoByStDateBetween(
 				LocalDateTime.now().minusMonths(12),
-				LocalDateTime.now(),
-				PageRequest.of(0, 20, Sort.by(Sort.Direction.ASC, "mpid")));
+				LocalDateTime.now());
 		
 		System.out.println(mps);
 	}

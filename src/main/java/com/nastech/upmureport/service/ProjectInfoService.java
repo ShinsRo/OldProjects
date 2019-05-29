@@ -1,20 +1,23 @@
 package com.nastech.upmureport.service;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.nastech.upmureport.domain.dto.ProjectInfoDto;
 import com.nastech.upmureport.domain.dto.ProjectQueryDto;
 import com.nastech.upmureport.domain.entity.MemberProject;
+import com.nastech.upmureport.domain.entity.Project;
+import com.nastech.upmureport.domain.repository.MemberProjectRepository;
+import com.nastech.upmureport.domain.repository.PdirRepository;
 import com.nastech.upmureport.domain.repository.ProjectInfoRepository;
+import com.nastech.upmureport.domain.repository.ProjectRepository;
+import com.nastech.upmureport.support.Utils;
 
 @Service
 public class ProjectInfoService {
@@ -35,6 +38,12 @@ public class ProjectInfoService {
 	
 	@Autowired
 	ProjectInfoRepository pir;
+	@Autowired
+	ProjectRepository pr;
+	@Autowired
+	MemberProjectRepository mpr;
+	@Autowired
+	PdirRepository pdr;
 	
 	public List<ProjectInfoDto> getProjectInfosByOps(ProjectQueryDto pqDto) {
 		List<ProjectInfoDto> returnDtos = null;
@@ -42,27 +51,26 @@ public class ProjectInfoService {
 		int qOps 			= pqDto.getQueryOps();
 		LocalDateTime from	= pqDto.getFrom();
 		LocalDateTime to	= pqDto.getTo();
-		Pageable pageable 	= PageRequest.of(pqDto.getPage(), pqDto.getSize());
 		
 		if (OPTIONS.GROUPED.isIn(qOps)) {
-			returnDtos = getGroupedProjectInfos(qOps, from, to, pageable);
+			returnDtos = getGroupedProjectInfos(qOps, from, to);
 		} else {
-			returnDtos = getProjectInfos(qOps, from, to, pageable);
+			returnDtos = getProjectInfos(qOps, from, to);
 		}		
 		
 		return returnDtos;
 	}
 	
 	private List<ProjectInfoDto> getGroupedProjectInfos(
-			int qOps, LocalDateTime from, LocalDateTime to, Pageable pageable) {
+			int qOps, LocalDateTime from, LocalDateTime to) {
 		
 		List<ProjectInfoDto> returnList = new ArrayList<ProjectInfoDto>();
-		Page<Map<String, Object>> page = 
+		List<Map<String, Object>> rawList = 
 				OPTIONS.ON_STDATE.isIn(qOps) ? 
-				pir.groupedProjectInfoPageByStDateBetween(from, to, pageable):
-				pir.groupedProjectInfoPageByEtDateBetween(from, to, pageable);
+				pir.groupedProjectInfoPageByStDateBetween(from, to):
+				pir.groupedProjectInfoPageByEtDateBetween(from, to);
 		
-		page.get().forEach(el -> {
+		rawList.stream().forEach(el -> {
 			returnList.add(new ProjectInfoDto(el, qOps));
 		});
 		
@@ -70,18 +78,28 @@ public class ProjectInfoService {
 	}
 	
 	private List<ProjectInfoDto> getProjectInfos(
-			int qOps, LocalDateTime from, LocalDateTime to, Pageable pageable) {
+			int qOps, LocalDateTime from, LocalDateTime to) {
 		
 		List<ProjectInfoDto> returnList = new ArrayList<ProjectInfoDto>();
-		Page<MemberProject> page = 
+		List<MemberProject> rawList = 
 				OPTIONS.ON_STDATE.isIn(qOps)?
-					pir.projectInfoByStDateBetween(from, to, pageable):
-					pir.projectInfoByEdDateBetween(from, to, pageable);
+					pir.projectInfoByStDateBetween(from, to):
+					pir.projectInfoByEdDateBetween(from, to);
 		
-		page.get().forEach(el -> {
+		rawList.stream().forEach(el -> {
 			returnList.add(new ProjectInfoDto(el, qOps));
 		});
 		
 		return returnList;
+	}
+
+	public void deleteOne(Integer queryOps, String id) {
+		BigInteger BigIntId = Utils.StrToBigInt(id);
+		if (OPTIONS.GROUPED.isIn(queryOps)) {
+			mpr.deleteById(BigIntId);
+		} else {
+//			pdr.deleteAllByProject(Project.builder().pid(BigIntId).build());
+			pr.deleteById(BigIntId);
+		}
 	}
 }
