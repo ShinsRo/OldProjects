@@ -101,9 +101,9 @@ class Pfile extends Component {
       return;
     }
 
-    attachmentGroup.map(attachment => {
+    attachmentGroup.forEach(attachment => {
       body.push(attachment.attachmentId);
-    })
+    });
 
     AttachmentActions.downloadAttachmentGroup(body);
   }
@@ -112,20 +112,18 @@ class Pfile extends Component {
       const { pfileState, projectState, attachmentState, AttachmentActions } = this.props;
 
 
-      const addButton =  projectState.get('selectedDirId') && projectState.get('selectedProject') && (projectState.get('selectedProject').prole != '게스트') && (
+      const addButton =  projectState.get('selectedDirId') && projectState.get('selectedProject') && (projectState.get('selectedProject').prole !== '게스트') && (
           <div className="dropdown">
             <button className="btn dropdown-toggle text-dark-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               목록 추가
             </button>
             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a className="dropdown-item" href="#" onClick= {this.handleClickPfileAddForm}>업무</a>
+              <div className="dropdown-item" href="#" onClick= {this.handleClickPfileAddForm}>업무</div>
               <div className="dropdown-divider"></div>
-              <a className="dropdown-item" href="#" onClick= {this.handleClickAttachmentAddForm}>첨부 파일</a>
+              <div className="dropdown-item" href="#" onClick= {this.handleClickAttachmentAddForm}>첨부 파일</div>
             </div>          
           </div>
         )
-
-
 
         return (          
         <div > 

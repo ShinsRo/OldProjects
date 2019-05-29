@@ -75,7 +75,7 @@ class CurrectForm extends React.Component {
     }
 
     render() {
-        const { memberInfo , closeModal, changeViewLevel } = this.props;
+        const { closeModal } = this.props;
 
         return (
             <div className="card">

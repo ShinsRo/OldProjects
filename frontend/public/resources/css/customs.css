@@ -281,3 +281,13 @@ input.text-darkblue {
 .card {
     overflow-y: auto;
 }
+
+.date-picker {
+    height: 23px;
+    font-size: 12px;
+}
+
+.line-chart {
+    position: relative;
+    height: 40vh;
+}

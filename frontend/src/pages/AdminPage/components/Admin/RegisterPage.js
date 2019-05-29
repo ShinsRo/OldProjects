@@ -184,7 +184,7 @@ class RegisterPage extends Component {
                                 {/* <form className="User" action="" method="post"> */}
                                 <div className="form-group row">
                                     <div className="col-7">
-                                        <input type='text' disabled={this.state.checked} value={this.state.username} onChange={e => this.handleChangeInput(e, 'username')} type="text" className="form-control form-control-user" name="username" maxLength="10" placeholder="아이디" />
+                                        <input type='text' disabled={this.state.checked} value={this.state.username} onChange={e => this.handleChangeInput(e, 'username')} className="form-control form-control-user" name="username" maxLength="10" placeholder="아이디" />
                                     </div>
                                     <div className="col-2">
                                         <input type='button' className=" btn-sm btn-primary mt-1 ml-1" value="중복검사" onClick={() => this.checkIdAPI()}></input>

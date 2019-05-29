@@ -1,13 +1,8 @@
 import React from 'react';
-import { List } from 'immutable';
 import AttachmentItem from './AttachmentItem' ;
 import PfileItem from './PfileItem';
 
 class PfileTable extends React.Component {
-    constructor(props) {
-        super(props);
-        
-    }
 
     componentWillReceiveProps(nextProps){
         if(this.props.selectedDirId !== nextProps.selectedDirId){

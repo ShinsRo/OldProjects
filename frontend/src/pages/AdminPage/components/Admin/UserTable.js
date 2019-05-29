@@ -26,9 +26,9 @@ class UserTable extends Component {
     let rowsData = []
     let infos = []
     if (sta) {
-      sta.map((user, idx) => {
+      sta.forEach((user, idx) => {
         // console.log("한명", user)
-        user.career.map((car) => {
+        user.career.forEach((car) => {
           if (car.active === true) {
             // console.log("커리어", car)
             const temp = {
