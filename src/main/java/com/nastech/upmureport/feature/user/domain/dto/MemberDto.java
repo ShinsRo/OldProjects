@@ -1,6 +1,5 @@
 package com.nastech.upmureport.feature.user.domain.dto;
 
-import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,9 @@ public class MemberDto {
 	private String phoneNum;
 	private LocalDate joinDate;
 	private LocalDate retireDate;
+	@Builder.Default
 	private Boolean dflag = false;
+	@Builder.Default
 	private List<Career> career=new ArrayList<Career>();
 	private String retireEid;
 	

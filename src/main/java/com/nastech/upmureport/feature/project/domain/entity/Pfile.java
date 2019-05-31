@@ -27,6 +27,8 @@ import lombok.NoArgsConstructor;
 @Entity @Table(name="pfile") @Getter @NoArgsConstructor @Builder @AllArgsConstructor
 public class Pfile implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	private BigInteger fId;
 	

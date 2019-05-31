@@ -1,6 +1,5 @@
 package com.nastech.upmureport.feature.user.repo;
 
-import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -8,10 +8,8 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.boot.autoconfigure.info.ProjectInfoProperties.Build;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.deser.impl.ExternalTypeHandler.Builder;
 import com.nastech.upmureport.common.support.Utils;
 import com.nastech.upmureport.feature.project.domain.dto.PfileDto;
 import com.nastech.upmureport.feature.project.domain.entity.Pdir;
@@ -38,6 +36,7 @@ public class PfileService {
 	
 	private final PLogService pfileLogService;
 	
+	@SuppressWarnings("unused")
 	private static final Log LOG = LogFactory.getLog(PfileService.class);
 	
 	/* 업무 일지 등록 */

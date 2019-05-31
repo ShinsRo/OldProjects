@@ -1,20 +1,15 @@
 package com.nastech.upmureport.feature.user.domain.entity;
-import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.nastech.upmureport.feature.user.domain.dto.MemberDto;
 
@@ -45,6 +40,7 @@ public class Member {
 	
 	@OneToMany(mappedBy="member")
 	@JsonManagedReference
+	@Builder.Default
 	private List<Career> career=new ArrayList<Career>();
 	public MemberDto toDto() {
 		return MemberDto.builder().

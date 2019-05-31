@@ -16,6 +16,7 @@ import com.nastech.upmureport.feature.project.service.PLogService;
 @RequestMapping("/plog")
 public class PLogController {
 	
+	@SuppressWarnings("unused")
 	private static final Log LOG = LogFactory.getLog(PLogController.class);
 	
 	private final PLogService pLogService;

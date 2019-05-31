@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nastech.upmureport.feature.project.domain.dto.PfileDto;
-import com.nastech.upmureport.feature.project.domain.dto.PfileDto.PfileResDto;
 import com.nastech.upmureport.feature.project.service.PfileService;
 
 @RestController

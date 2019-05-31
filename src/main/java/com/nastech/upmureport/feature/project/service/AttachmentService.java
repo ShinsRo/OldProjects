@@ -31,12 +31,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nastech.upmureport.common.support.Utils;
+import com.nastech.upmureport.feature.project.domain.dto.AttachmentDto;
 import com.nastech.upmureport.feature.project.domain.entity.Attachment;
 import com.nastech.upmureport.feature.project.domain.entity.Pdir;
 import com.nastech.upmureport.feature.project.domain.enums.LogState;
 import com.nastech.upmureport.feature.project.repo.AttachmentRepository;
 import com.nastech.upmureport.feature.project.repo.PdirRepository;
-import com.nastech.upmureport.feature.user.domain.dto.AttachmentDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -50,6 +50,8 @@ import lombok.RequiredArgsConstructor;
 public class AttachmentService {
 	private final String UPLOAD_PATH = "C:\\\\Users\\\\nastech\\\\Desktop\\\\attachment";
 	private final String PREFIX_URL = "localhost.com";
+	
+	@SuppressWarnings("unused")
 	private static final Log LOG = LogFactory.getLog(AttachmentService.class);
 
 	private final AttachmentRepository attachmentRepository;

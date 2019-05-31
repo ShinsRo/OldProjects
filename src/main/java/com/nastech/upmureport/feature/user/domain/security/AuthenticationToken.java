@@ -9,10 +9,10 @@ import lombok.Setter;
 @Setter
 public class AuthenticationToken {
 	private String username;
-	private Collection authorities;
+	private Collection<?> authorities;
 	private String token;
 	
-	public AuthenticationToken(String username,Collection authorities,String token) {
+	public AuthenticationToken(String username,Collection<?> authorities,String token) {
 		this.username=username;
 		this.authorities = authorities;
 		this.token = token;	

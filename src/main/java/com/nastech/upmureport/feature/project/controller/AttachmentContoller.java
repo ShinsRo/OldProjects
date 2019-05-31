@@ -24,8 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nastech.upmureport.common.support.Utils;
+import com.nastech.upmureport.feature.project.domain.dto.AttachmentDto;
 import com.nastech.upmureport.feature.project.service.AttachmentService;
-import com.nastech.upmureport.feature.user.domain.dto.AttachmentDto;
 
 
 @RestController 
@@ -35,6 +35,7 @@ public class AttachmentContoller {
 	
 	private final AttachmentService attachmentService;
 	
+	@SuppressWarnings("unused")
 	private static final Log LOG = LogFactory.getLog(AttachmentContoller.class);
 	
 	public AttachmentContoller(AttachmentService attachmentService) {

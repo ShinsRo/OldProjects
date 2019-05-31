@@ -24,6 +24,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class UserRole implements GrantedAuthority, Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	@Id @GeneratedValue(strategy= GenerationType.AUTO)
 	private BigInteger rid;
 	private String username;

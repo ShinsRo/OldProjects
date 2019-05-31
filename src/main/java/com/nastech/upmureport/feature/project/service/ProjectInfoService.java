@@ -13,7 +13,6 @@ import com.nastech.upmureport.common.support.Utils;
 import com.nastech.upmureport.feature.project.domain.dto.ProjectInfoDto;
 import com.nastech.upmureport.feature.project.domain.dto.ProjectQueryDto;
 import com.nastech.upmureport.feature.project.domain.entity.MemberProject;
-import com.nastech.upmureport.feature.project.domain.entity.Project;
 import com.nastech.upmureport.feature.project.repo.MemberProjectRepository;
 import com.nastech.upmureport.feature.project.repo.PdirRepository;
 import com.nastech.upmureport.feature.project.repo.ProjectInfoRepository;

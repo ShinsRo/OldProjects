@@ -1,6 +1,5 @@
 package com.nastech.upmureport.feature.user.service;
 
-import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -115,8 +114,8 @@ public class MemberService {
 	}
 	
 	public List<MemberDto> findMyJuniors(MemberDto user){
-		Queue<MemberDto> q = new LinkedList();
-		List<MemberDto> juniorList = new LinkedList();
+		Queue<MemberDto> q = new LinkedList<>();
+		List<MemberDto> juniorList = new LinkedList<>();
 		q.add(user);
 		List<MemberSystem> temp = memberSystemRepository.findAllBySenior(user.toEntity());
 		while( !(q.isEmpty()) ) {

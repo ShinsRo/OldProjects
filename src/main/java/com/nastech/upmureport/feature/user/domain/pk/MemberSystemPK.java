@@ -1,7 +1,6 @@
 package com.nastech.upmureport.feature.user.domain.pk;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Objects;
 
 public class MemberSystemPK implements Serializable{
