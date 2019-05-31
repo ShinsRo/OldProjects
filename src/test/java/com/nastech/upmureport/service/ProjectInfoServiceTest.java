@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.nastech.upmureport.domain.dto.ProjectQueryDto;
+import com.nastech.upmureport.feature.project.domain.dto.ProjectQueryDto;
+import com.nastech.upmureport.feature.project.service.ProjectInfoService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
