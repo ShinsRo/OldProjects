@@ -24,8 +24,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.nastech.upmureport.TestData;
-import com.nastech.upmureport.domain.dto.ProjectDto;
-import com.nastech.upmureport.service.ProjectService;
+import com.nastech.upmureport.feature.project.controller.ProjectController;
+import com.nastech.upmureport.feature.project.domain.dto.ProjectDto;
+import com.nastech.upmureport.feature.project.service.ProjectService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

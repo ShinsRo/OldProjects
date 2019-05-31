@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.nastech.upmureport.service.AttachmentService;
-import com.nastech.upmureport.support.Utils;
+import com.nastech.upmureport.common.support.Utils;
+import com.nastech.upmureport.feature.project.service.AttachmentService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

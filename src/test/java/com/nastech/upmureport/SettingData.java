@@ -6,16 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.nastech.upmureport.domain.repository.AuthInfoRepository;
-import com.nastech.upmureport.domain.repository.CareerRepository;
-import com.nastech.upmureport.domain.repository.MemberRepository;
-import com.nastech.upmureport.domain.repository.MemberSystemRepository;
-import com.nastech.upmureport.domain.repository.UserRoleRepository;
-import com.nastech.upmureport.domain.security.UserService;
-import com.nastech.upmureport.service.AuthInfoService;
-import com.nastech.upmureport.service.CareerService;
-import com.nastech.upmureport.service.MemberService;
-import com.nastech.upmureport.service.MemberSystemService;
+import com.nastech.upmureport.feature.user.domain.security.UserService;
+import com.nastech.upmureport.feature.user.repo.AuthInfoRepository;
+import com.nastech.upmureport.feature.user.repo.CareerRepository;
+import com.nastech.upmureport.feature.user.repo.MemberRepository;
+import com.nastech.upmureport.feature.user.repo.MemberSystemRepository;
+import com.nastech.upmureport.feature.user.repo.UserRoleRepository;
+import com.nastech.upmureport.feature.user.service.AuthInfoService;
+import com.nastech.upmureport.feature.user.service.CareerService;
+import com.nastech.upmureport.feature.user.service.MemberService;
+import com.nastech.upmureport.feature.user.service.MemberSystemService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

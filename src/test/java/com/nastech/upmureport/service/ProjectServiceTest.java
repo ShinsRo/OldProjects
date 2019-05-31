@@ -17,15 +17,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.nastech.upmureport.TestData;
-import com.nastech.upmureport.domain.dto.ProjectDto;
-import com.nastech.upmureport.domain.entity.Member;
-import com.nastech.upmureport.domain.repository.AuthInfoRepository;
-import com.nastech.upmureport.domain.repository.CareerRepository;
-import com.nastech.upmureport.domain.repository.MemberProjectRepository;
-import com.nastech.upmureport.domain.repository.MemberRepository;
-import com.nastech.upmureport.domain.repository.MemberSystemRepository;
-import com.nastech.upmureport.domain.repository.PdirRepository;
-import com.nastech.upmureport.domain.repository.ProjectRepository;
+import com.nastech.upmureport.feature.project.domain.dto.ProjectDto;
+import com.nastech.upmureport.feature.project.repo.MemberProjectRepository;
+import com.nastech.upmureport.feature.project.repo.PdirRepository;
+import com.nastech.upmureport.feature.project.repo.ProjectRepository;
+import com.nastech.upmureport.feature.project.service.ProjectService;
+import com.nastech.upmureport.feature.user.domain.entity.Member;
+import com.nastech.upmureport.feature.user.repo.AuthInfoRepository;
+import com.nastech.upmureport.feature.user.repo.CareerRepository;
+import com.nastech.upmureport.feature.user.repo.MemberRepository;
+import com.nastech.upmureport.feature.user.repo.MemberSystemRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
