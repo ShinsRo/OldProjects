@@ -1,3 +1,4 @@
+*.lock
 
 src/main/resources/static/**
 
