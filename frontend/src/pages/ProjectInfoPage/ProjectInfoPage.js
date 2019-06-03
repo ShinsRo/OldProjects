@@ -76,6 +76,7 @@ class ProjectInfoPage extends Component {
     const lineChartCtx = window.$("#lineChart");
     const polarChartCtx = window.$("#polarChart");
     const queryOps = this.getQueryOps();
+    const complexity = {};
     const { from, to } = this.state;
 
     if (queryOps.length < 2) {
@@ -91,16 +92,32 @@ class ProjectInfoPage extends Component {
     }).then(res => {
       let infoHeader = [];
       let { projectInfoDtos, queryOps } = res.data;
+      
       const pstatCnt = {"폐기": 0, "대기": 0, "접수": 0, "진행": 0, "보류": 0, "완료": 0};
       
+      let infosCnt = 0;
+      let totalAvg = 0;
       const infos = projectInfoDtos.map(dto => {
+        const info = { ...dto, ...dto.pdto, dflag: `${(dto.dflag)? 'Y': 'N'}` };
         pstatCnt[dto.pdto.pstat] += 1;
+        totalAvg += Number(dto.progressAvg);
         
-        return { ...dto, ...dto.pdto, dflag: `${(dto.dflag)? 'Y': 'N'}` };
+        infosCnt += 1;
+        let key = "";
+        if (queryOps & QUERY_OPS.ON_STDATE) {
+          key = info.stDate.split("T")[0];
+        } else {
+          key = info.edDate.split("T")[0];
+        }
+        complexity[key] = (complexity[key])? complexity[key] + 1 : 1;
+        
+        return info;
       });
       
-      if (queryOps & QUERY_OPS.GROUPED) {
-        
+      if (infosCnt === 0) { return alert("조회 결과가 없습니다."); }
+      if (queryOps & QUERY_OPS.GROUPED) {   // 프로젝트 기준 조회
+        const percent = totalAvg / infosCnt;
+        // const percent = 70;
         infoHeader = [
           ["ID", "pid", 1],
           ["프로젝트 명", "pname", 4],
@@ -112,8 +129,26 @@ class ProjectInfoPage extends Component {
           ["최근수정", "udate", 2],
           ["삭제 여부", "dflag", 1],
         ];
-      } else {
 
+        new Chart(polarChartCtx, {
+          data: {
+            datasets: [{
+              data: [percent, 100 - percent],
+              backgroundColor: [
+                'rgba(255, 159, 64, 0.8)',
+                'rgba(0, 0, 0, 0.2)',
+              ],
+            }],
+            labels: [
+              '전체 평균 진행율',
+              '나머지',
+            ],
+          },
+          type: 'pie',
+          options: {}
+        })
+
+      } else {                              // 개인별 조회
         infoHeader = [
           ["ID", "mpid", 1],
           ["프로젝트 명", "pname", 4],
@@ -126,82 +161,75 @@ class ProjectInfoPage extends Component {
           ["생성일", "cdate", 2],
           ["최근수정", "udate", 2],
         ];
+        
+        const pstatData = {
+          labels: this.state.polarLabel,
+          datasets: [{
+            data: [pstatCnt.폐기, pstatCnt.대기, pstatCnt.접수, pstatCnt.진행, pstatCnt.보류, pstatCnt.완료],
+            backgroundColor: [
+              'rgba(0, 0, 0, 0.4)',
+              'rgba(75, 192, 192, 0.8)',
+              'rgba(54, 162, 235, 0.8)',
+              'rgba(255, 159, 64, 0.8)',
+              'rgba(153, 102, 255, 0.8)',
+              'rgba(80, 255, 80, 0.8)',
+            ],
+          }],
+        }
+        
+        new Chart(polarChartCtx, {
+          data: pstatData,
+          type: 'polarArea',
+          options: {}
+        })
       }
       
-      const pstatData = {
-        labels: this.state.polarLabel,
-        datasets: [{
-          data: [pstatCnt.폐기, pstatCnt.대기, pstatCnt.접수, pstatCnt.진행, pstatCnt.보류, pstatCnt.완료],
-          backgroundColor: [
-            'rgba(0, 0, 0, 0.4)',
-            'rgba(75, 192, 192, 0.8)',
-            'rgba(54, 162, 235, 0.8)',
-            'rgba(255, 159, 64, 0.8)',
-            'rgba(153, 102, 255, 0.8)',
-            'rgba(80, 255, 80, 0.8)',
-          ],
-        }],
+      const complexityDataOps = {
+        showLines: false,
+        maintainAspectRatio: false,
+        layout: {
+          padding: {
+            left: 10,
+            right: 25,
+            top: 25,
+            bottom: 0
+          }
+        },
+        scales: {
+          xAxes: [{
+              type: 'time',
+              time: {
+                  unit: 'day'
+              }
+          }]
+        }
       }
+  
+      const complexityData = [];
+      Object.keys(complexity).forEach(key => {
+        complexityData.push({x: new Date(key), y: complexity[key]});
+      });
+      console.log(complexityData);
+      
+  
+      new Chart(lineChartCtx, {
+        data: {
+          datasets: [{
+            data: complexityData.sort(),
+            label: "중첩도",
+            backgroundColor: 'rgba(255, 159, 64, 0.8)',
+            pointBackgroundColor: 'rgba(255, 159, 64, 0.8)',
+          }]
+        },
+        type: 'line',
+        options: complexityDataOps
+      });
 
-      new Chart(polarChartCtx, {
-        data: pstatData,
-        type: 'polarArea',
-        options: {}
-      })
 
       this.setState({ infoHeader });
       this.setState({ infos });
       // table.DataTable();
     });
-
-    const complexityDataOps = {
-      maintainAspectRatio: false,
-      layout: {
-        padding: {
-          left: 10,
-          right: 25,
-          top: 25,
-          bottom: 0
-        }
-      },
-      scales: {
-        xAxes: [{
-          time: {
-            unit: 'date'
-          },
-          gridLines: {
-            display: false,
-            drawBorder: false
-          },
-          ticks: {
-            maxTicksLimit: 7
-          }
-        }],
-      },
-      legend: {
-        display: false
-      }
-    }
-
-    const complexityData = {
-      labels: ['1', '2', '3'],
-      xAxisID: ['1', '2', '3'],
-      datasets: [
-        {
-          data: [1, 1, 2],
-        },
-        {
-          data: [1, 4, 2],
-        },
-      ]
-    }
-
-    new Chart(lineChartCtx, {
-      data: complexityData,
-      type: 'line',
-      options: complexityDataOps
-    })
-    
     // table.DataTable();
   }
 
@@ -230,6 +258,61 @@ class ProjectInfoPage extends Component {
 
   render() {
     const { infos, infoHeader } = this.state;
+    
+    let chartPanel1 = (
+      <Card
+        shadow = {true}
+        header = "기간별 프로젝트 중첩도"
+        content = {(
+          <div className="chart-area">
+            <canvas id="lineChart"></canvas>
+          </div>
+        )}
+      />
+    );
+    let chartPanel2 = (
+      <Card
+        shadow = {true}
+        header = "프로젝트 상태 비율"
+        content = {(<>
+          <div className="chart-pie pt-4 pb-2">
+            <canvas id="polarChart"></canvas>
+          </div>
+          <div className="mt-4 text-center small">
+              &nbsp;
+          </div>
+        </>)}
+      />
+    );
+
+    if (this.state.queryOps & QUERY_OPS.GROUPED) {
+      chartPanel1 = (
+        <Card
+          shadow = {true}
+          header = "기간별 프로젝트 중첩도"
+          content = {(
+            <div className="chart-area">
+              <canvas id="lineChart"></canvas>
+            </div>
+          )}
+        />
+      );
+
+      chartPanel2 = (
+        <Card
+          shadow = {true}
+          header = "전체 평균 진행율"
+          content = {(<>
+            <div className="chart-pie pt-4 pb-2">
+              <canvas id="pieChart"></canvas>
+            </div>
+            <div className="mt-4 text-center small">
+                &nbsp;
+            </div>
+          </>)}
+        />
+      );
+    }
 
     return (
       <div id="wrapper">
@@ -341,31 +424,12 @@ class ProjectInfoPage extends Component {
 
                 {/* <!-- Area Chart --> */}
                 <div className="col-xl-8 col-lg-7">
-                  <Card
-                    shadow = {true}
-                    header = "기간별 프로젝트 중첩도"
-                    content = {(
-                      <div className="chart-area">
-                        <canvas id="lineChart"></canvas>
-                      </div>
-                    )}
-                  />
+                  {chartPanel1}
                 </div>
 
                 {/* <!-- Pie Chart --> */}
                 <div className="col-xl-4 col-lg-5">
-                  <Card
-                    shadow = {true}
-                    header = "프로젝트 상태 비율"
-                    content = {(<>
-                      <div className="chart-pie pt-4 pb-2">
-                        <canvas id="polarChart"></canvas>
-                      </div>
-                      <div className="mt-4 text-center small">
-                         &nbsp;
-                      </div>
-                    </>)}
-                  />
+                  {chartPanel2}
                 </div>
 
               </div>
