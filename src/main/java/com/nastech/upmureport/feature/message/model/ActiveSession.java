@@ -4,21 +4,21 @@
  * 2019.05.22.
  * @author 김승신
  */
-package com.nastech.upmureport.config;
+package com.nastech.upmureport.feature.message.model;
 
 import java.time.LocalDateTime;
 
 import lombok.Getter;
 import lombok.Setter;
 
-public class MessageSession {
+public class ActiveSession {
 	private static final int VALID_IN = 30;
 	
 	@Getter @Setter
 	private String sessionId;			// 소켓 세션 아이디
 	private LocalDateTime validUntil;	// 유효 시간
 	
-	public MessageSession(String sessionId) {
+	public ActiveSession(String sessionId) {
 		this.sessionId = sessionId;
 		renew(sessionId);
 	}

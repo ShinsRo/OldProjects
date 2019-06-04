@@ -14,6 +14,8 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+import com.nastech.upmureport.feature.message.model.ActiveSessionStore;
+
 
 @Configuration
 @EnableWebSocketMessageBroker
@@ -34,7 +36,7 @@ public class PushMessageConfig implements WebSocketMessageBrokerConfigurer {
     }
 	
 	@Bean
-	public MessageSessionContainer messageSessionIdsContainer() {
-		return new MessageSessionContainer();
+	public ActiveSessionStore messageSessionIdsContainer() {
+		return new ActiveSessionStore();
 	}
 }

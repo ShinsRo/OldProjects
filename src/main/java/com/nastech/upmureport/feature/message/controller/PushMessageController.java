@@ -5,7 +5,7 @@
  * @file PushMessageController 정의
  * @author 김승신
  */
-package com.nastech.upmureport.feature.project.controller;
+package com.nastech.upmureport.feature.message.controller;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -15,16 +15,16 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 
-import com.nastech.upmureport.config.MessageSession;
-import com.nastech.upmureport.config.MessageSessionContainer;
-import com.nastech.upmureport.feature.project.domain.dto.MessageDto;
+import com.nastech.upmureport.feature.message.model.ActiveSession;
+import com.nastech.upmureport.feature.message.model.ActiveSessionStore;
+import com.nastech.upmureport.feature.message.model.MessageDto;
 
 @Controller
 public class PushMessageController {
 	Log Logger = LogFactory.getLog(PushMessageController.class);
 	
 	@Autowired
-	private MessageSessionContainer messageSessionIdsContainer;
+	private ActiveSessionStore messageSessionIdsContainer;
 	
 	/**
 	 * 접속한 클라이언트로부터 소켓 등록 메세지를 처리한다.
@@ -40,7 +40,7 @@ public class PushMessageController {
 		Logger.info(String.format("[MID %s] 프로젝트 관리패널 접속, 접속자 채널 연결", mid));
 		
 		// 메세지 세션 생성 및 유효 시간 갱신
-		MessageSession messageSession = new MessageSession(sha.getSessionId());
+		ActiveSession messageSession = new ActiveSession(sha.getSessionId());
 		messageSessionIdsContainer.add(mid, messageSession);
 	}
 	

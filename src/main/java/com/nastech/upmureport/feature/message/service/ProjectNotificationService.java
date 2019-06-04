@@ -4,7 +4,7 @@
  * 2019.05.22.
  * @author 김승신
  */
-package com.nastech.upmureport.feature.project.service;
+package com.nastech.upmureport.feature.message.service;
 
 import java.util.List;
 import java.util.Map;
@@ -18,8 +18,8 @@ import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import com.nastech.upmureport.config.MessageSession;
-import com.nastech.upmureport.config.MessageSessionContainer;
+import com.nastech.upmureport.feature.message.model.ActiveSession;
+import com.nastech.upmureport.feature.message.model.ActiveSessionStore;
 import com.nastech.upmureport.feature.project.controller.ProjectController;
 import com.nastech.upmureport.feature.project.domain.dto.CollaboratorDto;
 import com.nastech.upmureport.feature.project.domain.dto.ProjectDto;
@@ -35,7 +35,7 @@ public class ProjectNotificationService {
 	Log Logger = LogFactory.getLog(ProjectController.class);
 	
 	@Autowired
-	MessageSessionContainer msc;
+	ActiveSessionStore msc;
 	
 	@Autowired
 	SimpMessagingTemplate smt;
@@ -61,7 +61,7 @@ public class ProjectNotificationService {
 	 */
 	public <MSG> void sendDtoByType(String fromMid, MSG dto, NOTIFICATION_TYPE type) throws Exception {
 		// 현재 접속 중인 세션 맵 { mid : MessageSession }
-		Map<String, MessageSession> sessionMap 	= msc.getContainer();				
+		Map<String, ActiveSession> sessionMap 	= msc.getContainer();				
 
 		/* 유효하지 않은 DTO 타입 */
 		if (dto == null) {
@@ -93,7 +93,7 @@ public class ProjectNotificationService {
 			ProjectDto projectDto 					= (ProjectDto) dto;					// 보낼 프로젝트 내용
 			List<CollaboratorDto> collaborators 	= projectDto.getCollaborators();	// 프로젝트에서 관련한 협업자 리스트
 			
-			MessageSession fromSession 				= sessionMap.get(fromMid);			// 보내는 이
+			ActiveSession fromSession 				= sessionMap.get(fromMid);			// 보내는 이
 			
 			/* 메세지 보내기 시작 */
 			for (CollaboratorDto collaboratorDto : collaborators) {
@@ -102,7 +102,7 @@ public class ProjectNotificationService {
 				if (collaboratorDto.getMid().equals(fromMid)) 	continue;					// 스스로에 대해 처리하지 않는다.
 				if (!sessionMap.containsKey(collabMid)) 		continue;					// 접속 중이지 않은 멤버는 처리하지 않는다.
 				
-				MessageSession collaboratorSession 	= sessionMap.get(collabMid);			// 받을 이
+				ActiveSession collaboratorSession 	= sessionMap.get(collabMid);			// 받을 이
 				String collaboratorSessionId 		= collaboratorSession.getSessionId();	// 받을 이 소켓 세션 아이디
 				
 				// 보낸 이와 타입을 헤더에 첨부
