@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { select } from 'glamor';
 import store from '../../../../stores'
 import axios from 'axios';
 import { BASE_URL } from '../../../../supports/API_CONSTANT'

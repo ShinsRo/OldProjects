@@ -14,6 +14,7 @@ import Register from './components/Admin/RegisterPage';
 import { MDBBtn, MDBIcon } from 'mdbreact'
 import DelDept from "./components/Admin/DelDept";
 import DelPosi from "./components/Admin/DelPosi";
+import stores from "../../stores"
 class AdminPage extends Component {
   constructor(props) {
     super(props);
@@ -37,7 +38,15 @@ class AdminPage extends Component {
     userActions.select(userInfo)
   }
   getDeptPosiAPI() {
-    return axios.post(`${BASE_URL}/api/career/getdeptposi`).then(
+    const {userState} = stores.getState();
+    const {userInfo} = userState;
+    const {authToken} = userInfo;
+    console.log("check",authToken)
+    axios.defaults.headers.common['X-Auth-Token'] = authToken.token;
+    // const header={
+    //   'x-auth-token':'asdad'
+    // }
+    return axios.get(`${BASE_URL}/api/career/getdeptposi`).then(
       (response) => {
         this.setState({ list: response.data })
       }

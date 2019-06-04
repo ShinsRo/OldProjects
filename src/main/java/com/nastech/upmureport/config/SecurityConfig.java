@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/api/users/login").permitAll()
 				.antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 				.antMatchers("/api/users/userlist").permitAll()
-				.antMatchers("/api/career/getdeptposi").hasAuthority("ROLE_ADMIN")
+				.antMatchers("/api/career/getdeptposi").permitAll()
 				.anyRequest().permitAll()  //우선 모든 api요청 열어둠 
 				.and()
 			.formLogin();
