@@ -8,8 +8,8 @@ spring:
       
   profiles:
     active:
-#      - dev
-      - prod
+     - dev
+    #  - prod
   
   main:
     allow-bean-definition-overriding: true
