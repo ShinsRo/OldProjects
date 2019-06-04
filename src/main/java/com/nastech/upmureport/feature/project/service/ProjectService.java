@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nastech.upmureport.common.support.Utils;
+import com.nastech.upmureport.feature.message.service.ProjectNotificationService;
+import com.nastech.upmureport.feature.message.service.ProjectNotificationService.NOTIFICATION_TYPE;
 import com.nastech.upmureport.feature.project.domain.dto.CollaboratorDto;
 import com.nastech.upmureport.feature.project.domain.dto.PdirDto;
 import com.nastech.upmureport.feature.project.domain.dto.ProjectDto;
@@ -27,7 +29,6 @@ import com.nastech.upmureport.feature.project.domain.enums.Prole;
 import com.nastech.upmureport.feature.project.domain.enums.Pstat;
 import com.nastech.upmureport.feature.project.repo.MemberProjectRepository;
 import com.nastech.upmureport.feature.project.repo.PdirRepository;
-import com.nastech.upmureport.feature.project.service.ProjectNotificationService.NOTIFICATION_TYPE;
 import com.nastech.upmureport.feature.user.domain.entity.Member;
 import com.nastech.upmureport.feature.user.repo.MemberRepository;
 

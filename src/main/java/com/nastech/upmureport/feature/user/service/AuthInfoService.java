@@ -31,14 +31,13 @@ public class AuthInfoService {
 	public MemberDto userLogin(AuthInfo authinfo) {
 	String id = authinfo.getUsername();
 	String pass = authinfo.getPassword();
-	System.out.println("id:"+id+"\npass:"+pass);
 	AuthInfo loginedUser = authInfoRepository.findOneByUsername(id);
 	if(loginedUser == null) return null;
 	if(pass.equals(loginedUser.getPassword())) {
-		System.out.println("로그인 성공");
-		System.out.println("로그인한 멤버정보");
-		System.out.println(loginedUser.getMember());
-		System.out.println("--------------------------");
+//		System.out.println("로그인 성공");
+//		System.out.println("로그인한 멤버정보");
+//		System.out.println(loginedUser.getMember());
+//		System.out.println("--------------------------");
 		MemberDto loginedMemDto = loginedUser.getMember().toDto();
 		
 		return loginedMemDto;

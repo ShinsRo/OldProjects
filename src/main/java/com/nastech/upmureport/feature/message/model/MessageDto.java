@@ -1,4 +1,4 @@
-package com.nastech.upmureport.feature.project.domain.dto;
+package com.nastech.upmureport.feature.message.model;
 
 import java.time.LocalDateTime;
 

@@ -97,8 +97,7 @@ public class UserController {
 		List<UserRole> userRoles = userRoleRepository.findAllByUsername(username);
 		if(authUser==null || userRoles.isEmpty() ) return null;
 		CustomUserDetails customUser = new CustomUserDetails(authUser, userRoles);
-		System.out.println("customUser"+customUser);
-		System.out.println("-----customUser"+customUser.getAuthorities());
+		
 		
 		Map<String, Object> returnObj = new HashMap<String, Object>();
 		//로그인 성공 후 발급 된 토큰과 멤버 정보를 Map으로 묶어 반환한다 
@@ -145,12 +144,12 @@ public class UserController {
     public List<MemberDto> userList(@RequestBody MemberDto user, HttpServletRequest request){
     	List<MemberDto> juniorList = memberService.findMyJuniors(user);
     	if( !juniorList.isEmpty()) {
-    		System.out.println("비어있지안흥ㅁ");
+    		//비어잇지않음
     		return juniorList;
     	}
     	else
     	{
-    		System.out.println("비어있음");
+    		//비어있음
     		return null;
     	}
     }

@@ -32,12 +32,11 @@ public class UserService implements UserDetailsService{
 			String encodePass = passwordEncoder.encode(user.getPassword());
 			user.setPassword(encodePass);
 			CustomUserDetails loginedCustom= new CustomUserDetails(user,userRoles);
-			System.out.println("로그인 된 커스텀"+loginedCustom);
-			System.out.println("로그인 된 커스텀"+loginedCustom.getAuthorities());
+			
 			return loginedCustom;
 			//retunr User
 		}else {
-			System.out.println("없어");
+			//아이디가 없는 경우
 			return null;
 		}
 	}
