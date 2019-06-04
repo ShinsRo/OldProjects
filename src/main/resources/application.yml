@@ -8,8 +8,8 @@ spring:
       
   profiles:
     active:
-      - dev
-      # - prod
+#      - dev
+      - prod
   
   main:
     allow-bean-definition-overriding: true
@@ -19,6 +19,8 @@ server:
 
 ---  
 spring.profiles: dev
+
+
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
@@ -33,7 +35,10 @@ spring:
           auto: update
         dialect: org.hibernate.dialect.MariaDBDialect
         enable_lazy_load_no_trans: true
-        
+  
+attachment-path: ${ATTACHMENT_PATH_DEV}
+
+    
 ---
 spring.profiles: prod
 spring:
@@ -50,3 +55,5 @@ spring:
           auto: update
         dialect: org.hibernate.dialect.MariaDBDialect
         enable_lazy_load_no_trans: true
+        
+attachment-path: ${ATTACHMENT_PATH}        
