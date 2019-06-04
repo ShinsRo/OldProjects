@@ -173,7 +173,7 @@ class RegisterPage extends Component {
         return (
             <div className="card o-hidden border-0 shadow-lg">
                 <div className="card-header text-center">
-                    <h4 align="center" className="card-header text-primary"><MDBIcon icon="user-edit" className="mr-2" />신규 사원 등록 이거</h4>
+                    <h4 align="center" className="card-header text-primary"><MDBIcon icon="user-edit" className="mr-2" />신규 사원 등록</h4>
                 </div>
                 <div className="card-body text-dark-2">
                     {/* <!-- Nested Row within Card Body --> */}
