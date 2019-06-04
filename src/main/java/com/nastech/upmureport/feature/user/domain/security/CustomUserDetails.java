@@ -21,7 +21,6 @@ public class CustomUserDetails extends AuthInfo implements UserDetails{
 		
 		
 		super(authInfo);
-		System.out.println("슈퍼수퓨ㅓ"+super.getUsername());
 		this.hasRoles=hasRoles;
 	}
 	
