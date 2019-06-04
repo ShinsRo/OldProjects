@@ -50,7 +50,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class AttachmentService {	
-//	private final String UPLOAD_PATH = "C:\\\\Users\\\\nastech\\\\Desktop\\\\attachment";
+	private final String UPLOAD_PATH = "C:\\\\Users\\\\nastech\\\\Desktop\\\\attachment";
 	private final String PREFIX_URL = "localhost.com";
 	private final String ATTACHMENT_PATH_KEY = "attachment-path";
 	

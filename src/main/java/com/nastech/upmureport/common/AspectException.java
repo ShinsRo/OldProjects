@@ -14,7 +14,7 @@ public class AspectException {
 	
 	private static final Log LOG = LogFactory.getLog(AspectException.class);
 	
-	@Before("execution(* com.nastech.upmureport.service.*.*(..))")
+	@Before("execution(* com.nastech.upmureport.feature.*.service.*.*(..))")
 	public void startLog(JoinPoint jp) {
 		
 		//LOG.info("---------------------------");
@@ -37,7 +37,7 @@ public class AspectException {
 		//LOG.info("---------------------------");
 	}
 	
-//	@Around("execution(* com.nastech.upmureport.service.*.*(..))")
+//	@Around("execution(* com.nastech.upmureport.feature.*.service.*.*(..))")
 //	public Object timeLog(ProceedingJoinPoint pjp) throws Throwable {		
 //		long startTime = System.currentTimeMillis();
 //		LOG.info(Arrays.toString(pjp.getArgs()));
@@ -48,12 +48,12 @@ public class AspectException {
 //		long endTime = System.currentTimeMillis();
 //		LOG.info(pjp.getSignature().getName() + " : " + ( endTime - startTime) + "ms");  //target 메소드의 동작 시간을 출력한다.
 //		LOG.info("==============================");
-//			
+//			 
 //		//Around를 사용할 경우 반드시 Object를 리턴해야 한다.
 //		return result;
 //	}
 	
-	@AfterThrowing("execution(* com.nastech.upmureport.service.*.*(..))")
+	@AfterThrowing("execution(* com.nastech.upmureport.feature.*.service.*.*(..))")
 	public void logAfterThrowingAllMethods () throws Throwable {
 		
 	}
