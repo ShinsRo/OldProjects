@@ -22,6 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -47,9 +49,11 @@ import lombok.RequiredArgsConstructor;
  */
 @Service
 @RequiredArgsConstructor
-public class AttachmentService {
-	private final String UPLOAD_PATH = "C:\\\\Users\\\\nastech\\\\Desktop\\\\attachment";
+public class AttachmentService {	
+//	private final String UPLOAD_PATH = "C:\\\\Users\\\\nastech\\\\Desktop\\\\attachment";
 	private final String PREFIX_URL = "localhost.com";
+	private final String ATTACHMENT_PATH_KEY = "attachment-path";
+	
 	
 	@SuppressWarnings("unused")
 	private static final Log LOG = LogFactory.getLog(AttachmentService.class);
@@ -57,6 +61,7 @@ public class AttachmentService {
 	private final AttachmentRepository attachmentRepository;
 	private final PdirRepository pdirRepository;
 	private final PLogService pLogService;
+	private final Environment environment;
 
 	/* 첨부파일 저장 */
 	public AttachmentDto.AttachmentResDto saveAttachment(MultipartFile file, AttachmentDto.AttachmentReqDto attachmentReqDto) throws Exception {
@@ -221,9 +226,9 @@ public class AttachmentService {
 		
 		String fileName = uid.toString() + "_" +file.getOriginalFilename(); // 유니크한 파일 이름 생성
 				
-		String savedPath = calcPath(UPLOAD_PATH); //(년 월 일 기준)파일을 저장할 폴더 생성
+		String savedPath = calcPath(environment.getProperty(ATTACHMENT_PATH_KEY)); //(년 월 일 기준)파일을 저장할 폴더 생성
 		
-		File destinationFile = new File(UPLOAD_PATH + savedPath,fileName); // 파일 객제 생성
+		File destinationFile = new File(environment.getProperty(ATTACHMENT_PATH_KEY) + savedPath,fileName); // 파일 객제 생성
 		
 		file.transferTo(destinationFile); // 파일 로컬 서버에 저장		
 
