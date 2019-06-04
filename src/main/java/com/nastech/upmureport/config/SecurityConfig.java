@@ -1,7 +1,5 @@
 package com.nastech.upmureport.config;
 
-import java.util.Arrays;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,13 +12,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.access.channel.ChannelProcessingFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
+import org.springframework.session.web.http.HeaderHttpSessionIdResolver;
+import org.springframework.session.web.http.HttpSessionIdResolver;
 
 import com.nastech.upmureport.feature.user.domain.security.UserService;
+
+/**
+ * 
+ * @author 마규석
+ * 
+ * SprinSecurity를 위한 설정 파일
+ *
+ */
+
 
 @Configuration
 @EnableWebSecurity
@@ -30,12 +34,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //    
 	@Autowired UserService userService;
 	@Autowired PasswordEncoder passwordEncoder;
+	//SimpleCorsFilter 적용
 	@Autowired SimpleCorsFilter scf;
-     
+	
+	/**
+	 * Spring Security 인가
+	 */
+	
 	@Override
      protected void configure(HttpSecurity http) throws Exception {
 		http
-		.addFilterBefore(new CorsFilter(corsConfigurationSource()), ChannelProcessingFilter.class)
 		.csrf().disable()
 		.cors().and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
@@ -44,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/api/users/login").permitAll()
 				.antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 				.antMatchers("/api/users/userlist").permitAll()
+				.antMatchers("/api/career/getdeptposi").hasAuthority("ROLE_ADMIN")
 				.anyRequest().permitAll()  //우선 모든 api요청 열어둠 
 				.and()
 			.formLogin();
@@ -58,19 +67,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
           .passwordEncoder(userService.passwordEncoder());
      }
      
-     @Bean
-     public CorsConfigurationSource corsConfigurationSource() {
-         CorsConfiguration configuration = new CorsConfiguration();
-         configuration.setAllowedOrigins(Arrays.asList("*"));
-         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-         configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
-         configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
-         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-         source.registerCorsConfiguration("/**", configuration);
-         return source;
-     } 
+//     @Bean
+//     public CorsConfigurationSource corsConfigurationSource() {
+//         CorsConfiguration configuration = new CorsConfiguration();
+//         configuration.setAllowedOrigins(Arrays.asList("*"));
+//         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+//         configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "X-Auth-Token"));
+//         configuration.setExposedHeaders(Arrays.asList("X-Auth-Token"));
+//         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//         source.registerCorsConfiguration("/**", configuration);
+//         return source;
+//     } 
      
      
+     // Spring Security의 권장사항에 따른 비밀번호 암호화 
      @Bean
      public PasswordEncoder passwordEncoder() {
     	 return new BCryptPasswordEncoder();
@@ -82,10 +92,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
           return super.authenticationManagerBean();
      }
      
-//     @Bean
-//     public HttpSessionStrategy httpSessionStrategy() {
-//    	 
-//         return new HeaderHttpSessionStrategy();
-//     }
+     @Bean
+     public HttpSessionIdResolver httpSessionIdResolver() {
+    	 return HeaderHttpSessionIdResolver.xAuthToken();
+     }
+     
+//   @Bean
+//   public HttpSessionStrategy httpSessionStrategy() {
+//  	 
+//       return new HeaderHttpSessionStrategy();
+//   }
      
 }
