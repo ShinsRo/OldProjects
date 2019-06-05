@@ -77,9 +77,9 @@
 	>프로젝트를 공유하는 팀원(사원)을 말합니다.
 	>
 	><span class="fa fa-plus-circle"></span> 버튼을 누르면 사원을 검색하여 프로젝트에 추가할 수 있습니다. 
-	><img src="./docs/images/1.1_project/colaboratorSearch.png">
+	><br/><img src="./docs/images/1.1_project/colaboratorSearch.png"><br/>
 	>또 이름 옆의 권한 태그 드롭다운을 열면 권한 역시 조정할 수 있습니다.
-	><img src="./docs/images/1.1_project/prole.png">
+	><br/><img src="./docs/images/1.1_project/prole.png"><br/>
 1. 프로젝트 명
 	>프로젝트의 이름입니다.
 	>
@@ -89,7 +89,7 @@
 	>
 	>해당 필드를 눌러 달력 UI를 통해 날짜를 조정하거나, 텍스트로 직접입력할 수 있습니다.
 	>마감일과 시작일을 역전하여 입력하지 않도록 주의하세요.
-	><img src="./docs/images/1.1_project/calendar.png">
+	><br/><img src="./docs/images/1.1_project/calendar.png"><br/>
 1. 진행률
 	> 기존 CS UPMUREPORT와 마찬가지로 개개인의 프로젝트 진행율입니다.
 	>
@@ -103,7 +103,7 @@
 	> 기존 CS UPMUREPORT와 마찬가지로 프로젝트의 상태입니다.
 	>
 	> 진행률과 마찬가지로 개개인에 적용되며 생성 시 진행률은 모든 프로젝트 구성원의 상태를 초기화합니다.
-	><img src="./docs/images/1.1_project/pstat.png">
+	><br/><img src="./docs/images/1.1_project/pstat.png"><br/>
 
 위의 필드를 알맞게 입력하셨다면...!
 
