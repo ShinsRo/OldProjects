@@ -90,7 +90,6 @@ class NewProjectForm extends Component {
         <div className="form-group row">
             <div className="col">
                 <Collaborators
-                    key={Date.now().toString()}
                     type="NEW_PROJECT"
                     collaborators={ [{ mid: memberInfo.mid, name: memberInfo.name, prole: '관리자' }] }
                     reload={this.props.reload}
