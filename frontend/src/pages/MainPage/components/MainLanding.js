@@ -23,7 +23,7 @@ class DashboardLanding extends Component {
                         <p> 좀 더 자세한 튜토리얼/가이드를 원하신다면 아래 버튼을 클릭해 문서를 다운로드해주세요. </p>
                         
                         <br/>
-                        <button className="btn btn-bright-1">가이드 문서 다운로드 하기</button>
+                        <a href={`${process.env.PUBLIC_URL}/resources/files/upmureport-guide.zip`} className="btn btn-bright-1">가이드 문서 다운로드 하기</a>
                         <img
                             src={process.env.PUBLIC_URL + '/resources/img/undraw_task_31wc.svg'} 
                             alt="projPanel"
