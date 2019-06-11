@@ -75,7 +75,7 @@ class Pfile extends Component {
   handleClickDeletePfile = (pfileId) => {
     const {PfileActions} = this.props;
 
-    if (!window.confirm('ㄹㅇ?')) return;
+    if (!window.confirm('정말 삭제하시겠습니까?')) return;
 
     PfileActions.deletePfile(pfileId);
   }
@@ -84,7 +84,7 @@ class Pfile extends Component {
   handleClickDeleteAttachment = (attachmentId) => {
     const {AttachmentActions} = this.props;
 
-    if (!window.confirm('ㄹㅇ?')) return;
+    if (!window.confirm('정말 삭제하시겠습니까??')) return;
 
     AttachmentActions.deleteAttachment(attachmentId);
   } 
@@ -101,9 +101,9 @@ class Pfile extends Component {
       return;
     }
 
-    attachmentGroup.forEach(attachment => {
+    attachmentGroup.map(attachment => {
       body.push(attachment.attachmentId);
-    });
+    })
 
     AttachmentActions.downloadAttachmentGroup(body);
   }
@@ -112,15 +112,15 @@ class Pfile extends Component {
       const { pfileState, projectState, attachmentState, AttachmentActions } = this.props;
 
 
-      const addButton =  projectState.get('selectedDirId') && projectState.get('selectedProject') && (projectState.get('selectedProject').prole !== '게스트') && (
+      const addButton =  projectState.get('selectedDirId') && projectState.get('selectedProject') && (projectState.get('selectedProject').prole != '게스트') && (
           <div className="dropdown">
             <button className="btn dropdown-toggle text-dark-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               목록 추가
             </button>
             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <div className="dropdown-item" href="#" onClick= {this.handleClickPfileAddForm}>업무</div>
+              <a className="dropdown-item" href="#" onClick= {this.handleClickPfileAddForm}>업무</a>
               <div className="dropdown-divider"></div>
-              <div className="dropdown-item" href="#" onClick= {this.handleClickAttachmentAddForm}>첨부 파일</div>
+              <a className="dropdown-item" href="#" onClick= {this.handleClickAttachmentAddForm}>첨부 파일</a>
             </div>          
           </div>
         )
@@ -165,8 +165,6 @@ class Pfile extends Component {
                 deleteDownloadGroup = { AttachmentActions.deleteGroup}
                 clearDownloadGroup = { AttachmentActions.clearGroup}
               />     
-                        
-            
             </div>
           </div>
           );

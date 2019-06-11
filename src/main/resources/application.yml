@@ -8,8 +8,8 @@ spring:
       
   profiles:
     active:
-     - dev
-    #  - prod
+      - dev
+#      - prod
   
   main:
     allow-bean-definition-overriding: true
@@ -37,7 +37,6 @@ spring:
         enable_lazy_load_no_trans: true
   
 attachment-path: ${ATTACHMENT_PATH_DEV}
-
     
 ---
 spring.profiles: prod

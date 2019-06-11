@@ -57,5 +57,3 @@ public class SettingData {
 		td.setPfileTestData();		
 	}
 }
-
-
