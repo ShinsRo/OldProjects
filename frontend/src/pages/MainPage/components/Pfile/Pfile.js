@@ -126,14 +126,9 @@ class Pfile extends Component {
         )
 
         return (          
-<<<<<<< HEAD
         <div > 
           <div className="card-header py-3 ">  
             
-=======
-        <div> 
-          <div className="card-header py-3">  
->>>>>>> branch 'dev' of https://github.com/kimYSang/EPR-RPOJECT.git
             <div className="row">
               <div className="col text-dark-1 font-weight-bold" style={{fontSize: "25px"}}>
                 업무 목록
