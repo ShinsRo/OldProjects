@@ -224,7 +224,7 @@ class RegisterPage extends Component {
                                     }
                                 </div>
                                 <div className="form-group">
-                                    <input value={this.state.phoneNum} onChange={e => this.validatePhoneNumber(e.target.value)} type="text" className="form-control form-control-user" name="phoneNum" placeholder="핸드폰" />
+                                    <input value={this.state.phoneNum} onChange={e => this.validatePhoneNumber(e.target.value)} type="text" className="form-control form-control-user" name="phoneNum" placeholder="핸드폰  xxx-xxxx-xxxx" />
                                     { this.state.isPhoneNumberValid &&
                                     <label>올바른 형식입니다</label>
                                     }

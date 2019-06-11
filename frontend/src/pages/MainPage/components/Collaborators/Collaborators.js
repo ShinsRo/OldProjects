@@ -159,8 +159,10 @@ class Collaborators extends Component {
         }
         /* 현재 프로젝트가 원본일 때 원본을 백업 끝 */
 
-        // 상위에서 리로딩(Triggering this compoenent's update cycle.)
-        this.props.reload();
+        // 상위에서 리로딩(Triggering this compoenent's update cycle)
+        // this.props.reload();
+
+        this.setState( { isCorrected: true } );
     }
 
     /**
@@ -271,7 +273,7 @@ class Collaborators extends Component {
         /* 타깃 공동작업자를 deleteCollaborators state에 추가하는 작업 끝 */
 
         this.setState({ deletedCollaborators });
-        this.props.reload();
+        // this.props.reload();
     }
 
     /**

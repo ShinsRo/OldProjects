@@ -44,7 +44,7 @@ class AddModal extends React.Component {
         if (this.state.gubun === 'project') {
         projectBtnClass = "btn btn-dark-1";
             dirBtnClass = "btn btn-secondary";
-            contentForm = (<NewProjectForm reload={this.props.reload} memberInfo={memberInfo} modalId="addModal"/>);
+            contentForm = (<NewProjectForm key={Date.now().toString()} reload={this.props.reload} memberInfo={memberInfo} modalId="addModal"/>);
             header = "새로운 프로젝트를 추가합니다.";
         } else {
             projectBtnClass = "btn btn-secondary";
