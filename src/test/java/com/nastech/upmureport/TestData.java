@@ -94,7 +94,7 @@ public class TestData {
 				.eid("0000")
 				.name("관리자")
 				.birth("00000000")
-				.phoneNum("01011111111")
+				.phoneNum("010-1111-1111")
 				.joinDate(LocalDate.now())
 				.build();
 		mList.add(admin);
@@ -102,8 +102,8 @@ public class TestData {
 		Member m1 = Member.builder()
 				.eid("1111")
 				.name("김승신")
-				.birth("19940728")
-				.phoneNum("01011111111")
+				.birth("1994-07-28")
+				.phoneNum("010-1111-1111")
 				.joinDate(LocalDate.now())
 				.build();
 		mList.add(m1);
@@ -111,8 +111,8 @@ public class TestData {
 		Member m2 = Member.builder()
 				.eid("1112")
 				.name("마규석")
-				.birth("19951226")
-				.phoneNum("01012345555")
+				.birth("1995-12-26")
+				.phoneNum("010-1234-5555")
 				.joinDate(LocalDate.now())
 				.build();
 		mList.add(m2);
@@ -120,8 +120,8 @@ public class TestData {
 		Member m3 = Member.builder()
 				.eid("1113")
 				.name("김윤상")
-				.birth("19940729")
-				.phoneNum("01011131111")
+				.birth("1994-07-29")
+				.phoneNum("010-1113-1111")
 				.joinDate(LocalDate.now())
 				.build();
 		mList.add(m3);
@@ -129,8 +129,8 @@ public class TestData {
 		Member m0 = Member.builder()
 				.eid("0001")
 				.name("김팀장")
-				.birth("19910201")
-				.phoneNum("01011351121")
+				.birth("1991-02-01")
+				.phoneNum("010-1135-1121")
 				.joinDate(LocalDate.now())
 				.build();
 		mList.add(m0);
