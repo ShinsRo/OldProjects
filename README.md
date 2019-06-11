@@ -28,7 +28,6 @@
 		* [첨부파일 이동 & 복사](#첨부파일-이동-복사)
 		* [첨부파일 삭제](#첨부파일-삭제)
 	* [5. 로그 사용법](#5-로그-사용법)
-		* [임시 소제목](#임시-소제목)
 	* [6. 관리자 기능 사용하기](#6-관리자-기능-사용하기)
 		* [메인 화면](#메인-화면)
 		* [1.신규 사원 등록](#1span-classfa-fa-user-plusspan신규-사원-등록)
@@ -282,9 +281,13 @@
 - 삭제를 원하지 않으시면 취소 버튼을 클릭합니다.
 
 <br>
+
 ### 4. 첨부파일 관리하기
+
 <br>
+
 #### 첨부파일 추가하기
+
 <br>
 
 <img src="./docs/images/1.4_attachment/createAtt.png">
@@ -313,21 +316,24 @@
 - 등록이 완료되었습니다.
 
 <br>
+
 #### 첨부파일 개별 다운로드
 
-<img src="./docs/images/1.4_attachment/downAtt.png">
+<img src="./docs/images/1.4_attachment/downAtt.PNG">
 
 - 다운로드할 첨부파일을 리스트에서 클릭하면 오른쪽 패널에 상세정보 패널이 나타납니다.
 - 그 후 다운로드 버튼을 누르면 다운로드가 시작됩니다.
 <br>
+
 #### 첨부파일 여러개 다운로드
+
 <br>
-<img src="./docs/images/1.4_attachment/downAtt2.png">
+<img src="./docs/images/1.4_attachment/downAtt2.PNG">
 
 - 첨부파일 리스트에서 같이 다운로드 할 파일을 체크합니다.
 
 <br>
-<img src="./docs/images/1.4_attachment/downAtt3.png">
+<img src="./docs/images/1.4_attachment/downAtt3.PNG">
 
 - 체크 완료 후 모두 다운로드 버튼을 클릭합니다.
 
