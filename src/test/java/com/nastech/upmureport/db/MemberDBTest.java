@@ -78,7 +78,7 @@ public class MemberDBTest {
 				.eid("0000")
 				.name("관리자")
 				.birth("00000000")
-				.phoneNum("01011111111")
+				.phoneNum("010-1111-1111")
 				.joinDate(LocalDate.now())
 				.retireDate(LocalDate.now())
 				.build();
