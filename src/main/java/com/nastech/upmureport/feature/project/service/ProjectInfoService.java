@@ -71,7 +71,7 @@ public class ProjectInfoService {
 		
 		rawList.stream().forEach(el -> {
 			returnList.add(new ProjectInfoDto(el, qOps));
-		});
+		});0
 		
 		return returnList;
 	}
