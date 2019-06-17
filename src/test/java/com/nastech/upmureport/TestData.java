@@ -94,7 +94,7 @@ public class TestData {
 				.eid("0000")
 				.name("관리자")
 				.birth("00000000")
-				.phoneNum("010-1111-1111")
+				.phoneNum("010-1111-1234")
 				.joinDate(LocalDate.now())
 				.build();
 		mList.add(admin);
@@ -103,7 +103,7 @@ public class TestData {
 				.eid("1111")
 				.name("김승신")
 				.birth("1994-07-28")
-				.phoneNum("010-1111-1111")
+				.phoneNum("010-1111-1101")
 				.joinDate(LocalDate.now())
 				.build();
 		mList.add(m1);
@@ -112,7 +112,7 @@ public class TestData {
 				.eid("1112")
 				.name("마규석")
 				.birth("1995-12-26")
-				.phoneNum("010-1234-5555")
+				.phoneNum("010-1234-5556")
 				.joinDate(LocalDate.now())
 				.build();
 		mList.add(m2);
