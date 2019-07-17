@@ -1,6 +1,7 @@
 package com.siotman.batchwos.wsclient.auth;
 
 import com.siotman.batchwos.wsclient.WsUtil;
+import com.siotman.batchwos.wsclient.auth.domain.AuthResponse;
 
 import javax.xml.soap.*;
 
@@ -14,7 +15,7 @@ public class AuthClient {
 
     public AuthClient() throws SOAPException {
         this.soapConnection = SOAPConnectionFactory.newInstance().createConnection();
-        this.authMessageGen = new AuthMessageGen();
+        this.authMessageGen = AuthMessageGen.getInstance();
     }
 
     public AuthResponse authenticate() throws SOAPException {

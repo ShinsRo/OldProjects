@@ -7,6 +7,16 @@ public class AuthMessageGen {
 
     private final String NS_AUTH = "http://auth.cxf.wokmws.thomsonreuters.com";
 
+    private AuthMessageGen() {}
+    private static AuthMessageGen instance;
+
+    public static synchronized AuthMessageGen getInstance() {
+        if (instance == null) {
+            instance = new AuthMessageGen();
+        }
+        return instance;
+    }
+
     /**
      * 인증 서비스 SOAP 요청 메세지 제작
      *
@@ -15,7 +25,7 @@ public class AuthMessageGen {
      *                      xmlns:auth="http://auth.cxf.wokmws.thomsonreuters.com">
      *      <SOAP-ENV:Header/>
      *      <SOAP-ENV:Body>
-     *          <authenticate:authenticate/>
+     *          <auth:authenticate/>
      *      </SOAP-ENV:Body>
      *  </SOAP-ENV:Envelope>
      *

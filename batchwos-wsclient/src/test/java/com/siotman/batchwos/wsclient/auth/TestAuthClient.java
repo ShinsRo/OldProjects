@@ -1,5 +1,6 @@
 package com.siotman.batchwos.wsclient.auth;
 
+import com.siotman.batchwos.wsclient.auth.domain.AuthResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

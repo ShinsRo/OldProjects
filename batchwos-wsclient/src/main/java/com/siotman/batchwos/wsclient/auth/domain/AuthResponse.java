@@ -1,4 +1,4 @@
-package com.siotman.batchwos.wsclient.auth;
+package com.siotman.batchwos.wsclient.auth.domain;
 
 import lombok.Getter;
 import org.w3c.dom.Node;
@@ -10,10 +10,6 @@ import javax.xml.soap.SOAPMessage;
 @Getter
 public class AuthResponse {
     private String SID;
-
-//    public AuthResponse(String SID) {
-//        this.SID = SID;
-//    }
 
     public AuthResponse(SOAPMessage soapResponse) throws SOAPException {
         SOAPBody soapBody = soapResponse.getSOAPBody();
