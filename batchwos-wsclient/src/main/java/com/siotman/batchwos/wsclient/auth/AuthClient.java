@@ -20,20 +20,17 @@ public class AuthClient {
 
     public AuthResponse authenticate() throws SOAPException {
         SOAPMessage soapMessage = authMessageGen.authenticate(WS_WOS_USERNAME, WS_WOS_PASSWORD);
-        WsUtil.printSOAPMessage(soapMessage, "Operation, authenticate sending :", System.out);
 
         SOAPMessage soapResponse = soapConnection.call(soapMessage, WS_WOS_URL);
-        WsUtil.printSOAPMessage(soapResponse, "Operation, authenticate received :", System.out);
+//        WsUtil.printSOAPMessage(soapResponse, "Operation, authenticate received :", System.out);
 
         return new AuthResponse(soapResponse);
     }
 
     public void closeSession(String SID) throws SOAPException {
         SOAPMessage soapMessage = authMessageGen.closeSession(SID);
-        WsUtil.printSOAPMessage(soapMessage, "Operation, closeSession sending :", System.out);
 
-        SOAPMessage soapResponse = soapConnection.call(soapMessage, WS_WOS_URL);
-        WsUtil.printSOAPMessage(soapResponse, "Operation, closeSession received :", System.out);
+        soapConnection.call(soapMessage, WS_WOS_URL);
         soapConnection.close();
     }
 }

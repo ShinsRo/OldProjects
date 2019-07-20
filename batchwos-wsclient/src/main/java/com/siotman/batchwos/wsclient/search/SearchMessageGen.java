@@ -25,10 +25,10 @@ public class SearchMessageGen {
      *
      * Constructed SOAP Request Message:
      *  <SOAP-ENV:Envelope  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
-     *                      xmlns:woksearch="http://auth.cxf.wokmws.thomsonreuters.com">
+     *                      xmlns:job="http://auth.cxf.wokmws.thomsonreuters.com">
      *      <SOAP-ENV:Header/>
      *      <SOAP-ENV:Body>
-     *          <woksearch:search>
+     *          <job:search>
      *
      *              <queryParameters>
      *                  {...searchQueryParameters}
@@ -53,7 +53,7 @@ public class SearchMessageGen {
 
         // SOAP Body
         SOAPBody soapBody = soapMessage.getSOAPPart().getEnvelope().getBody();
-        SOAPElement searchElement = soapBody.addChildElement("search", "woksearch");
+        SOAPElement searchElement = soapBody.addChildElement("search", "job");
 
         // Headers
         MimeHeaders headers = soapMessage.getMimeHeaders();
@@ -80,10 +80,10 @@ public class SearchMessageGen {
      *
      * Constructed SOAP Request Message:
      *  <SOAP-ENV:Envelope  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
-     *                      xmlns:woksearch="http://auth.cxf.wokmws.thomsonreuters.com">
+     *                      xmlns:job="http://auth.cxf.wokmws.thomsonreuters.com">
      *      <SOAP-ENV:Header/>
      *      <SOAP-ENV:Body>
-     *          <woksearch:retrieve>
+     *          <job:retrieve>
      *
      *              <queryId>{queryId}</queryId>
      *
@@ -91,7 +91,7 @@ public class SearchMessageGen {
      *                  <firstRecord>{firstRecord}</firstRecord>
      *                  <count>{count}</count>
      *              </retrieveParameters>
-     *          </woksearch:retrieve>
+     *          </job:retrieve>
      *      </SOAP-ENV:Body>
      *  </SOAP-ENV:Envelope>
      *
@@ -104,7 +104,7 @@ public class SearchMessageGen {
 
         // SOAP Body
         SOAPBody soapBody = soapMessage.getSOAPPart().getEnvelope().getBody();
-        SOAPElement retrieveElement = soapBody.addChildElement("retrieve", "woksearch");
+        SOAPElement retrieveElement = soapBody.addChildElement("retrieve", "job");
 
         // Headers
         MimeHeaders headers = soapMessage.getMimeHeaders();
@@ -129,7 +129,7 @@ public class SearchMessageGen {
 
         // SOAP Envelope
         SOAPEnvelope envelope = soapPart.getEnvelope();
-        envelope.addNamespaceDeclaration("woksearch", NS_WOKSEARCH);
+        envelope.addNamespaceDeclaration("job", NS_WOKSEARCH);
         return soapMessage;
     }
 }

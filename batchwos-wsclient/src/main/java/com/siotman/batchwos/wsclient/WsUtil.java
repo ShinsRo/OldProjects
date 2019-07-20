@@ -29,7 +29,6 @@ public class WsUtil {
             stream.println(prepend);
             StreamResult result = new StreamResult(stream);
             transformer.transform(sourceContent, result);
-            stream.println("\n:END");
         } catch (TransformerException | SOAPException e) {
             e.printStackTrace();
         }
