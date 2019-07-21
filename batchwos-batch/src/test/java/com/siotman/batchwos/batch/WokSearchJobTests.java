@@ -4,10 +4,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.test.JobLauncherTestUtils;
-import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @SpringBootTest
@@ -19,6 +17,16 @@ public class WokSearchJobTests {
     @Test
     public void testJob() throws Exception {
         JobExecution jobExecution = jobLauncherTestUtils.launchJob();
+    }
+
+
+    @Test
+    public void testMashaller() {
+
+    }
+    @Test
+    public void testRetrieveNewRecordsStep() throws Exception {
+        JobExecution jobExecution = jobLauncherTestUtils.launchStep("retrieveNewRecordsStep");
     }
 
 
