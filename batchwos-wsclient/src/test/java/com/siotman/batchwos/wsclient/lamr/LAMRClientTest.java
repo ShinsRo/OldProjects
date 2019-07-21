@@ -6,27 +6,21 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.Assert;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class LAMRClientTest {
-    private LAMRCilent lc;
+    private LAMRClient lc;
 
     @Before
     public void init() {
         try {
-            lc = new LAMRCilent();
+            lc = new LAMRClient();
         } catch (IOException e) {
             e.printStackTrace();
         }

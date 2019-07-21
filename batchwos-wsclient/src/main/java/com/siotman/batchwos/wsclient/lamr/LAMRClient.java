@@ -8,7 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
-public class LAMRCilent {
+public class LAMRClient {
     /**
      * LAMR Service(Links Article Match Retrieval Service) 제약 사항
      *
@@ -24,7 +24,7 @@ public class LAMRCilent {
 
     private LAMRMessageGen lamrMessageGen = LAMRMessageGen.getInstance();
 
-    public LAMRCilent() throws IOException {
+    public LAMRClient() throws IOException {
         url = new URL(ENDPOINT_URL);
     }
 
