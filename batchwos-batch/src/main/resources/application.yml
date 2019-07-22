@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/batchwos
+    username: root
+    password:
+
+  jpa:
+    properties:
+      hibernate:
+        hbm2dd:
+          auto: update
+        dialect: org.hibernate.dialect.MariaDBDialect
+        enable_lazy_load_no_trans: true
