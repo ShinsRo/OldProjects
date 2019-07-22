@@ -2,10 +2,10 @@ package com.siotman.batchwos.batch.domain.xml;
 
 import lombok.Data;
 
-import java.util.List;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Data
-public class XmlListField {
+public class RecordField {
     private String label;
-    private List<String> value;
+    private String value;
 }
