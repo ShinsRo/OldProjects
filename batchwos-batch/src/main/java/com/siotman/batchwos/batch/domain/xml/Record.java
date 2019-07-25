@@ -12,9 +12,10 @@ public class Record {
     private String uid;
     private RecordField title;
     private RecordList doctype;
-    private RecordList authors;
     private RecordList keywords;
 
+    @XStreamImplicit(keyFieldName = "label")
+    private Map<String, RecordList> authors;
     @XStreamImplicit(keyFieldName = "label")
     private Map<String, RecordList> source;
     @XStreamImplicit(keyFieldName = "label")

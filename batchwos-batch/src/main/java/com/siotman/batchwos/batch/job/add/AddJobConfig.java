@@ -2,6 +2,9 @@ package com.siotman.batchwos.batch.job.add;
 
 import com.siotman.batchwos.batch.domain.xml.Record;
 import com.siotman.batchwos.wsclient.WsUtil;
+import com.siotman.batchwos.wsclient.lamr.LAMRClient;
+import com.siotman.batchwos.wsclient.lamr.domain.LamrRequestParameters;
+import com.siotman.batchwos.wsclient.lamr.domain.TARGET_DB_TYPE;
 import com.siotman.batchwos.wsclient.search.SearchClient;
 import com.siotman.batchwos.wsclient.search.domain.SearchResponse;
 import org.slf4j.Logger;
@@ -25,6 +28,7 @@ import org.springframework.oxm.xstream.XStreamMarshaller;
 
 import javax.xml.soap.SOAPMessage;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -40,6 +44,8 @@ public class AddJobConfig {
 
     @Autowired
     private SearchClient searchClient;
+    @Autowired
+    private LAMRClient lamrClient;
     @Autowired
     private JobBuilderFactory jobBuilderFactory;
     @Autowired
@@ -110,8 +116,8 @@ public class AddJobConfig {
                     firstRecord += WS_SEARCH_CHUNK;
                     chunkContext.setAttribute("firstRecord", firstRecord);
 
-                    Long recordsFound = Long.valueOf(currentSearchResponse.getRecordsFound());
-//                    Long recordsFound = Long.valueOf(3);
+//                    Long recordsFound = Long.valueOf(currentSearchResponse.getRecordsFound());
+                    Long recordsFound = Long.valueOf(1);
                     if (firstRecord > recordsFound) return RepeatStatus.FINISHED;
                     else return RepeatStatus.CONTINUABLE;
                 })).build();
@@ -179,10 +185,36 @@ public class AddJobConfig {
 
         @Override
         public void write(List list) throws Exception {
-            System.out.println("======writer======");
-            list.stream().forEach(record -> {
-                System.out.println(((Record) record).getUid());
-            });
+            System.out.println("테스팅 라이터");
+            String SID = searchClient.getSID();
+            List<LamrRequestParameters> params = new ArrayList<>();
+
+            int idx = 0;
+
+            for (int i = 0; i < list.size(); i++) {
+                String uid = ((Record) list.get(i)).getUid();
+
+                params.add(
+                        LamrRequestParameters.builder()
+                                .mapName(String.format("cite_%d", ++idx))
+                                .valName("ut")
+                                .value(uid).build()
+                );
+            }
+
+            String response = lamrClient.request(TARGET_DB_TYPE.WOS, params);
+            System.out.println(response);
+
+            File responseFile = new File(
+                    String.format("target/temp/lamr/lamr_res.xml".replaceAll("/", fSep)));
+
+            if(!responseFile.exists()) {
+                responseFile.createNewFile();
+            }
+
+            FileWriter fw = new FileWriter(responseFile, true);
+            fw.write(response);
+            fw.close();
         }
     }
 

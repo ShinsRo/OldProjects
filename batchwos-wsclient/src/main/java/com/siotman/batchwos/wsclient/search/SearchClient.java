@@ -143,5 +143,8 @@ public class SearchClient {
 
     }
 
+    public String getSID() {
+        return this.SID;
+    }
 
 }
