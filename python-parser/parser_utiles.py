@@ -16,6 +16,8 @@ import numpy as np
 import pandas as pd
 from bs4 import BeautifulSoup
 
+import parser_exceptions
+
 def parse_paper_data(target_content, paper_data_id, search_type, SID_name):
     """
         페이지 정보를 입력받아 정리한 내용을 리스트로 반환하는 함수
@@ -26,19 +28,70 @@ def parse_paper_data(target_content, paper_data_id, search_type, SID_name):
     """
     soup = BeautifulSoup(target_content, 'html.parser')
 
+    if search_type == "reprint":
+        # 인용 횟수 및 링크
+        cnt_link = soup.select('a.snowplow-citation-network-times-cited-count-link')
+        if not cnt_link:
+            # 임시
+            raise Exception("인용횟수없음");
+
+            times_cited = '0'
+        else:
+            cnt_link = cnt_link[0]
+            times_cited = cnt_link.span.text
+
+        doc_type = ''
+        published_month = ''
+        research_areas = ''
+        publisher = ''
+        language = ''
+        reprint = ''
+        authors = []
+        fr_authors = []
+        fr_addresses = []
+        for fr_field in soup.select('p.FR_field'):
+            if fr_field.text.find('Document Type:') != -1:
+                doc_type = fr_field.text.split(':')[1]
+            
+            if fr_field.text.find('Published:') != -1:
+                published_month = fr_field.text.split(':')[1]
+
+            if fr_field.text.find('Research Areas:') != -1:
+                research_areas = fr_field.text.split(':')[1]
+
+            if fr_field.text.find('Publisher ') != -1:
+                publisher = ' '.join(fr_field.text.split(' ')[1:])
+                publisher = publisher.split(',')
+
+            if fr_field.text.find('Language:') != -1:
+                language = fr_field.text.split(':')[1]
+                
+            if fr_field.text.find('Reprint Address:') != -1:
+                reprint = fr_field.text.split(':')[1].replace('\n', '').strip()
+                if not re.search(r"Sejong Univ", reprint, re.IGNORECASE):
+                    raise Exception("NOT SEJONG REPRINT")
+
+            if fr_field.text.find('By:') != -1:
+                fr_authors = fr_field
+
+            return {'reprint': reprint, 'authors':[reprint.split(" (reprint author) ")[0]]}, cnt_link
+    ###########################
+
     if search_type == "single":
         # 검색 결과 수
         pagination_btn = soup.select('a.paginationNext')
     
         # 결과 수가 없을 경우 즉시 종료
         if not pagination_btn or len(pagination_btn) == 0:
-            raise sju_exceptions.NoPaperDataError()
+            if re.search("Record not available", soup.text):
+                raise parser_exceptions.RecordNotAvailableError()
+            raise parser_exceptions.NoPaperDataError()
 
         pagination_btn_alt = soup.select('a.paginationNext')[0].attrs['alt']
         # 결과 수가 1개가 아닐 경우 즉시 종료
         # and pagination_btn_alt.find('비활성') == -1
         if pagination_btn_alt.find('Inactive') == -1:
-            raise sju_exceptions.MultiplePaperDataError()
+            raise parser_exceptions.MultiplePaperDataError()
 
     # 논문 제목
     title = soup.select('div.title')[0].text.replace('\n', '')
@@ -62,6 +115,9 @@ def parse_paper_data(target_content, paper_data_id, search_type, SID_name):
     # 인용 횟수 및 링크
     cnt_link = soup.select('a.snowplow-citation-network-times-cited-count-link')
     if not cnt_link:
+        # 임시
+        raise Exception("인용횟수없음");
+
         times_cited = '0'
     else:
         cnt_link = cnt_link[0]
@@ -147,6 +203,8 @@ def parse_paper_data(target_content, paper_data_id, search_type, SID_name):
     impact_factor = {};
     
     #저자, 연구기관
+
+
     fconts = fr_authors.select('a')
     fr_authors_text = fr_authors.text.replace('\n', '')
     fr_authors_text = fr_authors_text.split(':')[1].split(';')
@@ -162,6 +220,8 @@ def parse_paper_data(target_content, paper_data_id, search_type, SID_name):
     
     target_author = ''
     tauthor_address = []
+    if len(fconts) > 99:
+        raise Exception("저자가 너무 많음")
     for con in fconts:
         isSub = con.get('href').find('javascript') != -1
         if not isSub:

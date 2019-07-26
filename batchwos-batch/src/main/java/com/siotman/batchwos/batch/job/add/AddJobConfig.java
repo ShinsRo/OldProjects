@@ -33,12 +33,12 @@ import java.util.List;
 
 @Configuration
 public class AddJobConfig {
-
+    private int thrott = 0;
     private Logger logger = LoggerFactory.getLogger(AddJobConfig.class);
 
     private static final Long WS_SEARCH_CHUNK = Long.valueOf(100);
-    private static final String WS_SEARCH_TIMESPAN_BEGIN = "1945-01-01";
-    private static final String WS_SEARCH_TIMESPAN_END = "2019-01-01";
+    private static final String WS_SEARCH_TIMESPAN_BEGIN = "2014-01-01";
+    private static final String WS_SEARCH_TIMESPAN_END = "2019-07-01";
 
     private String fSep = System.getProperty("file.separator");
 
@@ -56,9 +56,9 @@ public class AddJobConfig {
     @Bean
     public Job addNewRecordsJob() {
         return this.jobBuilderFactory.get("woksearchJob")
-                .start(searchNewRecordsStep())
-                .next(retrieveNewRecordsStep())
-                .next(convertAndInsertStep())
+//                .start(searchNewRecordsStep())
+//                .next(retrieveNewRecordsStep())
+                .start(convertAndInsertStep())
                 .build();
     }
 
@@ -101,12 +101,12 @@ public class AddJobConfig {
                     );
 
                     File responseFile = new File(
-                            String.format("target/temp/fetched_%s.xml".replaceAll("/", fSep), firstRecord));
+                            String.format("target/temp2/fetched_%s.xml".replaceAll("/", fSep), firstRecord));
 
                     try {
                         responseFile.createNewFile();
                     } catch (IOException ioe) {
-                        new File("target/temp".replace("/", fSep)).mkdirs();
+                        new File("target/temp2".replace("/", fSep)).mkdirs();
                         responseFile.createNewFile();
                     }
                     FileOutputStream fos = new FileOutputStream(responseFile);
@@ -116,8 +116,8 @@ public class AddJobConfig {
                     firstRecord += WS_SEARCH_CHUNK;
                     chunkContext.setAttribute("firstRecord", firstRecord);
 
-//                    Long recordsFound = Long.valueOf(currentSearchResponse.getRecordsFound());
-                    Long recordsFound = Long.valueOf(1);
+                    Long recordsFound = Long.valueOf(currentSearchResponse.getRecordsFound());
+//                    Long recordsFound = Long.valueOf(1);
                     if (firstRecord > recordsFound) return RepeatStatus.FINISHED;
                     else return RepeatStatus.CONTINUABLE;
                 })).build();
@@ -146,7 +146,7 @@ public class AddJobConfig {
     @Bean
     public MultiResourceItemReader<Record> searchResponseXmlReader() {
         Resource[] resources = tempResourcesResolver
-                .loadResources("file:./target/temp/fetched_*.xml");
+                .loadResources("file:./target/temp2/fetched_*.xml");
 
         XStreamMarshaller marshaller = new XStreamMarshaller();
 
@@ -187,26 +187,34 @@ public class AddJobConfig {
         public void write(List list) throws Exception {
             System.out.println("테스팅 라이터");
             String SID = searchClient.getSID();
+            System.out.println(SID);
             List<LamrRequestParameters> params = new ArrayList<>();
 
-            int idx = 0;
+            int idx = 1;
 
             for (int i = 0; i < list.size(); i++) {
-                String uid = ((Record) list.get(i)).getUid();
+                Record record = ((Record) list.get(i));
+                String uid = record.getUid();
 
+                List<?> authors = record.getAuthors().get("Authors").getValue();
+                if (authors.size() > 40) continue;
                 params.add(
                         LamrRequestParameters.builder()
                                 .mapName(String.format("cite_%d", ++idx))
                                 .valName("ut")
                                 .value(uid).build()
                 );
+                thrott += 1;
             }
-
+            if(thrott > 2500) {
+                Thread.sleep(60000);
+                thrott = 0;
+            }
             String response = lamrClient.request(TARGET_DB_TYPE.WOS, params);
             System.out.println(response);
 
             File responseFile = new File(
-                    String.format("target/temp/lamr/lamr_res.xml".replaceAll("/", fSep)));
+                    String.format("target/temp2/lamr_res.xml".replaceAll("/", fSep)));
 
             if(!responseFile.exists()) {
                 responseFile.createNewFile();
