@@ -25,11 +25,6 @@ public class WokSearchJobTests {
     }
 
     @Test
-    public void testMashaller() {
-
-    }
-
-    @Test
     public void temp() throws IOException {
         File responseFile = new File(
                 String.format("target/temp/lamr/lamr_res.xml"));

@@ -8,7 +8,24 @@ spring:
   jpa:
     properties:
       hibernate:
+        ddl-auto: create
         hbm2dd:
-          auto: update
+          auto: create
         dialect: org.hibernate.dialect.MariaDBDialect
         enable_lazy_load_no_trans: true
+
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/batchwos?characterEncoding=UTF-8&serverTimezone=UTC
+#    username: root
+#    password:
+#
+#  jpa:
+#    properties:
+#      hibernate:
+#        hbm2dd:
+#          auto: create
+#        dialect: org.hibernate.dialect.MySQL5Dialect
+#        enable_lazy_load_no_trans: true
+#    show-sql: true

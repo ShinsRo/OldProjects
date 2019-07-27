@@ -1,39 +1,56 @@
 package com.siotman.batchwos.batch.domain.jpa;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+@Entity
 @Data
 @Builder
-@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Paper {
     @Id
-    String uid;
-    String title;
+    private String uid;
+    private String title;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    List<Doctype> doctype;
-    String volume;
-    String issue;
-    String pages;
-    String publishedDate;
-    String publishedYear;
-    String sourceTitle;
+    private List<Doctype> doctype;
+    private String volume;
+    private String issue;
+    private String pages;
+    private String publishedDate;
+    private String publishedYear;
+    private String sourceTitle;
 
-    String doi;
-    String ids;
-    String eissn;
-    String issn;
+    private String doi;
+    private String ids;
+    private String eissn;
+    private String issn;
+    private String isbn;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    List<Author> authors;
+    private List<Author> authors;
 
-    String keywords;
+    private String keywords;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn
+    private SourceUrls sourceUrls;
+
+    private String pmid;
+    private Integer timesCited;
+
+    @UpdateTimestamp
+    private LocalDateTime lastUpdate;
 
     public void setAuthors(List<String> authors) {
         this.authors = new ArrayList<>();
@@ -51,5 +68,4 @@ public class Paper {
         if (keywords == null) return;
         this.keywords = keywords.stream().reduce((re, word) -> re + "," + word).get();
     }
-
 }

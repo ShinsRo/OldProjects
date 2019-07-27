@@ -5,18 +5,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Doctype {
+public class SourceUrls {
     @Id
     @GeneratedValue
     private Long id;
-    private String value;
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    private Paper paper;
+    private String sourceURL;
+    private String citingArticlesURL;
+    private String relatedRecordsURL;
 }
