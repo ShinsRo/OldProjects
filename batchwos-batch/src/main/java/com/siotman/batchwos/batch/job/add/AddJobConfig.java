@@ -17,6 +17,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 
+import java.time.LocalDate;
+
 import static com.siotman.batchwos.batch.common.CONSTANTS.RETRIEVE_CNT_CONSTRAINT;
 
 @Configuration
@@ -40,9 +42,9 @@ public class AddJobConfig {
     @Bean
     public Job addNewRecordsJob() {
         return this.jobBuilderFactory.get("addNewRecordsJob")
-                .start( searchStep())
-                .next(  retrieveStep())
-                .next(  convertStep())
+//                .start( searchStep())
+//                .next(  retrieveStep())
+                .start(  convertStep())
                 .build();
     }
 
@@ -57,7 +59,8 @@ public class AddJobConfig {
 
                     searchClientWrapper.search(
                             "AD=(Sejong Univ)",
-                            "2000-01-01", "2002-01-01"
+                            "1945-01-01", "2019-07-27"
+//                           "1week"
                     );
                     return RepeatStatus.FINISHED;
                 })).build();

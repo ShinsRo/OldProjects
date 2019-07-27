@@ -1,5 +1,7 @@
 package com.siotman.batchwos.batch.job.add;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
@@ -20,6 +22,8 @@ import static com.siotman.batchwos.batch.common.CONSTANTS.RESOURCE_DIR;
 
 @Component
 public class ConvertStepListener implements StepExecutionListener, ApplicationContextAware {
+    private Logger logger = LoggerFactory.getLogger(ConvertStepListener.class);
+
     String XML_RESOURCE_PATH = String.format("file:./%s/fetched_*.xml".replaceAll("/", FILE_SEP), RESOURCE_DIR);
 
     @Autowired private ResourceLoader resourceLoader;
@@ -34,7 +38,7 @@ public class ConvertStepListener implements StepExecutionListener, ApplicationCo
 
     @Override
     public void beforeStep(StepExecution stepExecution) {
-
+        logger.info("[0200] Before ConvertStep, setting Resources");
         MultiResourceItemReader reader =
                 (MultiResourceItemReader) applicationContext.getBean("convertStepReader");
         xmlResources = getResources(XML_RESOURCE_PATH);
