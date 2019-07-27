@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Data
-public class RecordField {
+public class XmlRecordField {
     private String label;
     private String value;
 }

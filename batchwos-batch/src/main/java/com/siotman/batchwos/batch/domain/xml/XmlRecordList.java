@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class RecordList {
+public class XmlRecordList {
     private String label;
     @XStreamImplicit
     private List<String> value;

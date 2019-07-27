@@ -28,10 +28,6 @@ public class WokSearchJobTests {
     public void testMashaller() {
 
     }
-    @Test
-    public void testRetrieveNewRecordsStep() throws Exception {
-        JobExecution jobExecution = jobLauncherTestUtils.launchStep("retrieveNewRecordsStep");
-    }
 
     @Test
     public void temp() throws IOException {
