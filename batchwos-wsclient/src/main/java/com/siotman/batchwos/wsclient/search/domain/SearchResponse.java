@@ -10,13 +10,17 @@ import javax.xml.soap.SOAPMessage;
 @Data
 public class SearchResponse {
     String queryId;
-    String recordsFound;
-    String recordsSearched;
+    Integer recordsFound;
+    Integer recordsSearched;
 
     public SearchResponse(SOAPMessage soapResponse) throws SOAPException {
         SOAPBody soapBody = soapResponse.getSOAPBody();
         this.queryId = soapBody.getElementsByTagName("queryId").item(0).getFirstChild().getNodeValue();
-        this.recordsFound = soapBody.getElementsByTagName("recordsFound").item(0).getFirstChild().getNodeValue();
-        this.recordsSearched = soapBody.getElementsByTagName("recordsSearched").item(0).getFirstChild().getNodeValue();
+        this.recordsFound = Integer.valueOf(
+                soapBody.getElementsByTagName("recordsFound").item(0).getFirstChild().getNodeValue()
+        );
+        this.recordsSearched = Integer.valueOf(
+                soapBody.getElementsByTagName("recordsSearched").item(0).getFirstChild().getNodeValue()
+        );
     }
 }

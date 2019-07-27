@@ -46,7 +46,7 @@ public class SearchClientTests {
                     null,
                     "2000-01-01", "2011-12-31",
                     "en",
-                    Long.valueOf(1), Long.valueOf(5),
+                    1, 5,
                     null, null, null
             );
         } catch (SOAPException e) {
@@ -63,18 +63,18 @@ public class SearchClientTests {
                     null,
                     "1945-01-01", "2011-12-31",
                     "en",
-                    Long.valueOf(1), Long.valueOf(3),
+                    1, 5,
                     null, null, null
             );
 
             sc.retrieve(
                     "1",
-                    Long.valueOf(2), Long.valueOf(1),
+                    1, 3,
                     null, null, null
             );
             sc.retrieve(
                     "1",
-                    Long.valueOf(3), Long.valueOf(1),
+                    1, 3,
                     null, null, null
             );
         } catch (SOAPException e) {

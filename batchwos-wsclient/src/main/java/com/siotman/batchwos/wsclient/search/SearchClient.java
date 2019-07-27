@@ -63,7 +63,7 @@ public class SearchClient {
             String timeSpanBegin,
             String timeSpanEnd,
             String queryLanguage,
-            Long firstRecord, Long count,
+            Integer firstRecord, Integer count,
             String sortFieldName, String sortFieldSort,
             String optionRecordIDs
     ) throws SOAPException {
@@ -110,7 +110,7 @@ public class SearchClient {
 
     public SOAPMessage retrieve(
             String queryId,
-            Long firstRecord, Long count,
+            Integer firstRecord, Integer count,
             String sortFieldName, String sortFieldSort,
             String optionRecordIDs
     ) throws SOAPException {
@@ -143,5 +143,8 @@ public class SearchClient {
 
     }
 
+    public String getSID() {
+        return this.SID;
+    }
 
 }

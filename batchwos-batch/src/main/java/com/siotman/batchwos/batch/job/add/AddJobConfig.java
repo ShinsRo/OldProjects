@@ -1,9 +1,6 @@
 package com.siotman.batchwos.batch.job.add;
 
-import com.siotman.batchwos.batch.domain.xml.Record;
-import com.siotman.batchwos.wsclient.WsUtil;
-import com.siotman.batchwos.wsclient.search.SearchClient;
-import com.siotman.batchwos.wsclient.search.domain.SearchResponse;
+import com.siotman.batchwos.batch.wrapper.SearchClientWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
@@ -11,180 +8,88 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.file.MultiResourceItemReader;
-import org.springframework.batch.item.file.builder.MultiResourceItemReaderBuilder;
-import org.springframework.batch.item.xml.StaxEventItemReader;
-import org.springframework.batch.item.xml.builder.StaxEventItemReaderBuilder;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
-import org.springframework.oxm.xstream.XStreamMarshaller;
 
-import javax.xml.soap.SOAPMessage;
-import java.io.*;
-import java.util.List;
+import static com.siotman.batchwos.batch.common.CONSTANTS.RETRIEVE_CNT_CONSTRAINT;
 
 @Configuration
 public class AddJobConfig {
-
     private Logger logger = LoggerFactory.getLogger(AddJobConfig.class);
 
-    private static final Long WS_SEARCH_CHUNK = Long.valueOf(100);
-    private static final String WS_SEARCH_TIMESPAN_BEGIN = "1945-01-01";
-    private static final String WS_SEARCH_TIMESPAN_END = "2019-01-01";
+    @Autowired private JobBuilderFactory    jobBuilderFactory;
+    @Autowired private StepBuilderFactory   stepBuilderFactory;
 
-    private String fSep = System.getProperty("file.separator");
+    @Autowired private SearchClientWrapper  searchClientWrapper;
 
-    @Autowired
-    private SearchClient searchClient;
-    @Autowired
-    private JobBuilderFactory jobBuilderFactory;
-    @Autowired
-    private StepBuilderFactory stepBuilderFactory;
-    @Autowired
-    private TempResourcesResolver tempResourcesResolver;
+    @Autowired private ConvertStepListener      convertStepListener;
+    @Autowired private MultiResourceItemReader  convertStepReader;
+    @Autowired private ItemProcessor            convertStepProcessor;
+    @Autowired private ItemWriter               convertStepWriter;
+
+
+    @Bean
+    public Resource[] xmlResources() { return new Resource[]{}; }
 
     @Bean
     public Job addNewRecordsJob() {
-        return this.jobBuilderFactory.get("woksearchJob")
-                .start(searchNewRecordsStep())
-                .next(retrieveNewRecordsStep())
-                .next(convertAndInsertStep())
+        return this.jobBuilderFactory.get("addNewRecordsJob")
+                .start( searchStep())
+                .next(  retrieveStep())
+                .next(  convertStep())
                 .build();
     }
 
     @Bean
     @JobScope
-    public Step searchNewRecordsStep() {
-        return this.stepBuilderFactory.get("searchNewRecordsStep")
+    public Step searchStep() {
+        return this.stepBuilderFactory.get("searchStep")
                 .tasklet(((stepContribution, chunkContext) -> {
-                    searchClient.search(
-                            "WOS", "AD=(Sejong Univ)",
-                            null, null,
-                            null,
-                            WS_SEARCH_TIMESPAN_BEGIN, WS_SEARCH_TIMESPAN_END,
-                            "en",
-                            Long.valueOf(1), Long.valueOf(0),
-                            null, null, null
-                    );
+                    if (searchClientWrapper.getSID() == null) searchClientWrapper.connect();
 
+                    logger.info("[0100] SearchStep Started");
+
+                    searchClientWrapper.search(
+                            "AD=(Sejong Univ)",
+                            "2000-01-01", "2002-01-01"
+                    );
                     return RepeatStatus.FINISHED;
                 })).build();
     }
 
-
-    /* retrieveNewRecordsStep 시작 */
     @Bean
     @JobScope
-    public Step retrieveNewRecordsStep() {
-        return this.stepBuilderFactory.get("retrieveNewRecordsStep")
+    public Step retrieveStep() {
+        return this.stepBuilderFactory.get("retrieveStep")
                 .tasklet(((stepContribution, chunkContext) -> {
-                    SearchResponse currentSearchResponse = searchClient.getCurrentSearchResponse();
-                    Long firstRecord = (Long) chunkContext.getAttribute("firstRecord");
-                    if (firstRecord == null) firstRecord = Long.valueOf(1);
+                    Integer left    = searchClientWrapper.getCurrentSearchResponse().getRecordsFound();
+                    Integer cursor  = searchClientWrapper.getRecordCursor();
 
-                    logger.info(String.format("%d번 레코드로부터 리트리브", firstRecord));
+                    String MSG = String.format("[0201] RetrieveStep in [%d/%d]", cursor, left);
+                    logger.info(MSG);
 
-                    SOAPMessage response = searchClient.retrieve(
-                            currentSearchResponse.getQueryId(),
-                            firstRecord, WS_SEARCH_CHUNK,
-                            null, null, null
-                    );
-
-                    File responseFile = new File(
-                            String.format("target/temp/fetched_%s.xml".replaceAll("/", fSep), firstRecord));
-
-                    try {
-                        responseFile.createNewFile();
-                    } catch (IOException ioe) {
-                        new File("target/temp".replace("/", fSep)).mkdirs();
-                        responseFile.createNewFile();
-                    }
-                    FileOutputStream fos = new FileOutputStream(responseFile);
-
-                    WsUtil.printSOAPBody(response, new PrintStream(fos));
-
-                    firstRecord += WS_SEARCH_CHUNK;
-                    chunkContext.setAttribute("firstRecord", firstRecord);
-
-                    Long recordsFound = Long.valueOf(currentSearchResponse.getRecordsFound());
-//                    Long recordsFound = Long.valueOf(3);
-                    if (firstRecord > recordsFound) return RepeatStatus.FINISHED;
-                    else return RepeatStatus.CONTINUABLE;
+                    searchClientWrapper.retrieveCurrent();
+                    if (searchClientWrapper.hasNext())  return RepeatStatus.CONTINUABLE;
+                    else                                return RepeatStatus.FINISHED;
                 })).build();
     }
-    /* retrieveNewRecordsStep 끝 */
 
-
-    /*
-    * convertAndInsertStep 시작
-    *
-    * searchResponseXmlReader
-    *   - recordMarshaller
-    * Xml2EntityProcessor
-    * JpaWriter
-    * */
     @Bean
     @JobScope
-    public Step convertAndInsertStep() {
-        return this.stepBuilderFactory.get("convertAndInsertStep")
-                .chunk(50)
-                .reader(searchResponseXmlReader())
-                .writer(writer())
+    public Step convertStep() {
+        return this.stepBuilderFactory.get("convertStep")
+                .listener(  convertStepListener)
+                .chunk(     RETRIEVE_CNT_CONSTRAINT)
+                .reader(    convertStepReader)
+                .processor( convertStepProcessor)
+                .writer(    convertStepWriter)
+
                 .build();
     }
-
-    @Bean
-    public MultiResourceItemReader<Record> searchResponseXmlReader() {
-        Resource[] resources = tempResourcesResolver
-                .loadResources("file:./target/temp/fetched_*.xml");
-
-        XStreamMarshaller marshaller = new XStreamMarshaller();
-
-        marshaller.setAnnotatedClasses(Record.class);
-        marshaller.setAutodetectAnnotations(true);
-
-        StaxEventItemReader<Record> xmlReader = new StaxEventItemReader<>();
-        xmlReader.setFragmentRootElementName("records");
-        xmlReader.setUnmarshaller(marshaller);
-
-        MultiResourceItemReader<Record> reader = new MultiResourceItemReader<>();
-        reader.setDelegate(xmlReader);
-        reader.setName("searchResponseXmlReader");
-        reader.setResources(resources);
-
-        return reader;
-    }
-
-    @Bean
-    public XStreamMarshaller recordMarshaller() {
-        XStreamMarshaller marshaller = new XStreamMarshaller();
-
-        marshaller.setAnnotatedClasses(Record.class);
-        marshaller.setAutodetectAnnotations(true);
-
-        return marshaller;
-    }
-    /* convertAndInsertStep 끝 */
-
-
-    @Bean
-    public ItemWriter writer() {
-        return new ItemWriterTemp();
-    }
-    public class ItemWriterTemp implements ItemWriter {
-
-        @Override
-        public void write(List list) throws Exception {
-            System.out.println("======writer======");
-            list.stream().forEach(record -> {
-                System.out.println(((Record) record).getUid());
-            });
-        }
-    }
-
-    //
 }
