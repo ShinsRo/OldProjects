@@ -3,6 +3,7 @@ package com.siotman.batchwos.wsclient.lamr;
 import com.siotman.batchwos.wsclient.lamr.domain.LamrRequestParameters;
 import com.siotman.batchwos.wsclient.lamr.domain.TARGET_DB_TYPE;
 
+import javax.xml.transform.Source;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -60,7 +61,6 @@ public class LAMRClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return content.toString();
     }
 

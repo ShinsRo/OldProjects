@@ -8,8 +8,8 @@ import javax.xml.soap.SOAPException;
 
 @Data @Builder
 public class RetrieveParameters implements Parameters {
-    private Long firstRecord;
-    private Long count;
+    private Integer firstRecord;
+    private Integer count;
     private SortField sortField;
     private Option option;
 
