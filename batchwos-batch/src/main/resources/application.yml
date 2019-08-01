@@ -8,11 +8,19 @@ spring:
   jpa:
     properties:
       hibernate:
-        ddl-auto: create
+#        show_sql: true
         hbm2dd:
-          auto: create
+          # 원래 이걸 쓰면 잘 됐었는데
+          # 왜 테이블이 자동생성되지 않는가.
+          # 이게 안먹고
+          auto: update
         dialect: org.hibernate.dialect.MariaDBDialect
         enable_lazy_load_no_trans: true
+    # 이게 먹는 이유를 찾아야함.
+    # 버전 차이 때문에 생긴 차인가?
+    # 애초에 jpa. 바로 아래 hibernate 형식으로 쓰는 건 처음보네
+    hibernate:
+      ddl-auto: create-drop
 
 #spring:
 #  datasource:

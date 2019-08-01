@@ -20,9 +20,10 @@ import java.util.List;
 public class Paper {
     @Id
     private String uid;
+    @Column(length = 1023)
     private String title;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Doctype> doctype;
     private String volume;
     private String issue;
@@ -37,12 +38,13 @@ public class Paper {
     private String issn;
     private String isbn;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Author> authors;
 
+    @Lob
     private String keywords;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY,   cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private SourceUrls sourceUrls;
 
@@ -52,11 +54,12 @@ public class Paper {
     @UpdateTimestamp
     private LocalDateTime lastUpdate;
 
-    public void setAuthors(List<String> authors) {
-        this.authors = new ArrayList<>();
-        Iterator<String> iter = authors.iterator();
-        while (iter.hasNext()) this.authors.add(Author.builder().name(iter.next()).build());
-    }
+//    public void setAuthors(List<String> authors) {
+//        this.authors = new ArrayList<>();
+//        Iterator<String> iter = authors.iterator();
+//        while (iter.hasNext()) this.authors.add(Author.builder().names(iter.next()).build());
+//    }
+
     public void setDoctype(List<String> doctype) {
         if (doctype == null) return;
         this.doctype = new ArrayList<>();

@@ -105,7 +105,6 @@ public class ConvertStepConfig {
                         .citingArticlesURL( citingArticlesURL)
                         .relatedRecordsURL( relatedRecordsURL)
                         .build();
-
                 targetPaper.setSourceUrls(sourceUrls);
                 targetPaper.setPmid(pmid);
                 targetPaper.setTimesCited(Integer.valueOf(timesCited));
@@ -131,9 +130,10 @@ public class ConvertStepConfig {
             Paper paper = Paper.builder().build();
             paper.setUid(xmlRecord.getUid());
             paper.setTitle(xmlRecord.getTitle());
-            paper.setAuthors(xmlRecord.getAuthors());
             paper.setDoctype(xmlRecord.getDoctype());
             paper.setKeywords(xmlRecord.getKeywords());
+            // Authors 는 파이선 파서에 맡겨야 한다.
+            // paper.setAuthors(xmlRecord.getAuthors());
 
             Map<String, XmlRecordList> sources = xmlRecord.getSource();
             Map<String, XmlRecordList> others = xmlRecord.getOther();

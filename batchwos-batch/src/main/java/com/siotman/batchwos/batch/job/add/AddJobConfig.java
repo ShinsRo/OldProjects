@@ -42,9 +42,9 @@ public class AddJobConfig {
     @Bean
     public Job addNewRecordsJob() {
         return this.jobBuilderFactory.get("addNewRecordsJob")
-//                .start( searchStep())
-//                .next(  retrieveStep())
-                .start(  convertStep())
+                .start( searchStep())
+                .next(  retrieveStep())
+                .next(  convertStep())
                 .build();
     }
 
@@ -59,8 +59,8 @@ public class AddJobConfig {
 
                     searchClientWrapper.search(
                             "AD=(Sejong Univ)",
-                            "1945-01-01", "2019-07-27"
-//                           "1week"
+//                            "1945-01-01", "2019-07-27"
+                           "1week"
                     );
                     return RepeatStatus.FINISHED;
                 })).build();

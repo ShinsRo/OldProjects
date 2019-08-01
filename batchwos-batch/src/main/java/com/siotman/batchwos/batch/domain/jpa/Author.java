@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Data
@@ -16,11 +15,10 @@ import java.util.List;
 public class Author {
     @Id
     @GeneratedValue
-    private Long id;
+    private Long diasId;
     private String name;
-    private String fullName;
-    private String address;
+    private String addresses;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Paper> paperList;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Paper paper;
 }
