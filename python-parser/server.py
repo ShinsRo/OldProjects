@@ -39,14 +39,15 @@ def cons_callback(ch, method, properties, body):
         uid         = args[1]
         SID         = args[2]
         targetURL   = args[3]
-        # extra       = args[3]
+        extra       = args[3]
+
         ## 파라미터 추출 끝 ##
-        logger.log('info', '----------------------------------------------'))
+        logger.log('info', '----------------------------------------------')
         logger.log('info', 'Parsing %s started'%(uid))
         logger.log('info', 'URL: (%s)'%(targetURL))
         
         ## 파싱 시작
-        parser.run(SID, targetType, targetURL)
+        parser.run(targetType, uid, SID, targetURL)
 
     ## 전역 에러 처리 ##
     except parser_exceptions.LoginRequired as lre:
@@ -63,7 +64,7 @@ def cons_callback(ch, method, properties, body):
         traceback.print_exc()
     else:
         logger.log('info', 'Parsing %s ends'%(uid))
-        logger.log('info', '----------------------------------------------'))
+        logger.log('info', '----------------------------------------------')
 
     ## 전역 에러 끝 ##
     # 로직 끝 #
