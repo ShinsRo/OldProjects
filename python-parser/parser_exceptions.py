@@ -1,3 +1,7 @@
+class AcessDeniedError(Exception):
+    '''접근 거부 예외'''
+    pass
+    
 class InitSessionError(Exception):
     '''초기화 실패 예외'''
     pass

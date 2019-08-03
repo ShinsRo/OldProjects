@@ -4,53 +4,59 @@ import re
 
 from bs4 import BeautifulSoup
 
+import parser_exceptions as exceptions
+
 def parse_detail(soup: BeautifulSoup, uid: str):
-
-    # Return 정의 #
-    '''
-    리턴 데이터 :
-        (
-            link: "CITE_CNT_LINK",
-            paper_data: {
-                uid: "00000",
-                timesCited: 0,
-                authors: [
-                    {
-                        name: ""
-                        full_name: "Seungshin, K",
-                        addresses: ["Sejong Univ Gunjalo ...", "Doorae Univ ...", ...]
-                    },
-                    ...
-                ],
-                firstAuthor: authors[0],
-                reprint: authors[x],
-                jcr: {},
-                'grades' : [{caped: "SCI", full: "Sxx Cxx Ixx"}, ...],
-            }
-        )
-    '''
-    ret_link    :str    = ''
-    paper_data  :dict   = { 
-        'uid'           : uid,
-        'timesCited'    : 0,
-        'authors'       : [],
-        'firstAuthor'   : {},
-        'reprint'       : {},
-        'jcr'           : {},
-        'grades'        : [],
-
+    ret_link    :str    = ''        # 대상을 인용 중인 논문 목록 링크
+    paper_data  :dict   = {         # 논문 정보 
+        'uid'           : uid,      # 논문 아이디
+        'timesCited'    : 0,        # 인용 횟수
+        'authors'       : [],       # 저자 리스트
+        'firstAuthor'   : {},       # 제 1 저자
+        'reprint'       : {},       # 교신 저자
+        'jcr'           : {},       # 저널 랭크
+        'grades'        : [],       # 논문 등급
+        'recordState'   : ''        # 레코드 상태
     }
-    # Return 정의 끝 #
+    # authors 원소 형태
+    '''
+        author = {
+            'name'      : ''
+            'full_name' : '',
+            'addresses' : ['', '']
+        }
+    '''
+    # grades 원소 형태
+    '''
+    {
+        'full_grade': '', 
+        'caped': ''
+    }
+    '''
 
-    
     # Tags 정의 #
     TAG = {
+        'PAGING_BTN'    : 'a.paginationNext',
         'CITE_CNT_LINK' : 'a.snowplow-citation-network-times-cited-count-link',
         'RECORD_INFOS'  : 'div.block-record-info',
         'JCR_TABLE'     : 'table.JCR_Category_table',
         'GRADES'        : 'div.flex-justify-start > ul > span.box-label',
     }
     # Tags 정의 끝 #
+
+
+    # 예외 페이지 처리 #
+    pbtn = soup.select(TAG['PAGING_BTN'])
+
+    if not pbtn and re.search('Record not available', soup.text, re.I):
+        raise exceptions.RecordNotAvailableError()
+
+    if not pbtn and re.search('Access denied'       , soup.text, re.I):
+        raise exceptions.AcessDeniedError()
+
+    if not pbtn:
+        raise exceptions.NoPaperDataError()
+    # 예외 페이지 처리 끝 #
 
 
     # 인용 횟수 및 링크 #
@@ -89,7 +95,7 @@ def parse_detail(soup: BeautifulSoup, uid: str):
             target_flag += 1
             raw_author_infos = info.text
 
-    regex_sp = r'\n|(&nbsp)|(  )|(\\xa0)|(\t)';
+    regex_sp = r'\n|(&nbsp)|(  )|(\\xa0)|(\t)'
     raw_author_by       = re.sub(regex_sp, '', raw_author_by, flags=re.M)
     raw_author_infos    = re.sub(regex_sp, '', raw_author_infos, flags=re.M)
     
@@ -114,7 +120,7 @@ def parse_detail(soup: BeautifulSoup, uid: str):
     for g in groups:
         author = {
             'name'      : g['name'].strip(),
-            'full_name' : g['full_name'].strip(),
+            'full_name' : g['full_name'].strip() if g['full_name'] else '',
             'addresses' : []
         }
         address_keys = g['address_keys']

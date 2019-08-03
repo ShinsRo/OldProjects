@@ -27,7 +27,7 @@ def cons_callback(ch, method, properties, body):
     # 로직 시작 #
     try:
         ## 파라미터 추출 ##
-        args = str(body).split('$,')
+        args = str(body.decode('utf-8')).split('$,')
 
         if (len(args) != 5):
             '''인자는 반드시 지정된 갯수로 제공되어야 한다.'''
@@ -42,7 +42,6 @@ def cons_callback(ch, method, properties, body):
         extra       = args[3]
 
         ## 파라미터 추출 끝 ##
-        logger.log('info', '----------------------------------------------')
         logger.log('info', 'Parsing %s started'%(uid))
         logger.log('info', 'URL: (%s)'%(targetURL))
         
@@ -64,7 +63,6 @@ def cons_callback(ch, method, properties, body):
         traceback.print_exc()
     else:
         logger.log('info', 'Parsing %s ends'%(uid))
-        logger.log('info', '----------------------------------------------')
 
     ## 전역 에러 끝 ##
     # 로직 끝 #

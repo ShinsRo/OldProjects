@@ -1,0 +1,10 @@
+package com.siotman.batchwos.batch.domain.jpa;
+
+public enum RecordState {
+    VALID,
+    DETAIL_COMPLETED,       DETAIL_NOT_AVAILABLE,
+    DETAIL_ACESS_DENIED,    DETAIL_UNKOWN_ERROR,
+    CITE_LIST_COMPLETED,    CITE_LIST_ACESS_DENIED,
+    CITE_LIST_UNKOWN_ERROR,
+    CITE_CNT_BY_YEAR_UNKOWN_ERROR,
+}

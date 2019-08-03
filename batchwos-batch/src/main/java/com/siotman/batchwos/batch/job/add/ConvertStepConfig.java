@@ -6,11 +6,13 @@ import com.siotman.batchwos.batch.domain.xml.XmlLamrResponse;
 import com.siotman.batchwos.batch.domain.xml.XmlRecord;
 import com.siotman.batchwos.batch.domain.xml.XmlRecordList;
 import com.siotman.batchwos.batch.repo.PaperRepository;
+import com.siotman.batchwos.batch.wrapper.SearchClientWrapper;
 import com.siotman.batchwos.wsclient.lamr.LAMRClient;
 import com.siotman.batchwos.wsclient.lamr.domain.LamrRequestParameters;
 import com.siotman.batchwos.wsclient.lamr.domain.TARGET_DB_TYPE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.file.MultiResourceItemReader;
@@ -27,7 +29,10 @@ import java.util.*;
 @Configuration
 public class ConvertStepConfig {
     private Logger logger = LoggerFactory.getLogger(ConvertStepConfig.class);
+
+    @Autowired private RabbitTemplate rabbitTemplate;
     @Autowired private PaperRepository paperRepository;
+    @Autowired private SearchClientWrapper searchClientWrapper;
     @Autowired private LAMRClient lamrClient;
 
     @Bean
@@ -105,12 +110,28 @@ public class ConvertStepConfig {
                         .citingArticlesURL( citingArticlesURL)
                         .relatedRecordsURL( relatedRecordsURL)
                         .build();
+
                 targetPaper.setSourceUrls(sourceUrls);
                 targetPaper.setPmid(pmid);
                 targetPaper.setTimesCited(Integer.valueOf(timesCited));
             }
 
-            paperRepository.saveAll(list);
+            List<? extends Paper> papers = paperRepository.saveAll(list);
+
+            for (Paper paper : papers) {
+                StringBuilder bodyBuilder = new StringBuilder()
+                        .append("DETAIL_LINK")                          .append("$,")   // TargetType
+                        .append(paper.getUid())                         .append("$,")   // UID
+                        .append(searchClientWrapper.getSID())           .append("$,")   // SID
+                        .append(paper.getSourceUrls().getSourceURL())   .append("$,")   // targetURL
+                        .append("EXTRA");                                               // EXTRA args
+
+                rabbitTemplate.convertAndSend(
+                        "create",
+                        "target.create.record",
+                        bodyBuilder.toString()
+                );
+            }
         };
     }
 

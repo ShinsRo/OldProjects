@@ -38,11 +38,11 @@ public class Paper {
     private String issn;
     private String isbn;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY,  cascade = CascadeType.ALL)
     private List<Author> authors;
 
-    @Lob
-    private String keywords;
+    @ElementCollection
+    private List<String> keywords;
 
     @OneToOne(fetch = FetchType.LAZY,   cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
@@ -51,14 +51,15 @@ public class Paper {
     private String pmid;
     private Integer timesCited;
 
+    @OneToOne(fetch = FetchType.LAZY,   cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Grades grades;
+
+    @Enumerated(EnumType.STRING)
+    private RecordState recordState;
+
     @UpdateTimestamp
     private LocalDateTime lastUpdate;
-
-//    public void setAuthors(List<String> authors) {
-//        this.authors = new ArrayList<>();
-//        Iterator<String> iter = authors.iterator();
-//        while (iter.hasNext()) this.authors.add(Author.builder().names(iter.next()).build());
-//    }
 
     public void setDoctype(List<String> doctype) {
         if (doctype == null) return;
@@ -66,9 +67,5 @@ public class Paper {
         Iterator<String> iter = doctype.iterator();
         while (iter.hasNext()) this.doctype.add(Doctype.builder().value(iter.next()).build());
 
-    }
-    public void setKeywords(List<String> keywords) {
-        if (keywords == null) return;
-        this.keywords = keywords.stream().reduce((re, word) -> re + "," + word).get();
     }
 }

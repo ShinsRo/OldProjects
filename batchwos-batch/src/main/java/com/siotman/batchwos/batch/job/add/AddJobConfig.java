@@ -39,14 +39,14 @@ public class AddJobConfig {
     @Bean
     public Resource[] xmlResources() { return new Resource[]{}; }
 
-    @Bean
-    public Job addNewRecordsJob() {
-        return this.jobBuilderFactory.get("addNewRecordsJob")
-                .start( searchStep())
-                .next(  retrieveStep())
-                .next(  convertStep())
-                .build();
-    }
+//    @Bean
+//    public Job addNewRecordsJob() {
+//        return this.jobBuilderFactory.get("addNewRecordsJob")
+//                .start( searchStep())
+//                .next(  retrieveStep())
+//                .next(  convertStep())
+//                .build();
+//    }
 
     @Bean
     @JobScope

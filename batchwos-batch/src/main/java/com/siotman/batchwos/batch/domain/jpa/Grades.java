@@ -14,17 +14,19 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Author {
+public class Grades {
     @Id
     @GeneratedValue
-    private Long aid;
-    private String name;
-    private String fullName;
+    private String gid;
+
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    private Paper paper;
 
     @Builder.Default
     @ElementCollection
-    private List<String> addresses = new ArrayList<>();
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Paper paper;
+    List<String> grades = new ArrayList<>();
+    @Builder.Default
+    @ElementCollection
+    List<String> caped = new ArrayList<>();
 }

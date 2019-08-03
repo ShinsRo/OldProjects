@@ -1,3 +1,6 @@
+server:
+  port: 9400
+
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
