@@ -1,15 +1,11 @@
 package com.siotman.batchwos.batch.job.add;
 
 import com.siotman.batchwos.batch.domain.jpa.Paper;
-import com.siotman.batchwos.batch.domain.jpa.SourceUrls;
-import com.siotman.batchwos.batch.domain.xml.XmlLamrResponse;
 import com.siotman.batchwos.batch.domain.xml.XmlRecord;
 import com.siotman.batchwos.batch.domain.xml.XmlRecordList;
 import com.siotman.batchwos.batch.repo.PaperRepository;
+import com.siotman.batchwos.batch.wrapper.LamrClientWrapper;
 import com.siotman.batchwos.batch.wrapper.SearchClientWrapper;
-import com.siotman.batchwos.wsclient.lamr.LAMRClient;
-import com.siotman.batchwos.wsclient.lamr.domain.LamrRequestParameters;
-import com.siotman.batchwos.wsclient.lamr.domain.TARGET_DB_TYPE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -22,8 +18,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 
-import javax.xml.transform.stream.StreamSource;
-import java.io.StringReader;
 import java.util.*;
 
 @Configuration
@@ -33,7 +27,7 @@ public class ConvertStepConfig {
     @Autowired private RabbitTemplate rabbitTemplate;
     @Autowired private PaperRepository paperRepository;
     @Autowired private SearchClientWrapper searchClientWrapper;
-    @Autowired private LAMRClient lamrClient;
+    @Autowired private LamrClientWrapper lamrClientWrapper;
 
     @Bean
     public MultiResourceItemReader<XmlRecord> convertStepReader() {
@@ -57,64 +51,7 @@ public class ConvertStepConfig {
     @Bean
     public ItemWriter<Paper> convertStepWriter() {
         return list -> {
-            List<LamrRequestParameters> params = new ArrayList<>();
-            Map<String, Paper> paperMap = new HashMap<>();
-
-            Iterator<? extends Paper> iter = list.iterator();
-            while (iter.hasNext()) {
-                Paper paper = iter.next();
-                String uid = paper.getUid();
-
-                paperMap.put(uid, paper);
-
-                Map<String, String> identifier = new HashMap<>();
-
-                identifier.put("ut", uid);
-                if (paper.getDoi() != null)             identifier.put("doi",   paper.getDoi());
-                if (paper.getPublishedYear() != null)   identifier.put("year",  paper.getPublishedYear());
-                if (paper.getIssn() != null)            identifier.put("issn",  paper.getIssn());
-
-                params.add(LamrRequestParameters.builder()
-                        .mapName(uid)
-                        .map(identifier)
-                        .build());
-            }
-
-            String response = lamrClient.request(TARGET_DB_TYPE.WOS, params);
-
-            XStreamMarshaller marshaller = lamrMarshaller();
-            StreamSource streamSource = new StreamSource(new StringReader(response));
-
-            XmlLamrResponse lamrResponse = (XmlLamrResponse) marshaller.unmarshal(streamSource);
-
-            XmlLamrResponse.Map wrapped = lamrResponse.getFn().getMap();
-            Map<String, XmlLamrResponse.Map> recordMap = wrapped.getMap();
-
-            Set<String> uidSet = recordMap.keySet();
-            Iterator<String> uidIter = uidSet.iterator();
-            while(uidIter.hasNext()) {
-                String uid = uidIter.next();
-                Paper targetPaper = paperMap.get(uid);
-
-                XmlLamrResponse.Map record = recordMap.get(uid);
-                Map<String, XmlLamrResponse.Val> values = record.getMap().get("WOS").getVal();
-
-                String pmid =               (values.containsKey("pmid"))?               values.get("pmid").getValue() : "";
-                String sourceURL =          (values.containsKey("sourceURL"))?          values.get("sourceURL").getValue() : "";
-                String citingArticlesURL =  (values.containsKey("citingArticlesURL"))?  values.get("citingArticlesURL").getValue() : "";
-                String relatedRecordsURL =  (values.containsKey("relatedRecordsURL"))?  values.get("relatedRecordsURL").getValue() : "";
-                String timesCited =         (values.containsKey("timesCited"))?         values.get("timesCited").getValue() : "0";
-
-                SourceUrls sourceUrls = SourceUrls.builder()
-                        .sourceURL(         sourceURL)
-                        .citingArticlesURL( citingArticlesURL)
-                        .relatedRecordsURL( relatedRecordsURL)
-                        .build();
-
-                targetPaper.setSourceUrls(sourceUrls);
-                targetPaper.setPmid(pmid);
-                targetPaper.setTimesCited(Integer.valueOf(timesCited));
-            }
+            lamrClientWrapper.getLamrRecordMap((List<Paper>) list);
 
             List<? extends Paper> papers = paperRepository.saveAll(list);
 
@@ -133,16 +70,6 @@ public class ConvertStepConfig {
                 );
             }
         };
-    }
-
-    @Bean
-    public XStreamMarshaller lamrMarshaller() {
-        XStreamMarshaller marshaller = new XStreamMarshaller();
-
-        marshaller.setAnnotatedClasses(XmlLamrResponse.class);
-        marshaller.setAutodetectAnnotations(true);
-
-        return marshaller;
     }
 
     @Bean

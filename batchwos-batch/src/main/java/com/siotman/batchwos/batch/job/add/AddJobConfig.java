@@ -8,6 +8,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.file.MultiResourceItemReader;
@@ -16,8 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
-
-import java.time.LocalDate;
 
 import static com.siotman.batchwos.batch.common.CONSTANTS.RETRIEVE_CNT_CONSTRAINT;
 
@@ -39,14 +38,15 @@ public class AddJobConfig {
     @Bean
     public Resource[] xmlResources() { return new Resource[]{}; }
 
-//    @Bean
-//    public Job addNewRecordsJob() {
-//        return this.jobBuilderFactory.get("addNewRecordsJob")
-//                .start( searchStep())
-//                .next(  retrieveStep())
-//                .next(  convertStep())
-//                .build();
-//    }
+    @Bean
+    public Job addJob() {
+        return this.jobBuilderFactory.get("addJob")
+                .incrementer(new RunIdIncrementer())
+                .start( searchStep())
+                .next(  retrieveStep())
+                .next(  convertStep())
+                .build();
+    }
 
     @Bean
     @JobScope

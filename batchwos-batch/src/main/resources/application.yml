@@ -23,7 +23,7 @@ spring:
     # 버전 차이 때문에 생긴 차인가?
     # 애초에 jpa. 바로 아래 hibernate 형식으로 쓰는 건 처음보네
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
 
 #spring:
 #  datasource:

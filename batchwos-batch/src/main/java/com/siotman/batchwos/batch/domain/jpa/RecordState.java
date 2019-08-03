@@ -1,7 +1,7 @@
 package com.siotman.batchwos.batch.domain.jpa;
 
 public enum RecordState {
-    VALID,
+    VALID, UPDATED_REQUIRED,
     DETAIL_COMPLETED,       DETAIL_NOT_AVAILABLE,
     DETAIL_ACESS_DENIED,    DETAIL_UNKOWN_ERROR,
     CITE_LIST_COMPLETED,    CITE_LIST_ACESS_DENIED,
