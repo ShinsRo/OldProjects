@@ -17,7 +17,7 @@ def send(sender: str, targetType: str, uid: str, targetURL: str, extra: str):
         - targetURL : 목적 파싱 주소
         - extra     : 기타 인자
     '''
-    logger = Logger("MAILMAN FOR %s" % sender)
+    logger = Logger()
     connection = pika.BlockingConnection(pika.URLParameters(RABBITMQ_SERVER_URL))
     channel = connection.channel()
 

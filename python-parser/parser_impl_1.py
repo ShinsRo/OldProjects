@@ -17,7 +17,7 @@ from func_parse_tc_data     import parse_tc_data
 
 class WosParser():
     def __init__(self):
-        self.logger     = parser_logger.Logger('WOS_PARSER')
+        self.logger     = parser_logger.Logger()
         self.base_url   = "http://apps.webofknowledge.com"
         self.server_url = ""
 

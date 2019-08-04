@@ -1,4 +1,6 @@
 import traceback
+import threading
+import time
 
 import pika
 import parser_exceptions
@@ -11,8 +13,7 @@ RABBITMQ_SERVER_URL = 'amqp://sejong:sejong1234@localhost:5672/'
 
 # 메세지 콜백 정의
 def cons_callback(ch, method, properties, body):
-    logger = Logger("SERVER_ENTR")
-
+    logger      = Logger()
     '''
         바디 메세지 형식 : "type$,uid$,targetURL$,extra"
 
@@ -40,11 +41,24 @@ def cons_callback(ch, method, properties, body):
         extra       = args[3]
 
         ## 파라미터 추출 끝 ##
-        logger.log('info', 'Parsing %s started'%(uid))
+        logger.log('info', 'Message received "%s" ' % (', '.join(args)[:50]))
         logger.log('info', 'URL: (%s)'%(targetURL))
         
-        ## 파싱 시작
-        parser.run(targetType, uid, targetURL)
+        ## 파싱 쓰레드 준비
+        x = threading.Thread(target=parser.run, args=(targetType, uid, targetURL,))
+
+        ## 과잉 쓰레딩 방어
+        while len(threading.enumerate()) > 5:
+            logger.log('info', 'Waiting for other threads, 15sec.')
+            time.sleep(15)
+
+        ## 쓰레드 시작
+        logger.log('info', 'Parsing thread will start for "%s". ' % (uid))
+        x.start()
+
+        ## 서버 부담을 덜기 위한 기다림
+        logger.log('info', 'Waiting... 20sec')
+        time.sleep(20)
 
     ## 전역 에러 처리 ##
     except parser_exceptions.LoginRequired as lre:
@@ -73,6 +87,6 @@ if __name__ == "__main__":
     channel.basic_consume('targetURLs', cons_callback)
 
     # 메세지 소비 시작 #
-    Logger('SERVER_MAIN').log('info', 'Waiting for targetURLs. To exit press CTRL+C')
+    Logger().log('info', 'Waiting for targetURLs. To exit press CTRL+C')
     channel.start_consuming()
 # 서버 메인 끝

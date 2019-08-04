@@ -5,8 +5,10 @@ import re
 from bs4 import BeautifulSoup
 
 import parser_exceptions as exceptions
+from parser_logger import Logger
 
 def parse_detail(soup: BeautifulSoup, uid: str):
+    logger              = Logger()  # 로거
     ret_link    :str    = ''        # 대상을 인용 중인 논문 목록 링크
     paper_data  :dict   = {         # 논문 정보 
         'uid'           : uid,      # 논문 아이디
@@ -46,6 +48,7 @@ def parse_detail(soup: BeautifulSoup, uid: str):
 
 
     # 예외 페이지 처리 #
+    logger.log('info', 'DETAIL//[%s] 예외 페이지 처리' % uid)
     pbtn = soup.select(TAG['PAGING_BTN'])
 
     if not pbtn and re.search('Record not available', soup.text, re.I):
@@ -60,6 +63,7 @@ def parse_detail(soup: BeautifulSoup, uid: str):
 
 
     # 인용 횟수 및 링크 #
+    logger.log('info', 'DETAIL//[%s] 인용 횟수 및 링크' % uid)
     cnt_link = soup.select_one(TAG['CITE_CNT_LINK'])
 
     if not cnt_link:
@@ -71,6 +75,7 @@ def parse_detail(soup: BeautifulSoup, uid: str):
     # 인용 횟수 및 링크 끝 #
 
     # 저자 및 주소 #
+    logger.log('info', 'DETAIL//[%s] 저자 및 주소' % uid)
     authors         = []
     reprint_name    = ''
     address_map     = {}
@@ -100,6 +105,7 @@ def parse_detail(soup: BeautifulSoup, uid: str):
     raw_author_infos    = re.sub(regex_sp, '', raw_author_infos, flags=re.M)
     
     ## 원본 주소 데이터 정제 ##
+    logger.log('info', 'DETAIL//[%s] 원본 주소 데이터 정제' % uid)
     ptn_reprint = re.compile(r'.+Reprint Address:+(?P<name>[A-Z,a-z.\- ]+)')
     ptn_address = re.compile(r'\[ (?P<address_key>\d+) \] (?P<address>[A-Za-z,.\- ]+)')
 
@@ -112,6 +118,7 @@ def parse_detail(soup: BeautifulSoup, uid: str):
     ## 원본 주소 데이터 정제 끝 ##
 
     ## 원본 저자 데이터 정제 ##
+    logger.log('info', 'DETAIL//[%s] 원본 저자 데이터 정제' % uid)
     '''By:Zhou, B (Zhou, Bo)[1 ]; Xu, YP (Xu, Yanping)[2 ]; Lee, SK (Lee, Seul Ki)[3,4 ]'''
     ptn_author_line   = re.compile(r'(?P<name>[A-Z,a-z.\- ]+) (\((?P<full_name>[A-Z,a-z.\- ]+)\))?(\[(?P<address_keys>[0-9, ]+)\])?')
     
@@ -151,6 +158,7 @@ def parse_detail(soup: BeautifulSoup, uid: str):
 
 
     # 등급 #
+    logger.log('info', 'DETAIL//[%s] 등급' % uid)
     grades          = []
 
     labels = soup.select(TAG['GRADES'])
@@ -164,4 +172,5 @@ def parse_detail(soup: BeautifulSoup, uid: str):
     paper_data['grades'] = grades
     # 등급 끝 #
 
+    logger.log('info', 'DETAIL//[%s] DONE' % uid)
     return (ret_link, paper_data)

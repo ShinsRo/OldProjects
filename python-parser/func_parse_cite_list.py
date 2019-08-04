@@ -1,8 +1,10 @@
 import re
 
 from bs4 import BeautifulSoup
+from parser_logger import Logger
 
 def parse_cite_list(soup: BeautifulSoup, uid: str):
+    logger          = Logger()      # 로기
     link            = ''            # 추가 연도별 tc data가 있는 페이지 링크
     tc_data         = {}            # 연도별 tc data
     # tc_paper_data   = []
@@ -21,6 +23,7 @@ def parse_cite_list(soup: BeautifulSoup, uid: str):
     # FAST5000 데이터 다운로드 끝#
 
     # 더 많은 연도를 조회할 필요가 있는 지 확인 #
+    logger.log('info', 'CITE_LIST//[%s] 더 많은 연도를 조회할 필요가 있는 지 확인' % uid)
     pub_year_link = soup.select_one(TAG['PUB_YEAR_LINK'])
 
     if pub_year_link:
@@ -36,4 +39,5 @@ def parse_cite_list(soup: BeautifulSoup, uid: str):
     for tub in ms:
         tc_data[tub[0]] = int(tub[1])
     
+    logger.log('info', 'CITE_LIST//[%s] DONE' % uid)
     return link, tc_data
