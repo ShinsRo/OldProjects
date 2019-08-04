@@ -1,6 +1,7 @@
 package com.siotman.batchwos.batch.job.add;
 
 import com.siotman.batchwos.batch.domain.jpa.Paper;
+import com.siotman.batchwos.batch.domain.jpa.RecordState;
 import com.siotman.batchwos.batch.domain.xml.XmlRecord;
 import com.siotman.batchwos.batch.domain.xml.XmlRecordList;
 import com.siotman.batchwos.batch.repo.PaperRepository;
@@ -80,6 +81,7 @@ public class ConvertStepConfig {
             paper.setTitle(xmlRecord.getTitle());
             paper.setDoctype(xmlRecord.getDoctype());
             paper.setKeywords(xmlRecord.getKeywords());
+            paper.setRecordState(RecordState.SHOULD_UPDATE);
             // Authors 는 파이선 파서에 맡겨야 한다.
             // paper.setAuthors(xmlRecord.getAuthors());
 

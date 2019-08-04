@@ -56,11 +56,11 @@ class WosParser():
                 self.logger.log('info', '[0130] Messaging CITE_CNT_LINK.')
                 
                 if paper_data['timesCited']:
-                    recordState = 'DETAIL_COMPLETED'
+                    recordState = 'IN_PROGRESS'
                     parser_mailman.send('DETAIL_LINK', 'CITE_CNT_LINK', uid, SID, self.base_url + link, 'NONE')
                 else:
                     self.logger.log('info', '[0131] Messaging CITE_CNT_LINK unecessary.')
-                    recordState = 'VALID'
+                    recordState = 'COMPLETED'
                 
                 # [0130] 파싱한 정보 DB 저장 요청
                 self.logger.log('info', '[0120] Requesting server to save detail data.')
@@ -85,10 +85,10 @@ class WosParser():
                 self.logger.log('info', '[0220] Messaging TIMES_CITED_BY_YEAR_LINK.')
                 
                 if link:
-                    recordState = 'CITE_LIST_COMPLETED'
+                    recordState = 'IN_PROGRESS'
                     parser_mailman.send('CITE_CNT_LINK', 'TIMES_CITED_BY_YEAR_LINK', uid, SID, link, 'NONE')
                 else:
-                    recordState = 'VALID'
+                    recordState = 'COMPLETED'
 
                 # [0230] 파싱한 정보 DB 저장 요청
                 self.logger.log('info', '[0230] Requesting server to save detail data.')
@@ -119,7 +119,7 @@ class WosParser():
                 
                 dto = {
                     'uid': uid,
-                    'recordState': recordState,
+                    'recordState': 'COMPLETED',
                     'tcData': tc_data
                 }
                 requests.post('http://127.0.0.1:9400/saveTcData', json=dto)
@@ -129,7 +129,7 @@ class WosParser():
         except parser_exceptions.RecordNotAvailableError:
             self.logger.log('info', '[0140] The record is not available.')
             paper_data = {'uid': uid}
-            paper_data['recordState'] = 'DETAIL_NOT_AVAILABLE'
+            paper_data['recordState'] = 'COMPLETED'
             requests.post('http://127.0.0.1:9400/savePaperData', json=paper_data)
 
         except Exception as e:
