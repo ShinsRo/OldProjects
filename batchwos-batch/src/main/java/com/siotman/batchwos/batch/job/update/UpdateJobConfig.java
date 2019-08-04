@@ -6,6 +6,7 @@ import com.siotman.batchwos.batch.repo.PaperRepository;
 import com.siotman.batchwos.batch.wrapper.LamrClientWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -34,6 +35,7 @@ public class UpdateJobConfig {
 
     @Autowired private EntityManagerFactory entityManagerFactory;
 
+    @Autowired private RabbitTemplate rabbitTemplate;
 //    @Bean
 //    public Job updateJob() {
 //        return this.jobBuilderFactory.get("updateJob")
@@ -71,10 +73,21 @@ public class UpdateJobConfig {
             for (int i = 0; i < list.size(); i++) {
                 Paper item = list.get(i);
                 if (prevTimesCited.get(i).equals(item.getTimesCited())) {
-                    item.setRecordState(RecordState.VALID);
+                    item.setRecordState(RecordState.COMPLETED);
                 }
                 else {
-                    item.setRecordState(RecordState.UPDATED_REQUIRED);
+                    item.setRecordState(RecordState.SHOULD_UPDATE);
+                    StringBuilder bodyBuilder = new StringBuilder()
+                            .append("DETAIL_LINK")                         .append("$,")    // TargetType
+                            .append(item.getUid())                         .append("$,")    // UID
+                            .append(item.getSourceUrls().getSourceURL())   .append("$,")    // targetURL
+                            .append("EXTRA");                                               // EXTRA args
+
+                    rabbitTemplate.convertAndSend(
+                            "create",
+                            "target.update.record",
+                            bodyBuilder.toString()
+                    );
                     // 메세지 센딩
                 }
             }

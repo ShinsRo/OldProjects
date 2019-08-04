@@ -22,10 +22,9 @@ class WosParser():
         self.server_url = ""
 
     # run 메서드
-    def run(self, targetType: str, uid: str, SID: str, targetURL: str):
+    def run(self, targetType: str, uid: str, targetURL: str):
         # HTTP 요청 및 Bytes -> BS4 #
         session = requests.Session()
-        # session.cookies['SID'] = SID
 
         headers = session.headers
         
@@ -57,7 +56,7 @@ class WosParser():
                 
                 if paper_data['timesCited']:
                     recordState = 'IN_PROGRESS'
-                    parser_mailman.send('DETAIL_LINK', 'CITE_CNT_LINK', uid, SID, self.base_url + link, 'NONE')
+                    parser_mailman.send('DETAIL_LINK', 'CITE_CNT_LINK', uid, self.base_url + link, 'NONE')
                 else:
                     self.logger.log('info', '[0131] Messaging CITE_CNT_LINK unecessary.')
                     recordState = 'COMPLETED'
@@ -86,7 +85,7 @@ class WosParser():
                 
                 if link:
                     recordState = 'IN_PROGRESS'
-                    parser_mailman.send('CITE_CNT_LINK', 'TIMES_CITED_BY_YEAR_LINK', uid, SID, link, 'NONE')
+                    parser_mailman.send('CITE_CNT_LINK', 'TIMES_CITED_BY_YEAR_LINK', uid, link, 'NONE')
                 else:
                     recordState = 'COMPLETED'
 

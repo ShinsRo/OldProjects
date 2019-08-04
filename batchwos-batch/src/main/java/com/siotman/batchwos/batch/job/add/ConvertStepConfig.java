@@ -6,7 +6,6 @@ import com.siotman.batchwos.batch.domain.xml.XmlRecord;
 import com.siotman.batchwos.batch.domain.xml.XmlRecordList;
 import com.siotman.batchwos.batch.repo.PaperRepository;
 import com.siotman.batchwos.batch.wrapper.LamrClientWrapper;
-import com.siotman.batchwos.batch.wrapper.SearchClientWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -27,7 +26,6 @@ public class ConvertStepConfig {
 
     @Autowired private RabbitTemplate rabbitTemplate;
     @Autowired private PaperRepository paperRepository;
-    @Autowired private SearchClientWrapper searchClientWrapper;
     @Autowired private LamrClientWrapper lamrClientWrapper;
 
     @Bean
@@ -60,7 +58,6 @@ public class ConvertStepConfig {
                 StringBuilder bodyBuilder = new StringBuilder()
                         .append("DETAIL_LINK")                          .append("$,")   // TargetType
                         .append(paper.getUid())                         .append("$,")   // UID
-                        .append(searchClientWrapper.getSID())           .append("$,")   // SID
                         .append(paper.getSourceUrls().getSourceURL())   .append("$,")   // targetURL
                         .append("EXTRA");                                               // EXTRA args
 

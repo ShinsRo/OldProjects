@@ -8,13 +8,12 @@ from parser_logger import Logger
 RABBITMQ_SERVER_URL = 'amqp://sejong:sejong1234@localhost:5672/'
 
 # 
-def send(sender: str, targetType: str, uid: str, SID: str, targetURL: str, extra: str):
+def send(sender: str, targetType: str, uid: str, targetURL: str, extra: str):
     '''
-        바디 메세지 형식 : "type$,uid$,SID$,targetURL$,extra"
+        바디 메세지 형식 : "type$,uid$,targetURL$,extra"
 
         - type      : 페이지 타입 (DETAIL, CITE_CNT)
         - uid       : WOS 레코드 uid
-        - SID       : WOS 접속 세션 아이디
         - targetURL : 목적 파싱 주소
         - extra     : 기타 인자
     '''
@@ -22,7 +21,7 @@ def send(sender: str, targetType: str, uid: str, SID: str, targetURL: str, extra
     connection = pika.BlockingConnection(pika.URLParameters(RABBITMQ_SERVER_URL))
     channel = connection.channel()
 
-    msg = '$,'.join([targetType, uid, SID, targetURL, extra])
+    msg = '$,'.join([targetType, uid, targetURL, extra])
     channel.basic_publish(
         exchange='create', routing_key='target.create.recursion',
         body=msg
