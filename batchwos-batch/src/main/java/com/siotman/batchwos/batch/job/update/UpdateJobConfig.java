@@ -34,13 +34,13 @@ public class UpdateJobConfig {
 
     @Autowired private EntityManagerFactory entityManagerFactory;
 
-    @Bean
-    public Job updateJob() {
-        return this.jobBuilderFactory.get("updateJob")
-                .incrementer(new RunIdIncrementer())
-                .start(fetchStep())
-                .build();
-    }
+//    @Bean
+//    public Job updateJob() {
+//        return this.jobBuilderFactory.get("updateJob")
+//                .incrementer(new RunIdIncrementer())
+//                .start(fetchStep())
+//                .build();
+//    }
 
     @Bean
     public Step fetchStep() {

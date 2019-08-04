@@ -22,14 +22,14 @@ def parse_detail(soup: BeautifulSoup, uid: str):
     '''
         author = {
             'name'      : ''
-            'full_name' : '',
+            'fullName' : '',
             'addresses' : ['', '']
         }
     '''
     # grades 원소 형태
     '''
     {
-        'full_grade': '', 
+        'fullGrade': '', 
         'caped': ''
     }
     '''
@@ -60,13 +60,13 @@ def parse_detail(soup: BeautifulSoup, uid: str):
 
 
     # 인용 횟수 및 링크 #
-    cnt_link = soup.select(TAG['CITE_CNT_LINK'])
+    cnt_link = soup.select_one(TAG['CITE_CNT_LINK'])
 
     if not cnt_link:
         ret_link = ''
         paper_data['timesCited'] = 0
     else:
-        ret_link = cnt_link[0]
+        ret_link = cnt_link['href']
         paper_data['timesCited'] = int(cnt_link.span.text)
     # 인용 횟수 및 링크 끝 #
 
@@ -100,8 +100,8 @@ def parse_detail(soup: BeautifulSoup, uid: str):
     raw_author_infos    = re.sub(regex_sp, '', raw_author_infos, flags=re.M)
     
     ## 원본 주소 데이터 정제 ##
-    ptn_reprint = re.compile(r'.+Reprint Address:+(?P<name>[A-Z,a-z ]+)')
-    ptn_address = re.compile(r'\[ (?P<address_key>\d) \] (?P<address>[A-Za-z, ]+)')
+    ptn_reprint = re.compile(r'.+Reprint Address:+(?P<name>[A-Z,a-z.\- ]+)')
+    ptn_address = re.compile(r'\[ (?P<address_key>\d+) \] (?P<address>[A-Za-z,.\- ]+)')
 
     m = ptn_reprint.match(raw_author_infos)
     reprint_name = m.group('name').strip()
@@ -113,29 +113,32 @@ def parse_detail(soup: BeautifulSoup, uid: str):
 
     ## 원본 저자 데이터 정제 ##
     '''By:Zhou, B (Zhou, Bo)[1 ]; Xu, YP (Xu, Yanping)[2 ]; Lee, SK (Lee, Seul Ki)[3,4 ]'''
-    ptn_author_line   = re.compile(r'(?P<name>[A-Z,a-z ]+) (\((?P<full_name>[A-Z,a-z ]+)\))?(\[(?P<address_keys>[1-9, ]+)\])?')
+    ptn_author_line   = re.compile(r'(?P<name>[A-Z,a-z.\- ]+) (\((?P<full_name>[A-Z,a-z.\- ]+)\))?(\[(?P<address_keys>[0-9, ]+)\])?')
     
-    groups = [m.groupdict() for m in ptn_author_line.finditer(raw_author_by)]
-
-    for g in groups:
+    for raw_author in raw_author_by.split(';'):
+        m = ptn_author_line.match(raw_author.strip())
         author = {
-            'name'      : g['name'].strip(),
-            'full_name' : g['full_name'].strip() if g['full_name'] else '',
-            'addresses' : []
+            'name'      : m.group('name').strip(),
+            'fullName' : m.group('full_name').strip() if m.group('full_name') else '',
+            'addresses' : [],
+            'reprint'   : False
         }
-        address_keys = g['address_keys']
-    
-            
+
+        address_keys = m.group('address_keys')
+
+        if not address_keys:
+            address_keys = []
 
         for key in address_keys.split(','):
             key = key.strip()
             author['addresses'].append(address_map[key])
 
         if reprint_name == author['name']:
+            author['reprint'] = True
             paper_data['reprint'] = author
 
         authors.append(author)
-    
+
     paper_data['firstAuthor']   = authors[0]
     paper_data['authors']       = authors
     ## 원본 저자 데이터 정제 끝 ##
@@ -156,7 +159,7 @@ def parse_detail(soup: BeautifulSoup, uid: str):
         full_grade  = label.text.replace('- ', '').strip()
         caped       = re.sub(r'[ a-z]+', r'', full_grade)
 
-        grades += [{'full_grade': full_grade, 'caped': caped}]
+        grades += [{'fullGrade': full_grade, 'caped': caped}]
 
     paper_data['grades'] = grades
     # 등급 끝 #

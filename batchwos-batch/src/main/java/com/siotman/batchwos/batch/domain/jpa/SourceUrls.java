@@ -14,11 +14,13 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class SourceUrls {
     @Id
-    @GeneratedValue
-    private Long id;
+    @Builder.Default
+    private String uid = "";
+
     @OneToOne
     @PrimaryKeyJoinColumn
     private Paper paper;
+
     private String sourceURL;
     private String citingArticlesURL;
     private String relatedRecordsURL;

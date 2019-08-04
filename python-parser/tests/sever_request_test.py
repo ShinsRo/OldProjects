@@ -28,10 +28,6 @@ import requests
 
 SERVER_URL = 'http://127.0.0.1:9400'
 
-def get_test():
-    res = requests.get('%s/?test=테스트'%SERVER_URL)
-    print(res.content)
-
 def post_test():
     uid = 'TESTUID'
     paper_data  :dict   = {         # 논문 정보 
@@ -57,6 +53,5 @@ def post_test():
     print(res.content)
 
 if __name__ == '__main__':
-    get_test()
-    post_test()
-    
+    # post_test()
+    pass

@@ -1,5 +1,6 @@
 package com.siotman.batchwos.batch.domain.jpa;
 
+import com.siotman.batchwos.batch.domain.dto.AuthorDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Data
@@ -38,20 +40,23 @@ public class Paper {
     private String issn;
     private String isbn;
 
+    @ElementCollection
+    private Map<String, Integer> tcData;
+
     @OneToMany(fetch = FetchType.LAZY,  cascade = CascadeType.ALL)
     private List<Author> authors;
 
     @ElementCollection
     private List<String> keywords;
 
-    @OneToOne(fetch = FetchType.LAZY,   cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "paper", fetch = FetchType.LAZY,   cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private SourceUrls sourceUrls;
 
     private String pmid;
     private Integer timesCited;
 
-    @OneToOne(fetch = FetchType.LAZY,   cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "paper", fetch = FetchType.LAZY,   cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Grades grades;
 

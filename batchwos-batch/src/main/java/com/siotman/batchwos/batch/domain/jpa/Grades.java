@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.bytebuddy.implementation.bind.annotation.Default;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,8 +17,8 @@ import java.util.List;
 @AllArgsConstructor
 public class Grades {
     @Id
-    @GeneratedValue
-    private String gid;
+    @Builder.Default
+    private String uid = "";
 
     @OneToOne
     @PrimaryKeyJoinColumn

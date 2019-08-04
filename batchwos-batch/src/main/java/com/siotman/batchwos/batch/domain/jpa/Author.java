@@ -18,8 +18,11 @@ public class Author {
     @Id
     @GeneratedValue
     private Long aid;
+
     private String name;
     private String fullName;
+
+    private Boolean reprint;
 
     @Builder.Default
     @ElementCollection

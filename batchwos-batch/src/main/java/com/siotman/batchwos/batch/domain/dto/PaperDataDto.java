@@ -1,11 +1,15 @@
 package com.siotman.batchwos.batch.domain.dto;
 
+import com.siotman.batchwos.batch.domain.jpa.Author;
+import com.siotman.batchwos.batch.domain.jpa.Grades;
+import com.siotman.batchwos.batch.domain.jpa.Paper;
 import com.siotman.batchwos.batch.domain.jpa.RecordState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,12 +19,42 @@ import java.util.Map;
 @AllArgsConstructor
 public class PaperDataDto {
     private String uid;
-    private Integer timesCited;
-    private List<AuthorDto> authors;
+
+    @Builder.Default
+    private Integer timesCited = 0;
+
+    @Builder.Default
+    private List<AuthorDto> authors = new ArrayList<>();
     private AuthorDto firstAuthor;
     private AuthorDto reprint;
     private Map<String, ?> jcr;
-    private List<GradeDto> grades;
+    @Builder.Default
+    private List<GradeDto> grades = new ArrayList<>();
 
     private String recordState;
+
+    public void updateEntityDetail(Paper old) {
+        List<Author> authorEntities = new ArrayList<>();
+
+        for (AuthorDto aDto : authors) {
+            authorEntities.add(aDto.toEntity(old.getUid()));
+        }
+
+        List<String> fullGrades = new ArrayList<>();
+        List<String> caped      = new ArrayList<>();
+        for (GradeDto gDto : grades) {
+            fullGrades.add(gDto.getFullGrade());
+            caped.add(gDto.getCaped());
+        }
+
+        Grades gradesEntity = Grades.builder()
+                .uid(uid)
+                .grades(fullGrades)
+                .caped(caped)
+                .build();
+
+        old.setGrades(gradesEntity);
+        old.setAuthors(authorEntities);
+        old.setRecordState(RecordState.valueOf(recordState));
+    }
 }

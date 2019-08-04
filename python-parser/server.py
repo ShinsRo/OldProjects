@@ -55,9 +55,6 @@ def cons_callback(ch, method, properties, body):
     except parser_exceptions.NoPaperDataError as npde:
         print(npde)
         traceback.print_exc()
-    except parser_exceptions.RecordNotAvailableError as rnae:
-        print(rnae)
-        traceback.print_exc()
     except Exception as e:
         print(e)
         traceback.print_exc()

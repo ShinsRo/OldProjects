@@ -71,6 +71,7 @@ public class LamrClientWrapper extends LAMRClient {
             String timesCited =         (values.containsKey("timesCited"))?         values.get("timesCited").getValue() : "0";
 
             SourceUrls sourceUrls = SourceUrls.builder()
+                    .uid(uid)
                     .sourceURL(         sourceURL)
                     .citingArticlesURL( citingArticlesURL)
                     .relatedRecordsURL( relatedRecordsURL)
