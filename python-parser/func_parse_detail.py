@@ -106,11 +106,12 @@ def parse_detail(soup: BeautifulSoup, uid: str):
     
     ## 원본 주소 데이터 정제 ##
     logger.log('info', 'DETAIL//[%s] 원본 주소 데이터 정제' % uid)
-    ptn_reprint = re.compile(r'.+Reprint Address:+(?P<name>[A-Z,a-z.\- ]+)')
+    ptn_reprint = re.compile(r'.+Reprint Address:+(?P<name>[A-Z,a-z.\- ]+)\(reprint author\)(?P<address>[A-Z,a-z.\- 0-9]+)?')
     ptn_address = re.compile(r'\[ (?P<address_key>\d+) \] (?P<address>[A-Za-z,.\- ]+)')
 
     m = ptn_reprint.match(raw_author_infos)
-    reprint_name = m.group('name').strip()
+    reprint_name    = m.group('name').strip()
+    reprint_address = m.group('address').strip() if m.group('address') else None
 
     for address_tup in ptn_address.findall(raw_author_infos):
         address_map[address_tup[0].strip()] = address_tup[1].strip()
@@ -134,13 +135,18 @@ def parse_detail(soup: BeautifulSoup, uid: str):
         address_keys = m.group('address_keys')
 
         if not address_keys:
-            address_keys = []
+            address_keys = ['1'] if address_map else []
+        else:
+            address_keys = address_keys.split(',')
 
-        for key in address_keys.split(','):
+        for key in address_keys:
             key = key.strip()
             author['addresses'].append(address_map[key])
 
         if reprint_name == author['name']:
+            if not author['addresses'] and reprint_address: 
+                author['addresses'] += [reprint_address]
+
             author['reprint'] = True
             paper_data['reprint'] = author
 

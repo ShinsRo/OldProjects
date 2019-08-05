@@ -78,7 +78,7 @@ public class ConvertStepConfig {
             paper.setTitle(xmlRecord.getTitle());
             paper.setDoctype(xmlRecord.getDoctype());
             paper.setKeywords(xmlRecord.getKeywords());
-            paper.setRecordState(RecordState.SHOULD_UPDATE);
+            paper.setRecordState(RecordState.IN_PROGRESS);
             // Authors 는 파이선 파서에 맡겨야 한다.
             // paper.setAuthors(xmlRecord.getAuthors());
 

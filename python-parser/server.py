@@ -10,7 +10,6 @@ from parser_logger import Logger
 # 메세지 서버 주소
 RABBITMQ_SERVER_URL = 'amqp://sejong:sejong1234@localhost:5672/'
 
-
 # 메세지 콜백 정의
 def cons_callback(ch, method, properties, body):
     logger      = Logger()
@@ -47,8 +46,8 @@ def cons_callback(ch, method, properties, body):
         ## 파싱 쓰레드 준비
         x = threading.Thread(target=parser.run, args=(targetType, uid, targetURL,))
 
-        ## 과잉 쓰레딩 방어
-        while len(threading.enumerate()) > 5:
+        ## 과잉 쓰레딩 방어 (threading.enumerate()은 다른 스레드도 포함함을 주의)
+        while len(threading.enumerate()) > 10:
             logger.log('info', 'Waiting for other threads, 15sec.')
             time.sleep(15)
 

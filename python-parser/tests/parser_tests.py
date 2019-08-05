@@ -33,8 +33,13 @@ def get_soup(path):
     return soup
 
 def detail_page_proc_test():
-    soup = get_soup('./tests/resource/detail_sample_1.html')
+    soup = get_soup('./tests/resource/detail_sample_WOS:A1997XX11500012.html')
+    link, paper_data = parse_detail(soup, 'test')
 
+    soup = get_soup('./tests/resource/detail_sample_WOS:A1996UC95200020.html')
+    link, paper_data = parse_detail(soup, 'test')
+
+    soup = get_soup('./tests/resource/detail_sample_1.html')
     link, paper_data = parse_detail(soup, 'test')
 
     assert link                             is ''

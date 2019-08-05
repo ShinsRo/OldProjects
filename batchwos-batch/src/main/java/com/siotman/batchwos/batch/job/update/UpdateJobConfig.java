@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.EntityManagerFactory;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,13 +37,14 @@ public class UpdateJobConfig {
     @Autowired private EntityManagerFactory entityManagerFactory;
 
     @Autowired private RabbitTemplate rabbitTemplate;
-//    @Bean
-//    public Job updateJob() {
-//        return this.jobBuilderFactory.get("updateJob")
-//                .incrementer(new RunIdIncrementer())
-//                .start(fetchStep())
-//                .build();
-//    }
+
+    @Bean
+    public Job updateJob() {
+        return this.jobBuilderFactory.get("updateJob")
+                .incrementer(new RunIdIncrementer())
+                .start(fetchStep())
+                .build();
+    }
 
     @Bean
     public Step fetchStep() {
@@ -59,37 +61,45 @@ public class UpdateJobConfig {
                 .name("papersReader")
                 .pageSize(50)
                 .entityManagerFactory(entityManagerFactory)
-                .queryString("select p.uid, p.doi, p.issn, p.publishedYear, p.timesCited from Paper p")
+                .queryString("select p from Paper p")
                 .build();
     }
 
     @Bean
     public ItemWriter<Paper> updateWriter() {
+        LocalDateTime base = LocalDateTime.now().minusDays(9);
+
         return list -> {
             List<Integer> prevTimesCited = new ArrayList<>();
             list.stream().forEach(paper -> prevTimesCited.add(paper.getTimesCited()));
             lamrClientWrapper.getLamrRecordMap((List<Paper>) list);
 
             for (int i = 0; i < list.size(); i++) {
-                Paper item = list.get(i);
+                Paper item          = list.get(i);
+                boolean isLatest    = item.getLastUpdate().isAfter(base);
+                RecordState rs      = item.getRecordState();
+
+                if (isLatest || rs.equals(RecordState.IN_PROGRESS)) {
+                    continue;
+                }
+
                 if (prevTimesCited.get(i).equals(item.getTimesCited())) {
                     item.setRecordState(RecordState.COMPLETED);
+                    continue;
                 }
-                else {
-                    item.setRecordState(RecordState.SHOULD_UPDATE);
-                    StringBuilder bodyBuilder = new StringBuilder()
-                            .append("DETAIL_LINK")                         .append("$,")    // TargetType
-                            .append(item.getUid())                         .append("$,")    // UID
-                            .append(item.getSourceUrls().getSourceURL())   .append("$,")    // targetURL
-                            .append("EXTRA");                                               // EXTRA args
 
-                    rabbitTemplate.convertAndSend(
-                            "create",
-                            "target.update.record",
-                            bodyBuilder.toString()
-                    );
-                    // 메세지 센딩
-                }
+                item.setRecordState(RecordState.SHOULD_UPDATE);
+                StringBuilder bodyBuilder = new StringBuilder()
+                        .append("DETAIL_LINK")                         .append("$,")    // TargetType
+                        .append(item.getUid())                         .append("$,")    // UID
+                        .append(item.getSourceUrls().getSourceURL())   .append("$,")    // targetURL
+                        .append("UPDATE");                                              // EXTRA args
+
+                rabbitTemplate.convertAndSend(
+                        "update",
+                        "target.update.record",
+                        bodyBuilder.toString()
+                );
             }
 
             paperRepository.saveAll(list);

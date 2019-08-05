@@ -59,8 +59,8 @@ public class AddJobConfig {
 
                     searchClientWrapper.search(
                             "AD=(Sejong Univ)",
-//                            "1945-01-01", "2019-07-27"
-                           "1week"
+                            "1945-01-01", "2000-01-01"
+//                           "1week"
                     );
                     return RepeatStatus.FINISHED;
                 })).build();
