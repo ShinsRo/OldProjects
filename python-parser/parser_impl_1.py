@@ -16,10 +16,11 @@ from func_parse_cite_list   import parse_cite_list
 from func_parse_tc_data     import parse_tc_data
 
 class WosParser():
-    def __init__(self):
+    def __init__(self, mailman: parser_mailman.Mailman):
         self.logger     = parser_logger.Logger()
         self.base_url   = "http://apps.webofknowledge.com"
         self.server_url = ""
+        self.mailman    = mailman
 
     # run 메서드
     def run(self, targetType: str, uid: str, targetURL: str):
@@ -56,7 +57,7 @@ class WosParser():
                 
                 if paper_data['timesCited']:
                     recordState = 'IN_PROGRESS'
-                    parser_mailman.send('DETAIL_LINK', 'CITE_CNT_LINK', uid, self.base_url + link, 'NONE')
+                    self.mailman.send('DETAIL_LINK', 'CITE_CNT_LINK', uid, self.base_url + link, 'NONE')
                 else:
                     self.logger.log('info', '[0131] Messaging CITE_CNT_LINK unecessary.')
                     recordState = 'COMPLETED'
@@ -85,7 +86,7 @@ class WosParser():
                 
                 if link:
                     recordState = 'IN_PROGRESS'
-                    parser_mailman.send('CITE_CNT_LINK', 'TIMES_CITED_BY_YEAR_LINK', uid, link, 'NONE')
+                    self.mailman.send('CITE_CNT_LINK', 'TIMES_CITED_BY_YEAR_LINK', uid, link, 'NONE')
                 else:
                     recordState = 'COMPLETED'
 

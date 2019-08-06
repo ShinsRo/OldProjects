@@ -4,9 +4,9 @@ import time
 
 import pika
 import parser_exceptions
-from parser_interface import ParserInterface
-from parser_logger import Logger
-
+from parser_interface   import ParserInterface
+from parser_logger      import Logger
+from parser_mailman     import Mailman
 # 메세지 서버 주소
 RABBITMQ_SERVER_URL = 'amqp://sejong:sejong1234@localhost:5672/'
 
@@ -32,7 +32,7 @@ def cons_callback(ch, method, properties, body):
             '''인자는 반드시 지정된 갯수로 제공되어야 한다.'''
             raise Exception("Invalid message body: %s", body)
 
-        parser = ParserInterface()
+        parser = ParserInterface(Mailman())
 
         targetType  = args[0]
         uid         = args[1]
@@ -47,17 +47,18 @@ def cons_callback(ch, method, properties, body):
         x = threading.Thread(target=parser.run, args=(targetType, uid, targetURL,))
 
         ## 과잉 쓰레딩 방어 (threading.enumerate()은 다른 스레드도 포함함을 주의)
+        logger.log('info', len(threading.enumerate()))
         while len(threading.enumerate()) > 10:
-            logger.log('info', 'Waiting for other threads, 15sec.')
-            time.sleep(15)
+            logger.log('info', 'Waiting for other threads, 10sec.')
+            time.sleep(10)
 
         ## 쓰레드 시작
         logger.log('info', 'Parsing thread will start for "%s". ' % (uid))
         x.start()
 
         ## 서버 부담을 덜기 위한 기다림
-        logger.log('info', 'Waiting... 20sec')
-        time.sleep(20)
+        logger.log('info', 'Waiting... 15sec')
+        time.sleep(15)
 
     ## 전역 에러 처리 ##
     except parser_exceptions.LoginRequired as lre:
