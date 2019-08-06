@@ -72,7 +72,7 @@ public class UpdateJobConfig {
         return list -> {
             List<Integer> prevTimesCited = new ArrayList<>();
             list.stream().forEach(paper -> prevTimesCited.add(paper.getTimesCited()));
-            lamrClientWrapper.getLamrRecordMap((List<Paper>) list);
+            lamrClientWrapper.getLamrRecordMap((List<Paper>) list, LamrClientWrapper.LAMR_TYPE.UPDATE);
 
             for (int i = 0; i < list.size(); i++) {
                 Paper item          = list.get(i);

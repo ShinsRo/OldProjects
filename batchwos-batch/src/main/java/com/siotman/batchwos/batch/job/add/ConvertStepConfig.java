@@ -50,7 +50,7 @@ public class ConvertStepConfig {
     @Bean
     public ItemWriter<Paper> convertStepWriter() {
         return list -> {
-            lamrClientWrapper.getLamrRecordMap((List<Paper>) list);
+            lamrClientWrapper.getLamrRecordMap((List<Paper>) list, LamrClientWrapper.LAMR_TYPE.ADD);
 
             List<? extends Paper> papers = paperRepository.saveAll(list);
 

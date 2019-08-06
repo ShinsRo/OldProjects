@@ -3,6 +3,8 @@ package com.siotman.batchwos.batch.wrapper;
 import com.siotman.batchwos.wsclient.WsUtil;
 import com.siotman.batchwos.wsclient.search.SearchClient;
 import com.siotman.batchwos.wsclient.search.domain.SearchResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.xml.soap.SOAPException;
@@ -17,6 +19,8 @@ import static com.siotman.batchwos.batch.common.CONSTANTS.RESOURCE_DIR;
 
 @Component
 public class SearchClientWrapper extends SearchClient {
+    private Logger logger = LoggerFactory.getLogger(SearchClientWrapper.class);
+
     private final Integer WS_SEARCH_CHUNK = 100;
 
     private boolean next = false;
@@ -88,5 +92,12 @@ public class SearchClientWrapper extends SearchClient {
         recordCursor += WS_SEARCH_CHUNK;
         this.next =  getCurrentSearchResponse().getRecordsFound() >= recordCursor;
         return hasNext();
+    }
+
+    public void emptyResource() {
+        File dir = new File(RESOURCE_DIR);
+        int deleted = 0;
+        for (File file : dir.listFiles()) { file.delete(); deleted++; }
+        logger.info(String.format("%d개 파일 삭제", deleted));
     }
 }

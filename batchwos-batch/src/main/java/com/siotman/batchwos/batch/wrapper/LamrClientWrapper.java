@@ -21,7 +21,11 @@ public class LamrClientWrapper extends LAMRClient {
         super();
     }
 
-    public void getLamrRecordMap(List<Paper> list) throws IOException {
+    public enum LAMR_TYPE {
+        ADD, UPDATE
+    }
+
+    public void getLamrRecordMap(List<Paper> list, LAMR_TYPE lamrType) throws IOException {
         List<LamrRequestParameters> params  = new ArrayList<>();
         Map<String, Paper> paperMap         = new HashMap<>();
 
@@ -70,14 +74,27 @@ public class LamrClientWrapper extends LAMRClient {
             String relatedRecordsURL =  (values.containsKey("relatedRecordsURL"))?  values.get("relatedRecordsURL").getValue() : "";
             String timesCited =         (values.containsKey("timesCited"))?         values.get("timesCited").getValue() : "0";
 
-            SourceUrls sourceUrls = SourceUrls.builder()
-                    .uid(uid)
-                    .sourceURL(         sourceURL)
-                    .citingArticlesURL( citingArticlesURL)
-                    .relatedRecordsURL( relatedRecordsURL)
-                    .build();
+            if          (lamrType.equals(LAMR_TYPE.ADD)) {
 
-            targetPaper.setSourceUrls(sourceUrls);
+                SourceUrls sourceUrls = SourceUrls.builder()
+                        .uid(uid)
+                        .sourceURL(         sourceURL)
+                        .citingArticlesURL( citingArticlesURL)
+                        .relatedRecordsURL( relatedRecordsURL)
+                        .build();
+
+                targetPaper.setSourceUrls(sourceUrls);
+
+            } else if   (lamrType.equals(LAMR_TYPE.UPDATE)){
+
+                SourceUrls sourceUrls = targetPaper.getSourceUrls();
+
+                sourceUrls.setSourceURL(sourceURL);
+                sourceUrls.setRelatedRecordsURL(relatedRecordsURL);
+                sourceUrls.setCitingArticlesURL(citingArticlesURL);
+
+            } else {}
+
             targetPaper.setPmid(pmid);
             targetPaper.setTimesCited(Integer.valueOf(timesCited));
         }

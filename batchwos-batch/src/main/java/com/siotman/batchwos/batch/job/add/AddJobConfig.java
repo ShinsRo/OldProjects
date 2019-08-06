@@ -56,10 +56,13 @@ public class AddJobConfig {
                     if (searchClientWrapper.getSID() == null) searchClientWrapper.connect();
 
                     logger.info("[0100] SearchStep Started");
+                    logger.info("[0101] Empty resources.");
+
+                    searchClientWrapper.emptyResource();
 
                     searchClientWrapper.search(
                             "AD=(Sejong Univ)",
-                            "1945-01-01", "2000-01-01"
+                            "1990-01-01", "2000-01-01"
 //                           "1week"
                     );
                     return RepeatStatus.FINISHED;
