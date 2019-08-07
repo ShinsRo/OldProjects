@@ -20,6 +20,6 @@ public class TcDataDto {
 
     public void updateEntityTcData(Paper old) {
         old.setRecordState(RecordState.valueOf(recordState));
-        old.setTcData(tcData);
+        if (tcData.size() != 0) old.setTcData(tcData);
     }
 }

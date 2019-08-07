@@ -38,13 +38,13 @@ public class UpdateJobConfig {
 
     @Autowired private RabbitTemplate rabbitTemplate;
 
-    @Bean
-    public Job updateJob() {
-        return this.jobBuilderFactory.get("updateJob")
-                .incrementer(new RunIdIncrementer())
-                .start(fetchStep())
-                .build();
-    }
+//    @Bean
+//    public Job updateJob() {
+//        return this.jobBuilderFactory.get("updateJob")
+//                .incrementer(new RunIdIncrementer())
+//                .start(fetchStep())
+//                .build();
+//    }
 
     @Bean
     public Step fetchStep() {
@@ -79,14 +79,16 @@ public class UpdateJobConfig {
                 boolean isLatest    = item.getLastUpdate().isAfter(base);
                 RecordState rs      = item.getRecordState();
 
-                if (isLatest || rs.equals(RecordState.IN_PROGRESS)) {
-                    continue;
-                }
+//                if (isLatest || rs.equals(RecordState.IN_PROGRESS)) {
+//                    continue;
+//                }
 
-                if (prevTimesCited.get(i).equals(item.getTimesCited())) {
-                    item.setRecordState(RecordState.COMPLETED);
-                    continue;
-                }
+//                if (prevTimesCited.get(i).equals(item.getTimesCited())) {
+//                    item.setRecordState(RecordState.COMPLETED);
+//                    continue;
+//                }
+
+//                if (item.getRecordState().equals(RecordState.COMPLETED)) continue;
 
                 item.setRecordState(RecordState.SHOULD_UPDATE);
                 StringBuilder bodyBuilder = new StringBuilder()
@@ -101,8 +103,37 @@ public class UpdateJobConfig {
                         bodyBuilder.toString()
                 );
             }
-
             paperRepository.saveAll(list);
         };
     }
 }
+
+//if (item.getTimesCited() != 0 && item.getTcData().size() == 0) {
+//        item.setRecordState(RecordState.SHOULD_UPDATE);
+//        StringBuilder bodyBuilder = new StringBuilder()
+//        .append("DETAIL_LINK")                         .append("$,")    // TargetType
+//        .append(item.getUid())                         .append("$,")    // UID
+//        .append(item.getSourceUrls().getSourceURL())   .append("$,")    // targetURL
+//        .append("UPDATE");                                              // EXTRA args
+//
+//        rabbitTemplate.convertAndSend(
+//        "update",
+//        "target.update.record",
+//        bodyBuilder.toString()
+//        );
+//        }
+//
+//        if (item.getAuthors().size() == 0) {
+//        item.setRecordState(RecordState.SHOULD_UPDATE);
+//        StringBuilder bodyBuilder = new StringBuilder()
+//        .append("DETAIL_LINK")                         .append("$,")    // TargetType
+//        .append(item.getUid())                         .append("$,")    // UID
+//        .append(item.getSourceUrls().getSourceURL())   .append("$,")    // targetURL
+//        .append("UPDATE");                                              // EXTRA args
+//
+//        rabbitTemplate.convertAndSend(
+//        "update",
+//        "target.update.record",
+//        bodyBuilder.toString()
+//        );
+//        }
