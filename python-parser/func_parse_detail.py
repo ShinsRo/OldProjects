@@ -54,6 +54,9 @@ def parse_detail(soup: BeautifulSoup, uid: str):
     if not pbtn and re.search('Record not available', soup.text, re.I):
         raise exceptions.RecordNotAvailableError()
 
+    if not pbtn and re.search('server error', soup.text, re.I):
+        raise exceptions.RecordNotAvailableError()
+
     if not pbtn and re.search('Access denied'       , soup.text, re.I):
         raise exceptions.AcessDeniedError()
 
@@ -106,12 +109,17 @@ def parse_detail(soup: BeautifulSoup, uid: str):
     
     ## 원본 주소 데이터 정제 ##
     logger.log('info', 'DETAIL//[%s] 원본 주소 데이터 정제' % uid)
-    ptn_reprint = re.compile(r'.+Reprint Address:+(?P<name>[A-Z,a-z.\- ]+)\(reprint author\)(?P<address>[A-Z,a-z.\- 0-9]+)?')
-    ptn_address = re.compile(r'\[ (?P<address_key>\d+) \] (?P<address>[A-Za-z,.\- ]+)')
+    ptn_reprint = re.compile(r'.+Reprint Address:+(?P<name>[A-Z,a-z.\'\- ]+)\(reprint author\)(?P<address>[A-Z,a-z.\'\- 0-9]+)?')
+    ptn_address = re.compile(r'\[ (?P<address_key>\d+) \] (?P<address>[A-Za-z,.\'\- ]+)')
 
     m = ptn_reprint.match(raw_author_infos)
-    reprint_name    = m.group('name').strip()
-    reprint_address = m.group('address').strip() if m.group('address') else None
+    
+    if m:
+        reprint_name    = m.group('name').strip()       if m.group('name') else None
+        reprint_address = m.group('address').strip()    if m.group('address') else None
+    else:
+        reprint_name    = None
+        reprint_address = None
 
     for address_tup in ptn_address.findall(raw_author_infos):
         address_map[address_tup[0].strip()] = address_tup[1].strip()
@@ -121,7 +129,7 @@ def parse_detail(soup: BeautifulSoup, uid: str):
     ## 원본 저자 데이터 정제 ##
     logger.log('info', 'DETAIL//[%s] 원본 저자 데이터 정제' % uid)
     '''By:Zhou, B (Zhou, Bo)[1 ]; Xu, YP (Xu, Yanping)[2 ]; Lee, SK (Lee, Seul Ki)[3,4 ]'''
-    ptn_author_line   = re.compile(r'(?P<name>[A-Z,a-z.\- ]+) (\((?P<full_name>[A-Z,a-z.\- ]+)\))?(\[(?P<address_keys>[0-9, ]+)\])?')
+    ptn_author_line   = re.compile(r'(?P<name>[A-Z,a-z.\'\- ]+) (\((?P<full_name>[A-Z,a-z.\'\- ]+)\))?(\[(?P<address_keys>[0-9,\' ]+)\])?')
     
     for raw_author in raw_author_by.split(';'):
         m = ptn_author_line.match(raw_author.strip())
@@ -143,7 +151,8 @@ def parse_detail(soup: BeautifulSoup, uid: str):
             key = key.strip()
             author['addresses'].append(address_map[key])
 
-        if reprint_name == author['name']:
+        # 교신 저자 정보가 없을 경우, 제 1저자가 교신 저자이다.
+        if reprint_name and reprint_name == author['name']:
             if not author['addresses'] and reprint_address: 
                 author['addresses'] += [reprint_address]
 
@@ -151,6 +160,10 @@ def parse_detail(soup: BeautifulSoup, uid: str):
             paper_data['reprint'] = author
 
         authors.append(author)
+
+    if not reprint_name and authors:
+        authors[0]['reprint'] = True
+        paper_data['reprint'] = authors[0]
 
     paper_data['firstAuthor']   = authors[0]
     paper_data['authors']       = authors

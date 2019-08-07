@@ -1,7 +1,6 @@
 
 
 import pika
-
 RABBITMQ_SERVER_URL = 'amqp://sejong:sejong1234@localhost:5672/'
 
 if __name__ == "__main__":

@@ -86,7 +86,7 @@ class WosParser():
                 
                 if link:
                     recordState = 'IN_PROGRESS'
-                    self.mailman.send('CITE_CNT_LINK', 'TIMES_CITED_BY_YEAR_LINK', uid, link, 'NONE')
+                    self.mailman.send('CITE_CNT_LINK', 'TIMES_CITED_BY_YEAR_LINK', uid, self.base_url + '/' + link, 'NONE')
                 else:
                     recordState = 'COMPLETED'
 
@@ -131,6 +131,15 @@ class WosParser():
             paper_data = {'uid': uid}
             paper_data['recordState'] = 'COMPLETED'
             requests.post('http://127.0.0.1:9400/savePaperData', json=paper_data)
+
+        except parser_exceptions.CiteListNoSubsError:
+            self.logger.log('info', '[0150] The record\'s CitingArticle list page isn\'t covered by the subscribe.')
+            dto = {
+                    'uid': uid,
+                    'recordState': 'COMPLETED',
+                    'tcData': {}
+            }
+            requests.post('http://127.0.0.1:9400/saveTcData', json=dto)
 
         except Exception as e:
             self.logger.log('error', '[9001] Error detected. Printing http_res.')

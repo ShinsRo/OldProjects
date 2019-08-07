@@ -7,7 +7,7 @@ import parser_exceptions
 from parser_logger import Logger
 
 # 메세지 서버 주소
-RABBITMQ_SERVER_URL = 'amqp://sejong:sejong1234@localhost:5672/'
+RABBITMQ_SERVER_URL = 'amqp://sejong:sejong1234@127.0.0.1:5672/'
 
 class Mailman():
     def __init__(self):
@@ -32,7 +32,7 @@ class Mailman():
             - targetURL : 목적 파싱 주소
             - extra     : 기타 인자
         '''
-        if not self.connection or self.connection.is_closed():
+        if not self.connection or self.connection.is_closed:
             self.connect()
 
         logger      = self.logger

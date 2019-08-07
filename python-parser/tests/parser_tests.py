@@ -33,6 +33,15 @@ def get_soup(path):
     return soup
 
 def detail_page_proc_test():
+    soup = get_soup('./tests/resource/WOS:A1997WH59900007.html')
+    link, paper_data = parse_detail(soup, 'test')
+
+    soup = get_soup('./tests/resource/WOS:000085778500012.html')
+    link, paper_data = parse_detail(soup, 'test')
+
+    soup = get_soup('./tests/resource/detail_sample_WOS:000079302700020.html')
+    link, paper_data = parse_detail(soup, 'test')
+
     soup = get_soup('./tests/resource/detail_sample_WOS:A1997XX11500012.html')
     link, paper_data = parse_detail(soup, 'test')
 

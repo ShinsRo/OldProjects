@@ -7,6 +7,7 @@ import parser_exceptions
 from parser_interface   import ParserInterface
 from parser_logger      import Logger
 from parser_mailman     import Mailman
+
 # 메세지 서버 주소
 RABBITMQ_SERVER_URL = 'amqp://sejong:sejong1234@localhost:5672/'
 

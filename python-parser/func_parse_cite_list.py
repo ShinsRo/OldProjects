@@ -2,6 +2,7 @@ import re
 
 from bs4 import BeautifulSoup
 from parser_logger import Logger
+import parser_exceptions as exceptions
 
 def parse_cite_list(soup: BeautifulSoup, uid: str):
     logger          = Logger()      # 로기
@@ -17,6 +18,11 @@ def parse_cite_list(soup: BeautifulSoup, uid: str):
     }
 
     # TAG 정의 끝 #
+
+    # 예외 페이지 처리 #
+    if (re.search(r'None of the Citing Articles are in your subscription', soup.text, re.I)):
+        raise exceptions.CiteListNoSubsError()
+    # 예외 페이지 처리 끝 #
 
     # FAST5000 데이터 다운로드 #
     # 현재는 생략한다.

@@ -1,3 +1,7 @@
+class CiteListNoSubsError(Exception):
+    '''구독 없음 예외'''
+    pass
+
 class AcessDeniedError(Exception):
     '''접근 거부 예외'''
     pass
