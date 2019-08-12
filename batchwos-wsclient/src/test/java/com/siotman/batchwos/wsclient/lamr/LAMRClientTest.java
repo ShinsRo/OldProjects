@@ -45,7 +45,7 @@ public class LAMRClientTest {
     }
 
     @Test
-    public void requestTest() {
+    public void requestTest() throws InterruptedException {
         List<LamrRequestParameters> params = new ArrayList<>();
         Map<String, String> identifier = new HashMap<>();
 

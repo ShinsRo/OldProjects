@@ -2,8 +2,10 @@ package com.siotman.batchwos.wsclient.lamr;
 
 import com.siotman.batchwos.wsclient.lamr.domain.LamrRequestParameters;
 import com.siotman.batchwos.wsclient.lamr.domain.TARGET_DB_TYPE;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.xml.transform.Source;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -20,6 +22,10 @@ public class LAMRClient {
      * - If you want the same data elements for multiple articles, you may submit a single request. For example, if you want both DOIs and Times Cited counts for 25 articles, only one request is needed.
      * - You must make separate requests if you want different data for different articles. For example, if you want to obtain DOIs for some articles and Times Cited counts for other articles, you must submit two separate requests.
      */
+    private Logger logger = LoggerFactory.getLogger(LAMRClient.class);
+
+    private LAMRThrottleHandler lamrThrottleHandler;
+
     private String ENDPOINT_URL = "https://ws.isiknowledge.com/cps/xrpc";
     private URL url;
 
@@ -27,9 +33,15 @@ public class LAMRClient {
 
     public LAMRClient() throws IOException {
         url = new URL(ENDPOINT_URL);
+        lamrThrottleHandler = new LAMRThrottleHandler();
     }
 
-    public String request(TARGET_DB_TYPE targetDbType, List<LamrRequestParameters> params) {
+    public String request(TARGET_DB_TYPE targetDbType, List<LamrRequestParameters> params) throws InterruptedException {
+
+        while (!lamrThrottleHandler.test(System.nanoTime(), params.size())) {
+            logger.info("Waiting to ease requests.");
+            Thread.sleep(2000);
+        }
 
         String requestXml = lamrMessageGen.getXmlData(targetDbType, params);
         StringBuilder content = new StringBuilder();
@@ -45,6 +57,9 @@ public class LAMRClient {
             writer = new OutputStreamWriter(con.getOutputStream(), "UTF-8");
             writer.write(requestXml);
             writer.flush();
+
+            lamrThrottleHandler.recode(System.nanoTime(), params.size());
+
             if (writer != null) {
                 try {
                     writer.close();

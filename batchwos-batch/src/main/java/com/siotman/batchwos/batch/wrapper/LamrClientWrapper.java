@@ -17,6 +17,7 @@ import java.util.*;
 
 @Component
 public class LamrClientWrapper extends LAMRClient {
+
     public LamrClientWrapper() throws IOException {
         super();
     }
@@ -25,7 +26,7 @@ public class LamrClientWrapper extends LAMRClient {
         ADD, UPDATE
     }
 
-    public void getLamrRecordMap(List<Paper> list, LAMR_TYPE lamrType) throws IOException {
+    public void getLamrRecordMap(List<Paper> list, LAMR_TYPE lamrType) throws IOException, InterruptedException {
         List<LamrRequestParameters> params  = new ArrayList<>();
         Map<String, Paper> paperMap         = new HashMap<>();
 
