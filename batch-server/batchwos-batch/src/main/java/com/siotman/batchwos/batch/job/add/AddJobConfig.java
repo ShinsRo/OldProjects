@@ -53,17 +53,17 @@ public class AddJobConfig {
     public Step searchStep() {
         return this.stepBuilderFactory.get("searchStep")
                 .tasklet(((stepContribution, chunkContext) -> {
+                    logger.info("[0100] SearchStep Started");
                     if (searchClientWrapper.getSID() == null) searchClientWrapper.connect();
 
-                    logger.info("[0100] SearchStep Started");
                     logger.info("[0101] Empty resources.");
-
                     searchClientWrapper.emptyResource();
 
+                    logger.info("[0102] Searching...");
                     searchClientWrapper.search(
                             "AD=(Sejong Univ)",
-                            "2006-01-01", "2008-01-01"
-//                           "1week"
+//                            "2017-01-01", "2018-01-01"
+                           "1week"
                     );
                     return RepeatStatus.FINISHED;
                 })).build();

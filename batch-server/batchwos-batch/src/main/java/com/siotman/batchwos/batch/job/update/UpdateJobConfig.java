@@ -61,7 +61,7 @@ public class UpdateJobConfig {
                 .name("papersReader")
                 .pageSize(50)
                 .entityManagerFactory(entityManagerFactory)
-                .queryString("select p from Paper p")
+                .queryString("select p from Paper p where p.recordState != 'COMPLETED'")
                 .build();
     }
 
@@ -79,16 +79,14 @@ public class UpdateJobConfig {
                 boolean isLatest    = item.getLastUpdate().isAfter(base);
                 RecordState rs      = item.getRecordState();
 
-//                if (isLatest || rs.equals(RecordState.IN_PROGRESS)) {
-//                    continue;
-//                }
+                if (isLatest || rs.equals(RecordState.IN_PROGRESS)) {
+                    continue;
+                }
 
-//                if (prevTimesCited.get(i).equals(item.getTimesCited())) {
-//                    item.setRecordState(RecordState.COMPLETED);
-//                    continue;
-//                }
-
-//                if (item.getRecordState().equals(RecordState.COMPLETED)) continue;
+                if (prevTimesCited.get(i).equals(item.getTimesCited())) {
+                    item.setRecordState(RecordState.COMPLETED);
+                    continue;
+                }
 
                 item.setRecordState(RecordState.SHOULD_UPDATE);
                 StringBuilder bodyBuilder = new StringBuilder()

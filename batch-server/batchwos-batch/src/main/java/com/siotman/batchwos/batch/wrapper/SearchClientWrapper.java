@@ -31,8 +31,16 @@ public class SearchClientWrapper extends SearchClient {
     public boolean hasNext()            { return next; }
     public Integer getRecordCursor()    { return recordCursor; }
 
+    @Override
+    public String connect() throws SOAPException {
+        logger.info(String.format("[0100] Connecting the client to WOKService."));
+
+        return super.connect();
+    }
 
     public SearchResponse search(String query, String week) throws SOAPException {
+        logger.info(String.format("[0120] Sending a initial query."));
+
         this.search(
                 "WOS", query,
                 null, null,
@@ -44,12 +52,16 @@ public class SearchClientWrapper extends SearchClient {
         );
         SearchResponse response = getCurrentSearchResponse();
 
+        logger.info(String.format("[0121] The initial query was sent."));
+
         this.next = (Integer.valueOf(response.getRecordsFound()) > 0);
         this.recordCursor = 1;
         return getCurrentSearchResponse();
     }
 
     public SearchResponse search(String query, String from, String to) throws SOAPException {
+        logger.info(String.format("[0120] Sending a initial query."));
+
         this.search(
                 "WOS", query,
                 null, null,
@@ -59,6 +71,8 @@ public class SearchClientWrapper extends SearchClient {
                 1, 0,
                 null, null, null
         );
+
+        logger.info(String.format("[0121] The initial query was sent."));
 
         SearchResponse response = getCurrentSearchResponse();
 
@@ -95,9 +109,10 @@ public class SearchClientWrapper extends SearchClient {
     }
 
     public void emptyResource() {
+        logger.info(String.format("[0130] Checking previous resource files."));
         File dir = new File(RESOURCE_DIR);
         int deleted = 0;
         for (File file : dir.listFiles()) { file.delete(); deleted++; }
-        logger.info(String.format("%d개 파일 삭제", deleted));
+        logger.info(String.format("[0131] %d files deleted.", deleted));
     }
 }
