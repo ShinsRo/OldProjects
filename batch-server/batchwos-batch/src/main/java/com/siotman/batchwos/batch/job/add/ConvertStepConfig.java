@@ -1,5 +1,6 @@
 package com.siotman.batchwos.batch.job.add;
 
+import com.siotman.batchwos.batch.component.ParsingTrigger;
 import com.siotman.batchwos.batch.domain.jpa.Paper;
 import com.siotman.batchwos.batch.domain.jpa.RecordState;
 import com.siotman.batchwos.batch.domain.xml.XmlRecord;
@@ -25,6 +26,8 @@ public class ConvertStepConfig {
     private Logger logger = LoggerFactory.getLogger(ConvertStepConfig.class);
 
     @Autowired private RabbitTemplate rabbitTemplate;
+    @Autowired private ParsingTrigger parsingTrigger;
+
     @Autowired private PaperRepository paperRepository;
     @Autowired private LamrClientWrapper lamrClientWrapper;
 

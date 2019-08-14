@@ -1,5 +1,6 @@
 package com.siotman.batchwos.batch.job.add;
 
+import com.siotman.batchwos.batch.job.JobStateHolder;
 import com.siotman.batchwos.batch.wrapper.SearchClientWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +35,7 @@ public class AddJobConfig {
     @Autowired private ItemProcessor            convertStepProcessor;
     @Autowired private ItemWriter               convertStepWriter;
 
+    @Autowired private JobStateHolder           addJobStateHolder;
 
     @Bean
     public Resource[] xmlResources() { return new Resource[]{}; }
@@ -54,7 +56,7 @@ public class AddJobConfig {
         return this.stepBuilderFactory.get("searchStep")
                 .tasklet(((stepContribution, chunkContext) -> {
                     logger.info("[0100] SearchStep Started");
-                    if (searchClientWrapper.getSID() == null) searchClientWrapper.connect();
+                    searchClientWrapper.connect();
 
                     logger.info("[0101] Empty resources.");
                     searchClientWrapper.emptyResource();
@@ -62,8 +64,8 @@ public class AddJobConfig {
                     logger.info("[0102] Searching...");
                     searchClientWrapper.search(
                             "AD=(Sejong Univ)",
-//                            "2017-01-01", "2018-01-01"
-                           "1week"
+                            "2018-01-01", "2019-08-14"
+//                           "1week"
                     );
                     return RepeatStatus.FINISHED;
                 })).build();
@@ -77,8 +79,8 @@ public class AddJobConfig {
                     Integer left    = searchClientWrapper.getCurrentSearchResponse().getRecordsFound();
                     Integer cursor  = searchClientWrapper.getRecordCursor();
 
-                    String MSG = String.format("[0201] RetrieveStep in [%d/%d]", cursor, left);
-                    logger.info(MSG);
+                    String LOG_MSG = String.format("[0201] RetrieveStep in [%d/%d]", cursor, left);
+                    logger.info(LOG_MSG);
 
                     searchClientWrapper.retrieveCurrent();
                     if (searchClientWrapper.hasNext())  return RepeatStatus.CONTINUABLE;

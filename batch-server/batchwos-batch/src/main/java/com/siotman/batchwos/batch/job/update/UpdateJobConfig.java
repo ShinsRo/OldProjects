@@ -1,7 +1,9 @@
 package com.siotman.batchwos.batch.job.update;
 
+import com.siotman.batchwos.batch.component.ParsingTrigger;
 import com.siotman.batchwos.batch.domain.jpa.Paper;
 import com.siotman.batchwos.batch.domain.jpa.RecordState;
+import com.siotman.batchwos.batch.job.JobStateHolder;
 import com.siotman.batchwos.batch.repo.PaperRepository;
 import com.siotman.batchwos.batch.wrapper.LamrClientWrapper;
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JpaPagingItemReader;
 import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilder;
@@ -37,21 +40,26 @@ public class UpdateJobConfig {
     @Autowired private EntityManagerFactory entityManagerFactory;
 
     @Autowired private RabbitTemplate rabbitTemplate;
+    @Autowired private ParsingTrigger parsingTrigger;
+
+    @Autowired private JobStateHolder addJobStateHolder;
+
 
 //    @Bean
 //    public Job updateJob() {
 //        return this.jobBuilderFactory.get("updateJob")
 //                .incrementer(new RunIdIncrementer())
-//                .start(fetchStep())
+//                .start(fetchAndUpdateStep())
 //                .build();
 //    }
 
     @Bean
-    public Step fetchStep() {
-        return this.stepBuilderFactory.get("fetchStep")
+    public Step fetchAndUpdateStep() {
+        return this.stepBuilderFactory.get("fetchAndUpdateStep")
                 .<Paper, Paper>chunk(50)
-                .reader(papersReader())
-                .writer(updateWriter())
+                .reader(    papersReader())
+                .processor( updateLogProcessor())
+                .writer(    updateWriter())
                 .build();
     }
 
@@ -61,8 +69,17 @@ public class UpdateJobConfig {
                 .name("papersReader")
                 .pageSize(50)
                 .entityManagerFactory(entityManagerFactory)
-                .queryString("select p from Paper p where p.recordState != 'COMPLETED'")
+                .queryString("select p from Paper p")
                 .build();
+    }
+
+    @Bean
+    public ItemProcessor<Paper, Paper> updateLogProcessor() {
+        return paper -> {
+            logger.info(paper.info());
+
+            return paper;
+        };
     }
 
     @Bean

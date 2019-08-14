@@ -73,4 +73,13 @@ public class Paper {
         while (iter.hasNext()) this.doctype.add(Doctype.builder().value(iter.next()).build());
 
     }
+
+    public String info() {
+        StringBuilder sb = new StringBuilder();
+
+        sb  .append("UT: ").append(uid)
+            .append(" LU: ").append(lastUpdate)
+            .append(" RS: ").append(recordState);
+        return sb.toString();
+    }
 }
