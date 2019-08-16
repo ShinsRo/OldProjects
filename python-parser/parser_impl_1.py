@@ -128,21 +128,29 @@ class WosParser():
         # 레코드 조회가 불가능한 경우
         except parser_exceptions.RecordNotAvailableError:
             self.logger.log('info', '[0140] The record is not available.')
-            paper_data = {'uid': uid}
-            paper_data['recordState'] = 'COMPLETED'
+            paper_data = { 'uid': uid }
+            paper_data['recordState'] = 'NOT_AVAILABLE'
             requests.post('http://127.0.0.1:9400/savePaperData', json=paper_data)
 
         except parser_exceptions.CiteListNoSubsError:
             self.logger.log('info', '[0150] The record\'s CitingArticle list page isn\'t covered by the subscribe.')
             dto = {
                     'uid': uid,
-                    'recordState': 'COMPLETED',
+                    'recordState': 'NO_SUBSCRIBE',
                     'tcData': {}
             }
             requests.post('http://127.0.0.1:9400/saveTcData', json=dto)
 
         except Exception as e:
-            self.logger.log('error', '[9001] Error detected. Printing http_res.')
+            self.logger.log('error', '[9001] Unknown error detected. Printing http_res.')
+
+            dto = {
+                    'uid': uid,
+                    'recordState': 'ERROR',
+                    'tcData': {}
+            }
+            requests.post('http://127.0.0.1:9400/saveTcData', json=dto)
+
             with open('./%s.html' % uid, 'w') as f:
                 f.write(http_res.content.decode('utf-8'))
             raise e

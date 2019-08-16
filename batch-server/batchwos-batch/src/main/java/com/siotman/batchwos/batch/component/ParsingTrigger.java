@@ -2,6 +2,7 @@ package com.siotman.batchwos.batch.component;
 
 import com.siotman.batchwos.batch.domain.jpa.Paper;
 import org.codehaus.jettison.json.JSONObject;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,9 +22,16 @@ public class ParsingTrigger {
                 put("extra",        "");
     }};
 
+    private final Map<String, String> LOG_MSG_FORMAT
+            = new HashMap<String, String>() {{
+        put("from",   "");
+        put("to",     "");
+        put("UID",    "");
+    }};
+
 
     @Autowired private RabbitTemplate rabbitTemplate;
-
+    @Autowired private TopicExchange flowEx;
     public enum TYPE {
         ADD_PARSE_DETAIL    (new HashMap<String, String>() {{
             put("sourceType", "DETAIL_LINK");
@@ -50,10 +58,29 @@ public class ParsingTrigger {
         MSG_FORMAT.put("targetURL",     paper.getSourceUrls().getSourceURL());
         MSG_FORMAT.put("extra",         extra);
 
+        String json = new JSONObject(MSG_FORMAT).toString();
+
         rabbitTemplate.convertAndSend(
                 type.format.get("exchange"),
                 type.format.get("routingKey"),
-                new JSONObject(MSG_FORMAT).toString()
+                json
+        );
+
+        sendLog(paper.getUid());
+    }
+
+    public void sendLog(String UID) {
+        LOG_MSG_FORMAT.put("from",  "batchServer");
+        LOG_MSG_FORMAT.put("to",    "broker");
+        LOG_MSG_FORMAT.put("UID",   UID);
+        LOG_MSG_FORMAT.put("state", "WAITING");
+
+        String json = new JSONObject(LOG_MSG_FORMAT).toString();
+
+        rabbitTemplate.convertAndSend(
+                "any",
+                "flow.server",
+                json
         );
     }
 }

@@ -2,6 +2,7 @@ import traceback
 from datetime import timedelta
 from datetime import datetime
 
+import json
 import pika
 import parser_exceptions
 from parser_logger import Logger
@@ -25,7 +26,7 @@ class Mailman():
 
     def send(self, sender: str, targetType: str, uid: str, targetURL: str, extra: str):
         '''
-            바디 메세지 형식 : "type$,uid$,targetURL$,extra"
+            바디 메세지 형식 : "type, uid, targetURL, extra"
 
             - type      : 페이지 타입 (DETAIL, CITE_CNT)
             - uid       : WOS 레코드 uid
@@ -38,7 +39,14 @@ class Mailman():
         logger      = self.logger
         channel     = self.channel
 
-        msg = '$,'.join([targetType, uid, targetURL, extra])
+        obj = {
+            'sourceType'    : targetType,
+            'UID'           : uid,
+            'targetURL'     : targetURL,
+            'extra'         : extra
+        }
+
+        msg = json.dumps(obj)
         channel.basic_publish(
             exchange='create', routing_key='target.create.recursion',
             body=msg
