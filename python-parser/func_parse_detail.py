@@ -109,8 +109,8 @@ def parse_detail(soup: BeautifulSoup, uid: str):
     
     ## 원본 주소 데이터 정제 ##
     logger.log('info', 'DETAIL//[%s] 원본 주소 데이터 정제' % uid)
-    ptn_reprint = re.compile(r'.+Reprint Address:+(?P<name>[A-Z,a-z.\'\- ]+)\(reprint author\)(?P<address>[A-Z,a-z.\'\- 0-9]+)?')
-    ptn_address = re.compile(r'\[ (?P<address_key>\d+) \] (?P<address>[A-Za-z,.\'\- 0-9]+)')
+    ptn_reprint = re.compile(r'.+Reprint Address:+(?P<name>[A-Z,a-z.\'\- ]+)\(reprint author\)(?P<address>[A-Z,a-z.\'\- 0-9&]+)?')
+    ptn_address = re.compile(r'\[ (?P<address_key>\d+) \] (?P<address>[A-Za-z,.\'\- 0-9&]+)')
 
     m = ptn_reprint.match(raw_author_infos)
     
