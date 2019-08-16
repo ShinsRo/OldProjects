@@ -1,7 +1,7 @@
 package com.siotman.batchwos.batch.job;
 
-import com.siotman.batchwos.batch.domain.dto.JobStateDto;
-import com.siotman.batchwos.batch.domain.dto.StepStateDto;
+import com.siotman.batchwos.batch.domain.JobState;
+import com.siotman.batchwos.batch.domain.StepState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +11,7 @@ import java.util.Map;
 public abstract class JobStateHolder {
     private Logger logger;
 
-    private JobStateDto jobStateDto;
+    private JobState jobState;
 
     private String jobName;
     private String[] steps;
@@ -21,20 +21,20 @@ public abstract class JobStateHolder {
         this.logger = LoggerFactory.getLogger(jobName + JobStateHolder.class);
 
         if (jobName.equals("add")) {
-            this.steps = new String[]{"fetch", "retrieve", "convert"};
+            this.steps = new String[]{"search", "retrieve", "convert"};
         } else if (jobName.equals("update")) {
             this.steps = new String[]{"fetchAndUpdate"};
         }
 
     }
 
-    public JobStateDto describe() {
+    public JobState describe() {
         return null;
     }
 
     public String describeStepResultAsString(String stepName) {
-        StepStateDto state = jobStateDto.getStepStates().get(stepName);
-        Map<String, String> result = state.getResult();
+        StepState state = jobState.getStepStates().get(stepName);
+        Map<String, Object> result = state.getResult();
 
         StringBuilder sb = new StringBuilder();
         for (String resultKey : result.keySet()) {
@@ -54,20 +54,21 @@ public abstract class JobStateHolder {
         );
         logger.info(LOG_MSG);
 
-        jobStateDto = new JobStateDto();
-        jobStateDto.setCurrentStep("NONE");
+        jobState = new JobState();
+        jobState.setCurrentStep("NONE");
 
-        Map<String, StepStateDto> stepStates = new HashMap<>();
+        Map<String, StepState> stepStates = new HashMap<>();
 
         for (String step : steps) {
-            StepStateDto ssd = new StepStateDto();
+            StepState ssd = new StepState();
             ssd.setStepName(step);
             ssd.setState("waiting");
             ssd.setResult(new HashMap<>());
+
+            stepStates.put(step, ssd);
         }
 
-        jobStateDto.setStepStates(stepStates);
-
+        jobState.setStepStates(stepStates);
     }
 
     public void setStepState(String stepName, String state) {
@@ -77,26 +78,34 @@ public abstract class JobStateHolder {
         );
         logger.info(LOG_MSG);
 
-        jobStateDto.setCurrentStep(stepName);
-        jobStateDto.getStepStates()
+        jobState.setCurrentStep(stepName);
+        jobState.getStepStates()
                 .get(stepName)
                 .setState(state);
     }
 
-    public void setStepResult(String stepName, Map<String, String> result) {
+    public void setStepResult(String stepName, Map<String, Object> result) {
+        jobState.setCurrentStep(stepName);
+        StepState stepState = jobState.getStepStates().get(stepName);
+        Map stepResult = stepState.getResult();
+
+        if (stepResult == null)     stepState.setResult(result);
+        else                        stepResult.putAll(result);
+
         String LOG_MSG = String.format(
                 "[%s] %sJobStateHolder setStepResult/ NAME: %s, RESULT: %s",
                 "3020", jobName, stepName, describeStepResultAsString(stepName)
         );
         logger.info(LOG_MSG);
-
-        jobStateDto.setCurrentStep(stepName);
-        jobStateDto.getStepStates()
-                .get(stepName)
-                .setResult(result);
     }
 
     public void flush() {
-        if (this.jobStateDto != null) this.jobStateDto = null;
+//        if (this.jobState != null) this.jobState = null;
+    }
+
+    public Map<String, Object> getStepResult(String stepName) {
+        StepState stepState = jobState.getStepStates().get(stepName);
+
+        return stepState.getResult();
     }
 }

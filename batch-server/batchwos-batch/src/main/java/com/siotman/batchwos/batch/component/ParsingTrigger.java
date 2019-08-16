@@ -1,6 +1,7 @@
 package com.siotman.batchwos.batch.component;
 
 import com.siotman.batchwos.batch.domain.jpa.Paper;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,48 +12,48 @@ import java.util.Map;
 @Component
 public class ParsingTrigger {
     /* SourceType,UID$,targetURL$,SID$,EXTRA*/
-    private final String MSG_FORMAT = "%s$,%s$,%s$,%s$,%s";
+//    private final String MSG_FORMAT = "%s$,%s$,%s$,%s$,%s";
+    private final Map<String, String> MSG_FORMAT
+            = new HashMap<String, String>() {{
+                put("sourceType",   "");
+                put("UID",          "");
+                put("targetURL",    "");
+                put("extra",        "");
+    }};
+
 
     @Autowired private RabbitTemplate rabbitTemplate;
 
     public enum TYPE {
-        ADD_PARSE_DETAIL, UPDATE_PARSE_DETAIL;
+        ADD_PARSE_DETAIL    (new HashMap<String, String>() {{
+            put("sourceType", "DETAIL_LINK");
+            put("exchange", "create");
+            put("routingKey", "target.create.record");
+        }}),
 
-        private Map<String, String> props;
+        UPDATE_PARSE_DETAIL (new HashMap<String, String>() {{
+            put("sourceType", "DETAIL_LINK");
+            put("exchange", "update");
+            put("routingKey", "target.update.record");
+        }});
 
-        TYPE() {
-            this.props = new HashMap<>();
+        private Map<String, String> format;
 
-            switch (this) {
-                case ADD_PARSE_DETAIL:
-                    this.props.put("sourceType", "DETAIL_LINK");
-                    this.props.put("exchange", "create");
-                    this.props.put("routingKey", "target.create.record");
-
-                case UPDATE_PARSE_DETAIL:
-                    this.props.put("sourceType", "DETAIL_LINK");
-                    this.props.put("exchange", "update");
-                    this.props.put("routingKey", "target.update.record");
-
-                default:
-                    break;
-            }
+        TYPE(Map<String, String> format) {
+            this.format = format;
         }
     }
 
-    public void startOne(TYPE type, Paper paper, String SID, String extra) {
-        String msg = String.format(MSG_FORMAT,
-                type.props.get("sourceType"),
-                paper.getUid(),
-                paper.getSourceUrls().getSourceURL(),
-                SID,
-                extra
-        );
+    public void startOne(TYPE type, Paper paper, String extra) {
+        MSG_FORMAT.put("sourceType",    type.format.get("sourceType"));
+        MSG_FORMAT.put("UID",           paper.getUid());
+        MSG_FORMAT.put("targetURL",     paper.getSourceUrls().getSourceURL());
+        MSG_FORMAT.put("extra",         extra);
 
         rabbitTemplate.convertAndSend(
-                type.props.get("exchange"),
-                type.props.get("routingKey"),
-                msg
+                type.format.get("exchange"),
+                type.format.get("routingKey"),
+                new JSONObject(MSG_FORMAT).toString()
         );
     }
 }

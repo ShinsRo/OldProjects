@@ -5,6 +5,7 @@ import com.siotman.batchwos.batch.domain.jpa.Paper;
 import com.siotman.batchwos.batch.domain.jpa.RecordState;
 import com.siotman.batchwos.batch.domain.xml.XmlRecord;
 import com.siotman.batchwos.batch.domain.xml.XmlRecordList;
+import com.siotman.batchwos.batch.job.JobStateHolder;
 import com.siotman.batchwos.batch.repo.PaperRepository;
 import com.siotman.batchwos.batch.wrapper.LamrClientWrapper;
 import org.slf4j.Logger;
@@ -27,6 +28,7 @@ public class ConvertStepConfig {
 
     @Autowired private RabbitTemplate rabbitTemplate;
     @Autowired private ParsingTrigger parsingTrigger;
+    @Autowired private JobStateHolder addJobStateHolder;
 
     @Autowired private PaperRepository paperRepository;
     @Autowired private LamrClientWrapper lamrClientWrapper;
@@ -58,16 +60,10 @@ public class ConvertStepConfig {
             List<? extends Paper> papers = paperRepository.saveAll(list);
 
             for (Paper paper : papers) {
-                StringBuilder bodyBuilder = new StringBuilder()
-                        .append("DETAIL_LINK")                          .append("$,")   // TargetType
-                        .append(paper.getUid())                         .append("$,")   // UID
-                        .append(paper.getSourceUrls().getSourceURL())   .append("$,")   // targetURL
-                        .append("EXTRA");                                               // EXTRA args
-
-                rabbitTemplate.convertAndSend(
-                        "create",
-                        "target.create.record",
-                        bodyBuilder.toString()
+                parsingTrigger.startOne(
+                        ParsingTrigger.TYPE.ADD_PARSE_DETAIL,
+                        paper,
+                        "ADD"
                 );
             }
         };

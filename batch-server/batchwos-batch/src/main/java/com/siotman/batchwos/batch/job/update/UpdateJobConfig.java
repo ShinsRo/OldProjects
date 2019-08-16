@@ -4,6 +4,8 @@ import com.siotman.batchwos.batch.component.ParsingTrigger;
 import com.siotman.batchwos.batch.domain.jpa.Paper;
 import com.siotman.batchwos.batch.domain.jpa.RecordState;
 import com.siotman.batchwos.batch.job.JobStateHolder;
+import com.siotman.batchwos.batch.job.JobStateListener;
+import com.siotman.batchwos.batch.job.StepStateListener;
 import com.siotman.batchwos.batch.repo.PaperRepository;
 import com.siotman.batchwos.batch.wrapper.LamrClientWrapper;
 import org.slf4j.Logger;
@@ -25,7 +27,9 @@ import org.springframework.context.annotation.Configuration;
 import javax.persistence.EntityManagerFactory;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Configuration
 public class UpdateJobConfig {
@@ -39,23 +43,24 @@ public class UpdateJobConfig {
 
     @Autowired private EntityManagerFactory entityManagerFactory;
 
-    @Autowired private RabbitTemplate rabbitTemplate;
     @Autowired private ParsingTrigger parsingTrigger;
 
-    @Autowired private JobStateHolder addJobStateHolder;
+    @Autowired private UpdateJobStateHolder updateJobStateHolder;
 
 
-//    @Bean
-//    public Job updateJob() {
-//        return this.jobBuilderFactory.get("updateJob")
-//                .incrementer(new RunIdIncrementer())
-//                .start(fetchAndUpdateStep())
-//                .build();
-//    }
+    @Bean
+    public Job updateJob() {
+        return this.jobBuilderFactory.get("updateJob")
+                .incrementer(new RunIdIncrementer())
+                .listener(new JobStateListener(updateJobStateHolder))
+                .start(fetchAndUpdateStep())
+                .build();
+    }
 
     @Bean
     public Step fetchAndUpdateStep() {
         return this.stepBuilderFactory.get("fetchAndUpdateStep")
+                .listener(new StepStateListener(updateJobStateHolder, "fetchAndUpdate"))
                 .<Paper, Paper>chunk(50)
                 .reader(    papersReader())
                 .processor( updateLogProcessor())
@@ -87,6 +92,8 @@ public class UpdateJobConfig {
         LocalDateTime base = LocalDateTime.now().minusDays(9);
 
         return list -> {
+            Integer shouldUpdate    = 0;
+
             List<Integer> prevTimesCited = new ArrayList<>();
             list.stream().forEach(paper -> prevTimesCited.add(paper.getTimesCited()));
             lamrClientWrapper.getLamrRecordMap((List<Paper>) list, LamrClientWrapper.LAMR_TYPE.UPDATE);
@@ -106,49 +113,17 @@ public class UpdateJobConfig {
                 }
 
                 item.setRecordState(RecordState.SHOULD_UPDATE);
-                StringBuilder bodyBuilder = new StringBuilder()
-                        .append("DETAIL_LINK")                         .append("$,")    // TargetType
-                        .append(item.getUid())                         .append("$,")    // UID
-                        .append(item.getSourceUrls().getSourceURL())   .append("$,")    // targetURL
-                        .append("UPDATE");                                              // EXTRA args
+                shouldUpdate++;
 
-                rabbitTemplate.convertAndSend(
-                        "update",
-                        "target.update.record",
-                        bodyBuilder.toString()
+                parsingTrigger.startOne(
+                        ParsingTrigger.TYPE.UPDATE_PARSE_DETAIL,
+                        item,
+                        "UPDATE"
                 );
             }
+
+            updateJobStateHolder.increaseElement("shouldUpdate", shouldUpdate);
             paperRepository.saveAll(list);
         };
     }
 }
-
-//if (item.getTimesCited() != 0 && item.getTcData().size() == 0) {
-//        item.setRecordState(RecordState.SHOULD_UPDATE);
-//        StringBuilder bodyBuilder = new StringBuilder()
-//        .append("DETAIL_LINK")                         .append("$,")    // TargetType
-//        .append(item.getUid())                         .append("$,")    // UID
-//        .append(item.getSourceUrls().getSourceURL())   .append("$,")    // targetURL
-//        .append("UPDATE");                                              // EXTRA args
-//
-//        rabbitTemplate.convertAndSend(
-//        "update",
-//        "target.update.record",
-//        bodyBuilder.toString()
-//        );
-//        }
-//
-//        if (item.getAuthors().size() == 0) {
-//        item.setRecordState(RecordState.SHOULD_UPDATE);
-//        StringBuilder bodyBuilder = new StringBuilder()
-//        .append("DETAIL_LINK")                         .append("$,")    // TargetType
-//        .append(item.getUid())                         .append("$,")    // UID
-//        .append(item.getSourceUrls().getSourceURL())   .append("$,")    // targetURL
-//        .append("UPDATE");                                              // EXTRA args
-//
-//        rabbitTemplate.convertAndSend(
-//        "update",
-//        "target.update.record",
-//        bodyBuilder.toString()
-//        );
-//        }

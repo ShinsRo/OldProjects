@@ -1,4 +1,4 @@
-package com.siotman.batchwos.batch;
+package com.siotman.batchwos.batch.obs;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,10 +7,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class MessageTest {
+public class StateObsTest {
 
-
-    @Test
-    public void sendingTest() {
-    }
 }

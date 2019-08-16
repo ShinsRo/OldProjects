@@ -1,6 +1,7 @@
 import traceback
 import threading
 import time
+import json
 
 import pika
 import parser_exceptions
@@ -15,7 +16,7 @@ RABBITMQ_SERVER_URL = 'amqp://sejong:sejong1234@localhost:5672/'
 def cons_callback(ch, method, properties, body):
     logger      = Logger()
     '''
-        바디 메세지 형식 : "type$,uid$,targetURL$,extra"
+        바디 메세지 형식 : "type, uid, targetURL, extra"
 
         - type      : 페이지 타입 (DETAIL, CITE_CNT)
         - uid       : WOS 레코드 uid
@@ -27,18 +28,16 @@ def cons_callback(ch, method, properties, body):
     # 로직 시작 #
     try:
         ## 파라미터 추출 ##
-        args = str(body.decode('utf-8')).split('$,')
+        str_body: str   = str(body.decode('utf-8'))
+        args: dict      = json.loads(str_body)
 
-        if (len(args) != 4):
-            '''인자는 반드시 지정된 갯수로 제공되어야 한다.'''
-            raise Exception("Invalid message body: %s", body)
+        targetType  = args['sourceType']
+        uid         = args['UID']
+        targetURL   = args['targetURL']
+        extra       = args['extra']
 
         parser = ParserInterface(Mailman())
 
-        targetType  = args[0]
-        uid         = args[1]
-        targetURL   = args[2]
-        extra       = args[3]
 
         ## 파라미터 추출 끝 ##
         logger.log('info', 'Message received "%s" ' % (', '.join(args)[:50]))
