@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@Transactional      // 여러 호출로 인해 활성화한 DB 커넥션이 풀로 돌아가지 않고 얼어버리는 현상을 막는다.
+//@Transactional      // 여러 호출로 인해 활성화한 DB 커넥션이 풀로 돌아가지 않고 얼어버리는 현상을 막는다.
 @CrossOrigin("*")
 public class RecordCrudController {
     @Autowired PaperRepository paperRepository;

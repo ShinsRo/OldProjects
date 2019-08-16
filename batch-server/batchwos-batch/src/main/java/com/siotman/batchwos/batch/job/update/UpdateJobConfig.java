@@ -10,7 +10,6 @@ import com.siotman.batchwos.batch.repo.PaperRepository;
 import com.siotman.batchwos.batch.wrapper.LamrClientWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -27,9 +26,7 @@ import org.springframework.context.annotation.Configuration;
 import javax.persistence.EntityManagerFactory;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Configuration
 public class UpdateJobConfig {
@@ -81,17 +78,28 @@ public class UpdateJobConfig {
     @Bean
     public ItemProcessor<Paper, Paper> updateLogProcessor() {
         return paper -> {
-            logger.info(paper.info());
+            LocalDateTime base      = LocalDateTime.now().minusDays(5);
+            boolean isLatest        = paper.getLastUpdate().isAfter(base);
+            boolean isInProgress    = paper.getRecordState().equals(RecordState.IN_PROGRESS);
 
-            return paper;
+            updateJobStateHolder.increaseElement("readCnt", 1);
+
+            if (isLatest || isInProgress) {
+                return null;
+            } else {
+                return paper;
+            }
         };
     }
 
     @Bean
     public ItemWriter<Paper> updateWriter() {
-        LocalDateTime base = LocalDateTime.now().minusDays(9);
 
         return list -> {
+            if (list.size() == 0) {
+                return;
+            }
+
             Integer shouldUpdate    = 0;
 
             List<Integer> prevTimesCited = new ArrayList<>();
@@ -100,12 +108,6 @@ public class UpdateJobConfig {
 
             for (int i = 0; i < list.size(); i++) {
                 Paper item          = list.get(i);
-                boolean isLatest    = item.getLastUpdate().isAfter(base);
-                RecordState rs      = item.getRecordState();
-
-                if (isLatest || rs.equals(RecordState.IN_PROGRESS)) {
-                    continue;
-                }
 
                 if (prevTimesCited.get(i).equals(item.getTimesCited())) {
                     item.setRecordState(RecordState.COMPLETED);
