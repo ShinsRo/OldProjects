@@ -26,23 +26,20 @@ public class BatchwosBatchApplication {
     static final String RABBITMQ_PASSWORD   = "sejong1234";     // 임시 비번
     static final String CREATE_EXCHANGE     = "create";
     static final String UPDATE_EXCHANGE     = "update";
-    static final String LOGS_QUEUE          = "logs";
+    static final String FLOW_EXCHANGE       = "any";
+    static final String FLOW_QUEUE          = "flow";
     static final String TARGET_URLS_QUEUE   = "targetURLs";
 
-    @Bean Queue logsQueue()         { return new Queue(LOGS_QUEUE, true); }
+    @Bean Queue flowQueue()         { return new Queue(FLOW_QUEUE, true); }
     @Bean Queue targetURLsQueue()   { return new Queue(TARGET_URLS_QUEUE, true); }
 
+    @Bean TopicExchange flowEx()     { return new TopicExchange(FLOW_EXCHANGE); }
     @Bean TopicExchange createEx()  { return new TopicExchange(CREATE_EXCHANGE); }
     @Bean TopicExchange updateEx()  { return new TopicExchange(UPDATE_EXCHANGE); }
 
     @Bean
-    Binding logBinding01(Queue logsQueue, TopicExchange createEx) {
-        return BindingBuilder.bind(logsQueue).to(createEx).with("logs.#");
-    }
-
-    @Bean
-    Binding logBinding02(Queue logsQueue, TopicExchange updateEx) {
-        return BindingBuilder.bind(logsQueue).to(updateEx).with("logs.#");
+    Binding flowBinding(Queue flowQueue, TopicExchange flowEx) {
+        return BindingBuilder.bind(flowQueue).to(flowEx).with("flow.#");
     }
 
     @Bean
