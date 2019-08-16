@@ -6,7 +6,10 @@ import com.siotman.batchwos.batch.domain.xml.XmlLamrResponse;
 import com.siotman.batchwos.wsclient.lamr.LAMRClient;
 import com.siotman.batchwos.wsclient.lamr.domain.LamrRequestParameters;
 import com.siotman.batchwos.wsclient.lamr.domain.TARGET_DB_TYPE;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.oxm.UnmarshallingFailureException;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +20,7 @@ import java.util.*;
 
 @Component
 public class LamrClientWrapper extends LAMRClient {
+    private Logger logger = LoggerFactory.getLogger(LamrClientWrapper.class);
 
     public LamrClientWrapper() throws IOException {
         super();
@@ -40,9 +44,9 @@ public class LamrClientWrapper extends LAMRClient {
             Map<String, String> identifier = new HashMap<>();
 
             identifier.put("ut", uid);
-            if (paper.getDoi() != null)             identifier.put("doi",   paper.getDoi());
-            if (paper.getPublishedYear() != null)   identifier.put("year",  paper.getPublishedYear());
-            if (paper.getIssn() != null)            identifier.put("issn",  paper.getIssn());
+//            if (paper.getDoi() != null)             identifier.put("doi",   paper.getDoi());
+//            if (paper.getPublishedYear() != null)   identifier.put("year",  paper.getPublishedYear());
+//            if (paper.getIssn() != null)            identifier.put("issn",  paper.getIssn());
 
             params.add(LamrRequestParameters.builder()
                     .mapName(uid)
@@ -55,7 +59,13 @@ public class LamrClientWrapper extends LAMRClient {
         XStreamMarshaller marshaller = lamrMarshaller();
         StreamSource streamSource = new StreamSource(new StringReader(response));
 
-        XmlLamrResponse lamrResponse = (XmlLamrResponse) marshaller.unmarshal(streamSource);
+        XmlLamrResponse lamrResponse = null;
+        try {
+            lamrResponse = (XmlLamrResponse) marshaller.unmarshal(streamSource);
+        } catch (UnmarshallingFailureException ife) {
+            logger.error(String.format("Unmarshal error, response: \n %s", response));
+            throw ife;
+        }
 
         XmlLamrResponse.Map wrapped = lamrResponse.getFn().getMap();
         Map<String, XmlLamrResponse.Map> recordMap = wrapped.getMap();

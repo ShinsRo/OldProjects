@@ -9,11 +9,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class JobStateHolder {
-    private Logger logger;
+    protected Logger logger;
 
     private JobState jobState;
 
-    private String jobName;
+    protected String jobName;
     private String[] steps;
 
     public JobStateHolder(String jobName) {
@@ -74,7 +74,7 @@ public abstract class JobStateHolder {
     public void setStepState(String stepName, String state) {
         String LOG_MSG = String.format(
                 "[%s] %sJobStateHolder setStepState/ NAME: %s, STATE: %s",
-                "3010", jobName, stepName, state
+                "3020", jobName, stepName, state
         );
         logger.info(LOG_MSG);
 
@@ -94,7 +94,7 @@ public abstract class JobStateHolder {
 
         String LOG_MSG = String.format(
                 "[%s] %sJobStateHolder setStepResult/ NAME: %s, RESULT: %s",
-                "3020", jobName, stepName, describeStepResultAsString(stepName)
+                "3030", jobName, stepName, describeStepResultAsString(stepName)
         );
         logger.info(LOG_MSG);
     }

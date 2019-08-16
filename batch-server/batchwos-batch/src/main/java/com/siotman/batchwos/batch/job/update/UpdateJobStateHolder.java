@@ -18,5 +18,11 @@ public class UpdateJobStateHolder extends JobStateHolder {
                 (Integer) result.get(elementName) + amount : amount;
 
         result.put(elementName, element);
+
+        String LOG_MSG = String.format(
+                "[%s] increaseElement RESULT: %s",
+                "3030", describeStepResultAsString("fetchAndUpdate")
+        );
+        logger.info(LOG_MSG);
     }
 }
