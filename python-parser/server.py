@@ -34,7 +34,7 @@ def cons_callback(ch, method, properties, body):
         targetType  = args['sourceType']
         uid         = args['UID']
         targetURL   = args['targetURL']
-        extra       = args['extra']
+        # extra       = args['extra']
 
         parser = ParserInterface(Mailman())
 

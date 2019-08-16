@@ -67,6 +67,7 @@ class WosParser():
 
                 paper_data['recordState'] = recordState
                 requests.post('http://127.0.0.1:9400/savePaperData', json=paper_data)
+                self.mailman.send_flow('batchServer', uid, recordState)
                 
                 ## 상세 페이지 처리 끝 ##
 
@@ -99,7 +100,7 @@ class WosParser():
                     'tcData': tc_data
                 }
                 requests.post('http://127.0.0.1:9400/saveTcData', json=dto)
-
+                self.mailman.send_flow('batchServer', uid, recordState)
                 ## 인용 리스트 페이지 처리 끝 ##
                 pass
             
@@ -123,6 +124,8 @@ class WosParser():
                     'tcData': tc_data
                 }
                 requests.post('http://127.0.0.1:9400/saveTcData', json=dto)
+                self.mailman.send_flow('batchServer', uid, 'COMPLETED')
+
             else:
                 pass
         # 레코드 조회가 불가능한 경우
@@ -131,6 +134,7 @@ class WosParser():
             paper_data = { 'uid': uid }
             paper_data['recordState'] = 'NOT_AVAILABLE'
             requests.post('http://127.0.0.1:9400/savePaperData', json=paper_data)
+            self.mailman.send_flow('batchServer', uid, 'NOT_AVAILABLE')
 
         except parser_exceptions.CiteListNoSubsError:
             self.logger.log('info', '[0150] The record\'s CitingArticle list page isn\'t covered by the subscribe.')
@@ -140,6 +144,7 @@ class WosParser():
                     'tcData': {}
             }
             requests.post('http://127.0.0.1:9400/saveTcData', json=dto)
+            self.mailman.send_flow('batchServer', uid, 'NO_SUBSCRIBE')
 
         except Exception as e:
             self.logger.log('error', '[9001] Unknown error detected. Printing http_res.')
@@ -150,6 +155,7 @@ class WosParser():
                     'tcData': {}
             }
             requests.post('http://127.0.0.1:9400/saveTcData', json=dto)
+            self.mailman.send_flow('batchServer', uid, 'ERROR')
 
             with open('./%s.html' % uid, 'w') as f:
                 f.write(http_res.content.decode('utf-8'))

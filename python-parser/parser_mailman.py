@@ -1,3 +1,4 @@
+import os
 import traceback
 from datetime import timedelta
 from datetime import datetime
@@ -11,7 +12,8 @@ from parser_logger import Logger
 RABBITMQ_SERVER_URL = 'amqp://sejong:sejong1234@127.0.0.1:5672/'
 
 class Mailman():
-    def __init__(self):
+    def __init__(self, parser_id = None):
+        self.parser_id  = parser_id if parser_id else os.getpid()
         self.es_time    = 0
         self.logger     = Logger()
         self.connection = None
@@ -48,9 +50,29 @@ class Mailman():
 
         msg = json.dumps(obj)
         channel.basic_publish(
-            exchange='create', routing_key='target.create.recursion',
+            exchange='create',  routing_key='target.create.recursion',
             body=msg
         )
 
+        self.send_flow('broker', uid, 'IN_PROGRESS')
+
         logger.log('info', 'MSG sent.')
         logger.log('info', 'MSG >> %s' % msg)
+
+    def send_flow(self, to, uid, state):
+        if not self.connection or self.connection.is_closed:
+            self.connect()
+
+        channel     = self.channel
+
+        msg = json.dumps({
+            'from'  : self.parser_id,
+            'to'    : to,
+            'UID'   : uid,
+            'state' : state
+        })
+
+        channel.basic_publish(
+            exchange='any',  routing_key='flow.parser',
+            body=msg
+        )
