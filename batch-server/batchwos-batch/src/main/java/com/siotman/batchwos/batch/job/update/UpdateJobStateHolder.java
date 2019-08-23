@@ -1,12 +1,19 @@
 package com.siotman.batchwos.batch.job.update;
 
+import com.siotman.batchwos.batch.component.SocketSessionContainer;
 import com.siotman.batchwos.batch.job.JobStateHolder;
+import org.codehaus.jettison.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 @Component
 public class UpdateJobStateHolder extends JobStateHolder {
+    @Autowired SocketSessionContainer sessionContainer;
+
     public UpdateJobStateHolder() {
         super("update");
     }
@@ -24,5 +31,16 @@ public class UpdateJobStateHolder extends JobStateHolder {
                 "3030", describeStepResultAsString("fetchAndUpdate")
         );
         logger.info(LOG_MSG);
+        try {
+            sessionContainer.broadcast(
+                    new JSONObject(new HashMap<String, Object>() {{
+                        put("type", "increaseElement");
+                        put("elementName", elementName);
+                        put("amount", amount);
+                    }}).toString()
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

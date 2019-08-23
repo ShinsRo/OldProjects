@@ -1,6 +1,7 @@
 package com.siotman.batchwos.batch.job.update;
 
 import com.siotman.batchwos.batch.component.ParsingTrigger;
+import com.siotman.batchwos.batch.component.SocketSessionContainer;
 import com.siotman.batchwos.batch.domain.jpa.Paper;
 import com.siotman.batchwos.batch.domain.jpa.RecordState;
 import com.siotman.batchwos.batch.job.JobStateHolder;
@@ -43,13 +44,14 @@ public class UpdateJobConfig {
     @Autowired private ParsingTrigger parsingTrigger;
 
     @Autowired private UpdateJobStateHolder updateJobStateHolder;
+    @Autowired private SocketSessionContainer sessionContainer;
 
 
     @Bean
     public Job updateJob() {
         return this.jobBuilderFactory.get("updateJob")
                 .incrementer(new RunIdIncrementer())
-                .listener(new JobStateListener(updateJobStateHolder))
+                .listener(new JobStateListener(updateJobStateHolder, sessionContainer))
                 .start(fetchAndUpdateStep())
                 .build();
     }
@@ -57,7 +59,7 @@ public class UpdateJobConfig {
     @Bean
     public Step fetchAndUpdateStep() {
         return this.stepBuilderFactory.get("fetchAndUpdateStep")
-                .listener(new StepStateListener(updateJobStateHolder, "fetchAndUpdate"))
+                .listener(new StepStateListener(updateJobStateHolder, sessionContainer, "fetchAndUpdate"))
                 .<Paper, Paper>chunk(50)
                 .reader(    papersReader())
                 .processor( updateLogProcessor())

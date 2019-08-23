@@ -2,6 +2,7 @@ package com.siotman.batchwos.batch.job;
 
 import com.siotman.batchwos.batch.domain.JobState;
 import com.siotman.batchwos.batch.domain.StepState;
+import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,8 +29,27 @@ public abstract class JobStateHolder {
 
     }
 
-    public JobState describe() {
-        return null;
+    public String describeAsJson() {
+        Map<String, StepState> stepStates = jobState.getStepStates();
+        Map<String, Object> converted = new HashMap<>();
+
+        for (String step : stepStates.keySet()) {
+            StepState stepState = stepStates.get(step);
+
+            converted.put(stepState.getStepName(), new JSONObject(
+                    new HashMap<String, Object>(){{
+                        put("state", stepState.getState());
+                        put("result", new JSONObject(stepState.getResult()));
+                    }}
+            ));
+        }
+
+        return new JSONObject(new HashMap<String, Object>() {{
+            put("type", "JOB_STATE");
+            put("jobName", jobName);
+            put("created", jobState.getCreatedDate());
+            put("stepState", new JSONObject(converted));
+        }}).toString();
     }
 
     public String describeStepResultAsString(String stepName) {

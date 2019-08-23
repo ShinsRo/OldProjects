@@ -36,7 +36,9 @@ def cons_callback(ch, method, properties, body):
         targetURL   = args['targetURL']
         # extra       = args['extra']
 
-        parser = ParserInterface(Mailman())
+        mailman = Mailman();
+        mailman.send_flow_instead(uid, 'IN_PROGRESS');
+        parser = ParserInterface(mailman)
 
 
         ## 파라미터 추출 끝 ##

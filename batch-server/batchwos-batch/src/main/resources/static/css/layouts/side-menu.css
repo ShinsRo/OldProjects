@@ -250,3 +250,20 @@ Hides the menu at `48em`, but modify this based on your app's needs.
         right: 300px;
     }
 }
+
+.console-name {
+    padding: 5px;
+    margin: 0px;
+    margin-top: 5px;
+    color: #fff;
+}
+.console {
+    padding: 5px;
+    margin: 5px;
+    height: 135px;
+    overflow-y: scroll;
+    background-color: rgb(58, 58, 58);
+    color: white;
+    font-size: 10px;
+    border: #fff 1px solid;
+}

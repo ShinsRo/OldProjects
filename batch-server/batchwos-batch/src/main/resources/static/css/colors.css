@@ -27,5 +27,27 @@
   }
 
 .plain-grey {
-    color: #444444;
+  color: #444444;
+}
+
+.black {
+  color: #000;
+}
+
+.bg-color-waiting {
+  background-color: gray !important;
+  color: #fff;
+}
+
+
+.bg-color-running {
+  color: #fff;
+  background-color: orange !important;
+  color: yellow;
+}
+
+
+.bg-color-done {
+  color: #fff;
+  background-color: green !important;
 }

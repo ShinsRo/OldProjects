@@ -2,7 +2,6 @@ package com.siotman.batchwos.batch.component;
 
 import com.siotman.batchwos.batch.domain.jpa.Paper;
 import org.codehaus.jettison.json.JSONObject;
-import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,7 +12,7 @@ import java.util.Map;
 @Component
 public class ParsingTrigger {
     /* SourceType,UID$,targetURL$,SID$,EXTRA*/
-//    private final String MSG_FORMAT = "%s$,%s$,%s$,%s$,%s";
+
     private final Map<String, String> MSG_FORMAT
             = new HashMap<String, String>() {{
                 put("sourceType",   "");
@@ -22,8 +21,9 @@ public class ParsingTrigger {
                 put("extra",        "");
     }};
 
-    private final Map<String, String> LOG_MSG_FORMAT
+    private final Map<String, String> FLOW_MSG_FORMAT
             = new HashMap<String, String>() {{
+        put("type",   "FLOW");
         put("from",   "");
         put("to",     "");
         put("UID",    "");
@@ -31,7 +31,6 @@ public class ParsingTrigger {
 
 
     @Autowired private RabbitTemplate rabbitTemplate;
-    @Autowired private TopicExchange flowEx;
     public enum TYPE {
         ADD_PARSE_DETAIL    (new HashMap<String, String>() {{
             put("sourceType", "DETAIL_LINK");
@@ -66,16 +65,16 @@ public class ParsingTrigger {
                 json
         );
 
-        sendLog(paper.getUid());
+        sendFlow(paper.getUid());
     }
 
-    public void sendLog(String UID) {
-        LOG_MSG_FORMAT.put("from",  "batchServer");
-        LOG_MSG_FORMAT.put("to",    "broker");
-        LOG_MSG_FORMAT.put("UID",   UID);
-        LOG_MSG_FORMAT.put("state", "WAITING");
+    public void sendFlow(String UID) {
+        FLOW_MSG_FORMAT.put("from",  "batchServer");
+        FLOW_MSG_FORMAT.put("to",    "broker");
+        FLOW_MSG_FORMAT.put("UID",   UID);
+        FLOW_MSG_FORMAT.put("state", "WAITING");
 
-        String json = new JSONObject(LOG_MSG_FORMAT).toString();
+        String json = new JSONObject(FLOW_MSG_FORMAT).toString();
 
         rabbitTemplate.convertAndSend(
                 "any",
