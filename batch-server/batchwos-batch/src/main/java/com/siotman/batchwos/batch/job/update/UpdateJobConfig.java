@@ -1,12 +1,8 @@
 package com.siotman.batchwos.batch.job.update;
 
 import com.siotman.batchwos.batch.component.ParsingTrigger;
-import com.siotman.batchwos.batch.component.SocketSessionContainer;
 import com.siotman.batchwos.batch.domain.jpa.Paper;
 import com.siotman.batchwos.batch.domain.jpa.RecordState;
-import com.siotman.batchwos.batch.job.JobStateHolder;
-import com.siotman.batchwos.batch.job.JobStateListener;
-import com.siotman.batchwos.batch.job.StepStateListener;
 import com.siotman.batchwos.batch.repo.PaperRepository;
 import com.siotman.batchwos.batch.wrapper.LamrClientWrapper;
 import org.slf4j.Logger;
@@ -43,15 +39,10 @@ public class UpdateJobConfig {
 
     @Autowired private ParsingTrigger parsingTrigger;
 
-    @Autowired private UpdateJobStateHolder updateJobStateHolder;
-    @Autowired private SocketSessionContainer sessionContainer;
-
-
     @Bean
     public Job updateJob() {
         return this.jobBuilderFactory.get("updateJob")
                 .incrementer(new RunIdIncrementer())
-                .listener(new JobStateListener(updateJobStateHolder, sessionContainer))
                 .start(fetchAndUpdateStep())
                 .build();
     }
@@ -59,7 +50,6 @@ public class UpdateJobConfig {
     @Bean
     public Step fetchAndUpdateStep() {
         return this.stepBuilderFactory.get("fetchAndUpdateStep")
-                .listener(new StepStateListener(updateJobStateHolder, sessionContainer, "fetchAndUpdate"))
                 .<Paper, Paper>chunk(50)
                 .reader(    papersReader())
                 .processor( updateLogProcessor())
@@ -83,8 +73,6 @@ public class UpdateJobConfig {
             LocalDateTime base      = LocalDateTime.now().minusDays(5);
             boolean isLatest        = paper.getLastUpdate().isAfter(base);
             boolean isInProgress    = paper.getRecordState().equals(RecordState.IN_PROGRESS);
-
-            updateJobStateHolder.increaseElement("readCnt", 1);
 
             if (isLatest || isInProgress) {
                 return null;
@@ -126,7 +114,6 @@ public class UpdateJobConfig {
                 );
             }
 
-            updateJobStateHolder.increaseElement("shouldUpdate", shouldUpdate);
             paperRepository.saveAll(list);
         };
     }

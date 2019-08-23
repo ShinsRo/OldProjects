@@ -5,7 +5,6 @@ import com.siotman.batchwos.batch.domain.jpa.Paper;
 import com.siotman.batchwos.batch.domain.jpa.RecordState;
 import com.siotman.batchwos.batch.domain.xml.XmlRecord;
 import com.siotman.batchwos.batch.domain.xml.XmlRecordList;
-import com.siotman.batchwos.batch.job.JobStateHolder;
 import com.siotman.batchwos.batch.repo.PaperRepository;
 import com.siotman.batchwos.batch.wrapper.LamrClientWrapper;
 import org.slf4j.Logger;
@@ -26,9 +25,7 @@ import java.util.*;
 public class ConvertStepConfig {
     private Logger logger = LoggerFactory.getLogger(ConvertStepConfig.class);
 
-    @Autowired private RabbitTemplate rabbitTemplate;
     @Autowired private ParsingTrigger parsingTrigger;
-    @Autowired private JobStateHolder addJobStateHolder;
 
     @Autowired private PaperRepository paperRepository;
     @Autowired private LamrClientWrapper lamrClientWrapper;

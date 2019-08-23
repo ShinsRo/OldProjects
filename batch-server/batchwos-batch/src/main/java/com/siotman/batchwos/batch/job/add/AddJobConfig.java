@@ -1,9 +1,5 @@
 package com.siotman.batchwos.batch.job.add;
 
-import com.siotman.batchwos.batch.component.SocketSessionContainer;
-import com.siotman.batchwos.batch.job.JobStateHolder;
-import com.siotman.batchwos.batch.job.JobStateListener;
-import com.siotman.batchwos.batch.job.StepStateListener;
 import com.siotman.batchwos.batch.wrapper.SearchClientWrapper;
 import com.siotman.batchwos.wsclient.search.domain.SearchResponse;
 import org.slf4j.Logger;
@@ -42,9 +38,6 @@ public class AddJobConfig {
     @Autowired private ItemProcessor            convertStepProcessor;
     @Autowired private ItemWriter               convertStepWriter;
 
-    @Autowired private JobStateHolder           addJobStateHolder;
-    @Autowired private SocketSessionContainer   sessionContainer;
-
 
     @Bean
     public Resource[] xmlResources() { return new Resource[]{}; }
@@ -53,22 +46,17 @@ public class AddJobConfig {
     public Job addJob() {
         return this.jobBuilderFactory.get("addJob")
                 .incrementer(new RunIdIncrementer())
-                .listener(JobStateListener())
                 .start( searchStep())
                 .next(  retrieveStep())
                 .next(  convertStep())
                 .build();
     }
 
-    private JobStateListener JobStateListener() {
-        return new JobStateListener(addJobStateHolder, sessionContainer);
-    }
 
     @Bean
     @JobScope
     public Step searchStep() {
         return this.stepBuilderFactory.get("searchStep")
-                .listener(new StepStateListener(addJobStateHolder, sessionContainer,"search"))
                 .tasklet(((stepContribution, chunkContext) -> {
 
                     logger.info("[0100] SearchStep Started");
@@ -90,7 +78,6 @@ public class AddJobConfig {
                     result.put("recordsFound",      search.getRecordsFound());
                     result.put("recordsSearched",   search.getRecordsSearched());
 
-                    addJobStateHolder.setStepResult("search", result);
                     return RepeatStatus.FINISHED;
                 })).build();
     }
@@ -99,7 +86,6 @@ public class AddJobConfig {
     @JobScope
     public Step retrieveStep() {
         return this.stepBuilderFactory.get("retrieveStep")
-                .listener(new StepStateListener(addJobStateHolder, sessionContainer,"retrieve"))
                 .tasklet(((stepContribution, chunkContext) -> {
 
                     Integer total    = searchClientWrapper.getCurrentSearchResponse().getRecordsFound();
@@ -117,7 +103,6 @@ public class AddJobConfig {
                     retrieved           = (retrieved > total)? total: retrieved;
 
                     stepResult.put("retrieved", retrieved);
-                    addJobStateHolder.setStepResult("retrieve", stepResult);
 
                     if (searchClientWrapper.hasNext())  return RepeatStatus.CONTINUABLE;
                     else                                return RepeatStatus.FINISHED;
@@ -128,7 +113,6 @@ public class AddJobConfig {
     @JobScope
     public Step convertStep() {
         return this.stepBuilderFactory.get("convertStep")
-                .listener(new StepStateListener(addJobStateHolder, sessionContainer,"convert"))
                 .listener(  convertStepListener)
                 .chunk(     RETRIEVE_CNT_CONSTRAINT)
                 .reader(    convertStepReader)

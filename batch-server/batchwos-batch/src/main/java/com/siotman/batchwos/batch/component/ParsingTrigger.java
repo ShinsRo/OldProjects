@@ -21,14 +21,6 @@ public class ParsingTrigger {
                 put("extra",        "");
     }};
 
-    private final Map<String, String> FLOW_MSG_FORMAT
-            = new HashMap<String, String>() {{
-        put("type",   "FLOW");
-        put("from",   "");
-        put("to",     "");
-        put("UID",    "");
-    }};
-
 
     @Autowired private RabbitTemplate rabbitTemplate;
     public enum TYPE {
@@ -62,23 +54,6 @@ public class ParsingTrigger {
         rabbitTemplate.convertAndSend(
                 type.format.get("exchange"),
                 type.format.get("routingKey"),
-                json
-        );
-
-        sendFlow(paper.getUid());
-    }
-
-    public void sendFlow(String UID) {
-        FLOW_MSG_FORMAT.put("from",  "batchServer");
-        FLOW_MSG_FORMAT.put("to",    "broker");
-        FLOW_MSG_FORMAT.put("UID",   UID);
-        FLOW_MSG_FORMAT.put("state", "WAITING");
-
-        String json = new JSONObject(FLOW_MSG_FORMAT).toString();
-
-        rabbitTemplate.convertAndSend(
-                "any",
-                "flow.server",
                 json
         );
     }

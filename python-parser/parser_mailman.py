@@ -54,45 +54,5 @@ class Mailman():
             body=msg
         )
 
-        self.send_flow('broker', uid, 'IN_PROGRESS')
-
         logger.log('info', 'MSG sent.')
         logger.log('info', 'MSG >> %s' % msg)
-
-    def send_flow(self, to, uid, state):
-        if not self.connection or self.connection.is_closed:
-            self.connect()
-
-        channel     = self.channel
-
-        msg = json.dumps({
-            'type'  : 'FLOW',
-            'from'  : self.parser_id,
-            'to'    : to,
-            'UID'   : uid,
-            'state' : state
-        })
-
-        channel.basic_publish(
-            exchange='any',  routing_key='flow.parser',
-            body=msg
-        )
-
-    def send_flow_instead(self, uid, state):
-        if not self.connection or self.connection.is_closed:
-            self.connect()
-
-        channel     = self.channel
-
-        msg = json.dumps({
-            'type'  : 'FLOW',
-            'to'  : self.parser_id,
-            'from'    : 'broker',
-            'UID'   : uid,
-            'state' : state
-        })
-
-        channel.basic_publish(
-            exchange='any',  routing_key='flow.parser',
-            body=msg
-        )
