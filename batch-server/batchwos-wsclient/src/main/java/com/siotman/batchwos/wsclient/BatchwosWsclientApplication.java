@@ -12,7 +12,4 @@ public class BatchwosWsclientApplication {
     public static void main(String[] args) {
         SpringApplication.run(BatchwosWsclientApplication.class, args);
     }
-
-    public static String WS_WOS_USERNAME = "";
-    public static String WS_WOS_PASSWORD = "";
 }

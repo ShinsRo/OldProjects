@@ -1,7 +1,9 @@
 package com.siotman.batchwos.wsclient.search;
 
+import com.siotman.batchwos.wsclient.WsUtil;
 import com.siotman.batchwos.wsclient.auth.AuthClient;
 import com.siotman.batchwos.wsclient.auth.domain.AuthResponse;
+import com.siotman.batchwos.wsclient.search.domain.SearchResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +42,7 @@ public class SearchClientTests {
     @Test
     public void testSearch() {
         try {
-            sc.search(
+            SearchResponse soapResponse = sc.search(
                     "WOS", "TS=(cadmium OR lead)",
                     "WOS", "SCI",
                     null,

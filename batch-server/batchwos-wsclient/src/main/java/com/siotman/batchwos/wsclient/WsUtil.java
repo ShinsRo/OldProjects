@@ -7,7 +7,10 @@ import javax.xml.soap.SOAPMessage;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 import java.io.PrintStream;
+import java.io.StringReader;
+import java.io.StringWriter;
 
 public class WsUtil {
     /**
@@ -53,5 +56,19 @@ public class WsUtil {
         } catch (TransformerException | SOAPException e) {
             e.printStackTrace();
         }
+    }
+
+    public static String stringXmlBeautifier(String xmlData) throws TransformerException {
+        Transformer transformer = TransformerFactory.newInstance().newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+
+        StringWriter stringWriter = new StringWriter();
+        StreamResult xmlOutput = new StreamResult(stringWriter);
+
+        Source xmlInput = new StreamSource(new StringReader(xmlData));
+        transformer.transform(xmlInput, xmlOutput);
+
+        return xmlOutput.getWriter().toString();
     }
 }

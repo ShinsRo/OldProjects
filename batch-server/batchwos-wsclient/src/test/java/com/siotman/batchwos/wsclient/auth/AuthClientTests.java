@@ -18,7 +18,7 @@ public class AuthClientTests {
             AuthClient ac = new AuthClient();
             AuthResponse authResponse = ac.authenticate();
             System.out.println(authResponse.getSID());
-//            ac.closeSession(authResponse.getSID());
+            ac.closeSession(authResponse.getSID());
         } catch (SOAPException e) {
             e.printStackTrace();
         }

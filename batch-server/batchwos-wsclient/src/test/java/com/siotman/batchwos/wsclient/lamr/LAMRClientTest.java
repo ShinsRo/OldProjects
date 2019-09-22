@@ -1,5 +1,6 @@
 package com.siotman.batchwos.wsclient.lamr;
 
+import com.siotman.batchwos.wsclient.WsUtil;
 import com.siotman.batchwos.wsclient.lamr.domain.LamrRequestParameters;
 import com.siotman.batchwos.wsclient.lamr.domain.TARGET_DB_TYPE;
 import org.junit.Before;
@@ -8,7 +9,12 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.xml.transform.*;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +33,7 @@ public class LAMRClientTest {
             e.printStackTrace();
         }
     }
+
     @Test
     public void requestXmlGenTest() {
         LAMRMessageGen lamrMessageGen = LAMRMessageGen.getInstance();
@@ -58,7 +65,11 @@ public class LAMRClientTest {
 
         String response = lc.request(TARGET_DB_TYPE.WOS, params);
 
-        System.out.println(response);
+        try {
+            System.out.println(WsUtil.stringXmlBeautifier(response));
+        } catch (TransformerException e) {
+            e.printStackTrace();
+        }
 
         params = new ArrayList<>();
 
@@ -70,6 +81,10 @@ public class LAMRClientTest {
         );
 
         response = lc.request(TARGET_DB_TYPE.JCR, params);
-        System.out.println(response);
+        try {
+            System.out.println(WsUtil.stringXmlBeautifier(response));
+        } catch (TransformerException e) {
+            e.printStackTrace();
+        }
     }
 }
