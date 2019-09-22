@@ -1,11 +1,12 @@
 package com.siotman.wos.wsclient.search;
 
-import com.siotman.wos.wsclient.auth.AuthClient;
+import com.siotman.wos.wsclient.SearchClientPool;
 import com.siotman.wos.wsclient.search.domain.SearchResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -14,14 +15,15 @@ import javax.xml.soap.SOAPException;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SearchClientTests {
+    @Autowired
+    SearchClientPool searchClientPool;
+
     private SearchClient sc;
-    private AuthClient ac;
-    private String SID;
 
     @Before
     public void init() {
         try {
-            sc = new SearchClient();
+            sc = searchClientPool.getSearchClient();
             sc.connect();
         } catch (SOAPException e) {
             e.printStackTrace();
@@ -31,7 +33,7 @@ public class SearchClientTests {
     @After
     public void close() {
         try {
-            sc.close();
+            searchClientPool.closeAll();
         } catch (SOAPException e) {
             e.printStackTrace();
         }

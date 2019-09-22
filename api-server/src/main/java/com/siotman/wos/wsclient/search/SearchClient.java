@@ -1,6 +1,5 @@
 package com.siotman.wos.wsclient.search;
 
-import com.siotman.wos.feature.wsclient.search.domain.*;
 import com.siotman.wos.wsclient.auth.AuthClient;
 import com.siotman.wos.wsclient.search.domain.*;
 import org.slf4j.Logger;
@@ -11,6 +10,7 @@ import javax.xml.soap.SOAPConnection;
 import javax.xml.soap.SOAPConnectionFactory;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
+import java.util.concurrent.TimeUnit;
 
 public class SearchClient {
     private Logger logger = LoggerFactory.getLogger(SearchClient.class);
@@ -21,6 +21,8 @@ public class SearchClient {
 
     private AuthClient authClient;
     private String SID;
+    private long validity;
+
     private SearchResponse currentSearchResponse;
 
     public SearchClient() throws SOAPException { }
@@ -42,7 +44,12 @@ public class SearchClient {
         soapConnection = SOAPConnectionFactory.newInstance().createConnection();
         searchMessageGen = SearchMessageGen.getInstance();
 
+        validity = System.nanoTime() + TimeUnit.HOURS.toNanos(2);
         return this.SID;
+    }
+
+    public long getValidity() {
+        return this.validity;
     }
 
     public void close() throws SOAPException {
