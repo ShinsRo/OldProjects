@@ -23,8 +23,8 @@ public class WosApplication {
     }
 
     static final String RABBITMQ_ADDRESS    = "127.0.0.1:5672";
-    static final String RABBITMQ_USERNAME   = "sejong";         // 임시 아이디
-    static final String RABBITMQ_PASSWORD   = "sejong1234";     // 임시 비번
+    static final String RABBITMQ_USERNAME   = "local";          // 임시 아이디
+    static final String RABBITMQ_PASSWORD   = "local";          // 임시 비번
     static final String CREATE_EXCHANGE     = "create";
     static final String UPDATE_EXCHANGE     = "update";
     static final String TARGET_URLS_QUEUE   = "targetURLs";

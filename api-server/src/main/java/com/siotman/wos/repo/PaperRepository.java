@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface PaperRepository extends JpaRepository<Paper, String> {
 
-    @Query(
-            value="select * from paper p where p.title like %:title%",
-            nativeQuery=true
-    )
-    List<Paper> findPapersByTitle(@Param("title") String title);
+//    @Query(
+//            value="select * from paper p where p.title like %:title%",
+//            nativeQuery=true
+//    )
+    List<Paper> findPapersByTitleContainingIgnoreCase(@Param("title") String title);
 }

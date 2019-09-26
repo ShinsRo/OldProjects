@@ -1,13 +1,21 @@
-package com.siotman.wos.domain.json;
+package com.siotman.wos.domain.dto.api;
 
 import com.siotman.wos.domain.jpa.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class PaperJson {
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class PaperApiDto {
     private String uid;
     private String title;
 
@@ -42,7 +50,7 @@ public class PaperJson {
     private String recordState;
     private LocalDateTime lastUpdate;
 
-    public PaperJson(Paper paper) {
+    public PaperApiDto(Paper paper) {
         this.uid = paper.getUid();
         this.title = paper.getTitle();
 
@@ -88,11 +96,6 @@ public class PaperJson {
                 this.grades.add(caped);
             }
         }
-
-        if (paper.getGrades() == null) {
-            System.out.println("asdasd");
-        }
-
 
         recordState = paper.getRecordState().toString();
         this.lastUpdate = paper.getLastUpdate();
