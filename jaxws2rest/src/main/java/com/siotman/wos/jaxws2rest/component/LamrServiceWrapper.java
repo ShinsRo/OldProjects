@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class LamrServiceWrapper {
@@ -125,15 +126,14 @@ public class LamrServiceWrapper {
     }
 
     private String _loadXml(String path) throws IOException {
-        StringBuilder result = new StringBuilder();
+        String result;
 
-        Resource resource = new ClassPathResource(path);
-        File file = resource.getFile();
+        InputStream resource = new ClassPathResource(path).getInputStream();
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(resource))) {
+            result = br.lines().collect(Collectors.joining());
+        }
 
-        List<String> lines = Files.readAllLines(Paths.get(file.toURI()));
-        lines.stream().forEach(result::append);
-
-        return result.toString().replace("${userInfo}", XML_USER_INFO);
+        return result.replace("${userInfo}", XML_USER_INFO);
     }
 
     private String _buildLookupData(List<String> uids) {
