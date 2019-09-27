@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<request xmlns="http://www.isinet.com/xrpc42" src="app.id=API Demo">
+    <fn name="LinksAMR.retrieve">
+        <list>
+            <!-- WHO'S REQUESTING -->
+            ${userInfo}
+            <!-- WHAT'S REQUESTED -->
+            <map>
+                <list name="DRCI">
+                    <val>citingArticlesAllDBURL</val>
+                    <val>uid</val>
+                    <val>doi</val>
+                    <val>sourceURL</val>
+                    <val>timesCitedAllDB</val>
+                    <val>repositoryLinkURL</val>
+                </list>
+            </map>
+            <!-- LOOKUP DATA -->
+            <map>
+                ${lookupData}
+                <!--<map name="cite_1">-->
+                    <!--<val name="uid">UID value</val>-->
+                <!--</map>-->
+                <!--<map name="cite_2">-->
+                    <!--<val name="atitle">study title</val>-->
+                    <!--<val name="doctype">document type</val>-->
+                    <!--<val name="year">publication year</val>-->
+                    <!--<list name="authors">-->
+                        <!--<val>First, AU</val>-->
+                        <!--<val>Second, AU</val>-->
+                    <!--</list>-->
+                <!--</map>-->
+                <!--<map name="cite_3">-->
+                    <!--<val name="doi">DOI</val>-->
+                <!--</map>-->
+            </map>
+        </list>
+    </fn>
+</request>
