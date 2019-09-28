@@ -1,5 +1,6 @@
 package com.siotman.wos.jaxws2rest.controller;
 
+import com.siotman.wos.jaxws2rest.component.AsyncRedisService;
 import com.siotman.wos.jaxws2rest.component.LamrServiceWrapper;
 import com.siotman.wos.jaxws2rest.domain.dto.ErrorMessageDto;
 import com.siotman.wos.jaxws2rest.domain.dto.LamrParameterDto;
@@ -18,6 +19,8 @@ import java.util.List;
 @RequestMapping("/LamrService")
 public class LamrController {
     @Autowired
+    AsyncRedisService asyncRedisService;
+    @Autowired
     LamrServiceWrapper lamrServiceWrapper;
 
 
@@ -33,6 +36,10 @@ public class LamrController {
 
         try {
             resultsDtos = lamrServiceWrapper.requestCoreCollectionData(dto.getUids());
+
+            if (resultsDtos.size() > 0)
+                asyncRedisService.asyncSaveLamrResults(resultsDtos);
+
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();

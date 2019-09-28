@@ -1,6 +1,7 @@
 package com.siotman.wos.jaxws2rest.controller;
 
 import com.siotman.wos.jaxws2rest.JaxwsApplication;
+import com.siotman.wos.jaxws2rest.component.AsyncRedisService;
 import com.siotman.wos.jaxws2rest.component.AuthSidContainer;
 import com.siotman.wos.jaxws2rest.component.SearchServiceWrapper;
 import com.siotman.wos.jaxws2rest.domain.dto.ErrorMessageDto;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/WokSearchService")
 public class WokSearchController {
     @Autowired
+    AsyncRedisService asyncRedisService;
+    @Autowired
     AuthSidContainer authSidContainer;
     @Autowired
     SearchServiceWrapper searchServiceWrapper;
@@ -39,7 +42,12 @@ public class WokSearchController {
             );
 
             results = searchServiceWrapper.search(SID, dto.getQueryParameters(), dto.getRetrieveParameters());
-            response = ResponseEntity.ok(new SearchResultsDto(SID, results));
+            SearchResultsDto searchResultsDto = new SearchResultsDto(SID, results);
+
+            if (searchResultsDto.getRecordsFound() > 0)
+                asyncRedisService.asyncSaveSearchResults(searchResultsDto);
+
+            response = ResponseEntity.ok(searchResultsDto);
         } catch (Throwable e) {
             e.printStackTrace();
             response = _getErrorResponseFrom(e);
@@ -55,7 +63,12 @@ public class WokSearchController {
 
         try {
             results = searchServiceWrapper.retrieve(dto.getSID(), dto.getQueryId(), dto.getRetrieveParameters());
-            response = ResponseEntity.ok(new SearchResultsDto(dto.getSID(), results));
+            SearchResultsDto searchResultsDto = new SearchResultsDto(dto.getSID(), results);
+
+            if (searchResultsDto.getRecordsFound() > 0)
+                asyncRedisService.asyncSaveSearchResults(searchResultsDto);
+
+            response = ResponseEntity.ok(searchResultsDto);
         } catch (Throwable e) {
             e.printStackTrace();
             response = _getErrorResponseFrom(e);

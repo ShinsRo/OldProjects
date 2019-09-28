@@ -1,6 +1,11 @@
 
 package com.thomsonreuters.wokmws.v3.woksearchlite;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -36,6 +41,10 @@ import javax.xml.bind.annotation.XmlType;
     "count",
     "sortField"
 })
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RetrieveParameters {
 
     protected int firstRecord;

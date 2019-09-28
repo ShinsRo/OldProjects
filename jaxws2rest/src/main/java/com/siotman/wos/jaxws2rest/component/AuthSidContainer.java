@@ -99,7 +99,7 @@ public class AuthSidContainer {
     private String _getRandExistSid(final String username, final String password)
     throws  QueryExceptionException, SessionExceptionException, InvalidInputExceptionException,
             AuthenticationExceptionException, InternalServerExceptionException, ESTIWSExceptionException {
-        int idx = random.nextInt() % container.size();
+        int idx = Math.abs(random.nextInt()) % container.size();
 
         SessionId sessionId = container.get(idx);
         if (System.nanoTime() - sessionId.getCreatedTime() > TimeUnit.HOURS.toNanos(2)) {
