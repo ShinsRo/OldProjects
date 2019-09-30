@@ -67,7 +67,7 @@ public class LiteRecordDto {
                 case "Identifier.Eissn":
                 case "Identifier.Issn":
                 case "Identifier.Isbn":
-                    key = label.split("\\.")[0];
+                    key = label.split("\\.")[1];
                     key = key.toLowerCase();
                     this.identifier.put(key, value);
                     break;
