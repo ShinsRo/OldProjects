@@ -26,7 +26,7 @@ import java.util.Map;
         DataSourceTransactionManagerAutoConfiguration.class,
         HibernateJpaAutoConfiguration.class
 })
-public class jsonConverterTests {
+public class JsonConverterTests {
     private final String MSG_POJO2JSON_ERR = "POJO => JSON 변환에 실패했습니다.";
     private final String MSG_JSON2POJO_ERR = "JSON => POJO 변환에 실패했습니다.";
 
