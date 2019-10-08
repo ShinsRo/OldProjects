@@ -1,21 +1,17 @@
 package com.siotman.wos.yourpaper.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
-@Data
-@Builder
+@Table(name = "paper_urls")
+@ToString(exclude = {"paper"})
+@Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class PaperUrls {
     @Id
+    @GeneratedValue
     private Long id;
     private String sourceUrl;
     private String citingArticlesUrl;
@@ -23,4 +19,11 @@ public class PaperUrls {
 
     @OneToOne(mappedBy = "paperUrls")
     private Paper paper;
+
+    @Builder
+    public PaperUrls(String sourceUrl, String citingArticlesUrl, String relatedRecordsUrl) {
+        this.sourceUrl = sourceUrl;
+        this.citingArticlesUrl = citingArticlesUrl;
+        this.relatedRecordsUrl = relatedRecordsUrl;
+    }
 }
