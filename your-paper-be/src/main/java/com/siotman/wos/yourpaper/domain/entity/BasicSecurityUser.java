@@ -1,10 +1,10 @@
 package com.siotman.wos.yourpaper.domain.entity;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class BasicSecurityUser extends org.springframework.security.core.userdetails.User {
-    public BasicSecurityUser(User user) {
-        super(user.getUsername(), user.getPassword(), user.getGrantedAuthorities());
+    public BasicSecurityUser(Member member) {
+        super(member.getUsername(), member.getPassword(), member.getGrantedAuthorities());
     }
 }

@@ -1,10 +1,7 @@
 package com.siotman.wos.yourpaper.domain.entity;
 
 import com.siotman.wos.yourpaper.domain.converter.JsonListConverter;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -13,10 +10,10 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Data
-@Builder
+@Table(name = "paper")
+@ToString(exclude = {"users"})
+@Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Paper {
     @Id
     @Column(length = 128)
@@ -27,7 +24,7 @@ public class Paper {
     private String title;
 
     @OneToMany(mappedBy = "paper", fetch = FetchType.LAZY)
-    private Set<UserPaper> users;
+    private Set<MemberPaper> users;
 
     @Lob
     @Convert(converter = JsonListConverter.class)
@@ -56,5 +53,29 @@ public class Paper {
     @JoinColumn(name = "paper_urls_id", referencedColumnName = "id")
     private PaperUrls paperUrls;
 
+    @Builder
+    public Paper(String uid,
+                 String doi,
+                 String title,
+                 List<String> authorListJson,
+                 RecordType recordType,
+                 RecordState recordState,
+                 SourceInfo sourceInfo) {
+        this.uid = uid;
+        this.doi = doi;
+        this.title = title;
+        this.authorListJson = authorListJson;
+        this.recordType = recordType;
+        this.recordState = recordState;
+        this.sourceInfo = sourceInfo;
+    }
 
+    // DTO 개발 완료 시 변경 필요.
+    public void updatePaperUrls(PaperUrls paperUrls) {
+        this.paperUrls = paperUrls;
+    }
+
+    public void updateParsedData(ParsedData parsedData) {
+        this.parsedData = parsedData;
+    }
 }
