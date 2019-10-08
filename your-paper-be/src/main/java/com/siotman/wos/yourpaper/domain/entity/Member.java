@@ -5,17 +5,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
-@Data
-@Builder
+@Table(name = "member")
+@ToString(exclude = {"papers"})
+@Getter
 @NoArgsConstructor
-@AllArgsConstructor
-public class User {
+@EqualsAndHashCode(of = {"username"})
+public class Member {
     @Id
     @Column(length = 64)
     private String username;
@@ -25,10 +23,10 @@ public class User {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "info_id", referencedColumnName = "id")
-    private UserInfo userInfo;
+    private MemberInfo memberInfo;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private Set<UserPaper> papers;
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private Set<MemberPaper> papers;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "username"))
@@ -41,5 +39,16 @@ public class User {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.name()));
         }
         return grantedAuthorities;
+    }
+
+    @Builder
+    public Member(String username, String password, MemberInfo memberInfo, Set<UserRole> roles) {
+        this.username = username;
+        this.password = password;
+        this.memberInfo = memberInfo;
+        this.roles = roles;
+
+        this.papers = new HashSet<>();
+        this.enabled = false;
     }
 }

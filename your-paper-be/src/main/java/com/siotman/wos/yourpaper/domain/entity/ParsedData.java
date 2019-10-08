@@ -6,20 +6,17 @@ import com.siotman.wos.yourpaper.domain.converter.JsonMapConverter;
 import com.siotman.wos.yourpaper.domain.converter.JsonParsedAuthorListConverter;
 import com.siotman.wos.yourpaper.domain.json.JournalImpactJson;
 import com.siotman.wos.yourpaper.domain.json.ParsedAuthorJson;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.Map;
 
 @Entity
-@Data
-@Builder
+@Table(name = "parsed_data")
+@ToString(exclude = {"paper"})
+@Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class ParsedData {
     @Id
     @GeneratedValue
@@ -46,4 +43,19 @@ public class ParsedData {
     @Convert(converter = JsonJournalImpactConverter.class)
     private JournalImpactJson journalImpactJson;
 
+    @Builder
+
+    public ParsedData(String timesCited,
+                      String reprint,
+                      List<String> grades,
+                      Map<String, Integer> tcDataJson,
+                      List<ParsedAuthorJson> parsedAuthorJsonList,
+                      JournalImpactJson journalImpactJson) {
+        this.timesCited = timesCited;
+        this.reprint = reprint;
+        this.grades = grades;
+        this.tcDataJson = tcDataJson;
+        this.parsedAuthorJsonList = parsedAuthorJsonList;
+        this.journalImpactJson = journalImpactJson;
+    }
 }

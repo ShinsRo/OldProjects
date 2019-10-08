@@ -1,16 +1,11 @@
 package com.siotman.wos.yourpaper.domain.json;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Map;
 
-@Data
-@Builder
+@Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class JournalImpactJson {
     private String sourceTitle;
     private Map<String, String> impactFactorByYear;
