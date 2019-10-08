@@ -37,4 +37,8 @@ public class MemberInfo {
         this.email = email;
         this.member = null;
     }
+
+    public void updateName(String name) {
+        this.name = name;
+    }
 }

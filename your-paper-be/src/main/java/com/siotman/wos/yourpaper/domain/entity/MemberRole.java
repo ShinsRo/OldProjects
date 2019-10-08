@@ -1,5 +1,5 @@
 package com.siotman.wos.yourpaper.domain.entity;
 
-public enum  UserRole {
+public enum MemberRole {
     ROLE_ADMIN, ROLE_USER
 }
