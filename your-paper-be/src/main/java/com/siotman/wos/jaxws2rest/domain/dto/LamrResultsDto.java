@@ -1,4 +1,4 @@
-package com.siotman.wos.yourpaper.domain.dto;
+package com.siotman.wos.jaxws2rest.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
