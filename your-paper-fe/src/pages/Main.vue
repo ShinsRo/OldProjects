@@ -22,26 +22,8 @@
 }
 </script>
 
-<style scoped>
-  #mainOuterLayout{
-    justify-items: center;
-    position: absolute;
-    overflow-y: hidden;
-    height: 100vh;
-    background-color: rgb(242,242,242);
-  }
-  #headerLayoutRoute{
-    display: inline-flex;
-    justify-content: space-between;
-    background-color : rgb(46,53,78);
-    height: 60px;
-    width: 100vw;
-  }
+<style lang="scss">
+  @import './Main.scss';
 
-  #mainContentLayout{
-    width: 80%;
-    height: calc(100vh - 60px);
-    margin-left: 10%;
-  }
 
 </style>
