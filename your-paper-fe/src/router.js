@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './pages/Home.vue'
 import Main from './pages/Main.vue'
-import HeaderLayout from './components/Main/header/HeaderLayout.vue'
 
 Vue.use(Router)
 
@@ -26,8 +25,7 @@ export default new Router({
     {
       path: '/main',
       name: 'main',
-      component: Main,
-
+      component: Main
     }
   ]
 })

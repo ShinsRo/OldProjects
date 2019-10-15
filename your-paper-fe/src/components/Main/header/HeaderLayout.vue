@@ -41,9 +41,9 @@
 </template>
 
 <script>
-    export default {
-        name: "HeaderLayout"
-    }
+export default {
+  name: 'HeaderLayout'
+}
 </script>
 
 <style lang="scss">

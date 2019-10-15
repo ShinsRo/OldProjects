@@ -9,21 +9,20 @@
 </template>
 
 <script>
-  import headerLayout from '../components/Main/header/HeaderLayout'
-  import mainOption from '../components/Main/contents/MainOption'
-  import '../components/BasicStyle/BasicColor.scss'
+import headerLayout from '../components/Main/header/HeaderLayout'
+import mainOption from '../components/Main/contents/MainOption'
+import '../components/BasicStyle/BasicColor.scss'
 
-  export default {
-  name: "Main",
-  components : {
+export default {
+  name: 'Main',
+  components: {
     'header-layout': headerLayout,
-    'main-option' : mainOption
+    'main-option': mainOption
   }
 }
 </script>
 
 <style lang="scss">
   @import './Main.scss';
-
 
 </style>
