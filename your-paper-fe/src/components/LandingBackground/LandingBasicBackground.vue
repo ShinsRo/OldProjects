@@ -14,13 +14,26 @@
         </div>
       </div>
     </div>
-    <div class="functionContainer"></div>
+    <div class="functionContainer">
+      <div class="nameDecoration">
+        <p class="siteName">Your Paper</p>
+        <p class="siteIntroduce">Paper manamgement system</p>
+      </div>
+      <div class="formContainer">
+        <LoginComponent></LoginComponent>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import LoginComponent from '@/components/Login/LoginComponent.vue'
+
 export default {
-  name: 'LandingBackground'
+  name: 'LandingBackground',
+  components: {
+    LoginComponent
+  }
 }
 </script>
 
