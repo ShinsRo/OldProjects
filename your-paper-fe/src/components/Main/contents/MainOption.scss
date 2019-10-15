@@ -9,7 +9,7 @@
 #mainOptionSearchLayout{
   display: flex;
   align-items: center;
-  background-color: $basicIndigo;
+  background-color: $basicGray;
   border: 3px solid $basicIndigo;
   width: 100%;
   height: 40px;
@@ -50,7 +50,7 @@
   .mainOptionFilter{
     display: flex;
     width: 100%;
-    border-bottom: 1px solid rgb(46,53,78);
+    border-bottom: 1px solid $basicIndigo;
     height: calc(25% - 1px);
   }
 
