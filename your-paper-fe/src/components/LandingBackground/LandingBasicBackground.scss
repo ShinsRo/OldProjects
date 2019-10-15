@@ -1,0 +1,70 @@
+@import '../BasicStyle/BasicColor.scss';
+
+.LandingBackground {
+  width: 100%;
+  height: 100%;
+  display: flex;
+ 
+  .introduceContainer {
+    width: 55%;
+    height: 100%;
+
+    .decorationContainer {
+      width: 85%;
+      height: 100%;
+      background-color: $basicIndigo;
+      float: right;
+      display: flex;
+      flex-direction: column;
+
+      .flagDecoration {
+        width: 100%;
+        height: 10%;
+        
+        .flagImage {
+          float: right;
+          margin-right: 10%;
+        }
+      }
+
+      .logoDecoration {
+        width: 100%;
+        height: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .logoImage {
+          width: 30%;
+          height: 50%;
+        }
+      }
+
+      .nameDecoration {
+        width: 100%;
+        height: 30%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: $basicWhite;
+        
+        .siteName {
+          margin: 0;
+          font-family: '@/assets/font/Rounded_Elegance.ttf';
+          font-size: 400%;
+        }
+
+        .siteIntroduce {
+          font-size: 150%;
+        }
+      }
+    }
+  }
+
+  .functionContainer {
+    width: 45%;
+    height: 100%;
+    background-color: $basicWhite;
+  }
+}
