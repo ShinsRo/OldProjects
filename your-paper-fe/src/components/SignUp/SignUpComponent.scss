@@ -6,16 +6,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-family: Rounded_Elegance;
 
   .FormContainer {
-    width: 50%;
-    height: 40%;
+    width: 45%;
+    height: 30%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
+    margin-bottom: auto;
 
     .basicInputBox {
       padding-left: 10px;
+      border: 1px solid $basicIndigo;
     }
 
     .idFormContainer {
@@ -28,43 +31,24 @@
       }
       .idCheckBtn {
         width: 30%;
-      }
-    }
-
-    .pwFormContainer {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-
-      .pwInputBox {
-        width: 100%;
-      }
-
-      .pwCheckBox {
-        width: 100%;
-      }
-    }
-
-    .nameFormContainer {
-      width: 100%;
-
-      .nameInputBox {
-        width: 100%;
+        background-color: $basicIndigo;
+        border-color: $basicIndigo;
+        color: $basicWhite;
       }
     }
   }
 
   .ConditionForm {
-    width: 50%;
+    width: 60%;
     height: 40%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    margin-bottom: auto;
 
     .conditionBox {
       width: 100%;
-      resize: none;
     }
 
     .agreeCheckbox {
@@ -73,7 +57,7 @@
   }
 
   .buttonContainer {
-    width: 50%;
+    width: 55%;
     height: 20%;
     display: flex;
     justify-content: space-around;
