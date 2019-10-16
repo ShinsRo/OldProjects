@@ -110,18 +110,14 @@
             </p>
           </div>
         </div>
-
-
-
-
       </div> <!--메인 옵션 필터 레이아웃-->
    </div> <!--메인 옵션 검색/필터 레이아웃-->
 </template>
 
 <script>
-    export default {
-        name: "MainOption"
-    }
+export default {
+  name: 'MainOption'
+}
 </script>
 
 <style lang="scss">
