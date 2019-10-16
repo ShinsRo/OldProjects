@@ -59,17 +59,17 @@
 <script>
 export default {
   name: 'HeaderLayout',
-  data() {
-    return{
+  data () {
+    return {
       isDropBoxShow: false
     }
   },
-  methods:{
-    setTrue() {
-      return true;
+  methods: {
+    setTrue () {
+      return true
     },
-    setFalse(){
-      return false;
+    setFalse () {
+      return false
     }
   }
 }
