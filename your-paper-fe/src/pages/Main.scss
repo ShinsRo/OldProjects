@@ -14,9 +14,19 @@
   height: 60px;
   width: 100vw;
 }
-
 #mainContentLayout{
-  width: 80%;
+  overflow-y: scroll;
   height: calc(100vh - 60px);
-  margin-left: 10%;
+}
+
+#mainFilterLayout{
+  width: 70%;
+  height: auto;
+  margin-left: 15%;
+}
+
+#mainListLayout{
+  margin-left: 15%;
+  margin-top: 10px;
+  width: 70%;
 }
