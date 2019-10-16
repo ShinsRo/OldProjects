@@ -4,7 +4,9 @@
         <p class="logoName">
           Your Paper
         </p>
-
+        <p class="subLogoName">
+          Paper Management System
+        </p>
       </div> <!--헤더 (왼쪽) 로고 레이아웃-->
       <div id="headerSettingLayout">
         <div id="headerSettingTabLayout">
@@ -20,7 +22,7 @@
           </div>
         </div> <!--헤더 설정 화면탭 레이아웃-->
         <div id="headerSettingUserLayout">
-          <div class="headerSettingUser">
+          <div class="headerSettingUser img">
             <img class="userImage" src="../../../assets/image/image-03.png"/>
           </div>
           <div class="headerSettingUser">
@@ -28,10 +30,24 @@
               SuHyoun
             </p>
           </div>
-          <div class="headerSettingUser">
+          <div class="headerSettingUser" @mouseover="isDropBoxShow=setTrue()" @mouseleave="isDropBoxShow=setFalse()"
+                style="cursor: pointer;">
             <p class="text">
               menu
             </p>
+            <div id="dropBox" v-show="isDropBoxShow">
+              <div class="textWrapper">
+                <p class="text">
+                  Paper Edit
+                </p>
+              </div>
+              <hr class="divideLine"/>
+              <div class="textWrapper">
+                <p class="text">
+                  Log Out
+                </p>
+              </div>
+            </div>
           </div>
 
         </div> <!--헤더 설정 사용자 정보 레이아웃-->
@@ -42,7 +58,20 @@
 
 <script>
 export default {
-  name: 'HeaderLayout'
+  name: 'HeaderLayout',
+  data() {
+    return{
+      isDropBoxShow: false
+    }
+  },
+  methods:{
+    setTrue() {
+      return true;
+    },
+    setFalse(){
+      return false;
+    }
+  }
 }
 </script>
 
