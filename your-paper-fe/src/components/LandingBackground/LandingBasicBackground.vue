@@ -20,7 +20,7 @@
         <p class="smallIntroduce">Paper manamgement system</p>
       </div>
       <div class="formContainer">
-        <!-- <LoginComponent></LoginComponent> -->
+        <LoginComponent></LoginComponent>
         <SignUpComponent></SignUpComponent>
       </div>
     </div>
@@ -34,7 +34,7 @@ import SignUpComponent from '@/components/SignUp/SignUpComponent.vue'
 export default {
   name: 'LandingBackground',
   components: {
-    // LoginComponent,
+    // LoginComponent
     SignUpComponent
   }
 }
