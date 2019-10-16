@@ -40,10 +40,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.httpBasic();
         http.authorizeRequests()
-                .antMatchers("/", "/landing", "/login", "/logout").permitAll()
+                .antMatchers("/auth/**").permitAll()
+                .antMatchers("/", "/landing").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/auth/**").hasAnyRole("ADMIN", "USER")
                 .anyRequest().authenticated();
         http.formLogin().disable();
 
