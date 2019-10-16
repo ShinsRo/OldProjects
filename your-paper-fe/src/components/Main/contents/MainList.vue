@@ -7,13 +7,13 @@
 </template>
 
 <script>
-  import paperComponent from './PaperComponent'
-    export default {
-      name: "MainList",
-      components:{
-        'paper-component': paperComponent
-      }
-    }
+import paperComponent from './PaperComponent'
+export default {
+  name: 'MainList',
+  components: {
+    'paper-component': paperComponent
+  }
+}
 </script>
 
 <style lang="scss">

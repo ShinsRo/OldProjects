@@ -32,12 +32,12 @@
 </template>
 
 <script>
-    export default {
-        name: "PaperComponent"
-    }
+export default {
+  name: 'PaperComponent'
+}
 </script>
 
 <style lang="scss">
-  @import './PaperComponent.scss'
+  @import './PaperComponent.scss';
 
 </style>
