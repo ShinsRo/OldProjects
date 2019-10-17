@@ -1,15 +1,17 @@
 package com.siotman.wos.yourpaper.domain.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @NoArgsConstructor
 public class UidDto {
 
     private String uid;
-    private boolean isReprint;
+    private Boolean isReprint;
 
+    @Builder
+    public UidDto(String uid, Boolean isReprint) {
+        this.uid        = uid;
+        this.isReprint  = isReprint;
+    }
 }

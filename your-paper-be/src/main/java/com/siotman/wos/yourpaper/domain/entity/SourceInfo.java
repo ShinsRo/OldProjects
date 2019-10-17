@@ -1,8 +1,12 @@
 package com.siotman.wos.yourpaper.domain.entity;
 
+import com.siotman.wos.jaxws2rest.domain.dto.LamrResultsDto;
+import com.siotman.wos.jaxws2rest.domain.dto.LiteRecordDto;
+import com.siotman.wos.yourpaper.domain.dto.SourceInfoDto;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Map;
 
 @Entity
 @Table(name = "source_info")
@@ -45,18 +49,35 @@ public class SourceInfo {
     private String publishedDate;
 
     @Builder
-    public SourceInfo(String sourceTitle,
-                      String isbn, String eissn, String issn,
-                      String volume, String pages, String issue,
-                      String publishedYear, String publishedDate) {
-        this.sourceTitle = sourceTitle;
-        this.isbn = isbn;
-        this.eissn = eissn;
-        this.issn = issn;
-        this.volume = volume;
-        this.pages = pages;
-        this.issue = issue;
-        this.publishedYear = publishedYear;
-        this.publishedDate = publishedDate;
+    public SourceInfo(
+            String sourceTitle, String isbn, String eissn,
+            String issn, String volume, String pages,
+            String issue, String publishedYear, String publishedDate
+            ) {
+        this.sourceTitle    = sourceTitle;
+        this.isbn           = isbn;
+        this.eissn          = eissn;
+        this.issn           = issn;
+        this.volume         = volume;
+        this.pages          = pages;
+        this.issue          = issue;
+        this.publishedYear  = publishedYear;
+        this.publishedDate  = publishedDate;
+    }
+
+    public static SourceInfo buildWithCacheData(LiteRecordDto liteRecordDto) {
+        Map<String, String> source = liteRecordDto.getSource();
+
+        return SourceInfo.builder()
+                .sourceTitle(source.get("sourceTitle"))
+                .eissn(source.get("eissn"))
+                .issn(source.get("issn"))
+                .isbn(source.get("isbn"))
+                .volume(source.get("volume"))
+                .pages(source.get("pages"))
+                .issue(source.get("issue"))
+                .publishedYear(source.get("publishedYear"))
+                .publishedDate(source.get("publishedDate"))
+                .build();
     }
 }

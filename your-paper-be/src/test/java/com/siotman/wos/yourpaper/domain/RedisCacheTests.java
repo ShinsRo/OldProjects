@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.siotman.wos.jaxws2rest.domain.dto.LamrResultsDto;
 import com.siotman.wos.yourpaper.config.RedisConfig;
 import com.siotman.wos.jaxws2rest.domain.dto.LiteRecordDto;
+import com.siotman.wos.yourpaper.util.SearchTestUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,18 +16,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.Assert;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
 @JsonTest
@@ -38,10 +32,6 @@ public class RedisCacheTests {
     private final String REDIS_KEY_SEARCH_PREFIX = "SEARCH::";
     private final String REDIS_KEY_LAMR_PREFIX   = "LAMR::";
 
-    private URL searchUrl   = new URL("http://localhost:9400/WokSearchService/search");
-    private URL retrieveUrl = new URL("http://localhost:9400/WokSearchService/retrieve");
-    private URL lamrUrl     = new URL("http://localhost:9400/LamrService/lamrCorCollectionData");
-
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
@@ -52,48 +42,14 @@ public class RedisCacheTests {
     @Test
     @Order(1)
     public void 검색된_논문들을_캐시로부터_받아볼_수_있어야한다() throws IOException {
-        /** WokService/search 예시
-         * {
-         * 	"queryParameters": {
-         * 		"databaseId": "WOS",
-         * 		"userQuery": "AU=(Kim)",
-         * 		"timeSpan": {
-         * 			"begin": "2019-01-02",
-         * 			"end": "2019-02-01"
-         *                },
-         * 		"queryLanguage": "en"
-         * 	},
-         *
-         * 	"retrieveParameters": {
-         * 		"firstRecord": 1,
-         * 		"count": 50
-         * 	}
-         * }
-         */
-        Map<String, Object> requestBodyMap   = new HashMap<>();
-        Map<String, Object> queryParameters  = new HashMap<>();
-        Map<String, Object> timeSpan         = new HashMap<>();
+        String userQuery    = "AU=(KIM)";
+        String begin        = "2019-01-02";
+        String end          = "2019-02-01";
+        Integer firstRecord = 1;
+        Integer count       = 10;
+        Map responseBodyMap = SearchTestUtil.search(userQuery, begin, end, firstRecord, count);
 
-        Map<String, Object> retrieveParameters = new HashMap<>();
-
-        queryParameters.put("databaseId", "WOS");
-        queryParameters.put("userQuery", "AU=(KIM)");
-
-        timeSpan.put("begin", "2019-01-02");
-        timeSpan.put("end", "2019-02-01");
-        queryParameters.put("timeSpan", timeSpan);
-        queryParameters.put("queryLanguage", "en");
-
-        retrieveParameters.put("firstRecord", 1);
-        retrieveParameters.put("count", 10);
-
-        requestBodyMap.put("queryParameters", queryParameters);
-        requestBodyMap.put("retrieveParameters", retrieveParameters);
-
-        String responseBody = _postRequest(searchUrl, requestBodyMap);
-        Map responseBodyMap = objectMapper.readValue(responseBody, Map.class);
-
-        String sid          = (String) responseBodyMap.get("SID");
+        String sid          = (String) responseBodyMap.get("sid");
         String queryId      = (String) responseBodyMap.get("queryId");
         List<Map> records   = (List<Map>) responseBodyMap.get("records");
 
@@ -107,13 +63,7 @@ public class RedisCacheTests {
 
         });
 
-        Map<String, Object> lamrRequestBodyMap = new HashMap<>();
-
-        lamrRequestBodyMap.put("uids", uids);
-        String lamrResponseBody = _postRequest(lamrUrl, lamrRequestBodyMap);
-
-        List<Map> lamrRecords = objectMapper.readValue(lamrResponseBody, List.class);
-
+        List<Map> lamrRecords = SearchTestUtil.getLamrData(uids);
         List<String> lamrUids   = new LinkedList<>();
         lamrRecords.stream().forEach(record -> {
             LamrResultsDto recordDto =
@@ -127,31 +77,5 @@ public class RedisCacheTests {
                 "요청 레코드와 lamr 레코드 사이즈가 다릅니다.");
     }
 
-    private String _postRequest(URL url, Map requestBodyMap) throws IOException {
-        String responseBodyString;
-
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestProperty("Content-Type", "application/json");
-        conn.setRequestMethod("POST");
-        conn.setDoOutput(true);
-
-        try(DataOutputStream writer = new DataOutputStream(conn.getOutputStream())) {
-            String requestBody = objectMapper.writeValueAsString(requestBodyMap);
-
-            writer.write(requestBody.getBytes());
-            writer.flush();
-
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
-                responseBodyString = reader.lines().collect(Collectors.joining("\n"));
-            }
-        } finally {
-            conn.disconnect();
-        }
-        Assert.isTrue(conn.getResponseCode() == HttpURLConnection.HTTP_OK,
-                "검색 요청이 200 응답 코드를 받지 못했습니다.");
-        Assert.notNull(responseBodyString == null || responseBodyString.equals(""),
-                "응답 바디가 비어있습니다.");
-        return responseBodyString;
-    }
 
 }
