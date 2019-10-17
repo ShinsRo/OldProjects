@@ -44,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/landing").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/admin").hasRole("ADMIN")
+                .antMatchers("/myPaper/**").hasAnyRole("ADMIN", "USER")
                 .anyRequest().authenticated();
         http.formLogin().disable();
 

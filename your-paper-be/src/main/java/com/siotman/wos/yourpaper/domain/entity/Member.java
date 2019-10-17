@@ -46,7 +46,7 @@ public class Member {
     @Builder
     public Member(final PasswordEncoder encoder, final MemberDto dto) {
         this.username = dto.getUsername();
-        _setPasswordWithEncoder(encoder, dto.getPassword());
+        if (encoder != null) _setPasswordWithEncoder(encoder, dto.getPassword());
 
         this.memberInfo = MemberInfo.builder()
                 .name(dto.getName())

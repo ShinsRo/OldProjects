@@ -1,6 +1,7 @@
 package com.siotman.wos.yourpaper.domain.entity;
 
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 
@@ -17,7 +18,7 @@ public class MemberPaper {
     @JoinColumn(name = "username")
     private Member member;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "uid")
     private Paper paper;
 
@@ -29,5 +30,9 @@ public class MemberPaper {
         this.member = member;
         this.paper = paper;
         this.authorType = authorType;
+    }
+
+    public void setPaper(Paper newPaperEntity) {
+        this.paper = newPaperEntity;
     }
 }

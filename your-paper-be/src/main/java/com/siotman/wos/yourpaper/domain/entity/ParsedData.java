@@ -4,6 +4,7 @@ import com.siotman.wos.yourpaper.domain.converter.JsonJournalImpactConverter;
 import com.siotman.wos.yourpaper.domain.converter.JsonListConverter;
 import com.siotman.wos.yourpaper.domain.converter.JsonMapConverter;
 import com.siotman.wos.yourpaper.domain.converter.JsonParsedAuthorListConverter;
+import com.siotman.wos.yourpaper.domain.dto.ParsedDataDto;
 import com.siotman.wos.yourpaper.domain.json.JournalImpactJson;
 import com.siotman.wos.yourpaper.domain.json.ParsedAuthorJson;
 import lombok.*;
@@ -44,18 +45,17 @@ public class ParsedData {
     private JournalImpactJson journalImpactJson;
 
     @Builder
-
-    public ParsedData(String timesCited,
-                      String reprint,
-                      List<String> grades,
-                      Map<String, Integer> tcDataJson,
-                      List<ParsedAuthorJson> parsedAuthorJsonList,
-                      JournalImpactJson journalImpactJson) {
+    public ParsedData(
+            String timesCited, String reprint,
+            List<String> grades, Map<String, Integer> tcDataJson,
+            List<ParsedAuthorJson> parsedAuthorJsonList,
+            JournalImpactJson journalImpactJson
+    ) {
         this.timesCited = timesCited;
-        this.reprint = reprint;
-        this.grades = grades;
+        this.reprint    = reprint;
+        this.grades     = grades;
         this.tcDataJson = tcDataJson;
-        this.parsedAuthorJsonList = parsedAuthorJsonList;
-        this.journalImpactJson = journalImpactJson;
+        this.parsedAuthorJsonList   = parsedAuthorJsonList;
+        this.journalImpactJson      = journalImpactJson;
     }
 }
