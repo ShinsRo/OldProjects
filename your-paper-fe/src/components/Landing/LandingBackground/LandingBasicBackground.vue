@@ -20,7 +20,7 @@
         <p class="smallIntroduce">Paper manamgement system</p>
       </div>
       <div class="formContainer">
-        <LoginComponent></LoginComponent>
+        <!-- <LoginComponent></LoginComponent> -->
         <SignUpComponent></SignUpComponent>
       </div>
     </div>
@@ -29,7 +29,7 @@
 
 <script>
 // import LoginComponent from '@/components/Login/LoginComponent.vue'
-import SignUpComponent from '@/components/SignUp/SignUpComponent.vue'
+import SignUpComponent from '@/components/Landing/SignUp/SignUpComponent.vue'
 
 export default {
   name: 'LandingBackground',
