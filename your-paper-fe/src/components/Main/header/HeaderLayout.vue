@@ -28,7 +28,7 @@
 
           <div class="headerSettingUser img">
             <img class="userImage"
-                 src="../../../assets/image/image-03.png"/>
+                 src="../../../assets/images/avatar.png"/>
           </div><!--사용자 아이콘-->
 
           <div class="headerSettingUser">

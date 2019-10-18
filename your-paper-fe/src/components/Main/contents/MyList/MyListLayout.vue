@@ -27,6 +27,7 @@ import mainList from './MainList'
 }
 </script>
 
-<style scoped>
+<style lang="scss">
+@import './MyListLayout.scss';
 
 </style>

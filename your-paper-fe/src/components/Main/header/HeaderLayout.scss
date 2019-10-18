@@ -1,4 +1,4 @@
-@import '../../BasicStyle/BasicColor';
+@import '../../BasicStyle/BasicStyle.scss';
 
 #headerLogoLayout{
   display: flex;
@@ -27,6 +27,7 @@
   float: right;
   width: 40%;
   height: 100%;
+
   justify-self: flex-end;
 }//사용자 아이콘
 
@@ -69,7 +70,6 @@
 #headerSettingTabLayout{
   display: flex;
   justify-content: space-around;
-  align-items: flex-end;
   padding-bottom: 10px;
   width: 60%;
 }
@@ -85,7 +85,7 @@
     display: flex;
     width: 40%;
     justify-content: space-around;
-    align-items: flex-end;
+    align-items: center;
   }
 
   .headerSettingUser {

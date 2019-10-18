@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import '../components/BasicStyle/BasicColor.scss'
 import myList from '../components/Main/contents/MyList/MyListLayout'
 
 export default {
