@@ -15,7 +15,7 @@ public class SessionController {
     MemberService memberService;
 
     @PostMapping(value = "/login")
-    public ResponseEntity<?> login(@RequestBody MemberDto dto) {
+    public ResponseEntity<?> login() {
         return ResponseEntity.ok().build();
     }
 

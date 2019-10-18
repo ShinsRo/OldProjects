@@ -1,5 +1,6 @@
 package com.siotman.wos.yourpaper.domain.entity;
 
+import com.siotman.wos.jaxws2rest.domain.dto.LamrResultsDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,5 +26,13 @@ public class PaperUrls {
         this.sourceUrl = sourceUrl;
         this.citingArticlesUrl = citingArticlesUrl;
         this.relatedRecordsUrl = relatedRecordsUrl;
+    }
+
+    public static PaperUrls buildWithCacheData(LamrResultsDto lamrResultsDto) {
+        return PaperUrls.builder()
+                .sourceUrl(lamrResultsDto.getSourceURL())
+                .citingArticlesUrl(lamrResultsDto.getCitingArticlesURL())
+                .relatedRecordsUrl(lamrResultsDto.getRelatedRecordsURL())
+                .build();
     }
 }
