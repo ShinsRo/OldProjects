@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Landing from './pages/Landing.vue'
-// import Main from './pages/Main.vue'
+import Main from './pages/Main.vue'
+import paperEdit from './pages/paperEdit.vue'
 
 Vue.use(Router)
 
@@ -13,12 +14,17 @@ export default new Router({
       path: '/',
       name: 'landing',
       component: Landing
+    },
+    {
+      path: '/main',
+      name: 'main',
+      component: Main
+    },
+    {
+      path: '/paperEdit',
+      name: 'paperEdit',
+      component: paperEdit
     }
-    // {
-    //   path: '/main',
-    //   name: 'main',
-    //   component: Main
-    // }
     // {
     //   path: '/',
     //   name: 'home',
