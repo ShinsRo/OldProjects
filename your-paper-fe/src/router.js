@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Landing from './pages/Landing.vue'
-import Home from './pages/Home.vue'
+
 import Main from './pages/Main.vue'
 
 Vue.use(Router)
