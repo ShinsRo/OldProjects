@@ -1,10 +1,8 @@
 package com.siotman.wos.yourpaper.domain.entity;
 
-import com.siotman.wos.yourpaper.domain.converter.JsonJournalImpactConverter;
-import com.siotman.wos.yourpaper.domain.converter.JsonListConverter;
-import com.siotman.wos.yourpaper.domain.converter.JsonMapConverter;
-import com.siotman.wos.yourpaper.domain.converter.JsonParsedAuthorListConverter;
+import com.siotman.wos.yourpaper.domain.converter.*;
 import com.siotman.wos.yourpaper.domain.dto.ParsedDataDto;
+import com.siotman.wos.yourpaper.domain.json.CitingPaperJson;
 import com.siotman.wos.yourpaper.domain.json.JournalImpactJson;
 import com.siotman.wos.yourpaper.domain.json.ParsedAuthorJson;
 import lombok.*;
@@ -43,6 +41,10 @@ public class ParsedData {
     @Lob
     @Convert(converter = JsonJournalImpactConverter.class)
     private JournalImpactJson journalImpactJson;
+
+    @Lob
+    @Convert(converter = JsonCitingPaperListConverter.class)
+    private List<CitingPaperJson> citingPaperJsonList;
 
     @Builder
     public ParsedData(

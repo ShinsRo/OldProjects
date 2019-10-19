@@ -1,9 +1,7 @@
 package com.siotman.wos.yourpaper.domain;
 
-import com.siotman.wos.yourpaper.domain.converter.JsonJournalImpactConverter;
-import com.siotman.wos.yourpaper.domain.converter.JsonListConverter;
-import com.siotman.wos.yourpaper.domain.converter.JsonMapConverter;
-import com.siotman.wos.yourpaper.domain.converter.JsonParsedAuthorListConverter;
+import com.siotman.wos.yourpaper.domain.converter.*;
+import com.siotman.wos.yourpaper.domain.json.CitingPaperJson;
 import com.siotman.wos.yourpaper.domain.json.JournalImpactJson;
 import com.siotman.wos.yourpaper.domain.json.ParsedAuthorJson;
 import org.junit.Test;
@@ -41,6 +39,10 @@ public class JsonConverterTests {
 
     private JsonParsedAuthorListConverter jsonParsedAuthorListConverter() {
         return new JsonParsedAuthorListConverter();
+    }
+
+    private JsonCitingPaperListConverter jsonCitingPaperListConverter() {
+        return new JsonCitingPaperListConverter();
     }
 
     private JsonJournalImpactConverter jsonJournalImpactConverter() {
@@ -132,6 +134,20 @@ public class JsonConverterTests {
         "]";
 
         List<ParsedAuthorJson> parsedAuthorList = converter.convertToEntityAttribute(parsedAuthorArrayJson);
+        Assert.isTrue(parsedAuthorList.size() == 2, MSG_JSON2POJO_ERR);
+
+        String convertedParsedAuthorListJson = converter.convertToDatabaseColumn(parsedAuthorList);
+        Assert.isTrue(parsedAuthorArrayJson.equals(convertedParsedAuthorListJson), MSG_JSON2POJO_ERR);
+    }
+
+    @Test
+    public void citingPaperArrayJsonShouldBeConverted() {
+        JsonCitingPaperListConverter converter = jsonCitingPaperListConverter();
+
+        String parsedAuthorArrayJson = "[" +
+        "]";
+
+        List<CitingPaperJson> parsedAuthorList = converter.convertToEntityAttribute(parsedAuthorArrayJson);
         Assert.isTrue(parsedAuthorList.size() == 2, MSG_JSON2POJO_ERR);
 
         String convertedParsedAuthorListJson = converter.convertToDatabaseColumn(parsedAuthorList);

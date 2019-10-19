@@ -2,7 +2,6 @@ package com.siotman.wos.yourpaper.domain.json;
 
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter

@@ -18,10 +18,11 @@ public class MemberPaper {
     @JoinColumn(name = "username")
     private Member member;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "uid")
     private Paper paper;
 
+    @Enumerated(EnumType.STRING)
     @Column(length = 16)
     private AuthorType authorType;
 
