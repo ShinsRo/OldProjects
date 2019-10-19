@@ -26,6 +26,9 @@ public class MemberInfo {
     @Column(length = 32)
     private String email;
 
+    @Column(length = 32)
+    private OrganizationType organizationType;
+
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "memberInfo")
     private Member member;
 

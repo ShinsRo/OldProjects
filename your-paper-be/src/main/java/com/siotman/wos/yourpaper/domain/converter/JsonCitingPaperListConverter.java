@@ -1,20 +1,21 @@
 package com.siotman.wos.yourpaper.domain.converter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.siotman.wos.yourpaper.domain.json.CitingPaperJson;
 
 import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import javax.persistence.Convert;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-@Converter
-public class JsonListConverter implements AttributeConverter<List<String>, String> {
+@Convert
+public class JsonCitingPaperListConverter implements AttributeConverter<List<CitingPaperJson>, String> {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public String convertToDatabaseColumn(List<String> list) {
+    public String convertToDatabaseColumn(List<CitingPaperJson> list) {
         if (list == null || list.size() == 0) return "[]";
 
         String jsonArray = null;
@@ -23,20 +24,22 @@ public class JsonListConverter implements AttributeConverter<List<String>, Strin
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+
         return jsonArray;
     }
 
     @Override
-    public List convertToEntityAttribute(String jsonArray) {
-        if (jsonArray == null) return new ArrayList();
+    public List<CitingPaperJson> convertToEntityAttribute(String json) {
+        if (json == null) return null;
 
-        List<String> list = null;
+        List<CitingPaperJson> citingPaperJson =  null;
+
         try {
-            list = objectMapper.readValue(jsonArray, List.class);
+            citingPaperJson = objectMapper.readValue(json, new TypeReference<List<CitingPaperJson>>(){});
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return list;
+        return citingPaperJson;
     }
 }

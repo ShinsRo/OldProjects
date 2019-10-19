@@ -1,8 +1,12 @@
+
+
 spring:
   profiles:
     active:
       - dev
 #      - prod
+server:
+  port: 9401
 
 ---
 logging:

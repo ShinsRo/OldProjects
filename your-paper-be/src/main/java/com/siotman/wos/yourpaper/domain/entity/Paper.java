@@ -21,6 +21,9 @@ public class Paper {
     @Id
     @Column(length = 128)
     private String uid;
+
+    private Integer joinCount;
+
     @Column(length = 128)
     private String doi;
 
