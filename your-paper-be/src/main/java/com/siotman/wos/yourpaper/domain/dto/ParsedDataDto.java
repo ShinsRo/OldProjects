@@ -16,14 +16,14 @@ public class ParsedDataDto {
     private String timesCited;
     private String reprint;
     private List<String> grades;
-    private Map<String, Integer> tcData;
+    private Map<String, Map<String, Integer>> tcData;
     private List<ParsedAuthorJson> parsedAuthorList;
     private JournalImpactJson journalImpact;
 
     @Builder
     public ParsedDataDto(
             String timesCited, String reprint,
-            List<String> grades, Map<String, Integer> tcData,
+            List<String> grades, Map<String, Map<String, Integer>> tcData,
             List<ParsedAuthorJson> parsedAuthorList,
             JournalImpactJson journalImpactJson
     ) {

@@ -32,7 +32,7 @@ public class ParsedData {
     private List<String> grades;
 
     @Convert(converter = JsonMapConverter.class)
-    private Map<String, Integer> tcDataJson;
+    private Map<String, Map<String, Integer>> tcDataJson;
 
     @Lob
     @Convert(converter = JsonParsedAuthorListConverter.class)
@@ -49,7 +49,7 @@ public class ParsedData {
     @Builder
     public ParsedData(
             String timesCited, String reprint,
-            List<String> grades, Map<String, Integer> tcDataJson,
+            List<String> grades, Map<String, Map<String, Integer>> tcDataJson,
             List<ParsedAuthorJson> parsedAuthorJsonList,
             JournalImpactJson journalImpactJson
     ) {

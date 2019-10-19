@@ -15,7 +15,7 @@ public class JsonListConverter implements AttributeConverter<List<String>, Strin
 
     @Override
     public String convertToDatabaseColumn(List<String> list) {
-        if (list == null || list.size() == 0) return null;
+        if (list == null || list.size() == 0) return "[]";
 
         String jsonArray = null;
         try {

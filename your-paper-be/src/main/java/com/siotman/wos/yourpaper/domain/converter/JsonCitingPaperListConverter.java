@@ -16,7 +16,7 @@ public class JsonCitingPaperListConverter implements AttributeConverter<List<Cit
 
     @Override
     public String convertToDatabaseColumn(List<CitingPaperJson> list) {
-        if (list == null || list.size() == 0) return null;
+        if (list == null || list.size() == 0) return "[]";
 
         String jsonArray = null;
         try {

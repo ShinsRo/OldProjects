@@ -66,10 +66,15 @@ public class JsonConverterTests {
     public void tcDataMapJsonShouldBeConverted() {
         JsonMapConverter converter = jsonMapConverter();
 
-        String tcDataMapJson = "{\"2018\":\"8\",\"2017\":\"0\",\"2020\":\"3\"}";
+        String tcDataMapJson = "{" +
+                "\"2018\":{\"0\":0,\"1\":8,\"12\":1}," +
+                "\"2017\":{\"0\":1,\"5\":2,\"7\":55,\"9\":1}," +
+                "\"2014\":{\"0\":0,\"7\":8}," +
+                "\"2020\":{\"0\":0,\"3\":1}" +
+        "}";
 
         Map<String, String> tcDataMap = converter.convertToEntityAttribute(tcDataMapJson);
-        Assert.isTrue(tcDataMap.keySet().size() == 3, MSG_POJO2JSON_ERR);
+        Assert.isTrue(tcDataMap.keySet().size() == 4, MSG_POJO2JSON_ERR);
 
         String convertedTcDataJson = converter.convertToDatabaseColumn(tcDataMap);
         Assert.isTrue(tcDataMapJson.equals(convertedTcDataJson), MSG_JSON2POJO_ERR);
@@ -148,7 +153,7 @@ public class JsonConverterTests {
         "]";
 
         List<CitingPaperJson> parsedAuthorList = converter.convertToEntityAttribute(parsedAuthorArrayJson);
-        Assert.isTrue(parsedAuthorList.size() == 2, MSG_JSON2POJO_ERR);
+        Assert.isTrue(parsedAuthorList.size() == 0, MSG_JSON2POJO_ERR);
 
         String convertedParsedAuthorListJson = converter.convertToDatabaseColumn(parsedAuthorList);
         Assert.isTrue(parsedAuthorArrayJson.equals(convertedParsedAuthorListJson), MSG_JSON2POJO_ERR);
