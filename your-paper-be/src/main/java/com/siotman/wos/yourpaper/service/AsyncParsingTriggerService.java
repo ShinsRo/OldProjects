@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class AsyncParsingTriggerService {
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final URL parsingTriggerUrl = new URL("http://localhost:9400/parseAll");
+    private final URL parsingTriggerUrl = new URL("http://localhost:9402/parseAll");
 
     @Autowired
     private AsyncRunner asyncRunner;
