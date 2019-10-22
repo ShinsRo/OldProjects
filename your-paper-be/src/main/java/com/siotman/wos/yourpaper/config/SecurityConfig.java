@@ -40,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.httpBasic();
         http.authorizeRequests()
+                .antMatchers("/parsedData/**").permitAll()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/", "/landing").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()

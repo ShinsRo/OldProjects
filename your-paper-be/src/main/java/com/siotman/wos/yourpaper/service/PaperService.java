@@ -13,12 +13,10 @@ import com.siotman.wos.yourpaper.repo.MemberPaperRepository;
 import com.siotman.wos.yourpaper.repo.MemberRepository;
 import com.siotman.wos.yourpaper.repo.PaperRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class PaperService {
