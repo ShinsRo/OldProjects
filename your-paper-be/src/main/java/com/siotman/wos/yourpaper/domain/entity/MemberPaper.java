@@ -1,9 +1,11 @@
 package com.siotman.wos.yourpaper.domain.entity;
 
+import com.siotman.wos.yourpaper.domain.converter.JsonMapConverter;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.util.Map;
 
 @Entity
 @Table(name = "member_paper")
@@ -18,12 +20,17 @@ public class MemberPaper {
     @JoinColumn(name = "username")
     private Member member;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "uid")
     private Paper paper;
 
+    @Enumerated(EnumType.STRING)
     @Column(length = 16)
     private AuthorType authorType;
+
+    @Lob
+    @Convert(converter = JsonMapConverter.class)
+    private Map<String, Map<String, Integer>> selfTcDataJson;
 
     @Builder
     public MemberPaper(Member member, Paper paper, AuthorType authorType) {

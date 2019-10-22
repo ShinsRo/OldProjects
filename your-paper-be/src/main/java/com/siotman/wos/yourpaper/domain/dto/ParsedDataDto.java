@@ -1,6 +1,8 @@
 package com.siotman.wos.yourpaper.domain.dto;
 
 import com.siotman.wos.yourpaper.domain.entity.ParsedData;
+import com.siotman.wos.yourpaper.domain.entity.RecordState;
+import com.siotman.wos.yourpaper.domain.json.CitingPaperJson;
 import com.siotman.wos.yourpaper.domain.json.JournalImpactJson;
 import com.siotman.wos.yourpaper.domain.json.ParsedAuthorJson;
 import lombok.Builder;
@@ -13,26 +15,38 @@ import java.util.Map;
 @Getter
 @NoArgsConstructor
 public class ParsedDataDto {
-    private String timesCited;
+    private String uid;
+    private RecordState recordState;
+
+    private Integer timesCited;
     private String reprint;
     private List<String> grades;
-    private Map<String, Integer> tcData;
     private List<ParsedAuthorJson> parsedAuthorList;
     private JournalImpactJson journalImpact;
 
+    private List<CitingPaperJson> citingPaperJsonList;
+    private Map<String, Map<String, Integer>> tcData;
+
     @Builder
     public ParsedDataDto(
-            String timesCited, String reprint,
-            List<String> grades, Map<String, Integer> tcData,
+            String uid, RecordState recordState,
+            Integer timesCited, String reprint,
+            List<String> grades,
             List<ParsedAuthorJson> parsedAuthorList,
-            JournalImpactJson journalImpactJson
+            JournalImpactJson journalImpactJson,
+            List<CitingPaperJson> citingPaperJsonList,
+            Map<String, Map<String, Integer>> tcData
     ) {
+        this.uid = uid;
+        this.recordState = recordState;
         this.timesCited = timesCited;
         this.reprint = reprint;
         this.grades = grades;
-        this.tcData = tcData;
         this.parsedAuthorList = parsedAuthorList;
         this.journalImpact = journalImpactJson;
+
+        this.citingPaperJsonList = citingPaperJsonList;
+        this.tcData = tcData;
     }
 
     public static ParsedDataDto buildWithEntity(ParsedData parsedData) {

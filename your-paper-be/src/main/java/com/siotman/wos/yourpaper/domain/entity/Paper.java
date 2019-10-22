@@ -3,6 +3,7 @@ package com.siotman.wos.yourpaper.domain.entity;
 import com.siotman.wos.jaxws2rest.domain.dto.LamrResultsDto;
 import com.siotman.wos.jaxws2rest.domain.dto.LiteRecordDto;
 import com.siotman.wos.yourpaper.domain.converter.JsonListConverter;
+import com.siotman.wos.yourpaper.domain.dto.ParsedDataDto;
 import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -21,6 +22,9 @@ public class Paper {
     @Id
     @Column(length = 128)
     private String uid;
+
+    private Integer joinCount;
+
     @Column(length = 128)
     private String doi;
 
@@ -106,5 +110,31 @@ public class Paper {
 
     public void updateParsedData(ParsedData parsedData) {
         this.parsedData = parsedData;
+    }
+
+    public void updatePaperData(ParsedDataDto parsedDataDto) {
+        this.parsedData = ParsedData.builder()
+                .paper(this)
+                .timesCited     (parsedDataDto.getTimesCited())
+                .reprint        (parsedDataDto.getReprint())
+                .grades         (parsedDataDto.getGrades())
+                .tcDataJson             ((this.parsedData != null)? this.parsedData.getTcDataJson(): null)
+                .parsedAuthorJsonList   (parsedDataDto.getParsedAuthorList())
+                .journalImpactJson      (parsedDataDto.getJournalImpact())
+                .citingPaperJsonList    ((this.parsedData != null)? this.parsedData.getCitingPaperJsonList(): null)
+                .build();
+    }
+
+    public void updateTcData(ParsedDataDto parsedDataDto) {
+        this.parsedData = ParsedData.builder()
+                .paper(this)
+                .timesCited     ((this.parsedData != null)? this.parsedData.getTimesCited(): null)
+                .reprint        ((this.parsedData != null)? this.parsedData.getReprint(): null)
+                .grades         ((this.parsedData != null)? this.parsedData.getGrades(): null)
+                .tcDataJson     (parsedDataDto.getTcData())
+                .parsedAuthorJsonList   ((this.parsedData != null)? this.parsedData.getParsedAuthorJsonList(): null)
+                .journalImpactJson      ((this.parsedData != null)? this.parsedData.getJournalImpactJson(): null)
+                .citingPaperJsonList    (parsedDataDto.getCitingPaperJsonList())
+                .build();
     }
 }

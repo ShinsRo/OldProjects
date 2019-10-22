@@ -1,0 +1,33 @@
+@import '../../components/BasicStyle/BasicStyle.scss';
+
+.wrapper {
+  width: 100%;
+  height: auto;
+  margin-top: 80px;
+
+  .searchContainer {
+    width: 70%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+      
+    .searchInputBox {
+      width: 90%;
+      height: 40px;
+      border: 3px solid $basicIndigo;
+      padding: 0;
+      padding-left: 10px;
+      outline: none;
+    }
+
+    .searchButton {
+      width: 10%;
+      height: 46px;
+      border: 3px solid $basicIndigo;
+      background-color: $basicIndigo;
+      color: $basicWhite;
+      font-size: 20px;
+    }
+  }
+
+}

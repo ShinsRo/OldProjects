@@ -5,22 +5,24 @@ import json
 
 import pika
 import parser_exceptions
+
+import parser_constants
 from parser_interface   import ParserInterface
 from parser_logger      import Logger
 from parser_mailman     import Mailman
 
 # 메세지 서버 주소
-RABBITMQ_SERVER_URL = 'amqp://sejong:sejong1234@localhost:5672/'
+RABBITMQ_SERVER_URL = parser_constants.RABBITMQ_SERVER_URL
 
 # 메세지 콜백 정의
 def cons_callback(ch, method, properties, body):
     logger      = Logger()
     '''
-        바디 메세지 형식 : "type, uid, targetURL, extra"
+        바디 메세지 형식 : "type, uid, targetUrl, extra"
 
-        - type      : 페이지 타입 (DETAIL, CITE_CNT)
-        - uid       : WOS 레코드 uid
-        - targetURL : 목적 파싱 주소
+        - type      : 페이지 타입 (DETAIL_LINK, CITING_LINK)
+        - UID       : WOS 레코드 uid
+        - targetUrl : 목적 파싱 주소
         - extra     : 기타 인자
     '''
     ch.basic_ack(delivery_tag=method.delivery_tag)
@@ -33,9 +35,9 @@ def cons_callback(ch, method, properties, body):
 
         targetType  = args['sourceType']
         uid         = args['UID']
-        targetURL   = args['targetURL']
+        targetURL   = args['targetUrl']
         # extra       = args['extra']
-
+        
         mailman = Mailman()
         parser = ParserInterface(mailman)
 
@@ -85,7 +87,7 @@ if __name__ == "__main__":
     connection = pika.BlockingConnection(pika.URLParameters(RABBITMQ_SERVER_URL))
     channel = connection.channel()
 
-    channel.basic_consume('targetURLs', cons_callback)
+    channel.basic_consume('targetUrl-queue', cons_callback)
 
     # 메세지 소비 시작 #
     Logger().log('info', 'Waiting for targetURLs. To exit press CTRL+C')

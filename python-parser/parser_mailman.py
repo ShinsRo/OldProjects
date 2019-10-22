@@ -6,10 +6,12 @@ from datetime import datetime
 import json
 import pika
 import parser_exceptions
+
+import parser_constants
 from parser_logger import Logger
 
 # 메세지 서버 주소
-RABBITMQ_SERVER_URL = 'amqp://sejong:sejong1234@127.0.0.1:5672/'
+RABBITMQ_SERVER_URL = RABBITMQ_SERVER_URL = parser_constants.RABBITMQ_SERVER_URL
 
 class Mailman():
     def __init__(self, parser_id = None):

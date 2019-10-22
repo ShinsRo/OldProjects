@@ -1,0 +1,15 @@
+@import '../../../BasicStyle/BasicStyle.scss';
+
+#mainList{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.paperComponentLayout{
+  width: calc(100% - 40px);
+  height: auto;
+  margin-bottom: 20px;
+  padding: 20px;
+}

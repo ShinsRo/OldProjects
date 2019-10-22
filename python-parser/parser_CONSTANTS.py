@@ -1,6 +1,131 @@
+RABBITMQ_SERVER_URL = 'amqp://guest:guest@localhost:5672/'
+JAXWS2REST_SERVER   = 'http://127.0.0.1:9400/'
+YOUR_PAPER_SERVER   = 'http://127.0.0.1:9401/'
+WOS_BASE_URL        = 'http://apps.webofknowledge.com'
+
 APP_SERVER = {
 
 }
+
+def get_form_data(action, data):
+    '''
+        입력된 데이터와 action url에 따른 필요한 폼 데이터를 합해 반환해주는 함수
+        :param action: action url
+        :param data: form data
+        :return: 추가된 form data
+    '''
+    form_data = {}
+
+    if action == '/WOS_GeneralSearch.do':
+        form_data = {
+            'fieldCount': '1',              # required_optional
+            'action': 'search',
+            'product': 'WOS',
+            'search_mode': 'GeneralSearch',
+            'SID': '',                      # required
+            'max_field_count': '25',
+            'sa_params': '',                # required
+            'formUpdated': 'true', 
+            'value(input1)': '',            # required
+            'value(select1)': '',           # required
+            'value(hidInput1)': '', 
+            'limitStatus': 'collapsed',     # required_optional
+            'ss_lemmatization': 'On', 
+            'ss_spellchecking': 'Suggest', 
+            'SinceLastVisit_UTC': '', 
+            'SinceLastVisit_DATE': '', 
+            'period': 'Year Range',         
+            'range': 'CUSTOM',
+            'start_year': '',                # required
+            'end_year': '',                  # required
+            'editions': ['SCI', 'SSCI', 'AHCI', 'ESCI'], 
+            'update_back2search_link_param': 'yes', 
+            'ssStatus': 'display:none',
+            'ss_showsuggestions': 'ON',
+            'ss_numDefaultGeneralSearchFields': '1',
+            'ss_query_language': '', 
+            'rs_sort_by': 'PY.D;LD.D;SO.A;VL.D;PG.A;AU.A',
+        }
+    elif action == '/OutboundService.do':
+        form_data = {
+            'selectedIds': '',
+            'displayCitedRefs':'',
+            'displayTimesCited':'',
+            'displayUsageInfo':'true',
+            'viewType':'summary',
+            'product':'WOS',
+            'rurl': '',
+            'mark_id':'WOS',
+            'colName':'WOS',
+            'search_mode':'CitationReport',
+            'view_name':'WOS-CitationReport-summary',
+            'sortBy': '',
+            'mode':'OpenOutputService',
+            'qid': '',
+            'SID': '',
+            'format': 'crsaveToFile',
+            'mark_to': '',
+            'mark_from': '',
+            'queryNatural': '',
+            'count_new_items_marked': '0',
+            'use_two_ets': 'false',
+            'IncitesEntitled': 'no',
+            'value(record_select_type)': 'range',
+            'markFrom': '',
+            'markTo': '',
+            'action':'recalulate',
+            'start_year_val':'1900',
+            'end_year_val':'2019',
+            'viewAbstractUrl':'',
+            'LinksAreAllowedRightClick': 'full_record.do',
+            'filters': '',
+            'timeSpan':  '',
+            'db_editions': '',
+            'additional_qoutput_params': 'cr_qid=',
+            'print_opt':'Html',
+            'include_mark_from_in_url':'true',
+            'end_year': '',
+            'start_year': '',
+            'piChart': '',
+            'toChart': '',
+            'fields':'DUMMY_VALUE'
+        }
+    elif action == '/OutboundService.do?action=go&&':
+        form_data = {
+            'selectedIds': '',
+            'displayCitedRefs': 'true',
+            'displayTimesCited': 'true',
+            'displayUsageInfo': 'true',
+            'viewType': 'summary',
+            'product': 'WOS',
+            'mark_id': 'WOS',
+            'colName': 'WOS',
+            'search_mode': 'CitingArticles',
+            'locale': 'en_US',
+            'research_id': 'U-9523-2018',
+            'view_name': 'WOS-CitingArticles-summary',
+            'sortBy': 'PY.D;LD.D;SO.A;VL.D;PG.A;AU.A',
+            'mode': 'OpenOutputService',
+            'qid': '',                      # required
+            'SID': '',                      # required
+            'format': 'fastSave',
+            'mark_to': '',                  # required
+            'mark_from': '1',
+            'queryNatural': '',             # 의심 
+            'count_new_items_marked': '0',
+            'use_two_ets': 'false',
+            'IncitesEntitled': 'no',
+            'value(record_select_type)': 'range',
+            'markFrom': '1',
+            'markTo': '',                    # required
+            'save_options': 'tabWinUnicode'
+        }
+    else:
+        pass
+
+    form_data.update(data)
+    return form_data
+
 
 STATE_MSG = {
     # dispatcher MSG

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import LandingBackground from '@/components/LandingBackground/LandingBasicBackground.vue'
+import LandingBackground from '@/components/Landing/LandingBackground/LandingBasicBackground.vue'
 
 export default {
   name: 'Landing',

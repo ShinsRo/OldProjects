@@ -11,16 +11,16 @@ def parse_detail(soup: BeautifulSoup, uid: str):
     logger              = Logger()  # 로거
     ret_link    :str    = ''        # 대상을 인용 중인 논문 목록 링크
     paper_data  :dict   = {         # 논문 정보 
-        'uid'           : uid,      # 논문 아이디
-        'timesCited'    : 0,        # 인용 횟수
-        'authors'       : [],       # 저자 리스트
-        'firstAuthor'   : {},       # 제 1 저자
-        'reprint'       : {},       # 교신 저자
-        'jcr'           : {},       # 저널 랭크
-        'grades'        : [],       # 논문 등급
-        'recordState'   : ''        # 레코드 상태
+        'uid'               : uid,      # 논문 아이디
+        'timesCited'        : 0,        # 인용 횟수
+        'parsedAuthorList'  : [],       # 저자 리스트
+        'firstAuthor'       : {},       # 제 1 저자
+        'reprint'           : {},       # 교신 저자
+        'journalImpact'     : {},       # 저널 랭크
+        'grades'            : [],       # 논문 등급
+        'recordState'       : '',       # 레코드 상태
     }
-    # authors 원소 형태
+    # parsedAuthorList 원소 형태
     '''
         author = {
             'name'      : ''
@@ -41,7 +41,11 @@ def parse_detail(soup: BeautifulSoup, uid: str):
         'PAGING_BTN'    : 'a.paginationNext',
         'CITE_CNT_LINK' : 'a.snowplow-citation-network-times-cited-count-link',
         'RECORD_INFOS'  : 'div.block-record-info',
+        'SOURCE_TITLE'  : 'source_title_txt_label',
+        'JCR_BLOCK'     : 'div.overlayJCRblock',
+        'IF_TABLE'      : 'table.Impact_Factor_table',
         'JCR_TABLE'     : 'table.JCR_Category_table',
+        'JCR_TEXT'      : 'p.overlayJCRtext',
         'GRADES'        : 'div.flex-justify-start > ul > span.box-label',
     }
     # Tags 정의 끝 #
@@ -57,7 +61,7 @@ def parse_detail(soup: BeautifulSoup, uid: str):
     if not pbtn and re.search('server error', soup.text, re.I):
         raise exceptions.RecordNotAvailableError()
 
-    if not pbtn and re.search('Access denied'       , soup.text, re.I):
+    if not pbtn and re.search('Access denied', soup.text, re.I):
         raise exceptions.AcessDeniedError()
 
     if not pbtn:
@@ -165,14 +169,62 @@ def parse_detail(soup: BeautifulSoup, uid: str):
         authors[0]['reprint'] = True
         paper_data['reprint'] = authors[0]
 
-    paper_data['firstAuthor']   = authors[0]
-    paper_data['authors']       = authors
+    paper_data['reprint']           = paper_data['reprint']['name']
+    paper_data['firstAuthor']       = authors[0]
+    paper_data['parsedAuthorList']  = authors
     ## 원본 저자 데이터 정제 끝 ##
     # 저자 및 주소 끝 #
 
 
     # JCR #
-    # 일단 생략한다.
+    sourceTitle = soup.select(TAG['SOURCE_TITLE'])
+    jcr_block   = soup.select(TAG['JCR_BLOCK'])
+    journalImpact = {
+        'sourceTitle': sourceTitle[0].text.strip() if sourceTitle else None,
+        'impactFactorByYear': {},
+        'jcrDataByYear': {}
+    }
+
+    if_table    = None
+    jcr_tables  = None
+    jcr_texts   = None
+    if jcr_block:
+        if_table    = soup.select(TAG['IF_TABLE'])
+        jcr_tables  = soup.select(TAG['JCR_TABLE'])
+        jcr_texts   = soup.select(TAG['JCR_TEXT'])
+
+    if if_table:
+        if_table = if_table[0]
+
+        tds = if_table.find_all('td')
+        ths = if_table.find_all('th')
+        for idx in range(len(ths)):
+            td = tds[idx]
+            th = ths[idx]
+            journalImpact['impactFactorByYear'][th.text.strip()] = td.text.strip()
+    
+    if jcr_tables:
+        for idx, jcr_table in enumerate(jcr_tables):
+            year = re.search(r'\d+', jcr_texts[idx].text)
+            year = year[0] if year else 'unknown'
+
+            journalImpact['jcrDataByYear'][year] = {
+                'category': [],
+                'rankInCategory': [],
+                'quartileInCategory': []
+            }
+
+            trs = jcr_table = jcr_table.find_all('tr')
+            for tr in trs[1:]:
+                tds = tr.find_all('td')
+                if tds[0]:
+                    journalImpact['jcrDataByYear'][year]['category'].append(tds[0].text.strip())
+                if tds[1]:
+                    journalImpact['jcrDataByYear'][year]['rankInCategory'].append(tds[1].text.strip())
+                if tds[2]:
+                    journalImpact['jcrDataByYear'][year]['quartileInCategory'].append(tds[2].text.strip())
+
+    paper_data['journalImpact'] = journalImpact
     # JCR 끝 # 
 
 
@@ -186,7 +238,8 @@ def parse_detail(soup: BeautifulSoup, uid: str):
         full_grade  = label.text.replace('- ', '').strip()
         caped       = re.sub(r'[ a-z]+', r'', full_grade)
 
-        grades += [{'fullGrade': full_grade, 'caped': caped}]
+        # grades += [{'fullGrade': full_grade, 'caped': caped}]
+        grades += [caped]
 
     paper_data['grades'] = grades
     # 등급 끝 #

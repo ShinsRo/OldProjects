@@ -1,0 +1,101 @@
+@import '../BasicStyle/BasicStyle.scss';
+
+.wrapper {
+  width: 100%;
+
+  .paperContentBox {
+    width: 70%;
+    height: auto;
+    margin-bottom: 20px;
+
+    .paperCategorys {
+      border: 3px solid $basicIndigo;
+      display: flex;
+      flex-direction: row;
+
+      .paperName, .paperAuthor, .paperDOI, .paperURL {
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        color: $basicIndigo;
+        padding: 20px 0px;
+        margin: 0px;
+        
+      }
+
+      .paperName {
+        width: 30%;
+      }
+      .paperAuthor {
+        width: 20%;
+      }
+      .paperDOI {
+        width: 20%;
+      }
+      .paperURL {
+        width: 25%;
+      }
+    }
+
+    .paperContents {
+      border: 3px solid $basicIndigo;
+        
+      .dataList {
+        display: flex;
+        list-style: none;
+        font-size: 20px;
+        font-weight: bold;
+        color: $basicIndigo;
+        border: 1px solid $basicBlack;
+        padding: 20px 0px;
+      }
+
+      .dataName, .dataAuthor, .dataDOI, .dataURL {
+        text-align: center;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      .dataName {
+        width: 30%;
+      }
+      .dataAuthor {
+        width: 20%;
+      }
+      .dataDOI {
+        width: 20%;
+      }
+      .dataURL {
+        width: 25%;
+      }
+      .paperEditButton {
+        width: 5%;
+        background-color: $basicIndigo;
+        color: $basicWhite;
+        border: 1px solid $basicIndigo;
+        border-radius: 10px;
+        margin-right: 10px;
+        text-align: center;
+      }
+    }
+  }
+
+  .saveContainer {
+    width: 70%;
+    display: flex;
+    justify-content: flex-end;
+
+    .saveButton {
+      width: 10%;
+      height: 40px;
+      background-color: $basicIndigo;
+      color: $basicWhite;
+      border: 1px solid $basicIndigo;
+      border-radius: 10px;
+    }
+  }
+}
+
+
+

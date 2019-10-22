@@ -1,0 +1,94 @@
+@import '../../../BasicStyle/BasicStyle.scss';
+
+#mainOption{
+  width: 100%;
+  margin-top: 80px;
+  height: 310px;
+}
+
+#mainOptionSearchLayout{
+  display: flex;
+  align-items: center;
+  background-color: $basicGray;
+  border: 3px solid $basicIndigo;
+  width: 100%;
+  height: 40px;
+}
+
+#mainOptionSearchLayout {
+  .searchInput {
+    font-size: 15px;
+    width: 90%;
+    padding-left: 20px;
+    background-color: $basicGray;
+    border: none;
+    height: 15px;
+    outline: none;
+  }
+}
+
+  #mainOptionSearchButton{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $basicIndigo;
+    width: 10%;
+    border: 1px solid;
+    height: 100%;
+  }
+  #mainOptionSearchButton > p{
+    color: white;
+    font-size: 20px;
+  }
+
+  #mainOptionFilterLayout{
+    width: 100%;
+    margin-top: 10px;
+    height: calc(100% - 46px);
+  }
+
+  .mainOptionFilter{
+    display: flex;
+    width: 100%;
+    border-bottom: 1px solid $basicIndigo;
+    height: calc(25% - 1px);
+  }
+
+  .mainOptionFilterName{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10%;
+  }
+
+  .mainOptionFilterName {
+    .text {
+      font-size: 18px;
+      font-weight: bold;
+      color: rgb(46, 53, 78);
+    }
+  }
+
+  .mainOptionFilterContent{
+    display: flex;
+    align-items: center;
+    width: 15%;
+  }
+
+  .mainOptionFilterContent {
+    .check {
+      outline: none;
+      width: 20%;
+    }
+  }
+
+  .optionCheck{
+    justify-content: center;
+  }
+
+  .mainOptionOrderName{
+    display: flex;
+    width: 7%;
+    align-items: center;
+  }
+

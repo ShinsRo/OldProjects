@@ -14,7 +14,7 @@ public class JsonParsedAuthorListConverter implements AttributeConverter<List<Pa
 
     @Override
     public String convertToDatabaseColumn(List<ParsedAuthorJson> parsedAuthorJsons) {
-        if (parsedAuthorJsons == null) return null;
+        if (parsedAuthorJsons == null) return "[]";
 
         String json = null;
 
