@@ -1,57 +1,97 @@
+import os
+import sys
 
-# paper_data  :dict   = {         # 논문 정보 
-#     'uid'           : uid,      # 논문 아이디
-#     'timesCited'    : 0,        # 인용 횟수
-#     'authors'       : [],       # 저자 리스트
-#     'firstAuthor'   : {},       # 제 1 저자
-#     'reprint'       : {},       # 교신 저자
-#     'jcr'           : {},       # 저널 랭크
-#     'grades'        : [],       # 논문 등급
-# }
-# # authors 원소 형태
-# '''
-#     author = {
-#         'name'      : ''
-#         'full_name' : '',
-#         'addresses' : ['', '']
-#     }
-# '''
-# # grades 원소 형태
-# '''
-# {
-#     'full_grade': '', 
-#     'caped': ''
-# }
+sys.path.append(
+    os.path.dirname(
+        os.path.abspath(
+            os.path.dirname(os.path.abspath(__file__))
+        )
+    )
+)
 
+import base64
 import json
 import requests
 
-SERVER_URL = 'http://127.0.0.1:9400'
+import parser_constants
 
-def post_test():
-    uid = 'TESTUID'
-    paper_data  :dict   = {         # 논문 정보 
-        'uid'           : uid,      # 논문 아이디
-        'timesCited'    : '0',        # 인용 횟수
-        'authors'       : [],       # 저자 리스트
-        'firstAuthor'   : {},       # 제 1 저자
-        'reprint'       : {},       # 교신 저자
-        'jcr'           : {},       # 저널 랭크
-        'grades'        : [],       # 논문 등급
-        'recordState'   : 'valid'   # 레코드 상태
+JAXWS2REST_SERVER = parser_constants.JAXWS2REST_SERVER
+YOUR_PAPER_SERVER = parser_constants.YOUR_PAPER_SERVER
+
+def search(userQuery, begin, end, firstRecord, count):
+    data = {
+        "queryParameters": {
+            "databaseId": "WOS",
+            "userQuery": userQuery,
+            "timeSpan": {  
+                "begin": begin,
+                "end": end
+            },
+            "queryLanguage": "en"
+        },
+        
+        "retrieveParameters": {
+            "firstRecord": firstRecord,
+            "count": count
+        }
+    }
+    http_res = requests.post(JAXWS2REST_SERVER + "WokSearchService/search", json = data)
+    return json.loads(http_res.text)
+
+def lamrSearch(searchResult):
+    uids = [record['uid'] for record in searchResult['records']]
+    data = {
+        "uids": uids
     }
 
-    paper_data['authors'] += [{'name': 'SSK', 'full_name': 'SSKIM', 'addresses': ['ADDRESS1', 'ADDRESS2']}]
-    paper_data['authors'] += [{'name': 'SDK', 'full_name': 'SDKIM', 'addresses': ['ADDRESS3', 'ADDRESS4']}]
-    paper_data['authors'] += [{'name': 'SYK', 'full_name': '', 'addresses': ['ADDRESS1']}]
-    paper_data['reprint'] = paper_data['authors'][0]
-    paper_data['grades']  += [{'full_grade': 'FG', 'caped': 'fg'}]
+    http_res = requests.post(JAXWS2REST_SERVER + "LamrService/lamrCorCollectionData", json = data)
+    return json.loads(http_res.text), uids
 
-    session = requests.session()
-    res = session.post('%s/save'%SERVER_URL, json=paper_data)
+def addPapers(session, username, uids):
+    data = {
+        "username"    : username,
+        "uids"        : [{'uid': uid, 'isReprint': True} for uid in uids],
+    }
+    http_res = session.post(YOUR_PAPER_SERVER + "myPaper/add", json = data)
+    return json.loads(http_res.text)
 
-    print(res.content)
+def register(username, password):
+    data = {
+        "username"  : username,
+        "password"  : password,
+        "name"      : "김승신"
+    }
+    http_res = requests.post(YOUR_PAPER_SERVER + "auth/availableCheck", json = data)
+    if http_res.text:
+        requests.post(YOUR_PAPER_SERVER + "auth/register", json = data)
+    return
+
+def login(username, password):
+    data = {
+        "username"  : username,
+        "password"  : password,
+    }
+    authorization = username + ":" + password
+    
+    authorization = "Basic " + str(base64.b64encode(authorization.encode("utf-8")), 'utf-8')
+# cHl0aG9uMDE6cHl0aG9uMDE=
+    session = requests.Session()
+    session.headers.update({
+        'Authorization': authorization
+    })
+    http_res = session.post(YOUR_PAPER_SERVER + "auth/login", json = data)
+    
+    return session
 
 if __name__ == '__main__':
-    # post_test()
-    pass
+    username = "python01"
+    password = "python01"
+    register(username, password)
+    session = login(username, password)
+
+    searchResult = search("AD=(Sejong Univ)", "2019-01-01", "2019-02-01", 1, 50)
+    lamrResult, uids = lamrSearch(searchResult)
+
+    result = addPapers(session, username, uids)
+
+    print(result)

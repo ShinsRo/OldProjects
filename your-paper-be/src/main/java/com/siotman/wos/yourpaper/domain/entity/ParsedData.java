@@ -24,7 +24,7 @@ public class ParsedData {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "parsedData")
     private Paper paper;
 
-    private String timesCited;
+    private Integer timesCited;
 
     private String reprint;
 
@@ -48,16 +48,21 @@ public class ParsedData {
 
     @Builder
     public ParsedData(
-            String timesCited, String reprint,
+            Paper paper,
+            Integer timesCited, String reprint,
             List<String> grades, Map<String, Map<String, Integer>> tcDataJson,
             List<ParsedAuthorJson> parsedAuthorJsonList,
-            JournalImpactJson journalImpactJson
+            JournalImpactJson journalImpactJson,
+            List<CitingPaperJson> citingPaperJsonList
     ) {
+        this.paper       = paper;
+
         this.timesCited = timesCited;
         this.reprint    = reprint;
         this.grades     = grades;
         this.tcDataJson = tcDataJson;
         this.parsedAuthorJsonList   = parsedAuthorJsonList;
         this.journalImpactJson      = journalImpactJson;
+        this.citingPaperJsonList    = citingPaperJsonList;
     }
 }

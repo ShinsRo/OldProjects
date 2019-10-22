@@ -35,6 +35,11 @@ spring:
       dialect: org.hibernate.dialect.MySQL5InnoDBDialect
       ddl-auto: create-drop
 
+  rabbitmq:
+    addresses: localhost
+    username: ${LOCAL_MQ_USERNAME}
+    password: ${LOCAL_MQ_PASSWORD}
+
 ---
 logging:
   level:
@@ -64,3 +69,7 @@ spring:
       dialect: org.hibernate.dialect.MySQL5InnoDBDialect
       ddl-auto: update
 
+  rabbitmq:
+    addresses: ${LOCAL_MQ_URL}
+    username: ${LOCAL_MQ_USERNAME}
+    password: ${LOCAL_MQ_PASSWORD}
