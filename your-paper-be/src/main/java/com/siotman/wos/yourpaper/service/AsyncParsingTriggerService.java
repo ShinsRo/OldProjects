@@ -1,70 +1,91 @@
 package com.siotman.wos.yourpaper.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.siotman.wos.yourpaper.config.RabbitmqConfig;
 import com.siotman.wos.yourpaper.domain.dto.PaperDto;
+import com.siotman.wos.yourpaper.domain.dto.PaperUrlsDto;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageBuilder;
+import org.springframework.amqp.core.MessageProperties;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class AsyncParsingTriggerService {
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final URL parsingTriggerUrl = new URL("http://localhost:9402/parseAll");
+    private final Map<String, String> MSG_FORMAT = new HashMap<String, String>() {{
+        put("sourceType",   "");
+        put("UID",          "");
+        put("targetUrl",    "");
+        put("extra",        "");
+    }};
 
     @Autowired
     private AsyncRunner asyncRunner;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
-    public AsyncParsingTriggerService() throws MalformedURLException {
+    public AsyncParsingTriggerService() {
     }
 
     public void triggerAll(List<PaperDto> list) {
-        Map<String, PaperDto> requestBodyMap = new HashMap<>();
-        for (PaperDto dto : list) {
-            requestBodyMap.put(dto.getUid(), dto);
-        }
 
         asyncRunner.run(() -> {
             try {
-                _postRequest(parsingTriggerUrl, requestBodyMap);
-            } catch (IOException e) {
+                for (PaperDto dto : list) {
+                    PaperUrlsDto urlsDto = dto.getPaperUrlsDto();
+                    startOne(TYPE.DETAIL, dto.getUid(), urlsDto.getSourceUrl(), null);
+
+                    if (dto.getTimesCited() != null && dto.getTimesCited() > 0)
+                        startOne(TYPE.TC_DATA, dto.getUid(), urlsDto.getCitingArticlesUrl(), null);
+                }
+            } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
         });
-
     }
 
+    public void startOne(TYPE type, String uid, String url, String extra) throws JsonProcessingException {
+        MSG_FORMAT.put("sourceType",    type.format.get("sourceType"));
+        MSG_FORMAT.put("UID",           uid);
+        MSG_FORMAT.put("targetUrl",     url);
+        MSG_FORMAT.put("extra",         extra);
 
-    private String _postRequest(URL url, Map requestBodyMap) throws IOException {
-        String responseBodyString;
+        String json     = objectMapper.writeValueAsString(MSG_FORMAT);
+//        Message message = MessageBuilder
+//                .withBody(json.getBytes())
+//                .setContentType(MessageProperties.CONTENT_TYPE_JSON)
+//                .build();
+        rabbitTemplate.convertAndSend(
+                type.format.get("exchange"),
+                type.format.get("routingKey"),
+                json
+        );
+    }
 
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestProperty("Content-Type", "application/json");
-        conn.setRequestMethod("POST");
-        conn.setDoOutput(true);
+    public enum TYPE {
+        DETAIL(new HashMap<String, String>() {{
+            put("sourceType", "DETAIL_LINK");
+            put("exchange", RabbitmqConfig.PARSING_TARGET_EX);
+            put("routingKey", RabbitmqConfig.PARSING_TARGET_ROUTING_KEY_PREFIX + "new");
+        }}),
 
-        try (DataOutputStream writer = new DataOutputStream(conn.getOutputStream())) {
-            String requestBody = objectMapper.writeValueAsString(requestBodyMap);
+        TC_DATA(new HashMap<String, String>() {{
+            put("sourceType", "CITING_LINK");
+            put("exchange", RabbitmqConfig.PARSING_TARGET_EX);
+            put("routingKey",  RabbitmqConfig.PARSING_TARGET_ROUTING_KEY_PREFIX + "update");
+        }});
 
-            writer.write(requestBody.getBytes());
-            writer.flush();
+        private Map<String, String> format;
 
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
-                responseBodyString = reader.lines().collect(Collectors.joining("\n"));
-            }
-        } finally {
-            conn.disconnect();
+        TYPE(Map<String, String> format) {
+            this.format = format;
         }
-        return responseBodyString;
     }
 }
