@@ -9,8 +9,13 @@ sys.path.append(
     )
 )
 
-import parser_interface
+import requests
+import random
+
 from bs4 import BeautifulSoup
+
+import parser_constants
+import parser_interface
 
 from func_parse_detail      import parse_detail
 from func_parse_cite_list   import parse_cite_list
@@ -55,19 +60,19 @@ def detail_page_proc_test():
     soup = get_soup('./tests/resource/detail_sample_1.html')
     link, paper_data = parse_detail(soup, 'test')
 
-    assert link                             is ''
-    assert len(paper_data['authors'])       is 3
-    assert paper_data['reprint']['name']    == 'Lee, SK'
-    assert paper_data['grades'][0]['caped'] == 'SSCI'
+    assert link                                 is ''
+    assert len(paper_data['parsedAuthorList'])  is 3
+    assert paper_data['reprint']['name']        == 'Lee, SK'
+    assert paper_data['grades'][0]['caped']     == 'SSCI'
 
     soup = get_soup('./tests/resource/detail_sample_2.html')
 
     link, paper_data = parse_detail(soup, 'test')
 
-    assert link                             is not ''
-    assert paper_data['timesCited']         == 1162
-    assert len(paper_data['authors'])       is 34
-    assert paper_data['reprint']['name']    == 'Ahn, JK'
+    assert link                                 is not ''
+    assert len(paper_data['parsedAuthorList'])  is 34
+    assert paper_data['timesCited']             == 1162
+    assert paper_data['reprint']['name']        == 'Ahn, JK'
     # assert paper_data['grades'][0]['caped'] == 'SSCI'       
 
     soup = get_soup('./tests/resource/detail_sample_WOS:000475354700041.html')
@@ -76,14 +81,27 @@ def detail_page_proc_test():
 
 
 def cite_cnt_page_proc_test():
-    soup = get_soup('./tests/resource/cite_list_sample_1.html')
-    
-    link, tc_data = parse_cite_list(soup, 'test')
+    session = requests.Session()
 
-    print(link, tc_data)
+    headers = session.headers
+    
+    ua          = parser_constants.USER_AGENT_LIST
+    rand_val    = random.random() * 10000
+    user_agent  = ua[int(rand_val) % len(ua)]
+    headers.update({'User-Agent': user_agent})
+
+    http_res = session.get(
+        'http://gateway.webofknowledge.com/gateway/Gateway.cgi?GWVersion=2&SrcApp=PARTNER_APP&SrcAuth=LinksAMR&KeyUT=WOS:000457071500001&DestLinkType=RelatedRecords&DestApp=ALL_WOS&UsrCustomerID=f6bb6a9d62a1652eee5cbcc7e544ea0c'
+    )
+    soup = BeautifulSoup(http_res.content, features="lxml")
+    link, tc_data, articles = parse_cite_list(soup, session, 'WOS:000457071500001')
+
+
+
+    print(link, tc_data, articles)
 
 def times_cited_page_proc_test():
-    soup = get_soup('./tests/resource/tc_data_sample_1.html')
+    soup = get_soup('./tests/resource/times_cited_sample_1.html')
 
     tc_data = parse_tc_data(soup, 'test')
 
@@ -91,7 +109,7 @@ def times_cited_page_proc_test():
     
 if __name__ == "__main__":
     # 디테일 페이지 처리 테스트
-    detail_page_proc_test()
+    # detail_page_proc_test()
 
     # 인용 목록 페이지 처리 테스트
     cite_cnt_page_proc_test()

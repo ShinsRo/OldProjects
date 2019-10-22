@@ -5,7 +5,7 @@ import datetime
 
 from bs4 import BeautifulSoup
 
-from parser_CONSTANTS import USER_AGENT_LIST as ua
+import parser_constants
 import parser_mailman
 import parser_utiles
 import parser_logger
@@ -18,7 +18,7 @@ from func_parse_tc_data     import parse_tc_data
 class WosParser():
     def __init__(self, mailman: parser_mailman.Mailman):
         self.logger     = parser_logger.Logger()
-        self.base_url   = "http://apps.webofknowledge.com"
+        self.base_url   = parser_constants.WOS_BASE_URL
         self.server_url = ""
         self.mailman    = mailman
 
@@ -29,6 +29,7 @@ class WosParser():
 
         headers = session.headers
         
+        ua          = parser_constants.USER_AGENT_LIST
         rand_val    = random.random() * 10000
         user_agent  = ua[int(rand_val) % len(ua)]
         headers.update({'User-Agent': user_agent})
@@ -53,25 +54,25 @@ class WosParser():
 
 
                 # [0120] 파싱한 링크 메세징, CITE_CNT_LINK 타입 파싱 요청
-                self.logger.log('info', '[0130] Messaging CITE_CNT_LINK.')
+                self.logger.log('info', '[0130] Messaging DETAIL_LINK completed.')
                 
                 if paper_data['timesCited']:
-                    recordState = 'IN_PROGRESS'
-                    self.mailman.send('DETAIL_LINK', 'CITE_CNT_LINK', uid, self.base_url + link, 'NONE')
+                    # self.mailman.send('DETAIL_LINK', 'CITE_CNT_LINK', uid, self.base_url + link, 'NONE')
+                    recordState = 'PARSING'
                 else:
-                    self.logger.log('info', '[0131] Messaging CITE_CNT_LINK unecessary.')
+                    # self.logger.log('info', '[0131] Messaging CITE_CNT_LINK unecessary.')
                     recordState = 'COMPLETED'
                 
                 # [0130] 파싱한 정보 DB 저장 요청
                 self.logger.log('info', '[0120] Requesting server to save detail data.')
 
                 paper_data['recordState'] = recordState
-                requests.post('http://127.0.0.1:9400/savePaperData', json=paper_data)
+                requests.post(parser_constants.YOUR_PAPER_SERVER + 'parsedData/updatePaperData', json=paper_data)
                 
                 ## 상세 페이지 처리 끝 ##
 
             # 대상을 인용 중인 논문 리스트 페이지 링크
-            elif targetType == 'CITE_CNT_LINK':
+            elif targetType == 'CITING_LINK':
                 ## 피인용 리스트 페이지 처리 ##
                 # [0200] PHASE 시작
                 self.logger.log('info', '[0200] %s PHASE started.' % targetType)
@@ -79,49 +80,50 @@ class WosParser():
                 # [0210] 년도별 인용 횟수 정보 링크, 피인용 횟수 정보
                 self.logger.log('info', '[0210] %s Parsing started.' % targetType)
 
-                link, tc_data = parse_cite_list(soup, uid)
+                link, tc_data, citingPaperJsonList = parse_cite_list(soup, session, uid)
 
                 # [0220] 파싱한 링크 메세징
-                self.logger.log('info', '[0220] Messaging TIMES_CITED_BY_YEAR_LINK.')
+                self.logger.log('info', '[0220] Messaging CITING_LINK completed.')
                 
                 if link:
-                    recordState = 'IN_PROGRESS'
-                    self.mailman.send('CITE_CNT_LINK', 'TIMES_CITED_BY_YEAR_LINK', uid, self.base_url + '/' + link, 'NONE')
+                    recordState = 'PARSING'
+                    # self.mailman.send('CITING_LINK', 'TIMES_CITED_BY_YEAR_LINK', uid, self.base_url + '/' + link, 'NONE')
                 else:
                     recordState = 'COMPLETED'
 
                 # [0230] 파싱한 정보 DB 저장 요청
                 self.logger.log('info', '[0230] Requesting server to save detail data.')
                 
-                dto = {
+                parsedDataDto = {
                     'uid': uid,
                     'recordState': recordState,
+                    'citingPaperJsonList': citingPaperJsonList,
                     'tcData': tc_data
                 }
-                requests.post('http://127.0.0.1:9400/saveTcData', json=dto)
+                requests.post(parser_constants.YOUR_PAPER_SERVER + 'parsedData/updateTcData', json=parsedDataDto)
                 ## 인용 리스트 페이지 처리 끝 ##
                 pass
             
-            # 년도별 인용 횟수 정보가 있는 페이지 링크
-            elif targetType == 'TIMES_CITED_BY_YEAR_LINK':
-                ## TC_DATA 페이지 처리 ##
-                # [0300] PHASE 시작
-                self.logger.log('info', '[0300] %s PHASE started.' % targetType)
+            # # 년도별 인용 횟수 정보가 있는 페이지 링크
+            # elif targetType == 'TIMES_CITED_BY_YEAR_LINK':
+            #     ## TC_DATA 페이지 처리 ##
+            #     # [0300] PHASE 시작
+            #     self.logger.log('info', '[0300] %s PHASE started.' % targetType)
 
-                # [0310] 년도별 인용 횟수 정보 파싱
-                self.logger.log('info', '[0310] %s Parsing started.' % targetType)
+            #     # [0310] 년도별 인용 횟수 정보 파싱
+            #     self.logger.log('info', '[0310] %s Parsing started.' % targetType)
 
-                tc_data = parse_tc_data(soup, uid)
+            #     tc_data = parse_tc_data(soup, uid)
 
-                # [0320] 파싱한 정보 DB 저장 요청
-                self.logger.log('info', '[0320] Requesting server to save detail data.')
+            #     # [0320] 파싱한 정보 DB 저장 요청
+            #     self.logger.log('info', '[0320] Requesting server to save detail data.')
                 
-                dto = {
-                    'uid': uid,
-                    'recordState': 'COMPLETED',
-                    'tcData': tc_data
-                }
-                requests.post('http://127.0.0.1:9400/saveTcData', json=dto)
+            #     parsedDataDto = {
+            #         'uid': uid,
+            #         'recordState': 'COMPLETED',
+            #         'tcData': tc_data
+            #     }
+            #     requests.post('http://127.0.0.1:9400/saveTcData', json=parsedDataDto)
 
             else:
                 pass
@@ -130,7 +132,7 @@ class WosParser():
             self.logger.log('info', '[0140] The record is not available.')
             paper_data = { 'uid': uid }
             paper_data['recordState'] = 'NOT_AVAILABLE'
-            requests.post('http://127.0.0.1:9400/savePaperData', json=paper_data)
+            requests.post(parser_constants.YOUR_PAPER_SERVER + 'parsedData/updatePaperData', json=paper_data)
 
         except parser_exceptions.CiteListNoSubsError:
             self.logger.log('info', '[0150] The record\'s CitingArticle list page isn\'t covered by the subscribe.')
@@ -139,7 +141,7 @@ class WosParser():
                     'recordState': 'NO_SUBSCRIBE',
                     'tcData': {}
             }
-            requests.post('http://127.0.0.1:9400/saveTcData', json=dto)
+            requests.post(parser_constants.YOUR_PAPER_SERVER + 'parsedData/updateTcData', json=dto)
 
         except Exception as e:
             self.logger.log('error', '[9001] Unknown error detected. Printing http_res.')
@@ -149,7 +151,7 @@ class WosParser():
                     'recordState': 'ERROR',
                     'tcData': {}
             }
-            requests.post('http://127.0.0.1:9400/saveTcData', json=dto)
+            requests.post(parser_constants.YOUR_PAPER_SERVER + 'parsedData/updateTcData', json=dto)
 
             with open('./%s.html' % uid, 'w') as f:
                 f.write(http_res.content.decode('utf-8'))
