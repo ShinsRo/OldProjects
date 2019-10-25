@@ -20,24 +20,30 @@
         <p class="smallIntroduce">Paper manamgement system</p>
       </div>
       <div class="formContainer">
-        <!-- <LoginComponent></LoginComponent> -->
-        <SignUpComponent></SignUpComponent>
+        <LoginComponent v-show="flag===1"></LoginComponent>
+        <SignUpComponent v-show="flag===2"></SignUpComponent>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import LoginComponent from '@/components/Login/LoginComponent.vue'
+import LoginComponent from '@/components/Landing/Login/LoginComponent.vue'
 import SignUpComponent from '@/components/Landing/SignUp/SignUpComponent.vue'
 
 export default {
   name: 'LandingBackground',
   components: {
-    // LoginComponent
+    LoginComponent,
     SignUpComponent
+  },
+  data () {
+    return {
+      flag: 1
+    }
   }
 }
+
 </script>
 
 <style lang="scss">

@@ -1,5 +1,9 @@
 <template>
     <div>
+      <!-- <header></header> -->
+      <!-- <myList></myList> 내 노문 검색-->
+      <!-- <paperStatics></paperStatics> 내 논문 통계-->
+      <!-- <paperEdit></paperEdit> 내 논문 편집 -->
       <my-list id="myListOuterLayout"></my-list>
     </div>
 </template>
