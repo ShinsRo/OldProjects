@@ -1,24 +1,20 @@
 <template>
-  <div class="Landing">
-    <LandingBackground></LandingBackground>
+  <div class="LandingWrapper">
+    <landingBackground class="landingBackground"></landingBackground>
   </div>
 </template>
 
 <script>
-import LandingBackground from '@/components/Landing/LandingBackground/LandingBasicBackground.vue'
+import landingBackground from '../../components/5.landingBackground/landingBackground.vue'
 
 export default {
   name: 'Landing',
   components: {
-    LandingBackground
+    landingBackground
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  .Landing {
-    margin: 0;
-    height: 100vh;
-    width: 100vw;
-  }
+  @import './Landing.scss';
 </style>
