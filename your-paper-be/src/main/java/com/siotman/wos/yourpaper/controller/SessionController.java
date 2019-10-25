@@ -1,5 +1,6 @@
 package com.siotman.wos.yourpaper.controller;
 import com.siotman.wos.yourpaper.domain.dto.MemberDto;
+import com.siotman.wos.yourpaper.exception.NoSuchMemberException;
 import com.siotman.wos.yourpaper.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,16 @@ public class SessionController {
         ResponseEntity<?> response;
 
         MemberDto savedMemberDto = memberService.register(dto);
+
+        response = ResponseEntity.ok().body(savedMemberDto);
+        return response;
+    }
+
+    @PostMapping(value = "/update")
+    public ResponseEntity<?> update(@RequestBody MemberDto dto) throws NoSuchMemberException {
+        ResponseEntity<?> response;
+
+        MemberDto savedMemberDto = memberService.update(dto);
 
         response = ResponseEntity.ok().body(savedMemberDto);
         return response;
