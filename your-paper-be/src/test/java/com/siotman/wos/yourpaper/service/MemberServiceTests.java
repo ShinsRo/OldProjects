@@ -30,7 +30,11 @@ public class MemberServiceTests {
         final MemberDto targetDto = objectMapper.readValue("{" +
                 "\"username\":\"user01\"," +
                 "\"password\":\"password01!\"," +
-                "\"name\":\"김승신\"" +
+                "\"memberInfoDto\":{" +
+                        "\"name\":\"김승신\"," +
+                        "\"authorNameList\":[\"KSS\",\"Seungshin kim\"]," +
+                        "\"organizationList\":[\"Sejong Univ\", \"SK C&C\"]" +
+                    "}" +
                 "}", MemberDto.class);
         MemberDto member = memberService.register(targetDto);
 
@@ -43,12 +47,20 @@ public class MemberServiceTests {
         final MemberDto targetDto = objectMapper.readValue("{" +
                 "\"username\":\"user01\"," +
                 "\"password\":\"password01!\"," +
-                "\"name\":\"김승신\"" +
+                "\"memberInfoDto\":{" +
+                        "\"name\":\"김승신\"," +
+                        "\"authorNameList\":[\"KSS\",\"Seungshin kim\"]," +
+                        "\"organizationList\":[\"Sejong Univ\", \"SK C&C\"]" +
+                    "}" +
                 "}", MemberDto.class);
         final MemberDto updateDto = objectMapper.readValue("{" +
                 "\"username\":\"user01\"," +
                 "\"password\":\"password02!!\"," +
-                "\"name\":\"김승신\"" +
+                "\"memberInfoDto\":{" +
+                        "\"name\":\"김승신\"," +
+                        "\"authorNameList\":[\"KSS\",\"Seungshin kim\"]," +
+                        "\"organizationList\":[\"Sejong Univ\", \"SK C&C\"]" +
+                    "}" +
                 "}", MemberDto.class);
 
         memberService.register(targetDto);
@@ -64,7 +76,11 @@ public class MemberServiceTests {
         final MemberDto savedMemberDto = objectMapper.readValue("{" +
                 "\"username\":\"user01\"," +
                 "\"password\":\"password01!\"," +
-                "\"name\":\"김승신\"" +
+                "\"memberInfoDto\":{" +
+                        "\"name\":\"김승신\"," +
+                        "\"authorNameList\":[\"KSS\",\"Seungshin kim\"]," +
+                        "\"organizationList\":[\"Sejong Univ\", \"SK C&C\"]" +
+                    "}" +
                 "}", MemberDto.class);
         memberService.register(savedMemberDto);
 

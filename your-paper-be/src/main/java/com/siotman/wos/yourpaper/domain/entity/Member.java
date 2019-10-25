@@ -1,9 +1,11 @@
 package com.siotman.wos.yourpaper.domain.entity;
 
 import com.siotman.wos.yourpaper.domain.dto.MemberDto;
+import com.siotman.wos.yourpaper.domain.dto.MemberInfoDto;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -21,7 +23,7 @@ public class Member {
     private String username;
     @Column(length = 64)
     private String password;
-    private Boolean enabled;
+    private boolean disabled;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "info_id", referencedColumnName = "id")
@@ -44,35 +46,34 @@ public class Member {
     }
 
     @Builder
-    public Member(final PasswordEncoder encoder, final MemberDto dto) {
-        this.username = dto.getUsername();
-        if (encoder != null) _setPasswordWithEncoder(encoder, dto.getPassword());
-
-        this.memberInfo = MemberInfo.builder()
-                .name(dto.getName())
-                .build();
-
+    public Member(String username, String password, boolean enabled, MemberInfo memberInfo) {
+        this.username = username;
+        _setPasswordWithEncoder(password);
+        this.memberInfo = memberInfo;
         this.roles = new HashSet<>();
         this.roles.add(MemberRole.ROLE_USER);
-
         this.papers = new HashSet<>();
-        this.enabled = false;
+        this.disabled = enabled;
     }
 
-    public void updateMember(PasswordEncoder encoder, MemberDto dto) {
-        String newName          = dto.getName();
+    public void update(MemberDto dto) {
+        this.username = dto.getUsername();
         String newPassword      = dto.getPassword();
-
-        if (newName != null) {
-            this.memberInfo.updateName(dto.getName());
-        }
+        MemberInfoDto infoDto   = dto.getMemberInfoDto();
 
         if (newPassword != null) {
-            _setPasswordWithEncoder(encoder, dto.getPassword());
+            _setPasswordWithEncoder(newPassword);
         }
+        this.memberInfo = MemberInfo.builder()
+                .name(infoDto.getName())
+                .email(infoDto.getEmail())
+                .authorNameList(infoDto.getAuthorNameList())
+                .organizationList(infoDto.getOrganizationList())
+            .build();
     }
 
-    private void _setPasswordWithEncoder(PasswordEncoder encoder, String password) {
-        this.password = encoder.encode(password);
+    private void _setPasswordWithEncoder(String password) {
+        if (password == null) return;
+        this.password = new BCryptPasswordEncoder().encode(password);
     }
 }
