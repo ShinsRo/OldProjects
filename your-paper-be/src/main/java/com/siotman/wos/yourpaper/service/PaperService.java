@@ -40,7 +40,7 @@ public class PaperService {
         List<PaperDto> paperDtos = new ArrayList<>();
 
         List<MemberPaper> memberPapers = memberPaperRepository
-                .findAllByMember(Member.builder().dto(dto).build());
+                .findAllByMember(Member.builder().username(dto.getUsername()).build());
 
         for (MemberPaper memberPaper : memberPapers) {
             paperDtos.add(PaperDto.buildWithMemberPaper(memberPaper));
