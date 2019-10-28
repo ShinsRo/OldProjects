@@ -1,0 +1,124 @@
+@import '../../BasicStyle/BasicStyle.scss';
+
+.createWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .idContainer {
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 2%;
+
+    .inputForId {
+      width: 68%;
+      padding: 2%;
+      border: 1.5px solid $basicIndigo;
+    }
+
+    .checkForId {
+      width: 30%;
+      font-size: 0.7em;
+      color: $basicWhite;
+      background-color: $basicIndigo;
+      border: $basicIndigo;
+    }
+  }
+
+  .passwordContainer {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+
+    .inputForPassword, .checkForPassword{
+      width: 95%;
+      padding: 2%;
+      height: 15px;
+      border: 1.5px solid $basicIndigo;
+    }
+
+    .invalidPassword, .differentPassword {
+      margin: 1% 0;
+      color: $basicRed;
+      font-weight: bold;
+      font-size: 0.8em;
+    }
+  }
+
+  .authorContainer {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    .inputForName, .inputForAuthorName {
+      width: 95%;
+      padding: 2%;
+      height: 15px;
+      border: 1.5px solid $basicIndigo;
+      margin-bottom: 2%;
+    }
+
+    .inputForOrganization {
+      width: 100%;
+      margin-bottom: 2%;
+      display: flex;
+      flex-direction: row;
+
+      .organization {
+        width: 90%;
+        padding: 2%;
+        border: 1.5px solid $basicIndigo;
+      }
+
+      .buttonForAdd {
+        width: 13%;
+        background-color: $basicIndigo;
+        border: $basicIndigo;
+        color: $basicWhite;
+      }
+    }
+    
+    .conditions {
+      width: 97.5%;
+      resize: none;
+      overflow: hidden-unscrollable;
+      border: 1.5px solid $basicIndigo;
+      margin-bottom: 2%;
+    }
+
+    .checkForCondition {
+      margin: 1% 0;
+    }
+  }
+
+  .buttonContainer {
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;;
+
+    .buttonForCreate, .buttonForBack {
+      height: 30px;
+      border-radius: 5px;
+      border: 0;
+      font-size: 130%;
+      color: $basicWhite;
+    }
+
+    .buttonForCreate {
+      width: 66%;
+      background-color: $basicOrange;
+      border: solid $basicOrange;
+    }
+
+    .buttonForBack {
+      width: 33%;
+      background-color: $basicIndigo;
+      border: solid $basicIndigo;
+    }
+  }
+}
