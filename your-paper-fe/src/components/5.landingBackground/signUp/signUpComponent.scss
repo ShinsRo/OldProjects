@@ -1,6 +1,6 @@
 @import '../../BasicStyle/BasicStyle.scss';
 
-.createWrapper {
+.signUpWrapper {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -25,6 +25,7 @@
       color: $basicWhite;
       background-color: $basicIndigo;
       border: $basicIndigo;
+      outline: none;
     }
   }
 
@@ -54,7 +55,7 @@
     flex-direction: column;
     align-items: flex-end;
 
-    .inputForName, .inputForAuthorName {
+    .inputForName {
       width: 95%;
       padding: 2%;
       height: 15px;
@@ -62,26 +63,48 @@
       margin-bottom: 2%;
     }
 
-    .inputForOrganization {
+    .inputForAuthorName {
+      width: 100%;
+      margin-bottom: 2%;
+      display: flex;
+      flex-direction: row;
+      
+      .AuthorName {
+        width: 90.3%;
+        padding: 2%;
+        border: 1.5px solid $basicIndigo;
+      }
+
+      .buttonForAuthorName {
+        width: 12.7%;
+        outline: none;
+        background-color: $basicIndigo;
+        border: $basicIndigo;
+        color: $basicWhite;
+      }
+    }
+
+    .selectBoxForOrganization {
       width: 100%;
       margin-bottom: 2%;
       display: flex;
       flex-direction: row;
 
       .organization {
-        width: 90%;
-        padding: 2%;
+        width: 100%;
+        padding: 1.5%;
         border: 1.5px solid $basicIndigo;
-      }
-
-      .buttonForAdd {
-        width: 13%;
-        background-color: $basicIndigo;
-        border: $basicIndigo;
-        color: $basicWhite;
+        appearance: none;
+        background: url('../../../assets/images/DropBoxIcon.png') no-repeat center right;
       }
     }
-    
+  }
+
+  .conditionContainer {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+
     .conditions {
       width: 97.5%;
       resize: none;
@@ -91,7 +114,8 @@
     }
 
     .checkForCondition {
-      margin: 1% 0;
+      margin: 0 0 1.5% 0;
+      margin-left: auto;
     }
   }
 
@@ -105,6 +129,7 @@
       height: 30px;
       border-radius: 5px;
       border: 0;
+      outline: none;
       font-size: 130%;
       color: $basicWhite;
     }

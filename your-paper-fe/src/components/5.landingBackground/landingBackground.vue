@@ -18,8 +18,8 @@
         <p class="rightSiteDescription">Paper Management System</p>
       </div>
       <div class="formContainer">
-        <login v-show="flag===1"></login>
-        <create v-show="flag===2"></create>
+        <login v-on:changeFlag="changeSignUp" v-if="flag===1"></login>
+        <signUp v-on:changeFlag="changeLogin" v-if="flag===2"></signUp>
       </div>
     </div>
   </div>
@@ -27,18 +27,26 @@
 
 <script>
 import login from '../5.landingBackground/login/loginComponent.vue'
-import create from '../5.landingBackground/create/createComponent.vue'
+import signUp from '../5.landingBackground/signUp/signUpComponent.vue'
 
 export default {
 
   name: 'landingBackground',
   components: {
     login,
-    create
+    signUp
   },
   data () {
     return {
-      flag: 2
+      flag: 1
+    }
+  },
+  methods: {
+    changeSignUp () {
+      this.flag = 2
+    },
+    changeLogin () {
+      this.flag = 1
     }
   }
 }
