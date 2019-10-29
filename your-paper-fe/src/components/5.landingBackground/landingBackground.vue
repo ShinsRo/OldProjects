@@ -7,19 +7,48 @@
       <div class="logoImageContainer">
         <img class="logoImage" src="@/assets/images/paperLogo.png" alt="logoImage">
       </div>
-      <div class="descriptionContainer">
-        <p class="siteName">Your Paper</p>
-        <p class="siteDescription">Paper Management System</p>
+      <div class="leftDescriptionContainer">
+        <p class="leftSiteName">Your Paper</p>
+        <p class="leftSiteDescription">Paper Management System</p>
       </div>
     </div>
     <div class="rightContainer">
+      <div class="rightDescritionContainer">
+        <p class="rightSiteName">Your Paper</p>
+        <p class="rightSiteDescription">Paper Management System</p>
+      </div>
+      <div class="formContainer">
+        <login v-on:changeFlag="changeSignUp" v-if="flag===1"></login>
+        <signUp v-on:changeFlag="changeLogin" v-if="flag===2"></signUp>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import login from '../5.landingBackground/login/loginComponent.vue'
+import signUp from '../5.landingBackground/signUp/signUpComponent.vue'
+
 export default {
-  name: 'landingBackground'
+
+  name: 'landingBackground',
+  components: {
+    login,
+    signUp
+  },
+  data () {
+    return {
+      flag: 1
+    }
+  },
+  methods: {
+    changeSignUp () {
+      this.flag = 2
+    },
+    changeLogin () {
+      this.flag = 1
+    }
+  }
 }
 </script>
 
