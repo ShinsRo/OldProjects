@@ -31,7 +31,7 @@
       <p class="checkForCondition"><input type="checkbox">Agree</p>
     </div>
     <div class="buttonContainer">
-      <button class="buttonForCreate" type="button">Create</button>
+      <button class="buttonForCreate" type="button" v-on:click="clickForSignUp">Create</button>
       <button class="buttonForBack" type="button" v-on:click="clickForBack">Cancel</button>
     </div> <!-- button container-->
   </div>
@@ -40,7 +40,22 @@
 <script>
 export default {
   name: 'signUp',
+  data () {
+    return {
+      signUpData: {
+        id: '',
+        password: '',
+        name: '',
+        authorName: '',
+        organization: '',
+        agree: false
+      }
+    }
+  },
   methods: {
+    clickForSignUp () {
+      console.log(this.signUpData)
+    },
     clickForBack () {
       this.$emit('changeFlag')
     }
