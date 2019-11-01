@@ -146,4 +146,19 @@
       border: solid $basicIndigo;
     }
   }
+
+  .idCautionMessage, .passwordCautionMessage {
+    width: 80%;
+    font-size: 0.8em;
+    color: $basicRed;
+    font-weight: bold;
+  }
+
+  .idCautionMessage {
+    margin: -1% 0 1.5% 0;
+  }
+  
+  .passwordCautionMessage {
+    margin: 1% 0 1% 0;
+  }
 }

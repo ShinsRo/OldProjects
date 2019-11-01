@@ -36,7 +36,7 @@ export default {
             'username': this.customer.id,
             'password': this.customer.password
           },
-          header: { Authorization: `Basic ${this.customer.id}:${this.customer.password}` }
+          headers: { Authorization: `Basic ${btoa(`${this.customer.id}:${this.customer.password}`)}` }
         }).then(res => {
           this.$router.push('/main')
         }).catch(error => {
