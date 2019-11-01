@@ -17,6 +17,13 @@
     height: 25px;
   }
 
+  .loginErrorMessage {
+    font-size: 0.8em;
+    margin: 0 0 1.5% 0;
+    font-weight: bold;
+    color: $basicRed;
+  }
+
   .buttonForLogin, .buttonForSignUp {
     width: 55%;
     height: 30px;
