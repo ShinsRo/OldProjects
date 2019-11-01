@@ -28,7 +28,8 @@
   float: right;
   width: 40%;
   height: 100%;
-  justify-self: flex-end;
+  align-items: flex-end;
+  justify-self: center;
 }//사용자 아이콘
 
 #dropBox{
@@ -36,16 +37,15 @@
   top: 50px;
   right: 20px;
   width: 170px;
-  height: auto;
   background-color: white;
   border-radius: 3px;
   box-shadow: 5px 5px 15px 1px lightgray;
-
 
   .divideLine{
     color: $basicGray;
     width: 100%;
   }
+
   .textWrapper:hover{
     background-color: $basicOrange;
     .text{
