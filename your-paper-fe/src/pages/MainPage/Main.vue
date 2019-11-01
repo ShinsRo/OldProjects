@@ -1,9 +1,12 @@
 <template>
     <div>
       <headerComponent id="header"></headerComponent>
-      <search-my-paper-layout id="searchMyPaper"></search-my-paper-layout>
-      <!-- <paperStatics></paperStatics> 내 논문 통계-->
-      <!-- <paperEdit></paperEdit> 내 논문 편집 -->
+      <div id="contentOuter">
+        <search-my-paper-layout id="searchMyPaper"></search-my-paper-layout>
+        <!-- <paperStatics></paperStatics> 내 논문 통계-->
+        <!-- <paperEdit></paperEdit> 내 논문 편집 -->
+      </div>
+
       <!--<my-list id="myListOuterLayout"></my-list>-->
     </div>
 </template>
