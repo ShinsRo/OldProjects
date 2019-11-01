@@ -5,6 +5,7 @@ import com.siotman.wos.yourpaper.service.ParsedDataUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/parsedData")
 public class ParsedDataUpdateController {
