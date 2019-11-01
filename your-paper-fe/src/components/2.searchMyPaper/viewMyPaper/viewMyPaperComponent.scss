@@ -1,0 +1,64 @@
+@import '../../BasicStyle/BasicStyle.scss';
+
+#viewMyPaperComponentLayout{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.paperComponentLayout{
+  width: calc(100% - 42px);
+  height: auto;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+
+.mainOptionFilter{
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid $basicIndigo;
+  height: 50px;
+}
+
+.mainOptionFilterName{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 10%;
+}
+
+.mainOptionFilterName {
+  .text {
+    font-size: 15px;
+    font-weight: bold;
+    color: rgb(46, 53, 78);
+  }
+}
+
+.mainOptionFilterContent{
+  display: flex;
+  align-items: center;
+  width: 15%;
+}
+
+.mainOptionFilterContent {
+  .check {
+    outline: none;
+    width: 20%;
+  }
+}
+
+.optionCheck{
+  justify-content: center;
+}
+
+.mainOptionOrderName{
+  display: flex;
+  width: 7%;
+  align-items: center;
+}
+
+

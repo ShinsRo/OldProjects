@@ -10,11 +10,8 @@
 }
 
 #searchMyPaper{
-
-  overflow-y: hidden;
   height: 100%;
   width: 80%;
-
 }
 
 #contentOuter{
@@ -22,6 +19,7 @@
   justify-content: center;
   width: 100%;
   height: calc(100vh - 60px);
+  overflow-y : scroll;
 }
 
 
