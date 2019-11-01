@@ -73,9 +73,9 @@
 </template>
 
 <script>
-  export default {
-    name: 'MainOption'
-  }
+export default {
+  name: 'MainOption'
+}
 </script>
 
 <style lang="scss">

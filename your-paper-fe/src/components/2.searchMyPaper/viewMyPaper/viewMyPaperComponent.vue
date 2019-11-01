@@ -57,13 +57,13 @@
 </template>
 
 <script>
-  import paperDataComponent from './paperData/paperDataComponent.vue'
-  export default {
-    name: 'MainList',
-    components: {
-      'paperDataComponent': paperDataComponent
-    }
+import paperDataComponent from './paperData/paperDataComponent.vue'
+export default {
+  name: 'MainList',
+  components: {
+    'paperDataComponent': paperDataComponent
   }
+}
 </script>
 
 <style lang="scss">

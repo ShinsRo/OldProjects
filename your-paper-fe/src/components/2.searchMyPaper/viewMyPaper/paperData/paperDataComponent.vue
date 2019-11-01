@@ -32,9 +32,9 @@
 </template>
 
 <script>
-  export default {
-    name: 'PaperComponent'
-  }
+export default {
+  name: 'PaperComponent'
+}
 </script>
 
 <style lang="scss">

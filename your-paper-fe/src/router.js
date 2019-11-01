@@ -15,10 +15,10 @@ export default new Router({
       component: Landing
     },
     {
-       path: '/main',
-       name: 'main',
-       component: Main
-     }
+      path: '/main',
+      name: 'main',
+      component: Main
+    }
     // {
     //   path: '/',
     //   name: 'home',

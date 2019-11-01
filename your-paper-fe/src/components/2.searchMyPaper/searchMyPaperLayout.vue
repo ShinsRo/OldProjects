@@ -14,14 +14,14 @@
 <script>
 import searchMyPaperWithOption from './searchMyPaperWithOption/searchMyPaperWithOptionComponent.vue'
 import viewMyPaperComponent from './viewMyPaper/viewMyPaperComponent.vue'
-  export default {
-    name: 'MyListLayout',
-    components: {
-      'searchMyPaperWithOption' : searchMyPaperWithOption,
-      'viewMyPaperComponent' : viewMyPaperComponent
+export default {
+  name: 'MyListLayout',
+  components: {
+    'searchMyPaperWithOption': searchMyPaperWithOption,
+    'viewMyPaperComponent': viewMyPaperComponent
 
-    }
   }
+}
 </script>
 
 <style lang="scss">
