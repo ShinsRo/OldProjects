@@ -1,12 +1,11 @@
 package com.siotman.wos.yourpaper.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.siotman.wos.jaxws2rest.domain.dto.LamrResultsDto;
-import com.siotman.wos.jaxws2rest.domain.dto.LiteRecordDto;
 import com.siotman.wos.yourpaper.domain.dto.MemberDto;
 import com.siotman.wos.yourpaper.domain.dto.PaperDto;
 import com.siotman.wos.yourpaper.domain.dto.UidDto;
 import com.siotman.wos.yourpaper.domain.dto.UidsDto;
+import com.siotman.wos.yourpaper.exception.MemberIsAlreadyPresentException;
 import com.siotman.wos.yourpaper.exception.NoSuchMemberException;
 import com.siotman.wos.yourpaper.util.SearchTestUtil;
 import org.junit.Before;
@@ -28,16 +27,16 @@ import java.util.Random;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
-public class PaperServiceTests {
+public class MemberPaperServiceTests {
     private ObjectMapper objectMapper = new ObjectMapper();
     @Autowired
-    private PaperService paperService;
+    private MemberPaperService memberPaperService;
     @Autowired
     private MemberService memberService;
 
     private MemberDto targetDto;
     @Before
-    public void init() throws IOException {
+    public void init() throws IOException, MemberIsAlreadyPresentException {
         targetDto = objectMapper.readValue("{" +
                 "\"username\":\"user01\"," +
                 "\"password\":\"password01!\"," +
@@ -79,8 +78,8 @@ public class PaperServiceTests {
                 .username("user01")
                 .uids(uids)
                 .build();
-        Boolean validity    = paperService.add(uidsDto);
-        List<PaperDto> list = paperService.list(targetDto);
+        Boolean validity    = memberPaperService.add(uidsDto);
+        List<PaperDto> list = memberPaperService.list(targetDto);
 
         Assert.isTrue(list.size() == uids.size(),
                 "내 논문 리스트 사이즈와 추가한 논문 수가 일치하지 않습니다.");

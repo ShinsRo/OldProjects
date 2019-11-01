@@ -24,7 +24,7 @@ public class MemberInfo {
 
     @Lob
     @Convert(converter = JsonListConverter.class)
-    private List<String> authornameList;
+    private List<String> authorNameList;
 
     @Lob
     @Convert(converter = JsonListConverter.class)
@@ -38,7 +38,7 @@ public class MemberInfo {
                       List<String> authorNameList, List<String> organizationList, Member member) {
         this.name = name;
         this.email = email;
-        this.authornameList = authorNameList;
+        this.authorNameList = authorNameList;
         this.organizationList = organizationList;
         this.member = member;
     }

@@ -2,6 +2,7 @@ package com.siotman.wos.yourpaper.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.siotman.wos.yourpaper.domain.dto.MemberDto;
+import com.siotman.wos.yourpaper.exception.MemberIsAlreadyPresentException;
 import com.siotman.wos.yourpaper.exception.NoSuchMemberException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +27,7 @@ public class MemberServiceTests {
     PasswordEncoder encoder;
 
     @Test
-    public void 등록한_유저의_비밀번호는_암호화되어야한다() throws IOException {
+    public void 등록한_유저의_비밀번호는_암호화되어야한다() throws IOException, MemberIsAlreadyPresentException {
         final MemberDto targetDto = objectMapper.readValue("{" +
                 "\"username\":\"user01\"," +
                 "\"password\":\"password01!\"," +
@@ -43,7 +44,7 @@ public class MemberServiceTests {
     }
 
     @Test
-    public void 유저는_비밀번호를_변경할_수_있다() throws IOException, NoSuchMemberException {
+    public void 유저는_비밀번호를_변경할_수_있다() throws IOException, NoSuchMemberException, MemberIsAlreadyPresentException {
         final MemberDto targetDto = objectMapper.readValue("{" +
                 "\"username\":\"user01\"," +
                 "\"password\":\"password01!\"," +
@@ -72,7 +73,7 @@ public class MemberServiceTests {
     }
 
     @Test
-    public void 회원가입_시_아이디_중복확인이_가능하다() throws IOException {
+    public void 회원가입_시_아이디_중복확인이_가능하다() throws IOException, MemberIsAlreadyPresentException {
         final MemberDto savedMemberDto = objectMapper.readValue("{" +
                 "\"username\":\"user01\"," +
                 "\"password\":\"password01!\"," +
