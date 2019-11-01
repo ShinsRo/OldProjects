@@ -28,7 +28,6 @@
   float: right;
   width: 40%;
   height: 100%;
-  align-items: flex-end;
   justify-self: center;
 }//사용자 아이콘
 
@@ -71,10 +70,12 @@
   display: flex;
   justify-content: space-around;
   padding-bottom: 10px;
+  align-items: flex-end;
   width: 60%;
 }
 
 .headerSettingTab {
+
   .text {
     color: white;
     font-size: 20px;
