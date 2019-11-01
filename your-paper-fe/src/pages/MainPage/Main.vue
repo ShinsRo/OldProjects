@@ -1,7 +1,7 @@
 <template>
     <div>
       <headerComponent id="header"></headerComponent>
-      <!-- <myList></myList> 내 노문 검색-->
+      <search-my-paper-layout id="searchMyPaper"></search-my-paper-layout>
       <!-- <paperStatics></paperStatics> 내 논문 통계-->
       <!-- <paperEdit></paperEdit> 내 논문 편집 -->
       <!--<my-list id="myListOuterLayout"></my-list>-->
@@ -12,6 +12,7 @@
 //import myList from '../components/Main/contents/MyList/MyListLayout'
 import headerComponent from '../../components/1.header/headerComponent.vue'
 import searchMyPaperLayout from '../../components/2.searchMyPaper/searchMyPaperLayout.vue'
+
 
 export default {
   name: 'Main',
