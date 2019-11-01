@@ -29,9 +29,6 @@ export default {
       if (this.customer.id === '' || this.customer.password === '') {
         this.wrongMessage = '로그인 정보를 입력해주세요'
       } else if (this.customer.id !== '' && this.customer.password !== '') {
-        // if (this.customer.id === 'abcd' && this.customer.password === '1234') {
-        //   this.$router.push('/main')
-        //   this.wrongMessage = ''
         this.$axios({
           method: 'POST',
           url: 'http://172.16.21.6:9401/auth/login',
