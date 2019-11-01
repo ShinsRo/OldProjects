@@ -5,7 +5,6 @@ import com.siotman.wos.yourpaper.domain.entity.MemberInfo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter
 @NoArgsConstructor
@@ -39,7 +38,7 @@ public class MemberDto {
                         MemberInfoDto.builder()
                                 .name(memberInfo.getName())
                                 .email(memberInfo.getEmail())
-                                .authorNameList(memberInfo.getAuthornameList())
+                                .authorNameList(memberInfo.getAuthorNameList())
                                 .organizationList(memberInfo.getOrganizationList())
                             .build())
                 .build();

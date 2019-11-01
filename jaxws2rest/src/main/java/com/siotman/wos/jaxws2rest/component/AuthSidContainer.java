@@ -41,7 +41,6 @@ public class AuthSidContainer {
             } catch (SessionExceptionException e) {
                 e.printStackTrace();
             }
-
         }
 
         if (SID == null) {
