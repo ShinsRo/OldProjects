@@ -3,31 +3,31 @@
     <div>
       <div class="mainOptionFilter optionCheck">
         <div class="mainOptionFilterContent">
-          <input class="check" type="checkbox"/>
+          <input class="check" v-model="viewToggle.authorStatus" type="checkbox"/>
           <p class="text">
             주 저자 여부
           </p>
         </div>
         <div class="mainOptionFilterContent">
-          <input class="check" type="checkbox"/>
+          <input class="check" v-model="viewToggle.quotation" type="checkbox"/>
           <p class="text">
             피 인용수
           </p>
         </div>
         <div class="mainOptionFilterContent">
-          <input class="check" type="checkbox"/>
+          <input class="check" v-model="viewToggle.pages" type="checkbox"/>
           <p class="text">
             권, 호, 페이지
           </p>
         </div>
         <div class="mainOptionFilterContent">
-          <input class="check" type="checkbox"/>
+          <input class="check" v-model="viewToggle.loadStatus" type="checkbox"/>
           <p class="text">
-            상태 표시
+            논문 상태 표시
           </p>
         </div>
         <div class="mainOptionFilterContent">
-          <input class="check" type="checkbox"/>
+          <input class="check" v-model="viewToggle.url" type="checkbox"/>
           <p class="text">
             URL
           </p>
@@ -50,9 +50,9 @@
 
     </div>
 
-    <paperDataComponent class="paperComponentLayout"></paperDataComponent>
-    <paperDataComponent class="paperComponentLayout"></paperDataComponent>
-    <paperDataComponent class="paperComponentLayout"></paperDataComponent>
+    <paperDataComponent class="paperComponentLayout" :view-toggle="viewToggle"></paperDataComponent>
+    <paperDataComponent class="paperComponentLayout" :view-toggle="viewToggle"></paperDataComponent>
+    <paperDataComponent class="paperComponentLayout" :view-toggle="viewToggle"></paperDataComponent>
   </div>
 </template>
 
@@ -62,6 +62,17 @@ export default {
   name: 'MainList',
   components: {
     'paperDataComponent': paperDataComponent
+  },
+  data () {
+    return{
+      viewToggle: {
+        authorStatus: true,
+        loadStatus: true,
+        quotation: true,
+        pages: true,
+        url: true,
+      }
+    }
   }
 }
 </script>

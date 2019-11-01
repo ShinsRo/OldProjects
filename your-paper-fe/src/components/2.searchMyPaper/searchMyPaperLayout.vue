@@ -4,11 +4,10 @@
       <p class="text">
         Search My Paper
       </p>
-    </div>
+    </div> <!--페이지 설명 제목-->
     <searchMyPaperWithOption id="searchMyPaperWithOption"></searchMyPaperWithOption>
-    <!--필터 레이아웃-->
     <viewMyPaperComponent id="viewMyPaperComponent"></viewMyPaperComponent>
-  </div> <!--MyPaper 전체 레이아웃-->
+  </div> <!--searchMyPaper 전체 레이아웃-->
 </template>
 
 <script>
