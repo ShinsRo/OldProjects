@@ -5,7 +5,13 @@
         <div class="mainOptionFilterContent">
           <input class="check" v-model="viewToggle.authorStatus" type="checkbox"/>
           <p class="text">
-            주 저자 여부
+            저자 상
+          </p>
+        </div>
+        <div class="mainOptionFilterContent">
+          <input class="check" v-model="viewToggle.loadStatus" type="checkbox"/>
+          <p class="text">
+            논문 상태
           </p>
         </div>
         <div class="mainOptionFilterContent">
@@ -20,12 +26,7 @@
             권, 호, 페이지
           </p>
         </div>
-        <div class="mainOptionFilterContent">
-          <input class="check" v-model="viewToggle.loadStatus" type="checkbox"/>
-          <p class="text">
-            논문 상태 표시
-          </p>
-        </div>
+
         <div class="mainOptionFilterContent">
           <input class="check" v-model="viewToggle.url" type="checkbox"/>
           <p class="text">
@@ -47,7 +48,6 @@
           </p>
         </div>
       </div>
-
     </div>
 
     <paperDataComponent class="paperComponentLayout" :view-toggle="viewToggle"></paperDataComponent>
@@ -73,6 +73,9 @@ export default {
         url: true,
       }
     }
+  },
+  mounted () {
+    console.log("mount");
   }
 }
 </script>
