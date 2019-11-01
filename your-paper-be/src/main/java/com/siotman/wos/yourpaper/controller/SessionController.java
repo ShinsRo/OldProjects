@@ -1,21 +1,24 @@
 package com.siotman.wos.yourpaper.controller;
 import com.siotman.wos.yourpaper.domain.dto.MemberDto;
+import com.siotman.wos.yourpaper.exception.MemberIsAlreadyPresentException;
+import com.siotman.wos.yourpaper.exception.NoSuchMemberException;
 import com.siotman.wos.yourpaper.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/auth")
+@CrossOrigin
 public class SessionController {
     @Autowired
     MemberService memberService;
 
     @PostMapping(value = "/login")
-    public ResponseEntity<?> login() {
+    public ResponseEntity<?> login(@RequestBody MemberDto dto) throws NoSuchMemberException {
+        memberService.findById(dto.getUsername());
+
+        System.out.println(dto);
         return ResponseEntity.ok().build();
     }
 
@@ -25,10 +28,20 @@ public class SessionController {
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<?> register(@RequestBody MemberDto dto) {
+    public ResponseEntity<?> register(@RequestBody MemberDto dto) throws MemberIsAlreadyPresentException {
         ResponseEntity<?> response;
 
         MemberDto savedMemberDto = memberService.register(dto);
+
+        response = ResponseEntity.ok().body(savedMemberDto);
+        return response;
+    }
+
+    @PostMapping(value = "/update")
+    public ResponseEntity<?> update(@RequestBody MemberDto dto) throws NoSuchMemberException {
+        ResponseEntity<?> response;
+
+        MemberDto savedMemberDto = memberService.update(dto);
 
         response = ResponseEntity.ok().body(savedMemberDto);
         return response;

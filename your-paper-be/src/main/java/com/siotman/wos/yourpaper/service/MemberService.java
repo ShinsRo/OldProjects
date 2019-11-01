@@ -2,6 +2,7 @@ package com.siotman.wos.yourpaper.service;
 
 import com.siotman.wos.yourpaper.domain.dto.MemberDto;
 import com.siotman.wos.yourpaper.domain.entity.Member;
+import com.siotman.wos.yourpaper.exception.MemberIsAlreadyPresentException;
 import com.siotman.wos.yourpaper.exception.NoSuchMemberException;
 import com.siotman.wos.yourpaper.repo.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,11 @@ public class MemberService {
     }
 
     public Boolean availableCheck(String username) {
-        return memberRepository.findById(username).isPresent();
+        return !memberRepository.findById(username).isPresent();
     }
 
-    public MemberDto register(final MemberDto dto) {
+    public MemberDto register(final MemberDto dto) throws MemberIsAlreadyPresentException {
+        if (!this.availableCheck(dto.getUsername())) throw new MemberIsAlreadyPresentException();
         Member newMember = Member.builder().build();
         newMember.update(dto);
 
