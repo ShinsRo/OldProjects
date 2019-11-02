@@ -148,17 +148,18 @@
   }
 
   .idCautionMessage, .passwordCautionMessage {
-    width: 80%;
     font-size: 0.8em;
     color: $basicRed;
     font-weight: bold;
   }
 
   .idCautionMessage {
+    width: 60%;
     margin: -1% 0 1.5% 0;
   }
   
   .passwordCautionMessage {
+    width: 80%;
     margin: 1% 0 1% 0;
   }
 }
