@@ -61,6 +61,11 @@ export default {
   watch: {
     'signUpData.id': function () {
       this.signUpData.duplicationCheck = false
+      if (this.signUpData.id === '') {
+        this.message.id = '아이디를 입력해주세요'
+      } else {
+        this.message.id = ''
+      }
     }, // 아이디 입력이 바뀔경우 중복확인 여부를 변경한다
     'signUpData.password': function () {
       this.checkPasswordLength()
@@ -83,7 +88,7 @@ export default {
       // 길이에 문제가 없을경우 axios 통신을 통해 중복여부 확인
       if (this.signUpData.id === '') {
         this.message.id = '아이디를 입력해주세요'
-      } else if (this.signUpdata.id.length < 4 || this.signUpdata.id.length > 11) {
+      } else if (this.signUpData.id.length < 4 || this.signUpData.id.length > 11) {
         this.message.id = '아이디는 5자 이상 12자 미만입니다'
       } else {
         this.message.id = ''
@@ -91,12 +96,10 @@ export default {
           method: 'POST',
           url: 'http://172.16.21.6:9401/auth/availableCheck',
           data: {
-            'checkParameter': {
-              'username': this.signUpData.id
-            }
+            'username': this.signUpData.id
           }
         }).then(res => {
-          if (res.data.status === true) {
+          if (res.data === true) {
             this.signUpData.duplicationCheck = true
             alert('사용가능한 아이디 입니다')
           } else {
