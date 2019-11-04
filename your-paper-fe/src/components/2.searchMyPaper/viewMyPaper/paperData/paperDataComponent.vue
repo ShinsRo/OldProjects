@@ -34,7 +34,10 @@
 <script>
 export default {
   name: 'PaperComponent',
-  props: ['viewToggle'],
+  props: ['viewToggle', 'paper'],
+  mount(){
+    console.log("hi", paper)
+  }
 
 }
 </script>

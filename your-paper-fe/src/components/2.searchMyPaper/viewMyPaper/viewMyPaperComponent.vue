@@ -50,7 +50,12 @@
       </div>
     </div>
 
-    <paperDataComponent class="paperComponentLayout" :view-toggle="viewToggle"></paperDataComponent>
+
+    <paperDataComponent class="paperComponentLayout"
+                        :view-toggle="viewToggle"
+                        v-for="paper in paperData"
+                        :paper="paper"
+    ></paperDataComponent>
     <paperDataComponent class="paperComponentLayout" :view-toggle="viewToggle"></paperDataComponent>
     <paperDataComponent class="paperComponentLayout" :view-toggle="viewToggle"></paperDataComponent>
   </div>
@@ -70,12 +75,23 @@ export default {
         loadStatus: true,
         quotation: true,
         pages: true,
-        url: true,
-      }
+        url: true
+      },
+      paperData:{}
     }
   },
   mounted () {
-    console.log("mount");
+    this.$axios.post('http://172.16.21.6:9401/myPaper/list', {
+      username: 'admin' },
+    {
+      headers: {
+        'Authorization': 'Basic YWRtaW46YWRtaW4=',
+        'Content-Type': 'application/json'
+      } })
+      .then(response => {
+
+        this.paperData = response.data;
+      })
   }
 }
 </script>
