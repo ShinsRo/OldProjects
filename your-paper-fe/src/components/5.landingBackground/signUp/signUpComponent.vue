@@ -148,6 +148,8 @@ export default {
       if (this.addAuthorCounter === 3) {
         alert('저자명은 최대 3개까지 등록할 수 있습니다')
         this.authorName = ''
+      } else if (this.authorName === '') {
+        alert('저자명을 입력후 추가해주세요')
       } else {
         this.registerInput.authorNameList.push(this.authorName)
         this.authorName = ''

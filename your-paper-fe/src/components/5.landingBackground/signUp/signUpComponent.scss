@@ -86,6 +86,7 @@
         width: 10%;
         background-color: $basicIndigo;
         border: $basicIndigo;
+        outline: none;
         color: $basicWhite;
       }
     }
@@ -102,12 +103,13 @@
         display: flex;
         flex-direction: row;
         justify-content: center;
-        background-color: $basicGray;
+        background-color: $basicIndigo;
+        color: $basicWhite;
         border-radius: 10px;
         border: none;
 
         .authorNameVal {
-          width: 80%;
+          width: 70%;
           padding: 0 0 0 10%;
           margin: 0;
           overflow: hidden;
@@ -116,8 +118,10 @@
         .authorNameRemoveButton {
           width: 30%;
           border: 0;
-          background-color: $basicGray;
+          background-color: $basicIndigo;
+          color: $basicWhite;
           border-radius: 10px;
+          outline: none;
         }
       }
     }
