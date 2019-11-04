@@ -43,7 +43,7 @@ public class AddJobConfig {
     public Job addJob() {
         return this.jobBuilderFactory.get("addJob")
                 .incrementer(new RunIdIncrementer())
-                .start( searchStep(null, null))
+                .start( searchStep(null, null, null))
                 .next(  retrieveStep())
                 .build();
     }
@@ -52,22 +52,30 @@ public class AddJobConfig {
     @Bean
     @JobScope
     public Step searchStep(@Value("#{jobParameters[organization]}") String organization,
-                           @Value("#{jobParameters[launchDate]}")   String launchDate) {
+                           @Value("#{jobParameters[launchDate]}")   String launchDate,
+                           @Value("#{jobParameters[symbolic]}")     String symbolic) {
+
         LocalDate endDate, beginDate;
+
         endDate     = LocalDate.parse(launchDate, dtf);
         beginDate   = endDate.minusDays(6);
+
+        final String symbolicDate;
+        if (symbolic == null || symbolic.equals(""))    symbolicDate = null;
+        else                                            symbolicDate = symbolic;
 
         return this.stepBuilderFactory.get("searchStep")
                 .tasklet(((stepContribution, chunkContext) -> {
                     logger.info("[0100] SearchStep Started");
 
                     logger.info("[0101] Searching...");
-                    new Date();
+
+
                     searchResult = wokSearchService.search(
                             String.format("AD=(%s)", organization),
                             dtf.format(beginDate),
                             dtf.format(endDate),
-                            null,
+                            symbolicDate,
                             1, 0);
 
                     searchResult.put("count", 50);

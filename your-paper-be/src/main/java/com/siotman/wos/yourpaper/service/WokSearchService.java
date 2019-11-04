@@ -65,6 +65,7 @@ public class WokSearchService {
 
         queryParameters.put("databaseId", "WOS");
         queryParameters.put("userQuery", userQuery);
+        queryParameters.put("queryLanguage", "en");
 
         if (week != null) {
             queryParameters.put("symbolicTimeSpan", week);
@@ -72,7 +73,6 @@ public class WokSearchService {
             timeSpan.put("begin", begin);
             timeSpan.put("end", end);
             queryParameters.put("timeSpan", timeSpan);
-            queryParameters.put("queryLanguage", "en");
         }
 
         retrieveParameters.put("firstRecord", firstRecord);

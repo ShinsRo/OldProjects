@@ -24,16 +24,15 @@ public class BatchScheduleConfig {
 
     private Logger logger = LoggerFactory.getLogger(BatchScheduleConfig.class);
 
-    private AtomicBoolean addJobEnabled = new AtomicBoolean(true);
+    private AtomicBoolean addJobEnabled     = new AtomicBoolean(true);
     private AtomicBoolean updateJobEnabled  = new AtomicBoolean(true);
 
-
+    @Autowired
     private JobLauncher jobLauncher;
-
     @Autowired
-    Job          addJob;
+    private Job addJob;
     @Autowired
-    Job          updateJob;
+    private Job updateJob;
 
     @Bean
     public TaskScheduler taskScheduler() {
@@ -56,6 +55,7 @@ public class BatchScheduleConfig {
                     .run(addJob, new JobParametersBuilder()
                             .addString("organization", "Sejong Univ")
                             .addDate("launchDate", date)
+                            .addString("symbolic", "1week")
                             .toJobParameters());
             addJobEnabled.set(false);
             do {
@@ -71,8 +71,7 @@ public class BatchScheduleConfig {
         if (updateJobEnabled.get()) {
             Date date = new Date();
             JobExecution jobExecution = jobLauncher
-                    .run(addJob, new JobParametersBuilder()
-                            .addString("organization", "Sejong Univ")
+                    .run(updateJob, new JobParametersBuilder()
                             .addDate("launchDate", date)
                             .toJobParameters());
             updateJobEnabled.set(false);
