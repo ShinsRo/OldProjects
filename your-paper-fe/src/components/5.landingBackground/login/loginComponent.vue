@@ -1,7 +1,7 @@
 <template>
   <div class="loginWrapper">
-    <input class="formForId formElement" type="text" placeholder="ID" v-model="customer.id" v-on:keyup.enter="clickForLogin">
-    <input class="formForPassword formElement" type="password" placeholder="Password" v-model="customer.password" v-on:keyup.enter="clickForLogin">
+    <input class="formForId formElement" type="text" placeholder="ID" v-model="user.id" v-on:keyup.enter="clickForLogin">
+    <input class="formForPassword formElement" type="password" placeholder="Password" v-model="user.password" v-on:keyup.enter="clickForLogin">
     <p class="loginErrorMessage">{{ wrongMessage }}</p>
     <button class="buttonForLogin formElement" type="button" v-on:click="clickForLogin">Login</button>
     <button class="buttonForSignUp formElement" type="button" v-on:click="clickForSignUp">SignUp</button>
@@ -9,11 +9,12 @@
 </template>
 
 <script>
+
 export default {
   name: 'login',
   data () {
     return {
-      customer: {
+      user: {
         id: '',
         password: ''
       },
@@ -26,17 +27,17 @@ export default {
       this.$emit('changeFlag')
     },
     clickForLogin () {
-      if (this.customer.id === '' || this.customer.password === '') {
+      if (this.user.id === '' || this.user.password === '') {
         this.wrongMessage = '로그인 정보를 입력해주세요'
-      } else if (this.customer.id !== '' && this.customer.password !== '') {
+      } else if (this.user.id !== '' && this.user.password !== '') {
         this.$axios({
           method: 'POST',
           url: 'http://172.16.21.6:9401/auth/login',
           data: {
-            'username': this.customer.id,
-            'password': this.customer.password
+            'username': this.user.id,
+            'password': this.user.password
           },
-          header: { Authorization: `Basic ${this.customer.id}:${this.customer.password}` }
+          headers: { Authorization: `Basic ${btoa(`${this.user.id}:${this.user.password}`)}` }
         }).then(res => {
           this.$router.push('/main')
         }).catch(error => {
