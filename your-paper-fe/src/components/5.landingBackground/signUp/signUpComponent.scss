@@ -1,6 +1,6 @@
 @import '../../BasicStyle/BasicStyle.scss';
 
-.signUpWrapper {
+.signUpComponentWrapper {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -8,24 +8,34 @@
   align-items: center;
 
   .idContainer {
-    width: 60%;
+    width: 100%;
     display: flex;
-    flex-direction: row;
-    margin-bottom: 2%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-    .inputForId {
-      width: 68%;
-      padding: 2%;
-      border: 1.5px solid $basicIndigo;
+    .idInputContainer {
+      width: 60%;
+      display: flex;
+      flex-direction: row;
+
+      .idInputBox {
+        width: 65%;
+        border: 1.5px solid $basicIndigo;
+        padding: 1% 0 1% 2%;
+      }
+      .idAvailableButton {
+        width: 35%;
+        background-color: $basicIndigo;
+        border: $basicIndigo;
+        color: $basicWhite;
+        font-weight: bold;
+        font-size: 0.8em;
+      }
     }
 
-    .checkForId {
-      width: 30%;
-      font-size: 0.7em;
-      color: $basicWhite;
-      background-color: $basicIndigo;
-      border: $basicIndigo;
-      outline: none;
+    .idMessage {
+      width: 60%;
     }
   }
 
@@ -33,70 +43,93 @@
     width: 60%;
     display: flex;
     flex-direction: column;
-
-    .inputForPassword, .checkForPassword{
-      width: 95%;
-      padding: 2%;
-      height: 15px;
+    
+    .passwordInputBox, .confirmPasswordInputBox {
       border: 1.5px solid $basicIndigo;
+      padding: 1% 0 1% 2%;
     }
 
-    .invalidPassword, .differentPassword {
-      margin: 1% 0;
-      color: $basicRed;
-      font-weight: bold;
-      font-size: 0.8em;
+    .passwordMessage, .confirmPasswordMessage {
+      width: 90%;
     }
   }
 
-  .authorContainer {
+  .nameContainer {
     width: 60%;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
 
-    .inputForName {
-      width: 95%;
-      padding: 2%;
-      height: 15px;
+    .nameInputBox {
+      width: 97%;
       border: 1.5px solid $basicIndigo;
-      margin-bottom: 2%;
+      padding: 1% 0 1% 2%;
     }
+  }
 
-    .inputForAuthorName {
+  .authorNameContainer {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+
+    .authorNameInputContainer {
       width: 100%;
-      margin-bottom: 2%;
       display: flex;
       flex-direction: row;
-      
-      .AuthorName {
-        width: 90.3%;
-        padding: 2%;
+
+      .authorNameInputBox {
+        width: 90%;
+        padding: 1% 0 1% 2%;
         border: 1.5px solid $basicIndigo;
       }
-
-      .buttonForAuthorName {
-        width: 12.7%;
-        outline: none;
+      
+      .authorNameAddButton {
+        width: 10%;
         background-color: $basicIndigo;
         border: $basicIndigo;
         color: $basicWhite;
       }
     }
 
-    .selectBoxForOrganization {
+    .authorNameShowContainer {
       width: 100%;
-      margin-bottom: 2%;
       display: flex;
       flex-direction: row;
 
-      .organization {
-        width: 100%;
-        padding: 1.5%;
-        border: 1.5px solid $basicIndigo;
-        appearance: none;
-        background: url('../../../assets/images/DropBoxIcon.png') no-repeat center right;
+      .authorNameList {
+        width: 33%;
+        height: 25px;
+        margin: 2% 1% 0 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        background-color: $basicGray;
+        border-radius: 10px;
+        border: none;
+
+        .authorNameVal {
+          width: 80%;
+          padding: 0 0 0 10%;
+          margin: 0;
+          overflow: hidden;
+        }
+
+        .authorNameRemoveButton {
+          width: 30%;
+          border: 0;
+          background-color: $basicGray;
+          border-radius: 10px;
+        }
       }
+    }
+  }
+
+  .organizationContainer {
+    width: 60%;
+    margin: 1% 0 0 0;
+    .organizationSelectBox {
+      width: 100%;
+      border: 1.5px solid $basicIndigo;
+      padding: 1% 0 1% 0;
     }
   }
 
@@ -104,28 +137,30 @@
     width: 60%;
     display: flex;
     flex-direction: column;
+    margin-top: 1%;
 
     .conditions {
       width: 97.5%;
+      border: 1.5px solid $basicIndigo;
       resize: none;
       overflow: hidden-unscrollable;
-      border: 1.5px solid $basicIndigo;
-      margin-bottom: 2%;
     }
 
     .checkForCondition {
-      margin: 0 0 1.5% 0;
-      margin-left: auto;
+      margin: 1% 0 0 auto;
+      font-weight: bold;
+      color: $basicIndigo;
     }
   }
 
   .buttonContainer {
     width: 60%;
+    margin: 1% 0 0 0;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;;
+    justify-content: space-between;
 
-    .buttonForCreate, .buttonForBack {
+    .createButton, .backButton {
       height: 30px;
       border-radius: 5px;
       border: 0;
@@ -134,32 +169,23 @@
       color: $basicWhite;
     }
 
-    .buttonForCreate {
+    .createButton {
       width: 66%;
       background-color: $basicOrange;
       border: solid $basicOrange;
     }
 
-    .buttonForBack {
+    .backButton {
       width: 33%;
       background-color: $basicIndigo;
       border: solid $basicIndigo;
     }
   }
+}
 
-  .idCautionMessage, .passwordCautionMessage {
-    font-size: 0.8em;
-    color: $basicRed;
-    font-weight: bold;
-  }
-
-  .idCautionMessage {
-    width: 60%;
-    margin: -1% 0 1.5% 0;
-  }
-  
-  .passwordCautionMessage {
-    width: 80%;
-    margin: 1% 0 1% 0;
-  }
+.cautionMessage {
+  margin: 1% 0 1% 0;
+  font-weight: bold;
+  font-size: 0.8em;
+  color: $basicRed;
 }
