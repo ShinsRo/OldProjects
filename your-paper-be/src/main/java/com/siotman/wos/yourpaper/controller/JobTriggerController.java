@@ -45,7 +45,8 @@ public class JobTriggerController {
     }
 
     @GetMapping("/launchAddJob")
-    public void launchAddJob(@RequestParam String date, @RequestParam String organization, @RequestParam String symbolic) throws IOException, MemberIsAlreadyPresentException, JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, InterruptedException {
+    public void launchAddJob(@RequestParam String begin, @RequestParam String end,
+                             @RequestParam String organization, @RequestParam String symbolic) throws IOException, MemberIsAlreadyPresentException, JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, InterruptedException {
         setDefaultUserIfAbsent();
 
         if (addJobEnabled.get()) {
@@ -54,7 +55,8 @@ public class JobTriggerController {
             JobExecution jobExecution = jobLauncher
                     .run(addJob, new JobParametersBuilder()
                             .addString("organization", organization)
-                            .addString("launchDate", date)
+                            .addString("begin", begin)
+                            .addString("end", end)
                             .addString("symbolic", symbolic)
                             .toJobParameters());
             addJobEnabled.set(false);

@@ -43,7 +43,7 @@ public class AddJobConfig {
     public Job addJob() {
         return this.jobBuilderFactory.get("addJob")
                 .incrementer(new RunIdIncrementer())
-                .start( searchStep(null, null, null))
+                .start( searchStep(null, null, null, null))
                 .next(  retrieveStep())
                 .build();
     }
@@ -52,13 +52,14 @@ public class AddJobConfig {
     @Bean
     @JobScope
     public Step searchStep(@Value("#{jobParameters[organization]}") String organization,
-                           @Value("#{jobParameters[launchDate]}")   String launchDate,
+                           @Value("#{jobParameters[begin]}")   String begin,
+                           @Value("#{jobParameters[end]}")   String end,
                            @Value("#{jobParameters[symbolic]}")     String symbolic) {
 
-        LocalDate endDate, beginDate;
-
-        endDate     = LocalDate.parse(launchDate, dtf);
-        beginDate   = endDate.minusDays(6);
+//        LocalDate endDate, beginDate;
+//
+//        endDate     = LocalDate.parse(launchDate, dtf);
+//        beginDate   = endDate.minusDays(6);
 
         final String symbolicDate;
         if (symbolic == null || symbolic.equals(""))    symbolicDate = null;
@@ -73,8 +74,8 @@ public class AddJobConfig {
 
                     searchResult = wokSearchService.search(
                             String.format("AD=(%s)", organization),
-                            dtf.format(beginDate),
-                            dtf.format(endDate),
+                            begin,
+                            end,
                             symbolicDate,
                             1, 0);
 
