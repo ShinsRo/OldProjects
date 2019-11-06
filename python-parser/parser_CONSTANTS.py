@@ -1,6 +1,9 @@
-RABBITMQ_SERVER_URL = 'amqp://guest:guest@localhost:5672/'
-JAXWS2REST_SERVER   = 'http://127.0.0.1:9400/'
-YOUR_PAPER_SERVER   = 'http://127.0.0.1:9401/'
+# RABBITMQ_SERVER_URL = 'amqp://guest:guest@localhost:5672/'
+RABBITMQ_SERVER_URL = 'amqp://remote-dev:compact@www.siotman.com:15673/'
+# JAXWS2REST_SERVER   = 'http://127.0.0.1:9400/'
+JAXWS2REST_SERVER   = 'http://www.siotman.com:9400/'
+# YOUR_PAPER_SERVER   = 'http://127.0.0.1:9401/'
+YOUR_PAPER_SERVER   = 'http://www.siotman.com:9403/'
 WOS_BASE_URL        = 'http://apps.webofknowledge.com'
 
 APP_SERVER = {

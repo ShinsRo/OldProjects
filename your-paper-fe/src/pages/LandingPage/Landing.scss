@@ -1,0 +1,12 @@
+@import '../../components/BasicStyle/BasicStyle.scss';
+
+.LandingWrapper {
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: $basicGray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}

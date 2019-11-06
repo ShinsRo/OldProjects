@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Landing from './pages/Landing.vue'
-import Main from './pages/Main.vue'
-import paperEdit from './pages/paperEdit.vue'
+import Landing from './pages/LandingPage/Landing.vue'
+import Main from './pages/MainPage/Main.vue'
 
 Vue.use(Router)
 
@@ -19,11 +18,6 @@ export default new Router({
       path: '/main',
       name: 'main',
       component: Main
-    },
-    {
-      path: '/paperEdit',
-      name: 'paperEdit',
-      component: paperEdit
     }
     // {
     //   path: '/',

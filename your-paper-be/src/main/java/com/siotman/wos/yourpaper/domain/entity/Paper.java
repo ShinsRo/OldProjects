@@ -137,4 +137,12 @@ public class Paper {
                 .citingPaperJsonList    (parsedDataDto.getCitingPaperJsonList())
                 .build();
     }
+
+    public void setRecordState(RecordState state) {
+        this.recordState = state;
+    }
+
+    public void setTimesCited(String timesCited) {
+        this.timesCited = timesCited;
+    }
 }

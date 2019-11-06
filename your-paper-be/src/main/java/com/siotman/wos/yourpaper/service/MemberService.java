@@ -2,9 +2,11 @@ package com.siotman.wos.yourpaper.service;
 
 import com.siotman.wos.yourpaper.domain.dto.MemberDto;
 import com.siotman.wos.yourpaper.domain.entity.Member;
+import com.siotman.wos.yourpaper.exception.MemberIsAlreadyPresentException;
 import com.siotman.wos.yourpaper.exception.NoSuchMemberException;
 import com.siotman.wos.yourpaper.repo.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,45 +20,39 @@ public class MemberService {
     PasswordEncoder passwordEncoder;
 
     public MemberDto findById(String username) throws NoSuchMemberException {
-        Optional<Member> foundMember = memberRepository.findById(username);
+        Optional<Member> memberOptional = memberRepository.findById(username);
 
-        if (!foundMember.isPresent()) {
+        if (!memberOptional.isPresent()) {
             throw new NoSuchMemberException();
         }
+        Member member = memberOptional.get();
 
-        return MemberDto.builder()
-                .member(foundMember.get())
-                .build();
+        return MemberDto.buildWithMember(member);
     }
 
     public Boolean availableCheck(String username) {
-        return memberRepository.findById(username).isPresent();
+        return !memberRepository.findById(username).isPresent();
     }
 
-    public MemberDto register(final MemberDto dto) {
-        final Member newMember = Member.builder()
-                .encoder(passwordEncoder)
-                .dto(dto)
-                .build();
+    public MemberDto register(final MemberDto dto) throws MemberIsAlreadyPresentException {
+        if (!this.availableCheck(dto.getUsername())) throw new MemberIsAlreadyPresentException();
+        Member newMember = Member.builder().build();
+        newMember.update(dto);
 
         final Member savedMember = memberRepository.save(newMember);
 
-        return MemberDto.builder()
-                .member(savedMember)
-                .build();
+        return MemberDto.buildWithMember(savedMember);
     }
 
     public MemberDto update(final MemberDto dto) throws NoSuchMemberException {
-        Optional<Member> foundMember = memberRepository.findById(dto.getUsername());
-
-        if (!foundMember.isPresent()) {
+        Optional<Member> memberOptional = memberRepository.findById(dto.getUsername());
+        if (!memberOptional.isPresent()) {
             throw new NoSuchMemberException();
         }
 
-        Member targetMember = foundMember.get();
-        targetMember.updateMember(passwordEncoder, dto);
+        Member targetMember = memberOptional.get();
+        targetMember.update(dto);
 
-        return MemberDto.builder()
-                .member(targetMember).build();
+        return MemberDto.buildWithMember(targetMember);
     }
 }

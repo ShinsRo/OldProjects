@@ -2,14 +2,15 @@ package com.siotman.wos.jaxws2rest.component;
 
 import com.siotman.wos.jaxws2rest.exception.SidContainerException;
 import com.thomsonreuters.wokmws.cxf.auth.*;
-import lombok.Data;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 @Component
 public class AuthSidContainer {
@@ -41,7 +42,6 @@ public class AuthSidContainer {
             } catch (SessionExceptionException e) {
                 e.printStackTrace();
             }
-
         }
 
         if (SID == null) {
@@ -102,7 +102,7 @@ public class AuthSidContainer {
         int idx = Math.abs(random.nextInt()) % container.size();
 
         SessionId sessionId = container.get(idx);
-        if (System.nanoTime() - sessionId.getCreatedTime() > TimeUnit.HOURS.toNanos(2)) {
+        if (Duration.between(sessionId.getCreatedTime(), LocalDateTime.now()).toHours() > 2) {
             WOKMWSAuthenticate port = authenticateServiceWrapper.getWOKMWSAuthenticatePort(username, password);
             String SID = port.authenticate();
 
@@ -113,14 +113,14 @@ public class AuthSidContainer {
         return sessionId.getSID();
     }
 
-    @Data
+    @Getter
     private class SessionId {
-        String SID;
-        Long createdTime;
+        final String SID;
+        final LocalDateTime createdTime;
 
         public SessionId(String SID) {
             this.SID = SID;
-            createdTime = System.nanoTime();
+            createdTime = LocalDateTime.now();
         }
     }
 }

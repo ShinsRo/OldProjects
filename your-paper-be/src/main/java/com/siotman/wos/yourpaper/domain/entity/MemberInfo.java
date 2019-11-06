@@ -1,8 +1,10 @@
 package com.siotman.wos.yourpaper.domain.entity;
 
+import com.siotman.wos.yourpaper.domain.converter.JsonListConverter;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "member_info")
@@ -17,31 +19,27 @@ public class MemberInfo {
     @Column(length = 16)
     private String name;
 
-    @Column(length = 16)
-    private String dept;
-
-    @Column(length = 16)
-    private String pos;
-
     @Column(length = 32)
     private String email;
 
-    @Column(length = 32)
-    private OrganizationType organizationType;
+    @Lob
+    @Convert(converter = JsonListConverter.class)
+    private List<String> authorNameList;
+
+    @Lob
+    @Convert(converter = JsonListConverter.class)
+    private List<String> organizationList;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "memberInfo")
     private Member member;
 
     @Builder
-    public MemberInfo(String name, String dept, String pos, String email) {
+    public MemberInfo(String name, String email,
+                      List<String> authorNameList, List<String> organizationList, Member member) {
         this.name = name;
-        this.dept = dept;
-        this.pos = pos;
         this.email = email;
-        this.member = null;
-    }
-
-    public void updateName(String name) {
-        this.name = name;
+        this.authorNameList = authorNameList;
+        this.organizationList = organizationList;
+        this.member = member;
     }
 }
