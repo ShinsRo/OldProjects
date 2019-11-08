@@ -23,8 +23,6 @@ public class Paper {
     @Column(length = 128)
     private String uid;
 
-    private Integer joinCount;
-
     @Column(length = 128)
     private String doi;
 
@@ -89,11 +87,15 @@ public class Paper {
         SourceInfo sourceInfo   = SourceInfo.buildWithCacheData(liteRecordDto);
         PaperUrls paperUrls     = PaperUrls.buildWithCacheData(lamrResultsDto);
 
+        String timesCited       = "0";
+        if (lamrResultsDto != null && lamrResultsDto.getTimesCited() != null)
+            timesCited = lamrResultsDto.getTimesCited();
+
         return Paper.builder()
                 .uid(liteRecordDto.getUid())
                 .doi(liteRecordDto.getDoi())
                 .title(liteRecordDto.getTitle())
-                .timesCited((lamrResultsDto.getTimesCited() != null)? lamrResultsDto.getTimesCited(): "0")
+                .timesCited(timesCited)
                 .authorListJson(liteRecordDto.getAuthors())
                 .recordType(RecordType.WOS)
                 .recordState(RecordState.SEARCHED)

@@ -118,6 +118,9 @@ public class AddJobConfig {
                     try {
                         Boolean validity    = memberPaperService.add(uidsDto);
                     } catch (NoSuchMemberException e) {
+                        logger.error(String.format("알 수 없는 멤버에 논문을 등록할 수 없습니다."));
+                    } catch (Exception e) {
+                        logger.error(e.toString());
                         e.printStackTrace();
                     }
                     if (firstRecord + count > recordsFound) return RepeatStatus.FINISHED;
