@@ -49,13 +49,9 @@
         </div>
       </div>
     </div>
-
-
     <paperDataComponent class="paperComponentLayout"
-                        :view-toggle="viewToggle"
-                        v-for="paper in paperData"
-                        :paper="paper"
-    ></paperDataComponent>
+    :view-toggle="viewToggle"
+    v-for="paper in paperData" :key="paper"></paperDataComponent>
     <paperDataComponent class="paperComponentLayout" :view-toggle="viewToggle"></paperDataComponent>
     <paperDataComponent class="paperComponentLayout" :view-toggle="viewToggle"></paperDataComponent>
   </div>
@@ -69,7 +65,7 @@ export default {
     'paperDataComponent': paperDataComponent
   },
   data () {
-    return{
+    return {
       viewToggle: {
         authorStatus: true,
         loadStatus: true,
@@ -77,7 +73,7 @@ export default {
         pages: true,
         url: true
       },
-      paperData:{}
+      paperData: {}
     }
   },
   mounted () {
@@ -89,8 +85,7 @@ export default {
         'Content-Type': 'application/json'
       } })
       .then(response => {
-
-        this.paperData = response.data;
+        this.paperData = response.data
       })
   }
 }

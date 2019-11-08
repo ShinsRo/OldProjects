@@ -32,13 +32,14 @@ export default {
       } else if (this.user.id !== '' && this.user.password !== '') {
         this.$axios({
           method: 'POST',
-          url: 'http://172.16.21.6:9401/auth/login',
+          url: 'http://www.siotman.com:19401/auth/login',
           data: {
             'username': this.user.id,
             'password': this.user.password
           },
           headers: { Authorization: `Basic ${btoa(`${this.user.id}:${this.user.password}`)}` }
         }).then(res => {
+          this.$store.dispatch('loginAction', res.data)
           this.$router.push('/main')
         }).catch(error => {
           console.log(error)
