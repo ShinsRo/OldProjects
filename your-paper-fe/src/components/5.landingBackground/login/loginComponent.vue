@@ -40,7 +40,11 @@ export default {
           headers: { Authorization: `Basic ${btoa(`${this.user.id}:${this.user.password}`)}` }
         }).then(res => {
           this.$store.dispatch('loginAction', res.data)
-          this.$router.push('/main')
+          this.$store.dispatch('encodingAction', `Basic ${btoa(`${this.user.id}:${this.user.password}`)}`)
+          if (this.$store.getters.memberInfoDtoGetter !== null) {
+            this.$store.dispatch('getMyPaperAction')
+            this.$router.push('./main')
+          }
         }).catch(error => {
           console.log(error)
           this.wrongMessage = '아이디와 비밀번호를 확인해주세요'
