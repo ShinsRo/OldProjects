@@ -13,7 +13,7 @@
     <div id="headerSettingLayout">
       <div id="headerSettingTabLayout">
         <div class="headerSettingTab">
-          <p class="text">
+          <p class="text" v-on:click="clickForMyPaper">
             My Paper
           </p>
         </div>
@@ -49,7 +49,7 @@
           <div id="dropBox"
                v-show="isDropBoxShow">
             <div class="textWrapper">
-              <p class="text">
+              <p class="text" v-on:click="clickForPaperEdit">
                 Paper Edit
               </p>
             </div>
@@ -71,22 +71,28 @@
 </template>
 
 <script>
-  export default {
-    name: 'HeaderLayout',
-    data () {
-      return {
-        isDropBoxShow: false
-      }
+export default {
+  name: 'HeaderLayout',
+  data () {
+    return {
+      isDropBoxShow: false
+    }
+  },
+  methods: {
+    setTrue () {
+      return true
     },
-    methods: {
-      setTrue () {
-        return true
-      },
-      setFalse () {
-        return false
-      }
+    setFalse () {
+      return false
+    },
+    clickForMyPaper () {
+      this.$emit('changeFlag', 1)
+    },
+    clickForPaperEdit () {
+      this.$emit('changeFlag', 2)
     }
   }
+}
 </script>
 
 <style lang="scss">
