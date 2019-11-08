@@ -95,11 +95,20 @@
       width: 100%;
       display: flex;
       flex-direction: row;
+      overflow-x: auto;
+
+      &::-webkit-scrollbar {
+        height: 5px;
+        background-color: white;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: $basicOrange;
+        border-radius: 10px;
+      }
 
       .authorNameList {
-        width: 33%;
         height: 25px;
-        margin: 2% 1% 0 0;
+        margin: 2% 1% 5px 0;
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -109,14 +118,14 @@
         border: none;
 
         .authorNameVal {
-          width: 70%;
-          padding: 0 0 0 10%;
+          border-radius: 10px;
+          background-color: $basicIndigo;
+          padding: 0 5px 0 5px;
           margin: 0;
-          overflow: hidden;
         }
 
         .authorNameRemoveButton {
-          width: 30%;
+          width: 20px;
           border: 0;
           background-color: $basicIndigo;
           color: $basicWhite;
@@ -144,7 +153,8 @@
     margin-top: 1%;
 
     .conditions {
-      width: 97.5%;
+      width: 99%;
+      padding-top: 10px;
       border: 1.5px solid $basicIndigo;
       resize: none;
       overflow: hidden-unscrollable;
