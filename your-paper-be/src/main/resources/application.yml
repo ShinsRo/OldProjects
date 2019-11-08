@@ -74,6 +74,6 @@ spring:
       ddl-auto: update
 
   rabbitmq:
-    addresses: ${LOCAL_MQ_URL}
+    addresses: localhost
     username: ${LOCAL_MQ_USERNAME}
     password: ${LOCAL_MQ_PASSWORD}

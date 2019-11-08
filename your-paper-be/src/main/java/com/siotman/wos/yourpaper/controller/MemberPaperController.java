@@ -1,5 +1,6 @@
 package com.siotman.wos.yourpaper.controller;
 
+import com.siotman.wos.yourpaper.domain.dto.MemberPaperQueryParameters;
 import com.siotman.wos.yourpaper.domain.dto.MemberDto;
 import com.siotman.wos.yourpaper.domain.dto.PaperDto;
 import com.siotman.wos.yourpaper.domain.dto.UidsDto;
@@ -18,9 +19,21 @@ public class MemberPaperController {
     @Autowired
     MemberPaperService memberPaperService;
 
-    @PostMapping(value = "/list")
-    public ResponseEntity<?> list(@RequestBody MemberDto dto) {
+    @PostMapping(value = "/count")
+    public ResponseEntity<?> count(@RequestBody MemberDto dto) throws NoSuchMemberException {
+        Integer count = memberPaperService.count(dto);
+        return ResponseEntity.ok().body(count);
+    }
+
+    @PostMapping(value = "/listAll")
+    public ResponseEntity<?> listAll(@RequestBody MemberDto dto) {
         List<PaperDto> list = memberPaperService.list(dto);
+        return ResponseEntity.ok().body(list);
+    }
+
+    @PostMapping(value = "/listByPage")
+    public ResponseEntity<?> listByPage(@RequestBody MemberPaperQueryParameters params) throws NoSuchMemberException {
+        List<PaperDto> list = memberPaperService.listByPage(params);
         return ResponseEntity.ok().body(list);
     }
 
@@ -37,5 +50,4 @@ public class MemberPaperController {
         return ResponseEntity.ok().body(delete);
 
     }
-
 }
