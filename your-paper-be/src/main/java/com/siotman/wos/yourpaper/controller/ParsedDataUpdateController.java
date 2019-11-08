@@ -13,8 +13,8 @@ public class ParsedDataUpdateController {
     ParsedDataUpdateService parsedDataUpdateService;
 
     @PostMapping(value = "/updatePaperData")
-    public void updatePaperData(@RequestBody ParsedDataDto parsedDataDto) {
-        parsedDataUpdateService.updatePaperData(parsedDataDto);
+    public void updateParsedData(@RequestBody ParsedDataDto parsedDataDto) {
+        parsedDataUpdateService.updateParsedData(parsedDataDto);
         return;
     }
 
