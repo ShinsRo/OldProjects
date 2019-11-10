@@ -23,11 +23,10 @@ public class Paper {
     @Column(length = 128)
     private String uid;
 
-    private Integer joinCount;
-
     @Column(length = 128)
     private String doi;
 
+    @Lob
     private String title;
 
     private String timesCited;
@@ -89,11 +88,15 @@ public class Paper {
         SourceInfo sourceInfo   = SourceInfo.buildWithCacheData(liteRecordDto);
         PaperUrls paperUrls     = PaperUrls.buildWithCacheData(lamrResultsDto);
 
+        String timesCited       = "0";
+        if (lamrResultsDto != null && lamrResultsDto.getTimesCited() != null)
+            timesCited = lamrResultsDto.getTimesCited();
+
         return Paper.builder()
                 .uid(liteRecordDto.getUid())
                 .doi(liteRecordDto.getDoi())
                 .title(liteRecordDto.getTitle())
-                .timesCited((lamrResultsDto.getTimesCited() != null)? lamrResultsDto.getTimesCited(): "0")
+                .timesCited(timesCited)
                 .authorListJson(liteRecordDto.getAuthors())
                 .recordType(RecordType.WOS)
                 .recordState(RecordState.SEARCHED)
@@ -113,28 +116,43 @@ public class Paper {
     }
 
     public void updatePaperData(ParsedDataDto parsedDataDto) {
-        this.parsedData = ParsedData.builder()
+        if (this.parsedData == null) this.parsedData = ParsedData.builder().build();
+
+        ParsedData parsedData = ParsedData.builder()
                 .paper(this)
-                .timesCited     (parsedDataDto.getTimesCited())
-                .reprint        (parsedDataDto.getReprint())
-                .grades         (parsedDataDto.getGrades())
-                .tcDataJson             ((this.parsedData != null)? this.parsedData.getTcDataJson(): null)
-                .parsedAuthorJsonList   (parsedDataDto.getParsedAuthorList())
-                .journalImpactJson      (parsedDataDto.getJournalImpact())
-                .citingPaperJsonList    ((this.parsedData != null)? this.parsedData.getCitingPaperJsonList(): null)
+                .timesCited(            parsedDataDto.getTimesCited())
+                .reprint(               parsedDataDto.getReprint())
+                .grades(                parsedDataDto.getGrades())
+                .tcDataJson(            this.parsedData.getTcDataJson())
+                .parsedAuthorJsonList(  parsedDataDto.getParsedAuthorList())
+                .journalImpactJson(     parsedDataDto.getJournalImpact())
+                .citingPaperJsonList(   this.parsedData.getCitingPaperJsonList())
                 .build();
-    }
+
+        this.parsedData     = parsedData;    }
 
     public void updateTcData(ParsedDataDto parsedDataDto) {
-        this.parsedData = ParsedData.builder()
+        if (this.parsedData == null) this.parsedData = ParsedData.builder().build();
+
+        ParsedData parsedData = ParsedData.builder()
                 .paper(this)
-                .timesCited     ((this.parsedData != null)? this.parsedData.getTimesCited(): null)
-                .reprint        ((this.parsedData != null)? this.parsedData.getReprint(): null)
-                .grades         ((this.parsedData != null)? this.parsedData.getGrades(): null)
-                .tcDataJson     (parsedDataDto.getTcData())
-                .parsedAuthorJsonList   ((this.parsedData != null)? this.parsedData.getParsedAuthorJsonList(): null)
-                .journalImpactJson      ((this.parsedData != null)? this.parsedData.getJournalImpactJson(): null)
-                .citingPaperJsonList    (parsedDataDto.getCitingPaperJsonList())
+                .timesCited(            this.parsedData.getTimesCited())
+                .reprint(               this.parsedData.getReprint())
+                .grades(                this.parsedData.getGrades())
+                .tcDataJson(            parsedDataDto.getTcData())
+                .parsedAuthorJsonList(  this.parsedData.getParsedAuthorJsonList())
+                .journalImpactJson(     this.parsedData.getJournalImpactJson())
+                .citingPaperJsonList(   parsedDataDto.getCitingPaperJsonList())
                 .build();
+
+        this.parsedData = parsedData;
+    }
+
+    public void setRecordState(RecordState state) {
+        this.recordState = state;
+    }
+
+    public void setTimesCited(String timesCited) {
+        this.timesCited = timesCited;
     }
 }

@@ -31,6 +31,7 @@ public class ParsedData {
     @Convert(converter = JsonListConverter.class)
     private List<String> grades;
 
+    @Lob
     @Convert(converter = JsonMapConverter.class)
     private Map<String, Map<String, Integer>> tcDataJson;
 

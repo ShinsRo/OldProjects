@@ -16,10 +16,8 @@ public class SessionController {
 
     @PostMapping(value = "/login")
     public ResponseEntity<?> login(@RequestBody MemberDto dto) throws NoSuchMemberException {
-        memberService.findById(dto.getUsername());
-
-        System.out.println(dto);
-        return ResponseEntity.ok().build();
+        MemberDto logined = memberService.findById(dto.getUsername());
+        return ResponseEntity.ok().body(logined);
     }
 
     @PostMapping(value = "/logout")

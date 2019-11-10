@@ -29,6 +29,8 @@ public class PaperUrls {
     }
 
     public static PaperUrls buildWithCacheData(LamrResultsDto lamrResultsDto) {
+        if (lamrResultsDto == null) return null;
+
         return PaperUrls.builder()
                 .sourceUrl(lamrResultsDto.getSourceURL())
                 .citingArticlesUrl(lamrResultsDto.getCitingArticlesURL())

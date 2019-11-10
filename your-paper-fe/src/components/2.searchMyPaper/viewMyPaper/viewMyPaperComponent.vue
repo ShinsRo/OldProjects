@@ -49,8 +49,6 @@
         </div>
       </div>
     </div>
-
-
     <paperDataComponent class="paperComponentLayout"
                         :view-toggle="viewToggle"
                         v-for="paper in paperData"
@@ -69,7 +67,7 @@ export default {
     'paperDataComponent': paperDataComponent
   },
   data () {
-    return{
+    return {
       viewToggle: {
         authorStatus: true,
         loadStatus: true,
@@ -77,18 +75,11 @@ export default {
         pages: true,
         url: true
       },
-      paperData:{}
+      paperData: {}
     }
   },
   mounted () {
-    /*this.$axios.post('http://172.16.61.234:9401/myPaper/listByPage', {
-      username: 'admin',
-      sortBy: 'paper.title',
-      isAsc: true,
-      firstRecord: 0,
-      count: 10,
-      },*/
-    this.$axios.post('http://172.16.61.234:9401/myPaper/listByPage', {
+    /*  this.$axios.post('http://172.16.61.234:9401/myPaper/listByPage', {
         username: 'admin',
         sortBy: 'paper.title',
         isAsc: true,
@@ -100,10 +91,16 @@ export default {
         'Authorization': 'Basic YWRtaW46YWRtaW4=',
         'Content-Type': 'application/json'
       } })
+      */
+    this.$axios.post('http://172.16.21.6:9401/myPaper/list', {
+      username: 'admin' },
+    {
+      headers: {
+        'Authorization': 'Basic YWRtaW46YWRtaW4=',
+        'Content-Type': 'application/json'
+      } })
       .then(response => {
-
-        console.log(response)
-
+        this.paperData = response.data
       })
   }
 }

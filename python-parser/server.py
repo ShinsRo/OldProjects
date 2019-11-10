@@ -51,7 +51,7 @@ def cons_callback(ch, method, properties, body):
 
         ## 과잉 쓰레딩 방어 (threading.enumerate()은 다른 스레드도 포함함을 주의)
         logger.log('info', len(threading.enumerate()))
-        while len(threading.enumerate()) > 10:
+        while len(threading.enumerate()) > 5:
             logger.log('info', 'Waiting for other threads, 10sec.')
             time.sleep(10)
 
@@ -60,8 +60,8 @@ def cons_callback(ch, method, properties, body):
         x.start()
 
         ## 서버 부담을 덜기 위한 기다림
-        logger.log('info', 'Waiting... 15sec')
-        time.sleep(15)
+        logger.log('info', 'Waiting... 5sec')
+        time.sleep(5)
 
     ## 전역 에러 처리 ##
     except parser_exceptions.LoginRequired as lre:

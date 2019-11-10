@@ -1,14 +1,10 @@
 package com.siotman.wos.jaxws2rest.domain.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class LamrResultsDto {
     private String uid;
     private String doi;
@@ -17,4 +13,15 @@ public class LamrResultsDto {
     private String sourceURL;
     private String citingArticlesURL;
     private String relatedRecordsURL;
+
+    @Builder
+    public LamrResultsDto(String uid, String doi, String pmid, String timesCited, String sourceURL, String citingArticlesURL, String relatedRecordsURL) {
+        this.uid = uid;
+        this.doi = doi;
+        this.pmid = pmid;
+        this.timesCited = timesCited;
+        this.sourceURL = sourceURL;
+        this.citingArticlesURL = citingArticlesURL;
+        this.relatedRecordsURL = relatedRecordsURL;
+    }
 }

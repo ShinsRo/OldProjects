@@ -23,6 +23,6 @@ public class LiteRecordDto {
     private Map<String, List<String>> other;
 
     private List<String> authors;
-    private List<String> Doctype;
+    private List<String> doctype;
     private List<String> keywords;
 }

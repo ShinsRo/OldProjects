@@ -20,20 +20,19 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Configuration
 @EnableScheduling
 public class BatchScheduleConfig {
-    private final Integer CHECK_INTERVAL = 3600000;
+    private final Integer CHECK_INTERVAL = 3000;
 
     private Logger logger = LoggerFactory.getLogger(BatchScheduleConfig.class);
 
-    private AtomicBoolean addJobEnabled = new AtomicBoolean(true);
+    private AtomicBoolean addJobEnabled     = new AtomicBoolean(true);
     private AtomicBoolean updateJobEnabled  = new AtomicBoolean(true);
 
-
+    @Autowired
     private JobLauncher jobLauncher;
-
     @Autowired
-    Job          addJob;
+    private Job addJob;
     @Autowired
-    Job          updateJob;
+    private Job updateJob;
 
     @Bean
     public TaskScheduler taskScheduler() {
@@ -56,6 +55,7 @@ public class BatchScheduleConfig {
                     .run(addJob, new JobParametersBuilder()
                             .addString("organization", "Sejong Univ")
                             .addDate("launchDate", date)
+                            .addString("symbolic", "1week")
                             .toJobParameters());
             addJobEnabled.set(false);
             do {
@@ -63,6 +63,7 @@ public class BatchScheduleConfig {
                 logger.info("AddJob is still running.");
             } while (jobExecution.isRunning());
         }
+        logger.info("AddJob done.");
         addJobEnabled.set(true);
     }
 
@@ -71,8 +72,7 @@ public class BatchScheduleConfig {
         if (updateJobEnabled.get()) {
             Date date = new Date();
             JobExecution jobExecution = jobLauncher
-                    .run(addJob, new JobParametersBuilder()
-                            .addString("organization", "Sejong Univ")
+                    .run(updateJob, new JobParametersBuilder()
                             .addDate("launchDate", date)
                             .toJobParameters());
             updateJobEnabled.set(false);
@@ -81,6 +81,7 @@ public class BatchScheduleConfig {
                 logger.info("updateJob is still running.");
             } while (jobExecution.isRunning());
         }
+        logger.info("updateJob done.");
         updateJobEnabled.set(true);
     }
 }

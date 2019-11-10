@@ -1,18 +1,19 @@
 package com.siotman.wos.yourpaper.service;
 
+import com.siotman.wos.yourpaper.domain.dto.MemberPaperQueryParameters;
 import com.siotman.wos.yourpaper.domain.dto.MemberDto;
 import com.siotman.wos.yourpaper.domain.dto.PaperDto;
 import com.siotman.wos.yourpaper.domain.dto.UidDto;
 import com.siotman.wos.yourpaper.domain.dto.UidsDto;
-import com.siotman.wos.yourpaper.domain.entity.AuthorType;
-import com.siotman.wos.yourpaper.domain.entity.Member;
-import com.siotman.wos.yourpaper.domain.entity.MemberPaper;
-import com.siotman.wos.yourpaper.domain.entity.Paper;
+import com.siotman.wos.yourpaper.domain.entity.*;
 import com.siotman.wos.yourpaper.exception.NoSuchMemberException;
 import com.siotman.wos.yourpaper.repo.MemberPaperRepository;
 import com.siotman.wos.yourpaper.repo.MemberRepository;
 import com.siotman.wos.yourpaper.repo.PaperRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -58,7 +59,7 @@ public class MemberPaperService {
      * @return
      * @throws  NoSuchMemberException
      */
-    public Boolean add(UidsDto uidsDto) throws NoSuchMemberException {
+    public Integer add(UidsDto uidsDto) throws NoSuchMemberException {
         String username = uidsDto.getUsername();
 
         Optional<Member> memberOptional = memberRepository.findById(username);
@@ -97,6 +98,8 @@ public class MemberPaperService {
             if (savedIdx < 0)   {
                 Paper newPaperEntity = searchedCacheService.newPaperEntityFromCacheByUid(
                         memberPaperEntity.getPaper().getUid());
+                newPaperEntity.setRecordState(RecordState.PARSING);
+                
                 memberPaperEntity.setPaper(newPaperEntity);
                 parsingList.add(PaperDto.buildWithMemberPaper(memberPaperEntity));
                 continue;
@@ -107,8 +110,8 @@ public class MemberPaperService {
         }
 
         if (parsingList.size() > 0) asyncParsingTriggeringService.triggerAll(parsingList);
-        if (addingList.size() > 0)  memberPaperRepository.saveAll(addingList);
-        return addingList.size() > 0;
+        if (addingList.size() > 0)  return memberPaperRepository.saveAll(addingList).size();
+        else                        return 0;
     }
 
     public Boolean delete(UidsDto uidsDto) throws NoSuchMemberException {
@@ -137,5 +140,34 @@ public class MemberPaperService {
 
         memberPaperRepository.deleteAll(deleteList);
         return true;
+    }
+
+    public List<PaperDto> listByPage(MemberPaperQueryParameters params) throws NoSuchMemberException {
+        Optional<Member> memberOptional = memberRepository.findById(params.getUsername());
+
+        Member member;
+        if (!memberOptional.isPresent())    throw new NoSuchMemberException();
+        else                                member = memberOptional.get();
+
+        Pageable pageable = PageRequest.of(
+                params.getFirstRecord(), params.getCount(),
+                (params.getIsAsc())? Sort.by(params.getSortBy()).ascending() : Sort.by(params.getSortBy()).descending()
+        );
+        List<MemberPaper> memberPapers = memberPaperRepository.findAllByMember(member, pageable);
+        List<PaperDto> paperDtos = new ArrayList<>();
+        for (MemberPaper memberPaper : memberPapers) {
+            paperDtos.add(PaperDto.buildWithMemberPaper(memberPaper));
+        }
+        return paperDtos;
+    }
+
+    public Integer count(MemberDto dto) throws NoSuchMemberException {
+        Optional<Member> memberOptional = memberRepository.findById(dto.getUsername());
+
+        Member member;
+        if (!memberOptional.isPresent())    throw new NoSuchMemberException();
+        else                                member = memberOptional.get();
+
+        return memberPaperRepository.countByMember(member);
     }
 }

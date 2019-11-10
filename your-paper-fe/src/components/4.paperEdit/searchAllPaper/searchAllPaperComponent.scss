@@ -1,0 +1,84 @@
+@import '../../BasicStyle/BasicStyle.scss';
+
+.searchAllPaperWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  border: 3px solid $basicIndigo;
+
+  .categoryContainer {
+    width: 5%;
+    // background-color: $basicWhite;
+    background-color: yellow;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .categoryNav {
+      margin: 0;
+      color: $basicIndigo;
+    }
+
+    .dropBox {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      border: 3px solid $basicIndigo;
+      background-color: $basicIndigo;
+      border-radius: 10px;
+      position: absolute;
+      top: 120px;
+
+      .category {
+        height: 30px;
+        background-color: $basicIndigo;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .categoryName {
+          margin: 0;
+          color: $basicWhite;
+        }
+      }
+
+      .divideLine {
+        width: 100%;
+        color: white;
+      }
+    }
+  }
+
+  .searchInputContainer {
+    width: 85%;
+    background-color: red;
+
+    .searchInputBox {
+      width: 100%;
+      height: 100%;
+      padding: 0 0 0 10px;
+      font-size: 15px;
+      border: none;
+      outline: none;
+    }
+  }
+
+  .searchButtonContainer {
+    width: 10%;
+
+    .searchButton {
+      width: 100%;
+      height: 100%;
+      background-color: $basicIndigo;
+      border: $basicIndigo;
+      outline: none;
+      font-size: 15px;
+      font-weight: bold;
+      color: $basicWhite;
+    }
+  }
+}
