@@ -81,8 +81,20 @@ export default {
     }
   },
   mounted () {
-    this.$axios.post('http://172.16.21.6:9401/myPaper/list', {
-      username: 'admin' },
+    /*this.$axios.post('http://172.16.61.234:9401/myPaper/listByPage', {
+      username: 'admin',
+      sortBy: 'paper.title',
+      isAsc: true,
+      firstRecord: 0,
+      count: 10,
+      },*/
+    this.$axios.post('http://172.16.61.234:9401/myPaper/listByPage', {
+        username: 'admin',
+        sortBy: 'paper.title',
+        isAsc: true,
+        firstRecord: 0,
+        count: 10,
+      },
     {
       headers: {
         'Authorization': 'Basic YWRtaW46YWRtaW4=',
@@ -90,7 +102,8 @@ export default {
       } })
       .then(response => {
 
-        this.paperData = response.data;
+        console.log(response)
+
       })
   }
 }
