@@ -54,7 +54,7 @@
               </p>
             </div>
             <hr class="divideLine"/>
-            <div class="textWrapper">
+            <div class="textWrapper" v-on:click="clickForLogout">
               <p class="text">
                 Log Out
               </p>
@@ -90,6 +90,10 @@ export default {
     },
     clickForPaperEdit () {
       this.$emit('changeFlag', 2)
+    },
+    clickForLogout () {
+      this.$store.dispatch('logoutAction')
+      this.$router.push('/')
     }
   }
 }
