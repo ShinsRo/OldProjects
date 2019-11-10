@@ -1,6 +1,9 @@
 package com.siotman.wos.yourpaper.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.siotman.wos.jaxws2rest.domain.dto.LamrResultsDto;
+import com.siotman.wos.jaxws2rest.domain.dto.SearchResultsDto;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -35,7 +38,7 @@ public class WokSearchService {
     public WokSearchService() throws MalformedURLException {
     }
 
-    public Map search(
+    public SearchResultsDto search(
             String userQuery,
             String begin, String end, String week,
             Integer firstRecord, Integer count) throws IOException {
@@ -82,11 +85,11 @@ public class WokSearchService {
         requestBodyMap.put("retrieveParameters", retrieveParameters);
 
         String responseBody = _postRequest(searchUrl, requestBodyMap);
-        Map responseBodyMap = objectMapper.readValue(responseBody, Map.class);
-        return responseBodyMap;
+        SearchResultsDto resultsDto = objectMapper.readValue(responseBody, SearchResultsDto.class);
+        return resultsDto;
     }
 
-    public Map retrieve(String sid, String queryId, Integer firstRecord, Integer count) throws IOException {
+    public SearchResultsDto retrieve(String sid, String queryId, Integer firstRecord, Integer count) throws IOException {
         /**
          * {
          * 	"sid": "C5bXQpqPEi3SNYqNxHk",
@@ -110,17 +113,17 @@ public class WokSearchService {
         requestBodyMap.put("retrieveParameters", retrieveParameters);
 
         String responseBody = _postRequest(retrieveUrl, requestBodyMap);
-        Map responseBodyMap = objectMapper.readValue(responseBody, Map.class);
-        return responseBodyMap;
+        SearchResultsDto resultsDto = objectMapper.readValue(responseBody, SearchResultsDto.class);
+        return resultsDto;
     }
 
-    public List<Map> getLamrData(List<String> uids) throws IOException {
+    public List<LamrResultsDto> getLamrData(List<String> uids) throws IOException {
         Map<String, Object> lamrRequestBodyMap = new HashMap<>();
 
         lamrRequestBodyMap.put("uids", uids);
         String lamrResponseBody = _postRequest(lamrUrl, lamrRequestBodyMap);
 
-        List<Map> lamrRecords = objectMapper.readValue(lamrResponseBody, List.class);
+        List<LamrResultsDto> lamrRecords = objectMapper.readValue(lamrResponseBody, new TypeReference<List<LamrResultsDto>>(){});
         return lamrRecords;
     }
 

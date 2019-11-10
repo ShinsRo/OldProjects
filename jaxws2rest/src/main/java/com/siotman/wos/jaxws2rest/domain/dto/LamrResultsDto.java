@@ -19,6 +19,7 @@ public class LamrResultsDto {
     private String relatedRecordsURL;
 
     public void setByName(String name, String value) {
+        if (value == null) value = "";
         switch (name) {
             case "ut":                  this.uid = "WOS:" + value; break;
             case "doi":                 this.doi = value; break;

@@ -100,7 +100,10 @@ public class LamrServiceWrapper {
 
                     String name     = prop.getAttributes().getNamedItem("name").getNodeValue();
                     String value    = prop.getFirstChild().getNodeValue();
-
+                    if (value == null) {
+                        System.out.println("name : " + name + ", value : null");
+                        System.out.println(prop.getTextContent());
+                    }
                     dto.setByName(name, value);
                 }
                 resultsDtos.add(dto);
