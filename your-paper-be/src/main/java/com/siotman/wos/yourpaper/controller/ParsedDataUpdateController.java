@@ -2,6 +2,8 @@ package com.siotman.wos.yourpaper.controller;
 
 import com.siotman.wos.yourpaper.domain.dto.ParsedDataDto;
 import com.siotman.wos.yourpaper.service.ParsedDataUpdateService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/parsedData")
 public class ParsedDataUpdateController {
+    private Logger logger = LoggerFactory.getLogger(ParsedDataUpdateController.class);
     @Autowired
     ParsedDataUpdateService parsedDataUpdateService;
 

@@ -1,5 +1,6 @@
 package com.siotman.wos.yourpaper.job.update;
 
+import com.siotman.wos.jaxws2rest.domain.dto.LamrResultsDto;
 import com.siotman.wos.yourpaper.domain.dto.PaperDto;
 import com.siotman.wos.yourpaper.domain.entity.MemberPaper;
 import com.siotman.wos.yourpaper.domain.entity.Paper;
@@ -23,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.Assert;
 
 import javax.persistence.EntityManagerFactory;
 import java.time.LocalDateTime;
@@ -107,11 +109,16 @@ public class UpdateJobConfig {
                 prevTimesCited.add(paper.getTimesCited());
                 uids.add(paper.getUid());
             });
-            List<Map> lamrData = wokSearchService.getLamrData(uids);
+            List<LamrResultsDto> lamrData = wokSearchService.getLamrData(uids);
 
             for (int i = 0; i < list.size(); i++) {
                 Paper item          = list.get(i);
-                item.setTimesCited((String) lamrData.get(i).get("timesCited"));
+
+                Assert.isTrue(item.getUid().equals(lamrData.get(i).getUid()),
+                        "DB 레코드와 LMAR레코드의 UID가 일치하지 않으나, 업데이트를 시도했습니다.");
+
+                item.setTimesCited(lamrData.get(i).getTimesCited());
+
                 if (prevTimesCited.get(i).equals(item.getTimesCited())) {
                     item.setRecordState(RecordState.COMPLETED);
                     continue;

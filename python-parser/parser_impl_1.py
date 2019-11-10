@@ -57,10 +57,8 @@ class WosParser():
                 self.logger.log('info', '[0130] Messaging DETAIL_LINK completed.')
                 
                 if paper_data['timesCited']:
-                    # self.mailman.send('DETAIL_LINK', 'CITE_CNT_LINK', uid, self.base_url + link, 'NONE')
-                    recordState = 'PARSING'
+                    recordState = 'PARSING_DETAIL_DONE'
                 else:
-                    # self.logger.log('info', '[0131] Messaging CITE_CNT_LINK unecessary.')
                     recordState = 'COMPLETED'
                 
                 # [0130] 파싱한 정보 DB 저장 요청
@@ -85,11 +83,10 @@ class WosParser():
                 # [0220] 파싱한 링크 메세징
                 self.logger.log('info', '[0220] Messaging CITING_LINK completed.')
                 
-                if link:
-                    recordState = 'PARSING'
-                    # self.mailman.send('CITING_LINK', 'TIMES_CITED_BY_YEAR_LINK', uid, self.base_url + '/' + link, 'NONE')
-                else:
-                    recordState = 'COMPLETED'
+                # if link:
+                #     recordState = 'PARSING'
+                # else:
+                recordState = 'PARSING_CITATION_DONE'
 
                 # [0230] 파싱한 정보 DB 저장 요청
                 self.logger.log('info', '[0230] Requesting server to save detail data.')

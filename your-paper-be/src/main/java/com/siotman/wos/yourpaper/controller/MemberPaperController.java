@@ -39,8 +39,7 @@ public class MemberPaperController {
 
     @PostMapping(value = "/add")
     public ResponseEntity<?> add(@RequestBody UidsDto dto) throws NoSuchMemberException {
-        Boolean add = memberPaperService.add(dto);
-        return ResponseEntity.ok().body(add);
+        return ResponseEntity.ok().body(memberPaperService.add(dto));
 
     }
 

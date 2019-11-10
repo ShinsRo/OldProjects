@@ -1,8 +1,8 @@
 
 
 import pika
-# RABBITMQ_SERVER_URL = 'amqp://guest:guest@localhost:5672/'
-RABBITMQ_SERVER_URL = 'amqp://remote-dev:compact@www.siotman.com:15673/'
+RABBITMQ_SERVER_URL = 'amqp://guest:guest@localhost:5672/'
+# RABBITMQ_SERVER_URL = 'amqp://remote-dev:compact@www.siotman.com:15673/'
 
 if __name__ == "__main__":
     connection = pika.BlockingConnection(pika.URLParameters(RABBITMQ_SERVER_URL))

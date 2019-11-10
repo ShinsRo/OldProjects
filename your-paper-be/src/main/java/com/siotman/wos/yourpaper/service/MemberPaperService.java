@@ -59,7 +59,7 @@ public class MemberPaperService {
      * @return
      * @throws  NoSuchMemberException
      */
-    public Boolean add(UidsDto uidsDto) throws NoSuchMemberException {
+    public Integer add(UidsDto uidsDto) throws NoSuchMemberException {
         String username = uidsDto.getUsername();
 
         Optional<Member> memberOptional = memberRepository.findById(username);
@@ -110,8 +110,8 @@ public class MemberPaperService {
         }
 
         if (parsingList.size() > 0) asyncParsingTriggeringService.triggerAll(parsingList);
-        if (addingList.size() > 0)  memberPaperRepository.saveAll(addingList);
-        return addingList.size() > 0;
+        if (addingList.size() > 0)  return memberPaperRepository.saveAll(addingList).size();
+        else                        return 0;
     }
 
     public Boolean delete(UidsDto uidsDto) throws NoSuchMemberException {
