@@ -42,7 +42,7 @@ export default {
           this.$store.dispatch('loginAction', res.data)
           this.$store.dispatch('encodingAction', `Basic ${btoa(`${this.user.id}:${this.user.password}`)}`)
           if (this.$store.getters.memberInfoDtoGetter !== null) {
-            this.$store.dispatch('getMyPaperAction')
+            this.$store.dispatch('loadMyPaperAction')
             this.$router.push('./main')
           }
         }).catch(error => {

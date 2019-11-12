@@ -2,73 +2,75 @@
 
 .searchAllPaperWrapper {
   width: 100%;
+  height: 40px;
   display: flex;
   flex-direction: row;
   border: 3px solid $basicIndigo;
 
-  .categoryContainer {
-    width: 5%;
-    // background-color: $basicWhite;
-    background-color: yellow;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  .dropBoxContainer {
+    width: 10%;
+    height: inherit;
+    border-right: 3px solid $basicIndigo;
+    z-index: 999;
 
-    .categoryNav {
-      margin: 0;
+    .dropBoxSelector {
+      margin: 0 0 2px 0;
       color: $basicIndigo;
+      font-size: 1.8em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    .dropBox {
+    .dropBoxOptionContainer {
+      width: 90%;
+      height: auto;
+      border: 3px solid $basicIndigo;
+      border-radius: 10px;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      position: absolute;
-      border: 3px solid $basicIndigo;
+      align-items: center;
       background-color: $basicIndigo;
-      border-radius: 10px;
-      position: absolute;
-      top: 120px;
-
-      .category {
+  
+      .searchOption {
+        width: 100%;
         height: 30px;
-        background-color: $basicIndigo;
+        color: $basicWhite;
+        font-weight: bold;
+        font-size: 1.2em;
+        border-bottom: 1px solid $basicWhite;
         display: flex;
         justify-content: center;
         align-items: center;
-
-        .categoryName {
-          margin: 0;
-          color: $basicWhite;
-        }
       }
 
-      .divideLine {
-        width: 100%;
-        color: white;
+      .organizationOption {
+        border: 0;
       }
     }
   }
 
   .searchInputContainer {
-    width: 85%;
-    background-color: red;
+    width: 80%;
+    height: inherit;
 
-    .searchInputBox {
-      width: 100%;
-      height: 100%;
-      padding: 0 0 0 10px;
-      font-size: 15px;
-      border: none;
+    .searchInput {
+      display: flex;
+      border: 0;
       outline: none;
+      font-size: 1.3em;
+      padding-left: 15px;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 95%;
     }
   }
 
-  .searchButtonContainer {
+  .buttonContainer {
     width: 10%;
+    height: inherit;
 
     .searchButton {
       width: 100%;
@@ -76,9 +78,9 @@
       background-color: $basicIndigo;
       border: $basicIndigo;
       outline: none;
-      font-size: 15px;
-      font-weight: bold;
+      font-size: 1.3em;
       color: $basicWhite;
+      font-weight: bold;
     }
   }
 }

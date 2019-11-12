@@ -1,32 +1,20 @@
 <template>
   <div class="searchAllPaperWrapper">
-    <div class="categoryContainer"
-    v-on:mouseover="isDropBoxShow=setTrue()"
+    <div class="dropBoxContainer"       v-on:mouseover="isDropBoxShow=setTrue()"
     v-on:mouseleave="isDropBoxShow=setFalse()">
-      <p class="categoryNav">▼</p>
-      <div class="dropBox" v-show="isDropBoxShow">
-        <div class="category" v-on:click="selectCategory('title')">
-          <p class="categoryName">논문명</p>
-        </div>
-        <hr class="divideLine">
-        <div class="category" v-on:click="selectCategory('authorName')">
-          <p class="categoryName">저자명</p>
-        </div>
-        <hr class="divideLine">
-        <div class="category" v-on:click="selectCategory('DOI')">
-          <p class="categoryName">DOI</p>
-        </div>
-        <hr class="divideLine">
-        <div class="category" v-on:click="selectCategory('organization')">
-          <p class="categoryName">연구기관</p>
-        </div>
+      <p class="dropBoxSelector">▼</p>
+      <div class="dropBoxOptionContainer" v-show="isDropBoxShow">
+        <div class="searchOption" v-on:click="selectCategory('title')">논문명</div>
+        <div class="searchOption" v-on:click="selectCategory('authorName')">저자</div>
+        <div class="searchOption" v-on:click="selectCategory('DOI')">DOI</div>
+        <div class="searchOption organizationOption" v-on:click="selectCategory('organization')">연구기관</div>
       </div>
     </div>
     <div class="searchInputContainer">
-      <input class="searchInputBox" type="text" v-bind:placeholder="placeholder" v-model="searchPaperInput">
+      <input class="searchInput" type="text" v-bind:placeholder="placeholder" v-model="searchPaperInput">
     </div>
-    <div class="searchButtonContainer">
-      <button class="searchButton" type="button">Search</button>
+    <div class="buttonContainer">
+      <button class="searchButton" type="button" v-on:click="searchOnWos()">Search</button>
     </div>
   </div>
 </template>
@@ -48,6 +36,10 @@ export default {
     }
   },
   methods: {
+    searchOnWos () {
+      console.log(this.searchInput.title)
+      console.log(this.searchPaperInput)
+    },
     setTrue () {
       return true
     }, // 드롭박스 보임
