@@ -18,6 +18,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class MemberPaperService {
@@ -67,46 +68,43 @@ public class MemberPaperService {
         if (!memberOptional.isPresent())    throw new NoSuchMemberException();
         else                                member = memberOptional.get();
 
+        List<String> uids = uidsDto.getUids()
+                .stream()
+                .map(UidDto::getUid)
+                .collect(Collectors.toList());
+//        List<Paper> alreadySaved        = paperRepository.findAllById(uids);
+
+
         List<MemberPaper> addingList = new LinkedList<>();
-        List<String> targetUidList   = new LinkedList<>();
         List<PaperDto> parsingList   = new ArrayList<>();
         for (UidDto uidDto : uidsDto.getUids()) {
             String      uid;
             AuthorType  authorType;
-            Paper       targetPaperEntity;
             MemberPaper memberPaperEntity;
+            Paper       paperEntity;
 
-            uid                 = uidDto.getUid();
-            targetPaperEntity   = Paper.builder().uid(uid).build();
+            uid = uidDto.getUid();
+            Optional<Paper> targetPaperOptional = paperRepository.findById(uid);
+
+            if (targetPaperOptional.isPresent()) {
+                paperEntity = targetPaperOptional.get();
+            } else {
+                paperEntity = searchedCacheService.newPaperEntityFromCacheByUid(uid);
+            }
+
             if (uidDto.getIsReprint())  authorType = AuthorType.REPRINT;
             else                        authorType = AuthorType.GENERAL;
 
             memberPaperEntity = MemberPaper.builder()
                     .member(member)
-                    .paper(targetPaperEntity)
+                    .paper(paperEntity)
                     .authorType(authorType)
                     .build();
 
-            targetUidList.add(uid);
-            addingList.add(memberPaperEntity);
-        }
-
-        List<Paper> alreadySaved        = paperRepository.findAllById(targetUidList);
-        for (int idx = 0; idx < addingList.size(); idx++) {
-            MemberPaper memberPaperEntity = addingList.get(idx);
-            int savedIdx = alreadySaved.indexOf(memberPaperEntity.getPaper());
-            if (savedIdx < 0)   {
-                Paper newPaperEntity = searchedCacheService.newPaperEntityFromCacheByUid(
-                        memberPaperEntity.getPaper().getUid());
-                newPaperEntity.setRecordState(RecordState.PARSING);
-                
-                memberPaperEntity.setPaper(newPaperEntity);
+            if (!targetPaperOptional.isPresent()) {
                 parsingList.add(PaperDto.buildWithMemberPaper(memberPaperEntity));
-                continue;
             }
-
-            addingList.remove(idx--);
-            alreadySaved.remove(savedIdx);
+            addingList.add(memberPaperEntity);
         }
 
         if (parsingList.size() > 0) asyncParsingTriggeringService.triggerAll(parsingList);

@@ -78,7 +78,7 @@ public class MemberPaperServiceTests {
                 .username("user01")
                 .uids(uids)
                 .build();
-        Boolean validity    = memberPaperService.add(uidsDto);
+        memberPaperService.add(uidsDto);
         List<PaperDto> list = memberPaperService.list(targetDto);
 
         Assert.isTrue(list.size() == uids.size(),

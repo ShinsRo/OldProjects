@@ -70,9 +70,9 @@ public class WokSearchService {
         queryParameters.put("userQuery", userQuery);
         queryParameters.put("queryLanguage", "en");
 
-        if (week != null) {
+        if          (week != null) {
             queryParameters.put("symbolicTimeSpan", week);
-        } else {
+        } else if   (begin != null && end != null){
             timeSpan.put("begin", begin);
             timeSpan.put("end", end);
             queryParameters.put("timeSpan", timeSpan);

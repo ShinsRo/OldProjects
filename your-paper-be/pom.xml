@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.siotman.wos</groupId>
     <artifactId>your-paper-be</artifactId>
-    <version>0.0.8</version>
+    <version>0.0.9</version>
     <name>your-paper-be</name>
     <description>Demo project for Spring Boot</description>
 
