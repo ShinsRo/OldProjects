@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A layout example that shows off a responsive email layout.">    <title>멤버 API!</title>    
+    <meta name="description" content="A layout example that shows off a responsive email layout.">    <title>멤버 API 데모</title>    
     <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
     
     
@@ -12,7 +12,7 @@
             <link rel="stylesheet" href="css/layouts/demo-old-ie.css">
         <![endif]-->
         <!--[if gt IE 8]><!-->
-            <link rel="stylesheet" href="css/layouts/email.css">
+            <link rel="stylesheet" href="css/layouts/demo-css">
         <!--<![endif]-->
 </head>
 <body>
@@ -43,7 +43,7 @@
         <div class="demo-content">
             <div class="demo-content-header pure-g">
                 <div class="pure-u-1-2">
-                    <h1 class="demo-content-title">API 제목</h1>
+                    <h1 class="demo-content-title">로그인/로그아웃/회원가입 API</h1>
                     <p class="demo-content-subtitle">
                         From <a>김승신</a> at <span>3:10pm, Oct 20, 2019</span>
                     </p>
@@ -83,29 +83,19 @@
     </div>
 </div>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-<script src="https://yui-s.yahooapis.com/3.18.1/build/yui/yui-min.js"></script><script>
-    YUI().use('node-base', 'node-event-delegate', function (Y) {
-        var menuButton = Y.one('.nav-menu-button'),
-            nav        = Y.one('#nav');
-        menuButton.on('click', function (e) {
-            nav.toggleClass('active');
-        });
-    });
-</script>
+<script src="./api/member-api.js"></script>
 
 <script>
-    const SERVER_URL = 'http://localhost:9401'
+    const SERVER_URL = 'http://localhost:19401'
+    const memberApi = new MemberApi(SERVER_URL);
 
     // 중복확인
     function availableCheck(event) {
         event.preventDefault();
         const registerForm = document.getElementById('registerForm')
-        
-        const data = {
-            'username': registerForm['username'].value
-        }
-        axios.post(`${SERVER_URL}/auth/availableCheck`, data).then(response => {
+        const username = registerForm['username'].value;
+
+        memberApi.availableCheck(username).then(response => {
             console.log(response);
             
             if (response.data) {
@@ -121,49 +111,29 @@
     // 회원가입
     function register(event) {
         event.preventDefault();
-        const registerForm = document.getElementById('registerForm')
-        const authorNameList = Array.prototype.slice.call(registerForm['authorNameList']);
-        
-        const data = {
-            'username': registerForm['username'].value,
-            'password': registerForm['password'].value,
-            'memberInfoDto': {
-                'name': registerForm['name'].value,
-                'authorNameList': authorNameList.map(e => e.value),
-                'organizationList': [registerForm['organizationList'].value], // 필드가 하나일 경우 배열로 만들어서 전달해야함
-            }
-        }
+        const registerForm      = document.getElementById('registerForm')
+        const username          = registerForm['username'].value;
+        const password          = registerForm['password'].value;
+        const name              = registerForm['name'].value;
+        const authorNameList    = Array.prototype.slice.call(registerForm['authorNameList']);
+        const organizationList  = registerForm['organizationList'].value;
 
-        axios.post(`${SERVER_URL}/auth/register`, data).then(response => {
+        memberApi.register(username, password, name, authorNameList, organizationList).then(response => {
             alert('registered')
             // location.href = '/login'
         }).catch(error => {
             console.log(error);
             alert('errored')
-        })
+        });
     }
 
     // 로그인
     function memberLogin(event) {
-        alert("login")
-
         event.preventDefault();
         const loginForm = document.getElementById('loginForm')
         const username = loginForm['login_username'].value
         const password = loginForm['login_password'].value
-        const data = {
-            'username': username,
-            'password': password
-        }
-        console.log(username, password);
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `Basic ${btoa(`${username}:${password}`)}`
-        }
-        console.log(headers);
-        
-        axios.post(`${SERVER_URL}/auth/login`, data, { headers: headers }).then(response => {
-            alert('logined')
+        memberApi.memberLogin(username, password).then(response => {
             console.log(response);
             // location.href = '/main'
         }).catch(error => {
@@ -177,5 +147,15 @@
     })();
 </script>
 
+<script src="https://yui-s.yahooapis.com/3.18.1/build/yui/yui-min.js"></script><script>
+        YUI().use('node-base', 'node-event-delegate', function (Y) {
+            var menuButton = Y.one('.nav-menu-button'),
+                nav        = Y.one('#nav');
+            menuButton.on('click', function (e) {
+                nav.toggleClass('active');
+            });
+        });
+    </script>
+    
 </body>
 </html>
