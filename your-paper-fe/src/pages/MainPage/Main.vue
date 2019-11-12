@@ -26,7 +26,7 @@ export default {
   },
   data () {
     return {
-      flag: 1
+      flag: 2
     }
   },
   methods: {
