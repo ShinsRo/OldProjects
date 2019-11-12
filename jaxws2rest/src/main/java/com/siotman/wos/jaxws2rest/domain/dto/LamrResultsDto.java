@@ -21,13 +21,13 @@ public class LamrResultsDto {
     public void setByName(String name, String value) {
         if (value == null) value = "";
         switch (name) {
-            case "ut":                  this.uid = "WOS:" + value; break;
-            case "doi":                 this.doi = value; break;
-            case "pmid":                this.pmid = value; break;
-            case "timesCited":          this.timesCited = value; break;
-            case "sourceURL":           this.sourceURL = value; break;
-            case "citingArticlesURL":   this.citingArticlesURL = value; break;
-            case "relatedRecordsURL":   this.relatedRecordsURL = value; break;
+            case "ut":                  this.uid                = "WOS:" + value; break;
+            case "doi":                 this.doi                = (value != null)? value:""; break;
+            case "pmid":                this.pmid               = (value != null)? value:""; break;
+            case "timesCited":          this.timesCited         = (value != null)? value:"0"; break;
+            case "sourceURL":           this.sourceURL          = (value != null)? value:""; break;
+            case "citingArticlesURL":   this.citingArticlesURL  = (value != null)? value:""; break;
+            case "relatedRecordsURL":   this.relatedRecordsURL  = (value != null)? value:""; break;
             default: break;
         }
     }

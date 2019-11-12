@@ -73,6 +73,7 @@ public class LiteRecordDto {
                     break;
 
                 case "Identifier.Xref_Doi":
+                    if (this.doi == null) this.doi = value;
                 case "Identifier.article_no":
                 case "ResearcherID.Disclaimer":
                 case "Contributor.ResearcherID.Names":
