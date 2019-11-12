@@ -1,41 +1,43 @@
 <template>
   <div class="paperListWrapper">
     <div class="paperColumnContainer">
-      <div class="ColumnPaperName">
-        <p class="paperNameColumn">제목</p>
+      <div class="paperTitleContainer column">
+        <p class="paperTitleColumn">제목</p>
       </div>
-      <div class="ColumnAuthorName">
-        <p class="authorNameColumn" v-if="flag===1">저자</p>
-        <p class="authorNameColumn" v-if="flag===2">주 저자 여부</p>
+      <div class="paperAuthorContainer column" v-if="flag===1">
+        <p class="paperAuthorColumn">저자</p>
       </div>
-      <div class="ColumnDOI">
-        <p class="DOIColumn">DOI</p>
+      <div class="paperAuthorStateContainer column" v-if="flag===2"></div>
+      <div class="paperDOIContainer column">
+        <p class="paperDOIColumn">DOI</p>
       </div>
-      <div class="ColumnURL">
-        <p class="URLColumn">URL</p>
+      <div class="paperURLContainer column">
+        <p class="paperURLColumn">URL</p>
       </div>
     </div>
     <div class="paperListContainer">
-      <div class="emptyContainer">
-        <p class="emptyMessage">논문 정보가 없습니다</p>
-      </div>
-      <!-- 논문 관련 정보가 없을 경우 -->
-      <div class="list" v-for="(paper, index) in papers" :key="index">
-        <div class="paperName">{{ paper.name }}</div>
-        <div class="authorName" v-if="flag===1">{{ paper.authorName }}</div>
-        <div class="authorName" v-if="flag===2">
-         <select class="isRepresent">
-            <option disabled selected value="">저자 여부를 선택</option>
-            <option value="RepresentAuthor">주 저자</option>
-            <option value="CommonAuthor">공 저자</option>
-          </select>
+
+      <div class="paperList">
+        <div class="paperTitle">
+          <p class="showSomeTitle">ananananananananananananananananan</p>
+          <p class="showAllTitle">amamamamamananananananaanananananan</p>
         </div>
-        <div class="DOI">{{ paper.DOI }}</div>
-        <div class="URL">{{ paper.URL }}</div>
-        <button class="paperAddButton" type="button" v-if="flag===1">Add</button>
-        <button class="paperRemoveButton" type="button" v-if="flag===2">Remove</button>
+        <div class="paperAuthor">
+          <p class="showSomeAuthor">sdfsdddddddddddddddddddddddddddddddddddddd  </p>
+          <p class="showAllAuthor">sdfffffffffffffffffffffffffffffffddd</p>
+        </div>
+        <div class="paperDOI">
+          <p class="showSomeDOI">1231233333333333333333333333333333333333</p>
+          <p class="showAllDOI">2222222222222222222222222222222222222222</p>
+        </div>
+        <div class="paperURL">
+          <p class="showSomeURL">sddddddddddddddddddddddddddddssdfsfs</p>
+          <p class="showAllURL">sdfffffffffffffffffffffffffffffffffffffff</p>
+        </div>
+        <div class="paperButton">
+          <button class="addButton" type="button" v-on:click="test">Add</button>
+        </div>
       </div>
-      <!-- v-for를 이용하여 논문 리스트 업 -->
     </div>
   </div>
 </template>
@@ -44,23 +46,16 @@
 export default {
   name: 'paperList',
   props: ['EditFlag'],
+  methods: {
+    test () {
+      const myPapers = this.$store.getters.memberPaperGetter
+      console.log(myPapers)
+      document.getElementsByClassName('paperListContainer').item(0).innerHTML = `${myPapers}`
+    }
+  },
   data () {
     return {
-      flag: this.EditFlag,
-      papers: [
-        {
-          name: 'ComputerEngineering',
-          authorName: 'JohanAn',
-          DOI: '1234',
-          URL: 'http://123.456.789'
-        },
-        {
-          name: 'ChickenMukja',
-          authorName: 'GangEunLee',
-          DOI: '4567',
-          URL: 'http://789.456.123'
-        }
-      ]
+      flag: this.EditFlag
     }
   }
 }
