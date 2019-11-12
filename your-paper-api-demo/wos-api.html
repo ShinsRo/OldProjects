@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A layout example that shows off a responsive email layout.">    <title>Email &ndash; Layout Examples &ndash; Pure</title>    
+    <meta name="description" content="A layout example that shows off a responsive email layout.">    <title>WOS에서 검색하기</title>    
     <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
     
     
@@ -12,7 +12,8 @@
             <link rel="stylesheet" href="css/layouts/demo-old-ie.css">
         <![endif]-->
         <!--[if gt IE 8]><!-->
-            <link rel="stylesheet" href="css/layouts/email.css">
+            <link rel="stylesheet" href="css/layouts/demo-css">
+            <link rel="stylesheet" href="css/table.css">
         <!--<![endif]-->
 </head>
 <body>
@@ -43,7 +44,7 @@
         <div class="demo-content">
             <div class="demo-content-header pure-g">
                 <div class="pure-u">
-                    <h1 class="demo-content-title">WOS 검색 API</h1>
+                    <h1 class="demo-content-title">WOS에서 검색하기</h1>
                     <p class="demo-content-subtitle">
                         From <a>김승신</a> at <span>3:10pm, Oct 20, 2019</span>
                     </p>
@@ -66,15 +67,26 @@
                             <option value="DO">DOI</option>
                         </select>
                         <input id="query" type="text" placeholder="검색어"> <br/>
+                        <select name="organization" id="organization">
+                            <option value="Sejong Univ">세종대학교</option>
+                            <option value="">없음</option>
+                        </select>
                         <input id="begin" type="text" placeholder="시작일 yyyy-mm-dd">
                         <input id="end" type="text" placeholder="끝일 yyyy-mm-dd">
                 
                         <button type="button" class="pure-button pure-button-primary" onclick="onQuery()">검색</button>
                     </fieldset>
                 </form>
-                <div>결과</div>
+                <div>결과 <span id="loading"></span> <span id="result"></span></div>
                 <hr/>
-                <table id="contentTable" class="pure-table">
+                <select name="page-size" id="pageSize" onchange="onPageSizeChange()">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                </select>
+                <div id="pagingContainer"></div><br/>
+                <table id="contentTable" class="controlled-shell-table">
+                    <tr><th>제목</th><th>저자</th><th>인용 수</th><th>발행년월</th><th>볼륨</th><th>페이지</th><th>이슈</th><tr>
                 </table>
             </t>
         </div>
@@ -86,60 +98,118 @@
 
 <script>
     // 검색 클라이언트
-    const searchClient = new WokSearchClient();
+    const SERVER_URL = 'http://localhost:19400'
+    const searchClient = new WokSearchClient(SERVER_URL);
     
     function onQuery() {
-        const queryForm = document.getElementById("queryForm");
-        
+        const loading   = document.getElementById('loading');
+        loading.innerHTML = '<font style="color: orange;">loading</font>';
+
+        const queryForm     = document.getElementById("queryForm");
+        const pageSize      = Number(document.getElementById("pageSize").value);        
+
         const category      = queryForm['category'].value;
         const query         = queryForm['query'].value;
         const begin         = queryForm['begin'].value;
         const end           = queryForm['end'].value;
-        const organizations = [];
+        const organizations = [ queryForm['organization'].value ];
+        if (organizations[0] === '') organizations.pop();
 
         if (query.length < 4) {
+            loading.innerHTML = '<font style="color: red">error</font>';
             return alert("검색어가 너무 짧습니다.");
         }
         if (!(new Date(begin))) {
+            loading.innerHTML = '<font style="color: red">error</font>';
             return alert("시작 날짜가 비정상적입니다.");
         }
         if (!(new Date(end))) {
+            loading.innerHTML = '<font style="color: red">error</font>';
             return alert("끝 날짜가 비정상적입니다.");
         }
 
 
         // 이제부터 검색 클라이언트 이벤트 처리 정의
         // 페이지 사이즈를 조정할 수 있음.
-        searchClient.setPageSize(50);
+        searchClient.setPageSize(pageSize);
 
+        searchClient.setSortField('TC', false);
         /* 1. 인풋 값을 userQuery로 변형하기 */
         console.log('최초 검색 프로세스 :');
         const userQuery = searchClient.buildUserQuery(category, query, organizations);
         // const organizations = ['Sejong Univ'];
 
         // 2. 검색 시작
-        searchClient.search(userQuery, begin, end).then((records) => {
-                /* 출력하기 */
-                console.log('출력 단계');
-                const table = document.getElementById('contentTable');
-
-                let html = `<tr><th>제목</th><th>저자</th><th>링크</th><th>제목</th><th>제목</th><th>제목</th><th>제목</th><tr>`;
-                records.forEach(record => {
-                    console.log(record);
-                    const tr = `<tr><td>${JSON.stringify(record)}</td></tr>`;
-                    html += `<tr>
-                        <th>${record['title']}</th>
-                        <th>${record['authors']}</th>
-                        <th><a href="${record['sourceUrl']}">링크</a></th>
-                        <th>제목</th><th>제목</th><th>제목</th><th>제목</th><tr>`;
-                });
-                table.innerHTML = html;
-                
-            }).catch((error) => {
+        searchClient.search(userQuery, begin, end, false, true)
+            .then(printSearchResult)
+            .catch((error) => {
                 console.log('Search, if error :');
                 console.log(error);
                 searchClient.setLoading(false);
+                loading.innerHTML = '<font style="color: red">error</font>';
             });
+    }
+
+    function onPageSizeChange() {
+        const currentPage = searchClient.getPageState().currentPage;
+        if (currentPage === 0) {
+            return;
+        }
+        const pageSize      = Number(document.getElementById("pageSize").value);        
+
+        searchClient.setPageSize(pageSize);
+        onPageClick(1);
+    }
+
+    function onPageClick(page) {
+        loading.innerHTML   = '<font style="color: orange;">loading</font>';
+
+        searchClient.retreive(page)
+            .then(printSearchResult)
+            .catch(onSearchError);
+    }
+
+    function printSearchResult(searchResult) {
+                    /* 출력하기 */
+                    console.log('출력 단계');
+                    const records   = searchResult['records'];
+                    const result    = document.getElementById('result');
+                    const table     = document.getElementById('contentTable');
+                    const pages     = document.getElementById('pagingContainer');
+                    const pageList  = searchClient.getPageList();
+
+                    result.innerHTML = `찾은 총 레코드 : ${searchResult['recordsFound']}`;
+                    pages.innerHTML = `
+                            ${pageList.slice(0, 10).map((e) => { 
+                                if (e == searchClient.getPageState().currentPage) return ` <span>${e}</span> `;
+                                else return ` <a onclick="onPageClick(${e})">${e}</a> `;
+                            }).join(' ')}
+                    `;
+
+                    let html = `<tr><th>제목</th><th>저자</th><th>인용 수</th><th>발행년월</th><th>볼륨</th><th>페이지</th><th>이슈</th><tr>`;
+                    records.forEach(record => {
+                        html += `<tr>
+                            <td><a href="${record['lamrData']&&record['lamrData']['sourceURL']||""}">${record['title']}</a></td>
+                            <td>${record['authors']}</td>
+                            <td>${record['lamrData']&&record['lamrData']['timesCited']||"0"}</td>
+                            <td>${record['source']['publishedYear']||""} ${record['source']['publishedDate']||""}</td>
+                            <td>${record['source']['volume']||""}</td>
+                            <td>${record['source']['pages']||""}</td>
+                            <td>${record['source']['issue']||""}</td>
+                        <tr>`;
+                    });
+                    table.innerHTML = html;
+                    
+                    loading.innerHTML = '<font style="color: green;">comleted</font>';
+    }
+
+    function onSearchError(error) {
+        const loading   = document.getElementById('loading');
+
+        console.log('Search, if error :');
+        console.log(error);
+        searchClient.setLoading(false);
+        loading.innerHTML = '<font style="color: red">error</font>';
     }
 </script>
 

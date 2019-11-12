@@ -1,0 +1,14 @@
+.controlled-shell-table {
+    width: 100%;
+    overflow-x: scroll;
+}
+.controlled-shell-table th, td {
+    text-align: left;
+    max-width: 100px;
+    /* text-overflow: ellipsis; */
+    overflow-x: scroll;
+    white-space: nowrap;
+    border-width: 1px;
+    padding: 5px;
+    border: 1px solid gray;
+}

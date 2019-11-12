@@ -163,7 +163,7 @@ a {
 
 /* Email Content Styles */
 .demo-content-header, .demo-content-body, .demo-content-footer {
-    padding: 1em 2em;
+    padding: 1em 0em;
 }
     .demo-content-header {
         border-bottom: 1px solid #ddd;
@@ -245,7 +245,7 @@ a {
         bottom: 0;
         left: 150px;
         overflow: auto;
-        width: auto; /* so that it's not 100% */
+        width: 95%; /* so that it's not 100% */
     }
 
 }
