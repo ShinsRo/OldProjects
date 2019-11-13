@@ -11,6 +11,6 @@ public class PaperSearchParameter {
 
     private Boolean isAsc;
     private String sortBy;
-    private Integer firstRecord;
+    private Integer page;
     private Integer count;
 }

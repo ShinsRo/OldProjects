@@ -3,6 +3,7 @@ package com.siotman.wos.yourpaper.controller;
 import com.siotman.wos.yourpaper.domain.dto.PaperSearchParameter;
 import com.siotman.wos.yourpaper.domain.entity.Paper;
 import com.siotman.wos.yourpaper.service.PaperService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,5 +23,10 @@ public class PaperController {
         Page<Paper> pages = paperService.search(paperSearchParameter);
         response = ResponseEntity.ok(pages);
         return response;
+    }
+
+    @Autowired
+    public PaperController(PaperService paperService) {
+        this.paperService = paperService;
     }
 }

@@ -1,5 +1,6 @@
 package com.siotman.wos.yourpaper.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.siotman.wos.yourpaper.domain.converter.JsonMapConverter;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
@@ -22,6 +23,7 @@ public class MemberPaper {
 
     @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "uid")
+    @JsonIgnoreProperties("users")
     private Paper paper;
 
     @Enumerated(EnumType.STRING)

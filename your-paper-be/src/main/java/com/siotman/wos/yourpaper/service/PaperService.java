@@ -19,7 +19,7 @@ public class PaperService {
         Page<Paper> searchResults = paperRepository.findAll(
                 PaperSpecification.searchPaperLike(parameter.getFieldName(), parameter.getValue()),
                 PageRequest.of(
-                        parameter.getFirstRecord(), parameter.getCount(),
+                        parameter.getPage(), parameter.getCount(),
                         (parameter.getIsAsc()) ? sortBy : sortBy.descending()
                 ));
 

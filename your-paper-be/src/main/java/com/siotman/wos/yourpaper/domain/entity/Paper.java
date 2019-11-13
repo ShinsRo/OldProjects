@@ -1,5 +1,7 @@
 package com.siotman.wos.yourpaper.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.siotman.wos.jaxws2rest.domain.dto.LamrResultsDto;
 import com.siotman.wos.jaxws2rest.domain.dto.LiteRecordDto;
 import com.siotman.wos.yourpaper.domain.converter.JsonListConverter;
@@ -32,6 +34,7 @@ public class Paper {
     private String timesCited;
 
     @OneToMany(mappedBy = "paper", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<MemberPaper> users;
 
     @Lob

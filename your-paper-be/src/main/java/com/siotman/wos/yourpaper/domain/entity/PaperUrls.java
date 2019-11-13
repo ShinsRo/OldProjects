@@ -1,5 +1,6 @@
 package com.siotman.wos.yourpaper.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.siotman.wos.jaxws2rest.domain.dto.LamrResultsDto;
 import lombok.*;
 
@@ -19,6 +20,7 @@ public class PaperUrls {
     private String relatedRecordsUrl;
 
     @OneToOne(mappedBy = "paperUrls")
+    @JsonIgnore
     private Paper paper;
 
     @Builder

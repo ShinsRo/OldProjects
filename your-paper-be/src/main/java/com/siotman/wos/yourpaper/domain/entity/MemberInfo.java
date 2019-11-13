@@ -1,5 +1,6 @@
 package com.siotman.wos.yourpaper.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.siotman.wos.yourpaper.domain.converter.JsonListConverter;
 import lombok.*;
 
@@ -31,6 +32,7 @@ public class MemberInfo {
     private List<String> organizationList;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "memberInfo")
+    @JsonIgnore
     private Member member;
 
     @Builder
