@@ -10,7 +10,6 @@ import com.siotman.wos.yourpaper.domain.entity.Paper;
 import com.siotman.wos.yourpaper.domain.entity.RecordState;
 import com.siotman.wos.yourpaper.repo.PaperRepository;
 import com.siotman.wos.yourpaper.service.AsyncParsingTriggerService;
-import com.siotman.wos.yourpaper.service.MemberPaperService;
 import com.siotman.wos.yourpaper.service.WokSearchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -118,7 +117,7 @@ public class AddJobConfig {
                         LiteRecordDto record        = records.get(i);
                         LamrResultsDto lamrRecord   = lamrRecords.get(i);
 
-                        Paper paper = Paper.buildWithCacheData(record, lamrRecord);
+                        Paper paper = Paper.buildWithWokResponse(record, lamrRecord);
                         newEntities.add(paper);
 
                         if (paper.getTimesCited().equals("0") || paper.getTimesCited().equals("")) {

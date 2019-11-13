@@ -84,7 +84,7 @@ public class Paper {
         this.paperUrls      = paperUrls;
     }
 
-    public static Paper buildWithCacheData(LiteRecordDto liteRecordDto, LamrResultsDto lamrResultsDto) {
+    public static Paper buildWithWokResponse(LiteRecordDto liteRecordDto, LamrResultsDto lamrResultsDto) {
         SourceInfo sourceInfo   = SourceInfo.buildWithCacheData(liteRecordDto);
         PaperUrls paperUrls     = PaperUrls.buildWithCacheData(lamrResultsDto);
 
