@@ -129,7 +129,7 @@ public class MemberPaperService {
         else                                member = memberOptional.get();
 
         Pageable pageable = PageRequest.of(
-                params.getFirstRecord(), params.getCount(),
+                params.getPage(), params.getCount(),
                 (params.getIsAsc())? Sort.by(params.getSortBy()).ascending() : Sort.by(params.getSortBy()).descending()
         );
         List<MemberPaper> memberPapers = memberPaperRepository.findAllByMember(member, pageable);

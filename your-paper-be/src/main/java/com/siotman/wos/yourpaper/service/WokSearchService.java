@@ -65,7 +65,7 @@ public class WokSearchService {
          * 	},
          *
          * 	"retrieveParameters": {
-         * 		"firstRecord": 1,
+         * 		"page": 1,
          * 		"count": 50
          * 	}
          * }
@@ -106,7 +106,7 @@ public class WokSearchService {
          * 	"queryId": "1",
          * 	"retrieveParameters": {
          * 		"queryId": "1",
-         * 		"firstRecord": 2,
+         * 		"page": 2,
          * 		"count": 20
          *        }
          * }

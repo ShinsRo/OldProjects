@@ -50,7 +50,7 @@ public class SearchTestUtil {
          * 	},
          *
          * 	"retrieveParameters": {
-         * 		"firstRecord": 1,
+         * 		"page": 1,
          * 		"count": 50
          * 	}
          * }

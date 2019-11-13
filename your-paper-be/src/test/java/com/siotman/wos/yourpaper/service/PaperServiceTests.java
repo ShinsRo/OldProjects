@@ -44,7 +44,7 @@ public class PaperServiceTests {
                             "\"value\":\"kim\"," +
                             "\"isAsc\":\"false\"," +
                             "\"sortBy\":\"timesCited\"," +
-                            "\"firstRecord\":\"0\"," +
+                            "\"page\":\"0\"," +
                             "\"count\":\"20\"" +
                         "}", PaperSearchParameter.class);
         Page<Paper> results = paperService.search(paperSearchParameter);

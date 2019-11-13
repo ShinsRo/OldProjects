@@ -10,6 +10,6 @@ public class MemberPaperQueryParameters {
 
     private String sortBy;
     private Boolean isAsc;
-    private Integer firstRecord;
+    private Integer page;
     private Integer count;
 }
