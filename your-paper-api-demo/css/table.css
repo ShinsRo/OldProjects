@@ -1,8 +1,10 @@
-.controlled-shell-table {
+
+
+.controlled-cell-table {
     width: 100%;
     overflow-x: scroll;
 }
-.controlled-shell-table th, td {
+.controlled-cell-table th, td {
     text-align: left;
     max-width: 100px;
     /* text-overflow: ellipsis; */
