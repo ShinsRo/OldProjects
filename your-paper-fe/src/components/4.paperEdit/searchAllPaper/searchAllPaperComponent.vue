@@ -1,22 +1,27 @@
 <template>
   <div class="searchAllPaperWrapper">
-    <div class="dropBoxContainer"       v-on:mouseover="isDropBoxShow=setTrue()"
-    v-on:mouseleave="isDropBoxShow=setFalse()">
-      <p class="dropBoxSelector">▼</p>
-      <div class="dropBoxOptionContainer" v-show="isDropBoxShow">
-        <div class="searchOption" v-on:click="selectCategory('title')">논문명</div>
-        <div class="searchOption" v-on:click="selectCategory('authorName')">저자</div>
-        <div class="searchOption" v-on:click="selectCategory('DOI')">DOI</div>
-        <div class="searchOption organizationOption" v-on:click="selectCategory('organization')">연구기관</div>
-      </div>
-    </div>
-    <div class="searchInputContainer">
-      <input class="searchInput" type="text" v-bind:placeholder="placeholder" v-model="searchPaperInput">
-    </div>
-    <div class="buttonContainer">
-      <button class="searchButton" type="button" v-on:click="searchOnWos()">Search</button>
-    </div>
+    <div class="left"></div>
+    <div class="middle"></div>
+    <div class="right"></div>
   </div>
+    <!-- <div class="searchAllPaperWrapper">
+      <div class="dropBoxContainer"       v-on:mouseover="isDropBoxShow=setTrue()"
+      v-on:mouseleave="isDropBoxShow=setFalse()">
+        <p class="dropBoxSelector">▼</p>
+        <div class="dropBoxOptionContainer" v-show="isDropBoxShow">
+          <div class="searchOption" v-on:click="selectCategory('title')">논문명</div>
+          <div class="searchOption" v-on:click="selectCategory('authorName')">저자</div>
+          <div class="searchOption" v-on:click="selectCategory('DOI')">DOI</div>
+          <div class="searchOption organizationOption" v-on:click="selectCategory('organization')">연구기관</div>
+        </div>
+      </div>
+      <div class="searchInputContainer">
+        <input class="searchInput" type="text" v-bind:placeholder="placeholder" v-model="searchPaperInput">
+      </div>
+      <div class="buttonContainer">
+        <button class="searchButton" type="button" v-on:click="searchOnWos()">Search</button>
+      </div>
+    </div> -->
 </template>
 
 <script>
