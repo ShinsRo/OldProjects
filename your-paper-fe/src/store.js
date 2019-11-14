@@ -44,7 +44,9 @@ export const store = new Vuex.Store({
       state.memberInfo.encodingAuthorization = payload
     },
     loadMyPaperMutation (state, payload) {
+      console.log('start')
       state.memberPaper = payload
+      console.log('end')
     }
   },
   actions: {
@@ -60,14 +62,12 @@ export const store = new Vuex.Store({
     loadMyPaperAction (context) {
       axios({
         method: 'POST',
-        // url: 'http://www.siotman.com:19401/myPaper/listAll',
-        // data: { username: context.state.memberInfo.username },
         url: 'http://www.siotman.com:19401/myPaper/listByPage', // 페이징 처리 URL
         data: {
           username: context.state.memberInfo.username,
           sortBy: 'paper.title',
           isAsc: true,
-          firstRecord: 0,
+          page: 0,
           count: 50
         },
         headers: {
@@ -75,7 +75,7 @@ export const store = new Vuex.Store({
           'Content-Type': 'application/json'
         }
       }).then(res => {
-        context.commit('loadMyPaperMutation', res.data)
+        context.commit('loadMyPaperMutation', res.data.content)
       }).catch(error => {
         console.log(error)
       })
