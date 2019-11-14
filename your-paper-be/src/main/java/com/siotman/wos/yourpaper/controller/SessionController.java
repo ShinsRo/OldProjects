@@ -1,11 +1,16 @@
 package com.siotman.wos.yourpaper.controller;
 import com.siotman.wos.yourpaper.domain.dto.MemberDto;
+import com.siotman.wos.yourpaper.domain.entity.MemberPaper;
 import com.siotman.wos.yourpaper.exception.MemberIsAlreadyPresentException;
 import com.siotman.wos.yourpaper.exception.NoSuchMemberException;
+import com.siotman.wos.yourpaper.service.MemberPaperService;
 import com.siotman.wos.yourpaper.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/auth")
@@ -13,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 public class SessionController {
     @Autowired
     MemberService memberService;
+    @Autowired
+    MemberPaperService memberPaperService;
 
     @PostMapping(value = "/login")
     public ResponseEntity<?> login(@RequestBody MemberDto dto) throws NoSuchMemberException {
@@ -32,6 +39,16 @@ public class SessionController {
         MemberDto savedMemberDto = memberService.register(dto);
 
         response = ResponseEntity.ok().body(savedMemberDto);
+        return response;
+    }
+
+    @PostMapping(value = "/autoSearchAndAdd")
+    public ResponseEntity<?> autoSearchAndAdd(MemberDto dto) throws IOException {
+        ResponseEntity<?> response;
+
+        List<MemberPaper> memberPapers = memberPaperService.searchAndAddByMember(dto);
+
+        response = ResponseEntity.ok(memberPapers);
         return response;
     }
 

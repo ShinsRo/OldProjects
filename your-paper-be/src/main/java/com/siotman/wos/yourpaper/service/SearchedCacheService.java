@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.List;
 
 @Service
 public class SearchedCacheService {
@@ -32,7 +31,7 @@ public class SearchedCacheService {
             e.printStackTrace();
         }
 
-        Paper newPaper = Paper.buildWithCacheData(liteRecordDto, lamrResultsDto);
+        Paper newPaper = Paper.buildWithWokResponse(liteRecordDto, lamrResultsDto);
         return newPaper;
     }
 

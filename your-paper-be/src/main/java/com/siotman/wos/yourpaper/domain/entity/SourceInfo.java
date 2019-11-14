@@ -1,5 +1,6 @@
 package com.siotman.wos.yourpaper.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.siotman.wos.jaxws2rest.domain.dto.LamrResultsDto;
 import com.siotman.wos.jaxws2rest.domain.dto.LiteRecordDto;
 import com.siotman.wos.yourpaper.domain.dto.SourceInfoDto;
@@ -19,6 +20,7 @@ public class SourceInfo {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "sourceInfo")
+    @JsonIgnore
     private Paper paper;
 
     @Column(length = 128)

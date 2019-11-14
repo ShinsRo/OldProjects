@@ -3,6 +3,7 @@ package com.siotman.wos.yourpaper.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.siotman.wos.jaxws2rest.domain.dto.LamrResultsDto;
+import com.siotman.wos.jaxws2rest.domain.dto.LiteRecordDto;
 import com.siotman.wos.jaxws2rest.domain.dto.SearchResultsDto;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -14,6 +15,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,13 +37,21 @@ public class WokSearchService {
     }
     public static ObjectMapper objectMapper = new ObjectMapper();
 
-    public WokSearchService() throws MalformedURLException {
+    public SearchResultsDto search(String userQuery,
+                                   String symbolicTimeSpan,
+                                   Integer firstRecord, Integer count) throws IOException {
+        return this.search(
+                userQuery,
+                null, null,
+                symbolicTimeSpan,
+                firstRecord, count
+        );
     }
 
-    public SearchResultsDto search(
-            String userQuery,
-            String begin, String end, String week,
-            Integer firstRecord, Integer count) throws IOException {
+    public SearchResultsDto search(String userQuery,
+                                   String begin, String end,
+                                   String symbolicTimeSpan,
+                                   Integer firstRecord, Integer count) throws IOException {
         /** WokService/search 예시
          * {
          * 	"queryParameters": {
@@ -70,8 +80,8 @@ public class WokSearchService {
         queryParameters.put("userQuery", userQuery);
         queryParameters.put("queryLanguage", "en");
 
-        if          (week != null) {
-            queryParameters.put("symbolicTimeSpan", week);
+        if          (symbolicTimeSpan != null) {
+            queryParameters.put("symbolicTimeSpan", symbolicTimeSpan);
         } else if   (begin != null && end != null){
             timeSpan.put("begin", begin);
             timeSpan.put("end", end);
@@ -125,6 +135,15 @@ public class WokSearchService {
 
         List<LamrResultsDto> lamrRecords = objectMapper.readValue(lamrResponseBody, new TypeReference<List<LamrResultsDto>>(){});
         return lamrRecords;
+    }
+
+    public List<LamrResultsDto> getLamrData(SearchResultsDto searchResults) throws IOException {
+        List<String> uids = searchResults.getRecords()
+                .stream()
+                .map(LiteRecordDto::getUid)
+                .collect(Collectors.toList());
+
+        return getLamrData(uids);
     }
 
     private String _postRequest(URL url, Map requestBodyMap) throws IOException {

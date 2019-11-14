@@ -51,9 +51,6 @@
                 </div>
 
                 <div class="demo-content-controls pure-u">
-                    <!-- <button class="secondary-button pure-button">Reply</button>
-                    <button class="secondary-button pure-button">Forward</button>
-                    <button class="secondary-button pure-button">Move to</button> -->
                 </div>
             </div>
             
@@ -85,10 +82,20 @@
                     <option value="50">50</option>
                 </select>
                 <div id="pagingContainer"></div><br/>
-                <table id="contentTable" class="controlled-shell-table">
+                <table id="contentTable" class="controlled-cell-table">
                     <tr><th>제목</th><th>저자</th><th>인용 수</th><th>발행년월</th><th>볼륨</th><th>페이지</th><th>이슈</th><tr>
                 </table>
-            </t>
+                <br/>
+                <hr/>
+                <hr/>
+                <div>존재하는 사용자(교수님)에게 논문 추가하기</div>
+                <hr/>
+                <form id="loginForm" name="login">
+                    유저아이디 : <input type="text" name="username"/><br/>
+                    논문아이디 : <input type="text" name="uid"/><br/>
+                    <button onclick="">추가하기</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -98,7 +105,7 @@
 
 <script>
     // 검색 클라이언트
-    const SERVER_URL = 'http://localhost:19400'
+    const SERVER_URL = 'http://www.siotman.com:19400/'
     const searchClient = new WokSearchClient(SERVER_URL);
     
     function onQuery() {
@@ -137,7 +144,6 @@
         /* 1. 인풋 값을 userQuery로 변형하기 */
         console.log('최초 검색 프로세스 :');
         const userQuery = searchClient.buildUserQuery(category, query, organizations);
-        // const organizations = ['Sejong Univ'];
 
         // 2. 검색 시작
         searchClient.search(userQuery, begin, end, false, true)
