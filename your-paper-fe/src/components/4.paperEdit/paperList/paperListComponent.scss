@@ -14,15 +14,13 @@
 
     .column {
       width: 23%;
-      border: 1px solid red;
       display: flex;
       justify-content: center;
 
-      .paperTitleColumn, .paperAuthorColumn, .paperDOIColumn,.paperURLColumn {
+      .paperTitleColumn, .paperAuthorColumn, .paperDateColumn,.paperURLColumn {
         display: flex;
         align-items: center;
         width: 90%;
-        border: 1px solid blue;
         font-size: 1.3em;
         color: $basicIndigo;
         font-weight: bold;
@@ -33,24 +31,37 @@
   .paperListContainer {
     width: 100%;
 
+    .resultSearch {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .notFound {
+        margin: 15px 0 15px 0;
+        font-size: 1.5em;
+        color: $basicGray;
+      }
+    }
+
     .paperList {
       width: 100%;
       height: inherit;
       display: flex;
       flex-direction: row;
       
-      .paperTitle, .paperAuthor, .paperDOI, .paperURL {
+      .paperTitle, .paperAuthor, .paperDate, .paperURL {
         width: 23%;
-        border: 1px solid red;
         display: flex;
         flex-direction: column;
         align-items: center;
       }
 
       .paperTitle {
+
         .showSomeTitle {
-          border: 1px solid blue;
           width: 90%;
+          height: 30px;
           overflow: hidden;
           margin:5px 0 5px 0;
           font-size: 1.2em;
@@ -58,30 +69,36 @@
         }
 
         &:hover {
+          .showSomeTitle {
+            color:$basicOrange;
+          }
+
           .showAllTitle {
             visibility: visible;
-            width: 90%;
-            height: auto;
+            background-color: $basicWhite;
+            position: relative;
+            left: 155%;
+            width: 400%;
+            height: 30px;
             color: $basicOrange;
-            border: 1px solid blue;
-            margin:5px 0 5px 0;
-            word-break: break-all;
-            font-size: 1.2em;
+            // margin:5px 0 5px 0;
+            word-break: keep-all;
+            // font-size: 1.2em;
             font-weight: bold;
           }
         }
 
         .showAllTitle {
-          visibility: hidden;
+          visibility: collapse;
           width: 0;
-          height: 0;
+          height: 0px;
         }
       }
 
       .paperAuthor {
         .showSomeAuthor {
-          border: 1px solid blue;
           width: 90%;
+          height: 30px;
           overflow: hidden;
           margin: 5px 0 5px 0;
           font-size: 1.2em;
@@ -91,10 +108,12 @@
         &:hover {
           .showAllAuthor {
             visibility: visible;
-            width: 90%;
+            background-color: $basicWhite;
+            position: relative;
+            left: 52%;
+            width: 395%;
             height: auto;
             color: $basicOrange;
-            border: 1px solid blue;
             margin:5px 0 5px 0;
             word-break: break-all;
             font-size: 1.2em;
@@ -109,39 +128,19 @@
         }
       }
 
-      .paperDOI {
-        .showSomeDOI {
-          border: 1px solid blue;
+      .paperDate {
+        .showSomeDate {
           width: 90%;
+          height: 30px;
           overflow: hidden;
           margin: 5px 0 5px 0;
           font-size: 1.2em;
           font-weight: bold;
         }
-
-        &:hover {
-          .showAllDOI {
-            visibility: visible;
-            width: 90%;
-            height: auto;
-            color: $basicOrange;
-            border: 1px solid blue;
-            margin:5px 0 5px 0;
-            word-break: break-all;
-            font-size: 1.2em;
-            font-weight: bold;
-          }
-        }
-
-        .showAllDOI {
-          visibility: hidden;
-          width: 0;
-          height: 0;
-        }
       }
       .paperURL {
         .showSomeURL {
-          border: 1px solid blue;
+          height: 30px;
           font-size: 1.2em;
           font-weight: bold;
           width: 90%;
@@ -152,10 +151,12 @@
         &:hover {
           .showAllURL {
             visibility: visible;
-            width: 90%;
+            background-color: $basicWhite;
+            position: relative;
+            left: -150%;
+            width: 395%;
             height: auto;
             color: $basicOrange;
-            border: 1px solid blue;
             margin:5px 0 5px 0;
             word-break: break-all;
             font-size: 1.2em;
@@ -185,6 +186,17 @@
           border-radius: 10px;
           outline: none;
           font-size: 1.3em;
+          font-weight: bold;
+          color: $basicWhite;
+        }
+        .removeButton {
+          width: 92%;
+          height: 30px;
+          background-color: $basicIndigo;
+          border: $basicIndigo;
+          border-radius: 10px;
+          outline: none;
+          font-size: 1.1em;
           font-weight: bold;
           color: $basicWhite;
         }
