@@ -86,6 +86,7 @@
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="./api/wos-api.js"></script>
+<script src="./api/paper-api.js"></script>
 
 <script>
     const pageState = {
@@ -94,11 +95,30 @@
         totalPages: 0,
         pageList: [],
         pageListStart: 0,
-    }
+    };
+    let records = [];
     // 검색 클라이언트
     const SERVER_URL = 'http://localhost:9401/'
     
+    const paperContainer = new PaperRecordContainer('data5000', 'data5000', SERVER_URL);
+    function listByPage(page) {
+    // //      0    1      2      3     4
+    //         '행', 'UID', 'DOI', '제목', '링크',
+    // //      5        6          7      8
+    //         '교신저자', '저자 상태', '저자', '인용수',
+    // //      9        10      11   12    13
+    //         '발행년월', '저녈명', '권', '호', '페이지',
+    // //      14        15     16    17       18
+    //         '월별피인용', '등급', 'IF', '백분율', '파싱 상태',
+        paperContainer.listByPage(page, 50, 'paper.title', true).then(res => {
+            console.log(paperContainer.getHeaders([3, 4, 7, 9]));
+            console.log(paperContainer.getRecords([3, 4, 7, 9]));
+            return '';
+        });
+    }
+
     function onQuery(page) {
+        listByPage(page); return;
         const loading   = document.getElementById('loading');
         loading.innerHTML = '<font style="color: orange;">loading</font>';
 
@@ -161,7 +181,7 @@
         console.log('출력 단계');
         console.log(resultPage);
         
-        const records   = resultPage['content'];
+        records   = resultPage['content'];
         const result    = document.getElementById('result');
         const table     = document.getElementById('contentTable');
         const pages     = document.getElementById('pagingContainer');
@@ -175,23 +195,45 @@
                 }).join(' ')}
         `;
 
-        let html = `<tr><th>제목</th><th>저자</th><th>인용 수</th><th>발행년월</th><th>볼륨</th><th>페이지</th><th>이슈</th><tr>`;
-        records.forEach(record => {
+        let html = `<tr>
+                <th>제목</th><th>저자</th><th>인용 수</th><th>발행년월</th><th>볼륨</th><th>페이지</th><th>이슈</th>
+                <th>월별 피인용</th><th>교신저자</th><th>등급</th><th>백분율</th><th>IF</th>
+            <tr>`;
+        records.forEach((record, idx) => {
             html += `<tr>
-                <td><a href="${record['paperUrls']&&record['paperUrls']['sourceURL']||""}">${record['title']}</a></td>
+                <td><a href="${record['paperUrls'] && record['paperUrls']['sourceUrl']||""}">${record['title']}</a></td>
                 <td>${record['authorListJson']}</td>
                 <td>${record['timesCited']||"0"}</td>
                 <td>${record['sourceInfo']['publishedYear']||""} ${record['sourceInfo']['publishedDate']||""}</td>
                 <td>${record['sourceInfo']['volume']||""}</td>
                 <td>${record['sourceInfo']['pages']||""}</td>
                 <td>${record['sourceInfo']['issue']||""}</td>
+                <td><a onclick="popUpTcData(${idx})">보기</a></td>
+                <td>${record['parsedData'] && record['parsedData']['reprint']}</td>
+                <td>${record['parsedData'] && record['parsedData']['grades'].join(' ')}</td>
+                <td>${record['parsedData'] && record['parsedData']['journalImpactJson'] && JSON.stringify(record['parsedData']['journalImpactJson']['jcrDataByYear'])}</td>
+                <td>${record['parsedData'] && record['parsedData']['journalImpactJson'] && JSON.stringify(record['parsedData']['journalImpactJson']['impactFactorByYear'])}</td>
             <tr>`;
         });
         table.innerHTML = html;
-        
         loading.innerHTML = '<font style="color: green;">comleted</font>';
     }
-
+    function popUpTcData(idx) {
+        if (!records[idx]['parsedData']) return alert('파싱된 데이터가 없음');
+        const tcData = records[idx]['parsedData']['tcDataJson'];
+        const message = `${Object.keys(tcData).map(year => {
+                let none = tcData[year][year];
+                if (none) delete tcData[year][year];
+                let byMonth = Object.keys(tcData[year]).map(month => {
+                    return `${month} : ${tcData[year][month]}`;
+                }).join(' | ');
+                if (none) byMonth += ' | noMonth : ' + none;
+                none = '';
+                return `${year} : ${byMonth}`;
+            }).join('\n')}
+        `;
+        alert(message);
+    }
     function onSearchError(error) {
         const loading   = document.getElementById('loading');
 
