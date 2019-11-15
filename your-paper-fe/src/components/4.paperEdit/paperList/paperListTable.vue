@@ -30,10 +30,9 @@
       </tr>
       <tr v-if="showFlag">
         <td class="allData" colspan="5">
-          {{ this.showData[0] }} <br>
-          {{ this.showData[2].join(', ') }} <br>
-          {{ this.showData[3] }} <br>
-          {{ this.showData[1] }}
+          {{ this.showData[0] }} <hr>
+          {{ this.showData[2].join(', ') }} <hr>
+          {{ this.showData[3] }}
         </td>
       </tr>
       <tbody>
@@ -54,7 +53,7 @@
 </template>
 
 <script>
-// import { PaperRecordContainer } from '../../../../public/apis/api/paper-api.js'
+import { PaperRecordContainer } from '../../../../public/apis/api/paper-api.js'
 
 export default {
   name: 'paperList',
@@ -101,8 +100,8 @@ export default {
       }
     },
     nextPage () {
-      // const paperContainer = new PaperRecordContainer('data5000', 'data5000', 'http://www.siotman.com:19401/')
-      // console.log(paperContainer.getRawResponse())
+      const paperContainer = new PaperRecordContainer('data5000', 'data5000', 'http://www.siotman.com:19401/')
+      console.log(paperContainer.getRawResponse())
       this.$store.dispatch('loadMyPaperAction', this.nowPage + 1)
       this.nowPage += 1
     }

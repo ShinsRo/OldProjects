@@ -1,27 +1,32 @@
 <template>
-  <div class="searchAllPaperWrapper">
-    <div class="left"></div>
-    <div class="middle"></div>
-    <div class="right"></div>
-  </div>
-    <!-- <div class="searchAllPaperWrapper">
-      <div class="dropBoxContainer"       v-on:mouseover="isDropBoxShow=setTrue()"
-      v-on:mouseleave="isDropBoxShow=setFalse()">
-        <p class="dropBoxSelector">▼</p>
-        <div class="dropBoxOptionContainer" v-show="isDropBoxShow">
-          <div class="searchOption" v-on:click="selectCategory('title')">논문명</div>
-          <div class="searchOption" v-on:click="selectCategory('authorName')">저자</div>
-          <div class="searchOption" v-on:click="selectCategory('DOI')">DOI</div>
-          <div class="searchOption organizationOption" v-on:click="selectCategory('organization')">연구기관</div>
-        </div>
-      </div>
+  <div class="searchOnWOSWrapper">
+    <div class="category">
+      <select class="options" v-model="category">
+        <option selected disabled value="">카테고리</option>
+        <option value="title">논문제목</option>
+        <option value="title">저자</option>
+        <option value="DOI">DOI</option>
+      </select>
+      <select class="organization" v-model="organization">
+        <option selected disabled value="">기관</option>
+        <option value="sejong">세종대학교</option>s
+        <option value="Konkuk">건국대학교</option>
+        <option value="Seoul">서울대학교</option>
+      </select>
+    </div>
+    <div class="inputs">
       <div class="searchInputContainer">
-        <input class="searchInput" type="text" v-bind:placeholder="placeholder" v-model="searchPaperInput">
+        <input class="searchInputBox" type="text" v-bind:placeholder="placeholder" v-model="searchData">
       </div>
-      <div class="buttonContainer">
-        <button class="searchButton" type="button" v-on:click="searchOnWos()">Search</button>
+      <div class="dateInputContainer">
+        <input class="startDate" type="text" placeholder="시작날짜 yyyy-mm-dd" v-model="startDate">
+        <input class="endDate" type="text" placeholder="끝 날짜 yyyy-mm-dd" v-model="endDate">
       </div>
-    </div> -->
+    </div>
+    <div class="button">
+      <button class="searchButton" type="button">Search</button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -29,15 +34,19 @@ export default {
   name: 'searchAllPaperComponent',
   data () {
     return {
-      isDropBoxShow: false,
-      placeholder: '제목, 저자, DOI, 연구기관',
-      searchInput: {
-        title: false,
-        authorName: false,
-        DOI: false,
-        organization: false
-      },
-      searchPaperInput: ''
+      category: '',
+      organization: '',
+      searchData: '',
+      startDate: '',
+      endDate: '',
+      placeholder: '제목, 저자, DOI를 입력해주세요'
+      // searchInput: {
+      //   title: false,
+      //   authorName: false,
+      //   DOI: false,
+      //   organization: false
+      // },
+      // searchPaperInput: ''
     }
   },
   methods: {
