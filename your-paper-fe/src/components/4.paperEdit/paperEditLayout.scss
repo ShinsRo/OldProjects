@@ -10,6 +10,7 @@
     height: 55px;
     display: flex;
     align-items: center;
+    margin: 5px 0 10px 0;
 
     .title{
       font-size: 30px;
@@ -17,6 +18,11 @@
       font-weight: bold;
     }
   }
+
+  // .searchOnWOSComponent {
+  //   width: 100%;
+  //   height: 80px;
+  // }
 
   // .saveButton {
   //   width: 7%;

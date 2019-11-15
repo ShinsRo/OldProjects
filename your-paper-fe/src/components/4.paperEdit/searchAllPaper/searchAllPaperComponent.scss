@@ -1,93 +1,91 @@
 @import '../../BasicStyle/BasicStyle.scss';
 
-.searchAllPaperWrapper {
+.searchOnWOSWrapper {
   width: 100%;
-  height: 80px;
   display: flex;
   flex-direction: row;
+
+  .category {
+    width: 15%;
+    margin-right: 2px;
+    display: flex;
+    flex-direction: column;
+
+    .options {
+      width: 100%;
+      height: 40px;
+      margin-bottom: 2px;
+      border-radius: 10px;
+      outline: none;
+      display: flex;
+    }
   
+    .organization {
+      width: 100%;
+      height: 40px;
+      margin-top: 2px;
+      border-radius: 10px;
+      outline: none;
+    }
+  }
+
+  .inputs {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 2px;
+
+    .searchInputContainer {
+      width: 100%;
+      margin-bottom: 2px;
+
+      .searchInputBox {
+        width: 98.5%;
+        height: 38px;
+        border-radius: 10px;
+        outline: none;
+        padding-left: 10px;
+      }
+    }
+
+    .dateInputContainer {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      
+      .startDate {
+        width: 50%;
+        height: 38px;
+        border-radius: 10px;
+        outline: none;
+        padding-left: 10px;
+        margin-right: 2px;
+      }
+
+      .endDate {
+        width: 50%;
+        height: 38px;
+        border-radius: 10px;
+        outline: none;
+        padding-left: 10px;
+        margin-left: 2px;
+      }
+    }
+  }
+
+  .button {
+    width: 15%;
+    margin-left: 6px;
+
+    .searchButton {
+      width: 100%;
+      height: 84px;
+      background-color: $basicIndigo;
+      border: none;
+      border-radius: 10px;
+      color: $basicWhite;
+      font-size: 1.6em;
+      outline: none;
+    }
+  }
 }
-  // .searchAllPaperWrapper {
-  //   width: 100%;
-  //   height: 40px;
-  //   display: flex;
-  //   flex-direction: row;
-  //   border: 3px solid $basicIndigo;
-  
-  //   .dropBoxContainer {
-  //     width: 10%;
-  //     height: inherit;
-  //     border-right: 3px solid $basicIndigo;
-  //     z-index: 999;
-  
-  //     .dropBoxSelector {
-  //       margin: 0 0 2px 0;
-  //       color: $basicIndigo;
-  //       font-size: 1.8em;
-  //       display: flex;
-  //       justify-content: center;
-  //       align-items: center;
-  //     }
-  
-  //     .dropBoxOptionContainer {
-  //       width: 90%;
-  //       height: auto;
-  //       border: 3px solid $basicIndigo;
-  //       border-radius: 10px;
-  //       display: flex;
-  //       flex-direction: column;
-  //       justify-content: center;
-  //       align-items: center;
-  //       background-color: $basicIndigo;
-    
-  //       .searchOption {
-  //         width: 100%;
-  //         height: 30px;
-  //         color: $basicWhite;
-  //         font-weight: bold;
-  //         font-size: 1.2em;
-  //         border-bottom: 1px solid $basicWhite;
-  //         display: flex;
-  //         justify-content: center;
-  //         align-items: center;
-  //       }
-  
-  //       .organizationOption {
-  //         border: 0;
-  //       }
-  //     }
-  //   }
-  
-  //   .searchInputContainer {
-  //     width: 80%;
-  //     height: inherit;
-  
-  //     .searchInput {
-  //       display: flex;
-  //       border: 0;
-  //       outline: none;
-  //       font-size: 1.3em;
-  //       padding-left: 15px;
-  //       justify-content: center;
-  //       align-items: center;
-  //       width: 100%;
-  //       height: 95%;
-  //     }
-  //   }
-  
-  //   .buttonContainer {
-  //     width: 10%;
-  //     height: inherit;
-  
-  //     .searchButton {
-  //       width: 100%;
-  //       height: 100%;
-  //       background-color: $basicIndigo;
-  //       border: $basicIndigo;
-  //       outline: none;
-  //       font-size: 1.3em;
-  //       color: $basicWhite;
-  //       font-weight: bold;
-  //     }
-  //   }
-  // }
