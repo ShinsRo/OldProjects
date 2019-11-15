@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
+import { SORT_MP_ENUM, PaperRecordContainer } from '../public/apis/api/paper-api.js'
 
 Vue.use(Vuex)
 
@@ -44,9 +44,7 @@ export const store = new Vuex.Store({
       state.memberInfo.encodingAuthorization = payload
     },
     loadMyPaperMutation (state, payload) {
-      console.log('start')
       state.memberPaper = payload
-      console.log('end')
     }
   },
   actions: {
@@ -59,23 +57,10 @@ export const store = new Vuex.Store({
     logoutAction (context) {
       context.commit('memberInfoResetMutation')
     },
-    loadMyPaperAction (context) {
-      axios({
-        method: 'POST',
-        url: 'http://www.siotman.com:19401/myPaper/listByPage', // 페이징 처리 URL
-        data: {
-          username: context.state.memberInfo.username,
-          sortBy: 'paper.title',
-          isAsc: true,
-          page: 0,
-          count: 50
-        },
-        headers: {
-          'Authorization': context.state.memberInfo.encodingAuthorization,
-          'Content-Type': 'application/json'
-        }
-      }).then(res => {
-        context.commit('loadMyPaperMutation', res.data.content)
+    loadMyPaperAction (context, page) {
+      const paperContainer = new PaperRecordContainer('data5000', 'data5000', 'http://www.siotman.com:19401/')
+      paperContainer.listByPage(page, 10, SORT_MP_ENUM.TITLE, true).then(res => {
+        context.commit('loadMyPaperMutation', paperContainer)
       }).catch(error => {
         console.log(error)
       })
