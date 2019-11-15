@@ -1,6 +1,6 @@
+/* eslint-disable */
 import axios from 'axios'
 
-/* eslint-disable */
 export class WokSearchClient {
     constructor(SERVER_URL) {
         this.SERVER_URL     = SERVER_URL;
@@ -10,6 +10,21 @@ export class WokSearchClient {
         this.totalStep      = 1;
         this.timeSpanRegex  = /^\d{4}-\d{2}-\d{2}$/;
         this.records        = [];
+        this.rawRecords     = [];
+        this.ColEnum = {
+            header: [
+        //      0    1      2      3     4
+                '행', 'UID', 'DOI', '제목', '링크',
+        //      5        6          7      8
+                '교신저자', '저자 상태', '저자', '인용수',
+        //      9        10      11   12    13
+                '발행년월', '저녈명', '권', '호', '페이지',
+        //      14        15     16    17       18
+                '월별피인용', '등급', 'IF', '백분율', '파싱 상태',
+        //      19      20      21
+                'issn', 'isbn', 'eissn'
+            ]
+        };
         this.pageState = {
             pageSize        : 10,
             currentPage     : 0,
@@ -22,7 +37,25 @@ export class WokSearchClient {
         this.currentQueryId = 0;
         this.currentSid = 0;
     }
+    // ex. [1, 2, 3, 6, 10]
 
+    getHeaders(filter) {
+        const filterSet = new Set(filter);
+        return this.ColEnum.header.filter((e, idx) => {
+            if (filterSet.has(idx)) return true;
+            else                    return false;
+        });
+    }
+
+    getRecords(filter) {
+        const filterSet = new Set(filter);
+        return this.records.map(record => {
+            return record.filter((e, idx) => {
+                if (filterSet.has(idx)) return true;
+                else                    return false;
+            });
+        });
+    }
     getPageState() {
         return {...this.pageState};
     }
@@ -45,21 +78,71 @@ export class WokSearchClient {
         while (i <= endPage) { pageList.push(i++); }
 
         this.records    = [];
+        this.rawRecords = [];
         this.currentSid = sid;
         this.currentQueryId = queryId;
         this.sortField  = [];
         this.pageState = {...this.pageState, recordsFound, firstRecord, currentPage, pageList, endPage};
     }
 
+    transform() {
+        this.records = this.rawRecords.map((raw, idx) => {
+            return this.transformRecord(raw, idx);
+        });
+    }
+
+    transformRecord(raw, idx) {
+    [
+    //      0    1      2      3     4
+            '행', 'UID', 'DOI', '제목', '링크',
+    //      5        6          7      8
+            '교신저자', '저자 상태', '저자', '인용수',
+    //      9        10      11   12    13
+            '발행년월', '저녈명', '권', '호', '페이지',
+    //      14        15     16    17       18
+            '월별피인용', '등급', 'IF', '백분율', '파싱 상태',
+    //      19      20      21
+            'issn', 'isbn', 'eissn'
+    ]
+        const rowNo = this.pageState.firstRecord + idx;
+        const source = raw.source;
+        const lamrData = raw.lamrData;
+        
+        const result = [
+            rowNo,  raw.uid,    raw.doi,    raw.title,  '',
+            '',     '',         '',         '',
+            '',     '',         '',         '',         '',
+            '',     '',         '',         '',         '',
+            '',     '',         ''
+        ];
+
+
+        if (lamrData) {
+            result[4]   = `${lamrData.sourceURL}`;
+        }
+        if (source) {
+            result[9]   = `${source['publishedYear']} ${source['publishedDate']}`.trim();
+            result[10]  = `${source['sourceTitle'] || ''}`;
+            result[11]  = `${source['volume']   || ''}`;
+            result[12]  = `${source['issue']    || ''}`;
+            result[13]  = `${source['pages']    || ''}`;
+
+            result[19]  = `${source['issn']    || ''}`;
+            result[20]  = `${source['isbn']    || ''}`;
+            result[21]  = `${source['eissn']   || ''}`;
+        }
+        return result;
+    }
+
     setRecords(origin) {
         origin.forEach((record, idx) => {
-            this.records[idx] = record;
+            this.rawRecords[idx] = record;
         });
     }
 
     updateRecords(linksData) {
         linksData.forEach((record, idx) => {
-            this.records[idx]['lamrData'] = record;
+            this.rawRecords[idx]['lamrData'] = record;
         })
     }
 
@@ -132,7 +215,6 @@ export class WokSearchClient {
         if (this.sortField) retrieveParameters['sortField'] = this.sortField;
 
         const data = {queryParameters, retrieveParameters};
-        console.log(data);
         
         return axios.post(this.SERVER_URL + 'WokSearchService/search', data).then((response) => {
             this.step       = 1;
@@ -152,7 +234,7 @@ export class WokSearchClient {
 
             this.initQueryState(sid, queryId, recordsFound);
             this.setRecords(searchResult['records']);
-
+            
             // 검색 결과에 대해 페이지가 몇개인지 확인할 수 있음
             // console.log(this.getPageState());
             
@@ -170,6 +252,7 @@ export class WokSearchClient {
                     this.updateRecords(linksData);
                 });
             }
+            this.transform();
             this.step = 5;
             this.setLoading(false);
             return searchResult;
@@ -243,4 +326,3 @@ export class WokSearchClient {
         return axios.post(this.SERVER_URL + 'LamrService/lamrCorCollectionData', data);
     }
 }
-/* eslint no-use-before-define: 2 */
