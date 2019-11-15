@@ -1,6 +1,6 @@
 <template>
     <div>
-      <headerComponent id="header" v-on:changeFlag="changeComponent"></headerComponent>
+      <headerComponent id="header" v-on:changeFlag="changeComponent" :user-info="userInfo"></headerComponent>
       <div id="contentOuter">
         <search-my-paper-layout id="searchMyPaper" v-if="flag===1"></search-my-paper-layout>
         <!-- <paperStatics></paperStatics> 내 논문 통계-->
@@ -26,13 +26,19 @@ export default {
   },
   data () {
     return {
-      flag: 1
+      flag: 1,
+      userInfo: []
     }
   },
   methods: {
     changeComponent (val) {
       this.flag = val
     }
+  },
+  mounted(){
+    this.userInfo = this.$store.getters.memberInfoGetter;
+    console.log('hi', this.$store.getters.member);
+
   }
 }
 </script>

@@ -25,6 +25,9 @@ export const store = new Vuex.Store({
     }, // memberInfo내 memberInfoDto를 가져오는 getter
     memberInfoEncodingGetter (state) {
       return state.memberInfo.encodingAuthorization
+    },
+    memberPaperGetter (state){
+      return state.memberPaper
     }
   },
   mutations: {
@@ -39,7 +42,8 @@ export const store = new Vuex.Store({
     },
     encodingMutation (state, payload) {
       state.memberInfo.encodingAuthorization = payload
-    }
+    },
+
   },
   actions: {
     loginAction (context, payload) {
