@@ -58,7 +58,10 @@ export const store = new Vuex.Store({
       context.commit('memberInfoResetMutation')
     },
     loadMyPaperAction (context, page) {
-      const paperContainer = new PaperRecordContainer('data5000', 'data5000', 'http://www.siotman.com:19401/')
+      const token = sessionStorage.getItem('token')
+      const Session = JSON.parse(sessionStorage.getItem('data'))
+
+      const paperContainer = new PaperRecordContainer(Session.username, token, 'http://www.siotman.com:19401/')
       paperContainer.listByPage(page, 10, SORT_MP_ENUM.TITLE, true).then(res => {
         context.commit('loadMyPaperMutation', paperContainer)
       }).catch(error => {
