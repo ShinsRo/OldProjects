@@ -39,6 +39,7 @@ export default {
           },
           headers: { Authorization: `Basic ${btoa(`${this.user.id}:${this.user.password}`)}` }
         }).then(res => {
+          this.sessionSet(res, `Basic ${btoa(`${this.user.id}:${this.user.password}`)}`)
           this.$store.dispatch('loginAction', res.data)
           this.$store.dispatch('encodingAction', `Basic ${btoa(`${this.user.id}:${this.user.password}`)}`)
           if (this.$store.getters.memberInfoDtoGetter !== null) {
@@ -50,6 +51,10 @@ export default {
           this.wrongMessage = '아이디와 비밀번호를 확인해주세요'
         })
       }
+    },
+    sessionSet (res, encodingData) {
+      sessionStorage.setItem('data', JSON.stringify(res.data))
+      sessionStorage.setItem('token', encodingData)
     }
   }
 }
