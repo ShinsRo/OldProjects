@@ -51,13 +51,12 @@
     </div>
     <paperDataComponent class="paperComponentLayout"
     :view-toggle="viewToggle"
-    v-for="paper in paperData" :key="paper"></paperDataComponent>
-    <paperDataComponent class="paperComponentLayout" :view-toggle="viewToggle"></paperDataComponent>
-    <paperDataComponent class="paperComponentLayout" :view-toggle="viewToggle"></paperDataComponent>
+    v-for="paper in paperData" :paper="paper"></paperDataComponent>
   </div>
 </template>
 
 <script>
+import { PaperRecordContainer, SORT_MP_ENUM } from '../../../../public/apis/api/paper-api.js'
 import paperDataComponent from './paperData/paperDataComponent.vue'
 export default {
   name: 'MainList',
@@ -74,10 +73,26 @@ export default {
         url: true
       },
       paperData: {}
+
     }
   },
   mounted () {
-    this.$axios.post('http://172.16.21.6:9401/myPaper/list', {
+    const username = 'data5000'
+    const password = 'data5000'
+    const SERVER_URL = 'http://www.siotman.com:19401/'
+    const container = new PaperRecordContainer(username, password, SERVER_URL);
+
+    container.listByPage(0, 10 ,SORT_MP_ENUM.TITLE, true)
+      .then(res =>{
+        const records = container.getRecords([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 18])
+        const headers = container.getHeaders([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 18])
+
+        this.paperData = records
+        console.log(this.paperData);
+        console.log(headers)
+      })
+
+    /*this.$axios.post('http://172.16.21.6:9401/myPaper/list', {
       username: 'admin' },
     {
       headers: {
@@ -86,7 +101,7 @@ export default {
       } })
       .then(response => {
         this.paperData = response.data
-      })
+      })*/
   }
 }
 </script>

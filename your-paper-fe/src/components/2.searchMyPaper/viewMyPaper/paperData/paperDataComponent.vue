@@ -2,27 +2,29 @@
   <div id="paperComponent">
     <div id="paperStatus">
       <div class="status first" v-if="viewToggle.authorStatus">
-        주 저자
+        {{paper[3]}}
       </div>
       <div class="status" v-if="viewToggle.loadStatus">
-        completed
+        {{paper[12]}}
       </div>
     </div><!--논문 상태-->
     <div id="paperTitle">
-      선행 관광행동 연구의 비판적 고찰: Annals of Tourism Research 의 연구논문을 중심으로
+      {{paper[0]}}
     </div> <!--논문 제목-->
     <div id="paperInfo">
-      <p class="info">
-        고용석
+      <p v-if='paper[2] !==""' class="info mainAuthor">
+        "{{paper[2]}}"
       </p>
-      <p class="info">
-        - 1999
+      <p v-for="i in paper[4].length" v-if='i<3 && i<=paper[4].length'> "{{paper[4][i-1]}}"&nbsp</p>
+      <p v-if="paper[4].length-2>0"> 외 {{paper[4].length -2}} 명</p>
+      <p class="info" v-if="paper[6] != ''">
+        / {{paper[6]}}
       </p>
       <p class="info" v-if="viewToggle.quotation">
-        / 83회 인용
+        / {{paper[5]}}회 인용
       </p>
       <p class="info" v-if="viewToggle.pages">
-        / 1권, 3호, 299페이지
+        / {{paper[8]}}권, {{paper[9]}}호, {{paper[10]}}페이지
       </p>
     </div><!--논문 세부 정보-->
     <div id="paperURL" v-if="viewToggle.url">
@@ -35,9 +37,8 @@
 export default {
   name: 'PaperComponent',
   props: ['viewToggle', 'paper'],
-  mount(){
-    console.log("hi", paper)
-  }
+
+
 
 }
 </script>
