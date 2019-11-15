@@ -1,10 +1,17 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import myPaper from './modules/myPaper_module.js'
+import login from './modules/login_modules.js'
 
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
+  modules: {
+    myPaper,
+    login
+  }
+  /*
   state: {
     memberInfo: {
       username: '',
@@ -65,6 +72,9 @@ export const store = new Vuex.Store({
       }).catch(error => {
         console.log(error)
       })
-    }
-  }
-})
+    },
+
+  }*/
+});
+
+export default store

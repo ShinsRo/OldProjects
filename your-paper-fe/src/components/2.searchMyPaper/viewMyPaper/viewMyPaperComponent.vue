@@ -5,7 +5,7 @@
         <div class="mainOptionFilterContent">
           <input class="check" v-model="viewToggle.authorStatus" type="checkbox"/>
           <p class="text">
-            저자 상
+            저자 상태
           </p>
         </div>
         <div class="mainOptionFilterContent">
@@ -33,7 +33,6 @@
             URL
           </p>
         </div>
-
       </div>
 
       <div class="mainOptionFilter" style="border-bottom: none; padding-left: 40px;">
@@ -48,14 +47,13 @@
           </p>
         </div>
       </div>
-    </div>
+    </div> <!--정렬 옵션-->
+
     <paperDataComponent class="paperComponentLayout"
                         :view-toggle="viewToggle"
                         v-for="paper in paperData"
                         :paper="paper"
     ></paperDataComponent>
-    <paperDataComponent class="paperComponentLayout" :view-toggle="viewToggle"></paperDataComponent>
-    <paperDataComponent class="paperComponentLayout" :view-toggle="viewToggle"></paperDataComponent>
   </div>
 </template>
 
@@ -79,6 +77,8 @@ export default {
     }
   },
   mounted () {
+    this.$store.dispatch('REQUEST_MY_PAPER');
+    console.log("hi", this.$store.getters.GET_MY_PAPER);
     /*  this.$axios.post('http://172.16.61.234:9401/myPaper/listByPage', {
         username: 'admin',
         sortBy: 'paper.title',
@@ -92,16 +92,23 @@ export default {
         'Content-Type': 'application/json'
       } })
       */
-    this.$axios.post('http://172.16.21.6:9401/myPaper/list', {
-      username: 'admin' },
+    /*this.$axios.post('http://www.siotman.com:19401/myPaper/listByPage', {
+        username: 'admin',
+        sortBy: 'paper.title',
+        isAsc: true,
+        firstRecord: 0,
+        count: 10,},
     {
       headers: {
         'Authorization': 'Basic YWRtaW46YWRtaW4=',
         'Content-Type': 'application/json'
       } })
       .then(response => {
-        this.paperData = response.data
+        this.paperData = response.data;
       })
+      .catch(error =>{
+        console.log(error);
+      })*/
   }
 }
 </script>
