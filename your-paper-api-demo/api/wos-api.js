@@ -110,7 +110,7 @@ class WokSearchClient {
         
         const result = [
             rowNo,  raw.uid,    raw.doi,    raw.title,  '',
-            '',     '',         '',         '',
+            '',     '',         raw.authors, '',
             '',     '',         '',         '',         '',
             '',     '',         '',         '',         '',
             '',     '',         ''
@@ -119,9 +119,10 @@ class WokSearchClient {
 
         if (lamrData) {
             result[4]   = `${lamrData.sourceURL}`;
+            result[8]   = `${lamrData.timesCited}`;
         }
         if (source) {
-            result[9]   = `${source['publishedYear']} ${source['publishedDate']}`.trim();
+            result[9]   = `${source['publishedYear'] || 0} ${source['publishedDate'] || 0}`.trim();
             result[10]  = `${source['sourceTitle'] || ''}`;
             result[11]  = `${source['volume']   || ''}`;
             result[12]  = `${source['issue']    || ''}`;
@@ -135,6 +136,7 @@ class WokSearchClient {
     }
 
     setRecords(origin) {
+        this.rawRecords = [];
         origin.forEach((record, idx) => {
             this.rawRecords[idx] = record;
         });
@@ -219,7 +221,6 @@ class WokSearchClient {
         return axios.post(this.SERVER_URL + 'WokSearchService/search', data).then((response) => {
             this.step       = 1;
             const searchResult = response.data;
-            console.log(searchResult);
             
             return searchResult;
         }).then(async (searchResult) => {
@@ -250,9 +251,11 @@ class WokSearchClient {
                     console.log('링크 데이터 요청과 처리 [단계 3/3] :');
                     const linksData = response.data;
                     this.updateRecords(linksData);
+                    this.transform();
                 });
+            } else {
+                this.transform();
             }
-            this.transform();
             this.step = 5;
             this.setLoading(false);
             return searchResult;
@@ -301,7 +304,10 @@ class WokSearchClient {
                     const linksData = response.data;
                     this.updateRecords(linksData);
                     this.setLoading(false);
+                    this.transform();
                 });
+            } else {
+                this.transform();
             }
             this.step = 5;
             return retreiveResult;

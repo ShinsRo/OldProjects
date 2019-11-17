@@ -52,7 +52,7 @@ public class MemberPaperService {
      * @return
      * @throws  NoSuchMemberException
      */
-    public Integer add(UidsDto uidsDto) throws NoSuchMemberException {
+    public Integer addOrUpdate(UidsDto uidsDto) throws NoSuchMemberException {
         String username = uidsDto.getUsername();
 
         Optional<Member> memberOptional = memberRepository.findById(username);
@@ -74,10 +74,18 @@ public class MemberPaperService {
             paperEntity = targetPaperOptional
                     .orElseGet(() -> searchedCacheService.newPaperEntityFromCacheByUid(uid));
 
-            if (uidDto.getIsReprint())  authorType = AuthorType.REPRINT;
-            else                        authorType = AuthorType.GENERAL;
+            if (uidDto.getAuthorType() == null) authorType = AuthorType.REFFERING;
+            else                                authorType = uidDto.getAuthorType();
 
+            Optional<MemberPaper> memberPaperOptional
+                    = memberPaperRepository.findOneByMemberAndPaper(member, paperEntity);
+
+            Long memberPaperId = null;
+            if (memberPaperOptional.isPresent()) {
+                memberPaperId = memberPaperOptional.get().getId();
+            }
             memberPaperEntity = MemberPaper.builder()
+                    .id(memberPaperId)
                     .member(member)
                     .paper(paperEntity)
                     .authorType(authorType)
@@ -110,12 +118,8 @@ public class MemberPaperService {
                     .uid(uid)
                     .build();
 
-            deleteList.add(
-                    MemberPaper.builder()
-                        .member(member)
-                        .paper(paper)
-                        .build()
-            );
+            Optional<MemberPaper> oneByMemberAndPaper = memberPaperRepository.findOneByMemberAndPaper(member, paper);
+            if (oneByMemberAndPaper.isPresent()) deleteList.add(oneByMemberAndPaper.get());
         }
 
         memberPaperRepository.deleteAll(deleteList);

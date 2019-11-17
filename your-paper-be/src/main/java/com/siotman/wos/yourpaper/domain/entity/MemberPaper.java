@@ -34,7 +34,8 @@ public class MemberPaper {
     private Map<String, Map<String, Integer>> selfTcDataJson;
 
     @Builder
-    public MemberPaper(Member member, Paper paper, AuthorType authorType) {
+    public MemberPaper(Long id, Member member, Paper paper, AuthorType authorType) {
+        this.id = id;
         this.member = member;
         this.paper = paper;
         this.authorType = authorType;

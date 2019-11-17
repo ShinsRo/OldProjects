@@ -1,5 +1,6 @@
 package com.siotman.wos.yourpaper.domain.dto;
 
+import com.siotman.wos.yourpaper.domain.entity.AuthorType;
 import lombok.*;
 
 @Getter
@@ -7,11 +8,11 @@ import lombok.*;
 public class UidDto {
 
     private String uid;
-    private Boolean isReprint;
+    private AuthorType authorType;
 
     @Builder
-    public UidDto(String uid, Boolean isReprint) {
-        this.uid        = uid;
-        this.isReprint  = isReprint;
+    public UidDto(String uid, AuthorType authorType) {
+        this.uid            = uid;
+        this.authorType     = authorType;
     }
 }

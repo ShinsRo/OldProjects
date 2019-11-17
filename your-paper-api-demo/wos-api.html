@@ -106,7 +106,8 @@
 <script>
     
     // 검색 클라이언트
-    const SERVER_URL = 'http://www.siotman.com:19400/'
+    // const SERVER_URL = 'http://www.siotman.com:19400/'
+    const SERVER_URL = 'http://localhost:9400/'
     const searchClient = new WokSearchClient(SERVER_URL);
 
     function onQuery() {
@@ -186,7 +187,8 @@
                     const table     = document.getElementById('contentTable');
                     const pages     = document.getElementById('pagingContainer');
                     const pageList  = searchClient.getPageList();
-
+                    console.log(records);
+                    
                     result.innerHTML = `찾은 총 레코드 : ${searchResult['recordsFound']}`;
                     pages.innerHTML = `
                             ${pageList.slice(0, 10).map((e) => { 

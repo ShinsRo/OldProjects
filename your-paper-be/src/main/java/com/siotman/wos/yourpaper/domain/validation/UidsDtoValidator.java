@@ -12,7 +12,7 @@ public class UidsDtoValidator extends ParamValidator<UidsDto> {
 
         switch (mappedBy) {
 
-            case "/add": case "/delete":
+            case "/addOrUpdate": case "/delete":
                 if(uidsDto.getUsername() == null)
                     return false;
 

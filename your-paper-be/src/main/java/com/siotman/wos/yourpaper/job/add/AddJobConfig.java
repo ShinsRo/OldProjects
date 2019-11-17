@@ -5,6 +5,7 @@ import com.siotman.wos.jaxws2rest.domain.dto.LiteRecordDto;
 import com.siotman.wos.jaxws2rest.domain.dto.SearchResultsDto;
 import com.siotman.wos.yourpaper.domain.dto.PaperDto;
 import com.siotman.wos.yourpaper.domain.dto.UidDto;
+import com.siotman.wos.yourpaper.domain.entity.AuthorType;
 import com.siotman.wos.yourpaper.domain.entity.MemberPaper;
 import com.siotman.wos.yourpaper.domain.entity.Paper;
 import com.siotman.wos.yourpaper.domain.entity.RecordState;
@@ -105,9 +106,8 @@ public class AddJobConfig {
                     for (LiteRecordDto record : records) {
                         UidDto uidDto = UidDto.builder()
                                 .uid(record.getUid())
-                                .isReprint(false)
+                                .authorType(AuthorType.REFFERING)
                                 .build();
-                        uids.add(uidDto);
                         stringUids.add(record.getUid());
                     }
                     List<LamrResultsDto> lamrRecords = wokSearchService.getLamrData(stringUids);

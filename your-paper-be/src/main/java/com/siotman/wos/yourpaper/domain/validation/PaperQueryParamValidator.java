@@ -23,7 +23,7 @@ public class PaperQueryParamValidator extends ParamValidator<MemberPaperQueryPar
                 if(!memberPaperQueryParameters.getSortBy().equals("timesCited"))
                     return false;
 
-                if(memberPaperQueryParameters.getFirstRecord() < 0)
+                if(memberPaperQueryParameters.getPage() < 0)
                     return false;
 
                 if(memberPaperQueryParameters.getCount() < 0

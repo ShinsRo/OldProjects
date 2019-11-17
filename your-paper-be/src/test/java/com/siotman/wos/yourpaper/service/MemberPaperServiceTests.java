@@ -5,6 +5,7 @@ import com.siotman.wos.yourpaper.domain.dto.MemberDto;
 import com.siotman.wos.yourpaper.domain.dto.PaperDto;
 import com.siotman.wos.yourpaper.domain.dto.UidDto;
 import com.siotman.wos.yourpaper.domain.dto.UidsDto;
+import com.siotman.wos.yourpaper.domain.entity.AuthorType;
 import com.siotman.wos.yourpaper.domain.entity.MemberPaper;
 import com.siotman.wos.yourpaper.exception.MemberIsAlreadyPresentException;
 import com.siotman.wos.yourpaper.exception.NoSuchMemberException;
@@ -70,7 +71,7 @@ public class MemberPaperServiceTests {
         for (Map record : records) {
             UidDto uidDto = UidDto.builder()
                     .uid((String) record.get("uid"))
-                    .isReprint(new Random().nextBoolean())
+                    .authorType(AuthorType.REFFERING)
                     .build();
             uids.add(uidDto);
             stringUids.add((String) record.get("uid"));
@@ -81,7 +82,7 @@ public class MemberPaperServiceTests {
                 .username("test01")
                 .uids(uids)
                 .build();
-        memberPaperService.add(uidsDto);
+        memberPaperService.addOrUpdate(uidsDto);
         List<PaperDto> list = memberPaperService.list(targetDto);
 
         Assert.isTrue(list.size() == uids.size(),
@@ -93,6 +94,7 @@ public class MemberPaperServiceTests {
         MemberDto member = memberService.findById("test01");
         List<MemberPaper> memberPapers = memberPaperService.searchAndAddByMember(member);
 
-        Assert.isTrue(memberPapers.size() == 50);
+        Assert.isTrue(memberPapers.size() == 50,
+                "추가된 논문 수가 맞지 않습니다.");
     }
 }

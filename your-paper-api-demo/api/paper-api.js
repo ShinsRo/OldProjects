@@ -36,7 +36,8 @@ class PaperRecordContainer {
                 '발행년월', '저녈명', '권', '호', '페이지',
         //      14        15     16    17       18
                 '월별피인용', '등급', 'IF', '백분율', '파싱 상태',
-                '',     '',         ''
+        //      19      20      21
+                'issn', 'isbn', 'eissn'
             ]
         };
 
@@ -49,19 +50,19 @@ class PaperRecordContainer {
 
     // ex. [1, 2, 3, 6, 10]
     getHeaders(filter) {
-        const filterSet = new Set(filter);
-        return this.ColEnum.header.filter((e, idx) => {
-            if (filterSet.has(idx)) return true;
-            else                    return false;
+        const header = [];
+        filter.forEach(colNo => {
+            header.push(this.ColEnum.header[colNo]);
         });
+        return header;
     }
     getRecords(filter) {
-        const filterSet = new Set(filter);
         return this.records.map(record => {
-            return record.filter((e, idx) => {
-                if (filterSet.has(idx)) return true;
-                else                    return false;
+            const filtered = [];
+            filter.forEach(colNo => {
+                filtered.push(record[colNo]);
             });
+            return filtered;
         });
     }
 
@@ -81,6 +82,8 @@ class PaperRecordContainer {
             this.records = this.currentPage.content.map((raw, idx) => {
                 return this.transForm(raw, idx);
             });
+
+            return response.data;
         });
     }
 
@@ -112,11 +115,11 @@ class PaperRecordContainer {
             result[4]   = `${paperUrls.sourceUrl}`;
         }
         if (sourceInfo) {
-            result[9]   = `${sourceInfo['publishedYear']} ${sourceInfo['publishedDate']}`.trim();
+            result[9]   = `${sourceInfo['publishedYear'] || ''} ${sourceInfo['publishedDate'] || ''}`.trim();
             result[10]  = `${sourceInfo['sourceTitle'] || ''}`;
-            result[11]  = `${sourceInfo['volume']}`;
-            result[12]  = `${sourceInfo['issue']}`;
-            result[13]  = `${sourceInfo['pages']}`;
+            result[11]  = `${sourceInfo['volume'] || ''}`;
+            result[12]  = `${sourceInfo['issue'] || ''}`;
+            result[13]  = `${sourceInfo['pages'] || ''}`;
 
             result[19]  = `${sourceInfo['issn']    || ''}`;
             result[20]  = `${sourceInfo['isbn']    || ''}`;
