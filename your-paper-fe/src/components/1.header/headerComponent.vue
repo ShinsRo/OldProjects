@@ -18,7 +18,7 @@
           </p>
         </div>
         <div class="headerSettingTab">
-          <p class="text">
+          <p class="text" v-on:click="clickForPaperStatics">
             Paper Statics
           </p>
         </div>
@@ -90,6 +90,9 @@ export default {
     },
     clickForPaperEdit () {
       this.$emit('changeFlag', 2)
+    },
+    clickForPaperStatics () {
+      this.$emit('changeFlag', 3)
     },
     clickForLogout () {
       this.$store.dispatch('logoutAction')
