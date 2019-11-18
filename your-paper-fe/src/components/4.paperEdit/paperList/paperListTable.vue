@@ -23,7 +23,7 @@
     <table class="searchOnMyPaper" border="3">
       <tr class="tableColumn">
         <th class="titleColumn">제목</th>
-        <th class="authorColumn">저자</th>
+        <th class="authorColumn">저자 상태</th>
         <th class="dateColumn">날짜</th>
         <th class="URLColumn">URL</th>
         <th class="buttonColumn"></th>
@@ -31,15 +31,23 @@
       <tr v-if="showFlag">
         <td class="allData" colspan="5">
           {{ this.showData[0] }} <hr>
-          {{ this.showData[2].join(', ') }} <hr>
-          {{ this.showData[3] }}
+          {{ this.showData[3].join(', ') }} <hr>
+          {{ this.showData[4] }}
         </td>
       </tr>
       <tbody>
-        <tr class="tableResult" v-for="(object, index) in this.myPapers" :key="index" @mouseover="showAll(object)" @mouseleave="unShowAll(object)">
+        <tr class="tableResult" v-for="(object, index) in this.myPapers" :key="index" @click="showAll(object)" @mousewheel="unShowAll(object)">
           <td class="titleResult">{{ object[0] }}</td>
-          <td class="authorResult">{{ object[2][0] }}</td>
-          <td class="dateResult">{{ object[3] }}</td>
+          <td class="authorResult">
+            <!-- <select class="selectAuthorType" v-model="selected">
+              <option value="REFFERING">상관없음</option>
+              <option value="General">공저자</option>
+              <option value="REPRINT">주저자</option>
+            </select> -->
+            {{object[2][0]}}
+          </td>
+          <!-- <td class="authorResult">{{ object[3][0] }}</td> -->
+          <td class="dateResult">{{ object[4] }}</td>
           <td class="URLResult"> {{ object[1] }} </td>
           <td class="buttonResult"><button class="paperAddButton" type="button">Remove</button></td>
         </tr>
@@ -53,13 +61,16 @@
 </template>
 
 <script>
-import { PaperRecordContainer } from '../../../../public/apis/api/paper-api.js'
+// import { PaperRecordContainer } from '../../../../public/apis/api/paper-api.js'
 
 export default {
   name: 'paperList',
   mounted () {
-    const paperContainer = this.$store.getters.memberPaperGetter
-    this.myPapers = paperContainer.getRecords([3, 4, 7, 9])
+    this.$store.dispatch('loadMyPaperAction', 0)
+    setTimeout(() => {
+      const paperContainer = this.$store.getters.memberPaperGetter
+      this.myPapers = paperContainer.getRecords([3, 4, 6, 7, 9])
+    }, 2000)
   },
   data () {
     return {
@@ -100,8 +111,8 @@ export default {
       }
     },
     nextPage () {
-      const paperContainer = new PaperRecordContainer('data5000', 'data5000', 'http://www.siotman.com:19401/')
-      console.log(paperContainer.getRawResponse())
+      // const paperContainer = new PaperRecordContainer('data5000', 'data5000', 'http://www.siotman.com:19401/')
+      // console.log(paperContainer.getRawResponse())
       this.$store.dispatch('loadMyPaperAction', this.nowPage + 1)
       this.nowPage += 1
     }
