@@ -18,7 +18,13 @@ export default {
   components: {
     'searchMyPaperWithOption': searchMyPaperWithOption,
     'viewMyPaperComponent': viewMyPaperComponent
+  },
+  beforeCreate () {
+    const isToken = sessionStorage.getItem('token')
 
+    if (isToken === null) {
+      this.$router.push('./')
+    }
   }
 }
 </script>

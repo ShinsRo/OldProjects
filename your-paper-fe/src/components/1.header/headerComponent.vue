@@ -93,6 +93,7 @@ export default {
     },
     clickForLogout () {
       this.$store.dispatch('logoutAction')
+      sessionStorage.clear()
       this.$router.push('/')
     }
   }

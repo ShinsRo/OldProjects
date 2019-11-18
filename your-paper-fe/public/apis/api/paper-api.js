@@ -1,6 +1,6 @@
+/* eslint-disable */
 import axios from 'axios'
 
-/* eslint-disable */
 export const SORT_MP_ENUM = {
     TITLE       : 'paper.title',
     TIMES_CITED : 'paper.timesCited',
@@ -14,29 +14,29 @@ export const SORT_P_ENUM = {
 }
 
 export class PaperRecordContainer {
-    constructor(username, password, SERVER_URL) {
+    constructor(username, authorization, SERVER_URL) {
         if (/.*\/$/.test(SERVER_URL))  this.SERVER_URL = SERVER_URL;
         else                           this.SERVER_URL = SERVER_URL + '/';
-
+        this.username = username;
         this.requestHeaders = {
             'Content-Type': 'application/json',
-            'Authorization': `Basic ${btoa(`${username}:${password}`)}`
+            'Authorization': authorization
+            // 'Authorization': `Basic ${btoa(`${username}:${password}`)}`
         };
-        this.username = username;
-        this.sortBy = {
-        };
-
+        this.sortBy = {};
+        
         this.records = [];
         this.ColEnum = {
             header: [
-    //      0    1      2      3     4
-            '행', 'UID', 'DOI', '제목', '링크',
-    //      5        6          7      8
-            '교신저자', '저자 상태', '저자', '인용수',
-    //      9        10      11   12    13
-            '발행년월', '저녈명', '권', '호', '페이지',
-    //      14        15     16    17       18
-            '월별피인용', '등급', 'IF', '백분율', '파싱 상태',
+        //      0    1      2      3     4
+                '행', 'UID', 'DOI', '제목', '링크',
+        //      5        6          7      8
+                '교신저자', '저자 상태', '저자', '인용수',
+        //      9        10      11   12    13
+                '발행년월', '저녈명', '권', '호', '페이지',
+        //      14        15     16    17       18
+                '월별피인용', '등급', 'IF', '백분율', '파싱 상태',
+                '',     '',         ''
             ]
         };
 
@@ -106,6 +106,7 @@ export class PaperRecordContainer {
             '',     '',         raw.authorListJson, raw.timesCited,
             '',     '',         '',                 '', '',
             '',     '',         '',                 '', raw.recordState,
+            '',     '',         ''
         ];
         if (paperUrls) {
             result[4]   = `${paperUrls.sourceUrl}`;
@@ -116,6 +117,10 @@ export class PaperRecordContainer {
             result[11]  = `${sourceInfo['volume']}`;
             result[12]  = `${sourceInfo['issue']}`;
             result[13]  = `${sourceInfo['pages']}`;
+
+            result[19]  = `${sourceInfo['issn']    || ''}`;
+            result[20]  = `${sourceInfo['isbn']    || ''}`;
+            result[21]  = `${sourceInfo['eissn']   || ''}`;
         }
         if (parsedData) {
             const journalImpactJson = parsedData.journalImpactJson;
@@ -128,7 +133,4 @@ export class PaperRecordContainer {
         }
         return result;
     }
-
-
 }
-/* eslint no-use-before-define: 2 */
