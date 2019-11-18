@@ -73,14 +73,17 @@ export default {
         url: true
       },
       paperData: {}
-
     }
   },
   mounted () {
-    const username = 'data5000'
-    const password = 'data5000'
+    const token = sessionStorage.getItem('token');
+    const session = JSON.parse(sessionStorage.getItem('data'));
+
+    const username = session.username
+    const authorization = token
     const SERVER_URL = 'http://www.siotman.com:19401/'
-    const container = new PaperRecordContainer(username, password, SERVER_URL);
+
+    const container = new PaperRecordContainer(username, authorization, SERVER_URL);
 
     container.listByPage(0, 10 ,SORT_MP_ENUM.TITLE, true)
       .then(res =>{

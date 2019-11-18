@@ -40,7 +40,7 @@ export default {
           headers: { Authorization: `Basic ${btoa(`${this.user.id}:${this.user.password}`)}` }
         }).then(res => {
           this.sessionSet(res, `Basic ${btoa(`${this.user.id}:${this.user.password}`)}`)
-          this.$store.dispatch('loginAction', res.data)
+          this.$store.dispatch('LOGIN_ACTION', res.data);
           this.$store.dispatch('encodingAction', `Basic ${btoa(`${this.user.id}:${this.user.password}`)}`)
           if (this.$store.getters.memberInfoDtoGetter !== null) {
             this.$store.dispatch('loadMyPaperAction', 0)

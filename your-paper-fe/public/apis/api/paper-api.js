@@ -24,7 +24,7 @@ export class PaperRecordContainer {
             // 'Authorization': `Basic ${btoa(`${username}:${password}`)}`
         };
         this.sortBy = {};
-        
+
         this.records = [];
         this.ColEnum = {
             header: [
@@ -72,9 +72,9 @@ export class PaperRecordContainer {
         };
 
         return axios.post(
-                `${this.SERVER_URL}myPaper/listByPage`, data, 
+                `${this.SERVER_URL}myPaper/listByPage`, data,
                 { headers: this.requestHeaders }).then(response => {
-            
+
             this.currentPage = response.data;
             this.records = [];
 
@@ -83,7 +83,6 @@ export class PaperRecordContainer {
             });
         });
     }
-
     transForm(raw, idx) {
         const transFormedPaper  = this.transFormPaper(raw['paper'], idx);
         transFormedPaper[6] = raw.authorType;

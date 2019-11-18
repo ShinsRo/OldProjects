@@ -2,7 +2,7 @@
 
   <div id="mainOption">
     <div id="mainOptionSearchLayout">
-      <input class="searchInput"/>
+      <input class="searchInput" @click="searchMyPaper()"/>
       <div id="mainOptionSearchButton" @click="searchMyPaper">
         <p class="text">
           search

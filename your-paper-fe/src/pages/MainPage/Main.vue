@@ -1,8 +1,8 @@
 <template>
     <div>
-      <headerComponent id="header" v-on:changeFlag="changeComponent"></headerComponent>
+      <headerComponent id="header" v-on:changeFlag="changeComponent" :username="memberInfoDto"></headerComponent>
       <div id="contentOuter">
-        <search-my-paper-layout id="searchMyPaper" v-if="flag===1"></search-my-paper-layout>
+        <search-my-paper-layout id="searchMyPaper" v-if="flag===1" :token="token" :session="session"></search-my-paper-layout>
         <!-- <paperStatics></paperStatics> 내 논문 통계-->
         <paperEdit id="paperEdit" v-if="flag===2"></paperEdit>
         <!-- 내 논문 편집 -->
@@ -26,14 +26,17 @@ export default {
   },
   data () {
     return {
-      flag: 1
+      flag: 1,
+      token: '',
+      session: {},
+      memberInfoDto: {},
     }
   },
   methods: {
     changeComponent (val) {
       this.flag = val
     }
-  }
+  },
 }
 </script>
 

@@ -33,7 +33,7 @@
 
         <div class="headerSettingUser">
           <p class="text">
-            SuHyoun
+            {{name}}
           </p>
         </div><!--사용자 이름-->
 
@@ -75,8 +75,15 @@ export default {
   name: 'HeaderLayout',
   data () {
     return {
-      isDropBoxShow: false
+      isDropBoxShow: false,
+      name: '',
     }
+  },
+  mounted(){
+    const token = sessionStorage.getItem('token');
+    const session = JSON.parse(sessionStorage.getItem('data'));
+    this.name = session.memberInfoDto.name
+
   },
   methods: {
     setTrue () {
@@ -96,7 +103,7 @@ export default {
       sessionStorage.clear()
       this.$router.push('/')
     }
-  }
+  },
 }
 </script>
 
