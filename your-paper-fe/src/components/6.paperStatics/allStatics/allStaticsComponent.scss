@@ -1,0 +1,9 @@
+@import '../../BasicStyle/BasicStyle.scss';
+
+.eachStaticComponent{
+  display: flex;
+  width: 25%;
+  height: inherit;
+  justify-content: center;
+  align-items: center;
+}

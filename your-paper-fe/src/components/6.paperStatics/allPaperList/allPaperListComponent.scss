@@ -1,0 +1,8 @@
+@import '../../BasicStyle/BasicStyle.scss';
+
+#paperListHeader{
+  display: flex;
+  height: 40px;
+  width: 100%;
+  background-color: $basicIndigo;
+}
