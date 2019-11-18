@@ -4,9 +4,11 @@ import com.siotman.wos.yourpaper.domain.dto.MemberPaperQueryParameters;
 import com.siotman.wos.yourpaper.domain.dto.MemberDto;
 import com.siotman.wos.yourpaper.domain.dto.PaperDto;
 import com.siotman.wos.yourpaper.domain.dto.UidsDto;
+import com.siotman.wos.yourpaper.domain.entity.MemberPaper;
 import com.siotman.wos.yourpaper.exception.NoSuchMemberException;
 import com.siotman.wos.yourpaper.service.MemberPaperService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,8 +35,8 @@ public class MemberPaperController {
 
     @PostMapping(value = "/listByPage")
     public ResponseEntity<?> listByPage(@RequestBody MemberPaperQueryParameters params) throws NoSuchMemberException {
-        List<PaperDto> list = memberPaperService.listByPage(params);
-        return ResponseEntity.ok().body(list);
+        Page<MemberPaper> page = memberPaperService.listByPage(params);
+        return ResponseEntity.ok().body(page);
     }
 
     @PostMapping(value = "/add")

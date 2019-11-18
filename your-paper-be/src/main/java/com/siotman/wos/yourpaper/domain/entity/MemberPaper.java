@@ -23,7 +23,6 @@ public class MemberPaper {
 
     @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "uid")
-    @JsonIgnoreProperties("users")
     private Paper paper;
 
     @Enumerated(EnumType.STRING)

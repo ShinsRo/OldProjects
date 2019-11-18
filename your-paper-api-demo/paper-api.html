@@ -100,7 +100,7 @@
     // 검색 클라이언트
     const SERVER_URL = 'http://www.siotman.com:19401/'
     
-    const paperContainer = new PaperRecordContainer('data5000', 'data5000', SERVER_URL);
+    const paperContainer = new PaperRecordContainer('data5000', `Basic ${btoa(`${'data5000'}:${'data5000'}`)}`, SERVER_URL);
     function listByPage(page) {
     // //      0    1      2      3     4
     //         '행', 'UID', 'DOI', '제목', '링크',

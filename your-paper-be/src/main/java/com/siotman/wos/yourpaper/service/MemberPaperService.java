@@ -10,6 +10,7 @@ import com.siotman.wos.yourpaper.repo.MemberPaperRepository;
 import com.siotman.wos.yourpaper.repo.MemberRepository;
 import com.siotman.wos.yourpaper.repo.PaperRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -121,7 +122,7 @@ public class MemberPaperService {
         return true;
     }
 
-    public List<PaperDto> listByPage(MemberPaperQueryParameters params) throws NoSuchMemberException {
+    public Page<MemberPaper> listByPage(MemberPaperQueryParameters params) throws NoSuchMemberException {
         Optional<Member> memberOptional = memberRepository.findById(params.getUsername());
 
         Member member;
@@ -132,12 +133,8 @@ public class MemberPaperService {
                 params.getPage(), params.getCount(),
                 (params.getIsAsc())? Sort.by(params.getSortBy()).ascending() : Sort.by(params.getSortBy()).descending()
         );
-        List<MemberPaper> memberPapers = memberPaperRepository.findAllByMember(member, pageable);
-        List<PaperDto> paperDtos = new ArrayList<>();
-        for (MemberPaper memberPaper : memberPapers) {
-            paperDtos.add(PaperDto.buildWithMemberPaper(memberPaper));
-        }
-        return paperDtos;
+        Page<MemberPaper> memberPapers = memberPaperRepository.findAllByMember(member, pageable);
+        return memberPapers;
     }
 
     public Integer count(MemberDto dto) throws NoSuchMemberException {

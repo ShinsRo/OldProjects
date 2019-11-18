@@ -11,6 +11,9 @@ export default {
   name: 'Landing',
   components: {
     landingBackground
+  },
+  beforeCreate () {
+    sessionStorage.clear()
   }
 }
 </script>
