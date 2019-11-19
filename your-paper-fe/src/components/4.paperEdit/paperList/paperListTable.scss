@@ -68,6 +68,10 @@
         width: 20%;
         border: 3px solid $basicIndigo;
         padding-left: 5px;
+
+        .selectAuthorType {
+          width: 100%;
+        }
       }
 
       .dateResult {

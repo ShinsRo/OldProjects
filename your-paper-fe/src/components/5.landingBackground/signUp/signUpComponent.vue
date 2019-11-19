@@ -192,7 +192,6 @@ export default {
             }
           }
         }).then(res => {
-          // 세션추가 자리
           if (res.data.username === this.registerInput.id) {
             alert('회원가입 되었습니다')
             this.$emit('changeFlag')
