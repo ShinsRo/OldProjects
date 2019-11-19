@@ -59,9 +59,9 @@
                     <fieldset>
                         <legend>검색 폼</legend>
                         <select name="category" id="state">
-                            <option value="title">제목</option>
-                            <option value="authorListJson">저자</option>
-                            <option value="doi">DOI</option>
+                            <option value="TI">제목</option>
+                            <option value="AU">저자</option>
+                            <option value="DO">DOI</option>
                             <option value="username">직번</option>
                         </select>
                         <input id="query" type="text" placeholder="검색어">
@@ -141,35 +141,70 @@
             loading.innerHTML = '<font style="color: red">error</font>';
             return alert("검색어가 너무 짧습니다.");
         }
-        if (category === 'username') {
-            paperContainer.username = query;
-            paperContainer.listByPage(page, pageSize, SORT_MP_ENUM.TITLE, true)
-            .then(res => {
-                if (page == 0) {
-                    pageList = [];
-                    pageStart = 0;
-                }
-                for(let i = 0; i < res['totalPages']; i++) {
-                    pageList.push(i);
-                }
-                return res;
-            }).then(printSearchResult)
-            .catch(onSearchError);
-        } else {
-            paperContainer.usernae = 'data5000';
-            paperContainer.search(page, pageSize, SORT_P_ENUM.TITLE, true, category, query)
-            .then(res => {
-                if (page == 0) {
-                    pageList = [];
-                    pageStart = 0;
-                }
-                for(let i = 0; i < res['totalPages']; i++) {
-                    pageList.push(i);
-                }
-                return res;
-            }).then(printSearchResult)
-            .catch(onSearchError);
+        const criteria = [];
+        // const FIELD = paperContainer.FIELD;
+        // const CRITERIA = paperContainer.CRITERIA;
+        console.log(FIELD, CRITERIA);
+        
+        switch (category) {
+            case 'TI':
+                criteria.push({ field: FIELD.TITLE, operation: CRITERIA.LIKE, value: query});
+                break;
+            case 'AU':
+                criteria.push({ field: FIELD.AUTHORS, operation: CRITERIA.LIKE, value: query});
+                break;
+            case 'DO':
+                criteria.push({ field: FIELD.DOI, operation: CRITERIA.LIKE, value: query});
+                break;
+            case 'username':
+                paperContainer.username = query;
+                break;
+            default:
+                break;
         }
+
+        paperContainer.listByPage(page, pageSize, FIELD.TITLE, true, criteria)
+            .then(res => {
+                if (page == 0) {
+                    pageList = [];
+                    pageStart = 0;
+                }
+                for(let i = 0; i < res['totalPages']; i++) {
+                    pageList.push(i);
+                }
+                return res;
+            }).then(printSearchResult)
+            .catch(onSearchError);
+
+        // if (category === 'username') {
+        //     paperContainer.username = query;
+        //     paperContainer.listByPage(page, pageSize, SORT_MP_ENUM.TITLE, true)
+        //     .then(res => {
+        //         if (page == 0) {
+        //             pageList = [];
+        //             pageStart = 0;
+        //         }
+        //         for(let i = 0; i < res['totalPages']; i++) {
+        //             pageList.push(i);
+        //         }
+        //         return res;
+        //     }).then(printSearchResult)
+        //     .catch(onSearchError);
+        // } else {
+        //     paperContainer.username = 'data5000';
+        //     paperContainer.search(page, pageSize, SORT_P_ENUM.TITLE, true, category, query)
+        //     .then(res => {
+        //         if (page == 0) {
+        //             pageList = [];
+        //             pageStart = 0;
+        //         }
+        //         for(let i = 0; i < res['totalPages']; i++) {
+        //             pageList.push(i);
+        //         }
+        //         return res;
+        //     }).then(printSearchResult)
+        //     .catch(onSearchError);
+        // }
     }
 
     function onPageSizeChange() {

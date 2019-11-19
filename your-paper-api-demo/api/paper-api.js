@@ -1,16 +1,26 @@
 /* eslint-disable */
 // import axios from 'axios'
 
-const SORT_MP_ENUM = {
-    TITLE       : 'paper.title',
-    TIMES_CITED : 'paper.timesCited',
-    UPDATED     : 'paper.lastUpdates'
-}
-
 const SORT_P_ENUM = {
     TITLE       : 'title',
     TIMES_CITED : 'timesCited',
     UPDATED     : 'lastUpdates'
+}
+
+const FIELD = {
+    TITLE       : 'paper.title',
+    DOI         : 'paper.doi',
+    AUTHORS     : 'paper.authorListJson',
+    TIMES_CITED : 'paper.timesCited',
+    UPDATED     : 'paper.lastUpdates',
+    YEAR        : 'paper.sourceInfo.publishedYear',
+    AUTHOR_TYPE : 'AuthorType'
+}
+
+const CRITERIA = {
+    LIKE    : 'LIKE',
+    IGNORE  : 'IGNORE',
+    MATCH   : 'MATCH'    
 }
 
 class PaperRecordContainer {
@@ -42,6 +52,36 @@ class PaperRecordContainer {
         };
 
         this.currentPage = {};
+    }
+    
+    listByPage(page, count, sortBy, isAsc, criteria) {
+        if (!criteria) criteria = [];
+        const data = {
+            username: this.username,
+            criteria: criteria,
+            sortOption: {
+                sortBy: sortBy,
+                isAsc: isAsc
+            },
+            pageOption: {
+                page: page,
+                count: count
+            }
+        }
+
+        return axios.post(
+                `${this.SERVER_URL}myPaper/listByPage`, data, 
+                { headers: this.requestHeaders }).then(response => {
+            
+            this.currentPage = response.data;
+            this.records = [];
+
+            this.records = this.currentPage.content.map((raw, idx) => {
+                return this.transForm(raw, idx);
+            });
+
+            return response.data;
+        });
     }
 
     search(page, count, sortBy, isAsc, category, query) {
@@ -153,27 +193,6 @@ class PaperRecordContainer {
                 filtered.push(record[colNo]);
             });
             return filtered;
-        });
-    }
-
-    listByPage(page, count, sortBy, isAsc) {
-        const data = {
-            username: this.username,
-            sortBy, isAsc, page, count
-        };
-
-        return axios.post(
-                `${this.SERVER_URL}myPaper/listByPage`, data, 
-                { headers: this.requestHeaders }).then(response => {
-            
-            this.currentPage = response.data;
-            this.records = [];
-
-            this.records = this.currentPage.content.map((raw, idx) => {
-                return this.transForm(raw, idx);
-            });
-
-            return response.data;
         });
     }
 

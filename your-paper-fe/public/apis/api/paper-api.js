@@ -43,7 +43,6 @@ export class PaperRecordContainer {
 
         this.currentPage = {};
     }
-
     search(page, count, sortBy, isAsc, category, query) {
         const data = {
             // username: this.username,
@@ -156,11 +155,25 @@ export class PaperRecordContainer {
         });
     }
 
-    listByPage(page, count, sortBy, isAsc) {
+
+    listByPage(page, count, sortBy, isAsc, criteria) {
+        // const data = {
+        //     username: this.username,
+        //     sortBy, isAsc, page, count
+        // };
+        if (!criteria) criteria = [];
         const data = {
             username: this.username,
-            sortBy, isAsc, page, count
-        };
+            criteria: criteria,
+            sortOption: {
+                sortBy: sortBy
+                isAsc: isAsc
+            },
+            pageOption: {
+                page: page,
+                count: count
+            }
+        }
 
         return axios.post(
                 `${this.SERVER_URL}myPaper/listByPage`, data, 
