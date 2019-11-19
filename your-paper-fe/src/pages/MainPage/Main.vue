@@ -33,14 +33,14 @@ export default {
       flag: 1,
       token: '',
       session: {},
-      memberInfoDto: {},
+      memberInfoDto: {}
     }
   },
   methods: {
     changeComponent (val) {
       this.flag = val
     }
-  },
+  }
 }
 </script>
 

@@ -27,7 +27,6 @@ export default {
       this.$emit('changeFlag')
     },
     clickForLogin () {
-
       if (this.user.id === '' || this.user.password === '') {
         this.wrongMessage = '로그인 정보를 입력해주세요'
       } else if (this.user.id !== '' && this.user.password !== '') {
@@ -42,7 +41,7 @@ export default {
         }).then(res => {
           console.log('then')
           this.sessionSet(res, `Basic ${btoa(`${this.user.id}:${this.user.password}`)}`)
-          this.$store.dispatch('LOGIN_ACTION', res.data);
+          this.$store.dispatch('LOGIN_ACTION', res.data)
           this.$store.dispatch('ENCODING_ACTION', `Basic ${btoa(`${this.user.id}:${this.user.password}`)}`)
           if (this.$store.getters.memberInfoDtoGetter !== null) {
             this.$store.dispatch('LOAD_MY_PAPER_ACTION', 0)

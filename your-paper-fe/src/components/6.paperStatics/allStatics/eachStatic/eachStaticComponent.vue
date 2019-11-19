@@ -5,9 +5,9 @@
 </template>
 
 <script>
-    export default {
-        name: "eachStaticComponent.vue"
-    }
+export default {
+  name: 'eachStaticComponent.vue'
+}
 </script>
 
 <style scoped>

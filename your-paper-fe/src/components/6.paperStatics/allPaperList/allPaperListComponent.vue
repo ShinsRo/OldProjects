@@ -49,23 +49,18 @@
     </tr>
     </thead>
     <tbody >
-    <tr v-for="data in paperData">
+    <tr v-for="datas in paperData">
       <td>
-        {{data[0]}}
+        {{datas[0]}}
       </td>
       <td>
-        {{data[3]}}
+        {{datas[3]}}
       </td>
     </tr>
-
-
-
-
 
     </tbody>
 
   </table>
-
 
 </div>
 </template>
@@ -73,33 +68,33 @@
 <script>
 import { PaperRecordContainer, SORT_MP_ENUM } from '../../../../public/apis/api/paper-api.js'
 export default {
-  name: "allPaperListComponent",
-  data() {
+  name: 'allPaperListComponent',
+  data () {
     return {
       paperData: [],
-      headers: {},
+      headers: {}
     }
   },
-  mounted() {
-    const token = sessionStorage.getItem('token');
-    const session = JSON.parse(sessionStorage.getItem('data'));
+  mounted () {
+    const token = sessionStorage.getItem('token')
+    const session = JSON.parse(sessionStorage.getItem('data'))
 
     const username = session.username
     const authorization = token
     const SERVER_URL = 'http://www.siotman.com:19401/'
 
-    const container = new PaperRecordContainer(username, authorization, SERVER_URL);
+    const container = new PaperRecordContainer(username, authorization, SERVER_URL)
 
     container.listByPage(0, 10, SORT_MP_ENUM.TITLE, true)
       .then(res => {
         const records = container.getRecords([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18])
         const headers = container.getHeaders([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18])
 
-        console.log('hi',headers);
+        console.log(headers)
 
         this.paperData = records
         this.headers = headers
-        console.log(this.paperData);
+        console.log(this.paperData)
         console.log(this.headers)
       })
   }
@@ -108,6 +103,5 @@ export default {
 
 <style scoped>
 @import './allPaperListComponent.scss';
-
 
 </style>

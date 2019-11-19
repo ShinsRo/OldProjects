@@ -10,7 +10,7 @@
 <script>
 import eachStaticComponent from './eachStatic/eachStaticComponent.vue'
 export default {
-  name: "allStaticsComponent",
+  name: 'allStaticsComponent',
   components: {
     'eachStaticComponent': eachStaticComponent
   }

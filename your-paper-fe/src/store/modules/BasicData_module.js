@@ -1,11 +1,10 @@
 
 import { SORT_MP_ENUM, PaperRecordContainer } from '../../../public/apis/api/paper-api.js'
 
-const LOGIN_ACTION = 'LOGIN_ACTION';
-const ENCODING_ACTION = 'ENCODING_ACTION';
-const LOGOUT_ACTION = 'LOGOUT_ACTION';
-const LOAD_MY_PAPER_MUTATION = 'LOAD_MY_PAPER_MUTATION';
-
+const LOGIN_ACTION = 'LOGIN_ACTION'
+const ENCODING_ACTION = 'ENCODING_ACTION'
+const LOGOUT_ACTION = 'LOGOUT_ACTION'
+const LOAD_MY_PAPER_MUTATION = 'LOAD_MY_PAPER_MUTATION'
 
 const state = {
   memberInfo: {
@@ -14,14 +13,13 @@ const state = {
     memberInfoDto: {}
   },
   memberPaper: {}
-};
+}
 
 const getters = {
   MEMBER_INFO_GETTER (state) {
     return state.memberInfo
   }, // memberInfo 정보를 가져오는 getter
-  /*
-      GET_RESULT: (state) => {
+   /* GET_RESULT: (state) => {
         return state.result_data;
       }
       memberInfoUserNameGetter (state) {
@@ -29,7 +27,7 @@ const getters = {
       }, // memberInfo내 username을 가져오는 getter*/
   MEMBER_INFO_USER_NAME_GETTER (state) {
     return state.memberInfo.username
-  },// memberInfo내 username을 가져오는 getter
+  }, // memberInfo내 username을 가져오는 getter
   MEMBER_INFO_DTO_GETTER (state) {
     return state.memberInfo.memberInfoDto
   }, // memberInfo내 memberInfoDto를 가져오는 getter
@@ -38,8 +36,8 @@ const getters = {
   },
   MEMBER_PAPER_GETTER (state) {
     return state.memberPaper
-  },
-};
+  }
+}
 
 const mutations = {
   LOGIN_ACTION (state, payload) {
@@ -57,9 +55,9 @@ const mutations = {
   LOAD_MY_PAPER_MUTATION (state, payload) {
     state.memberPaper = payload
   }
-};
+}
 
-const actions =  {
+const actions = {
   LOGIN_ACTION (context, payload) {
     context.commit(LOGIN_ACTION, payload)
   },
@@ -77,19 +75,19 @@ const actions =  {
     paperContainer.listByPage(page, 10, SORT_MP_ENUM.TITLE, true).then(res => {
       context.commit(LOAD_MY_PAPER_MUTATION, paperContainer)
     }).catch(error => {
-      console.log('hi',error)
+      console.log(error)
     })
   }
-};
+}
 
-export default{
+export default {
   state,
   mutations,
   actions,
-  getters,
+  getters
 }
 
-/*state: {
+/* state: {
   memberInfo: {
     username: '',
     encodingAuthorization: '',
@@ -159,4 +157,4 @@ actions: {
       console.log(error)
     })
   }
-}*/
+} */

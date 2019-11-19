@@ -76,14 +76,12 @@ export default {
   data () {
     return {
       isDropBoxShow: false,
-      name: '',
+      name: ''
     }
   },
-  mounted(){
-    const token = sessionStorage.getItem('token');
-    const session = JSON.parse(sessionStorage.getItem('data'));
+  mounted () {
+    const session = JSON.parse(sessionStorage.getItem('data'))
     this.name = session.memberInfoDto.name
-
   },
   methods: {
     setTrue () {
@@ -106,7 +104,7 @@ export default {
       sessionStorage.clear()
       this.$router.push('/')
     }
-  },
+  }
 }
 </script>
 
