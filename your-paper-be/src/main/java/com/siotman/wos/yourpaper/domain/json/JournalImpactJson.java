@@ -6,6 +6,7 @@ import java.util.Map;
 
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class JournalImpactJson {
     private String sourceTitle;
     private Map<String, String> impactFactorByYear;
