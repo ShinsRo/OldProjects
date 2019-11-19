@@ -76,13 +76,14 @@ export default {
     }
   },
   mounted () {
+    console.log('hi');
     const token = sessionStorage.getItem('token');
     const session = JSON.parse(sessionStorage.getItem('data'));
 
     const username = session.username
     const authorization = token
     const SERVER_URL = 'http://www.siotman.com:19401/'
-
+   console.log(username, authorization)
     const container = new PaperRecordContainer(username, authorization, SERVER_URL);
 
     container.listByPage(0, 10 ,SORT_MP_ENUM.TITLE, true)

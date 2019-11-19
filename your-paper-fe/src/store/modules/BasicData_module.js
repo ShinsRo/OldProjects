@@ -69,7 +69,7 @@ const actions =  {
   LOGOUT_ACTION (context) {
     context.commit(LOGOUT_ACTION)
   },
-  LOAD_MY_PAPER_MUTATION (context, page) {
+  LOAD_MY_PAPER_ACTION (context, page) {
     const token = sessionStorage.getItem('token')
     const Session = JSON.parse(sessionStorage.getItem('data'))
 
