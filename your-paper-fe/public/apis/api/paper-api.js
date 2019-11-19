@@ -14,7 +14,7 @@ export const FIELD = {
     TIMES_CITED : 'paper.timesCited',
     UPDATED     : 'paper.lastUpdates',
     YEAR        : 'paper.sourceInfo.publishedYear',
-    AUTHOR_TYPE : 'AuthorType'
+    AUTHOR_TYPE : 'authorType'
 }
 
 export const CRITERIA = {

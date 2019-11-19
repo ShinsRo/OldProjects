@@ -14,7 +14,7 @@ const FIELD = {
     TIMES_CITED : 'paper.timesCited',
     UPDATED     : 'paper.lastUpdates',
     YEAR        : 'paper.sourceInfo.publishedYear',
-    AUTHOR_TYPE : 'AuthorType'
+    AUTHOR_TYPE : 'authorType'
 }
 
 const CRITERIA = {
@@ -53,7 +53,7 @@ class PaperRecordContainer {
 
         this.currentPage = {};
     }
-    
+
     listByPage(page, count, sortBy, isAsc, criteria) {
         if (!criteria) criteria = [];
         const data = {
