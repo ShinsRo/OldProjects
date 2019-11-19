@@ -107,7 +107,8 @@ class WokSearchClient {
         const rowNo = this.pageState.firstRecord + idx;
         const source = raw.source;
         const lamrData = raw.lamrData;
-        
+        const identifier = raw.identifier;
+
         const result = [
             rowNo,  raw.uid,    raw.doi,    raw.title,  '',
             '',     '',         raw.authors, '',
@@ -127,10 +128,11 @@ class WokSearchClient {
             result[11]  = `${source['volume']   || ''}`;
             result[12]  = `${source['issue']    || ''}`;
             result[13]  = `${source['pages']    || ''}`;
-
-            result[19]  = `${source['issn']    || ''}`;
-            result[20]  = `${source['isbn']    || ''}`;
-            result[21]  = `${source['eissn']   || ''}`;
+        }
+        if (identifier) {
+            result[19]  = `${identifier['issn']    || ''}`;
+            result[20]  = `${identifier['isbn']    || ''}`;
+            result[21]  = `${identifier['eissn']   || ''}`;
         }
         return result;
     }

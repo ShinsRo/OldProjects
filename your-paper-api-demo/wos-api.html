@@ -180,7 +180,7 @@
     function printSearchResult(searchResult) {
                     /* 출력하기 */
                     console.log('출력 단계');
-                    const filter    = [3, 4, 7, 8, 9, 11, 12, 13];
+                    const filter    = [3, 4, 7, 8, 9, 11, 12, 13, 19, 20, 21];
                     const headers   = searchClient.getHeaders(filter);
                     const records   = searchClient.getRecords(filter);
                     const result    = document.getElementById('result');
@@ -204,6 +204,9 @@
                             <th>${headers[5]||""}</th>
                             <th>${headers[7]||""}</th>
                             <th>${headers[6]||""}</th>
+                            <th>${headers[8]||""}</th>
+                            <th>${headers[9]||""}</th>
+                            <th>${headers[10]||""}</th>
                         <tr>`;
                     records.forEach(record => {
                         html += `<tr>
@@ -214,6 +217,9 @@
                             <td>${record[5]||""}</td>
                             <td>${record[7]||""}</td>
                             <td>${record[6]||""}</td>
+                            <td>${record[8]||""}</td>
+                            <td>${record[9]||""}</td>
+                            <td>${record[10]||""}</td>
                         <tr>`;
                     });
                     table.innerHTML = html;

@@ -102,9 +102,9 @@ public class UpdateJobConfig {
                 return;
             }
 
-            List<PaperDto> shouldUpdate = new ArrayList<>();
-            List<String> prevTimesCited = new ArrayList<>();
-            List<String> uids           = new ArrayList<>();
+            List<PaperDto> shouldUpdate     = new ArrayList<>();
+            List<Integer> prevTimesCited    = new ArrayList<>();
+            List<String> uids               = new ArrayList<>();
             list.stream().forEach(paper -> {
                 prevTimesCited.add(paper.getTimesCited());
                 uids.add(paper.getUid());
@@ -117,7 +117,9 @@ public class UpdateJobConfig {
                 Assert.isTrue(item.getUid().equals(lamrData.get(i).getUid()),
                         "DB 레코드와 LMAR레코드의 UID가 일치하지 않으나, 업데이트를 시도했습니다.");
 
-                item.setTimesCited(lamrData.get(i).getTimesCited());
+                String lamrTimesCited = lamrData.get(i).getTimesCited();
+                if (lamrTimesCited == null) lamrTimesCited = "0";
+                item.setTimesCited(Integer.parseInt(lamrTimesCited));
 
                 if (prevTimesCited.get(i).equals(item.getTimesCited())) {
                     item.setRecordState(RecordState.COMPLETED);

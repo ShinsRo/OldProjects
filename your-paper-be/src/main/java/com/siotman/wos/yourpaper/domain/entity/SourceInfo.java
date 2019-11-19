@@ -69,12 +69,13 @@ public class SourceInfo {
 
     public static SourceInfo buildWithCacheData(LiteRecordDto liteRecordDto) {
         Map<String, String> source = liteRecordDto.getSource();
+        Map<String, String> identifier = liteRecordDto.getIdentifier();
 
         return SourceInfo.builder()
                 .sourceTitle(source.get("sourceTitle"))
-                .eissn(source.get("eissn"))
-                .issn(source.get("issn"))
-                .isbn(source.get("isbn"))
+                .eissn(identifier.get("eissn"))
+                .issn(identifier.get("issn"))
+                .isbn(identifier.get("isbn"))
                 .volume(source.get("volume"))
                 .pages(source.get("pages"))
                 .issue(source.get("issue"))

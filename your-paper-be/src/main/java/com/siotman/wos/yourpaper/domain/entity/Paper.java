@@ -1,7 +1,6 @@
 package com.siotman.wos.yourpaper.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.siotman.wos.jaxws2rest.domain.dto.LamrResultsDto;
 import com.siotman.wos.jaxws2rest.domain.dto.LiteRecordDto;
 import com.siotman.wos.yourpaper.domain.converter.JsonListConverter;
@@ -31,7 +30,7 @@ public class Paper {
     @Lob
     private String title;
 
-    private String timesCited;
+    private Integer timesCited;
 
     @OneToMany(mappedBy = "paper", fetch = FetchType.LAZY)
     @JsonIgnore
@@ -67,7 +66,7 @@ public class Paper {
     @Builder
     public Paper(
             String uid, String doi,
-            String title, String timesCited,
+            String title, Integer timesCited,
             List<String> authorListJson,
             RecordType recordType,
             RecordState recordState,
@@ -91,9 +90,10 @@ public class Paper {
         SourceInfo sourceInfo   = SourceInfo.buildWithCacheData(liteRecordDto);
         PaperUrls paperUrls     = PaperUrls.buildWithCacheData(lamrResultsDto);
 
-        String timesCited       = "0";
-        if (lamrResultsDto != null && lamrResultsDto.getTimesCited() != null)
-            timesCited = lamrResultsDto.getTimesCited();
+        Integer timesCited       = 0;
+        if (lamrResultsDto != null && lamrResultsDto.getTimesCited() != null
+            && lamrResultsDto.getTimesCited() != null)
+            timesCited = Integer.parseInt(lamrResultsDto.getTimesCited());
 
         return Paper.builder()
                 .uid(liteRecordDto.getUid())
@@ -155,7 +155,7 @@ public class Paper {
         this.recordState = state;
     }
 
-    public void setTimesCited(String timesCited) {
+    public void setTimesCited(Integer timesCited) {
         this.timesCited = timesCited;
     }
 }

@@ -164,8 +164,8 @@ public class MemberPaperService {
         String username = dto.getUsername();
         MemberInfoDto memberInfoDto = dto.getMemberInfoDto();
 
-        List<String> organizations  = memberInfoDto.getOrganizationList();
-        List<String> authors        = memberInfoDto.getAuthorNameList();
+        List<String> organizations  = memberInfoDto.getOrganizationList();      // 입력받은 소속 기관 목록
+        List<String> authors        = memberInfoDto.getAuthorNameList();        // 입력받은 논문 상 영문명 목록
 
         StringBuilder query = new StringBuilder();
         if (memberInfoDto.getOrganizationList().size() > 0) {
@@ -182,17 +182,30 @@ public class MemberPaperService {
                     .append(")");
         }
 
+        // WOS API 서버를 통해 5년 내 관련 데이터 검색 요청
         SearchResultsDto searchResults = searchService.search(query.toString(),
                 "5year", 1, 50);
 
-        List<MemberPaper>   addingList  = new ArrayList<>();
+        List<MemberPaper>   addingList      = new ArrayList<>();
+        List<PaperDto>      parsingList     = new ArrayList<>();
         List<LamrResultsDto> lamrData   = searchService.getLamrData(searchResults);
         List<LiteRecordDto> records     = searchResults.getRecords();
         for (int idx = 0; idx < lamrData.size() && idx < records.size(); idx++) {
             LiteRecordDto record    = records.get(idx);
             LamrResultsDto lamr     = lamrData.get(idx);
-            Paper paper = paperRepository.findById(record.getUid())
-                    .orElseGet(() -> Paper.buildWithWokResponse(record, lamr));
+            Optional<Paper> paperOptional = paperRepository.findById(record.getUid());
+            Paper paper;
+            if (paperOptional.isPresent()) {
+                paper = paperOptional.get();
+            } else {
+                paper = Paper.buildWithWokResponse(record, lamr);
+                parsingList.add(
+                        PaperDto.buildWithMemberPaper(
+                                MemberPaper.builder()
+                                    .paper(paper)
+                                    .build())
+                );
+            }
 
             addingList.add(
                     MemberPaper.builder()
@@ -202,6 +215,7 @@ public class MemberPaperService {
                         .build()
             );
         }
+        if (parsingList.size() > 0) asyncParsingTriggeringService.triggerAll(parsingList);
         return memberPaperRepository.saveAll(addingList);
     }
 
