@@ -3,6 +3,8 @@ package com.siotman.wos.yourpaper.service;
 import com.siotman.wos.jaxws2rest.domain.dto.LamrResultsDto;
 import com.siotman.wos.jaxws2rest.domain.dto.LiteRecordDto;
 import com.siotman.wos.jaxws2rest.domain.dto.SearchResultsDto;
+import com.siotman.wos.yourpaper.domain.criteria.MemberPaperCriteria;
+import com.siotman.wos.yourpaper.domain.criteria.MemberPaperSpecification;
 import com.siotman.wos.yourpaper.domain.dto.*;
 import com.siotman.wos.yourpaper.domain.entity.*;
 import com.siotman.wos.yourpaper.exception.NoSuchMemberException;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -133,11 +136,26 @@ public class MemberPaperService {
         if (!memberOptional.isPresent())    throw new NoSuchMemberException();
         else                                member = memberOptional.get();
 
+        SortOption sortOption = params.getSortOption();
+        PageOption pageOption = params.getPageOption();
+
         Pageable pageable = PageRequest.of(
-                params.getPage(), params.getCount(),
-                (params.getIsAsc())? Sort.by(params.getSortBy()).ascending() : Sort.by(params.getSortBy()).descending()
+                pageOption.getPage(), pageOption.getCount(),
+                (sortOption.getIsAsc())?
+                        Sort.by(sortOption.getSortBy()).ascending() :
+                        Sort.by(sortOption.getSortBy()).descending()
         );
-        Page<MemberPaper> memberPapers = memberPaperRepository.findAllByMember(member, pageable);
+
+        Specification<MemberPaper> where = Specification.where(new MemberPaperSpecification(
+                new MemberPaperCriteria("member", MemberPaperCriteria.OPERATION.MATCH, member)
+        ));
+
+        for (MemberPaperCriteria criteria: params.getCriteria()) {
+            where = where.and(new MemberPaperSpecification(criteria));
+        }
+
+//        Page<MemberPaper> memberPapers = memberPaperRepository.findAllByMember(member, pageable);
+        Page<MemberPaper> memberPapers = memberPaperRepository.findAll(where, pageable);
         return memberPapers;
     }
 

@@ -5,6 +5,7 @@ import com.siotman.wos.yourpaper.domain.entity.MemberPaper;
 import com.siotman.wos.yourpaper.domain.entity.Paper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -20,4 +21,6 @@ public interface MemberPaperRepository extends JpaRepository<MemberPaper, Long> 
     Integer countByMember(Member member);
 
     Optional<MemberPaper> findOneByMemberAndPaper(Member member, Paper paper);
+
+    Page<MemberPaper> findAll(Specification<MemberPaper> specification, Pageable pageable);
 }
