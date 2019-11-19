@@ -45,20 +45,13 @@ export default {
           headers: { Authorization: `Basic ${btoa(`${this.user.id}:${this.user.password}`)}` }
           // 암호화를 이용하여 base64로 인코딩한 뒤 요청
         }).then(res => {
-          this.sessionSet(res, `Basic ${btoa(`${this.user.id}:${this.user.password}`)}`)
           // 정상적으로 처리될 경우
+          this.sessionSet(res, `Basic ${btoa(`${this.user.id}:${this.user.password}`)}`)
+          // 세션스토리지에 결과값 (개인정보, 인코딩 값)을 저장
           if (sessionStorage.getItem('token') !== '') {
             // 세션스토리지에 토큰이 있을 경우 메인 페이지로 이동
             this.$router.push('./main')
           }
-          // -------------------------------------------------
-          // this.$store.dispatch('loginAction', res.data)
-          // this.$store.dispatch('encodingAction', `Basic ${btoa(`${this.user.id}:${this.user.password}`)}`)
-          // if (this.$store.getters.memberInfoDtoGetter !== null) {
-          //   this.$store.dispatch('loadMyPaperAction', 0)
-          //   this.$router.push('./main')
-          // }
-          // ----------------------------------------------
         }).catch(error => {
           // error catch code
           console.log(error)
@@ -68,7 +61,9 @@ export default {
     },
     sessionSet (res, encodingData) {
       sessionStorage.setItem('data', JSON.stringify(res.data))
+      // 세션 스토리지에 memberDto 저장
       sessionStorage.setItem('token', encodingData)
+      // 세션 스토리지에 token 저장
     }
   }
 }

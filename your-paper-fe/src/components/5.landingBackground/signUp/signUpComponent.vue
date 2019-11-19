@@ -63,12 +63,13 @@ export default {
   data () {
     return {
       authorName: '',
+      // 저자명을 추가하기 위해 저자명을 임시로 받는 변수
       message: {
         id: '',
         passwordLength: '',
         confirmPassword: '',
         name: ''
-      },
+      }, // 가입시 입력에 문제가 있을때 나타나는 메세지
       registerInput: {
         id: '',
         duplicationCheck: false,
@@ -78,7 +79,7 @@ export default {
         authorNameList: [],
         organization: '',
         agree: false
-      }
+      }// 가입을 위해 채워지는 입력폼의 변수들
     }
   },
   watch: {
