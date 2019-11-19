@@ -39,8 +39,8 @@ public class MemberPaperController {
         return ResponseEntity.ok().body(page);
     }
 
-    @PostMapping(value = "/add")
-    public ResponseEntity<?> add(@RequestBody UidsDto dto) throws NoSuchMemberException {
+    @PostMapping(value = "/addOrUpdate")
+    public ResponseEntity<?> addOrUpdate(@RequestBody UidsDto dto) throws NoSuchMemberException {
         return ResponseEntity.ok().body(memberPaperService.addOrUpdate(dto));
     }
 

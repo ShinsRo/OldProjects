@@ -44,17 +44,107 @@ class PaperRecordContainer {
         this.currentPage = {};
     }
 
+    search(page, count, sortBy, isAsc, category, query) {
+        const data = {
+            // username: this.username,
+            fieldName: category,
+            value: query,
+
+            page: page,
+            isAsc: isAsc,
+            sortBy: sortBy,
+            count: count
+        }
+        return axios.post(
+                `${this.SERVER_URL}paper/search`, data, 
+                { headers: this.requestHeaders }).then(response => {
+
+                this.records = [];
+                this.currentPage = response.data;
+                
+                this.records = this.currentPage.content.map((raw, idx) => {
+                    return this.transForm(raw, idx, true);
+                });
+
+                return this.currentPage;
+        });
+    }
+
+    addOrUpdateOne(uid, authorType) {
+        if ((typeof uid) !== 'string') return alert('uid가 문자열이 아닙니다.');
+
+        const data = {
+            username: this.username,
+            uids: [
+                { uid: uid, authorType: authorType }
+            ]
+        }
+        return axios.post(
+                `${this.SERVER_URL}myPaper/addOrUpdate`, data, 
+                { headers: this.requestHeaders }).then(response => {
+             return response.data;   
+        });
+    }
+
+    addOrUpdateAll(uids, authorType) {
+        const data = {
+            username: this.username,
+            uids: []
+        }
+
+        for (let idx = 0; idx < uids.length; idx++) {
+            data.uids.push({ uid: uids[idx], authorType: authorType[idx] })
+        }
+
+        return axios.post(
+                `${this.SERVER_URL}myPaper/addOrUpdate`, data, 
+                { headers: this.requestHeaders }).then(response => {
+             return response.data;   
+        });
+    }
+
+    deleteOne(uid) {
+        const data = {
+            username: this.username,
+            uids: [
+                { uid: uid }
+            ]
+        }
+        return axios.post(
+                `${this.SERVER_URL}myPaper/delete`, data, 
+                { headers: this.requestHeaders }).then(response => {
+             return response.data;   
+        });
+    }
+
+    deleteAll(uids) {
+        const data = {
+            username: this.username,
+            uids: []
+        }
+
+        for (let idx = 0; idx < uids.length; idx++) {
+            data.uids.push({ uid: uids[idx] })
+        }
+
+        return axios.post(
+                `${this.SERVER_URL}myPaper/delete`, data, 
+                { headers: this.requestHeaders }).then(response => {
+             return response.data;   
+        });
+    }
+
     getRawResponse() {
         return this.currentPage;
     }
 
     // ex. [1, 2, 3, 6, 10]
     getHeaders(filter) {
-        const header = [];
+        const filtered = [];
         filter.forEach(colNo => {
-            header.push(this.ColEnum.header[colNo]);
+            filtered.push(this.ColEnum.header[colNo]);
         });
-        return header;
+        return filtered;
     }
     getRecords(filter) {
         return this.records.map(record => {
@@ -87,7 +177,12 @@ class PaperRecordContainer {
         });
     }
 
-    transForm(raw, idx) {
+    transForm(raw, idx, isOnlyPaper) {
+        if (isOnlyPaper) {
+            const transFormedPaper  = this.transFormPaper(raw, idx);
+            return transFormedPaper;
+        }
+        
         const transFormedPaper  = this.transFormPaper(raw['paper'], idx);
         transFormedPaper[6] = raw.authorType;
         return transFormedPaper;
@@ -96,6 +191,8 @@ class PaperRecordContainer {
         const parsedData    = raw.parsedData;
         const sourceInfo    = raw.sourceInfo;
         const paperUrls     = raw.paperUrls;
+        const identifier = raw.identifier;
+        
         const result = [
     //          0    1      2      3     4
     //         '행', 'UID', 'DOI', '제목', '링크',
