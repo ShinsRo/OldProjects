@@ -21,7 +21,6 @@ export default {
   },
   beforeCreate () {
     const isToken = sessionStorage.getItem('token')
-
     if (isToken === null) {
       this.$router.push('./')
     }

@@ -18,7 +18,7 @@
           </p>
         </div>
         <div class="headerSettingTab">
-          <p class="text">
+          <p class="text" v-on:click="clickForPaperStatics">
             Paper Statics
           </p>
         </div>
@@ -33,7 +33,7 @@
 
         <div class="headerSettingUser">
           <p class="text">
-            SuHyoun
+            {{name}}
           </p>
         </div><!--사용자 이름-->
 
@@ -75,8 +75,13 @@ export default {
   name: 'HeaderLayout',
   data () {
     return {
-      isDropBoxShow: false
+      isDropBoxShow: false,
+      name: ''
     }
+  },
+  mounted () {
+    const session = JSON.parse(sessionStorage.getItem('data'))
+    this.name = session.memberInfoDto.name
   },
   methods: {
     setTrue () {
@@ -90,6 +95,9 @@ export default {
     },
     clickForPaperEdit () {
       this.$emit('changeFlag', 2)
+    },
+    clickForPaperStatics () {
+      this.$emit('changeFlag', 3)
     },
     clickForLogout () {
       this.$store.dispatch('logoutAction')
