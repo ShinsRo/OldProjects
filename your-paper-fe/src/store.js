@@ -11,7 +11,9 @@ export const store = new Vuex.Store({
       encodingAuthorization: '',
       memberInfoDto: {}
     },
-    memberPaper: {}
+    memberPaper: {},
+    searchedPaper: {},
+    searchTrigger: false
   },
   getters: {
     memberInfoGetter (state) {
@@ -28,6 +30,12 @@ export const store = new Vuex.Store({
     },
     memberPaperGetter (state) {
       return state.memberPaper
+    },
+    searchedPaperGetter (state) {
+      return state.searchedPaper
+    },
+    searchTriggerGetter (state) {
+      return state.searchTrigger
     }
   },
   mutations: {
@@ -45,6 +53,12 @@ export const store = new Vuex.Store({
     },
     loadMyPaperMutation (state, payload) {
       state.memberPaper = payload
+    },
+    searchedPaperMutation (state, payload) {
+      state.searchedPaper = payload
+    },
+    searchTriggerMutation (state) {
+      state.searchTrigger = true
     }
   },
   actions: {
@@ -67,6 +81,12 @@ export const store = new Vuex.Store({
       }).catch(error => {
         console.log(error)
       })
+    },
+    searchedPaperAction (context, payload) {
+      context.commit('searchedPaperMutation', payload)
+    },
+    searchTriggerAction (context) {
+      context.commit('searchTriggerMutation')
     }
   }
 })

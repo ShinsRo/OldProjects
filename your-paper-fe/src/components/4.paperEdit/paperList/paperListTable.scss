@@ -69,9 +69,6 @@
         border: 3px solid $basicIndigo;
         padding-left: 5px;
 
-        .selectAuthorType {
-          width: 100%;
-        }
       }
 
       .dateResult {
@@ -264,4 +261,16 @@
     color: white;
     border: $basicOrange;
   }
+}
+
+.loadingMessageContainer {
+  border-bottom: 3px solid $basicIndigo;
+  padding: 10px 0 10px 0;
+  font-size: 1.3em;
+}
+
+.emptyMessageContainer {
+  padding: 10px 0 10px 0;
+  font-size: 1.3em;
+  color: $basicGray;
 }

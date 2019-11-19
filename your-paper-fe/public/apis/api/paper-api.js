@@ -24,7 +24,7 @@ export class PaperRecordContainer {
             // 'Authorization': `Basic ${btoa(`${username}:${password}`)}`
         };
         this.sortBy = {};
-        
+
         this.records = [];
         this.ColEnum = {
             header: [
@@ -176,9 +176,9 @@ export class PaperRecordContainer {
         }
 
         return axios.post(
-                `${this.SERVER_URL}myPaper/listByPage`, data, 
+                `${this.SERVER_URL}myPaper/listByPage`, data,
                 { headers: this.requestHeaders }).then(response => {
-            
+
             this.currentPage = response.data;
             this.records = [];
 
