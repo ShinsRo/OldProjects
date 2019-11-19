@@ -17,17 +17,18 @@ public class PaperQueryParamValidator extends ParamValidator<MemberPaperQueryPar
                 if(memberPaperQueryParameters.getUsername() == null)
                     return false;
 
-                if(!memberPaperQueryParameters.getSortBy().equals("title"))
+                // 검토 요망...
+//                if(!memberPaperQueryParameters.getSortOption().getSortBy().equals("title"))
+//                    return false;
+//
+//                if(!memberPaperQueryParameters.getSortBy().equals("timesCited"))
+//                    return false;
+
+                if(memberPaperQueryParameters.getPageOption().getPage() < 0)
                     return false;
 
-                if(!memberPaperQueryParameters.getSortBy().equals("timesCited"))
-                    return false;
-
-                if(memberPaperQueryParameters.getPage() < 0)
-                    return false;
-
-                if(memberPaperQueryParameters.getCount() < 0
-                || memberPaperQueryParameters.getCount() > 50)
+                if(memberPaperQueryParameters.getPageOption().getCount() < 0
+                || memberPaperQueryParameters.getPageOption().getCount() > 50)
                     return false;
 
                 break;
