@@ -95,6 +95,7 @@ public class MemberPaperService {
                     .build();
 
             if (!targetPaperOptional.isPresent()) {
+                paperRepository.save(paperEntity);
                 parsingList.add(PaperDto.buildWithMemberPaper(memberPaperEntity));
             }
             addingList.add(memberPaperEntity);

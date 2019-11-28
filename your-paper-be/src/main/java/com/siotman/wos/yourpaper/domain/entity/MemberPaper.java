@@ -21,7 +21,7 @@ public class MemberPaper {
     @JoinColumn(name = "username")
     private Member member;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne //(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "uid")
     private Paper paper;
 

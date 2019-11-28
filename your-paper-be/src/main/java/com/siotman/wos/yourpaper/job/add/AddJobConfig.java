@@ -5,10 +5,8 @@ import com.siotman.wos.jaxws2rest.domain.dto.LiteRecordDto;
 import com.siotman.wos.jaxws2rest.domain.dto.SearchResultsDto;
 import com.siotman.wos.yourpaper.domain.dto.PaperDto;
 import com.siotman.wos.yourpaper.domain.dto.UidDto;
-import com.siotman.wos.yourpaper.domain.entity.AuthorType;
-import com.siotman.wos.yourpaper.domain.entity.MemberPaper;
-import com.siotman.wos.yourpaper.domain.entity.Paper;
-import com.siotman.wos.yourpaper.domain.entity.RecordState;
+import com.siotman.wos.yourpaper.domain.entity.*;
+import com.siotman.wos.yourpaper.repo.MemberPaperRepository;
 import com.siotman.wos.yourpaper.repo.PaperRepository;
 import com.siotman.wos.yourpaper.service.AsyncParsingTriggerService;
 import com.siotman.wos.yourpaper.service.WokSearchService;
@@ -28,6 +26,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Configuration
 public class AddJobConfig {
@@ -43,6 +42,8 @@ public class AddJobConfig {
     AsyncParsingTriggerService parsingTriggerService;
     @Autowired
     PaperRepository paperRepository;
+    @Autowired
+    MemberPaperRepository memberPaperRepository;
 
     @Autowired
     private JobBuilderFactory    jobBuilderFactory;
@@ -132,12 +133,27 @@ public class AddJobConfig {
                                 )
                         );
                     }
-                    paperRepository.saveAll(newEntities);
+                    List<Paper> papers = paperRepository.saveAll(newEntities);
+                    _setAdminRef(papers);
+
                     parsingTriggerService.triggerAll(shouldParse);
                     if (firstRecord + count > recordsFound) return RepeatStatus.FINISHED;
 
                     firstRecord += count;
                     return RepeatStatus.CONTINUABLE;
                 })).build();
+    }
+
+    private void _setAdminRef(List<Paper> papers) {
+        Member admin = Member.builder().username("admin").build();
+        List<MemberPaper> addingList = papers
+                .stream().map(
+                        p -> MemberPaper.builder()
+                                .member(admin)
+                                .paper(p)
+                                .build())
+                .collect(Collectors.toList());
+
+        memberPaperRepository.saveAll(addingList);
     }
 }
