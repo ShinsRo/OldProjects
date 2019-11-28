@@ -25,7 +25,7 @@ def parse_detail(soup: BeautifulSoup, uid: str):
         author = {
             'name'      : ''
             'fullName' : '',
-            'addresses' : ['', '']
+            'address' : ['', '']
         }
     '''
     # grades 원소 형태
@@ -140,8 +140,7 @@ def parse_detail(soup: BeautifulSoup, uid: str):
         author = {
             'name'      : m.group('name').strip(),
             'fullName' : m.group('full_name').strip() if m.group('full_name') else '',
-            'addresses' : [],
-            'reprint'   : False
+            'address' : [],
         }
 
         address_keys = m.group('address_keys')
@@ -153,23 +152,21 @@ def parse_detail(soup: BeautifulSoup, uid: str):
 
         for key in address_keys:
             key = key.strip()
-            author['addresses'].append(address_map[key])
+            author['address'].append(address_map[key])
 
         # 교신 저자 정보가 없을 경우, 제 1저자가 교신 저자이다.
         if reprint_name and reprint_name == author['name']:
-            if not author['addresses'] and reprint_address: 
-                author['addresses'] += [reprint_address]
+            if not author['address'] and reprint_address: 
+                author['address'] += [reprint_address]
 
-            author['reprint'] = True
             paper_data['reprint'] = author
 
         authors.append(author)
 
     if not reprint_name and authors:
-        authors[0]['reprint'] = True
         paper_data['reprint'] = authors[0]
 
-    paper_data['reprint']           = paper_data['reprint']['name']
+    # paper_data['reprint']           = paper_data['reprint']['name']
     paper_data['firstAuthor']       = authors[0]
     paper_data['parsedAuthorList']  = authors
     ## 원본 저자 데이터 정제 끝 ##

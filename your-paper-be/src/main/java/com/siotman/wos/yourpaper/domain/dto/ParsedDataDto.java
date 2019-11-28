@@ -19,7 +19,7 @@ public class ParsedDataDto {
     private RecordState recordState;
 
     private Integer timesCited;
-    private String reprint;
+    private ParsedAuthorJson reprint;
     private List<String> grades;
     private List<ParsedAuthorJson> parsedAuthorList;
     private JournalImpactJson journalImpact;
@@ -30,7 +30,7 @@ public class ParsedDataDto {
     @Builder
     public ParsedDataDto(
             String uid, RecordState recordState,
-            Integer timesCited, String reprint,
+            Integer timesCited, ParsedAuthorJson reprint,
             List<String> grades,
             List<ParsedAuthorJson> parsedAuthorList,
             JournalImpactJson journalImpactJson,

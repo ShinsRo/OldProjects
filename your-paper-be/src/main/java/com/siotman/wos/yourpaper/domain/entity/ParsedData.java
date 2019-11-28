@@ -28,7 +28,7 @@ public class ParsedData {
 
     private Integer timesCited;
 
-    private String reprint;
+    private ParsedAuthorJson reprint;
 
     @Convert(converter = JsonListConverter.class)
     private List<String> grades;
@@ -52,7 +52,7 @@ public class ParsedData {
     @Builder
     public ParsedData(
             Paper paper,
-            Integer timesCited, String reprint,
+            Integer timesCited, ParsedAuthorJson reprint,
             List<String> grades, Map<String, Map<String, Integer>> tcDataJson,
             List<ParsedAuthorJson> parsedAuthorJsonList,
             JournalImpactJson journalImpactJson,

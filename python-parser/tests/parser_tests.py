@@ -109,7 +109,7 @@ def times_cited_page_proc_test():
     
 if __name__ == "__main__":
     # 디테일 페이지 처리 테스트
-    # detail_page_proc_test()
+    detail_page_proc_test()
 
     # 인용 목록 페이지 처리 테스트
     cite_cnt_page_proc_test()
