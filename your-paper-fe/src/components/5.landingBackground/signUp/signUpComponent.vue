@@ -111,7 +111,7 @@ export default {
         this.message.id = ''
         this.$axios({
           method: 'POST',
-          url: 'http://www.siotman.com:19401/auth/availableCheck',
+          url: 'http://www.siotman.com:9401/auth/availableCheck',
           data: {
             'username': this.registerInput.id
           }
@@ -180,7 +180,7 @@ export default {
       } else {
         this.$axios({
           method: 'POST',
-          url: 'http://www.siotman.com:19401/auth/register',
+          url: 'http://www.siotman.com:9401/auth/register',
           data: {
             'username': this.registerInput.id,
             'password': this.registerInput.password,
