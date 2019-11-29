@@ -12,11 +12,10 @@
       {{paper[0]}}
     </div> <!--논문 제목-->
     <div id="paperInfo">
-      <p v-if='paper[2] !==""' class="info mainAuthor">
-        "{{paper[2]}}"
-      </p>
-      <p v-for="i in paper[4].length" v-if='i<3 && i<=paper[4].length'> "{{paper[4][i-1]}}"&nbsp</p>
-      <p v-if="paper[4].length-2>0"> 외 {{paper[4].length -2}} 명</p>
+
+      <p v-for="i in author.length" v-if="author[i-1] !== undefined"> "{{author[i-1]}}" &nbsp</p>
+
+      <p v-if="ect>0"> 외 {{ect}} 명</p>
       <p class="info" v-if="paper[6] != ''">
         / {{paper[6]}}
       </p>
@@ -37,9 +36,27 @@
 export default {
   name: 'PaperComponent',
   props: ['viewToggle', 'paper'],
+  data () {
+    return {
+      author: [],
+      ect: 0,
+    }
+  },
+  mounted () {
+    let i = 0
+    const authorList = this.paper[4].split('; ')
 
+    this.ect = authorList.length-3
+    if (this.paper[2] !== ""){
+      i = 1
+      this.author[0] = this.paper[2]
+      this.ect += 1
+    }
 
-
+    for (; i < 3 ; i++){
+      this.author.push(authorList[i])
+    }
+  }
 }
 </script>
 

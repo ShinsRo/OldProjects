@@ -20,7 +20,7 @@ export const FIELD = {
 export const CRITERIA = {
     LIKE    : 'LIKE',
     IGNORE  : 'IGNORE',
-    MATCH   : 'MATCH'    
+    MATCH   : 'MATCH'
 }
 
 export class PaperRecordContainer {
@@ -34,7 +34,7 @@ export class PaperRecordContainer {
             // 'Authorization': `Basic ${btoa(`${username}:${password}`)}`
         };
         this.sortBy = {};
-        
+
         this.pageState = {
             pageSize        : 10,
             currentPage     : 0,
@@ -73,8 +73,7 @@ export class PaperRecordContainer {
     }
 
     setPageState(rawResponse) {
-        console.log('setPage', rawResponse);
-        
+
         this.pageState = {
             ...this.pageState,
             firstRecord     : rawResponse.pageable.offset + 1,
@@ -103,9 +102,9 @@ export class PaperRecordContainer {
         }
 
         return axios.post(
-                `${this.SERVER_URL}myPaper/listByPage`, data, 
+                `${this.SERVER_URL}myPaper/listByPage`, data,
                 { headers: this.requestHeaders }).then(response => {
-            
+
             this.rawResponse = response.data;
             this.records = [];
 
@@ -134,12 +133,12 @@ export class PaperRecordContainer {
             count: count
         }
         return axios.post(
-                `${this.SERVER_URL}paper/search`, data, 
+                `${this.SERVER_URL}paper/search`, data,
                 { headers: this.requestHeaders }).then(response => {
 
                 this.records = [];
                 this.rawResponse = response.data;
-                
+
                 this.records = this.rawResponse.content.map((raw, idx) => {
                     return this.transForm(raw, idx, true);
                 });
@@ -158,9 +157,9 @@ export class PaperRecordContainer {
             ]
         }
         return axios.post(
-                `${this.SERVER_URL}myPaper/addOrUpdate`, data, 
+                `${this.SERVER_URL}myPaper/addOrUpdate`, data,
                 { headers: this.requestHeaders }).then(response => {
-             return response.data;   
+             return response.data;
         });
     }
 
@@ -175,9 +174,9 @@ export class PaperRecordContainer {
         }
 
         return axios.post(
-                `${this.SERVER_URL}myPaper/addOrUpdate`, data, 
+                `${this.SERVER_URL}myPaper/addOrUpdate`, data,
                 { headers: this.requestHeaders }).then(response => {
-             return response.data;   
+             return response.data;
         });
     }
 
@@ -189,9 +188,9 @@ export class PaperRecordContainer {
             ]
         }
         return axios.post(
-                `${this.SERVER_URL}myPaper/delete`, data, 
+                `${this.SERVER_URL}myPaper/delete`, data,
                 { headers: this.requestHeaders }).then(response => {
-             return response.data;   
+             return response.data;
         });
     }
 
@@ -206,9 +205,9 @@ export class PaperRecordContainer {
         }
 
         return axios.post(
-                `${this.SERVER_URL}myPaper/delete`, data, 
+                `${this.SERVER_URL}myPaper/delete`, data,
                 { headers: this.requestHeaders }).then(response => {
-             return response.data;   
+             return response.data;
         });
     }
 
@@ -233,13 +232,12 @@ export class PaperRecordContainer {
             return filtered;
         });
     }
-
     transForm(raw, idx, isOnlyPaper) {
         if (isOnlyPaper) {
             const transFormedPaper  = this.transFormPaper(raw, idx);
             return transFormedPaper;
         }
-        
+
         const transFormedPaper  = this.transFormPaper(raw['paper'], idx);
         transFormedPaper[6] = raw.authorType;
         return transFormedPaper;
@@ -249,7 +247,7 @@ export class PaperRecordContainer {
         const sourceInfo    = raw.sourceInfo;
         const paperUrls     = raw.paperUrls;
         const identifier = raw.identifier;
-        
+
         const result = [
     //          0    1      2      3     4
     //         '행', 'UID', 'DOI', '제목', '링크',

@@ -29,13 +29,17 @@ const mutations = {
     const Session = JSON.parse(sessionStorage.getItem('data'))
     state.apiObject = new PaperRecordContainer(Session.username, token, 'http://www.siotman.com:9401/')
   },
-  MEMBER_PAPER_MUTATION (state) {
+  MEMBER_PAPER_MUTATION (state, payload) {
     const criteria = { field: FIELD.TITLE, operation: CRITERIA.LIKE, value: ' ' }
     state.apiObject.listByPage(1, 10, FIELD.TITLE, true, [criteria]).then(res => {
-      state.memberPaper = state.apiObject.getRecords([3, 4, 6, 7, 9])
+      // state.memberPaper = state.apiObject.getRecords([3, 4, 6, 7, 9])
+      state.memberPaper = state.apiObject.getRecords(payload)
     }).catch(error => {
       console.log(error)
     })
+  },
+  SEARCH_MY_PAPER_MUTATION (state, payload) {
+
   },
   SEARCH_TRIGGER_MUTATION (state) {
     state.searchTrigger = true
@@ -46,14 +50,16 @@ const actions = {
   MEMBER_OBJECT_SET_ACTION (context) {
     context.commit('MEMBER_OBJECT_SET_MUTATION')
   },
-  MEMBER_PAPER_ACTION (context) {
-    context.commit('MEMBER_PAPER_MUTATION')
-  },
+  MEMBER_PAPER_ACTION (context, payload) {
+    context.commit('MEMBER_PAPER_MUTATION', payload)
+  }, // 내 논문 불러오기
+  SEARCH_MY_PAPER_ACTION (context, payload) {
+    context.commit('SEARCH_MY_PAPER_MUTATION', payload)
+  }, // 내 논문 검색하기
   SEARCH_TRIGGER_ACTION (context) {
     context.commit('SEARCH_TRIGGER_MUTATION')
   }
 }
-
 export default {
   state,
   mutations,

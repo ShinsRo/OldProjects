@@ -5,7 +5,7 @@
         <div class="mainOptionFilterContent">
           <input class="check" v-model="viewToggle.authorStatus" type="checkbox"/>
           <p class="text">
-            저자 상
+            저자 상태
           </p>
         </div>
         <div class="mainOptionFilterContent">
@@ -76,6 +76,13 @@ export default {
     }
   },
   mounted () {
+
+    this.$store.dispatch('MEMBER_PAPER_ACTION', [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 18])
+      .then(res =>{
+        this.paperData = this.$store.getters.MEMBER_PAPER_GETTER
+      })
+
+    /*
     const token = sessionStorage.getItem('token')
     const session = JSON.parse(sessionStorage.getItem('data'))
 
@@ -85,6 +92,10 @@ export default {
     // console.log(username, authorization)
     const container = new PaperRecordContainer(username, authorization, SERVER_URL)
 
+    let save = this.$store.dispatch('MEMBER_PAPER_ACTION')
+    console.log(save);
+*/
+/*
     container.listByPage(0, 10, SORT_MP_ENUM.TITLE, true)
       .then(res => {
         const records = container.getRecords([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 18])
@@ -93,7 +104,7 @@ export default {
         this.paperData = records
         // console.log(this.paperData)
         // console.log(headers)
-      })
+      })*/
 
     /* this.$axios.post('http://172.16.21.6:9401/myPaper/list', {
       username: 'admin' },
