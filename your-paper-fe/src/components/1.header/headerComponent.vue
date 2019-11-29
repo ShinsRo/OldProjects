@@ -100,7 +100,9 @@ export default {
       this.$emit('changeFlag', 3)
     },
     clickForLogout () {
-      this.$store.dispatch('logoutAction')
+      // this.$store.dispatch('logoutAction')
+      // this.$store.replaceState({})
+      this.$store.dispatch('CLEAR_STORE_ACTION')
       sessionStorage.clear()
       this.$router.push('/')
     }
