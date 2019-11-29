@@ -27,7 +27,6 @@ export default {
   mounted () {
     this.$store.dispatch('MEMBER_OBJECT_SET_ACTION')
     this.$store.dispatch('MEMBER_PAPER_ACTION')
-    console.log(this.$store.getters.MEMBER_PAPER_GETTER)
   }
 }
 </script>

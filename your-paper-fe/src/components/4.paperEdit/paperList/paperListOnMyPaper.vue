@@ -11,6 +11,10 @@
       <tr>
         <th class="emptySearchContainer" v-if="dataContainer==='emptySearch'" colspan="5">등록된 논문이 없습니다</th>
       </tr>
+      <tr>
+        <th class="loadingSearchContainer"
+        v-if="dataContainer==='loadingSearch'" colspan="5">논문을 불러오는 중입니다</th>
+      </tr>
       <tr v-if="showFlag">
         <td class="allData" colspan="5">
           {{ this.showData[0] }} <hr>
@@ -34,10 +38,10 @@
         </tr>
       </tbody>
     </table>
-    <div class="pageChangeContainer">
+    <!-- <div class="pageChangeContainer">
       <button class="preButton" type="button" v-on:click="prePage()">◀</button>
       <button class="nextButton" type="button" v-on:click="nextPage()">▶</button>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -50,15 +54,52 @@ export default {
       nowPage: 0,
       showFlag: false,
       flag: 2,
-      myPapers: this.$store.getters.MEMBER_PAPER_GETTER,
+      myPapers: [],
       AllData: '',
       showData: '',
-      dataContainer: 'emptySearch'
+      dataContainer: 'loadingSearch'
     }
   },
-  mounted () {
-    this.dataContainer = 'emptySearch'
+  beforeCreate () {
+    this.dataContainer = 'loadingSearch'
   },
+  computed: {
+    isSearched () {
+      return this.$store.getters.MEMBER_PAPER_GETTER
+    }
+  },
+  watch: {
+    isSearched (newFlag, oldFlag) {
+      this.myPapers = this.$store.getters.MEMBER_PAPER_GETTER
+      if (this.myPapers.length === 0) {
+        this.dataContainer = 'emptySearch'
+      } else {
+        this.dataContainer = 'fullSearch'
+      }
+    }
+  },
+  // bercreate () {
+  //   this.myPapers = this.$store.getters.MEMBER_PAPER_GETTER
+  //   console.log(this.$store.getters.MEMBER_PAPER_GETTER)
+  // },
+  // updated () {
+  //   console.log(this.myPapers)
+  //   if (this.myPapers.length === 0) {
+  //     this.dataContainer = 'emptySearch'
+  //   } else {
+  //     this.dataContainer = 'fullSearch'
+  //     console.log(this.myPapers)
+  //   }
+  // },
+  // mounted () {
+  //   console.log(this.myPapers)
+  //   if (this.myPapers === []) {
+  //     this.dataContainer = 'emptySearch'
+  //   } else {
+  //     this.dataContainer = 'fullSearh'
+  //   }
+  //   console.log(this.myPapers)
+  // },
   // beforeMount () {
   //   this.$store.dispatch('MEMBER_INFO_SET_ACTION')
   // },
@@ -66,14 +107,6 @@ export default {
   //   // console.log('getter test')
   //   // console.log(this.$store.getters.API_OBJECT_GETTER)
   // },
-  beforeUpdate () {
-    this.isLoading = false
-    if (this.myPapers.length !== 0) {
-      this.isMyPaperEmpty = false
-    } else {
-      this.isMyPaperEmpty = true
-    }
-  },
   // computed: {
   //   isSearched () {
   //     return this.$store.getters.searchTriggerGetter
@@ -116,19 +149,19 @@ export default {
       //   console.log('교신저자')
       //   document.getElementById('test').option[2].selected = 'true'
       // }
-    },
-    prePage () {
-      if (this.nowPage === 0) {
-        this.nowPage = this.nowPage
-      } else {
-        this.$store.dispatch('loadMyPaperAction', this.nowPage - 1)
-        this.nowPage -= 1
-      }
-    },
-    nextPage () {
-      this.$store.dispatch('loadMyPaperAction', this.nowPage + 1)
-      this.nowPage += 1
     }
+    // prePage () {
+    //   if (this.nowPage === 0) {
+    //     this.nowPage = this.nowPage
+    //   } else {
+    //     this.$store.dispatch('loadMyPaperAction', this.nowPage - 1)
+    //     this.nowPage -= 1
+    //   }
+    // },
+    // nextPage () {
+    //   this.$store.dispatch('loadMyPaperAction', this.nowPage + 1)
+    //   this.nowPage += 1
+    // }
   }
 }
 </script>

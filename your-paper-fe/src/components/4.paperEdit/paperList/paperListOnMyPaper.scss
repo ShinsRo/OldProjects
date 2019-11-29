@@ -158,8 +158,10 @@
   color: $basicGray;
 }
 
-.emptyMessageContainer {
+.loadingSearchContainer {
+  border-bottom: 3px solid $basicIndigo;
   padding: 10px 0 10px 0;
   font-size: 1.3em;
-  color: $basicGray;
+  color: $basicGray;  
 }
+
