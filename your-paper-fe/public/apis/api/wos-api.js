@@ -111,7 +111,7 @@ export class WokSearchClient {
 
         const result = [
             rowNo,  raw.uid,    raw.doi,    raw.title,  '',
-            '',     '',         raw.authors, '',
+            '',     '',         raw.authors.join('; '), '',
             '',     '',         '',         '',         '',
             '',     '',         '',         '',         '',
             '',     '',         ''
@@ -120,10 +120,10 @@ export class WokSearchClient {
 
         if (lamrData) {
             result[4]   = `${lamrData.sourceURL}`;
-            result[8]   = `${lamrData.timesCited}`;
+            result[8]   = `${lamrData.timesCited || 0}`;
         }
         if (source) {
-            result[9]   = `${source['publishedYear'] || 0} ${source['publishedDate'] || 0}`.trim();
+            result[9]   = `${source['publishedYear'] || ''} ${source['publishedDate'] || ''}`.trim();
             result[10]  = `${source['sourceTitle'] || ''}`;
             result[11]  = `${source['volume']   || ''}`;
             result[12]  = `${source['issue']    || ''}`;
@@ -172,7 +172,8 @@ export class WokSearchClient {
         organizations = (Array.isArray(organizations) && organizations.length != 0 && organizations) || '';
 
         const organizationQuery = organizations && `AD=(${organizations.map(item => `(${item})`).join(" OR ")}) AND `;
-        const userQuery = `${organizationQuery}${category}=(${query})`;
+        let userQuery = `${organizationQuery}`;
+        if (category) userQuery += `${category}=(${query})`;
         console.log(userQuery);
         
         return userQuery;
@@ -216,7 +217,7 @@ export class WokSearchClient {
             'firstRecord'   : this.pageState.firstRecord, 
             'count'         : this.pageState.pageSize
         };
-        if (this.sortField) retrieveParameters['sortField'] = this.sortField;
+        if (this.sortField && this.sortField.length) retrieveParameters['sortField'] = this.sortField;
 
         const data = {queryParameters, retrieveParameters};
         
@@ -244,7 +245,7 @@ export class WokSearchClient {
             // 3-2. 링크를 받아올 논문들의 아이디들 추출
 
             // 링크 데이터 요청
-            if (noLAMR) {
+            if (!noLAMR) {
                 this.step = 3;
                 const uids = this.extractUidsFromRecords(searchResult['records']);
 
@@ -253,18 +254,16 @@ export class WokSearchClient {
                     console.log('링크 데이터 요청과 처리 [단계 3/3] :');
                     const linksData = response.data;
                     this.updateRecords(linksData);
-                    this.transform();
                 });
-            } else {
-                this.transform();
             }
+            this.transform();
             this.step = 5;
             this.setLoading(false);
             return searchResult;
         });
     }
 
-    retreive(page) {
+    retrive(page) {
         this.step = 0;
         this.setLoading(true);
         if (isNaN(page)) {
@@ -296,7 +295,7 @@ export class WokSearchClient {
             this.setRecords(retreiveResult['records']);
             
             // 링크 데이터 요청
-            if (this.noLAMR) {
+            if (!this.noLAMR) {
                 this.step = 3;
                 const uids = this.extractUidsFromRecords(retreiveResult['records']);
 
@@ -306,11 +305,9 @@ export class WokSearchClient {
                     const linksData = response.data;
                     this.updateRecords(linksData);
                     this.setLoading(false);
-                    this.transform();
                 });
-            } else {
-                this.transform();
             }
+            this.transform();
             this.step = 5;
             return retreiveResult;
         });

@@ -1,7 +1,7 @@
 /* eslint-disable */
 import axios from 'axios'
 
-const SORT_P_ENUM = {
+export const SORT_P_ENUM = {
     TITLE       : 'title',
     TIMES_CITED : 'timesCited',
     UPDATED     : 'lastUpdates'
@@ -35,6 +35,14 @@ export class PaperRecordContainer {
         };
         this.sortBy = {};
         
+        this.pageState = {
+            pageSize        : 10,
+            currentPage     : 0,
+            recordsFound    : 0,
+            firstRecord     : 1,
+            endPage         : 0,
+        };
+
         this.records = [];
         this.ColEnum = {
             header: [
@@ -51,11 +59,36 @@ export class PaperRecordContainer {
             ]
         };
 
-        this.currentPage = {};
+        this.rawResponse = {};
+        this.currentParams = {};
     }
-    
+
+    setPageSize(size) {
+        this.pageState['pageSize'] = size;
+        this.currentParams['count'] = size;
+    }
+
+    getPageState() {
+        return {...this.pageState};
+    }
+
+    setPageState(rawResponse) {
+        console.log('setPage', rawResponse);
+        
+        this.pageState = {
+            ...this.pageState,
+            firstRecord     : rawResponse.pageable.offset + 1,
+            currentPage     : rawResponse.pageable.pageNumber + 1,
+            endPage         : rawResponse.totalPages,
+            recordsFound    : rawResponse.totalElements,
+        }
+    }
+
     listByPage(page, count, sortBy, isAsc, criteria) {
         if (!criteria) criteria = [];
+
+        this.currentParams = {page, count, sortBy, isAsc, criteria};
+
         const data = {
             username: this.username,
             criteria: criteria,
@@ -64,7 +97,7 @@ export class PaperRecordContainer {
                 isAsc: isAsc
             },
             pageOption: {
-                page: page,
+                page: page - 1,
                 count: count
             }
         }
@@ -73,15 +106,20 @@ export class PaperRecordContainer {
                 `${this.SERVER_URL}myPaper/listByPage`, data, 
                 { headers: this.requestHeaders }).then(response => {
             
-            this.currentPage = response.data;
+            this.rawResponse = response.data;
             this.records = [];
 
-            this.records = this.currentPage.content.map((raw, idx) => {
+            this.records = this.rawResponse.content.map((raw, idx) => {
                 return this.transForm(raw, idx);
             });
-
+            this.setPageState(this.rawResponse);
             return response.data;
         });
+    }
+
+    retrive(page) {
+        const {count, sortBy, isAsc, criteria} = this.currentParams;
+        return this.listByPage(page, count, sortBy, isAsc, criteria);
     }
 
     search(page, count, sortBy, isAsc, category, query) {
@@ -100,13 +138,13 @@ export class PaperRecordContainer {
                 { headers: this.requestHeaders }).then(response => {
 
                 this.records = [];
-                this.currentPage = response.data;
+                this.rawResponse = response.data;
                 
-                this.records = this.currentPage.content.map((raw, idx) => {
+                this.records = this.rawResponse.content.map((raw, idx) => {
                     return this.transForm(raw, idx, true);
                 });
 
-                return this.currentPage;
+                return this.rawResponse;
         });
     }
 
@@ -175,7 +213,7 @@ export class PaperRecordContainer {
     }
 
     getRawResponse() {
-        return this.currentPage;
+        return this.rawResponse;
     }
 
     // ex. [1, 2, 3, 6, 10]
@@ -222,7 +260,7 @@ export class PaperRecordContainer {
     //          14        15     16    17       18
     //         '월별피인용', '등급', 'IF', '백분율', '파싱 상태',
             idx,    raw.uid,    raw.doi,            raw.title, '',
-            '',     '',         raw.authorListJson, raw.timesCited,
+            '',     '',         raw.authorListJson.join('; '), raw.timesCited,
             '',     '',         '',                 '', '',
             '',     '',         '',                 '', raw.recordState,
             '',     '',         ''

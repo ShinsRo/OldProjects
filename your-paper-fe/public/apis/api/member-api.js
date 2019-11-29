@@ -1,7 +1,10 @@
 /* eslint-disable */
-class MemberApi {
+import axios from 'axios'
+
+export default class MemberApi {
     constructor(SERVER_URL) {
         this.SERVER_URL = SERVER_URL;
+        this.token      = '';
     }
 
     // 중복확인
@@ -33,13 +36,14 @@ class MemberApi {
 
     // 로그인
     memberLogin(username, password) {
+        this.token = `Basic ${btoa(unescape(encodeURIComponent(`${username}:${password}`)))}`;
         const data = {
             'username': username,
             'password': password
         }
         const headers = {
             'Content-Type': 'application/json',
-            'Authorization': `Basic ${btoa(`${username}:${password}`)}`
+            'Authorization': this.token
         }
         
         return axios.post(`${this.SERVER_URL}/auth/login`, data, { headers: headers }).then(response => {
@@ -47,4 +51,3 @@ class MemberApi {
         });
     }
 }
-/* eslint no-use-before-define: 2 */
