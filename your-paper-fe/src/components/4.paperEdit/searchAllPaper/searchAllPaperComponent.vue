@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     makeQuery () {
-      const SERVER_URL = 'http://www.siotman.com:19400/'
+      const SERVER_URL = 'http://www.siotman.com:9400/'
       const searchClient = new WokSearchClient(SERVER_URL)
 
       const pageSize = 10
@@ -75,10 +75,10 @@ export default {
       const userQuery = searchClient.buildUserQuery(category, query, organizations)
 
       searchClient.search(userQuery, begin, end, false, true).then(res => {
-        console.log(searchClient.getPageState())
+        // console.log(searchClient.getPageState())
         console.log(res)
-        this.$store.dispatch('searchedPaperAction', res)
-        this.$store.dispatch('searchTriggerAction')
+        this.$store.dispatch('SEARCH_TRIGGER_ACTION')
+        // this.$store.dispatch('searchedPaperAction', res)
       }).catch(error => {
         console.log('Search, if error :')
         console.log(error)

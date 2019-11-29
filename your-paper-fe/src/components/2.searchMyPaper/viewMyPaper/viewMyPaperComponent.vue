@@ -51,7 +51,7 @@
     </div>
     <paperDataComponent class="paperComponentLayout"
     :view-toggle="viewToggle"
-    v-for="paper in paperData" :paper="paper"></paperDataComponent>
+    v-for="(paper, index) in paperData" :key="index" :paper="paper"></paperDataComponent>
   </div>
 </template>
 
@@ -82,17 +82,17 @@ export default {
     const username = session.username
     const authorization = token
     const SERVER_URL = 'http://www.siotman.com:19401/'
-    console.log(username, authorization)
+    // console.log(username, authorization)
     const container = new PaperRecordContainer(username, authorization, SERVER_URL)
 
     container.listByPage(0, 10, SORT_MP_ENUM.TITLE, true)
       .then(res => {
         const records = container.getRecords([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 18])
-        const headers = container.getHeaders([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 18])
+        // const headers = container.getHeaders([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 18])
 
         this.paperData = records
-        console.log(this.paperData)
-        console.log(headers)
+        // console.log(this.paperData)
+        // console.log(headers)
       })
 
     /* this.$axios.post('http://172.16.21.6:9401/myPaper/list', {

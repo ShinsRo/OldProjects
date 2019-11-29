@@ -37,23 +37,21 @@ export default {
         // 아이디나 비밀번호가 비어있지 않을 경우
         this.$axios({
           method: 'POST',
-          url: 'http://www.siotman.com:19401/auth/login',
+          url: 'http://www.siotman.com:9401/auth/login',
           data: {
             'username': this.user.id,
             'password': this.user.password
           },
           headers: { Authorization: `Basic ${btoa(`${this.user.id}:${this.user.password}`)}` }
-          // 암호화를 이용하여 base64로 인코딩한 뒤 요청
         }).then(res => {
-          // 정상적으로 처리될 경우
           this.sessionSet(res, `Basic ${btoa(`${this.user.id}:${this.user.password}`)}`)
-          // 세션스토리지에 결과값 (개인정보, 인코딩 값)을 저장
+          this.$store.dispatch('MEMBER_OBJECT_SET_ACTION')
+          // this.$store.dispatch('MEMBER_INFO_SET_ACTION')
+          // this.$store.dispatch('GET_MY_PAPER_ACTION', this.$store.getters.API_OBJECT_GETTER)
           if (sessionStorage.getItem('token') !== '') {
-            // 세션스토리지에 토큰이 있을 경우 메인 페이지로 이동
             this.$router.push('./main')
           }
         }).catch(error => {
-          // error catch code
           console.log(error)
           this.wrongMessage = '아이디와 비밀번호를 확인해주세요'
         })
