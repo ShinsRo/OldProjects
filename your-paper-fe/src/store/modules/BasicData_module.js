@@ -38,6 +38,7 @@ const mutations = {
       console.log(error)
     })
   },
+  
   SEARCH_ON_WOS_MUTATION (state, payload) {
     state.searchPaperOnWOS = payload
   }
