@@ -27,7 +27,7 @@
       </p>
     </div><!--논문 세부 정보-->
     <div id="paperURL" v-if="viewToggle.url">
-      <p class="url">http://www.papersearch.net/thesis/article.asp?key=155660</p>
+      <p class="url">{{paper[1]}}</p>
     </div><!--논문 url-->
   </div><!--논문 전체 레이아웃-->
 </template>

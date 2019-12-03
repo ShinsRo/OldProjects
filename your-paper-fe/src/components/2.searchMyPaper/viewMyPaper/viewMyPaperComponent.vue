@@ -75,12 +75,23 @@ export default {
       paperData: {}
     }
   },
-  mounted () {
-
+  mounted() {
+    this.$store.dispatch('MEMBER_OBJECT_SET_ACTION')
     this.$store.dispatch('MEMBER_PAPER_ACTION', [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 18])
       .then(res =>{
         this.paperData = this.$store.getters.MEMBER_PAPER_GETTER
+        console.log(this.paperData)
       })
+    //          0    1      2      3     4
+    //         '행', 'UID', 'DOI', '제목', '링크',
+    //          5        6          7      8
+    //         '교신저자', '저자 상태', '저자', '인용수',
+    //          9        10      11   12    13
+    //         '발행년월', '저녈명', '권', '호', '페이지',
+    //          14        15     16    17       18
+    //         '월별피인용', '등급', 'IF', '백분율', '파싱 상태',
+
+
 
     /*
     const token = sessionStorage.getItem('token')
