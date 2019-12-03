@@ -16,18 +16,18 @@
       </tr>
       <tr v-if="showFlag">
         <td class="allData" colspan="5">
-          {{ this.showData.title }} <hr>
-          {{ this.showData.authors.join(', ') }} <hr>
-          {{ setDate(this.showData.source.publishedYear, this.showData.source.publishedDate) }}
+          {{ this.showData[0] }} <hr>
+          {{ this.showData[3].split(';').join(' ') }} <hr>
+          {{ this.showData[4] }}
         </td>
       </tr>
       <tbody v-if="dataContainer==='fullSearch'">
-        <tr class="tableResult" v-for="(object,index) in this.$store.getters.searchedPaperGetter.records" :key="index" @click="showAll(object)" @mousewheel="unShowAll(object)">
-          <td class="titleResult">{{ object.title }}</td>
-          <td class="authorResult">{{ object.authors[0] }}</td>
-          <td class="dateResult">{{ setDate(object.source.publishedYear, object.source.publishedDate )}}</td>
-          <td class="URLResult">{{ object.lamrData.sourceURL }}</td>
-          <td class="buttonResult"><button class="paperAddButton" type="button">Add</button></td>
+        <tr class="tableResult" v-for="(object,index) in searchedPaper" :key="index" @click="showAll(object)" @mousewheel="unShowAll(object)">
+          <td class="titleResult">{{ object[1] }}</td>
+          <td class="authorResult">{{ object[3].split(';')[0] }}</td>
+          <td class="dateResult">{{ object[4] }}</td>
+          <td class="URLResult">{{ object[2] }}</td>
+          <td class="buttonResult"><button class="paperAddButton" type="button" v-on:click="addOnMyPaper(object)">Add</button></td>
         </tr>
       </tbody>
     </table>
@@ -51,20 +51,21 @@ export default {
     this.dataContainer = 'beforeSearch'
   },
   computed: {
-    isSearched () {
-      return this.$store.getters.SEARCH_TRIGGER_GETTER
+    getSearchedData () {
+      return this.$store.getters.SEARCH_ON_WOS_GETTER
     }
   },
   watch: {
-    isSearched (newFlag, oldFlag) {
-      this.dataContainer = 'fullSearch'
+    getSearchedData (newVal, oldVal) {
+      this.searchedPaper = newVal
+      console.log(newVal)
+      if (this.searchedPaper.length === 0) {
+        this.dataContainer = 'emptySearch'
+      } else {
+        this.dataContainer = 'fullSearch'
+      }
     }
   },
-  // computed: {
-  //   isSearched () {
-  //     return this.$store.getters.searchTriggerGetter
-  //   }
-  // },
   // watch: {
   //   'nowPage': function () {
   //     const paperContainer = this.$store.getters.memberPaperGetter
@@ -82,6 +83,26 @@ export default {
     unShowAll (val) {
       this.showFlag = false
       this.showData = ''
+    },
+    addOnMyPaper (object) {
+      var inputType = prompt('저자 상태를 입력해주세요 (교신저자, 공저자, 상관없음) :')
+
+      var authorType = ''
+
+      if (inputType === '교신저자') {
+        authorType = 'REPRINT'
+      } else if (inputType === '공저자') {
+        authorType = 'GENERAL'
+      } else if (inputType === '상관없음') {
+        authorType = 'REFFERING'
+      } else {
+        return alert('잘못 입력했습니다')
+      }
+      const container = this.$store.getters.MEMBER_OBJECT_GETTER
+      container.addOrUpdateOne(object[0], authorType).then(res => {
+        this.$store.dispatch('MEMBER_PAPER_ACTION', [1, 3, 4, 6, 7, 9])
+      })
+      this.unShowAll(object)
     }
   }
 }

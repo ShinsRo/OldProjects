@@ -30,7 +30,7 @@ export default {
   },
   data () {
     return {
-      flag: 2,
+      flag: 1,
       token: '',
       session: {},
       memberInfoDto: {}
