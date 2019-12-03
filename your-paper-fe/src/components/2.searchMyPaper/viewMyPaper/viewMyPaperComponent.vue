@@ -77,10 +77,11 @@ export default {
   mounted() {
     this.$store.dispatch('MEMBER_OBJECT_SET_ACTION')
     this.$store.dispatch('MEMBER_PAPER_ACTION', [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 18])
-      .then(res =>{
+      .then(res => {
         this.paperData = this.$store.getters.MEMBER_PAPER_GETTER
         console.log(this.paperData)
       })
+  }
     //          0    1      2      3     4
     //         '행', 'UID', 'DOI', '제목', '링크',
     //          5        6          7      8
@@ -126,7 +127,7 @@ export default {
       .then(response => {
         this.paperData = response.data
       })
-  }
+  }*/
 }
 </script>
 
