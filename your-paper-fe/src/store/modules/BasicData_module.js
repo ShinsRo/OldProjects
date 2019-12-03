@@ -30,6 +30,7 @@ const mutations = {
     const Session = JSON.parse(sessionStorage.getItem('data'))
     state.apiObject = new PaperRecordContainer(Session.username, token, 'http://www.siotman.com:9401/')
   },
+
   MEMBER_PAPER_MUTATION (state, payload) {
     const criteria = { field: FIELD.TITLE, operation: CRITERIA.LIKE, value: ' ' }
     state.apiObject.listByPage(1, 10, FIELD.TITLE, true, [criteria]).then(res => {
@@ -38,7 +39,7 @@ const mutations = {
       console.log(error)
     })
   },
-  
+
   SEARCH_ON_WOS_MUTATION (state, payload) {
     state.searchPaperOnWOS = payload
   }
