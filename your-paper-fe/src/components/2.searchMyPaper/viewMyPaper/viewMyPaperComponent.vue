@@ -33,7 +33,6 @@
             URL
           </p>
         </div>
-
       </div>
 
       <div class="mainOptionFilter" style="border-bottom: none; padding-left: 40px;">
@@ -126,7 +125,7 @@ export default {
       } })
       .then(response => {
         this.paperData = response.data
-      }) */
+      })
   }
 }
 </script>
