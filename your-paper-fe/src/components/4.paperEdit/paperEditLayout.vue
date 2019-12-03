@@ -8,7 +8,7 @@
     <search-all-paper class="searchOnWOSComponent"></search-all-paper>
     <paperListOnWOS></paperListOnWOS>
     <paperListOnMyPaper></paperListOnMyPaper>
-    <!-- <button class="saveButton" type="button">Save</button> -->
+    <button class="saveButton" type="button">Save</button>
   </div>
 </template>
 
@@ -26,7 +26,7 @@ export default {
   },
   mounted () {
     this.$store.dispatch('MEMBER_OBJECT_SET_ACTION')
-    this.$store.dispatch('MEMBER_PAPER_ACTION',[3, 4, 6, 7, 9])
+    this.$store.dispatch('MEMBER_PAPER_ACTION', [1, 3, 4, 6, 7, 9])
   }
 }
 </script>

@@ -45,9 +45,6 @@ export default {
           headers: { Authorization: `Basic ${btoa(`${this.user.id}:${this.user.password}`)}` }
         }).then(res => {
           this.sessionSet(res, `Basic ${btoa(`${this.user.id}:${this.user.password}`)}`)
-          this.$store.dispatch('MEMBER_OBJECT_SET_ACTION')
-          // this.$store.dispatch('MEMBER_INFO_SET_ACTION')
-          // this.$store.dispatch('GET_MY_PAPER_ACTION', this.$store.getters.API_OBJECT_GETTER)
           if (sessionStorage.getItem('token') !== '') {
             this.$router.push('./main')
           }

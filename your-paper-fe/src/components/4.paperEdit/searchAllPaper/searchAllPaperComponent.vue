@@ -74,15 +74,11 @@ export default {
 
       const userQuery = searchClient.buildUserQuery(category, query, organizations)
 
-      searchClient.search(userQuery, begin, end, false, true).then(res => {
-        // console.log(searchClient.getPageState())
-        console.log(res)
-        this.$store.dispatch('SEARCH_TRIGGER_ACTION')
-        // this.$store.dispatch('searchedPaperAction', res)
+      searchClient.search(userQuery, begin, end, false, false).then(res => {
+        this.$store.dispatch('SEARCH_ON_WOS_ACTION', searchClient.getRecords([1, 3, 4, 7, 9]))
       }).catch(error => {
         console.log('Search, if error :')
         console.log(error)
-        searchClient.setLoading(false)
       })
     }
   }

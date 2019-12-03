@@ -1,5 +1,6 @@
 
 import { FIELD, PaperRecordContainer, CRITERIA } from '../../../public/apis/api/paper-api.js'
+// import Axios from 'axios'
 // const LOGIN_ACTION = 'LOGIN_ACTION'
 // const ENCODING_ACTION = 'ENCODING_ACTION'
 // const LOGOUT_ACTION = 'LOGOUT_ACTION'
@@ -7,8 +8,8 @@ import { FIELD, PaperRecordContainer, CRITERIA } from '../../../public/apis/api/
 
 const state = {
   memberPaper: {},
-  apiObject: {},
-  searchTrigger: false
+  searchPaperOnWOS: {},
+  apiObject: {}
 }
 
 const getters = {
@@ -18,8 +19,8 @@ const getters = {
   MEMBER_PAPER_GETTER (state) {
     return state.memberPaper
   },
-  SEARCH_TRIGGER_GETTER (state) {
-    return state.searchTrigger
+  SEARCH_ON_WOS_GETTER (state) {
+    return state.searchPaperOnWOS
   }
 }
 
@@ -32,17 +33,13 @@ const mutations = {
   MEMBER_PAPER_MUTATION (state, payload) {
     const criteria = { field: FIELD.TITLE, operation: CRITERIA.LIKE, value: ' ' }
     state.apiObject.listByPage(1, 10, FIELD.TITLE, true, [criteria]).then(res => {
-      // state.memberPaper = state.apiObject.getRecords([3, 4, 6, 7, 9])
       state.memberPaper = state.apiObject.getRecords(payload)
     }).catch(error => {
       console.log(error)
     })
   },
-  SEARCH_MY_PAPER_MUTATION (state, payload) {
-
-  },
-  SEARCH_TRIGGER_MUTATION (state) {
-    state.searchTrigger = true
+  SEARCH_ON_WOS_MUTATION (state, payload) {
+    state.searchPaperOnWOS = payload
   }
 }
 
@@ -53,11 +50,8 @@ const actions = {
   MEMBER_PAPER_ACTION (context, payload) {
     context.commit('MEMBER_PAPER_MUTATION', payload)
   }, // 내 논문 불러오기
-  SEARCH_MY_PAPER_ACTION (context, payload) {
-    context.commit('SEARCH_MY_PAPER_MUTATION', payload)
-  }, // 내 논문 검색하기
-  SEARCH_TRIGGER_ACTION (context) {
-    context.commit('SEARCH_TRIGGER_MUTATION')
+  SEARCH_ON_WOS_ACTION (context, payload) {
+    context.commit('SEARCH_ON_WOS_MUTATION', payload)
   }
 }
 export default {

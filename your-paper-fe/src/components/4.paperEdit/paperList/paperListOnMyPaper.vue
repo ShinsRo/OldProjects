@@ -17,28 +17,28 @@
       </tr>
       <tr v-if="showFlag">
         <td class="allData" colspan="5">
-          {{ this.showData[0] }} <hr>
-          {{ this.showData[3].join(', ') }} <hr>
-          {{ this.showData[4] }}
+          {{ this.showData[1] }} <hr>
+          {{ this.showData[3] }} <hr>
+          {{ this.showData[5] }}
         </td>
       </tr>
       <tbody v-if="dataContainer==='fullSearch'">
-        <tr class="tableResult" v-for="(object, index) in this.myPapers" :key="index" @click="showAll(object)" @mousewheel="unShowAll(object)">
-          <td class="titleResult">{{ object[0] }}</td>
+        <tr class="tableResult" v-for="(object, index) in this.myPapers" :key="index">
+          <td class="titleResult" @click="showAll(object)" @mousewheel="unShowAll(object)">{{ object[1] }}</td>
           <td class="authorResult">
-            <select id="test" class="selectAuthorType" style="width: 98%;" v-bind="selectAuthorType(object[2])">
-              <option id="refferingType" value="REFFERING" selected="selected">상관없음</option>
-              <option id="generalType" value="GENERAL">공저자</option>
-              <option id="reprintType" value="REPRINT">교신저자</option>
+            <select id="authorType" class="selectAuthorType" style="width: 98%;" v-model="object[3]">
+              <option value="REFFERING">상관없음</option>
+              <option value="GENERAL">공저자</option>
+              <option value="REPRINT">교신저자</option>
             </select>
           </td>
-          <td class="dateResult">{{ object[4] }}</td>
-          <td class="URLResult"> {{ object[1] }} </td>
-          <td class="buttonResult"><button class="paperAddButton" type="button">Remove</button></td>
+          <td class="dateResult" @click="showAll(object)" @mousewheel="unShowAll(object)">{{ object[5] }}</td>
+          <td class="URLResult" @click="showAll(object)" @mousewheel="unShowAll(object)"> {{ object[2] }} </td>
+          <td class="buttonResult"><button class="paperAddButton" type="button" v-on:click="removePaper(object)">Remove</button></td>
         </tr>
       </tbody>
     </table>
-    <!-- <div class="pageChangeContainer">
+    <!-- <div class="pageChangeContainer" v-if="dataContainer==='fullSearch'">
       <button class="preButton" type="button" v-on:click="prePage()">◀</button>
       <button class="nextButton" type="button" v-on:click="nextPage()">▶</button>
     </div> -->
@@ -63,13 +63,16 @@ export default {
   beforeCreate () {
     this.dataContainer = 'loadingSearch'
   },
+  beforeUpdate () {
+    this.myPapers = this.$store.getters.MEMBER_PAPER_GETTER
+  },
   computed: {
     isSearched () {
       return this.$store.getters.MEMBER_PAPER_GETTER
     }
   },
   watch: {
-    isSearched (newFlag, oldFlag) {
+    isSearched (newVal, oldFlag) {
       this.myPapers = this.$store.getters.MEMBER_PAPER_GETTER
       if (this.myPapers.length === 0) {
         this.dataContainer = 'emptySearch'
@@ -78,52 +81,6 @@ export default {
       }
     }
   },
-  // bercreate () {
-  //   this.myPapers = this.$store.getters.MEMBER_PAPER_GETTER
-  //   console.log(this.$store.getters.MEMBER_PAPER_GETTER)
-  // },
-  // updated () {
-  //   console.log(this.myPapers)
-  //   if (this.myPapers.length === 0) {
-  //     this.dataContainer = 'emptySearch'
-  //   } else {
-  //     this.dataContainer = 'fullSearch'
-  //     console.log(this.myPapers)
-  //   }
-  // },
-  // mounted () {
-  //   console.log(this.myPapers)
-  //   if (this.myPapers === []) {
-  //     this.dataContainer = 'emptySearch'
-  //   } else {
-  //     this.dataContainer = 'fullSearh'
-  //   }
-  //   console.log(this.myPapers)
-  // },
-  // beforeMount () {
-  //   this.$store.dispatch('MEMBER_INFO_SET_ACTION')
-  // },
-  // mounted () {
-  //   // console.log('getter test')
-  //   // console.log(this.$store.getters.API_OBJECT_GETTER)
-  // },
-  // computed: {
-  //   isSearched () {
-  //     return this.$store.getters.searchTriggerGetter
-  //   }
-  // },
-  // watch: {
-  //   'nowPage': function () {
-  //     const paperContainer = this.$store.getters.memberPaperGetter
-  //     this.myPapers = paperContainer.getRecords([3, 4, 6, 7, 9])
-  //   },
-  //   isSearched (newFlag, oldFlag) {
-  //     this.isSearch = true
-  //     this.isSearchResult = true
-  //     console.log(this.$store.getters.searchedPaperGetter.records)
-  //   }
-  // 검색이 되었는지에 대한 감지
-  // },
   methods: {
     setDate (year, date) {
       return `${year || ''} ${date || ''}`
@@ -136,19 +93,16 @@ export default {
       this.showFlag = false
       this.showData = ''
     },
-    selectAuthorType (val) {
-      // 가져온 논문이 누구의 논문인지 selectBox에
-      // 표시하기 위한 메서드
-      // console.log(document.getElementById('generalType'))
-      // if (val === 'REFFERING') {
-      //   document.getElementById('test').option[0].selected = 'true'
-      // } else if (val === 'GENERAL') {
-      //   console.log(document.getElementById('test'))
-      //   document.getElementById('test').option[1].selected = 'true'
-      // } else {
-      //   console.log('교신저자')
-      //   document.getElementById('test').option[2].selected = 'true'
-      // }
+    removePaper (val) {
+      var removeCheck = confirm('해당 논문을 삭제하시겠습니까?')
+
+      if (removeCheck === true) {
+        this.unShowAll()
+        const container = this.$store.getters.MEMBER_OBJECT_GETTER
+        container.deleteOne(val[0]).then(res => {
+          this.$store.dispatch('MEMBER_PAPER_ACTION', [1, 3, 4, 6, 7, 9])
+        })
+      }
     }
     // prePage () {
     //   if (this.nowPage === 0) {
