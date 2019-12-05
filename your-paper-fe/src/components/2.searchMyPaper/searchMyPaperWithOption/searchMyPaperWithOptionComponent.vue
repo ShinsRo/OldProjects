@@ -3,8 +3,7 @@
   <div id="mainOption">
     <div id="mainOptionSearchLayout">
       <select id="select" v-model="category">
-        <option selected disabled value="">카테고리</option>
-        <option value="TI">논문제목</option>
+        <option selected value="TI">논문제목</option>
         <option value="AU">저자</option>
         <option value="DO">DOI</option>
       </select>
@@ -93,8 +92,8 @@
   data () {
     return {
       duration: 'all',
-      author: 'all',
-      category: '',
+      author: '',
+      category: 'TI',
       searchValue: ''
     }
   },

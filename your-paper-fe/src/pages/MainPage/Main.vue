@@ -43,6 +43,12 @@ export default {
 
   },
   mounted(){
+    const contentOuter = document.querySelector('#contentOuter');
+    contentOuter.addEventListener('scroll', e => {
+      if(contentOuter.scrollTop + contentOuter.clientHeight >= contentOuter.scrollHeight) {
+        console.log('read more')
+      }
+    });
   }
 }
 </script>

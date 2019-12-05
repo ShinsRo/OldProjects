@@ -24,6 +24,24 @@ export default {
     if (isToken === null) {
       this.$router.push('./')
     }
+  },
+  mounted(){
+
+
+
+  },
+  methods: {
+
+  },
+  computed: {
+    isEnd(){
+      return document.documentElement.scrollTop
+    }
+  },
+  watch: {
+    isEnd(){
+      console.log("end!")
+    }
   }
 }
 </script>
