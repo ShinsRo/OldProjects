@@ -8,7 +8,6 @@
     <search-all-paper class="searchOnWOSComponent"></search-all-paper>
     <paperListOnWOS></paperListOnWOS>
     <paperListOnMyPaper></paperListOnMyPaper>
-    <button class="saveButton" type="button">Save</button>
   </div>
 </template>
 
