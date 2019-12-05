@@ -8,6 +8,16 @@
       <p class="loadingText">등록된 주저자 논문이 없습니다.</p>
     </div>
     <div v-if="loading === 1" id="tableInner">
+      <!--<div class="column">
+        <div class="header">
+          No.
+        </div>
+        <div class="cell center" v-for="data in paperData">
+          <div class="content">
+            <p>{{data[14]+1}}</p>
+          </div>
+        </div>
+      </div>-->
      <div class="column">
         <div class="header">
           제목
@@ -23,8 +33,8 @@
         <div class="header">
           링크
         </div>
-        <div class="cell link"  v-for="data in paperData">
-          <a href="#" onClick="openWOSpage(data[1])">이동</a>
+        <div class="cell center"  v-for="data in paperData">
+          <a href="#" v-on:click="openWOSPage(data[1])">이동</a>
         </div>
 
       </div>
@@ -41,7 +51,7 @@
 
       <div class="column">
         <div class="header">
-          저자
+          저자 상태
         </div>
         <div class="cell" v-for="data in paperData">
           <div class="content">
@@ -65,7 +75,7 @@
         <div class="header">
           인용수
         </div>
-        <div class="cell" v-for="data in paperData">
+        <div class="cell center" v-for="data in paperData">
           <div class="content">
             <p>{{data[5]}}</p>
           </div>
@@ -163,62 +173,12 @@
 import { PaperRecordContainer, SORT_MP_ENUM } from '../../../../public/apis/api/paper-api.js'
 export default {
   name: 'allPaperListComponent',
-  data () {
-    return {
-      paperData: [],
-      headers: {},
-      loading: 0
-    }
-  },
+  props:['loading','paperData'],
   methods: {
-    openWOSpage(){
-
+    openWOSPage(url){
+      window.open(url)
     }
   },
-
-  mounted () {
-    this.loading = 0;
-
-    /*
-    const token = sessionStorage.getItem('token')
-    const session = JSON.parse(sessionStorage.getItem('data'))
-
-    const username = session.username
-    const authorization = token
-    const SERVER_URL = 'http://www.siotman.com:19401/'
-
-    const container = new PaperRecordContainer(username, authorization, SERVER_URL)
-
-    container.listByPage(0, 10, SORT_MP_ENUM.TITLE, true)
-      .then(res => {
-        const records = container.getRecords([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18])
-        const headers = container.getHeaders([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18])
-
-        console.log(headers)
-
-        this.paperData = records
-        this.headers = headers
-        console.log(this.paperData)
-        console.log(this.headers)
-      })*/
-  },
-  computed:{
-    isLoading(){
-      return this.$store.getters.MEMBER_PAPER_GETTER
-    }
-  },
-  watch:{
-    isLoading(newVal, oldVal){
-      this.paperData = this.$store.getters.MEMBER_PAPER_GETTER
-      console.log('allpeper',this.paperData);
-      if(this.paperData.length === 0){
-        this.loading = -1
-      }
-      else{
-        this.loading = 1
-      }
-    }
-  }
 
 }
 </script>

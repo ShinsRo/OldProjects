@@ -126,7 +126,6 @@ export class PaperRecordContainer {
             // username: this.username,
             fieldName: category,
             value: query,
-
             page: page,
             isAsc: isAsc,
             sortBy: sortBy,

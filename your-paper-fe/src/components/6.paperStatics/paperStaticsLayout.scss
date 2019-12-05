@@ -32,7 +32,22 @@
     color: white;
     border-radius: 5px;
     padding: 1px;
-    margin-right: 5px;
+    margin: 0 5px 0 5px;
+    font-weight: bold;
+    cursor: pointer;
   }
 
+  .page{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    color: $basicIndigo;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  .page:hover{
+    color: $basicOrange;
+
+  }
 }

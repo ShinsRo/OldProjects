@@ -1,16 +1,11 @@
 
 import { FIELD, PaperRecordContainer, CRITERIA } from '../../../public/apis/api/paper-api.js'
-// import Axios from 'axios'
-// const LOGIN_ACTION = 'LOGIN_ACTION'
-// const ENCODING_ACTION = 'ENCODING_ACTION'
-// const LOGOUT_ACTION = 'LOGOUT_ACTION'
-// const LOAD_MY_PAPER_MUTATION = 'LOAD_MY_PAPER_MUTATION'
 
 const state = {
   memberPaper: {},
   searchPaperOnWOS: {},
   apiObject: {},
-  myPaperList: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 18]
+  endPage: -1,
 }
 
 const getters = {
@@ -18,22 +13,14 @@ const getters = {
     return state.apiObject
   },
   MEMBER_PAPER_GETTER (state) {
-    /*
-    let paperData = []
-    let data = {}
-    for(let i = 0; i<state.memberPaper.length; i++){
-      data = []
-      for(let j = 0; j< state.myPaperList.length;j++){
-        data.push(state.memberPaper[i][j])
-      }
-      paperData.push(data)
-    }*/
-
     return state.memberPaper
   },
   SEARCH_ON_WOS_GETTER (state) {
     return state.searchPaperOnWOS
-  }
+  },
+  END_PAGE_GETTER (state){
+    return state.endPage
+  },
 }
 
 const mutations = {
@@ -42,33 +29,50 @@ const mutations = {
     const Session = JSON.parse(sessionStorage.getItem('data'))
     state.apiObject = new PaperRecordContainer(Session.username, token, 'http://www.siotman.com:9401/')
   },
-
   MEMBER_PAPER_MUTATION (state, payload) {
     const criteria = { field: FIELD.TITLE, operation: CRITERIA.LIKE, value: ' ' }
     state.apiObject.listByPage(1, 10, FIELD.TITLE, true, [criteria]).then(res => {
       state.memberPaper = state.apiObject.getRecords(payload)
-      console.log('store')
       return 1;
     }).catch(error => {
       console.log(error)
     })
   },
-  MEMBER_PAPER_PAGING_MUTATION (state, page, payload) {
-    const criteria = { field: FIELD.TITLE, operation: CRITERIA.LIKE, value: ' ' }
-    state.apiObject.listByPage(page, 10, FIELD.TITLE, true, [criteria]).then(res => {
-      state.memberPaper = state.apiObject.getRecords(payload)
-      console.log('store')
-      return 1;
+  SET_END_PAGE_MUTATION (state, value) {
+    const criteria = { field: FIELD.AUTHOR_TYPE, operation: CRITERIA.LIKE, value: value}
+    state.apiObject.listByPage(1, 10, FIELD.TITLE, true, [criteria]).then(res => {
+      state.endPage = state.apiObject.getPageState().endPage + 1
     }).catch(error => {
       console.log(error)
     })
   },
+  ALL_PAPER_MUTATION (state, {payload, value}) {
+    let page = 1
+    state.memberPaper = []
+    const criteria = { field: FIELD.AUTHOR_TYPE, operation: CRITERIA.LIKE, value: value }
+    while(state.endPage > page){
+      state.apiObject.listByPage(page, 10, FIELD.TITLE, true, [criteria]).then(res => {
+        state.memberPaper.push(state.apiObject.getRecords(payload))
+      }).catch(error => {
+        console.log(error)
+      })
+      page += 1
+    }
+  },
+
   SEARCH_ON_WOS_MUTATION (state, payload) {
     state.searchPaperOnWOS = payload
   },
   PAGING_MUTATION (state, payload) {
     state.memberPaper = payload
   },
+  /*
+  NEW_PAGING_MUTATION (state, {option, page}) {
+    state.apiObject.retrive(page).then(res => {
+      const retriveData = this.objectContainer.getRecords()
+      this.$store.dispatch('PAGING_ACTION', retriveData)
+    })
+  },*/
   CLEAR_STORE_MUTATION (state) {
     state.memberPaper = {}
     state.searchPaperOnWOS = {}
@@ -83,15 +87,22 @@ const actions = {
   MEMBER_PAPER_ACTION (context, payload) {
     context.commit('MEMBER_PAPER_MUTATION', payload)
   }, // 내 논문 불러오기
-  MEMBER_PAPER_PAGING_ACTION (context,  payload, page) {
-    context.commit('MEMBER_PAPER_PAGING_MUTATION', page, payload)
+  ALL_PAPER_ACTION (context,  {payload, value}) {
+    context.commit('ALL_PAPER_MUTATION', {payload, value})
   }, // 내 논문 불러오기
+  SET_END_PAGE_ACTION (context, value){
+    context.commit('SET_END_PAGE_MUTATION', value)
+  },
   SEARCH_ON_WOS_ACTION (context, payload) {
     context.commit('SEARCH_ON_WOS_MUTATION', payload)
   },
   PAGING_ACTION (context, payload) {
     context.commit('PAGING_MUTATION', payload)
   },
+  /*
+  NEW_PAGING_ACTION (context,{option, page}) {
+    context.commit('NEW_PAGING_MUTATION', {option, page})
+  },*/
   CLEAR_STORE_ACTION (context) {
     context.commit('CLEAR_STORE_MUTATION')
   }
