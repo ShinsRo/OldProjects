@@ -22,33 +22,48 @@
         </td>
       </tr>
       <tbody v-if="dataContainer==='fullSearch'">
-        <tr class="tableResult" v-for="(object,index) in searchedPaper" :key="index" @click="showAll(object)" @mousewheel="unShowAll(object)">
-          <td class="titleResult">{{ object[1] }}</td>
-          <td class="authorResult">{{ object[3].split(';')[0] }}</td>
-          <td class="dateResult">{{ object[4] }}</td>
-          <td class="URLResult">{{ object[2] }}</td>
-          <td class="buttonResult"><button class="paperAddButton" type="button" v-on:click="addOnMyPaper(object)">Add</button></td>
+        <tr class="tableResult" v-for="(object,index) in searchedPaper" :key="index">
+          <td class="titleResult" @click="showAll(object)" @mousewheel="unShowAll(object)">{{ object[1] }}</td>
+          <td class="authorResult" @click="showAll(object)" @mousewheel="unShowAll(object)">{{ object[3].split(';')[0] }}</td>
+          <td class="dateResult" @click="showAll(object)" @mousewheel="unShowAll(object)">{{ object[4] }}</td>
+          <td class="URLResult" @click="showAll(object)" @mousewheel="unShowAll(object)">{{ object[2] }}</td>
+          <td class="buttonResult"><button class="paperAddButton" type="button" v-on:click="addOnMyPaper(object, index)">Add</button></td>
         </tr>
       </tbody>
     </table>
+    <!-- <div class="pageChangeContainer" v-if="dataContainer==='fullSearch'">
+      <button class="preButton" type="button">◀</button>
+      <div class="pagingButtonContainer">
+        <button class="pagingButton" v-for="index in ButtonCounter()" :key="index" v-on:click="selectPage(index)">{{ pageNum(index) }}</button>
+      </div>
+      <button class="nextButton" type="button">▶</button>
+    </div> -->
   </div>
 </template>
 
 <script>
+// import { WokSearchClient } from '../../../../public/apis/api/wos-api.js'
 
 export default {
   name: 'paperListOnMyPaper',
   data () {
     return {
+      // nowPage: 1,
+      // endPage: null,
+      // pageDiv: null,
+      buttonCounter: 1,
       showFlag: false,
       searchedPaper: {},
       AllData: '',
       showData: '',
       dataContainer: 'beforeSearch'
+      // WOSContainer: null
     }
   },
   mounted () {
     this.dataContainer = 'beforeSearch'
+    // const SERVER_URL = 'http://www.siotman.com:9400/'
+    // WOSContainer = new WokSearchClient(SERVER_URL)
   },
   computed: {
     getSearchedData () {
@@ -84,7 +99,7 @@ export default {
       this.showFlag = false
       this.showData = ''
     },
-    addOnMyPaper (object) {
+    addOnMyPaper (object, index) {
       var inputType = prompt('저자 상태를 입력해주세요 (교신저자, 공저자, 상관없음) :')
 
       var authorType = ''
@@ -101,6 +116,10 @@ export default {
       const container = this.$store.getters.MEMBER_OBJECT_GETTER
       container.addOrUpdateOne(object[0], authorType).then(res => {
         this.$store.dispatch('MEMBER_PAPER_ACTION', [1, 3, 4, 6, 7, 9])
+        this.searchedPaper.splice(index, 1)
+        this.unShowAll(object)
+      }).catch(err => {
+        console.log(err)
       })
       this.unShowAll(object)
     }

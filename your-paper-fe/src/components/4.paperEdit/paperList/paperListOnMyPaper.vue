@@ -38,10 +38,13 @@
         </tr>
       </tbody>
     </table>
-    <!-- <div class="pageChangeContainer" v-if="dataContainer==='fullSearch'">
+    <div class="pageChangeContainer" v-if="dataContainer==='fullSearch'">
       <button class="preButton" type="button" v-on:click="prePage()">◀</button>
+      <div class="pagingButtonContainer">
+        <button class="pagingButton" v-for="index in ButtonCounter()" :key="index" v-on:click="selectPage(index)">{{ pageNum(index) }}</button>
+      </div>
       <button class="nextButton" type="button" v-on:click="nextPage()">▶</button>
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -51,17 +54,26 @@ export default {
   name: 'paperListOnMyPaper',
   data () {
     return {
-      nowPage: 0,
+      nowPage: 1,
+      endPage: null,
+      pageDiv: null,
+      buttonCounter: 1,
       showFlag: false,
       flag: 2,
       myPapers: [],
       AllData: '',
       showData: '',
-      dataContainer: 'loadingSearch'
+      dataContainer: 'loadingSearch',
+      objectContainer: null
     }
   },
   beforeCreate () {
     this.dataContainer = 'loadingSearch'
+  },
+  mounted () {
+    this.objectContainer = this.$store.getters.MEMBER_OBJECT_GETTER
+    this.endPage = this.objectContainer.getPageState().endPage
+    this.pageDiv = parseInt(this.endPage / 10)
   },
   beforeUpdate () {
     this.myPapers = this.$store.getters.MEMBER_PAPER_GETTER
@@ -72,12 +84,18 @@ export default {
     }
   },
   watch: {
-    isSearched (newVal, oldFlag) {
+    isSearched (newVal, oldVal) {
       this.myPapers = this.$store.getters.MEMBER_PAPER_GETTER
       if (this.myPapers.length === 0) {
         this.dataContainer = 'emptySearch'
       } else {
         this.dataContainer = 'fullSearch'
+
+        // if (this.myPapers.length === 10) {
+        //   console.log(this.objectContainer)
+        //   this.endPage = this.objectContainer.getPageState().endPage
+        //   this.pageDiv = parseInt(this.endPage / 10)
+        // }
       }
     }
   },
@@ -98,24 +116,39 @@ export default {
 
       if (removeCheck === true) {
         this.unShowAll()
-        const container = this.$store.getters.MEMBER_OBJECT_GETTER
-        container.deleteOne(val[0]).then(res => {
+        // const container = this.$store.getters.MEMBER_OBJECT_GETTER
+        this.objectContainer.deleteOne(val[0]).then(res => {
           this.$store.dispatch('MEMBER_PAPER_ACTION', [1, 3, 4, 6, 7, 9])
         })
       }
+    },
+    ButtonCounter () {
+      if (this.buttonCounter <= this.pageDiv) {
+        return 10
+      } else {
+        return this.endPage - (this.buttonCounter - 1) * 10
+      }
+    },
+    prePage () {
+      if (this.buttonCounter > 1) {
+        this.buttonCounter -= 1
+      }
+    },
+    nextPage () {
+      if (this.buttonCounter <= this.pageDiv) {
+        this.buttonCounter += 1
+      }
+    },
+    pageNum (index) {
+      return (this.buttonCounter - 1) * 10 + index
+    },
+    selectPage (index) {
+      var page = ((this.buttonCounter - 1) * 10) + index
+      this.objectContainer.retrive(page).then(res => {
+        const retriveData = this.objectContainer.getRecords([1, 3, 4, 6, 7, 9])
+        this.$store.dispatch('PAGING_ACTION', retriveData)
+      })
     }
-    // prePage () {
-    //   if (this.nowPage === 0) {
-    //     this.nowPage = this.nowPage
-    //   } else {
-    //     this.$store.dispatch('loadMyPaperAction', this.nowPage - 1)
-    //     this.nowPage -= 1
-    //   }
-    // },
-    // nextPage () {
-    //   this.$store.dispatch('loadMyPaperAction', this.nowPage + 1)
-    //   this.nowPage += 1
-    // }
   }
 }
 </script>

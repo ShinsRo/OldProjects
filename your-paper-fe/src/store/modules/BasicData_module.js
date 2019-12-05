@@ -63,9 +63,16 @@ const mutations = {
       console.log(error)
     })
   },
-
   SEARCH_ON_WOS_MUTATION (state, payload) {
     state.searchPaperOnWOS = payload
+  },
+  PAGING_MUTATION (state, payload) {
+    state.memberPaper = payload
+  },
+  CLEAR_STORE_MUTATION (state) {
+    state.memberPaper = {}
+    state.searchPaperOnWOS = {}
+    state.apiObject = {}
   }
 }
 
@@ -81,6 +88,12 @@ const actions = {
   }, // 내 논문 불러오기
   SEARCH_ON_WOS_ACTION (context, payload) {
     context.commit('SEARCH_ON_WOS_MUTATION', payload)
+  },
+  PAGING_ACTION (context, payload) {
+    context.commit('PAGING_MUTATION', payload)
+  },
+  CLEAR_STORE_ACTION (context) {
+    context.commit('CLEAR_STORE_MUTATION')
   }
 }
 export default {
