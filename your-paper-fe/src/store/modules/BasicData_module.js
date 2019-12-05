@@ -59,20 +59,20 @@ const mutations = {
       page += 1
     }
   },
-
   SEARCH_ON_WOS_MUTATION (state, payload) {
     state.searchPaperOnWOS = payload
   },
   PAGING_MUTATION (state, payload) {
     state.memberPaper = payload
   },
-  /*
-  NEW_PAGING_MUTATION (state, {option, page}) {
-    state.apiObject.retrive(page).then(res => {
-      const retriveData = this.objectContainer.getRecords()
-      this.$store.dispatch('PAGING_ACTION', retriveData)
+  SEARCH_MY_PAPER_MUTATION (state, {payload, criteria}){
+    state.apiObject.listByPage(1, 10, FIELD.TITLE, true, criteria).then(res => {
+      state.memberPaper =state.apiObject.getRecords(payload)
+      console.log('searched')
+    }).catch(error => {
+      console.log(error)
     })
-  },*/
+  },
   CLEAR_STORE_MUTATION (state) {
     state.memberPaper = {}
     state.searchPaperOnWOS = {}
@@ -99,10 +99,9 @@ const actions = {
   PAGING_ACTION (context, payload) {
     context.commit('PAGING_MUTATION', payload)
   },
-  /*
-  NEW_PAGING_ACTION (context,{option, page}) {
-    context.commit('NEW_PAGING_MUTATION', {option, page})
-  },*/
+  SEARCH_MY_PAPER_ACTION (context, {payload, criteria}){
+    context.commit('SEARCH_MY_PAPER_MUTATION', {payload, criteria})
+  },
   CLEAR_STORE_ACTION (context) {
     context.commit('CLEAR_STORE_MUTATION')
   }

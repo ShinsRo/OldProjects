@@ -2,8 +2,14 @@
 
   <div id="mainOption">
     <div id="mainOptionSearchLayout">
-      <input class="searchInput" @click="searchMyPaper()"/>
-      <div id="mainOptionSearchButton" @click="searchMyPaper">
+      <select id="select" v-model="category">
+        <option selected disabled value="">카테고리</option>
+        <option value="TI">논문제목</option>
+        <option value="AU">저자</option>
+        <option value="DO">DOI</option>
+      </select>
+      <input class="searchInput" v-model="searchValue"/>
+      <div id="mainOptionSearchButton" v-on:click="searchMyPaper">
         <p class="text">
           search
         </p>
@@ -50,21 +56,27 @@
           </p>
         </div>
         <div class="mainOptionFilterContent">
-          <input class="check" type="radio" name="author" v-model="author" value="all"/>
+          <input class="check" type="radio" name="author" v-model="author" value=''/>
           <p class="text">
             상관없음
           </p>
         </div>
         <div class="mainOptionFilterContent">
-          <input class="check" type="radio" name="author" v-model="author" value="main"/>
+          <input class="check" type="radio" name="author" v-model="author" value="REPRINT"/>
           <p class="text">
-            주 저자
+            교신저자
           </p>
         </div>
         <div class="mainOptionFilterContent">
-          <input class="check" type="radio" name="author" v-model="author" value="sub"/>
+          <input class="check" type="radio" name="author" v-model="author" value='GENERAL'/>
           <p class="text">
-            부 저자
+            공저자
+          </p>
+        </div>
+        <div class="mainOptionFilterContent">
+          <input class="check" type="radio" name="author" v-model="author" value='REFFERING'/>
+          <p class="text">
+            참고
           </p>
         </div>
       </div> <!--메인 옵션 필터 : 저자-->
@@ -74,17 +86,26 @@
 </template>
 
 <script>
-export default {
+  import { FIELD, PaperRecordContainer, CRITERIA } from '../../../../public/apis/api/paper-api.js'
+
+  export default {
   name: 'MainOption',
   data () {
     return {
       duration: 'all',
-      author: 'all'
+      author: 'all',
+      category: '',
+      searchValue: ''
     }
   },
   methods: {
     searchMyPaper () {
-      console.log(this.duration, this.author)
+
+      const criteria = [
+        { field: FIELD.AUTHOR_TYPE, operation: CRITERIA.LIKE, value: this.author },
+        { field: FIELD.TITLE, operation: CRITERIA.LIKE, value: this.searchValue },
+      ]
+      this.$store.dispatch('SEARCH_MY_PAPER_ACTION',{payload: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 18], criteria: criteria})
     }
   }
 }

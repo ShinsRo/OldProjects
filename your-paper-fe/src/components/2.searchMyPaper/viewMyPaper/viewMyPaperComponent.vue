@@ -91,42 +91,6 @@ export default {
     //         '발행년월', '저녈명', '권', '호', '페이지',
     //          14        15     16    17       18
     //         '월별피인용', '등급', 'IF', '백분율', '파싱 상태',
-
-    /*
-    const token = sessionStorage.getItem('token')
-    const session = JSON.parse(sessionStorage.getItem('data'))
-
-    const username = session.username
-    const authorization = token
-    const SERVER_URL = 'http://www.siotman.com:19401/'
-    // console.log(username, authorization)
-    const container = new PaperRecordContainer(username, authorization, SERVER_URL)
-
-    let save = this.$store.dispatch('MEMBER_PAPER_ACTION')
-    console.log(save);
-*/
-/*
-    container.listByPage(0, 10, SORT_MP_ENUM.TITLE, true)
-      .then(res => {
-        const records = container.getRecords([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 18])
-        // const headers = container.getHeaders([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 18])
-
-        this.paperData = records
-        // console.log(this.paperData)
-        // console.log(headers)
-      })*/
-
-    /* this.$axios.post('http://172.16.21.6:9401/myPaper/list', {
-      username: 'admin' },
-    {
-      headers: {
-        'Authorization': 'Basic YWRtaW46YWRtaW4=',
-        'Content-Type': 'application/json'
-      } })
-      .then(response => {
-        this.paperData = response.data
-      })
-  }*/
     computed:{
       isLoading(){
         return this.$store.getters.MEMBER_PAPER_GETTER
