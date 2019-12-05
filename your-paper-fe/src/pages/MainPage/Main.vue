@@ -40,6 +40,8 @@ export default {
     changeComponent (val) {
       this.flag = val
     }
+  },
+  mounted(){
   }
 }
 </script>

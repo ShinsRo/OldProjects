@@ -10,5 +10,29 @@
   display: flex;
   height: auto;
   width : 100%;
-  border: 1px solid;
+  border: 1px solid $basicGray;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 0 $basicGray;
+}
+
+#buttonWrap{
+  display: flex;
+  margin-top: 20px;
+  height: 30px;
+  width: 100%;
+  justify-content: center;
+
+  .button{
+    display: inline-flex;
+    width: 50px;
+    height: 28px;
+    background-color: $basicIndigo;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-radius: 5px;
+    padding: 1px;
+    margin-right: 5px;
+  }
+
 }
