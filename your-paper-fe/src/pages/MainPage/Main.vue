@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div >
       <headerComponent id="header" v-on:changeFlag="changeComponent" :username="memberInfoDto"></headerComponent>
       <div id="contentOuter">
         <search-my-paper-layout id="searchMyPaper" v-if="flag===1" :token="token" :session="session"></search-my-paper-layout>
@@ -39,7 +39,8 @@ export default {
   methods: {
     changeComponent (val) {
       this.flag = val
-    }
+    },
+
   },
   mounted(){
   }
