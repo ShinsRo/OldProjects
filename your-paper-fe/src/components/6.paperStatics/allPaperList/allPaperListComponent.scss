@@ -1,22 +1,40 @@
 @import '../../BasicStyle/BasicStyle.scss';
 
+*{
+  -ms-overflow-style: none; // IE에서 스크롤바 감춤
+  &::-webkit-scrollbar {
+    display: none !important; // 윈도우 크롬 등
+  }
+}
 #table {
   width: 100%;
   overflow-x: scroll;
   font-size: 13px;
+
+  .loadingInner{
+    display: flex;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+
+    .loadingText{
+      font-size: 15px;
+    }
+  }
+
+  #tableInner {
+    display: inline-flex;
+  }
+
 }
 
-#tableInner {
-  display: inline-flex;
 
-}
 
 .column {
   display: inline-flex;
-  width: auto;
-  min-width: 70px;
-  border-right: 1px solid;
   flex-direction: column;
+  width: auto;
+
 }
 
 .column:last-child{
@@ -24,29 +42,48 @@
 }
 
 .header {
-  border-bottom: 1px solid rgb(46,53,78);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: gray;
+  border-bottom: 1px solid darkgray;
   padding: 10px;
+  height: 20px;
+  width: auto;
+  min-width:40px;
 }
 
-.body {
+p{
+  text-overflow: ellipsis;
+  width: max-content;
+}
+
+.cell {
   display: flex;
   align-items: center;
-  padding: 5px;
-  height: 30px;
+  padding: 9px 20px 9px 9px;
+  text-align: right;
   text-overflow: ellipsis;
-  min-width: 100px;
-  border-bottom: 1px solid rgb(46,53,78);
+  overflow-x: scroll;
+  height: 20px;
+  max-width: 300px;
+  border-bottom: 1px solid $basicGray;
 }
+
+.content{
+  width: max-content;
+}
+
+
+.link{
+  justify-content: center;
+}
+
+
 
 .body:last-child {
   border-bottom: none;
 }
-
-.body > p {
-  width: 100%;
-}
-
-
 
 /*
  <table>
