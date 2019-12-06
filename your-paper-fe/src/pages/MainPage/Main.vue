@@ -41,7 +41,9 @@ export default {
       this.flag = val
     }
   },
-  mounted(){
+  mounted () {
+    this.$store.dispatch('MEMBER_OBJECT_SET_ACTION')
+    this.$store.dispatch('WOS_OBJECT_SET_ACTION')
   }
 }
 </script>
