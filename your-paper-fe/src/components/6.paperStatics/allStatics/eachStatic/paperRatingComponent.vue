@@ -1,20 +1,20 @@
 <template>
-  <div class="authorTypeWrapper">
-    <div id="typeContainer"></div>
+  <div class="paperRatingWrapper">
+    <div id="ratingContainer"></div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'authorRatingComponent',
+  name: 'paperRatingComponent',
   mounted () {
     var chart = c3.generate({
-    bindto: '#typeContainer',
+    bindto: '#ratingContainer',
     data: {
         columns: [
-            ['교신저자', 60],
-            ['공저자', 30],
-            ['타인논문', 30]
+            ['SCI', 60],
+            ['SCIE', 30],
+            ['SCPIS', 30]
         ],
         type : 'donut',
         onclick: function (d, i) { console.log('onclick', d, i); },
@@ -22,7 +22,7 @@ export default {
         onmouseout: function (d, i) { console.log('onmouseout', d, i); }
     },
     donut: {
-        title: '교신 저자 비율'
+        title: '논문 등급 비율'
     }
     });
   }
@@ -30,5 +30,5 @@ export default {
 </script>
 
 <style lang="scss">
-  @import './authorRatingComponent.scss';
+  @import './paperRatingComponent.scss';
 </style>

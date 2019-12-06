@@ -11,6 +11,7 @@ const state = {
   searchPaperPage: 0,
   memberPaperPage: null,
   endPage: -1,
+  citeCounter: 0
 }
 
 const getters = {
@@ -31,6 +32,9 @@ const getters = {
   },
   SEARCH_ON_WOS_GETTER (state) {
     return state.searchPaperOnWOS
+  },
+  CITE_COUNTER_GETTER (state) {
+    return state.citeCounter
   },
   END_PAGE_GETTER (state){
     return state.endPage
@@ -100,6 +104,9 @@ const mutations = {
   MEMBER_PAGING_COUNT_MUTATION (state) {
     state.memberPaperPage = state.apiObject.getPageState().endPage
   },
+  CITE_COUNT_MUTATION (state, payload) {
+    state.citeCounter = payload
+  },
   CLEAR_STORE_MUTATION (state) {
     state.memberPaper = {}
     state.searchPaperOnWOS = {}
@@ -138,13 +145,12 @@ const actions = {
   MEMBER_PAGING_COUNT_ACTION (context) {
     context.commit('MEMBER_PAGING_COUNT_MUTATION')
   },
-  /*
-  NEW_PAGING_ACTION (context,{option, page}) {
-    context.commit('NEW_PAGING_MUTATION', {option, page})
-  },*/
+  CITE_COUNT_ACTION (context, payload) {
+    context.commit('CITE_COUNT_MUTATION', payload)
+  },
   CLEAR_STORE_ACTION (context) {
     context.commit('CLEAR_STORE_MUTATION')
-  } // 로그아웃시 스토어 클리어 action
+  }, // 로그아웃시 스토어 클리어 action
 }
 export default {
   state,
