@@ -64,7 +64,6 @@ const mutations = {
       console.log(error)
     })
   },
-
   SET_END_PAGE_MUTATION (state, value) {
     const criteria = { field: FIELD.AUTHOR_TYPE, operation: CRITERIA.LIKE, value: value}
     state.apiObject.listByPage(1, 10, FIELD.TITLE, true, [criteria]).then(res => {

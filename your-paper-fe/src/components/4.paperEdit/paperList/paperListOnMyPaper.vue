@@ -73,7 +73,6 @@ export default {
   },
   mounted () {
     this.objectContainer = this.$store.getters.MEMBER_OBJECT_GETTER
-    this.$store.dispatch('MEMBER_PAGING_COUNT_ACTION')
     this.endPage = this.$store.getters.MEMBER_PAGING_COUNT_GETTER
     this.pageDiv = parseInt(this.endPage / 10)
   },
@@ -83,6 +82,9 @@ export default {
   computed: {
     isSearched () {
       return this.$store.getters.MEMBER_PAPER_GETTER
+    },
+    getEndPage () {
+      return this.$store.getters.MEMBER_PAGING_COUNT_GETTER
     }
   },
   watch: {
@@ -94,8 +96,10 @@ export default {
         this.dataContainer = 'fullSearch'
       }
       this.$store.dispatch('MEMBER_PAGING_COUNT_ACTION')
-      this.endPage = this.$store.getters.MEMBER_PAGING_COUNT_GETTER
       this.pageDiv = parseInt(this.endPage / 10)
+    },
+    getEndPage(){
+      this.endPage = this.$store.getters.MEMBER_PAGING_COUNT_GETTER
     }
   },
   methods: {
@@ -152,11 +156,14 @@ export default {
       return (this.buttonCounter - 1) * 10 + index
     },
     selectPage (index) {
+      /*
       var page = ((this.buttonCounter - 1) * 10) + index
       this.objectContainer.retrive(page).then(res => {
         const retriveData = this.objectContainer.getRecords([1, 3, 4, 6, 7, 9])
         this.$store.dispatch('MEMBER_PAGING_ACTION', retriveData)
-      })
+      })*/
+      var page = ((this.buttonCounter - 1) * 10) + index
+      this.$store.dispatch('MEMBER_PAPER_PAGING_ACTION', {payload: [1, 3, 4, 6, 7, 9], page: page})
     }
   }
 }
