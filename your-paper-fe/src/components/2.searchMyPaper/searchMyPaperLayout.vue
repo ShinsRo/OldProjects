@@ -26,9 +26,6 @@ export default {
     }
   },
   mounted(){
-
-
-
   },
   methods: {
 

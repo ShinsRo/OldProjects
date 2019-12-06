@@ -1,15 +1,16 @@
 <template>
     <div >
       <headerComponent id="header" v-on:changeFlag="changeComponent" :username="memberInfoDto"></headerComponent>
-      <div id="contentOuter">
-        <search-my-paper-layout id="searchMyPaper" v-if="flag===1" :token="token" :session="session"></search-my-paper-layout>
+      <div class="contentOuter" id="searchMyPaperWrap" v-if="flag===1">
+        <search-my-paper-layout id="searchMyPaper"  :token="token" :session="session"></search-my-paper-layout>
         <!-- <paperStatics></paperStatics> 내 논문 통계-->
+      </div>
+      <div class="contentOuter" v-if="flag !== 1">
         <paperEdit id="paperEdit" v-if="flag===2"></paperEdit>
         <!-- 내 논문 편집 -->
         <paperStaticsLayout id="paperStatics" v-if="flag === 3"></paperStaticsLayout>
         <!--논문 통계-->
       </div>
-
       <!--<my-list id="myListOuterLayout"></my-list>-->
     </div>
 </template>
@@ -43,7 +44,7 @@ export default {
 
   },
   mounted(){
-    const contentOuter = document.querySelector('#contentOuter');
+    const contentOuter = document.querySelector('#searchMyPaperWrap');
     contentOuter.addEventListener('scroll', e => {
       if(contentOuter.scrollTop + contentOuter.clientHeight >= contentOuter.scrollHeight) {
         console.log('read more')
