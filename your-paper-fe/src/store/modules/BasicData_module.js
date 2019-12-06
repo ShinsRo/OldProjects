@@ -51,24 +51,23 @@ const mutations = {
     const criteria = { field: FIELD.TITLE, operation: CRITERIA.LIKE, value: ' ' }
     state.apiObject.listByPage(1, 10, FIELD.TITLE, true, [criteria]).then(res => {
       state.memberPaper = state.apiObject.getRecords(payload)
-      return 1
+      console.log(payload)
     }).catch(error => {
       console.log(error)
     })
   },
-  MEMBER_PAPER_PAGING_MUTATION (state, page, payload) {
-    const criteria = { field: FIELD.TITLE, operation: CRITERIA.LIKE, value: ' ' }
-    state.apiObject.listByPage(page, 10, FIELD.TITLE, true, [criteria]).then(res => {
+  MEMBER_PAPER_PAGING_MUTATION (state, {payload, page}) {
+    state.apiObject.retrive(page).then(res => {
       state.memberPaper = state.apiObject.getRecords(payload)
-      console.log('store')
       return 1
     }).catch(error => {
       console.log(error)
     })
   },
+
   SET_END_PAGE_MUTATION (state, value) {
-      const criteria = { field: FIELD.AUTHOR_TYPE, operation: CRITERIA.LIKE, value: value}
-      state.apiObject.listByPage(1, 10, FIELD.TITLE, true, [criteria]).then(res => {
+    const criteria = { field: FIELD.AUTHOR_TYPE, operation: CRITERIA.LIKE, value: value}
+    state.apiObject.listByPage(1, 10, FIELD.TITLE, true, [criteria]).then(res => {
       state.endPage = state.apiObject.getPageState().endPage + 1
     }).catch(error => {
       console.log(error)
@@ -87,7 +86,6 @@ const mutations = {
       page += 1
     }
   },
-
   SEARCH_ON_WOS_MUTATION (state, payload) {
     state.searchPaperOnWOS = payload
   },
@@ -96,6 +94,14 @@ const mutations = {
   },
   MEMBER_PAGING_MUTATION (state, payload) {
     state.memberPaper = payload
+  },
+  SEARCH_MY_PAPER_MUTATION (state, {payload, criteria}){
+    state.apiObject.listByPage(1, 10, FIELD.TITLE, true, criteria).then(res => {
+      state.memberPaper =state.apiObject.getRecords(payload)
+      console.log('searched')
+    }).catch(error => {
+      console.log(error)
+    })
   },
   MEMBER_PAGING_COUNT_MUTATION (state) {
     state.memberPaperPage = state.apiObject.getPageState().endPage
@@ -117,8 +123,8 @@ const actions = {
   MEMBER_PAPER_ACTION (context, payload) {
     context.commit('MEMBER_PAPER_MUTATION', payload)
   },
-  MEMBER_PAPER_PAGING_ACTION (context, payload, page) {
-    context.commit('MEMBER_PAPER_PAGING_MUTATION', page, payload)
+  MEMBER_PAPER_PAGING_ACTION (context, { payload, page} ) {
+    context.commit('MEMBER_PAPER_PAGING_MUTATION', {payload, page})
   }, // 내 논문 불러오기
   ALL_PAPER_ACTION (context,  {payload, value}) {
     context.commit('ALL_PAPER_MUTATION', {payload, value})
@@ -138,10 +144,9 @@ const actions = {
   MEMBER_PAGING_COUNT_ACTION (context) {
     context.commit('MEMBER_PAGING_COUNT_MUTATION')
   },
-  /*
-  NEW_PAGING_ACTION (context,{option, page}) {
-    context.commit('NEW_PAGING_MUTATION', {option, page})
-  },*/
+  SEARCH_MY_PAPER_ACTION (context, {payload, criteria}){
+    context.commit('SEARCH_MY_PAPER_MUTATION', {payload, criteria})
+  },
   CLEAR_STORE_ACTION (context) {
     context.commit('CLEAR_STORE_MUTATION')
   } // 로그아웃시 스토어 클리어 action
