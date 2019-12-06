@@ -4,7 +4,7 @@
   <allPaperList id="allPaperList" :loading="loading" :paperData="paperData"></allPaperList>
   <div id="buttonWrap">
     <div class="button" > < </div>
-    <div v-for="i in endPage-1" class="page" v-on:click="page = i-1">{{i}}</div>
+    <div v-for="i in endPage-1" class="page" v-on:click="page = i-1" :key="i">{{i}}</div>
     <div class="button"> > </div>
   </div>
 
@@ -29,6 +29,7 @@ export default {
       loading: 0,
       allPaperData: [],
       paperData: [],
+      citedStack: 0
     }
   },
   mounted(){
@@ -47,43 +48,51 @@ export default {
     isReadyToLoading(){
       return  this.$store.getters.END_PAGE_GETTER
     },
-    isLoading(){
+    isLoading () {
       return this.$store.getters.MEMBER_PAPER_GETTER
     },
-    loadPaper(){
+    loadPaper () {
       return this.allPaperData
     },
-    paging(){
+    paging () {
       return this.page
     }
   },
   watch: {
-    isReadyToLoading(){
+    isReadyToLoading () {
       this.endPage = this.$store.getters.END_PAGE_GETTER
       this.$store.dispatch('ALL_PAPER_ACTION', {payload : [3, 4, 5, 6, 7, 8, 9, 13, 10, 15, 17, 18, 1, 2, 0],  value : 'REPRINT'})
     },
-    isLoading() {
+    isLoading () {
         this.allPaperData = this.$store.getters.MEMBER_PAPER_GETTER
     },
-    loadPaper(){
-      if(this.allPaperData === []){
+    loadPaper () {
+      if (this.allPaperData === []) {
         this.loading = -1
       }
-      else{
+      else {
         this.paperData = this.allPaperData[this.page]
         this.loading = 1
-        console.log(this.paperData)
       }
+      this.countCited()
     },
-    paging(){
+    paging () {
       this.paperData = this.allPaperData[this.page]
     }
-
+  },
+  methods: {
+    countCited () {
+      for (var i in this.allPaperData[0]) {
+        this.citedStack += this.allPaperData[0][i][5]
+      }
+      if (this.citedStack !== 0) {
+        this.$store.dispatch('CITE_COUNT_ACTION', this.citedStack)
+      }
+    }
   }
 }
 </script>
 
 <style lang="scss">
   @import './paperStaticsLayout.scss';
-
 </style>
