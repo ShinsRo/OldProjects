@@ -1,18 +1,20 @@
 <template>
-<div id="allStaticsComponent">
-  <eachStaticComponent class="eachStaticComponent"></eachStaticComponent>
-  <eachStaticComponent class="eachStaticComponent"></eachStaticComponent>
-  <eachStaticComponent class="eachStaticComponent"></eachStaticComponent>
-  <eachStaticComponent class="eachStaticComponent"></eachStaticComponent>
-</div>
+  <div id="allStaticsComponent">
+    <timesCitedComponent class="eachStaticComponent"></timesCitedComponent>
+    <authorTypeComponent class="eachStaticComponent"></authorTypeComponent>
+    <timesCitedComponent class="eachStaticComponent"></timesCitedComponent>
+  </div>
 </template>
 
 <script>
-import eachStaticComponent from './eachStatic/eachStaticComponent.vue'
+import timesCitedComponent from './eachStatic/timesCitedComponent.vue'
+import authorTypeComponent from './eachStatic/authorRatingComponent.vue'
+
 export default {
   name: 'allStaticsComponent',
   components: {
-    'eachStaticComponent': eachStaticComponent
+    timesCitedComponent,
+    authorTypeComponent
   }
 }
 </script>

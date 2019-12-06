@@ -43,7 +43,6 @@ export default {
 
   },
   mounted () {
-    this.$store.dispatch('MEMBER_OBJECT_SET_ACTION')
     this.$store.dispatch('WOS_OBJECT_SET_ACTION')
   }
 }

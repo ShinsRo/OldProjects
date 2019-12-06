@@ -86,5 +86,4 @@ export default {
 
 <style lang="scss">
   @import './paperStaticsLayout.scss';
-
 </style>
