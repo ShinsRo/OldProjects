@@ -11,6 +11,9 @@ const state = {
   searchPaperPage: 0,
   memberPaperPage: null,
   endPage: -1,
+
+  // refactoring
+  pageFlag: 1, // component 전환 flag ( 1: search my paper / 2: paper statics / 3: paper edit )
 }
 
 const getters = {
@@ -35,6 +38,11 @@ const getters = {
   END_PAGE_GETTER (state){
     return state.endPage
   },
+
+  // refactoring
+  PAGE_FLAG_GETTER (state){
+    return state.pageFlag
+  }
 }
 
 const mutations = {
@@ -97,7 +105,6 @@ const mutations = {
   SEARCH_MY_PAPER_MUTATION (state, {payload, criteria}){
     state.apiObject.listByPage(1, 10, FIELD.TITLE, true, criteria).then(res => {
       state.memberPaper =state.apiObject.getRecords(payload)
-      console.log('searched')
     }).catch(error => {
       console.log(error)
     })
@@ -109,6 +116,10 @@ const mutations = {
     state.memberPaper = {}
     state.searchPaperOnWOS = {}
     state.apiObject = {}
+  },
+  // refactoring
+  SET_PAGE_MUTATION (state, page){
+    state.pageFlag = page
   }
 }
 
@@ -148,7 +159,12 @@ const actions = {
   },
   CLEAR_STORE_ACTION (context) {
     context.commit('CLEAR_STORE_MUTATION')
-  } // 로그아웃시 스토어 클리어 action
+  }, // 로그아웃시 스토어 클리어 action
+
+  // refactoring
+  SET_PAGE_ACTION (context, page) {
+    context.commit('SET_PAGE_MUTATION', page)
+  }
 }
 export default {
   state,

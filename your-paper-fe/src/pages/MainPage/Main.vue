@@ -1,15 +1,15 @@
 <template>
     <div >
-      <headerComponent id="header" v-on:changeFlag="changeComponent" :username="memberInfoDto"></headerComponent>
-      <div class="contentOuter" id="searchMyPaperWrap" v-if="flag===1">
+      <headerComponent id="header"  :username="memberInfoDto"></headerComponent>
+      <div class="contentOuter" id="searchMyPaperWrap" v-if="componentFlag===1">
         <search-my-paper-layout id="searchMyPaper" :page="page" ></search-my-paper-layout>
         <!-- <paperStatics></paperStatics> 내 논문 통계-->
       </div>
-      <div class="contentOuter" v-if="flag !== 1">
-        <paperEdit id="paperEdit" v-if="flag===2"></paperEdit>
-        <!-- 내 논문 편집 -->
-        <paperStaticsLayout id="paperStatics" v-if="flag === 3"></paperStaticsLayout>
+      <div class="contentOuter" v-if="componentFlag !== 1">
+        <paperStaticsLayout id="paperStatics" v-if="componentFlag === 2"></paperStaticsLayout>
         <!--논문 통계-->
+        <paperEdit id="paperEdit" v-if="componentFlag===3"></paperEdit>
+        <!-- 내 논문 편집 -->
       </div>
       <!--<my-list id="myListOuterLayout"></my-list>-->
     </div>
@@ -31,17 +31,12 @@ export default {
   },
   data () {
     return {
-      flag: 1,
+      componentFlag: 1,
       token: '',
       session: {},
       memberInfoDto: {},
       page: 1
     }
-  },
-  methods: {
-    changeComponent (val) {
-      this.flag = val
-    },
   },
   mounted(){
     this.$store.dispatch('WOS_OBJECT_SET_ACTION')
@@ -51,7 +46,18 @@ export default {
         this.page+=1
       }
     });
+  },
+  computed: {
+    changePageFlag(){
+      return this.$store.getters.PAGE_FLAG_GETTER
+    } // component 변경 event 발생 감시
+  },
+  watch: {
+    changePageFlag(){
+      this.componentFlag = this.$store.getters.PAGE_FLAG_GETTER
+    } //  event 발생 시 flag 변환
   }
+
 }
 </script>
 
