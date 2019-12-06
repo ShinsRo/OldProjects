@@ -32,7 +32,6 @@ export default {
     }
   },
   mounted(){
-
     this.$store.dispatch('MEMBER_OBJECT_SET_ACTION')
     this.$store.dispatch('SET_END_PAGE_ACTION', this.reprint)
     //          0    1      2      3     4

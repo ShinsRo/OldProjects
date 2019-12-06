@@ -73,7 +73,6 @@ export class PaperRecordContainer {
     }
 
     setPageState(rawResponse) {
-
         this.pageState = {
             ...this.pageState,
             firstRecord     : rawResponse.pageable.offset + 1,
