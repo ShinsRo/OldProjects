@@ -26,7 +26,7 @@
         <tr class="tableResult" v-for="(object, index) in this.myPapers" :key="index">
           <td class="titleResult" @click="showAll(object)" @mousewheel="unShowAll(object)">{{ object[1] }}</td>
           <td class="authorResult">
-            <select id="authorType" class="selectAuthorType" style="width: 98%;" v-model="object[3]">
+            <select id="authorType" class="selectAuthorType" style="width: 98%;" v-model="object[3]" v-on:change="authorTypeChange($event,object)">
               <option value="REFFERING">상관없음</option>
               <option value="GENERAL">공저자</option>
               <option value="REPRINT">교신저자</option>
@@ -64,7 +64,8 @@ export default {
       AllData: '',
       showData: '',
       dataContainer: 'loadingSearch',
-      objectContainer: null
+      objectContainer: null,
+      testPage: null
     }
   },
   beforeCreate () {
@@ -72,7 +73,8 @@ export default {
   },
   mounted () {
     this.objectContainer = this.$store.getters.MEMBER_OBJECT_GETTER
-    this.endPage = this.objectContainer.getPageState().endPage
+    this.$store.dispatch('MEMBER_PAGING_COUNT_ACTION')
+    this.endPage = this.$store.getters.MEMBER_PAGING_COUNT_GETTER
     this.pageDiv = parseInt(this.endPage / 10)
   },
   beforeUpdate () {
@@ -90,13 +92,10 @@ export default {
         this.dataContainer = 'emptySearch'
       } else {
         this.dataContainer = 'fullSearch'
-
-        // if (this.myPapers.length === 10) {
-        //   console.log(this.objectContainer)
-        //   this.endPage = this.objectContainer.getPageState().endPage
-        //   this.pageDiv = parseInt(this.endPage / 10)
-        // }
       }
+      this.$store.dispatch('MEMBER_PAGING_COUNT_ACTION')
+      this.endPage = this.$store.getters.MEMBER_PAGING_COUNT_GETTER
+      this.pageDiv = parseInt(this.endPage / 10)
     }
   },
   methods: {
@@ -107,6 +106,15 @@ export default {
       this.showFlag = true
       this.showData = val
     },
+    authorTypeChange (event, object) {
+      const changeType = event.target.value
+      this.objectContainer.addOrUpdateOne(object[0], changeType).then(res => {
+        this.$store.dispatch('MEMBER_PAPER_ACTION', [1, 3, 4, 6, 7, 9])
+        alert('변경 되었습니다')
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     unShowAll (val) {
       this.showFlag = false
       this.showData = ''
@@ -116,9 +124,10 @@ export default {
 
       if (removeCheck === true) {
         this.unShowAll()
-        // const container = this.$store.getters.MEMBER_OBJECT_GETTER
         this.objectContainer.deleteOne(val[0]).then(res => {
           this.$store.dispatch('MEMBER_PAPER_ACTION', [1, 3, 4, 6, 7, 9])
+        }).catch(err => {
+          console.log(err)
         })
       }
     },
@@ -146,7 +155,7 @@ export default {
       var page = ((this.buttonCounter - 1) * 10) + index
       this.objectContainer.retrive(page).then(res => {
         const retriveData = this.objectContainer.getRecords([1, 3, 4, 6, 7, 9])
-        this.$store.dispatch('PAGING_ACTION', retriveData)
+        this.$store.dispatch('MEMBER_PAGING_ACTION', retriveData)
       })
     }
   }

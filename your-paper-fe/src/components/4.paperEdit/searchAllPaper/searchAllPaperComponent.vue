@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { WokSearchClient } from '../../../../public/apis/api/wos-api.js'
+// import { WokSearchClient } from '../../../../public/apis/api/wos-api.js'
 
 export default {
   name: 'searchAllPaperComponent',
@@ -47,8 +47,7 @@ export default {
   },
   methods: {
     makeQuery () {
-      const SERVER_URL = 'http://www.siotman.com:9400/'
-      const searchClient = new WokSearchClient(SERVER_URL)
+      const WOSObject = this.$store.getters.WOS_OBJECT_GETTER
 
       const pageSize = 10
       const category = this.category
@@ -69,13 +68,14 @@ export default {
         return alert('끝 날짜가 비정상 적입니다.')
       }
 
-      searchClient.setPageSize(pageSize)
-      searchClient.setSortField('TC', false)
+      WOSObject.setPageSize(pageSize)
+      WOSObject.setSortField('TC', false)
 
-      const userQuery = searchClient.buildUserQuery(category, query, organizations)
-
-      searchClient.search(userQuery, begin, end, false, false).then(res => {
-        this.$store.dispatch('SEARCH_ON_WOS_ACTION', searchClient.getRecords([1, 3, 4, 7, 9]))
+      const userQuery = WOSObject.buildUserQuery(category, query, organizations)
+      WOSObject.search(userQuery, begin, end, false, false).then(res => {
+        this.$store.dispatch('SEARCH_ON_WOS_ACTION', WOSObject.getRecords([1, 3, 4, 7, 9]))
+        this.$store.dispatch('SEARCH_PAGING_ACTION', WOSObject.getPageState().endPage)
+        console.log(this.$store.getters.SEARCH_PAGE_GETTER)
       }).catch(error => {
         console.log('Search, if error :')
         console.log(error)
