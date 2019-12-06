@@ -99,7 +99,6 @@
   },
   methods: {
     searchMyPaper () {
-
       const criteria = [
         { field: FIELD.AUTHOR_TYPE, operation: CRITERIA.LIKE, value: this.author },
         { field: FIELD.TITLE, operation: CRITERIA.LIKE, value: this.searchValue },

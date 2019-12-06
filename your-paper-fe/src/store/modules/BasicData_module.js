@@ -51,21 +51,20 @@ const mutations = {
     const criteria = { field: FIELD.TITLE, operation: CRITERIA.LIKE, value: ' ' }
     state.apiObject.listByPage(1, 10, FIELD.TITLE, true, [criteria]).then(res => {
       state.memberPaper = state.apiObject.getRecords(payload)
-      return 1
+      console.log(payload)
     }).catch(error => {
       console.log(error)
     })
   },
-  MEMBER_PAPER_PAGING_MUTATION (state, page, payload) {
-    const criteria = { field: FIELD.TITLE, operation: CRITERIA.LIKE, value: ' ' }
-    state.apiObject.listByPage(page, 10, FIELD.TITLE, true, [criteria]).then(res => {
+  MEMBER_PAPER_PAGING_MUTATION (state, {payload, page}) {
+    state.apiObject.retrive(page).then(res => {
       state.memberPaper = state.apiObject.getRecords(payload)
-      console.log('store')
       return 1
     }).catch(error => {
       console.log(error)
     })
   },
+
   SET_END_PAGE_MUTATION (state, value) {
     const criteria = { field: FIELD.AUTHOR_TYPE, operation: CRITERIA.LIKE, value: value}
     state.apiObject.listByPage(1, 10, FIELD.TITLE, true, [criteria]).then(res => {
@@ -124,8 +123,8 @@ const actions = {
   MEMBER_PAPER_ACTION (context, payload) {
     context.commit('MEMBER_PAPER_MUTATION', payload)
   },
-  MEMBER_PAPER_PAGING_ACTION (context, payload, page) {
-    context.commit('MEMBER_PAPER_PAGING_MUTATION', page, payload)
+  MEMBER_PAPER_PAGING_ACTION (context, { payload, page} ) {
+    context.commit('MEMBER_PAPER_PAGING_MUTATION', {payload, page})
   }, // 내 논문 불러오기
   ALL_PAPER_ACTION (context,  {payload, value}) {
     context.commit('ALL_PAPER_MUTATION', {payload, value})

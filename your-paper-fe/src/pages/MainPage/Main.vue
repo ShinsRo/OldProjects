@@ -2,7 +2,7 @@
     <div >
       <headerComponent id="header" v-on:changeFlag="changeComponent" :username="memberInfoDto"></headerComponent>
       <div class="contentOuter" id="searchMyPaperWrap" v-if="flag===1">
-        <search-my-paper-layout id="searchMyPaper"  :token="token" :session="session"></search-my-paper-layout>
+        <search-my-paper-layout id="searchMyPaper" :page="page" ></search-my-paper-layout>
         <!-- <paperStatics></paperStatics> 내 논문 통계-->
       </div>
       <div class="contentOuter" v-if="flag !== 1">
@@ -34,22 +34,21 @@ export default {
       flag: 1,
       token: '',
       session: {},
-      memberInfoDto: {}
+      memberInfoDto: {},
+      page: 1
     }
   },
   methods: {
     changeComponent (val) {
       this.flag = val
     },
-
   },
   mounted(){
-    this.$store.dispatch('MEMBER_OBJECT_SET_ACTION')
     this.$store.dispatch('WOS_OBJECT_SET_ACTION')
     const contentOuter = document.querySelector('#searchMyPaperWrap');
     contentOuter.addEventListener('scroll', e => {
       if(contentOuter.scrollTop + contentOuter.clientHeight >= contentOuter.scrollHeight) {
-        console.log('read more')
+        this.page+=1
       }
     });
   }
