@@ -1,5 +1,7 @@
 @import '../../BasicStyle/BasicStyle.scss';
 
+
+
 #mainOption{
   width: 100%;
   margin-top: 80px;
@@ -12,6 +14,13 @@
   border: 3px solid $basicIndigo;
   width: 100%;
   height: 40px;
+
+  #select{
+    width: 10%;
+    height: 100%;
+    border: none;
+    outline: none;
+  }
 }
 
 #mainOptionSearchLayout {
