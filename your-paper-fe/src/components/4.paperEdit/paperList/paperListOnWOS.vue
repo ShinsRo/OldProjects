@@ -31,62 +31,62 @@
         </tr>
       </tbody>
     </table>
-    <!-- <div class="pageChangeContainer" v-if="dataContainer==='fullSearch'">
+    <div class="pageChangeContainer" v-if="dataContainer==='fullSearch'">
       <button class="preButton" type="button">◀</button>
       <div class="pagingButtonContainer">
         <button class="pagingButton" v-for="index in ButtonCounter()" :key="index" v-on:click="selectPage(index)">{{ pageNum(index) }}</button>
       </div>
       <button class="nextButton" type="button">▶</button>
-    </div> -->
+    </div>
   </div>
 </template>
 
 <script>
-// import { WokSearchClient } from '../../../../public/apis/api/wos-api.js'
 
 export default {
   name: 'paperListOnMyPaper',
   data () {
     return {
-      // nowPage: 1,
-      // endPage: null,
-      // pageDiv: null,
+      nowPage: 1,
+      endPage: 0,
+      pageDiv: null,
       buttonCounter: 1,
       showFlag: false,
       searchedPaper: {},
       AllData: '',
       showData: '',
-      dataContainer: 'beforeSearch'
-      // WOSContainer: null
+      dataContainer: 'beforeSearch',
+      WOSContainer: null
     }
   },
   mounted () {
     this.dataContainer = 'beforeSearch'
-    // const SERVER_URL = 'http://www.siotman.com:9400/'
-    // WOSContainer = new WokSearchClient(SERVER_URL)
+    this.endPage = this.$store.getters.SEARCH_PAGE_GETTER
+    this.pageDiv = 0
+    this.WOSContainer = this.$store.getters.WOS_OBJECT_GETTER
   },
   computed: {
     getSearchedData () {
       return this.$store.getters.SEARCH_ON_WOS_GETTER
+    },
+    getEndPage () {
+      return this.$store.getters.SEARCH_PAGE_GETTER
     }
   },
   watch: {
     getSearchedData (newVal, oldVal) {
       this.searchedPaper = newVal
-      console.log(newVal)
       if (this.searchedPaper.length === 0) {
         this.dataContainer = 'emptySearch'
       } else {
         this.dataContainer = 'fullSearch'
       }
+    },
+    getEndPage (newVal, oldVal) {
+      this.endPage = newVal
+      this.pageDiv = parseInt(this.endPage / 10)
     }
   },
-  // watch: {
-  //   'nowPage': function () {
-  //     const paperContainer = this.$store.getters.memberPaperGetter
-  //     this.myPapers = paperContainer.getRecords([3, 4, 6, 7, 9])
-  //   },
-  // },
   methods: {
     setDate (year, date) {
       return `${year || ''} ${date || ''}`
@@ -116,12 +116,41 @@ export default {
       const container = this.$store.getters.MEMBER_OBJECT_GETTER
       container.addOrUpdateOne(object[0], authorType).then(res => {
         this.$store.dispatch('MEMBER_PAPER_ACTION', [1, 3, 4, 6, 7, 9])
-        this.searchedPaper.splice(index, 1)
+        alert('논문이 추가되었습니다')
         this.unShowAll(object)
       }).catch(err => {
         console.log(err)
       })
       this.unShowAll(object)
+    },
+    ButtonCounter () {
+      if (this.endPage !== 0) {
+        if (this.buttonCounter <= this.pageDiv) {
+          return 10
+        } else {
+          return this.endPage - (this.buttonCounter - 1) * 10
+        }
+      }
+    },
+    prePage () {
+      if (this.buttonCounter > 1) {
+        this.buttonCounter -= 1
+      }
+    },
+    nextPage () {
+      if (this.buttonCounter <= this.pageDiv) {
+        this.buttonCounter += 1
+      }
+    },
+    pageNum (index) {
+      return (this.buttonCounter - 1) * 10 + index
+    },
+    selectPage (index) {
+      var page = ((this.buttonCounter - 1) * 10) + index
+      this.WOSContainer.retrive(page).then(res => {
+        const retriveData = this.WOSContainer.getRecords([1, 3, 4, 7, 9])
+        this.$store.dispatch('SEARCH_ON_WOS_ACTION', retriveData)
+      })
     }
   }
 }
