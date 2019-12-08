@@ -33,10 +33,10 @@ export default {
       criteria: [
         { field: this.$FIELD.AUTHOR_TYPE, operation: this.$CRITERIA.LIKE, value: 'REPRINT'},
         ]
+      citedStack: 0
     }
   },
   mounted(){
-    console.log("mount")
     this.$store.dispatch('MEMBER_OBJECT_SET_ACTION')
     this.$store.dispatch('SET_END_PAGE_ACTION', {count: this.count, criteria: this.criteria})
     //          0    1      2      3     4
@@ -52,44 +52,51 @@ export default {
     isReadyToLoading(){
       return  this.$store.getters.END_PAGE_GETTER
     },
-    isLoading(){
+    isLoading () {
       return this.$store.getters.MEMBER_PAPER_GETTER
     },
-    loadPaper(){
+    loadPaper () {
       return this.allPaperData
     },
-    paging(){
+    paging () {
       return this.page
     }
   },
   watch: {
-    isReadyToLoading(){
-      console.log('ready')
+    isReadyToLoading () {
       this.endPage = this.$store.getters.END_PAGE_GETTER
       this.$store.dispatch('ALL_PAPER_ACTION', {count: this.count , criteria: this.criteria})
     },
-    isLoading() {
+    isLoading () {
         this.allPaperData = this.$store.getters.MEMBER_PAPER_GETTER
     },
-    loadPaper(){
-      if(this.allPaperData === []){
+    loadPaper () {
+      if (this.allPaperData === []) {
         this.loading = -1
       }
-      else{
+      else {
         this.paperData = this.allPaperData[this.page]
         this.loading = 1
-        console.log(this.paperData)
       }
+      this.countCited()
     },
-    paging(){
+    paging () {
       this.paperData = this.allPaperData[this.page]
     }
-
+  },
+  methods: {
+    countCited () {
+      for (var i in this.allPaperData[0]) {
+        this.citedStack += this.allPaperData[0][i][5]
+      }
+      if (this.citedStack !== 0) {
+        this.$store.dispatch('CITE_COUNT_ACTION', this.citedStack)
+      }
+    }
   }
 }
 </script>
 
 <style lang="scss">
   @import './paperStaticsLayout.scss';
-
 </style>

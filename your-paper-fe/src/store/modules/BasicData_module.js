@@ -18,6 +18,7 @@ const state = {
     [3, 4, 5, 6, 7, 8, 9, 13, 10, 15, 17, 18, 1, 2, 0], // 2: option for paper statics
     [1, 3, 4, 6, 7, 9]],                                // 3: option for paper edit
   endPage: -1,
+  citeCounter: 0
 }
 
 const getters = {
@@ -35,6 +36,9 @@ const getters = {
   },
   SEARCH_ON_WOS_GETTER (state) {
     return state.searchPaperOnWOS
+  },
+  CITE_COUNTER_GETTER (state) {
+    return state.citeCounter
   },
   END_PAGE_GETTER (state){
     return state.endPage
@@ -85,6 +89,9 @@ const mutations = {
   MEMBER_PAGING_COUNT_MUTATION (state) {
     state.memberPaperPage = state.apiObject.getPageState().endPage
   },
+  CITE_COUNT_MUTATION (state, payload) {
+    state.citeCounter = payload
+  },
   CLEAR_STORE_MUTATION (state) {
     state.memberPaper = {}
     state.searchPaperOnWOS = {}
@@ -124,7 +131,6 @@ const mutations = {
 
     state.apiObject.listByPage(1, count, FIELD.TITLE, true, criteria).then(res => {
       state.endPage = state.apiObject.getPageState().endPage + 1
-      console.log(state.endPage)
     }).catch(error => {
       console.log(error)
     })
@@ -167,6 +173,9 @@ const actions = {
   },
   MEMBER_PAGING_COUNT_ACTION (context) {
     context.commit('MEMBER_PAGING_COUNT_MUTATION')
+  },
+  CITE_COUNT_ACTION (context, payload) {
+    context.commit('CITE_COUNT_MUTATION', payload)
   },
   SEARCH_MY_PAPER_ACTION (context, criteria){
     context.commit('SEARCH_MY_PAPER_MUTATION', criteria)
