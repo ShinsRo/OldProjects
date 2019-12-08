@@ -40,12 +40,13 @@ export default {
   },
   mounted(){
     this.$store.dispatch('WOS_OBJECT_SET_ACTION')
+
     const contentOuter = document.querySelector('#searchMyPaperWrap');
     contentOuter.addEventListener('scroll', e => {
       if(contentOuter.scrollTop + contentOuter.clientHeight >= contentOuter.scrollHeight) {
         this.page+=1
       }
-    });
+    }); // 무한스크롤 event listener
   },
   computed: {
     changePageFlag(){

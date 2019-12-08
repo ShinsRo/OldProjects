@@ -7,13 +7,15 @@ const state = {
   searchPaperOnWOS: {},
   apiObject: {},
   WOSObject: {},
-  myPaperList: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 18],
   searchPaperPage: 0,
   memberPaperPage: null,
   endPage: -1,
-
   // refactoring
-  pageFlag: 1, // component 전환 flag ( 1: search my paper / 2: paper statics / 3: paper edit )
+  componentFlag: 1, // component 전환 flag ( 1: search my paper / 2: paper statics / 3: paper edit )
+  optionByComponent : [[],                              // 0: empty
+    [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 18],      // 1: option for search my paper
+    [3, 4, 5, 6, 7, 8, 9, 13, 10, 15, 17, 18, 1, 2, 0], // 2: option for paper statics
+    [1, 3, 4, 6, 7, 9]],                                // 3: option for paper edit
 }
 
 const getters = {
@@ -25,9 +27,6 @@ const getters = {
   },
   SEARCH_PAGE_GETTER (state) {
     return state.searchPaperPage
-  },
-  MEMBER_PAPER_GETTER (state) {
-    return state.memberPaper
   },
   MEMBER_PAGING_COUNT_GETTER (state) {
     return state.memberPaperPage
@@ -41,8 +40,11 @@ const getters = {
 
   // refactoring
   PAGE_FLAG_GETTER (state){
-    return state.pageFlag
-  }
+    return state.componentFlag
+  },
+  MEMBER_PAPER_GETTER (state) {
+    return state.memberPaper
+  },
 }
 
 const mutations = {
@@ -60,14 +62,6 @@ const mutations = {
     state.apiObject.listByPage(1, 10, FIELD.TITLE, true, [criteria]).then(res => {
       state.memberPaper = state.apiObject.getRecords(payload)
       console.log(payload)
-    }).catch(error => {
-      console.log(error)
-    })
-  },
-  MEMBER_PAPER_PAGING_MUTATION (state, {payload, page}) {
-    state.apiObject.retrive(page).then(res => {
-      state.memberPaper = state.apiObject.getRecords(payload)
-      return 1
     }).catch(error => {
       console.log(error)
     })
@@ -119,8 +113,23 @@ const mutations = {
   },
   // refactoring
   SET_PAGE_MUTATION (state, page){
-    state.pageFlag = page
-  }
+    state.componentFlag = page
+  },
+  NEW_MEMBER_PAPER_MUTATION (state, {count, orderBy, criteria} ){
+    state.apiObject.listByPage(1, count, orderBy, true, criteria).then(res => {
+      state.memberPaper = state.apiObject.getRecords(state.optionByComponent[state.componentFlag])
+    }).catch(error => {
+      console.log(error)
+    })
+  }, // 넘겨받은 조건으로 첫 페이지 불러오기
+  MEMBER_PAPER_PAGING_MUTATION (state, page) {
+    state.apiObject.retrive(page).then(res => {
+      state.memberPaper = state.apiObject.getRecords(state.optionByComponent[state.componentFlag])
+      return 1
+    }).catch(error => {
+      console.log(error)
+    })
+  },
 }
 
 const actions = {
@@ -133,9 +142,6 @@ const actions = {
   MEMBER_PAPER_ACTION (context, payload) {
     context.commit('MEMBER_PAPER_MUTATION', payload)
   },
-  MEMBER_PAPER_PAGING_ACTION (context, { payload, page} ) {
-    context.commit('MEMBER_PAPER_PAGING_MUTATION', {payload, page})
-  }, // 내 논문 불러오기
   ALL_PAPER_ACTION (context,  {payload, value}) {
     context.commit('ALL_PAPER_MUTATION', {payload, value})
   }, // 내 논문 불러오기
@@ -164,7 +170,15 @@ const actions = {
   // refactoring
   SET_PAGE_ACTION (context, page) {
     context.commit('SET_PAGE_MUTATION', page)
-  }
+  },
+  NEW_MEMBER_PAPER_ACTION (context, {count, orderBy, criteria}){
+    context.commit('NEW_MEMBER_PAPER_MUTATION', {count, orderBy, criteria})
+  },
+  MEMBER_PAPER_PAGING_ACTION (context, page ) {
+    context.commit('MEMBER_PAPER_PAGING_MUTATION', page)
+  }, // 내 논문 불러오기
+
+
 }
 export default {
   state,

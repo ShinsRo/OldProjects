@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { PaperRecordContainer, SORT_MP_ENUM } from '../../../../public/apis/api/paper-api.js'
+// import { PaperRecordContainer, SORT_MP_ENUM } from '../../../../public/apis/api/paper-api.js'
 import paperDataComponent from './paperData/paperDataComponent.vue'
 export default {
   name: 'MainList',
