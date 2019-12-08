@@ -29,11 +29,16 @@ export default {
       loading: 0,
       allPaperData: [],
       paperData: [],
+      count: 10,
+      criteria: [
+        { field: this.$FIELD.AUTHOR_TYPE, operation: this.$CRITERIA.LIKE, value: 'REPRINT'},
+        ]
     }
   },
   mounted(){
+    console.log("mount")
     this.$store.dispatch('MEMBER_OBJECT_SET_ACTION')
-    this.$store.dispatch('SET_END_PAGE_ACTION', this.reprint)
+    this.$store.dispatch('SET_END_PAGE_ACTION', {count: this.count, criteria: this.criteria})
     //          0    1      2      3     4
     //         '행', 'UID', 'DOI', '제목', '링크',
     //          5        6          7      8
@@ -59,8 +64,9 @@ export default {
   },
   watch: {
     isReadyToLoading(){
+      console.log('ready')
       this.endPage = this.$store.getters.END_PAGE_GETTER
-      this.$store.dispatch('ALL_PAPER_ACTION', {payload : [3, 4, 5, 6, 7, 8, 9, 13, 10, 15, 17, 18, 1, 2, 0],  value : 'REPRINT'})
+      this.$store.dispatch('ALL_PAPER_ACTION', {count: this.count , criteria: this.criteria})
     },
     isLoading() {
         this.allPaperData = this.$store.getters.MEMBER_PAPER_GETTER
