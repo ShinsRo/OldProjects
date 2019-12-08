@@ -32,7 +32,7 @@ export default {
       count: 10,
       criteria: [
         { field: this.$FIELD.AUTHOR_TYPE, operation: this.$CRITERIA.LIKE, value: 'REPRINT'},
-        ]
+        ],
       citedStack: 0
     }
   },
