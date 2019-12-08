@@ -56,6 +56,12 @@ export default {
   watch:{
     isLoading(){
       let loadData = this.$store.getters.MEMBER_PAPER_GETTER
+
+      if(this.$store.getters.SEARCH_FLAG_GETTER === 1){
+        this.paperData = []
+        this.$store.dispatch('SET_SEARCH_FLAG_ACTION')
+      }
+
       for(let i = 0; i < loadData.length; i++){
         this.paperData.push(loadData[i])
       }

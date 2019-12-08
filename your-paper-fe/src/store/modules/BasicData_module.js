@@ -12,6 +12,7 @@ const state = {
   endPage: -1,
   // refactoring
   componentFlag: 1, // component 전환 flag ( 1: search my paper / 2: paper statics / 3: paper edit )
+  searchFlag: 0,
   optionByComponent : [[],                              // 0: empty
     [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 18],      // 1: option for search my paper
     [3, 4, 5, 6, 7, 8, 9, 13, 10, 15, 17, 18, 1, 2, 0], // 2: option for paper statics
@@ -41,6 +42,9 @@ const getters = {
   // refactoring
   PAGE_FLAG_GETTER (state){
     return state.componentFlag
+  },
+  SEARCH_FLAG_GETTER (state){
+    return state.searchFlag
   },
   MEMBER_PAPER_GETTER (state) {
     return state.memberPaper
@@ -96,13 +100,7 @@ const mutations = {
   MEMBER_PAGING_MUTATION (state, payload) {
     state.memberPaper = payload
   },
-  SEARCH_MY_PAPER_MUTATION (state, {payload, criteria}){
-    state.apiObject.listByPage(1, 10, FIELD.TITLE, true, criteria).then(res => {
-      state.memberPaper =state.apiObject.getRecords(payload)
-    }).catch(error => {
-      console.log(error)
-    })
-  },
+
   MEMBER_PAGING_COUNT_MUTATION (state) {
     state.memberPaperPage = state.apiObject.getPageState().endPage
   },
@@ -115,6 +113,9 @@ const mutations = {
   SET_PAGE_MUTATION (state, page){
     state.componentFlag = page
   },
+  SET_SEARCH_FLAG_MUTATION (state){
+    state.searchFlag = 0
+  },
   NEW_MEMBER_PAPER_MUTATION (state, {count, orderBy, criteria} ){
     state.apiObject.listByPage(1, count, orderBy, true, criteria).then(res => {
       state.memberPaper = state.apiObject.getRecords(state.optionByComponent[state.componentFlag])
@@ -126,6 +127,15 @@ const mutations = {
     state.apiObject.retrive(page).then(res => {
       state.memberPaper = state.apiObject.getRecords(state.optionByComponent[state.componentFlag])
       return 1
+    }).catch(error => {
+      console.log(error)
+    })
+  },
+  SEARCH_MY_PAPER_MUTATION (state, criteria){
+    console.log("hi")
+    state.searchFlag = 1
+    state.apiObject.listByPage(1, 10, FIELD.TITLE, true, criteria).then(res => {
+      state.memberPaper = state.apiObject.getRecords(state.optionByComponent[state.componentFlag])
     }).catch(error => {
       console.log(error)
     })
@@ -160,8 +170,8 @@ const actions = {
   MEMBER_PAGING_COUNT_ACTION (context) {
     context.commit('MEMBER_PAGING_COUNT_MUTATION')
   },
-  SEARCH_MY_PAPER_ACTION (context, {payload, criteria}){
-    context.commit('SEARCH_MY_PAPER_MUTATION', {payload, criteria})
+  SEARCH_MY_PAPER_ACTION (context, criteria){
+    context.commit('SEARCH_MY_PAPER_MUTATION', criteria)
   },
   CLEAR_STORE_ACTION (context) {
     context.commit('CLEAR_STORE_MUTATION')
@@ -170,6 +180,9 @@ const actions = {
   // refactoring
   SET_PAGE_ACTION (context, page) {
     context.commit('SET_PAGE_MUTATION', page)
+  },
+  SET_SEARCH_FLAG_ACTION(context) {
+    context.commit('SET_SEARCH_FLAG_MUTATION')
   },
   NEW_MEMBER_PAPER_ACTION (context, {count, orderBy, criteria}){
     context.commit('NEW_MEMBER_PAPER_MUTATION', {count, orderBy, criteria})

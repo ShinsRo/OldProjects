@@ -102,7 +102,7 @@
         { field: this.$FIELD.AUTHOR_TYPE, operation: this.$CRITERIA.LIKE, value: this.author },
         { field: this.$FIELD.TITLE, operation: this.$CRITERIA.LIKE, value: this.searchValue },
       ]
-      this.$store.dispatch('SEARCH_MY_PAPER_ACTION',{payload: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 18], criteria: criteria})
+      this.$store.dispatch('SEARCH_MY_PAPER_ACTION', criteria)
     }
   }
 }
