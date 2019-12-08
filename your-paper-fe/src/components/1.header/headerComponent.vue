@@ -13,12 +13,12 @@
     <div id="headerSettingLayout">
       <div id="headerSettingTabLayout">
         <div class="headerSettingTab">
-          <p class="text" v-on:click="clickForMyPaper">
+          <p class="text" v-on:click="componentChange(1)">
             My Paper
           </p>
         </div>
         <div class="headerSettingTab">
-          <p class="text" v-on:click="clickForPaperStatics">
+          <p class="text" v-on:click="componentChange(2)">
             Paper Statics
           </p>
         </div>
@@ -49,7 +49,7 @@
           <div id="dropBox"
                v-show="isDropBoxShow">
             <div class="textWrapper">
-              <p class="text" v-on:click="clickForPaperEdit">
+              <p class="text" v-on:click="componentChange(3)">
                 Paper Edit
               </p>
             </div>
@@ -90,18 +90,10 @@ export default {
     setFalse () {
       return false
     },
-    clickForMyPaper () {
-      this.$emit('changeFlag', 1)
-    },
-    clickForPaperEdit () {
-      this.$emit('changeFlag', 2)
-    },
-    clickForPaperStatics () {
-      this.$emit('changeFlag', 3)
+    componentChange(page){
+      this.$store.dispatch('SET_PAGE_ACTION', page)
     },
     clickForLogout () {
-      // this.$store.dispatch('logoutAction')
-      // this.$store.replaceState({})
       this.$store.dispatch('CLEAR_STORE_ACTION')
       sessionStorage.clear()
       this.$router.push('/')

@@ -23,6 +23,9 @@ export default {
   data(){
     return{
       paperData: [],
+      count: 10,
+      orderBy: this.$FIELD.YEAR,
+      value: ' '
     }
   },
   beforeCreate () {
@@ -33,10 +36,11 @@ export default {
   },
   mounted(){
     this.$store.dispatch('MEMBER_OBJECT_SET_ACTION')
-    this.$store.dispatch('MEMBER_PAPER_ACTION',[3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 18])
-      .then(res =>{
-        this.loading = 1;
-      })
+    this.$store.dispatch('NEW_MEMBER_PAPER_ACTION', {
+      count: this.count,
+      orderBy: this.orderBy,
+      criteria: [{'field': this.$FIELD.TITLE, 'operation': this.$CRITERIA.LIKE, 'value': ' '}]
+    })
   },
   methods: {
 
@@ -50,15 +54,20 @@ export default {
     },
   },
   watch:{
-    isLoading(newVal, oldVal){
+    isLoading(){
       let loadData = this.$store.getters.MEMBER_PAPER_GETTER
+
+      if(this.$store.getters.SEARCH_FLAG_GETTER === 1){
+        this.paperData = []
+        this.$store.dispatch('SET_SEARCH_FLAG_ACTION')
+      }
+
       for(let i = 0; i < loadData.length; i++){
         this.paperData.push(loadData[i])
       }
-      console.log('watch',this.paperData);
     },
     loadNewPage(){
-      this.$store.dispatch('MEMBER_PAPER_PAGING_ACTION', { payload: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 18], page: this.page})
+      this.$store.dispatch('MEMBER_PAPER_PAGING_ACTION', this.page)
     }
   }
 }

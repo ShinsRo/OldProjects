@@ -170,7 +170,6 @@
 
 <script>
 
-import { PaperRecordContainer, SORT_MP_ENUM } from '../../../../public/apis/api/paper-api.js'
 export default {
   name: 'allPaperListComponent',
   props:['loading','paperData'],

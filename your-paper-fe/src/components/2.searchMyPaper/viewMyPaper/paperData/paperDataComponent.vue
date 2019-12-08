@@ -16,7 +16,7 @@
       <p v-for="i in author.length" v-if="author[i-1] !== undefined"> "{{author[i-1]}}" &nbsp</p>
 
       <p v-if="ect>0"> 외 {{ect}} 명</p>
-      <p class="info" v-if="paper[6] != ''">
+      <p class="info" v-if="paper[6] !== ''">
         / {{paper[6]}}
       </p>
       <p class="info" v-if="viewToggle.quotation">
