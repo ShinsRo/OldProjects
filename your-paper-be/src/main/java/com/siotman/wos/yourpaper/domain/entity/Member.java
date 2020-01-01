@@ -1,12 +1,12 @@
 package com.siotman.wos.yourpaper.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.siotman.wos.yourpaper.domain.dto.MemberDto;
 import com.siotman.wos.yourpaper.domain.dto.MemberInfoDto;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.*;
@@ -30,6 +30,7 @@ public class Member {
     private MemberInfo memberInfo;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<MemberPaper> papers;
 
     @ElementCollection(fetch = FetchType.EAGER)

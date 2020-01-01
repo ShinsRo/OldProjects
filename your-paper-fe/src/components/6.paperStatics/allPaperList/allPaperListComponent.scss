@@ -1,0 +1,166 @@
+@import '../../BasicStyle/BasicStyle.scss';
+
+*{
+  -ms-overflow-style: none; // IE에서 스크롤바 감춤
+  &::-webkit-scrollbar {
+    display: none !important; // 윈도우 크롬 등
+  }
+}
+#table {
+  width: 100%;
+  overflow-x: scroll;
+  font-size: 13px;
+
+  .loadingInner{
+    display: flex;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+
+    .loadingText{
+      font-size: 15px;
+    }
+  }
+
+  #tableInner {
+    display: inline-flex;
+  }
+}
+
+.column {
+  display: inline-flex;
+  flex-direction: column;
+  width: auto;
+  min-width: 70px;
+
+  .cell {
+    display: flex;
+    align-items: center;
+    padding: 9px 12px 9px 12px;
+    text-align: right;
+    text-overflow: ellipsis;
+    overflow-x: scroll;
+    height: 20px;
+    max-width: 300px;
+    border-bottom: 1px solid $basicGray;
+  }
+
+
+  .center{
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.column:last-child{
+  border-right: none;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: gray;
+  border-bottom: 1px solid darkgray;
+  padding: 10px;
+  height: 20px;
+  width: auto;
+  min-width:40px;
+}
+
+p{
+  text-overflow: ellipsis;
+  width: max-content;
+}
+
+.content{
+  width: max-content;
+}
+
+
+.link{
+}
+
+
+
+.body:last-child {
+  border-bottom: none;
+}
+
+/*
+ <table>
+    <thead>
+    <tr>
+      <td>
+        행
+        <!--{{this.headers[0]}} 행-->
+      </td>
+      <td>
+        제목
+        <!--{{this.headers[3]}} 제목-->
+      </td>
+      <td>
+        교신저자
+        <!--{{this.headers[5]}} 교신저자-->
+      </td>
+      <td>
+        저자 상태
+        <!--{{this.headers[6]}} 저자 상태-->
+      </td>
+      <td>
+        저널명
+        <!--{{this.headers[7]}} 저널명-->
+      </td>
+      <td>
+        인용 수
+        <!--{{this.headers[8]}} 인용수-->
+      </td>
+      <td>
+        발행년월
+        <!--{{this.headers[9]}} 발행년월-->
+      </td>
+      <td>
+        권, 호, 페이지
+      </td>
+      <td>
+        저널명
+        <!--{{this.headers[10]}} 저널명-->
+      </td>
+      <td>
+        등급
+        <!--{{this.headers[15]}} 등급-->
+      </td>
+      <td>
+        백분율
+        <!--{{this.headers[17]}} 백분율-->
+      </td>
+      <td>
+        파싱 상태
+        <!--{{this.headers[18]}} 파싱 상태-->
+      </td>
+      <td>
+        UID
+        <!--{{this.headers[1]}} UID-->
+      </td>
+      <td>
+        DOI
+        <!--{{this.headers[2]}} DOI-->
+      </td>
+    </tr>
+    </thead>
+    <tbody >
+    <tr v-for="datas in paperData">
+      <td>
+        {{datas[0]}}
+      </td>
+      <td>
+        {{datas[3]}}
+      </td>
+    </tr>
+
+    </tbody>
+
+  </table>
+*/
+
+

@@ -1,5 +1,6 @@
 package com.siotman.wos.yourpaper.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.siotman.wos.yourpaper.domain.converter.JsonMapConverter;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
@@ -20,7 +21,7 @@ public class MemberPaper {
     @JoinColumn(name = "username")
     private Member member;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne //(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "uid")
     private Paper paper;
 
@@ -33,7 +34,8 @@ public class MemberPaper {
     private Map<String, Map<String, Integer>> selfTcDataJson;
 
     @Builder
-    public MemberPaper(Member member, Paper paper, AuthorType authorType) {
+    public MemberPaper(Long id, Member member, Paper paper, AuthorType authorType) {
+        this.id = id;
         this.member = member;
         this.paper = paper;
         this.authorType = authorType;

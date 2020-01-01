@@ -13,12 +13,12 @@
     <div id="headerSettingLayout">
       <div id="headerSettingTabLayout">
         <div class="headerSettingTab">
-          <p class="text">
+          <p class="text" v-on:click="componentChange(1)">
             My Paper
           </p>
         </div>
         <div class="headerSettingTab">
-          <p class="text">
+          <p class="text" v-on:click="componentChange(2)">
             Paper Statics
           </p>
         </div>
@@ -33,7 +33,7 @@
 
         <div class="headerSettingUser">
           <p class="text">
-            SuHyoun
+            {{name}}
           </p>
         </div><!--사용자 이름-->
 
@@ -49,12 +49,12 @@
           <div id="dropBox"
                v-show="isDropBoxShow">
             <div class="textWrapper">
-              <p class="text">
+              <p class="text" v-on:click="componentChange(3)">
                 Paper Edit
               </p>
             </div>
             <hr class="divideLine"/>
-            <div class="textWrapper">
+            <div class="textWrapper" v-on:click="clickForLogout">
               <p class="text">
                 Log Out
               </p>
@@ -71,22 +71,35 @@
 </template>
 
 <script>
-  export default {
-    name: 'HeaderLayout',
-    data () {
-      return {
-        isDropBoxShow: false
-      }
+export default {
+  name: 'HeaderLayout',
+  data () {
+    return {
+      isDropBoxShow: false,
+      name: ''
+    }
+  },
+  mounted () {
+    const session = JSON.parse(sessionStorage.getItem('data'))
+    this.name = session.memberInfoDto.name
+  },
+  methods: {
+    setTrue () {
+      return true
     },
-    methods: {
-      setTrue () {
-        return true
-      },
-      setFalse () {
-        return false
-      }
+    setFalse () {
+      return false
+    },
+    componentChange(page){
+      this.$store.dispatch('SET_PAGE_ACTION', page)
+    },
+    clickForLogout () {
+      this.$store.dispatch('CLEAR_STORE_ACTION')
+      sessionStorage.clear()
+      this.$router.push('/')
     }
   }
+}
 </script>
 
 <style lang="scss">

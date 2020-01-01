@@ -1,5 +1,6 @@
 package com.siotman.wos.yourpaper.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.siotman.wos.yourpaper.domain.converter.*;
 import com.siotman.wos.yourpaper.domain.dto.ParsedDataDto;
 import com.siotman.wos.yourpaper.domain.json.CitingPaperJson;
@@ -22,15 +23,17 @@ public class ParsedData {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "parsedData")
+    @JsonIgnore
     private Paper paper;
 
     private Integer timesCited;
 
-    private String reprint;
+    private ParsedAuthorJson reprint;
 
     @Convert(converter = JsonListConverter.class)
     private List<String> grades;
 
+    @Lob
     @Convert(converter = JsonMapConverter.class)
     private Map<String, Map<String, Integer>> tcDataJson;
 
@@ -49,7 +52,7 @@ public class ParsedData {
     @Builder
     public ParsedData(
             Paper paper,
-            Integer timesCited, String reprint,
+            Integer timesCited, ParsedAuthorJson reprint,
             List<String> grades, Map<String, Map<String, Integer>> tcDataJson,
             List<ParsedAuthorJson> parsedAuthorJsonList,
             JournalImpactJson journalImpactJson,

@@ -1,6 +1,10 @@
 package com.siotman.wos.yourpaper.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.siotman.wos.jaxws2rest.domain.dto.LamrResultsDto;
+import com.siotman.wos.jaxws2rest.domain.dto.LiteRecordDto;
+import com.siotman.wos.jaxws2rest.domain.dto.SearchResultsDto;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -11,6 +15,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,13 +37,21 @@ public class WokSearchService {
     }
     public static ObjectMapper objectMapper = new ObjectMapper();
 
-    public WokSearchService() throws MalformedURLException {
+    public SearchResultsDto search(String userQuery,
+                                   String symbolicTimeSpan,
+                                   Integer firstRecord, Integer count) throws IOException {
+        return this.search(
+                userQuery,
+                null, null,
+                symbolicTimeSpan,
+                firstRecord, count
+        );
     }
 
-    public Map search(
-            String userQuery,
-            String begin, String end, String week,
-            Integer firstRecord, Integer count) throws IOException {
+    public SearchResultsDto search(String userQuery,
+                                   String begin, String end,
+                                   String symbolicTimeSpan,
+                                   Integer firstRecord, Integer count) throws IOException {
         /** WokService/search 예시
          * {
          * 	"queryParameters": {
@@ -52,7 +65,7 @@ public class WokSearchService {
          * 	},
          *
          * 	"retrieveParameters": {
-         * 		"firstRecord": 1,
+         * 		"page": 1,
          * 		"count": 50
          * 	}
          * }
@@ -67,9 +80,9 @@ public class WokSearchService {
         queryParameters.put("userQuery", userQuery);
         queryParameters.put("queryLanguage", "en");
 
-        if (week != null) {
-            queryParameters.put("symbolicTimeSpan", week);
-        } else {
+        if          (symbolicTimeSpan != null) {
+            queryParameters.put("symbolicTimeSpan", symbolicTimeSpan);
+        } else if   (begin != null && end != null){
             timeSpan.put("begin", begin);
             timeSpan.put("end", end);
             queryParameters.put("timeSpan", timeSpan);
@@ -82,18 +95,18 @@ public class WokSearchService {
         requestBodyMap.put("retrieveParameters", retrieveParameters);
 
         String responseBody = _postRequest(searchUrl, requestBodyMap);
-        Map responseBodyMap = objectMapper.readValue(responseBody, Map.class);
-        return responseBodyMap;
+        SearchResultsDto resultsDto = objectMapper.readValue(responseBody, SearchResultsDto.class);
+        return resultsDto;
     }
 
-    public Map retrieve(String sid, String queryId, Integer firstRecord, Integer count) throws IOException {
+    public SearchResultsDto retrieve(String sid, String queryId, Integer firstRecord, Integer count) throws IOException {
         /**
          * {
          * 	"sid": "C5bXQpqPEi3SNYqNxHk",
          * 	"queryId": "1",
          * 	"retrieveParameters": {
          * 		"queryId": "1",
-         * 		"firstRecord": 2,
+         * 		"page": 2,
          * 		"count": 20
          *        }
          * }
@@ -110,18 +123,27 @@ public class WokSearchService {
         requestBodyMap.put("retrieveParameters", retrieveParameters);
 
         String responseBody = _postRequest(retrieveUrl, requestBodyMap);
-        Map responseBodyMap = objectMapper.readValue(responseBody, Map.class);
-        return responseBodyMap;
+        SearchResultsDto resultsDto = objectMapper.readValue(responseBody, SearchResultsDto.class);
+        return resultsDto;
     }
 
-    public List<Map> getLamrData(List<String> uids) throws IOException {
+    public List<LamrResultsDto> getLamrData(List<String> uids) throws IOException {
         Map<String, Object> lamrRequestBodyMap = new HashMap<>();
 
         lamrRequestBodyMap.put("uids", uids);
         String lamrResponseBody = _postRequest(lamrUrl, lamrRequestBodyMap);
 
-        List<Map> lamrRecords = objectMapper.readValue(lamrResponseBody, List.class);
+        List<LamrResultsDto> lamrRecords = objectMapper.readValue(lamrResponseBody, new TypeReference<List<LamrResultsDto>>(){});
         return lamrRecords;
+    }
+
+    public List<LamrResultsDto> getLamrData(SearchResultsDto searchResults) throws IOException {
+        List<String> uids = searchResults.getRecords()
+                .stream()
+                .map(LiteRecordDto::getUid)
+                .collect(Collectors.toList());
+
+        return getLamrData(uids);
     }
 
     private String _postRequest(URL url, Map requestBodyMap) throws IOException {

@@ -5,7 +5,7 @@
         <div class="mainOptionFilterContent">
           <input class="check" v-model="viewToggle.authorStatus" type="checkbox"/>
           <p class="text">
-            저자 상
+            저자 상태
           </p>
         </div>
         <div class="mainOptionFilterContent">
@@ -33,7 +33,6 @@
             URL
           </p>
         </div>
-
       </div>
 
       <div class="mainOptionFilter" style="border-bottom: none; padding-left: 40px;">
@@ -49,27 +48,23 @@
         </div>
       </div>
     </div>
-
-
     <paperDataComponent class="paperComponentLayout"
-                        :view-toggle="viewToggle"
-                        v-for="paper in paperData"
-                        :paper="paper"
-    ></paperDataComponent>
-    <paperDataComponent class="paperComponentLayout" :view-toggle="viewToggle"></paperDataComponent>
-    <paperDataComponent class="paperComponentLayout" :view-toggle="viewToggle"></paperDataComponent>
+    :view-toggle="viewToggle"
+    v-for="(paper, index) in paperData" :key="index" :paper="paper"></paperDataComponent>
   </div>
 </template>
 
 <script>
+// import { PaperRecordContainer, SORT_MP_ENUM } from '../../../../public/apis/api/paper-api.js'
 import paperDataComponent from './paperData/paperDataComponent.vue'
 export default {
   name: 'MainList',
   components: {
     'paperDataComponent': paperDataComponent
   },
+  props:['paperData'],
   data () {
-    return{
+    return {
       viewToggle: {
         authorStatus: true,
         loadStatus: true,
@@ -77,23 +72,10 @@ export default {
         pages: true,
         url: true
       },
-      paperData:{}
     }
   },
-  mounted () {
-    this.$axios.post('http://172.16.21.6:9401/myPaper/list', {
-      username: 'admin' },
-    {
-      headers: {
-        'Authorization': 'Basic YWRtaW46YWRtaW4=',
-        'Content-Type': 'application/json'
-      } })
-      .then(response => {
-
-        this.paperData = response.data;
-      })
-  }
 }
+
 </script>
 
 <style lang="scss">

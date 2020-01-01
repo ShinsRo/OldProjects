@@ -22,7 +22,7 @@
     <!-- 이름 입력을 위한 컨테이너 -->
     <div class="authorNameContainer">
       <div class="authorNameInputContainer">
-        <input class="authorNameInputBox" type="text" placeholder="Author Name (Up to 3)" v-model="authorName" v-on:keyup.enter="addAuthorName">
+        <input class="authorNameInputBox" type="text" placeholder="Author Name" v-model="authorName" v-on:keyup.enter="addAuthorName">
         <button class="authorNameAddButton" type="button" v-on:click="addAuthorName">+</button>
       </div>
       <!-- 저자 명을 입력받기 위한 컨테이너 -->
@@ -63,13 +63,13 @@ export default {
   data () {
     return {
       authorName: '',
-      addAuthorCounter: 0,
+      // 저자명을 추가하기 위해 저자명을 임시로 받는 변수
       message: {
         id: '',
         passwordLength: '',
         confirmPassword: '',
         name: ''
-      },
+      }, // 가입시 입력에 문제가 있을때 나타나는 메세지
       registerInput: {
         id: '',
         duplicationCheck: false,
@@ -79,7 +79,7 @@ export default {
         authorNameList: [],
         organization: '',
         agree: false
-      }
+      }// 가입을 위해 채워지는 입력폼의 변수들
     }
   },
   watch: {
@@ -111,7 +111,7 @@ export default {
         this.message.id = ''
         this.$axios({
           method: 'POST',
-          url: 'http://172.16.21.6:9401/auth/availableCheck',
+          url: 'http://www.siotman.com:9401/auth/availableCheck',
           data: {
             'username': this.registerInput.id
           }
@@ -145,15 +145,11 @@ export default {
     },
     addAuthorName () {
       // 저자명을 넣어주는 기능
-      if (this.addAuthorCounter === 3) {
-        alert('저자명은 최대 3개까지 등록할 수 있습니다')
-        this.authorName = ''
-      } else if (this.authorName === '') {
+      if (this.authorName === '') {
         alert('저자명을 입력후 추가해주세요')
       } else {
         this.registerInput.authorNameList.push(this.authorName)
         this.authorName = ''
-        this.addAuthorCounter += 1
       }
     },
     removeAuthorName (val) {
@@ -183,8 +179,8 @@ export default {
         alert('약관에 동의해주세요')
       } else {
         this.$axios({
-          methods: 'POST',
-          url: 'http://172.16.21.6:9401/auth/register',
+          method: 'POST',
+          url: 'http://www.siotman.com:9401/auth/register',
           data: {
             'username': this.registerInput.id,
             'password': this.registerInput.password,
@@ -197,10 +193,9 @@ export default {
             }
           }
         }).then(res => {
-          // 세션추가 자리
-          if (res.data === 'success') {
+          if (res.data.username === this.registerInput.id) {
             alert('회원가입 되었습니다')
-            this.emit('changeFlag')
+            this.$emit('changeFlag')
           } else {
             alert('다시 시도해주세요')
           }

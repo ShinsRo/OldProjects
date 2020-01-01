@@ -9,17 +9,15 @@
   width: 100vw;
 }
 
-#searchMyPaper{
-  height: 100%;
-  width: 80%;
-}
-
-#contentOuter{
+.contentOuter{
   display: flex;
   justify-content: center;
   width: 100%;
   height: calc(100vh - 60px);
   overflow-y : scroll;
+
+  #searchMyPaper, #paperEdit, #paperStatics{
+    height: 100%;
+    width: 80%;
+  }
 }
-
-

@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Configuration
 @EnableScheduling
 public class BatchScheduleConfig {
-    private final Integer CHECK_INTERVAL = 3600000;
+    private final Integer CHECK_INTERVAL = 3000;
 
     private Logger logger = LoggerFactory.getLogger(BatchScheduleConfig.class);
 
@@ -63,6 +63,7 @@ public class BatchScheduleConfig {
                 logger.info("AddJob is still running.");
             } while (jobExecution.isRunning());
         }
+        logger.info("AddJob done.");
         addJobEnabled.set(true);
     }
 
@@ -80,6 +81,7 @@ public class BatchScheduleConfig {
                 logger.info("updateJob is still running.");
             } while (jobExecution.isRunning());
         }
+        logger.info("updateJob done.");
         updateJobEnabled.set(true);
     }
 }

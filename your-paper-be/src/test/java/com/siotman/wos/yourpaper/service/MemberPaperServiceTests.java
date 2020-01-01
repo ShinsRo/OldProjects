@@ -5,6 +5,8 @@ import com.siotman.wos.yourpaper.domain.dto.MemberDto;
 import com.siotman.wos.yourpaper.domain.dto.PaperDto;
 import com.siotman.wos.yourpaper.domain.dto.UidDto;
 import com.siotman.wos.yourpaper.domain.dto.UidsDto;
+import com.siotman.wos.yourpaper.domain.entity.AuthorType;
+import com.siotman.wos.yourpaper.domain.entity.MemberPaper;
 import com.siotman.wos.yourpaper.exception.MemberIsAlreadyPresentException;
 import com.siotman.wos.yourpaper.exception.NoSuchMemberException;
 import com.siotman.wos.yourpaper.util.SearchTestUtil;
@@ -36,17 +38,19 @@ public class MemberPaperServiceTests {
 
     private MemberDto targetDto;
     @Before
-    public void init() throws IOException, MemberIsAlreadyPresentException {
+    public void init() throws IOException {
         targetDto = objectMapper.readValue("{" +
-                "\"username\":\"user01\"," +
-                "\"password\":\"password01!\"," +
+                "\"username\":\"test01\"," +
+                "\"password\":\"test01\"," +
                 "\"memberInfoDto\":{" +
-                        "\"name\":\"김승신\"," +
-                        "\"authorNameList\":[\"KSS\",\"Seungshin kim\"]," +
-                        "\"organizationList\":[\"Sejong Univ\", \"SK C&C\"]" +
+                        "\"name\":\"신동\"," +
+                        "\"authorNameList\":[\"shin\",\"kim\"]," +
+                        "\"organizationList\":[\"Sejong Univ\"]" +
                     "}" +
                 "}", MemberDto.class);
-        memberService.register(targetDto);
+        try {
+            memberService.register(targetDto);
+        } catch (MemberIsAlreadyPresentException e) { /* 이미 존재하는 경우 */ }
     }
 
     @Test
@@ -67,7 +71,7 @@ public class MemberPaperServiceTests {
         for (Map record : records) {
             UidDto uidDto = UidDto.builder()
                     .uid((String) record.get("uid"))
-                    .isReprint(new Random().nextBoolean())
+                    .authorType(AuthorType.REFFERING)
                     .build();
             uids.add(uidDto);
             stringUids.add((String) record.get("uid"));
@@ -75,13 +79,22 @@ public class MemberPaperServiceTests {
         List<Map> lamrRecords = SearchTestUtil.getLamrData(stringUids);
 
         UidsDto uidsDto = UidsDto.builder()
-                .username("user01")
+                .username("test01")
                 .uids(uids)
                 .build();
-        Boolean validity    = memberPaperService.add(uidsDto);
+        memberPaperService.addOrUpdate(uidsDto);
         List<PaperDto> list = memberPaperService.list(targetDto);
 
         Assert.isTrue(list.size() == uids.size(),
                 "내 논문 리스트 사이즈와 추가한 논문 수가 일치하지 않습니다.");
+    }
+
+    @Test
+    public void 유저_정보를_이용해_자동으로_검색하여_추가할_수_있다() throws NoSuchMemberException, IOException {
+        MemberDto member = memberService.findById("test01");
+        List<MemberPaper> memberPapers = memberPaperService.searchAndAddByMember(member);
+
+        Assert.isTrue(memberPapers.size() == 50,
+                "추가된 논문 수가 맞지 않습니다.");
     }
 }

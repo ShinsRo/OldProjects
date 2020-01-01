@@ -44,7 +44,7 @@ public class LamrServiceWrapper {
         while ((line = br.readLine()) != null) {
             result.append(line);
         }
-        List<LamrResultsDto> lamrResultsDtos = _parseWosResponseBody(result.toString());
+        List<LamrResultsDto> lamrResultsDtos = _parseWosResponseBody(uids.size(), result.toString());
         return lamrResultsDtos;
     }
 
@@ -74,8 +74,10 @@ public class LamrServiceWrapper {
         JCR_REQUEST_XML     = _loadXml("lamr-drci-template.xml");
     }
 
-    private List<LamrResultsDto> _parseWosResponseBody(String responseBody) {
+    private List<LamrResultsDto> _parseWosResponseBody(int size, String responseBody) {
         List<LamrResultsDto> resultsDtos = new ArrayList<>();
+        while(resultsDtos.size() < size) resultsDtos.add(null);
+
         InputSource is = new InputSource((new StringReader(responseBody)));
 
         DocumentBuilderFactory factory  = DocumentBuilderFactory.newInstance();
@@ -100,10 +102,16 @@ public class LamrServiceWrapper {
 
                     String name     = prop.getAttributes().getNamedItem("name").getNodeValue();
                     String value    = prop.getFirstChild().getNodeValue();
-
+                    if (value == null) {
+                        System.out.println("name : " + name + ", value : null");
+                        System.out.println(prop.getTextContent());
+                    }
                     dto.setByName(name, value);
                 }
-                resultsDtos.add(dto);
+                int idx = Integer.parseInt(
+                        itemList.item(i).getAttributes()
+                        .getNamedItem("name").getNodeValue());
+                resultsDtos.set(idx, dto);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -141,7 +149,7 @@ public class LamrServiceWrapper {
 
         for (int i = 0; i < uids.size(); i++) {
             lookupData
-                .append("<map name=\"cite_").append(i).append("\">\n")
+                .append("<map name=\"").append(i).append("\">\n")
                     .append("<val name=\"uid\">").append(uids.get(i)).append("</val>\n")
                 .append("</map>\n");
         }

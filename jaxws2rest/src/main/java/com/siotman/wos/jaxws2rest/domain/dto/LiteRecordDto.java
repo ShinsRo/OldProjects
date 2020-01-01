@@ -27,7 +27,7 @@ public class LiteRecordDto {
     private Map<String, List<String>> other;
 
     private List<String> authors;
-    private List<String> Doctype;
+    private List<String> doctype;
     private List<String> keywords;
 
     public LiteRecordDto(LiteRecord record) {
@@ -44,7 +44,7 @@ public class LiteRecordDto {
         _extractSourceAndSet(record.getSource());
 
         this.authors    = _peelOff(record.getAuthors());
-        this.Doctype    = _peelOff(record.getDoctype());
+        this.doctype    = _peelOff(record.getDoctype());
         this.keywords   = _peelOff(record.getKeywords());
     }
 
@@ -73,6 +73,7 @@ public class LiteRecordDto {
                     break;
 
                 case "Identifier.Xref_Doi":
+                    if (this.doi == null) this.doi = value;
                 case "Identifier.article_no":
                 case "ResearcherID.Disclaimer":
                 case "Contributor.ResearcherID.Names":
