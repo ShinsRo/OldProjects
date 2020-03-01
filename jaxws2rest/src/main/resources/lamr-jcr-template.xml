@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<request xmlns="http://www.isinet.com/xrpc42" src="app.id=PartnerApp,env.id=PartnerAppEnv,partner.email=EmailAddress">
+    <fn name="LinksAMR.retrieve">
+        <list>
+            <!-- WHO'S REQUESTING -->
+            ${userInfo}
+            <!-- WHAT'S REQUESTED -->
+            <map>
+                <list name="JCR">
+                    <val>impactGraphURL</val>
+                </list>
+            </map> <!--end "return_data" -->
+            <!-- LOOKUP DATA -->
+            <map>
+                ${lookupData}
+                <!-- QUERY "cite_id" -->
+                <!--<map name="cite_id">-->
+                    <!--<val name="title">full journal title</val>-->
+                    <!--<val name="issn">1234-5678</val>-->
+                <!--</map>-->
+            </map> <!-- end of citations -->
+        </list>
+    </fn>
+</request>

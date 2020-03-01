@@ -1,0 +1,100 @@
+@import '../BasicStyle/BasicStyle.scss';
+
+.landingBackgroundWrapper {
+  width: 60%;
+  height: 80%;
+  display: flex;
+  flex-direction: row;
+  background-color: $basicBlack;
+  box-shadow: 0px 3px 10px rgba(0,0,0,.8);
+
+  .leftContainer  {
+    width: 50%;
+    height: 100%;
+    background-color: $basicIndigo;
+
+    .flagImageContainer {
+      width: 90%;
+    }
+    .logoImageContainer, .descriptionContainer {
+      width: 100%;
+    }
+
+    .flagImageContainer {
+      height: 20%;
+      display: flex;
+      justify-content: flex-end;
+
+      .flagImage {
+        width: 10%;
+        height: 70%;
+      }
+    }
+
+    .logoImageContainer {
+      height: 40%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .leftDescriptionContainer {
+      height: 40%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+
+      .leftSiteName, .leftSiteDescription {
+        margin: 0px;
+        color: $basicWhite;
+      }
+
+      .leftSiteName {
+        font-size: 4em;
+      }
+
+      .leftSiteDescription {
+        margin-top: 5%;
+        font-size: 1em;
+      }
+    }
+  }
+
+  .rightContainer {
+    width: 50%;
+    height: 100%;
+    background-color: $basicWhite;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    .rightDescritionContainer {
+      width: 100%;
+      height: 25%;
+      color: $basicIndigo;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .rightSiteName, .rightSiteDescription {
+        margin: 0px;
+      }
+
+      .rightSiteName {
+        font-size: 3.5em;
+      }
+
+      .rightSiteDescription {
+        margin-top: 3%;
+        font-size: 1.2em;
+      }
+    }
+
+    .formContainer {
+      width: 100%;
+    }
+  }
+}

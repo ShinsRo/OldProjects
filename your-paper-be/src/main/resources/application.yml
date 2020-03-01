@@ -1,0 +1,80 @@
+
+
+spring:
+  profiles:
+    active:
+      - dev
+#      - prod
+
+
+---
+server:
+  port: 9401
+
+logging:
+  level:
+    .: INFO
+    org.hibernate: WARN
+    org.springframework: WARN
+
+spring:
+  profiles: dev
+  name: dev-your-paper
+
+  batch:
+    job:
+      enabled: false
+
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: ${LOCAL_DB_URL}/your_paper_dev
+    username: ${LOCAL_DB_USERNAME}
+    password: ${LOCAL_DB_PASSWORD}
+
+
+  jpa:
+    show-sql: false
+    hibernate:
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+      ddl-auto: update
+
+  rabbitmq:
+    addresses: localhost
+    username: ${LOCAL_MQ_USERNAME}
+    password: ${LOCAL_MQ_PASSWORD}
+---
+server:
+  port: 9402
+
+logging:
+  level:
+    .: WARN
+    org.springframework: WARN
+
+spring:
+  profiles: prod
+  name: prod-your-paper
+
+
+  batch:
+    job:
+      enabled: false
+
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: ${LOCAL_DB_URL}/your_paper
+    username: ${LOCAL_DB_USERNAME}
+    password: ${LOCAL_DB_PASSWORD}
+
+
+  jpa:
+    show-sql: false
+    database: mysql
+    hibernate:
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+      ddl-auto: update
+
+  rabbitmq:
+    addresses: localhost
+    username: ${LOCAL_MQ_USERNAME}
+    password: ${LOCAL_MQ_PASSWORD}

@@ -1,0 +1,50 @@
+@import '../../BasicStyle/BasicStyle.scss';
+
+.loginWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .formElement {
+    margin: 2% 0;
+  }
+
+  .formForId, .formForPassword {
+    padding-left: 2%;
+    width: 48%;
+    height: 25px;
+  }
+
+  .loginErrorMessage {
+    font-size: 0.8em;
+    margin: 0 0 1.5% 0;
+    font-weight: bold;
+    color: $basicRed;
+  }
+
+  .buttonForLogin, .buttonForSignUp {
+    width: 55%;
+    height: 30px;
+    border-radius: 45px;
+    border: 0;
+    font-size: 130%;
+    transition: all 0.3s ease 0s;
+    outline: none;
+
+    &:hover {
+      transform: translateY(-7px);
+    }
+  }
+
+  .buttonForLogin {
+    background-color: $basicOrange;
+    color: $basicWhite;
+  }
+
+  .buttonForSignUp {
+    background-color: $basicIndigo;
+    color: $basicWhite;
+  }
+}

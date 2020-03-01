@@ -1,0 +1,23 @@
+@import '../../components/BasicStyle/BasicStyle.scss';
+
+
+#header{
+  display: inline-flex;
+  justify-content: space-between;
+  background-color : $basicIndigo;
+  height: 60px;
+  width: 100vw;
+}
+
+.contentOuter{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: calc(100vh - 60px);
+  overflow-y : scroll;
+
+  #searchMyPaper, #paperEdit, #paperStatics{
+    height: 100%;
+    width: 80%;
+  }
+}
