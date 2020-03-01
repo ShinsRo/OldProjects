@@ -1,0 +1,309 @@
+
+
+:root {
+    --main-color-dark-2: #2F2E41;
+    --main-color-dark-1: #3F3D56;
+    --main-color-bright-1: #4C4988;
+    --main-color-bright-2: #6C63FF;
+    /* --main-color-bright-2: rgb(154, 154, 172); */
+}
+
+.bg-dark-2 {
+    background-color: var(--main-color-dark-2);
+}
+.bg-dark-1 {
+    background-color: var(--main-color-dark-1);
+}
+.bg-bright-1 {
+    background-color: var(--main-color-bright-1);
+}
+.bg-bright-2 {
+    background-color: var(--main-color-bright-2);
+}
+
+.bg-gradient-dark-2 {
+    background-color: var(--main-color-bright-2);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(10%, #4e73df), to(#102153));
+    background-image: linear-gradient(180deg, var(--main-color-dark-1) 20%, var(--main-color-dark-2) 100%);
+    background-size: cover;
+  }
+
+.btn-dark-2 {
+    color: #fff;
+    background-color: var(--main-color-dark-2);
+    border-color: var(--main-color-dark-1);
+}
+.btn-dark-1 {
+    color: #fff;
+    background-color: var(--main-color-dark-1);
+    border-color: var(--main-color-dark-2);
+}
+.btn-bright-1 {
+    color: #fff;
+    background-color: var(--main-color-bright-1);
+    border-color: var(--main-bright-bright-2);
+}
+.btn-bright-2 {
+    color: #fff;
+    background-color: var(--main-color-bright-2);
+}
+
+.text-dark-2 {
+    color: var(--main-color-dark-2) !important;
+    background-color: 'none';
+}
+.text-dark-1 {
+    color: var(--main-color-dark-1) !important;
+}
+.text-bright-1 {
+    color: var(--main-color-bright-1) !important;
+}
+.text-bright-2 {
+    color: var(--main-color-bright-2) !important;
+}
+.text-black {
+    color: #000 !important;
+}
+.text-white {
+    color: #fff !important;
+}
+.filebox label { 
+    display: inline-block; 
+    padding: .5em .75em; 
+    color: #999; 
+    font-size: inherit; 
+    line-height: normal; 
+    vertical-align: middle; 
+    background-color: #fdfdfd; 
+    cursor: pointer; 
+    border: 1px 
+    solid #ebebeb; 
+    border-bottom-color: #e2e2e2; 
+    border-radius: .25em; 
+} 
+
+.filebox input[type="file"] { 
+    /* 파일 필드 숨기기 */ 
+    position: absolute; 
+    width: 1px; 
+    height: 1px; 
+    padding: 0; 
+    margin: -1px; 
+    overflow: hidden; 
+    clip:rect(0,0,0,0); 
+    border: 0; 
+}
+
+
+
+
+
+/*
+
+ * 폰트 목록
+ 1. BlackHanSans
+ 2. DoHyeon
+ 3. Gugi
+ 4. Jua
+ */
+
+@font-face {
+    font-family: 'BlackHanSans';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../fonts/BlackHanSans-Regular.woff) format('woff');
+}
+@font-face {
+    font-family: 'DoHyeon';
+    font-style: normal;
+    font-weight: 200;
+    src: url(../fonts/DoHyeon-Regular.woff) format('woff');
+}
+@font-face {
+    font-family: 'Gugi';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../fonts/Gugi-Regular.woff) format('woff');
+}
+@font-face {
+    font-family: 'Jua';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../fonts/Jua-Regular.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'NotoSansKR';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../fonts/NotoSansKR-Regular.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'NotoSansKR-Black';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../fonts/NotoSansKR-Black.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'NotoSansKR-Light';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../fonts/NotoSansKR-Light.otf) format('opentype');
+}
+
+
+/*
+ 디렉토리 트리 뷰 css
+*/
+
+.dir-upmureport-theme {
+    height: 100%;
+    
+    
+}
+
+.dir-upmureport-theme
+.deni-react-treeview-container {
+    background-color: #fff;
+    border-color: #fff !important;
+    width: 100%;
+    font-size: 14px;
+}
+
+.dir-upmureport-theme
+.deni-react-treeview-container
+.deni-react-treeview-item-container {
+    height: 36px;
+}
+
+.icon-align-r {
+    align-items: right !important;
+    width: 100%;
+    flex: 1;
+}
+.treeview-item.text {
+    flex: 1;
+}
+.action-btn {
+    margin-right: 5px;
+    cursor: pointer;
+    opacity: 0.5;
+}
+.action-btn.trash {
+    color: #ff6666;
+}
+.action-btn.edit {
+    color: #006699;
+    margin-top: 1px;
+}
+.action-btn:hover {
+    visibility: visible;
+    opacity: 1;
+}
+.dropdown-menu .dropdown {
+    cursor: pointer;
+}
+
+.sm-text {
+    font-size: 0.4rem;
+}
+.md-text {
+    font-size: 0.8rem;
+}
+
+.sm-input {
+    font-size: 0.4rem;
+    margin-right: 0px !important;
+}
+
+input.sm-input {
+    margin-right: 0px;
+}
+
+.m-text {
+    font-size: 0.8rem;
+}
+
+.react-datepicker-wrapper {
+    display: block !important;
+}
+.react-datepicker__input-container {
+    display: block !important;
+}
+
+input.text-darkblue {
+    color: #243377 !important;
+    border: none;
+    background-color: rgba(255,255,255,0);
+}
+
+.cusor-pointer {
+    cursor: pointer;
+}
+
+.autocomplete-highlight {
+    background-color: khaki;
+}
+
+/* .member-circle::before{
+    border: 1px solid black;
+    border-radius: 50% !important;
+} */
+
+/* .member-circle .member-name {
+    position: absolute;
+} */
+
+.toast {
+    position: absolute;
+    left: 50%;
+    margin-top: 1rem;
+}
+
+.toast.show {
+    z-index: 10;
+}
+
+.toast.fade {
+    z-index: 10;
+}
+
+.toast-header {
+    background-color: #f8f9fc;
+}
+
+.toast-body {
+    background-color: white;
+}
+
+.card {
+    overflow-y: auto;
+}
+
+.date-picker {
+    height: 23px;
+    font-size: 12px;
+}
+
+.line-chart {
+    position: relative;
+    height: 40vh;
+}
+
+.built-in-progressbar {
+    bottom: -1.5px;
+    position: absolute;
+    -webkit-appearance: none;
+    width: 100%;
+    background: transparent;
+}
+
+.built-in-progressbar::-webkit-slider-thumb {
+    /* -webkit-appearance: none; */
+}
+
+.built-in-progressbar:focus {
+    outline: none;
+}

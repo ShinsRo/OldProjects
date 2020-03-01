@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>com.nastech.ict</groupId>
+	<artifactId>upmureport</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	
+	<name>UPMUREPORT-WEB</name>
+	<!-- FIXME change it to the project's website -->
+	<url>http://www.upmureport.com</url>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<org.swagger-version>2.9.2</org.swagger-version>
+		
+		
+		<!-- 프론트엔드 Pre-installing 할 node/yarn 버전 프로퍼티 및 프로젝트 경로-->
+		<frontendSrcDir>${project.basedir}/frontend</frontendSrcDir>
+		<node.version>v10.11.0</node.version>
+		<npm.version>6.4.1</npm.version>
+		<yarn.version>v1.7.0</yarn.version>
+		<frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>		
+	</properties>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.4.RELEASE</version>
+	</parent>
+	<dependencies>
+	
+	<!-- 스프링 관련 의존성 시작 -->
+	<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-web</artifactId>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-tomcat</artifactId>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-test</artifactId>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-jdbc</artifactId>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-security</artifactId>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.springframework.data</groupId>
+	    <artifactId>spring-data-jpa</artifactId>
+	</dependency>
+	
+	<dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-websocket</artifactId>
+    </dependency>
+	<!-- 스프링 관련 의존성 끝 -->
+	
+	<!-- 스프링 세션 -->
+	<!-- https://mvnrepository.com/artifact/org.springframework.session/spring-session-core -->
+	<dependency>
+	    <groupId>org.springframework.session</groupId>
+	    <artifactId>spring-session-core</artifactId>
+	    <version>2.1.5.RELEASE</version>
+	</dependency>
+	
+	<!-- JPA 관련 의존성 시작 -->
+	<dependency>
+	    <groupId>org.hibernate</groupId>
+	    <artifactId>hibernate-core</artifactId>
+	</dependency>
+	
+	<dependency>
+      <groupId>org.hibernate.javax.persistence</groupId>
+      <artifactId>hibernate-jpa-2.1-api</artifactId>
+      <version>1.0.0.Final</version>
+    </dependency>
+	<!-- JPA 관련 의존성 끝 -->    
+	
+	<!-- 엔티티 제약 관련 의존성 -->
+	<dependency>
+	    <groupId>javax.validation</groupId>
+	    <artifactId>validation-api</artifactId>
+	</dependency>
+	
+	<!-- mariadb 커넥터 드라이버 -->
+	<dependency>
+	    <groupId>org.mariadb.jdbc</groupId>
+	    <artifactId>mariadb-java-client</artifactId>
+	</dependency>
+	
+    <!-- 로그 관련 의존성 시작 --> 
+    <dependency>                                    
+	    <groupId>org.slf4j</groupId>                
+        <artifactId>jcl-over-slf4j</artifactId>     
+    </dependency>
+
+    <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+    </dependency>
+	<!-- 로그 관련 의존성 끝 -->
+	
+	<!-- lombok -->
+	<dependency>
+    	<groupId>org.projectlombok</groupId>
+    	<artifactId>lombok</artifactId>
+    	<scope>provided</scope>
+	</dependency>
+	
+	<!-- Jackson 관련 의존성 시작 -->
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-databind</artifactId>
+	</dependency>
+	
+	<dependency>
+	    <groupId>com.fasterxml.jackson.core</groupId>
+	    <artifactId>jackson-core</artifactId>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.codehaus.jackson</groupId>
+	    <artifactId>jackson-core-asl</artifactId>
+	    <version>1.9.13</version>
+	</dependency>
+
+	<dependency>
+	  <groupId>com.fasterxml.jackson.datatype</groupId>
+	  <artifactId>jackson-datatype-jsr310</artifactId>
+	</dependency>
+	<!-- Jackson 관련 의존성 끝 -->
+	
+	<!-- AspectJ 관련 의존성 시작 -->
+	<dependency>
+   	 <groupId>org.aspectj</groupId>
+   	 <artifactId>aspectjweaver</artifactId>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.aspectj</groupId>
+	    <artifactId>aspectjrt</artifactId>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.aspectj</groupId>
+	    <artifactId>aspectjtools</artifactId>
+	</dependency>
+	<!-- AspectJ 관련 의존성 끝 -->
+
+	<!-- 웹 소켓 관련 의존성 -->
+	 <dependency>
+          <groupId>org.webjars</groupId>
+          <artifactId>webjars-locator-core</artifactId>
+      </dependency>
+      
+      <dependency>
+          <groupId>org.webjars</groupId>
+          <artifactId>sockjs-client</artifactId>
+          <version>1.0.2</version>
+      </dependency>
+      
+      <dependency>
+          <groupId>org.webjars</groupId>
+          <artifactId>stomp-websocket</artifactId>
+          <version>2.3.3</version>
+      </dependency>
+	<!-- 웹 소켓 관련 의존성 끝-->
+	
+	<!-- 테스트 코드 관련 의존성 시작 -->
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+		<scope>test</scope>
+	</dependency>
+    
+	<dependency>
+	    <groupId>org.mockito</groupId>
+	    <artifactId>mockito-all</artifactId>
+	    <version>1.9.5</version>
+	    <scope>test</scope>
+	</dependency>
+	<!-- 테스트 코드 관련 의존성 끝 -->
+	
+	
+	<dependency>
+    	<groupId>io.springfox</groupId>
+    	<artifactId>springfox-swagger2</artifactId>
+    	<version>${org.swagger-version}</version>
+	</dependency>
+	
+	<dependency>
+   	 <groupId>io.springfox</groupId>
+    	<artifactId>springfox-swagger-ui</artifactId>
+   	 <version>${org.swagger-version}</version>
+	</dependency>
+	
+	<dependency>
+    	<groupId>com.cedarsoft.commons</groupId>
+    	<artifactId>io</artifactId>
+    	<version>8.8.1</version>
+	</dependency>
+
+	<dependency>
+    	<groupId>commons-io</groupId>
+	    <artifactId>commons-io</artifactId>
+    	<version>2.6</version>
+	</dependency>
+
+	<dependency>
+	    <groupId>commons-fileupload</groupId>
+	    <artifactId>commons-fileupload</artifactId>
+	    <version>1.4</version>    
+	</dependency>	
+	
+  </dependencies>
+
+  <build>  
+      <plugins>
+		<!--
+			2019-05-02 김승신
+				mvn으로 골을 명시하여 실행할 때 참고 사항
+
+				maven-${prefix}-plugin (공식 and maven team 플러그인)
+				${prefix}-maven-plugin (비공식 or other team 플러그인)
+
+			2019-05-22 김승신
+				Gilab CI의 Runner에 권한이 우리 인턴팀에 없고,
+				따라서 CI 환경에서 JDK 8을 사용할 수 없으므로
+				package 단계까지 실행해 직접 서버에 옮긴다.
+		-->
+
+	  	<!-- 테스트 빌드/실행 스킵 설정-->
+		<plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+			<executions>
+				<execution>
+					<id>default-testCompile</id>
+                    <phase>test-compile</phase>
+                    <goals>
+                        <goal>testCompile</goal>
+                    </goals>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+				</execution>
+			</executions>
+            <configuration>
+              <executable>${project.basedir}/jdk1.8.0/bin/javac</executable>
+              <compilerVersion>1.8</compilerVersion>
+            </configuration>
+        </plugin>
+
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<configuration>
+			  	<skipTests>true</skipTests>
+			</configuration>
+		</plugin>
+
+        <!-- _프론트엔드(react) 메이븐 빌드 설정 -->
+      	<!-- 
+			2019-05-02
+      		author: 김승신
+      		1. NodeJS와 Yarn을 프로젝트 로컬에 사전 설치
+      		2. yarn install을 실행하여 배포 시 의존성 설치 보장
+      		3. yarn build을 통한 빌드
+
+		  	2019-05-22 이후
+			author: 김승신
+			Gitlab Runner에 JDK 8이 가용할 경우(CI가 가능한)를 대비해
+			메이븐을 통한 리액트 빌드 스크립트 실행 형식을 보존한다.
+
+      		배포 시 사전 설치 설정
+      	 -->
+		<plugin>
+		    <groupId>com.github.eirslett</groupId>
+		    <artifactId>frontend-maven-plugin</artifactId>
+		    <version>${frontend-maven-plugin.version}</version>
+		
+		    <configuration>
+		        <nodeVersion>${node.version}</nodeVersion>
+		        <npmVersion>${npm.version}</npmVersion>
+		        <yarnVersion>${yarn.version}</yarnVersion>
+		        <workingDirectory>${frontendSrcDir}</workingDirectory>
+		        <installDirectory>${project.build.directory}</installDirectory>
+		    </configuration>
+
+			<executions>
+		        <execution>
+		            <id>install-frontend-tools</id>
+		            <goals>
+		                <goal>install-node-and-yarn</goal>
+		            </goals>
+		        </execution>
+		
+		        <execution>
+		            <id>yarn-install</id>
+		            <goals>
+		                <goal>yarn</goal>
+		            </goals>
+		            <configuration>
+		                <arguments>install</arguments>
+		            </configuration>
+		        </execution>
+		
+		        <execution>
+		            <id>build-frontend</id>
+		            <goals>
+		                <goal>yarn</goal>
+		            </goals>
+					<phase>prepare-package</phase>
+		            <configuration>
+		                <arguments>build</arguments>
+		            </configuration>
+		        </execution>
+		    </executions> 
+		</plugin> 
+
+		<!-- 
+			리소스 파일을 빌드에 포함하는 메이븐 플러그인 설정
+      		author: 김승신
+      		 - frontend 프로젝트 내 resource를 실제 배포 장소의 static으로 옮김
+		 -->
+		<plugin>
+		    <artifactId>maven-resources-plugin</artifactId>
+			<executions>
+		        <execution>
+		            <id>position-react-build</id>
+		            <goals>
+		                <goal>copy-resources</goal>
+		            </goals>
+					<phase>prepare-package</phase>
+		            <configuration>
+		                <outputDirectory>${project.build.outputDirectory}/static</outputDirectory>
+		                <resources>
+		                    <resource>
+		                        <directory>${frontendSrcDir}/build</directory>
+		                        <filtering>false</filtering>
+		                    </resource>
+		                </resources>
+		            </configuration>
+		        </execution>
+		    </executions> 
+		</plugin>
+      	<!-- 프론트엔드(react) 메이븐 빌드 설정 끝 -->
+      	
+      	<!-- Spring boot maven 빌드 플러그인 설정 -->
+      	<plugin>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-maven-plugin</artifactId>
+			<configuration>
+				<mainClass>com.nastech.upmureport.Application</mainClass> 
+			</configuration>
+			<executions>
+		        <execution>
+		            <goals>
+		                <goal>repackage</goal>
+		            </goals>
+		        </execution>
+		    </executions> 
+		</plugin>
+		
+		
+		
+      </plugins>
+  </build>
+
+  	<!-- 
+	**2019.05.22. 이후 미사용 설정**
+  
+	<distributionManagement>
+		<repository>
+		<uniqueVersion>false</uniqueVersion>
+		<id>central</id>
+		<name>${project.name}-${project.version}-release</name>
+		<url>${env.MAVEN_REPO_URL}/relases</url>
+		<layout>default</layout>
+		</repository>
+	</distributionManagement>
+	-->
+</project>
