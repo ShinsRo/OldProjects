@@ -18,7 +18,7 @@
     "form-data": "^2.3.2",
     "jquery": "^3.3.1",
     "lottie-web": "^5.1.15",
-    "moment": "^2.22.1",
+    "moment": "^2.29.2",
     "popper.js": "^1.14.3",
     "toastr": "^2.1.4",
     "vue": "^2.5.2",
