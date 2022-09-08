@@ -57,7 +57,7 @@
   },
   "dependencies": {
     "axios": "^0.16.1",
-    "exceljs": "^1.6.3",
+    "exceljs": "^1.15.0",
     "growl": "^1.10.5",
     "nodemailer": "^4.7.0",
     "nodemailer-smtp-pool": "^2.8.3",
